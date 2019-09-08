@@ -37,7 +37,7 @@
     "symfony/web-server-bundle": "4.3.*",
     "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.3.*",
-    "tgalopin/html-sanitizer-bundle": "^1.1"
+    "tgalopin/html-sanitizer-bundle": "dev-master"
   },
   "require-dev": {
   },

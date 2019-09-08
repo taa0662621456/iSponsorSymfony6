@@ -4,24 +4,59 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
+    app.notifications.email_sender: taa0662621456@gmail.com
+    locale: 'en'
+    homepage.number_of_items: 10
+    categories_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
+    projects_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
+    products_images_directory: '%kernel.project_dir%/public/uploads/products/images'
+    vendors_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
+            $locales: '%app_locales%'
+            $defaultLocale: '%locale%'
+            $emailSender: '%app.notifications.email_sender%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Trash}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+    App\Service\ProductsUtilities:
+        class: App\Service\ProductsUtilities
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    Cocur\Slugify\Slugify:
+        autowire: true
+
+    App\Service\CategoriesUploader:
+        arguments:
+            $targetDir: '%categories_images_directory%'
+
+
+
+    App\Service\ProjectsCoverUploader:
+        arguments:
+            $targetDir: '%projects_images_directory%'
+    App\Event\UploaderEvent:
+        tags:
+            - { name: doctrine.event, event: prePersist, lazy: true }
+            - { name: doctrine.event, event: preUpdate, lazy: true }
+            - { name: doctrine.event, event: postLoad, lazy: true }
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
