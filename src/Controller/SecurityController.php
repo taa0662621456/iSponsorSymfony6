@@ -6,7 +6,8 @@ namespace App\Controller;
 use App\Entity\Vendor\Vendors;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
-use App\Form\Vendor\VendorSignUpType;
+use App\Form\Vendor\VendorsRegistrationType;
+use App\Form\Vendor\VendorsSecuritySignUpType;
 use App\Repository\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
 use Exception;
@@ -53,7 +54,7 @@ class SecurityController extends AbstractController
     public function registration(UserPasswordEncoderInterface $passwordEncoder, Request $request, ConfirmationCodeGenerator $codeGenerator, EventDispatcherInterface $eventDispatcher): Response
     {
         $vendor = new Vendors();
-        $form = $this->createForm(VendorSignUpType::class, $vendor);
+        $form = $this->createForm(VendorsRegistrationType::class, $vendor);
 
         $form->handleRequest($request);
 
