@@ -1,18 +1,17 @@
-{% extends 'base.html.twig' %}
-
+{% extends '/security/base.html.twig' %}
 {% block body %}
     {% if error %}
         <div class="alert alert-danger">
             {{ error.message }}
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+
         </div>
     {% endif %}
 
-    <div class="container" style="padding-top: 160px ">
+    <div class="container">
         <form method="post" class="form-signin">
-            <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+            <img class="mb-4" src="" alt="" width="72" height="72">
             <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
-
             <div class="form-group">
                 <label for="exampleInputEmail1" class="sr-only"></label>
                 <input type="text" name="_username" required="required" class="form-control" id="exampleInputEmail1">
