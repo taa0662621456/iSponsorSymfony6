@@ -1,0 +1,5 @@
+// настройте некоторые переменные Bootstrap
+$brand-primary: darken(#428bca, 20%);
+
+// ~ позволяет вам ссылаться на вещи в node_modules
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
