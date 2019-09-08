@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * UniqueEntity(fields={"slug"}, message="This Slug alredy in use. Try enter a new slug.")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class CategoriesEnGb
 {

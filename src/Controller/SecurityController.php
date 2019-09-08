@@ -4,14 +4,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsRegistrationType;
-use App\Form\Vendor\VendorsSecuritySignUpType;
 use App\Repository\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
 use Exception;
 use RuntimeException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,9 +71,7 @@ class SecurityController extends AbstractController
             $vendor->setPassword($password);
             $vendor->setActivationCode($codeGenerator->getConfirmationCode());
 
-
             $em = $this->getDoctrine()->getManager();
-
             $em->persist($vendor);
             $em->flush();
 
@@ -115,21 +114,17 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/login", name="login")
+     * @IsGranted("ROLE_USER", statusCode=404, message="Route not for User")
      * @param AuthenticationUtils $authenticationUtils
-     * @param Security $security
+     * @param VendorsSecurity $vendorsSecurity
      * @param Request $request
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function login(AuthenticationUtils $authenticationUtils, Security $security, Request $request): Response
+    public function login(AuthenticationUtils $authenticationUtils, VendorsSecurity $vendorsSecurity, Request $request): Response
     {
-        // if user is already logged in, don't display the login page again
-        if ($security->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute('projects');
-        }
-
         // this statement solves an edge-case: if you change the locale in the login
         // page, after a successful login you are redirected to a page in the previous
         // locale. This code regenerates the referrer URL whenever the login page is
@@ -139,11 +134,10 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
 
-        return new Response($this->twig->render('security/login.html.twig', [
+        return new Response($this->twig->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
             'error' =>  $error
-        ])
-        );
+        )));
     }
 
     /**

@@ -30,7 +30,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     ORM\Index(name="product_parent_id", columns={"product_parent_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class Products
 {

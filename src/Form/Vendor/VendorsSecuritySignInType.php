@@ -48,6 +48,7 @@ class VendorsSecuritySignInType extends AbstractType
                 ),
             ))
             ->add('', CheckboxType::class, array(
+                'mapped' => false,
                 'label' => 'label.remember',
                 'required' => false,
                 'label_attr'=> array(
@@ -60,14 +61,16 @@ class VendorsSecuritySignInType extends AbstractType
                 ),
             ))
             ->add('submit', SubmitButton::class, array(
+                'mapped' => false,
                 'label' => 'form.signin.submit',
                 'attr' => array(
                     'class' => 'btn btn-primary btn-block'
                 )
             ))
             ->add('token', HiddenType::class, array(
+                'mapped' => false,
                 'attr' => array(
-                    'name' => '_csrf_token'
+                    'name' => '_csrf_token',
                 ),
             ))
         ;

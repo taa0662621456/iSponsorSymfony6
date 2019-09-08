@@ -32,9 +32,17 @@ class VendorsSecuritySignUpType extends AbstractType
             ))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'label' => 'label.password',
-                'label_attr' => array(
+                'first_options' => array(
+                    'label' => 'label.password',
+                    'label_attr' => array(
                     'class' => 'sr-only'
+                    )
+                ),
+                'second_options' => array(
+                    'label' => 'label.repeat.password',
+                    'label_attr' => array(
+                        'class' => 'sr-only'
+                    )
                 ),
                 'required' => true,
                 'attr' => array(

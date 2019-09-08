@@ -6,18 +6,6 @@
 
     <div class="container">
         <h3 class="text-center">Регистрация</h3>
-        {{ form_start(form, {attr: {'class':'form-signup'}}) }}
-        {{ form_row(form.email, {
-            'label': ' '
-        }) }}
-        {{ form_row(form.plainPassword.first, {
-            'label': ' ', 'class': 'form-control'
-        }) }}
-        {{ form_row(form.plainPassword.second, {
-            'label': ' ', 'help': 'Введите пароль повторно'
-        }) }}
-        <button type="submit" class="btn btn-success" formnovalidate>Зарегистрироваться</button>
-        {{ form_end(form) }}
-
+        {{ form(form) }}
     </div>
 {% endblock %}

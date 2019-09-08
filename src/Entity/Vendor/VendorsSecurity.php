@@ -602,7 +602,7 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @param int $username
      * @param $email
-     * @return Vendors
+     * @return VendorsSecurity
      */
     public function setUsername(int $username, $email): self
     {
