@@ -1,0 +1,87 @@
+{
+  "type": "project",
+  "license": "MIT",
+  "description": "iSponsor Platform Application",
+  "minimum-stability": "dev",
+  "require": {
+    "php": "7.1.22",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "ext-json": "*",
+    "ext-pdo_pgsql": "*",
+    "cocur/slugify": "^3.2",
+    "erusev/parsedown": "^1.7",
+    "sensio/framework-extra-bundle": "^5.4",
+    "symfony/asset": "4.3.*",
+    "symfony/console": "4.3.*",
+    "symfony/dotenv": "4.3.*",
+    "symfony/event-dispatcher": "4.3.*",
+    "symfony/expression-language": "4.3.*",
+    "symfony/flex": "*",
+    "symfony/form": "4.3.*",
+    "symfony/framework-bundle": "*",
+    "symfony/http-client": "4.3.*",
+    "symfony/maker-bundle": "^1.0@dev",
+    "symfony/messenger": "4.3.*",
+    "symfony/monolog-bundle": "^3.1",
+    "symfony/orm-pack": "*",
+    "symfony/process": "4.3.*",
+    "symfony/security-bundle": "4.3.*",
+    "symfony/serializer-pack": "*",
+    "symfony/swiftmailer-bundle": "^3.1",
+    "symfony/templating": "4.3.*",
+    "symfony/translation": "4.3.*",
+    "symfony/twig-bundle": "4.3.*",
+    "symfony/validator": "4.3.*",
+    "symfony/web-link": "4.3.*",
+    "symfony/web-server-bundle": "4.3.*",
+    "symfony/webpack-encore-bundle": "dev-master",
+    "symfony/yaml": "4.3.*",
+    "tgalopin/html-sanitizer-bundle": "^1.1"
+  },
+  "require-dev": {
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "paragonie/random_compat": "2.*",
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php71": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ]
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "4.3.*"
+    }
+  }
+}
