@@ -16,5 +16,8 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "tinymce": "^5.0.15"
     }
 }
