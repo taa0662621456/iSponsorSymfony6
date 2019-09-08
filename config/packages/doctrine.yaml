@@ -1,14 +1,16 @@
 doctrine:
     dbal:
         # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
+        driver: 'pdo_pgsql'
+        server_version: '11.2'
+        charset: utf8
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
 
         url: '%env(resolve:DATABASE_URL)%'
+        schema_filter : '~^(?!messenger_messages)~'
+
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore
@@ -20,3 +22,35 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            Vendors:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity/Vendor'
+                prefix: 'App\Entity\Vendor'
+                alias: Vendors
+            Categories:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity/Category'
+                prefix: 'App\Entity\Category'
+                alias: Categories
+            Projects:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity/Project'
+                prefix: 'App\Entity\Project'
+                alias: Projects
+            Products:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity/Product'
+                prefix: 'App\Entity\Product'
+                alias: Products
+            Order:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity/Order'
+                prefix: 'App\Entity\Order'
+                alias: Products
+
+
