@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories index{% endblock %}
+
+{% block body %}
+    <h1>Categories index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Published</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>ModifiedOn</th>
+                <th>ModifiedBy</th>
+                <th>LockedOn</th>
+                <th>LockedBy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.published ? 'Yes' : 'No' }}</td>
+                <td>{{ category.createdOn ? category.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ category.createdBy }}</td>
+                <td>{{ category.modifiedOn ? category.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ category.modifiedBy }}</td>
+                <td>{{ category.lockedOn ? category.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ category.lockedBy }}</td>
+                <td>
+                    <a href="{{ path('categories_show', {'id': category.id}) }}">show</a>
+                    <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="22">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('categories_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products index{% endblock %}
+
+{% block body %}
+    <h1>Products index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>VendorId</th>
+                <th>ProductParentId</th>
+                <th>ProductSku</th>
+                <th>ProductGtin</th>
+                <th>ProductMpn</th>
+                <th>ProductWeight</th>
+                <th>ProductWeightUom</th>
+                <th>ProductLength</th>
+                <th>ProductWidth</th>
+                <th>ProductHeight</th>
+                <th>ProductLwhUom</th>
+                <th>ProductInStock</th>
+                <th>ProductOrdered</th>
+                <th>ProductStockHandle</th>
+                <th>LowStockNotification</th>
+                <th>ProductAvailableDate</th>
+                <th>ProductAvailability</th>
+                <th>ProductSpecial</th>
+                <th>ProductDiscontinued</th>
+                <th>ProductSales</th>
+                <th>ProductUnit</th>
+                <th>ProductPackaging</th>
+                <th>ProductParams</th>
+                <th>ProductCanonCategoryId</th>
+                <th>Hits</th>
+                <th>IntNotes</th>
+                <th>MetaRobot</th>
+                <th>MetaAuthor</th>
+                <th>Layout</th>
+                <th>Published</th>
+                <th>Ordering</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>ModifiedOn</th>
+                <th>ModifiedBy</th>
+                <th>LockedOn</th>
+                <th>LockedBy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for product in products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.vendorId }}</td>
+                <td>{{ product.productParentId }}</td>
+                <td>{{ product.productSku }}</td>
+                <td>{{ product.productGtin }}</td>
+                <td>{{ product.productMpn }}</td>
+                <td>{{ product.productWeight }}</td>
+                <td>{{ product.productWeightUom }}</td>
+                <td>{{ product.productLength }}</td>
+                <td>{{ product.productWidth }}</td>
+                <td>{{ product.productHeight }}</td>
+                <td>{{ product.productLwhUom }}</td>
+                <td>{{ product.productInStock }}</td>
+                <td>{{ product.productOrdered }}</td>
+                <td>{{ product.productStockHandle }}</td>
+                <td>{{ product.lowStockNotification }}</td>
+                <td>{{ product.productAvailableDate ? product.productAvailableDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.productAvailability ? 'Yes' : 'No' }}</td>
+                <td>{{ product.productSpecial ? 'Yes' : 'No' }}</td>
+                <td>{{ product.productDiscontinued ? 'Yes' : 'No' }}</td>
+                <td>{{ product.productSales }}</td>
+                <td>{{ product.productUnit }}</td>
+                <td>{{ product.productPackaging }}</td>
+                <td>{{ product.productParams }}</td>
+                <td>{{ product.productCanonCategoryId }}</td>
+                <td>{{ product.hits }}</td>
+                <td>{{ product.intNotes }}</td>
+                <td>{{ product.metaRobot }}</td>
+                <td>{{ product.metaAuthor }}</td>
+                <td>{{ product.layout }}</td>
+                <td>{{ product.published ? 'Yes' : 'No' }}</td>
+                <td>{{ product.ordering }}</td>
+                <td>{{ product.createdOn ? product.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.createdBy }}</td>
+                <td>{{ product.modifiedOn ? product.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.modifiedBy }}</td>
+                <td>{{ product.lockedOn ? product.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.lockedBy }}</td>
+                <td>
+                    <a href="{{ path('products_show', {'id': product.id}) }}">show</a>
+                    <a href="{{ path('products_edit', {'id': product.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="39">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('products_new') }}">Create new</a>
+{% endblock %}

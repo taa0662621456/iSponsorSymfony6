@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello ! ✅</h1>
+
+    {{ form_start(users_form, {'attr': {'id':'users', 'class':'',}}) }}
+    {{ form(users_form) }}
+    {{ form_end(users_form) }}
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/VendorProfile/Президент2024/PhpstormProjects/untitled3/src/Controller/VendorControllerhp'|file_link(0) }}">src/Controller/SecurityController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/VendorProfile/Президент2024/PhpstormProjects/untitled3/templates/security/index.html.twig'|file_link(0) }}">templates/security/index.html.twig</a></code></li>
+    </ul>
+</div>
+{% endblock %}

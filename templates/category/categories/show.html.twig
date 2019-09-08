@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    <h1>Categories</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>VendorId</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Published</th>
+                <td>{{ category.published ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedOn</th>
+                <td>{{ category.createdOn ? category.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ category.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedOn</th>
+                <td>{{ category.modifiedOn ? category.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedBy</th>
+                <td>{{ category.modifiedBy }}</td>
+            </tr>
+            <tr>
+                <th>LockedOn</th>
+                <td>{{ category.lockedOn ? category.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LockedBy</th>
+                <td>{{ category.lockedBy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('categories_index') }}">back to list</a>
+
+    <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+
+    {{ include('categories/_delete_form.html.twig') }}
+{% endblock %}

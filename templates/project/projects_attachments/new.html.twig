@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ProjectsAttachments{% endblock %}
+
+{% block body %}
+    <h1>Create new ProjectsAttachments</h1>
+
+    {{ include('project_projects_attachments/_form.html.twig') }}
+
+    <a href="{{ path('project_projects_attachments_index') }}">back to list</a>
+{% endblock %}

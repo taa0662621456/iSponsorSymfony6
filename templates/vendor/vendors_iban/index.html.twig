@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VendorsIban index{% endblock %}
+
+{% block body %}
+    <h1>VendorsIban index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>VendorIban</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vendors_iban in vendors_ibans %}
+            <tr>
+                <td>{{ vendors_iban.id }}</td>
+                <td>{{ vendors_iban.vendorIban }}</td>
+                <td>
+                    <a href="{{ path('vendor_vendors_iban_show', {'id': vendors_iban.id}) }}">show</a>
+                    <a href="{{ path('vendor_vendors_iban_edit', {'id': vendors_iban.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('vendor_vendors_iban_new') }}">Create new</a>
+{% endblock %}

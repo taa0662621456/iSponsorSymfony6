@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CategoriesAttachments{% endblock %}
+
+{% block body %}
+    <h1>CategoriesAttachments</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ categories_attachment.id }}</td>
+            </tr>
+            <tr>
+                <th>FileTitle</th>
+                <td>{{ categories_attachment.fileTitle }}</td>
+            </tr>
+            <tr>
+                <th>FileDescription</th>
+                <td>{{ categories_attachment.fileDescription }}</td>
+            </tr>
+            <tr>
+                <th>FileMeta</th>
+                <td>{{ categories_attachment.fileMeta }}</td>
+            </tr>
+            <tr>
+                <th>FileClass</th>
+                <td>{{ categories_attachment.fileClass }}</td>
+            </tr>
+            <tr>
+                <th>FileMimeType</th>
+                <td>{{ categories_attachment.fileMimeType }}</td>
+            </tr>
+            <tr>
+                <th>FileType</th>
+                <td>{{ categories_attachment.fileType }}</td>
+            </tr>
+            <tr>
+                <th>FileUrl</th>
+                <td>{{ categories_attachment.fileUrl }}</td>
+            </tr>
+            <tr>
+                <th>FileUrlThumb</th>
+                <td>{{ categories_attachment.fileUrlThumb }}</td>
+            </tr>
+            <tr>
+                <th>FileIsProductImage</th>
+                <td>{{ categories_attachment.fileIsProductImage ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>FileIsDownloadable</th>
+                <td>{{ categories_attachment.fileIsDownloadable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>FileIsForSale</th>
+                <td>{{ categories_attachment.fileIsForSale ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>FileParams</th>
+                <td>{{ categories_attachment.fileParams }}</td>
+            </tr>
+            <tr>
+                <th>FileLang</th>
+                <td>{{ categories_attachment.fileLang }}</td>
+            </tr>
+            <tr>
+                <th>IsShared</th>
+                <td>{{ categories_attachment.isShared ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Published</th>
+                <td>{{ categories_attachment.published ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedOn</th>
+                <td>{{ categories_attachment.createdOn ? categories_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ categories_attachment.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedOn</th>
+                <td>{{ categories_attachment.modifiedOn ? categories_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedBy</th>
+                <td>{{ categories_attachment.modifiedBy }}</td>
+            </tr>
+            <tr>
+                <th>LockedOn</th>
+                <td>{{ categories_attachment.lockedOn ? categories_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LockedBy</th>
+                <td>{{ categories_attachment.lockedBy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('category_categories_attachments_index') }}">back to list</a>
+
+    <a href="{{ path('category_categories_attachments_edit', {'id': categories_attachment.id}) }}">edit</a>
+
+    {{ include('category_categories_attachments/_delete_form.html.twig') }}
+{% endblock %}

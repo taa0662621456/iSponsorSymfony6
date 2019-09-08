@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VendorsIban{% endblock %}
+
+{% block body %}
+    <h1>VendorsIban</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ vendors_iban.id }}</td>
+            </tr>
+            <tr>
+                <th>VendorIban</th>
+                <td>{{ vendors_iban.vendorIban }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('vendor_vendors_iban_index') }}">back to list</a>
+
+    <a href="{{ path('vendor_vendors_iban_edit', {'id': vendors_iban.id}) }}">edit</a>
+
+    {{ include('vendor_vendors_iban/_delete_form.html.twig') }}
+{% endblock %}

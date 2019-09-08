@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vendors index{% endblock %}
+
+{% block body %}
+    <h1>Vendors index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>MiddleName</th>
+                <th>Phone</th>
+                <th>PhoneSecond</th>
+                <th>Fax</th>
+                <th>Address</th>
+                <th>AddressSecond</th>
+                <th>City</th>
+                <th>StateId</th>
+                <th>CountryId</th>
+                <th>Zip</th>
+                {#
+                <th>VendorCurrency</th>
+                <th>VendorAcceptedCurrencies</th>
+                <th>VendorParams</th>
+                <th>MetaRobot</th>
+                <th>MetaAuthor</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>ModifiedOn</th>
+                <th>ModifiedBy</th>
+                <th>LockedOn</th>
+                <th>LockedBy</th>
+                #}
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vendors in vendors %}
+            <tr>
+                <td>{{ vendor.id }}</td>
+                <td>{{ vendor.firstName }}</td>
+                <td>{{ vendor.lastName }}</td>
+                <td>{{ vendor.middleName }}</td>
+                <td>{{ vendor.phone }}</td>
+                <td>{{ vendor.phoneSecond }}</td>
+                <td>{{ vendor.fax }}</td>
+                <td>{{ vendor.address }}</td>
+                <td>{{ vendor.addressSecond }}</td>
+                <td>{{ vendor.city }}</td>
+                <td>{{ vendor.stateId }}</td>
+                <td>{{ vendor.countryId }}</td>
+                <td>{{ vendor.zip }}</td>
+                {#
+                <td>{{ vendor.vendorCurrency }}</td>
+                <td>{{ vendor.vendorAcceptedCurrencies }}</td>
+                <td>{{ vendor.vendorParams }}</td>
+                <td>{{ vendor.metaRobot }}</td>
+                <td>{{ vendor.metaAuthor }}</td>
+                <td>{{ vendor.createdOn ? vendor.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendor.createdBy }}</td>
+                <td>{{ vendor.modifiedOn ? vendor.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendor.modifiedBy }}</td>
+                <td>{{ vendor.lockedOn ? vendor.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendor.lockedBy }}</td>
+                #}
+                <td>
+                    <a href="{{ path('vendors_show', {'id': vendor.id}) }}">show</a>
+                    <a href="{{ path('vendors_edit', {'id': vendor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="25">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('vendors_new') }}">Create new</a>
+{% endblock %}

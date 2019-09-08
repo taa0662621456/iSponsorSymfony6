@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit VendorsAttachments{% endblock %}
+
+{% block body %}
+    <h1>Edit VendorsAttachments</h1>
+
+    {{ include('vendor_vendors_attachments/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('vendor_vendors_attachments_index') }}">back to list</a>
+
+    {{ include('vendor_vendors_attachments/_delete_form.html.twig') }}
+{% endblock %}

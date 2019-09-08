@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders{% endblock %}
+
+{% block body %}
+    <h1>Orders</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>UserId</th>
+                <td>{{ order.userId }}</td>
+            </tr>
+            <tr>
+                <th>VendorId</th>
+                <td>{{ order.vendorId }}</td>
+            </tr>
+            <tr>
+                <th>OrderNumber</th>
+                <td>{{ order.orderNumber }}</td>
+            </tr>
+            <tr>
+                <th>CustomerNumber</th>
+                <td>{{ order.customerNumber }}</td>
+            </tr>
+            <tr>
+                <th>OrderPass</th>
+                <td>{{ order.orderPass }}</td>
+            </tr>
+            <tr>
+                <th>OrderCreateInvoicePass</th>
+                <td>{{ order.orderCreateInvoicePass }}</td>
+            </tr>
+            <tr>
+                <th>OrderTotal</th>
+                <td>{{ order.orderTotal }}</td>
+            </tr>
+            <tr>
+                <th>OrderSalesPrice</th>
+                <td>{{ order.orderSalesPrice }}</td>
+            </tr>
+            <tr>
+                <th>OrderBillTaxAmount</th>
+                <td>{{ order.orderBillTaxAmount }}</td>
+            </tr>
+            <tr>
+                <th>OrderBillTax</th>
+                <td>{{ order.orderBillTax }}</td>
+            </tr>
+            <tr>
+                <th>OrderBillDiscountAmount</th>
+                <td>{{ order.orderBillDiscountAmount }}</td>
+            </tr>
+            <tr>
+                <th>OrderBillDiscount</th>
+                <td>{{ order.orderBillDiscount }}</td>
+            </tr>
+            <tr>
+                <th>OrderSubtotal</th>
+                <td>{{ order.orderSubtotal }}</td>
+            </tr>
+            <tr>
+                <th>OrderTax</th>
+                <td>{{ order.orderTax }}</td>
+            </tr>
+            <tr>
+                <th>OrderShipment</th>
+                <td>{{ order.orderShipment }}</td>
+            </tr>
+            <tr>
+                <th>OrderShipmentTax</th>
+                <td>{{ order.orderShipmentTax }}</td>
+            </tr>
+            <tr>
+                <th>OrderPayment</th>
+                <td>{{ order.orderPayment }}</td>
+            </tr>
+            <tr>
+                <th>OrderPaymentTax</th>
+                <td>{{ order.orderPaymentTax }}</td>
+            </tr>
+            <tr>
+                <th>CouponDiscount</th>
+                <td>{{ order.couponDiscount }}</td>
+            </tr>
+            <tr>
+                <th>CouponCode</th>
+                <td>{{ order.couponCode }}</td>
+            </tr>
+            <tr>
+                <th>OrderDiscount</th>
+                <td>{{ order.orderDiscount }}</td>
+            </tr>
+            <tr>
+                <th>OrderCurrency</th>
+                <td>{{ order.orderCurrency }}</td>
+            </tr>
+            <tr>
+                <th>OrderStatus</th>
+                <td>{{ order.orderStatus }}</td>
+            </tr>
+            <tr>
+                <th>UserCurrencyId</th>
+                <td>{{ order.userCurrencyId }}</td>
+            </tr>
+            <tr>
+                <th>UserCurrencyRate</th>
+                <td>{{ order.userCurrencyRate }}</td>
+            </tr>
+            <tr>
+                <th>UserShopperGroups</th>
+                <td>{{ order.userShopperGroups }}</td>
+            </tr>
+            <tr>
+                <th>PaymentCurrencyId</th>
+                <td>{{ order.paymentCurrencyId }}</td>
+            </tr>
+            <tr>
+                <th>PaymentCurrencyRate</th>
+                <td>{{ order.paymentCurrencyRate }}</td>
+            </tr>
+            <tr>
+                <th>PaymentMethodId</th>
+                <td>{{ order.PaymentMethodId }}</td>
+            </tr>
+            <tr>
+                <th>ShipmentMethodId</th>
+                <td>{{ order.ShipmentMethodId }}</td>
+            </tr>
+            <tr>
+                <th>DeliveryDate</th>
+                <td>{{ order.deliveryDate }}</td>
+            </tr>
+            <tr>
+                <th>OrderLanguage</th>
+                <td>{{ order.orderLanguage }}</td>
+            </tr>
+            <tr>
+                <th>IpAddress</th>
+                <td>{{ order.ipAddress }}</td>
+            </tr>
+            <tr>
+                <th>STSameAsBT</th>
+                <td>{{ order.STSameAsBT ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>OHash</th>
+                <td>{{ order.oHash }}</td>
+            </tr>
+            <tr>
+                <th>CreatedOn</th>
+                <td>{{ order.createdOn ? order.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ order.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedOn</th>
+                <td>{{ order.modifiedOn ? order.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedBy</th>
+                <td>{{ order.modifiedBy }}</td>
+            </tr>
+            <tr>
+                <th>LockedOn</th>
+                <td>{{ order.lockedOn ? order.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LockedBy</th>
+                <td>{{ order.lockedBy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('orders_index') }}">back to list</a>
+
+    <a href="{{ path('orders_edit', {'id': order.id}) }}">edit</a>
+
+    {{ include('orders/_delete_form.html.twig') }}
+{% endblock %}

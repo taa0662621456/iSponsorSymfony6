@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Languages index{% endblock %}
+
+{% block body %}
+    <h1>Languages index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>LangId</th>
+                <th>AssetId</th>
+                <th>LangCode</th>
+                <th>Title</th>
+                <th>TitleNative</th>
+                <th>Sef</th>
+                <th>Image</th>
+                <th>Description</th>
+                <th>Metakey</th>
+                <th>Metadesc</th>
+                <th>Sitename</th>
+                <th>Published</th>
+                <th>Access</th>
+                <th>Ordering</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for language in languages %}
+            <tr>
+                <td>{{ language.langId }}</td>
+                <td>{{ language.assetId }}</td>
+                <td>{{ language.langCode }}</td>
+                <td>{{ language.title }}</td>
+                <td>{{ language.titleNative }}</td>
+                <td>{{ language.sef }}</td>
+                <td>{{ language.image }}</td>
+                <td>{{ language.description }}</td>
+                <td>{{ language.metakey }}</td>
+                <td>{{ language.metadesc }}</td>
+                <td>{{ language.sitename }}</td>
+                <td>{{ language.published }}</td>
+                <td>{{ language.access }}</td>
+                <td>{{ language.ordering }}</td>
+                <td>
+                    <a href="{{ path('languages_show', {'langId': language.langId}) }}">show</a>
+                    <a href="{{ path('languages_edit', {'langId': language.langId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="15">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('languages_new') }}">Create new</a>
+{% endblock %}

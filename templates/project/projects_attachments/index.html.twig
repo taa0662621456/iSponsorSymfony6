@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProjectsAttachments index{% endblock %}
+
+{% block body %}
+    <h1>ProjectsAttachments index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FileTitle</th>
+                <th>FileDescription</th>
+                <th>FileMeta</th>
+                <th>FileClass</th>
+                <th>FileMimeType</th>
+                <th>FileType</th>
+                <th>FileUrl</th>
+                <th>FileUrlThumb</th>
+                <th>FileIsProductImage</th>
+                <th>FileIsDownloadable</th>
+                <th>FileIsForSale</th>
+                <th>FileParams</th>
+                <th>FileLang</th>
+                <th>IsShared</th>
+                <th>Published</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>ModifiedOn</th>
+                <th>ModifiedBy</th>
+                <th>LockedOn</th>
+                <th>LockedBy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for projects_attachment in projects_attachments %}
+            <tr>
+                <td>{{ projects_attachment.id }}</td>
+                <td>{{ projects_attachment.fileTitle }}</td>
+                <td>{{ projects_attachment.fileDescription }}</td>
+                <td>{{ projects_attachment.fileMeta }}</td>
+                <td>{{ projects_attachment.fileClass }}</td>
+                <td>{{ projects_attachment.fileMimeType }}</td>
+                <td>{{ projects_attachment.fileType }}</td>
+                <td>{{ projects_attachment.fileUrl }}</td>
+                <td>{{ projects_attachment.fileUrlThumb }}</td>
+                <td>{{ projects_attachment.fileIsProductImage ? 'Yes' : 'No' }}</td>
+                <td>{{ projects_attachment.fileIsDownloadable ? 'Yes' : 'No' }}</td>
+                <td>{{ projects_attachment.fileIsForSale ? 'Yes' : 'No' }}</td>
+                <td>{{ projects_attachment.fileParams }}</td>
+                <td>{{ projects_attachment.fileLang }}</td>
+                <td>{{ projects_attachment.isShared ? 'Yes' : 'No' }}</td>
+                <td>{{ projects_attachment.published ? 'Yes' : 'No' }}</td>
+                <td>{{ projects_attachment.createdOn ? projects_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projects_attachment.createdBy }}</td>
+                <td>{{ projects_attachment.modifiedOn ? projects_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projects_attachment.modifiedBy }}</td>
+                <td>{{ projects_attachment.lockedOn ? projects_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projects_attachment.lockedBy }}</td>
+                <td>
+                    <a href="{{ path('project_projects_attachments_show', {'id': projects_attachment.id}) }}">show</a>
+                    <a href="{{ path('project_projects_attachments_edit', {'id': projects_attachment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="23">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('project_projects_attachments_new') }}">Create new</a>
+{% endblock %}

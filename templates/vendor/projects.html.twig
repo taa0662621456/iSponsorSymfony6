@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projects index{% endblock %}
+
+{% block body %}
+    <h1>Projects index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ProjectId</th>
+            <th>ProjectTitle</th>
+            <th>ProjectSDesc</th>
+            <th>ProjectDesc</th>
+            <th>ProjectProductName</th>
+            <th>ProjectProductSDesc</th>
+            <th>ProjectProductDesc</th>
+            <th>ProjectProductMetaDesc</th>
+            <th>ProjectProductMetaKey</th>
+            <th>ProjectSlug</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+            <tr>
+                <td>{{ project.projectId }}</td>
+                <td>{{ project.projectTitle }}</td>
+                <td>{{ project.projectSDesc }}</td>
+                <td>{{ project.projectDesc }}</td>
+                <td>{{ project.projectProductName }}</td>
+                <td>{{ project.projectProductSDesc }}</td>
+                <td>{{ project.projectProductDesc }}</td>
+                <td>{{ project.projectProductMetaDesc }}</td>
+                <td>{{ project.projectProductMetaKey }}</td>
+                <td>{{ project.projectSlug }}</td>
+                <td>
+                    <a href="{{ path('project_details_slug', {'projectSlug': project.projectSlug}) }}">Details</a>
+                    {#<a href="{{ path('project_update', {'projectSlug': project.projectSlug}) }}">Edit</a>
+                    <a href="{{ path('project_delete', {'projectSlug': project.projectSlug}) }}">Delete</a>#}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('project_create') }}">Create new</a>
+{% endblock %}

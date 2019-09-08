@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ProjectsAttachments{% endblock %}
+
+{% block body %}
+    <h1>ProjectsAttachments</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ projects_attachment.id }}</td>
+            </tr>
+            <tr>
+                <th>FileTitle</th>
+                <td>{{ projects_attachment.fileTitle }}</td>
+            </tr>
+            <tr>
+                <th>FileDescription</th>
+                <td>{{ projects_attachment.fileDescription }}</td>
+            </tr>
+            <tr>
+                <th>FileMeta</th>
+                <td>{{ projects_attachment.fileMeta }}</td>
+            </tr>
+            <tr>
+                <th>FileClass</th>
+                <td>{{ projects_attachment.fileClass }}</td>
+            </tr>
+            <tr>
+                <th>FileMimeType</th>
+                <td>{{ projects_attachment.fileMimeType }}</td>
+            </tr>
+            <tr>
+                <th>FileType</th>
+                <td>{{ projects_attachment.fileType }}</td>
+            </tr>
+            <tr>
+                <th>FileUrl</th>
+                <td>{{ projects_attachment.fileUrl }}</td>
+            </tr>
+            <tr>
+                <th>FileUrlThumb</th>
+                <td>{{ projects_attachment.fileUrlThumb }}</td>
+            </tr>
+            <tr>
+                <th>FileIsProductImage</th>
+                <td>{{ projects_attachment.fileIsProductImage ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>FileIsDownloadable</th>
+                <td>{{ projects_attachment.fileIsDownloadable ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>FileIsForSale</th>
+                <td>{{ projects_attachment.fileIsForSale ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>FileParams</th>
+                <td>{{ projects_attachment.fileParams }}</td>
+            </tr>
+            <tr>
+                <th>FileLang</th>
+                <td>{{ projects_attachment.fileLang }}</td>
+            </tr>
+            <tr>
+                <th>IsShared</th>
+                <td>{{ projects_attachment.isShared ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Published</th>
+                <td>{{ projects_attachment.published ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedOn</th>
+                <td>{{ projects_attachment.createdOn ? projects_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedBy</th>
+                <td>{{ projects_attachment.createdBy }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedOn</th>
+                <td>{{ projects_attachment.modifiedOn ? projects_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ModifiedBy</th>
+                <td>{{ projects_attachment.modifiedBy }}</td>
+            </tr>
+            <tr>
+                <th>LockedOn</th>
+                <td>{{ projects_attachment.lockedOn ? projects_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>LockedBy</th>
+                <td>{{ projects_attachment.lockedBy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('project_projects_attachments_index') }}">back to list</a>
+
+    <a href="{{ path('project_projects_attachments_edit', {'id': projects_attachment.id}) }}">edit</a>
+
+    {{ include('project_projects_attachments/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Languages{% endblock %}
+
+{% block body %}
+    <h1>Languages</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>LangId</th>
+                <td>{{ language.langId }}</td>
+            </tr>
+            <tr>
+                <th>AssetId</th>
+                <td>{{ language.assetId }}</td>
+            </tr>
+            <tr>
+                <th>LangCode</th>
+                <td>{{ language.langCode }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ language.title }}</td>
+            </tr>
+            <tr>
+                <th>TitleNative</th>
+                <td>{{ language.titleNative }}</td>
+            </tr>
+            <tr>
+                <th>Sef</th>
+                <td>{{ language.sef }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ language.image }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ language.description }}</td>
+            </tr>
+            <tr>
+                <th>Metakey</th>
+                <td>{{ language.metakey }}</td>
+            </tr>
+            <tr>
+                <th>Metadesc</th>
+                <td>{{ language.metadesc }}</td>
+            </tr>
+            <tr>
+                <th>Sitename</th>
+                <td>{{ language.sitename }}</td>
+            </tr>
+            <tr>
+                <th>Published</th>
+                <td>{{ language.published }}</td>
+            </tr>
+            <tr>
+                <th>Access</th>
+                <td>{{ language.access }}</td>
+            </tr>
+            <tr>
+                <th>Ordering</th>
+                <td>{{ language.ordering }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('languages_index') }}">back to list</a>
+
+    <a href="{{ path('languages_edit', {'langId': language.langId}) }}">edit</a>
+
+    {{ include('languages/_delete_form.html.twig') }}
+{% endblock %}

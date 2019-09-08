@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Orders index{% endblock %}
+
+{% block body %}
+    <h1>Orders index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>UserId</th>
+                <th>VendorId</th>
+                <th>OrderNumber</th>
+                <th>CustomerNumber</th>
+                <th>OrderPass</th>
+                <th>OrderCreateInvoicePass</th>
+                <th>OrderTotal</th>
+                <th>OrderSalesPrice</th>
+                <th>OrderBillTaxAmount</th>
+                <th>OrderBillTax</th>
+                <th>OrderBillDiscountAmount</th>
+                <th>OrderBillDiscount</th>
+                <th>OrderSubtotal</th>
+                <th>OrderTax</th>
+                <th>OrderShipment</th>
+                <th>OrderShipmentTax</th>
+                <th>OrderPayment</th>
+                <th>OrderPaymentTax</th>
+                <th>CouponDiscount</th>
+                <th>CouponCode</th>
+                <th>OrderDiscount</th>
+                <th>OrderCurrency</th>
+                <th>OrderStatus</th>
+                <th>UserCurrencyId</th>
+                <th>UserCurrencyRate</th>
+                <th>UserShopperGroups</th>
+                <th>PaymentCurrencyId</th>
+                <th>PaymentCurrencyRate</th>
+                <th>PaymentMethodId</th>
+                <th>ShipmentMethodId</th>
+                <th>DeliveryDate</th>
+                <th>OrderLanguage</th>
+                <th>IpAddress</th>
+                <th>STSameAsBT</th>
+                <th>OHash</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>ModifiedOn</th>
+                <th>ModifiedBy</th>
+                <th>LockedOn</th>
+                <th>LockedBy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.userId }}</td>
+                <td>{{ order.vendorId }}</td>
+                <td>{{ order.orderNumber }}</td>
+                <td>{{ order.customerNumber }}</td>
+                <td>{{ order.orderPass }}</td>
+                <td>{{ order.orderCreateInvoicePass }}</td>
+                <td>{{ order.orderTotal }}</td>
+                <td>{{ order.orderSalesPrice }}</td>
+                <td>{{ order.orderBillTaxAmount }}</td>
+                <td>{{ order.orderBillTax }}</td>
+                <td>{{ order.orderBillDiscountAmount }}</td>
+                <td>{{ order.orderBillDiscount }}</td>
+                <td>{{ order.orderSubtotal }}</td>
+                <td>{{ order.orderTax }}</td>
+                <td>{{ order.orderShipment }}</td>
+                <td>{{ order.orderShipmentTax }}</td>
+                <td>{{ order.orderPayment }}</td>
+                <td>{{ order.orderPaymentTax }}</td>
+                <td>{{ order.couponDiscount }}</td>
+                <td>{{ order.couponCode }}</td>
+                <td>{{ order.orderDiscount }}</td>
+                <td>{{ order.orderCurrency }}</td>
+                <td>{{ order.orderStatus }}</td>
+                <td>{{ order.userCurrencyId }}</td>
+                <td>{{ order.userCurrencyRate }}</td>
+                <td>{{ order.userShopperGroups }}</td>
+                <td>{{ order.paymentCurrencyId }}</td>
+                <td>{{ order.paymentCurrencyRate }}</td>
+                <td>{{ order.PaymentMethodId }}</td>
+                <td>{{ order.ShipmentMethodId }}</td>
+                <td>{{ order.deliveryDate }}</td>
+                <td>{{ order.orderLanguage }}</td>
+                <td>{{ order.ipAddress }}</td>
+                <td>{{ order.STSameAsBT ? 'Yes' : 'No' }}</td>
+                <td>{{ order.oHash }}</td>
+                <td>{{ order.createdOn ? order.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.createdBy }}</td>
+                <td>{{ order.modifiedOn ? order.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.modifiedBy }}</td>
+                <td>{{ order.lockedOn ? order.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.lockedBy }}</td>
+                <td>
+                    <a href="{{ path('orders_show', {'id': order.id}) }}">show</a>
+                    <a href="{{ path('orders_edit', {'id': order.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="43">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('orders_new') }}">Create new</a>
+{% endblock %}

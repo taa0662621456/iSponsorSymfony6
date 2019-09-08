@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VendorsAttachments index{% endblock %}
+
+{% block body %}
+    <h1>VendorsAttachments index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FileTitle</th>
+                <th>FileDescription</th>
+                <th>FileMeta</th>
+                <th>FileClass</th>
+                <th>FileMimeType</th>
+                <th>FileType</th>
+                <th>FileUrl</th>
+                <th>FileUrlThumb</th>
+                <th>FileIsProductImage</th>
+                <th>FileIsDownloadable</th>
+                <th>FileIsForSale</th>
+                <th>FileParams</th>
+                <th>FileLang</th>
+                <th>IsShared</th>
+                <th>Published</th>
+                <th>CreatedOn</th>
+                <th>CreatedBy</th>
+                <th>ModifiedOn</th>
+                <th>ModifiedBy</th>
+                <th>LockedOn</th>
+                <th>LockedBy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for vendors_attachment in vendors_attachments %}
+            <tr>
+                <td>{{ vendors_attachment.id }}</td>
+                <td>{{ vendors_attachment.fileTitle }}</td>
+                <td>{{ vendors_attachment.fileDescription }}</td>
+                <td>{{ vendors_attachment.fileMeta }}</td>
+                <td>{{ vendors_attachment.fileClass }}</td>
+                <td>{{ vendors_attachment.fileMimeType }}</td>
+                <td>{{ vendors_attachment.fileType }}</td>
+                <td>{{ vendors_attachment.fileUrl }}</td>
+                <td>{{ vendors_attachment.fileUrlThumb }}</td>
+                <td>{{ vendors_attachment.fileIsProductImage ? 'Yes' : 'No' }}</td>
+                <td>{{ vendors_attachment.fileIsDownloadable ? 'Yes' : 'No' }}</td>
+                <td>{{ vendors_attachment.fileIsForSale ? 'Yes' : 'No' }}</td>
+                <td>{{ vendors_attachment.fileParams }}</td>
+                <td>{{ vendors_attachment.fileLang }}</td>
+                <td>{{ vendors_attachment.isShared ? 'Yes' : 'No' }}</td>
+                <td>{{ vendors_attachment.published ? 'Yes' : 'No' }}</td>
+                <td>{{ vendors_attachment.createdOn ? vendors_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendors_attachment.createdBy }}</td>
+                <td>{{ vendors_attachment.modifiedOn ? vendors_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendors_attachment.modifiedBy }}</td>
+                <td>{{ vendors_attachment.lockedOn ? vendors_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendors_attachment.lockedBy }}</td>
+                <td>
+                    <a href="{{ path('vendor_vendors_attachments_show', {'id': vendors_attachment.id}) }}">show</a>
+                    <a href="{{ path('vendor_vendors_attachments_edit', {'id': vendors_attachment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="23">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('vendor_vendors_attachments_new') }}">Create new</a>
+{% endblock %}

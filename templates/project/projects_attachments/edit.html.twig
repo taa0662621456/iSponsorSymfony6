@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ProjectsAttachments{% endblock %}
+
+{% block body %}
+    <h1>Edit ProjectsAttachments</h1>
+
+    {{ include('project_projects_attachments/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('project_projects_attachments_index') }}">back to list</a>
+
+    {{ include('project_projects_attachments/_delete_form.html.twig') }}
+{% endblock %}
