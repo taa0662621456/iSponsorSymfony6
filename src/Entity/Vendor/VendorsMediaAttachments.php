@@ -14,7 +14,6 @@ use Exception;
  * @ORM\Table(name="vendors_medias")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class VendorsMediaAttachments
 {
@@ -373,24 +372,6 @@ class VendorsMediaAttachments
     public function setFileUrlThumb(string $fileUrlThumb): self
     {
         $this->fileUrlThumb = $fileUrlThumb;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProject(): ?Projects
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param mixed $project
-     * @return VendorsMediaAttachments
-     */
-    public function setProject($project): self
-    {
-        $this->project = $project;
         return $this;
     }
 

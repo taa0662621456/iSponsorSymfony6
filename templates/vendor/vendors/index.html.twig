@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vendors index{% endblock %}
-
-{% block body %}
-    <h1>Vendors index</h1>
-
+{% block title %}Vendors{% endblock %}
+{% block header %}<h1>Vendors</h1>{% endblock %}
+{% block article_header %}<h1>Vendors index</h1>{% endblock %}
+{% block article_content %}
     <table class="table">
         <thead>
             <tr>
@@ -78,6 +77,6 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('vendors_new') }}">Create new</a>
+    {% block article_summery %}<p>All Vendors this</p>{% endblock %}
+    {% block article_footer %}<a href="{{ path('vendors_new') }}">Create new</a>{% endblock %}
 {% endblock %}

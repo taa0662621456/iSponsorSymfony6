@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class VendorsSecuritySignUpType extends AbstractType
+class VendorsSecurityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
@@ -22,12 +22,12 @@ class VendorsSecuritySignUpType extends AbstractType
                     'class' => 'sr-only'
                 ),
                 'required' => true,
-                'autofocus' => true,
                 'attr' => array(
                     'id' => 'email',
                     'name' => '_email',
                     'class' => 'form-control',
-                    'placeholder' => 'exemple@yahoo.com'
+                    'placeholder' => 'exemple@yahoo.com',
+                    'autofocus' => true
                 ),
             ))
             ->add('plainPassword', RepeatedType::class, array(
@@ -35,13 +35,21 @@ class VendorsSecuritySignUpType extends AbstractType
                 'first_options' => array(
                     'label' => 'label.password',
                     'label_attr' => array(
-                    'class' => 'sr-only'
+                    'class' => 'sr-only',
+                    ),
+                    'attr' => array(
+                        'class' => '',
+                        'placeholder' => 'placeholder.password.enter'
                     )
                 ),
                 'second_options' => array(
                     'label' => 'label.repeat.password',
                     'label_attr' => array(
                         'class' => 'sr-only'
+                    ),
+                    'attr' => array(
+                        'class' => '',
+                        'placeholder' => 'placeholder.password.confirm'
                     )
                 ),
                 'required' => true,

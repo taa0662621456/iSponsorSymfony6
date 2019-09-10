@@ -6,6 +6,7 @@ namespace App\EventSubscriber;
 use App\Event\RegisteredEvent;
 use App\Service\Mailer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Twig\Error\Error;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -40,6 +41,7 @@ class VendorSubscriber implements EventSubscriberInterface
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws Error
      */
     public function onVendorsRegistration(RegisteredEvent $vendorRegisteredEvent):void
     {

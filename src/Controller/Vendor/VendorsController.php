@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Vendor;
 
 use App\Entity\Vendor\Vendors;
+use App\Form\Vendor\VendorsAddType;
 use App\Form\Vendor\VendorsType;
 use App\Repository\ProjectsRepository;
 use App\Repository\VendorsEnGbRepository;
@@ -39,7 +40,7 @@ class VendorsController extends AbstractController
     public function new(Request $request): Response
     {
         $vendor = new Vendors();
-        $form = $this->createForm(VendorsType::class, $vendor);
+        $form = $this->createForm(VendorsAddType::class, $vendor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -47,9 +47,9 @@ class ProjectsController extends AbstractController
         //sorted by order number
         //$slides = $slideRepository->findBy(['enabled' => true], ['slideOrder' => 'ASC']);
         //$lastNews = $newsRepository->getLastNews();
-        $categories = $categoriesRepository->findAll();
-        $latestProjects = $projectsRepository->getLatest(12, $this->getUser());
-        $featuredProjects = $projectsRepository->getFeatured(12, $this->getUser());
+        //$categories = $categoriesRepository->findAll();
+        //$latestProjects = $projectsRepository->getLatest(12, $this->getUser());
+        //$featuredProjects = $projectsRepository->getFeatured(12, $this->getUser());
 
         return $this->render('project/projects/index.html.twig', array(
             'categories' => $categoriesRepository
@@ -130,10 +130,10 @@ class ProjectsController extends AbstractController
             return $this->redirectToRoute('projects_index');
         }
 
-        return $this->render('projects/edit.html.twig', [
+        return $this->render('projects/edit.html.twig', array(
             'project' => $project,
             'form' => $form->createView(),
-        ]);
+        ));
     }
 
     /**

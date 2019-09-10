@@ -21,7 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * UniqueEntity(fields={"phone"})
  * UniqueEntity(fields={"phone_second"}, message="Phone number already taken")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class VendorsEnGb
 {

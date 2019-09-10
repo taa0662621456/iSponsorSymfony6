@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Project\Projects;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
@@ -15,7 +14,6 @@ use Exception;
  * @ORM\Table(name="products_attachments")
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class ProductsAttachments
 {

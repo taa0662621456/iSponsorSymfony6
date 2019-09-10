@@ -11,8 +11,6 @@ use JsonSerializable;
  * @ORM\Entity()
  * @ORM\Table(name="products_tags")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
- *
  */
 class ProductsTags implements JsonSerializable
 {

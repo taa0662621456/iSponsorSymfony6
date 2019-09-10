@@ -3,18 +3,16 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- *
+ * Vendor Documents Attachments
  * @ORM\Table(name="vendors_attachments")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class VendorsDocAttachments
 {
@@ -374,24 +372,6 @@ class VendorsDocAttachments
     public function setFileUrlThumb(string $fileUrlThumb): self
     {
         $this->fileUrlThumb = $fileUrlThumb;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProject(): ?Projects
-    {
-        return $this->project;
-    }
-
-    /**
-     * @param mixed $project
-     * @return VendorsDocAttachments
-     */
-    public function setProject($project): self
-    {
-        $this->project = $project;
         return $this;
     }
 

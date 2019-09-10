@@ -10,11 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- *
+ * Project Attachments
  * @ORM\Table(name="projects_attachments")
  * @ORM\Entity(repositoryClass="App\Repository\ProjectsRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class ProjectsAttachments
 {

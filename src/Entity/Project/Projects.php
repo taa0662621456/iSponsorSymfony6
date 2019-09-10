@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Vendor\Vendors;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,8 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="projects")
  * @ORM\Entity(repositoryClass="App\Repository\ProjectsRepository")
- * @ApiResource()
- *
  */
 class Projects
 {
@@ -91,10 +88,10 @@ class Projects
     private $lockedBy = 0;
 
     /**
+     * @ORM\OneToOne(targetEntity="ProjectsEnGb", mappedBy="projectEnGb", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
      * @Assert\Valid()
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb", mappedBy="project", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $projectEnGb;
 
@@ -125,7 +122,11 @@ class Projects
      **/
     private $favourites;
 
-
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="project", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $featured;
 
 
 

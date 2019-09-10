@@ -11,8 +11,6 @@ use JsonSerializable;
  * @ORM\Entity()
  * @ORM\Table(name="projects_tags")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
- *
  */
 class ProjectsTags implements JsonSerializable
 {

@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="categories_en_gb", uniqueConstraints={@ORM\UniqueConstraint(name="slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesEnGbRepository")
- * @ApiResource()
  */
 class ProductCategoriesEnGb
 {

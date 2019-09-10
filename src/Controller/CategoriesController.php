@@ -7,7 +7,6 @@ use App\Entity\Category\CategoriesAttachments;
 use App\Entity\Category\CategoriesEnGb;
 use App\Entity\Category\Categories;
 use App\Form\Category\CategoriesType;
-use App\Repository\CategoriesRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Exception;
@@ -34,13 +33,13 @@ class CategoriesController extends AbstractController
 
     /**
      * @Route("/", name="categories_index", methods={"GET"})
-     * @param CategoriesRepository $categoriesRepository
+     * @param Categories $categories
      * @return Response
      */
-    public function index(CategoriesRepository $categoriesRepository): Response
+    public function index(Categories $categories): Response
     {
-        return $this->render('categories/index.html.twig', [
-            'categories' => $categoriesRepository->findAll(),
+        return $this->render('category/categories/index.html.twig', [
+            'categories' => $categories,
         ]);
     }
 

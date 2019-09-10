@@ -31,32 +31,9 @@ class ProfileIbanController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="profile_iban_new", methods={"GET","POST"})
-     * @param Request $request
-     * @return Response
-     */
-    public function new(Request $request): Response
-    {
-        $vendor = new Vendors;
-        $form = $this->createForm(Vendors::class, $vendor);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($vendor);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('vendor_vendors_iban_index');
-        }
-
-        return $this->render('vendor/vendors_iban/new.html.twig', [
-            'vendors_iban' => $vendorsIban,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}", name="profile_iban_show", methods={"GET"})
+     * @param VendorsIban $vendorsIban
+     * @return Response
      */
     public function show(VendorsIban $vendorsIban): Response
     {
@@ -79,7 +56,7 @@ class ProfileIbanController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('vendor_vendors_iban_index');
+            return $this->redirectToRoute('vendor/vendor_vendors_iban_index');
         }
 
         return $this->render('vendor/vendors_iban/edit.html.twig', [
@@ -89,19 +66,19 @@ class ProfileIbanController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="profile_iban_delete", methods={"DELETE"})
+     * @Route("/{id}", name="profile_iban_cleare", methods={"DELETE"})
      * @param Request $request
      * @param VendorsIban $vendorsIban
      * @return Response
      */
-    public function delete(Request $request, VendorsIban $vendorsIban): Response
+    public function unset(Request $request, VendorsIban $vendorsIban): Response
     {
         if ($this->isCsrfTokenValid('delete'.$vendorsIban->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($vendorsIban);
+            // must be clare finance info from row db
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('vendor_vendors_iban_index');
+        return $this->redirectToRoute('vendor/vendor_vendors_iban_index');
     }
 }

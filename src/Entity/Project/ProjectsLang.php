@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="projects_lang")
  * @ORM\Entity(repositoryClass="ProjectsEnGbRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class ProjectsLang
 {

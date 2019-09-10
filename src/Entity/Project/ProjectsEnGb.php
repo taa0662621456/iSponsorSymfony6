@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Vendor\VendorsEnGb;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
@@ -16,7 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="projects_en_gb")
  * @ORM\Entity(repositoryClass="App\Repository\ProjectsEnGbRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class ProjectsEnGb
 {
@@ -128,7 +126,7 @@ class ProjectsEnGb
      * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", cascade={"persist", "remove"}, inversedBy="projectEnGb", orphanRemoval=true)
      * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private $project;
+    private $projectEnGb;
 
 
 
@@ -362,18 +360,17 @@ class ProjectsEnGb
     /**
      * @return mixed
      */
-    public function getProject()
+    public function getProjectEnGb()
     {
-        return $this->project;
+        return $this->projectEnGb;
     }
 
-
     /**
-     * @param mixed $project
+     * @param mixed $projectEnGb
      */
-    public function setProjects($project): void
+    public function setProjectsEnGb($projectEnGb): void
     {
-        $this->project = $project;
+        $this->projectEnGb = $projectEnGb;
     }
 
 

@@ -14,7 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="order_histories")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class OrderHistories
 {

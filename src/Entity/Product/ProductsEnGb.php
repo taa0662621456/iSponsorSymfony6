@@ -15,7 +15,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="products_en_gb")
  * @UniqueEntity("slug", message="This slug is already in use.")
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
- * @ApiResource()
  */
 class ProductsEnGb
 {

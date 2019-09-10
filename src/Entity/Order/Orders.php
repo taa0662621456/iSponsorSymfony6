@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Vendor\Vendors;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -21,7 +20,6 @@ use Symfony\Component\Validator\Constraints\Collection;
  *     @ORM\Index(name="payment_method_id", columns={"payment_method_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class Orders
 {
@@ -314,7 +312,7 @@ class Orders
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="order", cascade={"persist"})
      **/
     private $orderItems;
 

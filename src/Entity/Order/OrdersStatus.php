@@ -14,7 +14,6 @@ use Exception;
  * ORM\Index(name="ordering", columns={"ordering"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class OrdersStatus
 {

@@ -16,7 +16,6 @@ use Exception;
  *     @ORM\Index(name="order_status", columns={"order_status"})})
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class OrdersItems
 {
@@ -31,7 +30,7 @@ class OrdersItems
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Order\Orders", inversedBy="orderItems")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     private $order;
 

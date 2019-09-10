@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -19,7 +18,6 @@ use Doctrine\ORM\Mapping\OneToMany;
  * @ORM\Index(name="ordering", columns={"ordering"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class CategoriesCategory
 {

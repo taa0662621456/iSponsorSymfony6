@@ -33,13 +33,6 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", nullable=false)
-     */
-    private $username;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Length(min=3)
@@ -83,7 +76,7 @@ class VendorsSecurity implements UserInterface, Serializable
      *
      * @ORM\Column(name="send_email", type="boolean", nullable=true)
      */
-    private $sendEmail = '0';
+    private $sendEmail = null;
 
     /**
      * @var datetime
@@ -185,7 +178,6 @@ class VendorsSecurity implements UserInterface, Serializable
      */
     public function __construct()
     {
-        $this->username = $this->email;
         $this->roles = [self::ROLE_USER];
         $this->lastResetTime = new \DateTime();
         $this->lastVisitDate = new \DateTime();
@@ -563,7 +555,6 @@ class VendorsSecurity implements UserInterface, Serializable
     {
         return serialize([
             $this->id,
-            $this->username,
             $this->email,
             $this->password
         ]);
@@ -583,7 +574,6 @@ class VendorsSecurity implements UserInterface, Serializable
     {
         [
             $this->id,
-            $this->username,
             $this->email,
             $this->password
         ] = unserialize($serialized, ['allowed_class' => false]);
@@ -597,17 +587,6 @@ class VendorsSecurity implements UserInterface, Serializable
     public function getUsername():string
     {
         return $this->email;
-    }
-
-    /**
-     * @param int $username
-     * @param $email
-     * @return VendorsSecurity
-     */
-    public function setUsername(int $username, $email): self
-    {
-        $this->username = $email;
-        return $this;
     }
 }
 

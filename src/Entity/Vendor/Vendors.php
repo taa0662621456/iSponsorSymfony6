@@ -45,14 +45,6 @@ class Vendors
      */
     private $roles = [];
 
-
-    /**
-     * @var boolean|null
-     *
-     * @ORM\Column(name="send_email", type="boolean", nullable=true)
-     */
-    private $sendEmail = '0';
-
     /**
      * @var datetime
      *
@@ -126,14 +118,14 @@ class Vendors
     private $requireReset = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", mappedBy="security", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", mappedBy="vendors")
      * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity"))
      * @Assert\Valid()
      */
     private $security;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", mappedBy="vendor", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", mappedBy="vendor")
      * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb"))
      * @Assert\Valid()
      */
@@ -141,16 +133,22 @@ class Vendors
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", mappedBy="vendors")
+     * @Assert\Type(type="App\Entity\Vendor\Orders"))
+     * @Assert\Valid()
      */
     private $orders;
 
     /**
      * @ORM\OneToMany(targetEntity="VendorsDocAttachments", mappedBy="vendor")
+     * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments"))
+     * @Assert\Valid()
      */
     private $vendorsDocAttachments;
 
     /**
      * @ORM\OneToMany(targetEntity="VendorsMediaAttachments", mappedBy="vendor")
+     * @Assert\Type(type="App\Entity\Vendor\VendorsMediaAttachments"))
+     * @Assert\Valid()
      */
     private $vendorsMediaAttachments;
 
@@ -192,7 +190,7 @@ class Vendors
     private $salt ='0';
 
     /**
-     * @return int
+     * @return integer
      */
     public function getId(): int
     {
@@ -217,25 +215,6 @@ class Vendors
         return $this;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param string $email
-     * @return Vendors
-     */
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-        return $this;
-    }
-
     /**
      * @param bool $isActive
      * @return bool
@@ -252,24 +231,6 @@ class Vendors
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getSendEmail(): ?bool
-    {
-        return $this->sendEmail;
-    }
-
-    /**
-     * @param bool|null $sendEmail
-     * @return Vendors
-     */
-    public function setSendEmail(?bool $sendEmail): self
-    {
-        $this->sendEmail = $sendEmail;
         return $this;
     }
 
@@ -460,6 +421,22 @@ class Vendors
         return [
             'ROLE_USER'
         ];
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSecurity()
+    {
+        return $this->security;
+    }
+
+    /**
+     * @param mixed $security
+     */
+    public function setSecurity($security): void
+    {
+        $this->security = $security;
     }
 
     /**

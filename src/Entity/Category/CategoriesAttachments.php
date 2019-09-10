@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +13,6 @@ use Exception;
  * @ORM\Table(name="categories_attachments")
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class CategoriesAttachments
 {
@@ -23,7 +21,7 @@ class CategoriesAttachments
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 

@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="vendors_group_map")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource()
  */
 class VendorsGroupMap
 {

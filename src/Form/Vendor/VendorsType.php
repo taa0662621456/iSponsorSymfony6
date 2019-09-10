@@ -17,7 +17,9 @@ class VendorsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('id', HiddenType::class)
+            ->add('id', HiddenType::class, array(
+            	'require' => false
+			))
         ;
 
     }

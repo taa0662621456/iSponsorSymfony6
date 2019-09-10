@@ -5,8 +5,8 @@ import "tinymce/plugins/image";
 
 
 let form = document.querySelector('#tinymce_editor');
-console.dir(form); console.log(form.dataset.id);
-
+//console.dir(form); console.log(form.dataset.id);
+form.dataset.id = undefined;
 tinymce.init({
     selector: '#post_content',
     plugins: 'image',

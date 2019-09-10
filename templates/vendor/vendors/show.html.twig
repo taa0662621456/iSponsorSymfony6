@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}VendorsEnGb{% endblock %}
-
-{% block body %}
-    <h1>VendorsEnGb</h1>
-
+{% block header %}
+    <h1>Vendor details</h1>
+{% endblock %}
+{% block article_header %}all information about this Vendor{% endblock %}
+{% block article_content %}
     <table class="table">
         <tbody>
             <tr>
@@ -77,10 +78,7 @@
             </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('vendors_index') }}">back to list</a>
-
+{% block article_footer %}
     <a href="{{ path('vendors_edit', {'id': vendors_en_gb.id}) }}">edit</a>
-
     {{ include('vendors/_delete_form.html.twig') }}
 {% endblock %}

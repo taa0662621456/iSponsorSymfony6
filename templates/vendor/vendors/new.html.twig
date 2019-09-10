@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}New VendorsEnGb{% endblock %}
-
-{% block body %}
-    <h1>Create new VendorsEnGb</h1>
-
-    {{ include('vendor/vendors/_form.html.twig') }}
-
-    <a href="{{ path('vendors') }}">back to list</a>
+{% block title %}New Vendor{% endblock %}
+{% block header %}
+    <h1>Create new Vendor</h1>
+    <h2></h2>
 {% endblock %}
+{% block article_header %}<h1>create new</h1>{{ form(form) }}{% endblock %}
+{% block article_content %}{{ form(form) }}{% endblock %}
+{% block article_summery %}<p>This form for adding new Vendor</p>{% endblock %}
+{% block footer %}{% endblock %}
+

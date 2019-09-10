@@ -7,6 +7,7 @@ use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
+use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
 use App\Repository\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
@@ -55,8 +56,8 @@ class SecurityController extends AbstractController
     public function registration(UserPasswordEncoderInterface $passwordEncoder, Request $request, ConfirmationCodeGenerator $codeGenerator, EventDispatcherInterface $eventDispatcher): Response
     {
         $vendor = new Vendors();
-        $form = $this->createForm(VendorsRegistrationType::class, $vendor);
 
+        $form = $this->createForm(VendorsRegistrationType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -67,7 +68,6 @@ class SecurityController extends AbstractController
                 $vendor->getPlainPassword()
             );
 
-            $vendor->setEmail($vendor->getEmail());
             $vendor->setPassword($password);
             $vendor->setActivationCode($codeGenerator->getConfirmationCode());
 
@@ -75,9 +75,9 @@ class SecurityController extends AbstractController
             $em->persist($vendor);
             $em->flush();
 
+			$vendorRegisteredEvent = new RegisteredEvent($vendor);
+			$eventDispatcher->dispatch($vendorRegisteredEvent);
         }
-        $vendorRegisteredEvent = new RegisteredEvent($vendor);
-        $eventDispatcher->dispatch($vendorRegisteredEvent);
 
         return $this->render('security/registration.html.twig', [
             'form' => $form->createView()
@@ -114,17 +114,19 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/login", name="login")
-     * @IsGranted("ROLE_USER", statusCode=404, message="Route not for User")
      * @param AuthenticationUtils $authenticationUtils
-     * @param VendorsSecurity $vendorsSecurity
      * @param Request $request
+     * @param Security $security
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function login(AuthenticationUtils $authenticationUtils, VendorsSecurity $vendorsSecurity, Request $request): Response
+    public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils): Response
     {
+        if ($security->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('projects');
+        }
         // this statement solves an edge-case: if you change the locale in the login
         // page, after a successful login you are redirected to a page in the previous
         // locale. This code regenerates the referrer URL whenever the login page is
@@ -134,8 +136,19 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
 
+        $vendor = new Vendors();
+        $form = $this->createForm(VendorsLoginType::class, $vendor, array(
+            'action' => $this->generateUrl('login'),
+            'method' => 'POST',
+            'attr' => array(
+                'id' => 'login',
+                'name' => 'login'
+            )
+        ));
+
         return new Response($this->twig->render('security/login.html.twig', array(
             'last_username' => $lastUsername,
+            'form'=> $form->createView(),
             'error' =>  $error
         )));
     }

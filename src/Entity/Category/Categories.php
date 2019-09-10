@@ -77,11 +77,19 @@ class Categories
     private $lockedOn;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="locked_by", type="integer", nullable=false)
      */
     private $lockedBy = 0;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="order", type="integer", nullable=false, unique=true)
+     */
+    private $order = 0;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent")
@@ -95,7 +103,7 @@ class Categories
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"} mappedBy="category")
      */
     private $projects;
 
@@ -287,6 +295,24 @@ class Categories
     {
         $this->categoryEnGb = $categoryEnGb;
     }
+
+	/**
+	 * @return int
+	 */
+	public function getOrder(): int
+	{
+		return $this->order;
+	}
+
+	/**
+	 * @param int $order
+	 */
+	public function setOrder(int $order): void
+	{
+		$this->order = $order;
+	}
+
+
 
     /**
      * @param Categories $children
