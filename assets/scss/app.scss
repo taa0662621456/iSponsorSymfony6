@@ -1,11 +1,11 @@
 // Bootstrap init
-@import "global";
-
-// SignIn
-@import "../../templates/bootstrap-4.0.0/docs/4.0/examples/sign-in/signin.css";
+// настройте некоторые переменные Bootstrap
+$brand-primary: darken(#428bca, 20%);
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$fa-font-path: "~font-awesome/fonts";
 
 // the ~ allows you to reference things in node_modules
-@import '~bootstrap-sass/assets/stylesheets/bootstrap';
-@import "bootstrap-tagsinput.scss";
+@import '~bootstrap/scss/bootstrap';
+@import "bootstrap-tagsinput";
 @import "~tinymce/skins/ui/oxide/content.min.css";
 @import "~tinymce/skins/ui/oxide/skin.min.css";
