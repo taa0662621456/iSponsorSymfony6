@@ -8,8 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- * ProductPrice
- *
  * @ORM\Table(name="product_price")
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  */

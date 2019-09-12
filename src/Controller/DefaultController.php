@@ -34,10 +34,10 @@ class DefaultController extends AbstractController
             'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
             'latest_project' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
             'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-            'featured_projects' => $featuredRepository->findBy(['type' => 'J'], ['ordering' => 'ASC'], 12, null),
-            'featured_products' => $featuredRepository->findBy(['type' => 'D'], ['ordering' => 'ASC'], 12, null),
-            'featured_categories' => $featuredRepository->findBy(['type' => 'C'], ['ordering' => 'ASC'], 12, null),
-            'featured_vendors' => $featuredRepository->findBy(['type' => 'V'], ['ordering' => 'ASC'], 12, null)
+            'featured_projects' => $featuredRepository->findBy(['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null),
+            'featured_products' => $featuredRepository->findBy(['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null),
+            'featured_categories' => $featuredRepository->findBy(['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null),
+            'featured_vendors' => $featuredRepository->findBy(['featuredType' => 'V'], ['ordering' => 'ASC'], 12, null)
 		));
     }
 }
