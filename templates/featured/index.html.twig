@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Featured index{% endblock %}
+
+{% block body %}
+    <h1>Featured index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ordering</th>
+                <th>FeaturedType</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for featured in featureds %}
+            <tr>
+                <td>{{ featured.id }}</td>
+                <td>{{ featured.ordering }}</td>
+                <td>{{ featured.featuredType }}</td>
+                <td>
+                    <a href="{{ path('featured_show', {'id': featured.id}) }}">show</a>
+                    <a href="{{ path('featured_edit', {'id': featured.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('featured_new') }}">Create new</a>
+{% endblock %}

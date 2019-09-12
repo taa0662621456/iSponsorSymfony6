@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Featured{% endblock %}
+
+{% block body %}
+    <h1>Create new Featured</h1>
+
+    {{ include('featured/_form.html.twig') }}
+
+    <a href="{{ path('featured_index') }}">back to list</a>
+{% endblock %}

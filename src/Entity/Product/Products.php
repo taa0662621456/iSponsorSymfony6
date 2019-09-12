@@ -5,7 +5,7 @@ namespace App\Entity\Product;
 
 use App\Entity\Order\OrdersItems;
 use App\Entity\Vendor\Vendors;
-use DateTime;
+use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -252,9 +252,9 @@ class Products
 	private $productTags;
 
 	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice", mappedBy="productPrice", orphanRemoval=true, fetch="EAGER")
 	 * @Assert\Type(type="App\Entity\Product\ProductsPrice")
 	 * @Assert\Valid()
-	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice", mappedBy="productPrice", orphanRemoval=true, fetch="EAGER")
 	 */
 	private $productPrice;
 
@@ -274,7 +274,7 @@ class Products
 	private $productAttachments;
 
 	/**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -288,7 +288,7 @@ class Products
     private $createdBy = 0;
 
 	/**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -302,7 +302,7 @@ class Products
     private $modifiedBy = 0;
 
 	/**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false)
      */
@@ -330,10 +330,10 @@ class Products
      */
     public function __construct()
     {
-        $this->createdOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->lockedOn = new \DateTime();
-        $this->productAvailableDate = new \DateTime();
+        $this->createdOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->lockedOn = new DateTime();
+        $this->productAvailableDate = new DateTime();
         $this->productAttachments = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
         $this->productTags = new ArrayCollection();
@@ -576,9 +576,9 @@ class Products
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getProductAvailableDate(): \DateTime
+    public function getProductAvailableDate(): DateTime
     {
         return $this->productAvailableDate;
     }
@@ -930,9 +930,9 @@ class Products
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -969,7 +969,7 @@ class Products
     /**
      * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -981,7 +981,7 @@ class Products
      */
     public function setLockedOn(): void
     {
-        $this->lockedOn = new \DateTime();
+        $this->lockedOn = new DateTime();
     }
 
     /**

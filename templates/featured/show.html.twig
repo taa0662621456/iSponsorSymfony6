@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Featured{% endblock %}
+
+{% block body %}
+    <h1>Featured</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ featured.id }}</td>
+            </tr>
+            <tr>
+                <th>Ordering</th>
+                <td>{{ featured.ordering }}</td>
+            </tr>
+            <tr>
+                <th>FeaturedType</th>
+                <td>{{ featured.featuredType }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('featured_index') }}">back to list</a>
+
+    <a href="{{ path('featured_edit', {'id': featured.id}) }}">edit</a>
+
+    {{ include('featured/_delete_form.html.twig') }}
+{% endblock %}

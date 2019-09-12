@@ -22,10 +22,9 @@ class Categories
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
@@ -84,10 +83,10 @@ class Categories
     /**
      * @var int
      *
-     * @ORM\Column(name="order", type="integer", nullable=false, unique=true)
+     * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true)
 	 * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $order = 0;
+    private $ordering = 0;
 
 
     /**
@@ -102,9 +101,9 @@ class Categories
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="cat")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="projectCategory")
      */
-    private $categoryProjects;
+    private $projectCategory;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb", cascade={"persist", "remove"}, mappedBy="categoriesEnGb")
@@ -138,7 +137,7 @@ class Categories
         $this->modifiedOn = new \DateTime();
         $this->lockedOn = new \DateTime();
         $this->children = new ArrayCollection();
-        $this->categoryProjects = new ArrayCollection();
+        $this->projectCategory = new ArrayCollection();
         $this->categoryAttachments = new ArrayCollection();
     }
 
@@ -274,9 +273,9 @@ class Categories
     /**
      * @return Collection|Projects[]
      */
-    public function getCategoryProjects(): Collection
+    public function getProjectCategory(): Collection
     {
-        return $this->categoryProjects;
+        return $this->projectCategory;
     }
 
     /**
@@ -298,17 +297,17 @@ class Categories
 	/**
 	 * @return int
 	 */
-	public function getOrder(): int
+	public function getOrdering(): int
 	{
-		return $this->order;
+		return $this->ordering;
 	}
 
 	/**
-	 * @param int $order
+	 * @param int $ordering
 	 */
-	public function setOrder(int $order): void
+	public function setOrdering(int $ordering): void
 	{
-		$this->order = $order;
+		$this->ordering = $ordering;
 	}
 
 

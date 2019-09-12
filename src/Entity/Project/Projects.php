@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use DateTime;
+use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,17 +17,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Projects
 {
-    public const NUM_ITEMS = 10;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @ORM\Column(name="id", type="integer", nullable=false)
+	 */
+	private $id;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     */
-    private $id;
+	public const NUM_ITEMS = 10;
 
     /**
      * @var int
@@ -37,13 +36,7 @@ class Projects
     private $ordering = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="ca")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $category;
-
-    /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -57,7 +50,7 @@ class Projects
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -71,7 +64,7 @@ class Projects
     private $modifiedBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -83,6 +76,11 @@ class Projects
      * @ORM\Column(name="locked_by", type="integer", nullable=false)
      */
     private $lockedBy = 0;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="projectCategory")
+	 */
+	private $projectCategory;
 
     /**
      * @ORM\OneToOne(targetEntity="ProjectsEnGb", mappedBy="projectEnGb", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
@@ -121,7 +119,6 @@ class Projects
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="projectFeatured", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $projectFeatured;
 
@@ -143,9 +140,9 @@ class Projects
      */
     public function __construct()
     {
-        $this->createdOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->lockedOn = new \DateTime();
+        $this->createdOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->lockedOn = new DateTime();
         $this->projectAttachments = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
@@ -161,17 +158,17 @@ class Projects
     /**
      * @return mixed
      */
-    public function getCategory()
+    public function getProjectCategory()
     {
-        return $this->category;
+        return $this->projectCategory;
     }
 
     /**
-     * @param mixed $category
+     * @param mixed $projectCategory
      */
-    public function setCategory($category): void
+    public function setCategory($projectCategory): void
     {
-        $this->category = $category;
+        $this->projectCategory = $projectCategory;
     }
 
     /**
@@ -267,10 +264,10 @@ class Projects
 
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
 
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -282,13 +279,13 @@ class Projects
      */
     public function setCreatedOn(): void
     {
-        $this->createdOn = new \DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
      * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -296,7 +293,7 @@ class Projects
     /**
      * @param DateTime $lockedOn
      */
-    public function setLockedOn(\DateTime $lockedOn): void
+    public function setLockedOn(DateTime $lockedOn): void
     {
         $this->lockedOn = $lockedOn;
     }

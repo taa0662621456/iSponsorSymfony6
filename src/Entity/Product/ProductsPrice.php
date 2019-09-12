@@ -10,24 +10,17 @@ use Exception;
 /**
  * ProductPrice
  *
- * @ORM\Table(name="product_price", indexes={
- * @ORM\Index(name="product_price_publish_down", columns={"product_price_publish_down"}),
- * @ORM\Index(name="shopper_group_id", columns={"shopper_group_id"}),
- * @ORM\Index(name="price_quantity_start", columns={"price_quantity_start"}),
- * @ORM\Index(name="product_id", columns={"product_id"}),
- * @ORM\Index(name="product_price_publish_up", columns={"product_price_publish_up"}),
- * @ORM\Index(name="price_quantity_end", columns={"price_quantity_end"})})
- * ORM\Index(name="product_price", columns={"product_price"})})
- * @ORM\Entity(repositoryClass="App\Repository\ProductsPriceRepository")
+ * @ORM\Table(name="product_price")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  */
 class ProductsPrice
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
@@ -46,9 +39,8 @@ class ProductsPrice
     private $shopperGroupId = 0;
 
     /**
-     * @var 
-     *
-     * @ORM\Column(name="product_price", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productPrice")
+	 * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $productPrice = 0;
 
@@ -88,14 +80,14 @@ class ProductsPrice
     private $productCurrency = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="product_price_publish_up", type="datetime", nullable=false)
      */
     private $productPricePublishUp;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="product_price_publish_down", type="datetime", nullable=false)
      */
@@ -116,7 +108,7 @@ class ProductsPrice
     private $priceQuantityEnd = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
@@ -130,7 +122,7 @@ class ProductsPrice
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false)
      */
@@ -144,7 +136,7 @@ class ProductsPrice
     private $modifiedBy = '0';
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false)
      */
@@ -156,17 +148,6 @@ class ProductsPrice
      * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default":0})
      */
     private $lockedBy = 0;
-
-
-    /**
-     * @ORM\OneToOne(targetEntity="Products", inversedBy="productPrice")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $products;
-
-
-
-
 
 
 
@@ -186,9 +167,9 @@ class ProductsPrice
      */
     public function __construct()
     {
-        $this->lockedOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->createdOn = new \DateTime();
+        $this->lockedOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -197,22 +178,6 @@ class ProductsPrice
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getProductId(): int
-    {
-        return $this->productId;
-    }
-
-    /**
-     * @param int $productId
-     */
-    public function setProductId(int $productId): void
-    {
-        $this->productId = $productId;
     }
 
     /**
@@ -231,21 +196,23 @@ class ProductsPrice
         $this->shopperGroupId = $shopperGroupId;
     }
 
-    /**
-     * @return int |null
-     */
-    public function getProductPrice(): int
-    {
-        return $this->productPrice;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getProductPrice()
+	{
+		return $this->productPrice;
+	}
 
-    /**
-     * @param $productPrice
-     */
-    public function setProductPrice( $productPrice): void
-    {
-        $this->productPrice = $productPrice;
-    }
+	/**
+	 * @param mixed $productPrice
+	 */
+	public function setProductPrice($productPrice): void
+	{
+		$this->productPrice = $productPrice;
+	}
+
+
 
     /**
      * @return bool|null
@@ -328,33 +295,33 @@ class ProductsPrice
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getProductPricePublishUp(): \DateTime
+    public function getProductPricePublishUp(): DateTime
     {
         return $this->productPricePublishUp;
     }
 
     /**
-     * @param \DateTime $productPricePublishUp
+     * @param DateTime $productPricePublishUp
      */
-    public function setProductPricePublishUp(\DateTime $productPricePublishUp): void
+    public function setProductPricePublishUp(DateTime $productPricePublishUp): void
     {
         $this->productPricePublishUp = $productPricePublishUp;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getProductPricePublishDown(): \DateTime
+    public function getProductPricePublishDown(): DateTime
     {
         return $this->productPricePublishDown;
     }
 
     /**
-     * @param \DateTime $productPricePublishDown
+     * @param DateTime $productPricePublishDown
      */
-    public function setProductPricePublishDown(\DateTime $productPricePublishDown): void
+    public function setProductPricePublishDown(DateTime $productPricePublishDown): void
     {
         $this->productPricePublishDown = $productPricePublishDown;
     }
@@ -392,9 +359,9 @@ class ProductsPrice
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -405,7 +372,7 @@ class ProductsPrice
      */
     public function setCreatedOn(): void
     {
-        $this->createdOn = new \DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -425,9 +392,9 @@ class ProductsPrice
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -439,7 +406,7 @@ class ProductsPrice
      */
     public function setModifiedOn(): void
     {
-        $this->modifiedOn = new \DateTime();
+        $this->modifiedOn = new DateTime();
     }
 
     /**
@@ -459,9 +426,9 @@ class ProductsPrice
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -474,7 +441,7 @@ class ProductsPrice
      */
     public function setLockedOn(): void
     {
-        $this->lockedOn = new \DateTime();
+        $this->lockedOn = new DateTime();
     }
 
     /**

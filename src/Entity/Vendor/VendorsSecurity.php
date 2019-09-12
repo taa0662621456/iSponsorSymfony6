@@ -24,9 +24,9 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
      */
     private $id;
 
