@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 

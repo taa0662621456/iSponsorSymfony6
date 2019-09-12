@@ -21,11 +21,12 @@ class Featured
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
     /**
      * @var int
      *
@@ -41,38 +42,38 @@ class Featured
     private $type;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", inversedBy="featured", fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectFeatured")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
      */
-    private $project;
+    private $projectFeatured;
     
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="featured", fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productFeatured")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
      */
-    private $product;
+    private $productFeatured;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="featured", fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryFeatured")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
      */
-    private $category;
+    private $categoryFeatured;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="featured", fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorFeatured")
+     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
      */
-    private $vendor;
+    private $vendorFeatured;
+
     
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
+
     /**
      * Set order
      *
@@ -110,87 +111,76 @@ class Featured
         $this->type = $type;
     }
 
-    /**
-     * Set project
-     *
-     * @param Projects $project
-     * @return Featured
-     */
-    public function setProject(Projects $project = null)
+	/**
+	 * @param Projects|null $projectFeatured
+	 *
+	 * @return Featured
+	 */
+    public function setProjectFeatured(Projects $projectFeatured = null)
     {
-        $this->project = $project;
+        $this->projectFeatured = $projectFeatured;
         return $this;
     }
+
     /**
-     * Get project
-     *
      * @return Projects
      */
-    public function getProject()
+    public function getProjectFeatured()
     {
-        return $this->project;
-    }   
-    
-    /**
-     * Set product
-     *
-     * @param Products $product
-     * @return Featured
-     */
-    public function setProduct(Products $product = null)
+        return $this->projectFeatured;
+    }
+
+	/**
+	 * @param Products|null $productFeatured
+	 *
+	 * @return Featured
+	 */
+    public function setProductFeatured(Products $productFeatured = null)
     {
-        $this->product = $product;
+        $this->productFeatured = $productFeatured;
         return $this;
     }
     /**
-     * Get product
-     *
      * @return Products
      */
-    public function getProduct()
+    public function getProductFeatured()
     {
-        return $this->product;
+        return $this->productFeatured;
     }
 
     /**
-     * Set category
-     *
-     * @param Categories $category
+     * @param Categories $categoryFeatured
      * @return Featured
      */
-    public function setCategory(Categories $category = null)
+    public function setCategoryFeatured(Categories $categoryFeatured = null)
     {
-        $this->category = $category;
+        $this->categoryFeatured = $categoryFeatured;
         return $this;
     }
+
     /**
-     * Get category
-     *
      * @return Categories
      */
-    public function getCategory()
+    public function getCategoryFeatured()
     {
-        return $this->category;
+        return $this->categoryFeatured;
     }
 
-    /**
-     * Set vendor
-     *
-     * @param Vendors $vendor
-     * @return Featured
-     */
-    public function setVendor(Vendors $vendor = null)
+	/**
+	 * @param Vendors|null $vendorFeatured
+	 *
+	 * @return Featured
+	 */
+    public function setVendorFeatured(Vendors $vendorFeatured = null)
     {
-        $this->vendor = $vendor;
+        $this->vendorFeatured = $vendorFeatured;
         return $this;
     }
     /**
-     * Get vendor
-     *
      * @return Vendors
      */
-    public function getVendor()
+    public function getVendorFeatured()
     {
-        return $this->vendor;
+        return $this->vendorFeatured;
     }
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use App\Entity\Project\Projects;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,14 +26,13 @@ class ProductsAttachments
     private $id;
 
     /**
-     * //пока только картинки, а вообще поле для разных типов (сохраняет имена файлов)
      * @var string
      *
-     * @ORM\Column(name="file", type="string", nullable=false, options={"default"="noimage"})
-     * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
+     * @ORM\Column(name="file", type="string", nullable=false, options={"default"="no image"})
+     * @Assert\NotBlank(message="Please, upload the product's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */
-    protected $file = 'noimage';
+	private $file = 'no image';
 
     /**
      * @var string
@@ -130,9 +128,9 @@ class ProductsAttachments
     /**
      * @var boolean|false
      *
-     * @ORM\Column(name="is_shared", type="boolean", nullable=false)
+     * @ORM\Column(name="file_shared", type="boolean", nullable=false)
      */
-    private $isShared = false;
+    private $fileShared = false;
 
     /**
      * @var boolean|true
@@ -184,9 +182,9 @@ class ProductsAttachments
     private $lockedBy = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Product\Products", inversedBy="attachments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product\Products", inversedBy="productAttachments")
      */
-    private $product;
+    private $productAttachments;
 
 
 
@@ -197,7 +195,6 @@ class ProductsAttachments
 
 
     /**
-     * ProductsAttachments constructor.
      * @throws Exception
      */
     public function __construct()
@@ -378,18 +375,18 @@ class ProductsAttachments
     /**
      * @return mixed
      */
-    public function getProject(): ?Projects
+    public function getProductAttachments(): ?Products
     {
-        return $this->project;
+        return $this->productAttachments;
     }
 
     /**
-     * @param mixed $project
+     * @param mixed $product
      * @return ProductsAttachments
      */
-    public function setProject($project): self
+    public function setProductAttachments($product): self
     {
-        $this->project = $project;
+        $this->productAttachments = $product;
         return $this;
     }
 
@@ -486,18 +483,18 @@ class ProductsAttachments
     /**
      * @return bool
      */
-    public function isShared(): bool
+    public function isFileShared(): bool
     {
-        return $this->isShared;
+        return $this->fileShared;
     }
 
     /**
-     * @param bool $isShared
+     * @param bool $fileShared
      * @return ProductsAttachments
      */
-    public function setIsShared(bool $isShared): self
+    public function setFileShared(bool $fileShared): self
     {
-        $this->isShared = $isShared;
+        $this->fileShared = $fileShared;
         return $this;
     }
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\Vendors;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
@@ -12,7 +11,7 @@ use Exception;
  * VendorsFavourites
  *
  * @ORM\Table(name="vendors_favourites")
- * @ORM\Entity(repositoryClass="VendorsFavouritesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  */
 class VendorsFavourites
 {
@@ -26,10 +25,10 @@ class VendorsFavourites
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Vendors", inversedBy="favourites")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorFavourites")
      * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      **/
-    private $vendor;
+    private $vendorFavourites;
 
     /**
      * @var \DateTime
@@ -100,12 +99,12 @@ class VendorsFavourites
     }
 
     /**
-     * @param Vendors $vendor
+     * @param Vendors $vendorFavourite
      * @return VendorsFavourites
      */
-    public function setVendor(Vendors $vendor = null): VendorsFavourites
+    public function setVendorFavourites(Vendors $vendorFavourite = null): VendorsFavourites
     {
-        $this->vendor = $vendor;
+        $this->vendorFavourites = $vendorFavourite;
 
         return $this;
     }
@@ -113,9 +112,9 @@ class VendorsFavourites
     /**
      * @return Vendors
      */
-    public function getVendor(): Vendors
+    public function getVendorFavourites(): Vendors
     {
-        return $this->vendor;
+        return $this->vendorFavourites;
     }
 
 
@@ -131,7 +130,7 @@ class VendorsFavourites
      * @param string $createdBy
      * @return void
      */
-    public function setCreatedBy(string $createdBy): void
+    public function setCreatedBy(?string $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
@@ -186,6 +185,5 @@ class VendorsFavourites
     {
         $this->lockedBy = $lockedBy;
     }
-
 
 }

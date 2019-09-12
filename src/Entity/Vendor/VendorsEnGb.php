@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use phpDocumentor\Reflection\Types\Integer;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -63,7 +61,7 @@ class VendorsEnGb
     private $middleName = 'middle_name';
 
     /**
-     * @var TelType|null
+     * @var string
      *
      * @ORM\Column(name="phone", type="string", nullable=false, unique=true, options={"default"="0000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
@@ -73,7 +71,7 @@ class VendorsEnGb
     private $phone = '0000000000000';
 
     /**
-     * @var TelType|null
+     * @var string
      *
      * @ORM\Column(name="phone_second", type="string", nullable=true, unique=true, options={"default"="0000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
@@ -83,7 +81,7 @@ class VendorsEnGb
     private $phoneSecond = '0000000000000';
 
     /**
-     * @var TelType|null
+     * @var string
      *
      * @ORM\Column(name="fax", type="string", nullable=true, options={"default"="000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
@@ -184,8 +182,7 @@ class VendorsEnGb
     private $metaAuthor = 'meta_author';
 
     /**
-     *
-     * @var datetime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
@@ -199,7 +196,7 @@ class VendorsEnGb
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false)
      */
@@ -213,7 +210,7 @@ class VendorsEnGb
     private $modifiedBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false)
      */
@@ -227,11 +224,10 @@ class VendorsEnGb
     private $lockedBy = 0;
 
     /**
-     *
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorEnGb", orphanRemoval=true)
      * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    protected $vendor;
+    protected $vendorEnGb;
 
 
 
@@ -255,9 +251,9 @@ class VendorsEnGb
      */
     public function __construct()
     {
-        $this->lockedOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->createdOn = new \DateTime();
+        $this->lockedOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -317,7 +313,7 @@ class VendorsEnGb
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getPhone(): string
     {
@@ -541,9 +537,9 @@ class VendorsEnGb
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -554,7 +550,7 @@ class VendorsEnGb
      */
     public function setCreatedOn(): void
     {
-        $this->createdOn = new \DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -574,9 +570,9 @@ class VendorsEnGb
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -588,7 +584,7 @@ class VendorsEnGb
      */
     public function setModifiedOn(): void
     {
-        $this->modifiedOn = new \DateTime();
+        $this->modifiedOn = new DateTime();
     }
 
     /**
@@ -608,9 +604,9 @@ class VendorsEnGb
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -623,7 +619,7 @@ class VendorsEnGb
      */
     public function setLockedOn(): void
     {
-        $this->lockedOn = new \DateTime();
+        $this->lockedOn = new DateTime();
     }
 
     /**
@@ -642,13 +638,21 @@ class VendorsEnGb
         $this->lockedBy = $lockedBy;
     }
 
-    /**
-     * @param Vendors $vendor
-     */
-    public function setVendor(Vendors $vendor): void
-    {
-        $this->vendor = $vendor;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getVendorEnGb()
+	{
+		return $this->vendorEnGb;
+	}
+
+	/**
+	 * @param mixed $vendorEnGb
+	 */
+	public function setVendorEnGb(Vendors $vendorEnGb): void
+	{
+		$this->vendorEnGb = $vendorEnGb;
+	}
 
 
 

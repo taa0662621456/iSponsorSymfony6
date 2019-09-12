@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="vendors_iban", uniqueConstraints={
  * @ORM\UniqueConstraint(name="userid", columns={"userid"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  */
 class VendorsIban
 {
@@ -26,15 +26,15 @@ class VendorsIban
     /**
      * @var string
      *
-     * @ORM\Column(name="vendor_iban", type="string", nullable=false, options={"default"="0"})
+     * @ORM\Column(name="iban", type="string", nullable=false, options={"default"="0"})
      */
-    private $vendorIban = '0';
+    private $iban = '0';
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="iban", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorIban", orphanRemoval=true)
      * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    protected $iban;
+	private $vendorIban;
 
     /**
      * @return int
@@ -47,17 +47,32 @@ class VendorsIban
     /**
      * @return string
      */
-    public function getVendorIban(): string
+    public function getIban(): string
     {
-        return $this->vendorIban;
+        return $this->iban;
     }
 
     /**
-     * @param string $vendorIban
+     * @param string $iban
      */
-    public function setVendorIban(string $vendorIban): void
+    public function setIban(string $iban): void
     {
-        $this->iban = $vendorIban;
+        $this->iban = $iban;
     }
 
+	/**
+	 * @return mixed
+	 */
+	public function getVendorIban()
+	{
+		return $this->vendorIban;
+	}
+
+	/**
+	 * @param mixed $vendorIban
+	 */
+	public function setVendorIban($vendorIban): void
+	{
+		$this->vendorIban = $vendorIban;
+	}
 }

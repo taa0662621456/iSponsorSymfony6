@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
+use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,7 +31,7 @@ class CategoriesAttachments
      * @var string
      *
      * @ORM\Column(name="file", type="string", nullable=false, options={"default"="noimage"})
-     * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
+     * @Assert\NotBlank(message="Please, upload the category's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */
     protected $file = 'noimage';
@@ -377,18 +378,18 @@ class CategoriesAttachments
     /**
      * @return mixed
      */
-    public function getProject(): ?Projects
+    public function getCategory(): ?Category
     {
-        return $this->project;
+        return $this->category;
     }
 
     /**
-     * @param mixed $project
+     * @param mixed $category
      * @return CategoriesAttachments
      */
-    public function setProject($project): self
+    public function setCategory($category): self
     {
-        $this->project = $project;
+        $this->category = $category;
         return $this;
     }
 

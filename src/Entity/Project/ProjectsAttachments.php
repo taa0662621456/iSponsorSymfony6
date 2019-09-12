@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,7 +32,7 @@ class ProjectsAttachments
      * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */
-    protected $file = 'noimage';
+	private $file = 'noimage';
 
     /**
      * @var string
@@ -129,9 +128,9 @@ class ProjectsAttachments
     /**
      * @var boolean|false
      *
-     * @ORM\Column(name="is_shared", type="boolean", nullable=false)
+     * @ORM\Column(name="file_shared", type="boolean", nullable=false)
      */
-    private $isShared = false;
+    private $fileShared = false;
 
     /**
      * @var boolean|true
@@ -183,20 +182,13 @@ class ProjectsAttachments
     private $lockedBy = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="attachments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectAttachments")
      */
-    private $project;
-
-
-
-
-
-
+    private $projectAttachments;
 
 
 
     /**
-     * ProjectsAttachments constructor.
      * @throws Exception
      */
     public function __construct()
@@ -377,18 +369,19 @@ class ProjectsAttachments
     /**
      * @return mixed
      */
-    public function getProject(): ?Projects
+    public function getProjectAttachments(): ?Projects
     {
-        return $this->project;
+        return $this->projectAttachments;
     }
 
-    /**
-     * @param mixed $project
-     * @return ProjectsAttachments
-     */
-    public function setProject($project): self
+	/**
+	 * @param $projectAttachments
+	 *
+	 * @return ProjectsAttachments
+	 */
+    public function setProjectAttachments($projectAttachments): self
     {
-        $this->project = $project;
+        $this->projectAttachments = $projectAttachments;
         return $this;
     }
 
@@ -485,18 +478,18 @@ class ProjectsAttachments
     /**
      * @return bool
      */
-    public function isShared(): bool
+    public function isFileShared(): bool
     {
-        return $this->isShared;
+        return $this->fileShared;
     }
 
     /**
-     * @param bool $isShared
+     * @param bool $fileShared
      * @return ProjectsAttachments
      */
-    public function setIsShared(bool $isShared): self
+    public function setFileShared(bool $fileShared): self
     {
-        $this->isShared = $isShared;
+        $this->fileShared = $fileShared;
         return $this;
     }
 
@@ -519,7 +512,7 @@ class ProjectsAttachments
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreatedOn(): \DateTime
     {
@@ -552,7 +545,7 @@ class ProjectsAttachments
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getModifiedOn(): \DateTime
     {
@@ -586,7 +579,7 @@ class ProjectsAttachments
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getLockedOn(): \DateTime
     {
@@ -619,4 +612,5 @@ class ProjectsAttachments
     {
         $this->lockedBy = $lockedBy;
     }
+
 }

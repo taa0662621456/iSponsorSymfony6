@@ -7,17 +7,14 @@ use App\Entity\Vendor\Vendors;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
  * Orders
  *
- * @ORM\Table(name="orders", indexes={
- *     @ORM\Index(name="shipment_method_id", columns={"shipment_method_id"}),
- *     @ORM\Index(name="order_number", columns={"order_number"}),
- *     @ORM\Index(name="created_on", columns={"created_on"}),
- *     @ORM\Index(name="payment_method_id", columns={"payment_method_id"})})
+ * @ORM\Table(name="orders")
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -44,9 +41,9 @@ class Orders
     /**
      * @var string|null
      *
-     * @ORM\Column(name="customer_number", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_customer_number", type="string", nullable=true, options={"default":0})
      */
-    private $customerNumber = '0';
+    private $orderCustomerNumber = '0';
 
     /**
      * @var string|null
@@ -149,16 +146,16 @@ class Orders
     /**
      * @var string
      *
-     * @ORM\Column(name="coupon_discount", type="decimal", nullable=false, options={"default"="0.00"})
+     * @ORM\Column(name="order_coupon_discount", type="decimal", nullable=false, options={"default"="0.00"})
      */
-    private $couponDiscount = '0.00';
+    private $orderCouponDiscount = '0.00';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="coupon_code", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_coupon_code", type="string", nullable=true, options={"default":0})
      */
-    private $couponCode = '0';
+    private $orderCouponCode = '0';
 
     /**
      * @var string
@@ -182,60 +179,53 @@ class Orders
     private $orderStatus = '0';
 
     /**
-     * @var int|null
+     * @var string
      *
-     * @ORM\Column(name="currency_id", type="smallint", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
      */
-    private $currencyId = 0;
+    private $orderCurrencyRate = '1.000000';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
+     * @ORM\Column(name="order_shopper_groups", type="string", nullable=true, options={"default"="0"})
      */
-    private $currencyRate = '1.000000';
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="shopper_groups", type="string", nullable=true, options={"default"="0"})
-     */
-    private $shopperGroups = '0';
+    private $orderShopperGroups = '0';
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="payment_currency_id", type="smallint", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_payment_currency_id", type="smallint", nullable=true, options={"default":0})
      */
-    private $paymentCurrencyId = '0';
+    private $orderPaymentCurrencyId = '0';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="payment_currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
+     * @ORM\Column(name="order_payment_currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
      */
-    private $paymentCurrencyRate = '1.000000';
+    private $orderPaymentCurrencyRate = '1.000000';
 
     /**
      * @var integer|null
      *
-     * @ORM\Column(name="payment_method_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_payment_method_id", type="integer", nullable=true, options={"default":0})
      */
-    private $PaymentMethodId = 0;
+    private $orderPaymentMethodId = 0;
 
     /**
      * @var integer|null
      *
-     * @ORM\Column(name="shipment_method_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_shipment_method_id", type="integer", nullable=true, options={"default":0})
      */
-    private $shipmentMethodId = '0';
+    private $orderShipmentMethodId = '0';
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="delivery_date", type="datetime", nullable=true)
+     * @ORM\Column(name="order_delivery_date", type="datetime", nullable=true)
      */
-    private $deliveryDate;
+    private $orderDeliveryDate;
 
     /**
      * @var string|null
@@ -247,46 +237,53 @@ class Orders
     /**
      * @var string
      *
-     * @ORM\Column(name="ip_address", type="string", nullable=false, options={"default"="''"})
+     * @ORM\Column(name="order_ip_address", type="string", nullable=false, options={"default"="''"})
      */
-    private $ipAddress = '';
+    private $orderIpAddress = '';
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="STSameAsBT", type="boolean", nullable=false)
+     * @ORM\Column(name="orderSTSameAsBT", type="boolean", nullable=false)
      */
-    private $STSameAsBT = false;
+    private $orderSTSameAsBT = false;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="o_hash", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_hash", type="string", nullable=true, options={"default":0})
      */
-    private $oHash = '0';
+    private $orderHash = '0';
 
-    /**
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="orderItems")
+	 * @Assert\Type(type="App\Entity\Order\Orders"))
+	 * @Assert\Valid()
+	 **/
+	private $orderItems;
+
+	/**
      * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
     private $createdOn;
 
-    /**
+	/**
      * @ORM\Column(name="created_by", type="integer", nullable=false)
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendors", inversedBy="orders")
      * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
 
-    /**
+	/**
      * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false)
      */
     private $modifiedOn;
 
-    /**
+	/**
      * @var int
      *
      * @ORM\Column(name="modified_by", type="integer", nullable=false)
@@ -295,26 +292,20 @@ class Orders
      */
     private $modifiedBy = 0;
 
-    /**
+	/**
      * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false)
      */
     private $lockedOn;
 
-    /**
+	/**
      * @var int
      * @ORM\Column(name="locked_by", type="integer", nullable=false)
      * ORM\ManyToOne(targetEntity="App\Entity\Vendors")
      * ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     private $lockedBy = 0;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="order", cascade={"persist"})
-     **/
-    private $orderItems;
 
 
 
@@ -350,7 +341,7 @@ class Orders
      */
     public function __construct()
     {
-        $this->deliveryDate = new \DateTime();
+        $this->orderDeliveryDate = new \DateTime();
         $this->createdOn = new \DateTime();
         $this->modifiedOn = new \DateTime();
         $this->lockedOn = new \DateTime();
@@ -361,7 +352,7 @@ class Orders
     /**
      * @return int
      */
-    public function getId(): int
+    public function getOrderId(): int
     {
         return $this->id;
     }
@@ -385,17 +376,17 @@ class Orders
     /**
      * @return string|null
      */
-    public function getCustomerNumber(): ?string
+    public function getOrderCustomerNumber(): ?string
     {
-        return $this->customerNumber;
+        return $this->orderCustomerNumber;
     }
 
     /**
-     * @param string|null $customerNumber
+     * @param string|null $orderCustomerNumber
      */
-    public function setCustomerNumber(?string $customerNumber): void
+    public function setOrderCustomerNumber(?string $orderCustomerNumber): void
     {
-        $this->customerNumber = $customerNumber;
+        $this->orderCustomerNumber = $orderCustomerNumber;
     }
 
     /**
@@ -625,33 +616,33 @@ class Orders
     /**
      * @return string
      */
-    public function getCouponDiscount(): string
+    public function getOrderCouponDiscount(): string
     {
-        return $this->couponDiscount;
+        return $this->orderCouponDiscount;
     }
 
-    /**
-     * @param string $couponDiscount
-     */
-    public function setCouponDiscount(string $couponDiscount): void
+	/**
+	 * @param string $orderCouponDiscount
+	 */
+    public function setOrderCouponDiscount(string $orderCouponDiscount): void
     {
-        $this->couponDiscount = $couponDiscount;
+        $this->orderCouponDiscount = $orderCouponDiscount;
     }
 
     /**
      * @return string|null
      */
-    public function getCouponCode(): ?string
+    public function getOrderCouponCode(): ?string
     {
-        return $this->couponCode;
+        return $this->orderCouponCode;
     }
 
-    /**
-     * @param string|null $couponCode
-     */
-    public function setCouponCode(?string $couponCode): void
+	/**
+	 * @param string|null $orderCouponCode
+	 */
+    public function setOrderCouponCode(?string $orderCouponCode): void
     {
-        $this->couponCode = $couponCode;
+        $this->orderCouponCode = $orderCouponCode;
     }
 
     /**
@@ -702,132 +693,116 @@ class Orders
         $this->orderStatus = $orderStatus;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getCurrencyId(): ?int
-    {
-        return $this->currencyId;
-    }
-
-    /**
-     * @param int|null $currencyId
-     */
-    public function setCurrencyId(?int $currencyId): void
-    {
-        $this->currencyId = $currencyId;
-    }
-
-    /**
+     /**
      * @return string
      */
-    public function getCurrencyRate(): string
+    public function getOrderCurrencyRate(): string
     {
-        return $this->currencyRate;
+        return $this->orderCurrencyRate;
     }
 
-    /**
-     * @param string $currencyRate
-     */
-    public function setCurrencyRate(string $currencyRate): void
+	/**
+	 * @param string $orderCurrencyRate
+	 */
+    public function setOrderCurrencyRate(string $orderCurrencyRate): void
     {
-        $this->currencyRate = $currencyRate;
+        $this->orderCurrencyRate = $orderCurrencyRate;
     }
 
     /**
      * @return string|null
      */
-    public function getShopperGroups(): ?string
+    public function getOrderShopperGroups(): ?string
     {
-        return $this->shopperGroups;
+        return $this->orderShopperGroups;
     }
 
     /**
-     * @param string|null $shopperGroups
+     * @param string|null $orderShopperGroups
      */
-    public function setShopperGroups(?string $shopperGroups): void
+    public function setOrderShopperGroups(?string $orderShopperGroups): void
     {
-        $this->shopperGroups = $shopperGroups;
+        $this->orderShopperGroups = $orderShopperGroups;
     }
 
     /**
      * @return int|null
      */
-    public function getPaymentCurrencyId(): ?int
+    public function getOrderPaymentCurrencyId(): ?int
     {
-        return $this->paymentCurrencyId;
+        return $this->orderPaymentCurrencyId;
     }
 
-    /**
-     * @param int|null $paymentCurrencyId
-     */
-    public function setPaymentCurrencyId(?int $paymentCurrencyId): void
+	/**
+	 * @param int|null $orderPaymentCurrencyId
+	 */
+    public function setOrderPaymentCurrencyId(?int $orderPaymentCurrencyId): void
     {
-        $this->paymentCurrencyId = $paymentCurrencyId;
+        $this->orderPaymentCurrencyId = $orderPaymentCurrencyId;
     }
 
     /**
      * @return string
      */
-    public function getPaymentCurrencyRate(): string
+    public function getOrderPaymentCurrencyRate(): string
     {
-        return $this->paymentCurrencyRate;
+        return $this->orderPaymentCurrencyRate;
     }
 
-    /**
-     * @param string $paymentCurrencyRate
-     */
-    public function setPaymentCurrencyRate(string $paymentCurrencyRate): void
+	/**
+	 * @param string $orderPaymentCurrencyRate
+	 */
+    public function setOrderPaymentCurrencyRate(string $orderPaymentCurrencyRate): void
     {
-        $this->paymentCurrencyRate = $paymentCurrencyRate;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getPaymentMethodId(): ?int
-    {
-        return $this->PaymentMethodId;
-    }
-
-    /**
-     * @param int|null $PaymentMethodId
-     */
-    public function setPaymentMethodId(?int $PaymentMethodId): void
-    {
-        $this->PaymentMethodId = $PaymentMethodId;
+        $this->orderPaymentCurrencyRate = $orderPaymentCurrencyRate;
     }
 
     /**
      * @return int|null
      */
-    public function getShipmentMethodId(): ?int
+    public function getOrderPaymentMethodId(): ?int
     {
-        return $this->shipmentMethodId;
+        return $this->orderPaymentMethodId;
+    }
+
+	/**
+	 * @param int|null $orderPaymentMethodId
+	 */
+    public function setOrderPaymentMethodId(?int $orderPaymentMethodId): void
+    {
+        $this->orderPaymentMethodId = $orderPaymentMethodId;
     }
 
     /**
-     * @param int|null $shipmentMethodId
+     * @return int|null
      */
-    public function setShipmentMethodId(?int $shipmentMethodId): void
+    public function getOrderShipmentMethodId(): ?int
     {
-        $this->shipmentMethodId = $shipmentMethodId;
+        return $this->orderShipmentMethodId;
+    }
+
+	/**
+	 * @param int|null $orderShipmentMethodId
+	 */
+    public function setOrderShipmentMethodId(?int $orderShipmentMethodId): void
+    {
+        $this->orderShipmentMethodId = $orderShipmentMethodId;
     }
 
     /**
      * @return \DateTime
      */
-    public function getDeliveryDate(): \DateTime
+    public function getOrderDeliveryDate(): \DateTime
     {
-        return $this->deliveryDate;
+        return $this->orderDeliveryDate;
     }
 
     /**
-     * @param \DateTime $deliveryDate
+     * @param \DateTime $orderDeliveryDate
      */
-    public function setDeliveryDate(\DateTime $deliveryDate): void
+    public function setOrderDeliveryDate(\DateTime $orderDeliveryDate): void
     {
-        $this->deliveryDate = $deliveryDate;
+        $this->orderDeliveryDate = $orderDeliveryDate;
     }
 
     /**
@@ -849,55 +824,55 @@ class Orders
     /**
      * @return string
      */
-    public function getIpAddress(): string
+    public function getOrderIpAddress(): string
     {
-        return $this->ipAddress;
+        return $this->orderIpAddress;
     }
 
-    /**
-     * @param string $ipAddress
-     */
-    public function setIpAddress(string $ipAddress): void
+	/**
+	 * @param string $orderIpAddress
+	 */
+    public function setOrderIpAddress(string $orderIpAddress): void
     {
-        $this->ipAddress = $ipAddress;
+        $this->orderIpAddress = $orderIpAddress;
     }
 
     /**
      * @return bool
      */
-    public function isSTSameAsBT(): bool
+    public function isOrderSTSameAsBT(): bool
     {
-        return $this->STSameAsBT;
+        return $this->orderSTSameAsBT;
     }
 
     /**
-     * @param bool $STSameAsBT
+     * @param bool $orderSTSameAsBT
      */
-    public function setSTSameAsBT(bool $STSameAsBT): void
+    public function setOrderSTSameAsBT(bool $orderSTSameAsBT): void
     {
-        $this->STSameAsBT = $STSameAsBT;
+        $this->orderSTSameAsBT = $orderSTSameAsBT;
     }
 
     /**
      * @return string|null
      */
-    public function getOHash(): ?string
+    public function getOrderHash(): ?string
     {
-        return $this->oHash;
+        return $this->orderHash;
     }
 
     /**
-     * @param string|null $oHash
+     * @param string|null $orderHash
      */
-    public function setOHash(?string $oHash): void
+    public function setOrderHash(?string $orderHash): void
     {
-        $this->oHash = $oHash;
+        $this->orderHash = $orderHash;
     }
 
     /**
-     * @return Collection
+     * @return ArrayCollection
      */
-    public function getOrderItems(): Collection
+    public function getOrderItems(): ArrayCollection
     {
         return $this->orderItems;
     }
@@ -952,9 +927,9 @@ class Orders
         return $this->createdBy;
     }
 
-    /**
-     * @param Vendors
-     */
+	/**
+	 * @param Vendors|null $createdBy
+	 */
     public function setCreatedBy(Vendors $createdBy = null): void
     {
         $this->createdBy = $createdBy;
@@ -978,18 +953,19 @@ class Orders
     }
 
     /**
-     * @return Vendors
+     * @return int
      */
-    public function getModifiedBy(): Vendors
+    public function getModifiedBy(): int
     {
         return $this->modifiedBy;
     }
 
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @param Vendors
-     */
+	/**
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 *
+	 * @param Vendors|null $modifiedBy
+	 */
     public function setModifiedBy(Vendors $modifiedBy = null): void
     {
         $this->modifiedBy = $modifiedBy;
@@ -1013,18 +989,19 @@ class Orders
     }
 
     /**
-     * @return Vendors
+     * @return int
      */
-    public function getLockedBy(): Vendors
+    public function getLockedBy(): int
     {
         return $this->lockedBy;
     }
 
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @param Vendors
-     */
+	/**
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 *
+	 * @param Vendors|null $lockedBy
+	 */
     public function setLockedBy(Vendors $lockedBy = null): void
     {
         $this->lockedBy = $lockedBy;

@@ -4,24 +4,20 @@ declare(strict_types=1);
 namespace App\Entity\Vendor;
 
 use App\Entity\Order\Orders;
+use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Table(name="vendors")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
- * @UniqueEntity(fields="email", message="You have an account alredy!")
  * @ORM\HasLifecycleCallbacks()
  */
 class Vendors
 {
-    public const ROLE_USER = 'ROLE_USER';
-
     /**
      * @var integer
      *
@@ -32,11 +28,11 @@ class Vendors
     private $id;
 
     /**
-     * @var boolean
+     * @var bool|false
      *
-     * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default":0})
+     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default":0})
      */
-    private $isActive;
+    private $active = false;
 
     /**
      * @var array
@@ -46,14 +42,14 @@ class Vendors
     private $roles = [];
 
     /**
-     * @var datetime
+     * @var DateTime
      *
      * @ORM\Column(name="register_date", type="datetime", nullable=false)
      */
     private $registerDate;
 
     /**
-     * @var datetime
+     * @var DateTime
      *
      * @ORM\Column(name="last_visit_date", type="datetime", nullable=false)
      * @Assert\DateTime()
@@ -118,49 +114,56 @@ class Vendors
     private $requireReset = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", mappedBy="vendors")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity"))
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", mappedBy="vendorSecurity")
+     * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
      * @Assert\Valid()
      */
-    private $security;
+    private $vendorSecurity;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsIban", mappedBy="vendorIban")
+	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
+	 * @Assert\Valid()
+	 */
+	private $vendorIban;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", mappedBy="vendor")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb"))
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", mappedBy="vendorEnGb")
+     * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb")
      * @Assert\Valid()
      */
     private $vendorEnGb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", mappedBy="vendors")
-     * @Assert\Type(type="App\Entity\Vendor\Orders"))
+     * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", mappedBy="vendorOrders")
+     * @Assert\Type(type="App\Entity\Vendor\Orders")
      * @Assert\Valid()
      */
-    private $orders;
+    private $vendorOrders;
 
     /**
-     * @ORM\OneToMany(targetEntity="VendorsDocAttachments", mappedBy="vendor")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments"))
+     * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", mappedBy="vendorDocAttachments")
+     * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
      * @Assert\Valid()
      */
-    private $vendorsDocAttachments;
+    private $vendorDocAttachments;
 
     /**
-     * @ORM\OneToMany(targetEntity="VendorsMediaAttachments", mappedBy="vendor")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsMediaAttachments"))
+     * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments", mappedBy="vendorMediaAttachments")
+     * @Assert\Type(type="App\Entity\Vendor\VendorsMediaAttachments")
      * @Assert\Valid()
      */
-    private $vendorsMediaAttachments;
+    private $vendorMediaAttachments;
 
+	/**
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites")
+	 */
+    private $vendorFavourites;
 
-
-
-
-
-
-
-
-
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
+	 */
+    private $vendorOrderItems;
 
 
 
@@ -173,21 +176,13 @@ class Vendors
      */
     public function __construct()
     {
-        $this->roles = [self::ROLE_USER];
-        $this->lastResetTime = new \DateTime();
-        $this->lastVisitDate = new \DateTime();
-        $this->registerDate = new \DateTime();
-        $this->isActive = false;
-        $this->orders = new ArrayCollection();
-        $this->vendorsDocAttachments = new ArrayCollection();
-        $this->vendorsMediaAttachments = new ArrayCollection();
+        $this->lastResetTime = new DateTime();
+        $this->lastVisitDate = new DateTime();
+        $this->registerDate = new DateTime();
+        $this->vendorOrders = new ArrayCollection();
+        $this->vendorDocAttachments = new ArrayCollection();
+        $this->vendorMediaAttachments = new ArrayCollection();
     }
-
-    /**
-     *
-     * @ORM\Column(name="salt", type="string")
-     */
-    private $salt ='0';
 
     /**
      * @return integer
@@ -197,42 +192,23 @@ class Vendors
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
-    public function getApiKey(): string
-    {
-        return $this->apiKey;
-    }
+	/**
+	 * @return bool|false
+	 */
+	public function getActive()
+	{
+		return $this->active;
+	}
 
-    /**
-     * @param string $apiKey
-     * @return Vendors
-     */
-    public function setApiKey(string $apiKey): self
-    {
-        $this->apiKey = $apiKey;
-        return $this;
-    }
+	/**
+	 * @param bool|false $active
+	 */
+	public function setActive($active): void
+	{
+		$this->active = $active;
+	}
 
-    /**
-     * @param bool $isActive
-     * @return bool
-     */
-    public function getIsActive(bool $isActive): bool
-    {
-        return $this->isActive;
-    }
 
-    /**
-     * @param bool $isActive
-     * @return Vendors
-     */
-    public function setIsActive(bool $isActive): self
-    {
-        $this->isActive = $isActive;
-        return $this;
-    }
 
     /**
      * @return DateTime
@@ -323,9 +299,9 @@ class Vendors
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLastResetTime(): \DateTime
+    public function getLastResetTime(): DateTime
     {
         return $this->lastResetTime;
     }
@@ -413,7 +389,6 @@ class Vendors
     }
 
     /**
-     *
      * @return array
      */
     public function getRoles(): array
@@ -426,17 +401,17 @@ class Vendors
     /**
      * @return mixed
      */
-    public function getSecurity()
+    public function getVendorSecurity()
     {
-        return $this->security;
+        return $this->vendorSecurity;
     }
 
     /**
-     * @param mixed $security
+     * @param mixed $vendorSecurity
      */
-    public function setSecurity($security): void
+    public function setVendorSecurity($vendorSecurity): void
     {
-        $this->security = $security;
+        $this->vendorSecurity = $vendorSecurity;
     }
 
     /**
@@ -456,22 +431,22 @@ class Vendors
     }
 
     /**
-     * @param Orders $orders
+     * @param Orders $order
      * @return Vendors
      */
-    public function addOrder(Orders $orders): Vendors
+    public function addOrder(Orders $order): Vendors
     {
-        $this->orders[] = $orders;
+        $this->vendorOrders[] = $order;
 
         return $this;
     }
 
     /**
-     * @param Orders $orders
+     * @param Orders $order
      */
-    public function removeOrder(Orders $orders)
+    public function removeOrder(Orders $order)
     {
-        $this->orders->removeElement($orders);
+        $this->vendorOrders->removeElement($order);
     }
 
     /**
@@ -479,62 +454,127 @@ class Vendors
      */
     public function getOrders(): Collection
     {
-        return $this->orders;
+        return $this->vendorOrders;
     }
 
-    /**
-     * @param VendorsDocAttachments $vendorsDocAttachments
-     * @return Vendors
-     */
-    public function addVendorsDocAttachments(VendorsDocAttachments $vendorsDocAttachments): Vendors
+	/**
+	 * @param VendorsDocAttachments $vendorDocAttachment
+	 *
+	 * @return Vendors
+	 */
+    public function addVendorDocAttachment(VendorsDocAttachments $vendorDocAttachment): Vendors
     {
-        $this->vendorsDocAttachments[] = $vendorsDocAttachments;
+        $this->vendorDocAttachments[] = $vendorDocAttachment;
 
         return $this;
     }
 
-    /**
-     * @param VendorsDocAttachments $vendorsDocAttachments
-     */
-    public function removeVendorsDocAttachments(VendorsDocAttachments $vendorsDocAttachments)
+	/**
+	 * @param VendorsDocAttachments $vendorDocAttachment
+	 */
+    public function removeVendorDocAttachment(VendorsDocAttachments $vendorDocAttachment)
     {
-        $this->vendorsDocAttachments->removeElement($vendorsDocAttachments);
+        $this->vendorDocAttachments->removeElement($vendorDocAttachment);
     }
 
     /**
      * @return mixed
      */
-    public function getVendorsDocAttachments()
+    public function getVendorDocAttachments()
     {
-        return $this->vendorsDocAttachments;
+        return $this->vendorDocAttachments;
     }
 
-    /**
-     * @param VendorsMediaAttachments $vendorsMediaAttachments
-     * @return Vendors
-     */
-    public function addVendorsMediaAttachments(VendorsMediaAttachments $vendorsMediaAttachments): Vendors
+	/**
+	 * @param VendorsMediaAttachments $vendorMediaAttachment
+	 *
+	 * @return Vendors
+	 */
+    public function addVendorMediaAttachment(VendorsMediaAttachments $vendorMediaAttachment): Vendors
     {
-        $this->vendorsMediaAttachments[] = $vendorsMediaAttachments;
+        $this->vendorMediaAttachments[] = $vendorMediaAttachment;
 
         return $this;
     }
 
-    /**
-     * @param VendorsMediaAttachments $vendorsMediaAttachments
-     */
-    public function removeVendorsMediaAttachments(VendorsMediaAttachments $vendorsMediaAttachments)
+	/**
+	 * @param VendorsMediaAttachments $vendorMediaAttachment
+	 */
+    public function removeVendorMediaAttachment(VendorsMediaAttachments $vendorMediaAttachment)
     {
-        $this->vendorsMediaAttachments->removeElement($vendorsMediaAttachments);
+        $this->vendorMediaAttachments->removeElement($vendorMediaAttachment);
     }
 
     /**
      * @return mixed
      */
-    public function getVendorsMediaAttachments()
+    public function getVendorMediaAttachments()
     {
-        return $this->vendorsMediaAttachments;
+        return $this->vendorMediaAttachments;
     }
 
+	/**
+	 * @return mixed
+	 */
+	public function getVendorIban()
+	{
+		return $this->vendorIban;
+	}
+
+	/**
+	 * @param mixed $vendorIban
+	 */
+	public function setVendorIban($vendorIban): void
+	{
+		$this->vendorIban = $vendorIban;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorOrders()
+	{
+		return $this->vendorOrders;
+	}
+
+	/**
+	 * @param mixed $vendorOrders
+	 */
+	public function setVendorOrders($vendorOrders): void
+	{
+		$this->vendorOrders = $vendorOrders;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorFavourites()
+	{
+		return $this->vendorFavourites;
+	}
+
+	/**
+	 * @param mixed $vendorFavourites
+	 */
+	public function setVendorFavourites($vendorFavourites): void
+	{
+		$this->vendorFavourites = $vendorFavourites;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorOrderItems()
+	{
+		return $this->vendorOrderItems;
+	}
+
+	/**
+	 * @param mixed $vendorOrderItems
+	 */
+	public function setVendorOrderItems($vendorOrderItems): void
+	{
+		$this->vendorOrderItems = $vendorOrderItems;
+	}
 }
 

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use App\Entity\Vendor\Vendors;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,8 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Projects
- *
  * @ORM\Table(name="projects")
  * @ORM\Entity(repositoryClass="App\Repository\ProjectsRepository")
  */
@@ -40,8 +37,8 @@ class Projects
     private $ordering = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="projects")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="ca")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $category;
 
@@ -109,24 +106,24 @@ class Projects
     /**
      * @var ProjectsAttachments[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsAttachments", cascade={"persist", "remove"}, mappedBy="project")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsAttachments", cascade={"persist", "remove"}, mappedBy="pro")
      * @ORM\JoinTable(name="projects_attachments")
      * @Assert\Count(max="8", maxMessage="projects.too_many_files")
-     */
-    private $attachments;
+	 */
+    private $projectAttachments;
 
     /**
      * @var ProjectsFavourites[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsFavourites", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsFavourites", mappedBy="favourites")
      **/
-    private $favourites;
+    private $projectFavourites;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="project", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="projectFeatured", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
      * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $featured;
+    private $projectFeatured;
 
 
 
@@ -149,7 +146,7 @@ class Projects
         $this->createdOn = new \DateTime();
         $this->modifiedOn = new \DateTime();
         $this->lockedOn = new \DateTime();
-        $this->attachments = new ArrayCollection();
+        $this->projectAttachments = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 
@@ -175,22 +172,6 @@ class Projects
     public function setCategory($category): void
     {
         $this->category = $category;
-    }
-
-    /**
-     * @return Vendors
-     */
-    public function getVendorId(): Vendors
-    {
-        return $this->vendorId;
-    }
-
-    /**
-     * @param Vendors $vendorId
-     */
-    public function setVendorId(Vendors $vendorId = null): void
-    {
-        $this->vendorId = $vendorId;
     }
 
     /**
@@ -244,8 +225,8 @@ class Projects
     public function addAttachments(ProjectsAttachments $attachments): void
     {
         foreach ($attachments as $attachment) {
-            if (!$this->attachments->contains($attachment)) {
-                $this->attachments->add($attachment);
+            if (!$this->projectAttachments->contains($attachment)) {
+                $this->projectAttachments->add($attachment);
             }
         }
     }
@@ -256,7 +237,7 @@ class Projects
      */
     public function removeAttachments(ProjectsAttachments $attachment): void
     {
-        $this->attachments->removeElement($attachment);
+        $this->projectAttachments->removeElement($attachment);
     }
 
     /**
@@ -264,7 +245,7 @@ class Projects
      */
     public function getAttachments(): Collection
     {
-        return $this->attachments;
+        return $this->projectAttachments;
     }
 
     /**
@@ -302,14 +283,6 @@ class Projects
     public function setCreatedOn(): void
     {
         $this->createdOn = new \DateTime();
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
     }
 
     /**

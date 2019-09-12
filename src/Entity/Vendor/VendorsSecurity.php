@@ -57,13 +57,6 @@ class VendorsSecurity implements UserInterface, Serializable
     private $plainPassword = '0';
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default":0})
-     */
-    private $isActive;
-
-    /**
      * @var array
      *
      * @ORM\Column(name="roles", type="json_array", nullable=false)
@@ -158,10 +151,10 @@ class VendorsSecurity implements UserInterface, Serializable
     private $apiKey = 'api_key';
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="security", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorSecurity", orphanRemoval=true)
      * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    protected $security;
+    protected $vendorSecurity;
 
 
 
@@ -182,7 +175,6 @@ class VendorsSecurity implements UserInterface, Serializable
         $this->lastResetTime = new \DateTime();
         $this->lastVisitDate = new \DateTime();
         $this->registerDate = new \DateTime();
-        $this->isActive = false;
     }
 
     /**
@@ -233,25 +225,6 @@ class VendorsSecurity implements UserInterface, Serializable
     public function setEmail(string $email): self
     {
         $this->email = $email;
-        return $this;
-    }
-
-    /**
-     * @param bool $isActive
-     * @return bool
-     */
-    public function getIsActive(bool $isActive): bool
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * @param bool $isActive
-     * @return VendorsSecurity
-     */
-    public function setIsActive(bool $isActive): self
-    {
-        $this->isActive = $isActive;
         return $this;
     }
 
@@ -451,11 +424,6 @@ class VendorsSecurity implements UserInterface, Serializable
         return $this;
     }
 
-
-
-
-
-
     /**
      * Returns the roles granted to the user.
      *
@@ -543,6 +511,7 @@ class VendorsSecurity implements UserInterface, Serializable
     public function eraseCredentials(): string
     {
         $this->plainPassword = null;
+		return '';
     }
 
     /**
@@ -565,8 +534,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * Constructs the object
      * @link https://php.net/manual/en/serializable.unserialize.php
      * @param string $serialized <p>
-     * The string representation of the object.
-     * </p>
+	 *
      * @return void
      * @since 5.1.0
      */

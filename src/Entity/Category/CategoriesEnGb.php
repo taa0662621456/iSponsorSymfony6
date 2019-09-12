@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="categories_en_gb", uniqueConstraints={
  * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
- * UniqueEntity(fields={"slug"}, message="This Slug alredy in use. Try enter a new slug.")
+ * UniqueEntity(fields={"slug"}, message="This Slug already in use. Try enter a new slug.")
  * @ORM\HasLifecycleCallbacks()
  */
 class CategoriesEnGb
@@ -83,11 +83,10 @@ class CategoriesEnGb
     private $slug = 'slug';
 
     /**
-     *
-     * @ORM\OneToOne(targetEntity="Categories", inversedBy="categoryEnGb")
+     * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryEnGb")
      * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $inCategories;
+    private $categoriesEnGb;
 
 
 
@@ -207,15 +206,10 @@ class CategoriesEnGb
     }
 
     /**
-     * @param Categories $inCategories
+     * @param Categories $categoriesEnGb
      */
-    public function setInCategories(Categories $inCategories): void
+    public function setCategoriesEnGb(Categories $categoriesEnGb): void
     {
-        $this->inCategories = $inCategories;
+        $this->categoriesEnGb = $categoriesEnGb;
     }
-
-
-
-
-
 }

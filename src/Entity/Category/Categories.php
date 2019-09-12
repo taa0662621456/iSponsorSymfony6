@@ -13,8 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Categories
- *
  * @ORM\Table(name="categories")
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -87,6 +85,7 @@ class Categories
      * @var int
      *
      * @ORM\Column(name="order", type="integer", nullable=false, unique=true)
+	 * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $order = 0;
 
@@ -103,12 +102,12 @@ class Categories
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"} mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="cat")
      */
-    private $projects;
+    private $categoryProjects;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb", cascade={"persist", "remove"}, mappedBy="inCategories")
+     * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb", cascade={"persist", "remove"}, mappedBy="categoriesEnGb")
      * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
      * @Assert\Valid()
      */
@@ -118,7 +117,7 @@ class Categories
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", mappedBy="category")
      */
-    private $attachments;
+    private $categoryAttachments;
 
 
 
@@ -139,8 +138,8 @@ class Categories
         $this->modifiedOn = new \DateTime();
         $this->lockedOn = new \DateTime();
         $this->children = new ArrayCollection();
-        $this->projects = new ArrayCollection();
-        $this->attachments = new ArrayCollection();
+        $this->categoryProjects = new ArrayCollection();
+        $this->categoryAttachments = new ArrayCollection();
     }
 
 
@@ -275,9 +274,9 @@ class Categories
     /**
      * @return Collection|Projects[]
      */
-    public function getProjects(): Collection
+    public function getCategoryProjects(): Collection
     {
-        return $this->projects;
+        return $this->categoryProjects;
     }
 
     /**
@@ -358,14 +357,14 @@ class Categories
         $this->parent = $parent;
     }
 
-    /**
-     * @param CategoriesAttachments $attachments
-     */
-    public function addAttachments(CategoriesAttachments $attachments): void
+	/**
+	 * @param CategoriesAttachments $attachments
+	 */
+    public function addCategoryAttachment(CategoriesAttachments $attachments): void
     {
         foreach ($attachments as $attachment) {
-            if (!$this->attachments->contains($attachment)) {
-                $this->attachments->add($attachment);
+            if (!$this->categoryAttachments->contains($attachment)) {
+                $this->categoryAttachments->add($attachment);
             }
         }
     }
@@ -374,17 +373,17 @@ class Categories
     /**
      * @param CategoriesAttachments $attachment
      */
-    public function removeAttachments(CategoriesAttachments $attachment): void
+    public function removeCategoryAttachment(CategoriesAttachments $attachment): void
     {
-        $this->attachments->removeElement($attachment);
+        $this->categoryAttachments->removeElement($attachment);
     }
 
     /**
      * @return Collection|CategoriesAttachments[]
      */
-    public function getAttachments(): Collection
+    public function getCategoryAttachments(): Collection
     {
-        return $this->attachments;
+        return $this->categoryAttachments;
     }
 
 }

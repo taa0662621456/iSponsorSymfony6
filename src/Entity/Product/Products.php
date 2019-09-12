@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Order\OrdersItems;
 use App\Entity\Vendor\Vendors;
 use DateTime;
@@ -19,15 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Products
  *
  * @ORM\Table(name="products")
- *     indexes={
- *     ORM\Index(name="product_in_stock", columns={"product_in_stock"}),
- *     ORM\Index(name="ordering", columns={"ordering"}),
- *     ORM\Index(name="product_special", columns={"product_special"}),
- *     ORM\Index(name="created_on", columns={"created_on"}),
- *     ORM\Index(name="product_discontinued", columns={"product_discontinued"}),
- *     ORM\Index(name="published", columns={"published"}),
- *     ORM\Index(name="modified_on", columns={"modified_on"}),
- *     ORM\Index(name="product_parent_id", columns={"product_parent_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -41,13 +31,6 @@ class Products
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="product_parent_id", type="integer", nullable=false)
-     */
-    private $productParentId = 0;
 
     /**
      * @var int|null
@@ -85,20 +68,16 @@ class Products
     private $productWeightUom = 0;
 
     /**
-     *
-     *
      * @ORM\Column(name="product_length", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
      */
     private $productLength = 0;
 
     /**
-     *
      * @ORM\Column(name="product_width", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
      */
     private $productWidth = 0;
 
     /**
-     *
      * @ORM\Column(name="product_height", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
      */
     private $productHeight = 0;
@@ -118,7 +97,7 @@ class Products
     private $productInStock = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="productId")
+     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="productOrdered")
      */
     private $productOrdered;
 
@@ -202,16 +181,16 @@ class Products
     /**
      * @var int|null
      *
-     * @ORM\Column(name="hits", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_hits", type="integer", nullable=true, options={"default":0})
      */
-    private $hits = 0;
+    private $productHits = 0;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="int_notes", type="text", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_notes", type="text", nullable=true, options={"default":0})
      */
-    private $intNotes = 0;
+    private $productNotes = 0;
 
     /**
      * @var string
@@ -227,110 +206,114 @@ class Products
      */
     private $metaAuthor = 'meta_author';
 
-    /**
+	/**
      * @var int|null
      *
      * @ORM\Column(name="layout", type="integer", nullable=true, options={"default":0})
      */
     private $layout = 0;
 
-    /**
+	/**
      * @var boolean
      *
      * @ORM\Column(name="published", type="boolean", nullable=false)
      */
     private $published = false;
-	
+
 	/**
 	* @var string
-	* @ORM\Column(name="country_origin", type="string", nullable=false, options={"default"=""})
+	* @ORM\Column(name="product_country_origin", type="string", nullable=false, options={"default"=""})
 	*/
-	private $coutryOrigin = "";
+	private $productCountryOrigin = "";
 
-    /**
+	/**
      * @var int
      *
      * @ORM\Column(name="ordering", type="integer", nullable=false)
      */
     private $ordering = 0;
 
-    /**
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", mappedBy="productEnGb", orphanRemoval=true, fetch="EAGER")
+	 * @ORM\JoinColumn(name="id", referencedColumnName="id")
+	 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
+	 * @Assert\Valid()
+	 */
+	private $productEnGb;
+
+	/**
+	 * @var ProductsTags[]|ArrayCollection
+	 *
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductsTags", cascade={"persist"})
+	 * @ORM\JoinTable(name="product_tags")
+	 * @ORM\OrderBy({"name": "ASC"})
+	 * @Assert\Count(max="4", maxMessage="products.too_many_tags")
+	 */
+	private $productTags;
+
+	/**
+	 * @Assert\Type(type="App\Entity\Product\ProductsPrice")
+	 * @Assert\Valid()
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice", mappedBy="productPrice", orphanRemoval=true, fetch="EAGER")
+	 */
+	private $productPrice;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductsFavourites", mappedBy="productFavourites")
+	 **/
+	private $productFavourites;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="productFeatured")
+	 **/
+	private $productFeatured;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductsAttachments", mappedBy="productAttachments")
+	 */
+	private $productAttachments;
+
+	/**
      * @var \DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $createdOn;
 
-    /**
+	/**
      * @var int
      *
      * @ORM\Column(name="created_by", type="integer", nullable=false)
      */
     private $createdBy = 0;
 
-    /**
+	/**
      * @var \DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $modifiedOn;
 
-    /**
+	/**
      * @var int
      *
      * @ORM\Column(name="modified_by", type="integer", nullable=false)
      */
     private $modifiedBy = 0;
 
-    /**
+	/**
      * @var \DateTime
      *
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="locked_on", type="datetime", nullable=false)
      */
     private $lockedOn;
 
-    /**
+	/**
      * @var int
      *
      * @ORM\Column(name="locked_by", type="integer", nullable=false)
      */
     private $lockedBy = 0;
-
-    /**
-     *
-     * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
-     * @Assert\Valid()
-     * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", cascade={"persist", "remove"}, mappedBy="product", orphanRemoval=true, fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id")
-     */
-    private $productEnGb;
-
-    /**
-     * @var ProductsTags[]|ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductsTags", cascade={"persist"})
-     * @ORM\JoinTable(name="product_tags")
-     * @ORM\OrderBy({"name": "ASC"})
-     * @Assert\Count(max="4", maxMessage="products.too_many_tags")
-     */
-    private $tags;
-
-    /**
-     * @Assert\Type(type="App\Entity\Product\ProductsPrice")
-     * @Assert\Valid()
-     * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice", cascade={"persist", "remove"}, mappedBy="products", orphanRemoval=true, fetch="EAGER")
-     */
-    private $productPrice;
-
-    /**
-     * @ORM\OneToMany(targetEntity="ProductsFavourites", mappedBy="product")
-     **/
-    private $favourites;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductsAttachments", mappedBy="product")
-     */
-    private $attachments;
 
 
 
@@ -351,9 +334,9 @@ class Products
         $this->modifiedOn = new \DateTime();
         $this->lockedOn = new \DateTime();
         $this->productAvailableDate = new \DateTime();
-        $this->attachments = new ArrayCollection();
+        $this->productAttachments = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->productTags = new ArrayCollection();
 
     }
 
@@ -363,23 +346,6 @@ class Products
     public function getId(): int
     {
         return $this->id;
-    }
-
-
-    /**
-     * @return int
-     */
-    public function getProductParentId(): int
-    {
-        return $this->productParentId;
-    }
-
-    /**
-     * @param int $productParentId
-     */
-    public function setProductParentId(int $productParentId): void
-    {
-        $this->productParentId = $productParentId;
     }
 
     /**
@@ -756,33 +722,33 @@ class Products
     /**
      * @return int|null
      */
-    public function getHits(): ?int
+    public function getProductHits(): ?int
     {
-        return $this->hits;
+        return $this->productHits;
     }
 
     /**
-     * @param int|null $hits
+     * @param int|null $productHits
      */
-    public function setHits(?int $hits): void
+    public function setProductHits(?int $productHits): void
     {
-        $this->hits = $hits;
+        $this->productHits = $productHits;
     }
 
     /**
      * @return string|null
      */
-    public function getIntNotes(): ?string
+    public function getProductNotes(): ?string
     {
-        return $this->intNotes;
+        return $this->productNotes;
     }
 
     /**
-     * @param string|null $intNotes
+     * @param string|null $productNotes
      */
-    public function setIntNotes(?string $intNotes): void
+    public function setProductNotes(?string $productNotes): void
     {
-        $this->intNotes = $intNotes;
+        $this->productNotes = $productNotes;
     }
 
     /**
@@ -849,6 +815,70 @@ class Products
         $this->published = $published;
     }
 
+	/**
+	 * @return string
+	 */
+	public function getProductCountryOrigin(): string
+	{
+		return $this->productCountryOrigin;
+	}
+
+	/**
+	 * @param string $productCountryOrigin
+	 */
+	public function setProductCountryOrigin(string $productCountryOrigin): void
+	{
+		$this->productCountryOrigin = $productCountryOrigin;
+	}
+
+	/**
+	 * @return ProductsTags[]|ArrayCollection
+	 */
+	public function getProductTags()
+	{
+		return $this->productTags;
+	}
+
+	/**
+	 * @param ProductsTags[]|ArrayCollection $productTags
+	 */
+	public function setProductTags($productTags): void
+	{
+		$this->productTags = $productTags;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getProductFavourites()
+	{
+		return $this->productFavourites;
+	}
+
+	/**
+	 * @param mixed $productFavourites
+	 */
+	public function setProductFavourites($productFavourites): void
+	{
+		$this->productFavourites = $productFavourites;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getProductFeatured()
+	{
+		return $this->productFeatured;
+	}
+
+	/**
+	 * @param mixed $productFeatured
+	 */
+	public function setProductFeatured($productFeatured): void
+	{
+		$this->productFeatured = $productFeatured;
+	}
+
     /**
      * @return int
      */
@@ -883,17 +913,17 @@ class Products
     }
 
     /**
-     * @return Vendors
+     * @return int
      */
-    public function getCreatedBy(): Vendors
+    public function getCreatedBy(): int
     {
         return $this->createdBy;
     }
 
-    /**
-     * @ORM\PrePersist()
-     * @param Vendors
-     */
+	/**
+	 * @ORM\PrePersist()
+	 * @param Vendors|null $createdBy
+	 */
     public function setCreatedBy(Vendors $createdBy = null): void
     {
         $this->createdBy = $createdBy;
@@ -918,19 +948,19 @@ class Products
     }
 
     /**
-     * @return Vendors
+     * @return int
      */
-    public function getModifiedBy(): Vendors
+    public function getModifiedBy(): int
     {
         return $this->modifiedBy;
     }
 
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-     * @param Vendors
-     */
+	/**
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 *
+	 * @param Vendors|null $modifiedBy
+	 */
     public function setModifiedBy(Vendors $modifiedBy = null): void
     {
         $this->modifiedBy = $modifiedBy;
@@ -955,19 +985,19 @@ class Products
     }
 
     /**
-     * @return Vendors
+     * @return int
      */
-    public function getLockedBy(): Vendors
+    public function getLockedBy(): int
     {
         return $this->lockedBy;
     }
 
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-     * @param Vendors
-     */
+	/**
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 *
+	 * @param Vendors|null $lockedBy
+	 */
     public function setLockedBy(Vendors $lockedBy = null): void
     {
         $this->lockedBy = $lockedBy;
@@ -995,8 +1025,8 @@ class Products
     public function addTags(ProductsTags $tags): void
     {
         foreach ($tags as $tag) {
-            if (!$this->tags->contains($tag)) {
-                $this->tags->add($tag);
+            if (!$this->productTags->contains($tag)) {
+                $this->productTags->add($tag);
             }
         }
     }
@@ -1007,7 +1037,7 @@ class Products
      */
     public function removeTag(ProductsTags $tag): void
     {
-        $this->tags->removeElement($tag);
+        $this->productTags->removeElement($tag);
     }
 
     /**
@@ -1015,7 +1045,7 @@ class Products
      */
     public function getTags(): Collection
     {
-        return $this->tags;
+        return $this->productTags;
     }
 
     /**
@@ -1037,11 +1067,11 @@ class Products
     /**
      * @param ProductsAttachments $attachments
      */
-    public function addAttachments(ProductsAttachments $attachments): void
+    public function addProductAttachment(ProductsAttachments $attachments): void
     {
         foreach ($attachments as $attachment) {
-            if (!$this->attachments->contains($attachment)) {
-                $this->attachments->add($attachment);
+            if (!$this->productAttachments->contains($attachment)) {
+                $this->productAttachments->add($attachment);
             }
         }
     }
@@ -1050,17 +1080,17 @@ class Products
     /**
      * @param ProductsAttachments $attachment
      */
-    public function removeAttachments(ProductsAttachments $attachment): void
+    public function removeProductAttachment(ProductsAttachments $attachment): void
     {
-        $this->attachments->removeElement($attachment);
+        $this->productAttachments->removeElement($attachment);
     }
 
     /**
      * @return Collection|ProductsAttachments[]
      */
-    public function getAttachments(): Collection
+    public function getProductAttachments(): Collection
     {
-        return $this->attachments;
+        return $this->productAttachments;
     }
 
 }

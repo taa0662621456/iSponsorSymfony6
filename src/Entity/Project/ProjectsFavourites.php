@@ -11,7 +11,7 @@ use Exception;
  * ProjectsFavourites
  *
  * @ORM\Table(name="projects_favourites")
- * @ORM\Entity(repositoryClass="ProjectsFavouritesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductsFavouritesRepository")
  */
 class ProjectsFavourites
 {
@@ -71,11 +71,6 @@ class ProjectsFavourites
      * @ORM\Column(name="locked_by", type="integer", nullable=false)
      */
     private $lockedBy = 0;
-
-
-
-
-
 
 
     /**

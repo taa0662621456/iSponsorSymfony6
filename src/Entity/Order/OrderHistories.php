@@ -3,16 +3,14 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 
 
 /**
- * OrderHistories
- *
  * @ORM\Table(name="order_histories")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class OrderHistories
@@ -117,7 +115,7 @@ class OrderHistories
 
     /**
      * OrderHistories constructor.
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use App\Entity\Vendor\VendorsEnGb;
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -88,15 +88,27 @@ class ProjectsEnGb
      */
     private $projectProductMetaDesc = 'project_product_meta_desc';
 
-    /**
+	/**
      * @var string
      *
      * @ORM\Column(name="project_product_meta_key", type="text", nullable=false, options={"default"="project_product_meta_key"})
      */
     private $projectProductMetaKey = 'project_product_meta_key';
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="project_slug", type="string", nullable=false, options={"default"=""})
+	 */
+	private $projectSlug = '';
 
-    /**
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", cascade={"persist", "remove"}, inversedBy="projectEnGb", orphanRemoval=true)
+	 * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+	 */
+	private $projectEnGb;
+
+	/**
      * @var int
      *
      * @ORM\Column(name="created_by", type="integer", nullable=false)
@@ -105,28 +117,12 @@ class ProjectsEnGb
      */
     private $createdBy = 0;
 
-
-    /**
-     *
-     * @var \DateTime
+	/**
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
     private $createdOn;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", nullable=false, options={"default"=""})
-     */
-    private $slug = '';
-
-    /**
-     *
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", cascade={"persist", "remove"}, inversedBy="projectEnGb", orphanRemoval=true)
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     */
-    private $projectEnGb;
 
 
 
@@ -136,7 +132,7 @@ class ProjectsEnGb
      */
     public function __construct()
     {
-       $this->createdOn = new \DateTime();
+       $this->createdOn = new DateTime();
     }
 
     /**
@@ -292,8 +288,42 @@ class ProjectsEnGb
         return $this;
     }
 
+  	/**
+	 * @return string
+	 */
+	public function getProjectSlug(): string
+	{
+		return $this->projectSlug;
+	}
 
-    /**
+	/**
+	 * @param string $projectSlug
+	 *
+	 * @return ProjectsEnGb
+	 */
+	public function setProjectSlug(string $projectSlug): self
+	{
+		$this->projectSlug = $projectSlug;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getProjectEnGb()
+	{
+		return $this->projectEnGb;
+	}
+
+	/**
+	 * @param mixed $projectEnGb
+	 */
+	public function setProjectEnGb($projectEnGb): void
+	{
+		$this->projectEnGb = $projectEnGb;
+	}
+
+	/**
      * @return integer
      */
     public function getCreatedBy(): int
@@ -301,7 +331,7 @@ class ProjectsEnGb
         return $this->createdBy;
     }
 
-    /**
+	/**
      * @param string $createdBy
      * @return void
      */
@@ -310,67 +340,22 @@ class ProjectsEnGb
         $this->createdBy = $createdBy;
     }
 
-    /**
-     * @return \DateTime
+	/**
+     * @return DateTime
      */
-
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
 
-    /**
+	/**
      * @ORM\PrePersist
      * @return void
      * @throws Exception
      */
     public function setCreatedOn(): void
     {
-        $this->createdOn = new \DateTime();
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param string $slug
-     * @return ProjectsEnGb
-     */
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
-        return $this;
-    }
-
-
-    /**
-     * @param VendorsEnGb|null $vendor
-     * @return bool
-     */
-    public function isVendor(VendorsEnGb $vendor = null): bool
-    {
-        return $vendor && $vendor->getVendorId() === $this->getCreatedBy();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProjectEnGb()
-    {
-        return $this->projectEnGb;
-    }
-
-    /**
-     * @param mixed $projectEnGb
-     */
-    public function setProjectsEnGb($projectEnGb): void
-    {
-        $this->projectEnGb = $projectEnGb;
+        $this->createdOn = new DateTime();
     }
 
 
