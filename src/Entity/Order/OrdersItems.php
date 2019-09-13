@@ -45,21 +45,21 @@ class OrdersItems
      *
      * @ORM\Column(name="item_name", type="string", nullable=false, options={"default"=""})
      */
-    private $itemName = '';
+    private $itemName = 'item_name';
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="item_quantity", type="integer", nullable=true, options={"default":0})
      */
-    private $itemQuantity = 0;
+    private $itemQuantity = 1;
 
     /**
      * @var null
      *
      * @ORM\Column(name="item_price", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
      */
-    private $itemPrice = 0;
+    private $itemPrice = 1;
 
     /**
      * @var null

@@ -271,8 +271,8 @@ class Orders
 
 	/**
      * @ORM\Column(name="created_by", type="integer", nullable=false)
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vendors", inversedBy="orders")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vendors", inversedBy="id")
+     * @ORM\JoinColumn(name="createdBy_id", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
 

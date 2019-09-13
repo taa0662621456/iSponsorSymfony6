@@ -41,6 +41,7 @@
     "tgalopin/html-sanitizer-bundle": "dev-master"
   },
   "require-dev": {
+    "doctrine/doctrine-fixtures-bundle": "^3.3@dev"
   },
   "config": {
     "preferred-install": {

@@ -16,6 +16,7 @@ class VendorsSecurityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
+			->add('id')
             ->add('email', EmailType::class, array(
                 'label' => 'label.email',
                 'label_attr' => array(
