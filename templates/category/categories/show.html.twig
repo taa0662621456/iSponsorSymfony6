@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Categories{% endblock %}
+{% block title %}Category{% endblock %}
 
-{% block body %}
+{% block article_header %}
     <h1>Categories</h1>
-
+{% endblock %}
+{% block article_content %}
     <table class="table">
         <tbody>
             <tr>
@@ -45,10 +46,11 @@
             </tr>
         </tbody>
     </table>
-
+{% endblock %}
+{% block article_summery %}
     <a href="{{ path('categories_index') }}">back to list</a>
 
     <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
 
-    {{ include('categories/_delete_form.html.twig') }}
+    {{ include('category/categories/_delete_form.html.twig') }}
 {% endblock %}

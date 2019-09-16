@@ -84,7 +84,7 @@ class VendorsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('vendors_index');
+            return $this->redirectToRoute('vendors');
         }
 
         return $this->render('vendor/vendors/edit.html.twig', [
@@ -124,7 +124,7 @@ class VendorsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('vendor/vendors_index');
+        return $this->redirectToRoute('vendors');
     }
 
 }

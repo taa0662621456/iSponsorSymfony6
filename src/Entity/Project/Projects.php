@@ -39,7 +39,7 @@ class Projects
      * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryProjects")
 	 * @ORM\JoinColumn(name="categoryProject_id", referencedColumnName="id")
      */
-    private $categoryProject;
+    private $categoryProjects;
 
     /**
      * @var DateTime
@@ -158,17 +158,17 @@ class Projects
     /**
      * @return mixed
      */
-    public function getCategoryProject()
+    public function getCategoryProjects()
     {
-        return $this->categoryProject;
+        return $this->categoryProjects;
     }
 
 	/**
-	 * @param $categoryProject
+	 * @param $categoryProjects
 	 */
-    public function setCategoryProject($categoryProject): void
+    public function setCategoryProjects($categoryProjects): void
     {
-        $this->categoryProject = $categoryProject;
+        $this->categoryProjects = $categoryProjects;
     }
 
     /**

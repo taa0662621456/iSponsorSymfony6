@@ -101,7 +101,7 @@ class Categories
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="categoryProject")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="categoryProjects")
      */
     private $categoryProjects;
 
@@ -114,7 +114,7 @@ class Categories
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", mappedBy="categoryAttachments")
      */
     private $categoryAttachments;
 
@@ -230,7 +230,6 @@ class Categories
     }
 
     /**
-     *
      * @param integer $modifiedBy
      */
     public function setModifiedBy(int $modifiedBy): void

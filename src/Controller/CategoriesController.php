@@ -7,6 +7,7 @@ use App\Entity\Category\CategoriesAttachments;
 use App\Entity\Category\CategoriesEnGb;
 use App\Entity\Category\Categories;
 use App\Form\Category\CategoriesType;
+use App\Repository\CategoriesRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Exception;
@@ -31,17 +32,33 @@ class CategoriesController extends AbstractController
         $this->attachmentManager = $attachmentManager;
     }
 
-    /**
-     * @Route("/", name="categories_index", methods={"GET"})
-     * @param Categories $categories
-     * @return Response
-     */
-    public function index(Categories $categories): Response
+	/**
+	 * @Route("/", name="categories_index", methods={"GET"})
+	 * @param CategoriesRepository $categories
+	 *
+	 * @return Response
+	 */
+    public function categories(CategoriesRepository $categories): Response
     {
-        return $this->render('category/categories/index.html.twig', [
-            'categories' => $categories,
-        ]);
+        return $this->render('category/categories/index.html.twig', array(
+            'categories' => $categories->findAll(),
+		));
     }
+
+	/**
+	 * @Route("/category/{id<\d+>}", methods={"GET"}, name="categories_category")
+	 * @param Categories           $category
+	 * @param CategoriesRepository $categoriesRepository
+	 * @return Response
+	 */
+	public function category(Categories $category, CategoriesRepository $categoriesRepository): Response
+	{
+
+		return $this->render('category/categories/categories_category.html.twig', array(
+			'category' => $categoriesRepository->findOneBy(array('parent' => $category), array('id' => 'ASC'))
+		));
+
+	}
 
     /**
      * @Route("/new", name="categories_new", methods={"GET","POST"})
@@ -57,7 +74,7 @@ class CategoriesController extends AbstractController
         $form = $this->createForm(CategoriesType::class, $category);
         $form->handleRequest($request);
 
-        dump($form->getData());
+        //dump($form->getData());
 
         if ($form->isSubmitted() && $form->isValid()){
 
@@ -75,7 +92,7 @@ class CategoriesController extends AbstractController
             return $this->redirectToRoute('categories_index');
         }
 
-        return $this->render('categories/new.html.twig', [
+        return $this->render('category/categories/new.html.twig', [
             'category' => $category,
             'form' => $form->createView(),
         ]);
@@ -88,7 +105,7 @@ class CategoriesController extends AbstractController
      */
     public function show(Categories $category): Response
     {
-        return $this->render('categories/show.html.twig', [
+        return $this->render('category/categories/show.html.twig', [
             'category' => $category,
         ]);
     }
@@ -125,7 +142,7 @@ class CategoriesController extends AbstractController
             return $this->redirectToRoute('categories_index');
         }
 
-        return $this->render('categories/edit.html.twig', [
+        return $this->render('category/categories/edit.html.twig', [
             'category' => $category,
             'form' => $form->createView(),
         ]);
