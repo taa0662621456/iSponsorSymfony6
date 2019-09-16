@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -23,7 +22,7 @@ class ProductsEnGb
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

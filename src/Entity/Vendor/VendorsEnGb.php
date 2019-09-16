@@ -28,7 +28,7 @@ class VendorsEnGb
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      *
      */
     private $id;
@@ -191,7 +191,7 @@ class VendorsEnGb
     /**
      * @var int
      *
-     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 0})
      */
     private $createdBy = 0;
 
@@ -205,7 +205,7 @@ class VendorsEnGb
     /**
      * @var int
      *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 0})
      */
     private $modifiedBy = 0;
 
@@ -219,7 +219,7 @@ class VendorsEnGb
     /**
      * @var int
      *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 0})
      */
     private $lockedBy = 0;
 

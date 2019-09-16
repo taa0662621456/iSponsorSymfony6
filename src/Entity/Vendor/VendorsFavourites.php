@@ -3,13 +3,11 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use DateTime;
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- * VendorsFavourites
- *
  * @ORM\Table(name="vendors_favourites")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  */
@@ -20,18 +18,19 @@ class VendorsFavourites
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorFavourites")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
-     **/
-    private $vendorFavourites;
+	 * @var int
+	 *
+	 * @ORM\Column(name="vendor_favourites", type="integer", nullable=false, options={"default" : 0})
+	 */
+    private $vendorFavourites = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -45,21 +44,7 @@ class VendorsFavourites
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $modifiedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false)
-     */
-    private $modifiedBy = 0;
-
-    /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -83,39 +68,33 @@ class VendorsFavourites
      */
     public function __construct()
     {
-        $this->createdOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->lockedOn = new \DateTime();
+        $this->createdOn = new DateTime();
+        $this->lockedOn = new DateTime();
     }
 
     /**
-     * Get id
-     *
-     * @return integer 
+     * @return integer
      */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param Vendors $vendorFavourite
-     * @return VendorsFavourites
-     */
-    public function setVendorFavourites(Vendors $vendorFavourite = null): VendorsFavourites
-    {
-        $this->vendorFavourites = $vendorFavourite;
+	/**
+	 * @return int
+	 */
+	public function getVendorFavourites(): int
+	{
+		return $this->vendorFavourites;
+	}
 
-        return $this;
-    }
-
-    /**
-     * @return Vendors
-     */
-    public function getVendorFavourites(): Vendors
-    {
-        return $this->vendorFavourites;
-    }
+	/**
+	 * @param int $vendorFavourites
+	 */
+	public function setVendorFavourites(int $vendorFavourites): void
+	{
+		$this->vendorFavourites = $vendorFavourites;
+	}
 
 
     /**
@@ -135,29 +114,28 @@ class VendorsFavourites
         $this->createdBy = $createdBy;
     }
 
-    /**
-     * @return \DateTime
-     */
+	/**
+	 * @return DateTime
+	 */
+	public function getCreatedOn(): DateTime
+	{
+		return $this->createdOn;
+	}
 
-    public function getCreatedOn(): \DateTime
-    {
-        return $this->createdOn;
-    }
+	/**
+	 * @param DateTime $createdOn
+	 */
+	public function setCreatedOn(DateTime $createdOn): void
+	{
+		$this->createdOn = $createdOn;
+	}
+
+
 
     /**
-     * @ORM\PrePersist
-     * @return void
-     * @throws Exception
+     * @return DateTime
      */
-    public function setCreatedOn(): void
-    {
-        $this->createdOn = new \DateTime();
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -165,7 +143,7 @@ class VendorsFavourites
     /**
      * @param DateTime $lockedOn
      */
-    public function setLockedOn(\DateTime $lockedOn): void
+    public function setLockedOn(DateTime $lockedOn): void
     {
         $this->lockedOn = $lockedOn;
     }

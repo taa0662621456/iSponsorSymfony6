@@ -3,26 +3,23 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- * OrdersStatus
- * @ORM\Table(name="ordersstatus", indexes={
- * @ORM\Index(name="published", columns={"published"})})
- * ORM\Index(name="ordering", columns={"ordering"})})
- * @ORM\Entity
+ * @ORM\Table(name="orders_status")
+ * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class OrdersStatus
 {
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="id", type="boolean", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
@@ -71,12 +68,12 @@ class OrdersStatus
     /**
      * @var boolean
      *
-     * @ORM\Column(name="published", type="boolean", nullable=false, options={"default":1})
+     * @ORM\Column(name="published", type="boolean", nullable=false, options={"default" : 1})
      */
     private $published = true;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -92,7 +89,7 @@ class OrdersStatus
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -108,7 +105,7 @@ class OrdersStatus
     private $modifiedBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -144,28 +141,19 @@ class OrdersStatus
      */
     public function __construct()
     {
-        $this->lockedOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->createdOn = new \DateTime();
+        $this->lockedOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->createdOn = new DateTime();
     }
 
+	/**
+	 * @return int
+	 */
+	public function getId(): int
+	{
+		return $this->id;
+	}
 
-
-    /**
-     * @return bool
-     */
-    public function isId(): bool
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param bool $orderStatusId
-     */
-    public function setOrderStatusId(bool $orderStatusId): void
-    {
-        $this->orderStatusId = $orderStatusId;
-    }
 
     /**
      * @return string
@@ -280,17 +268,17 @@ class OrdersStatus
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
 
     /**
-     * @param \DateTime $createdOn
+     * @param DateTime $createdOn
      */
-    public function setCreatedOn(\DateTime $createdOn): void
+    public function setCreatedOn(DateTime $createdOn): void
     {
         $this->createdOn = $createdOn;
     }
@@ -312,17 +300,17 @@ class OrdersStatus
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
 
     /**
-     * @param \DateTime $modifiedOn
+     * @param DateTime $modifiedOn
      */
-    public function setModifiedOn(\DateTime $modifiedOn): void
+    public function setModifiedOn(DateTime $modifiedOn): void
     {
         $this->modifiedOn = $modifiedOn;
     }
@@ -344,17 +332,17 @@ class OrdersStatus
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
 
     /**
-     * @param \DateTime $lockedOn
+     * @param DateTime $lockedOn
      */
-    public function setLockedOn(\DateTime $lockedOn): void
+    public function setLockedOn(DateTime $lockedOn): void
     {
         $this->lockedOn = $lockedOn;
     }

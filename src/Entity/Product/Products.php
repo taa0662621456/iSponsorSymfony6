@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Entity\Product;
 
 use App\Entity\Order\OrdersItems;
-use App\Entity\Vendor\Vendors;
 use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,75 +23,75 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Products
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="product_sku", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_sku", type="integer", nullable=false, options={"default" : 0})
      */
     private $productSku = 0;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="product_gtin", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_gtin", type="integer", nullable=false, options={"default" : 0})
      */
     private $productGtin = 0;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="product_mpn", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_mpn", type="integer", nullable=false, options={"default" : 0})
      */
     private $productMpn = 0;
 
     /**
      * @var NumberType|null
      *
-     * @ORM\Column(name="product_weight", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_weight", type="decimal", nullable=true, options={"default" : 0})
      */
     private $productWeight = 0;
 
     /**
      * @var NumberType|null
      *
-     * @ORM\Column(name="product_weight_uom", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_weight_uom", type="string", nullable=true, options={"default" : 0})
      */
     private $productWeightUom = 0;
 
     /**
-     * @ORM\Column(name="product_length", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="product_length", type="decimal", precision=7, scale=2, nullable=false, options={"default" : 0})
      */
     private $productLength = 0;
 
     /**
-     * @ORM\Column(name="product_width", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="product_width", type="decimal", precision=7, scale=2, nullable=false, options={"default" : 0})
      */
     private $productWidth = 0;
 
     /**
-     * @ORM\Column(name="product_height", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="product_height", type="decimal", precision=7, scale=2, nullable=false, options={"default" : 0})
      */
     private $productHeight = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="product_lwh_uom", type="integer", precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="product_lwh_uom", type="integer", precision=7, scale=2, nullable=false, options={"default" : 0})
      */
     private $productLwhUom = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="product_in_stock", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="product_in_stock", type="integer", nullable=false, options={"default" : 0})
      */
     private $productInStock = 0;
 
@@ -111,7 +110,7 @@ class Products
     /**
      * @var int
      *
-     * @ORM\Column(name="low_stock_notification", type="integer", nullable=false)
+     * @ORM\Column(name="low_stock_notification", type="integer", nullable=false, options={"default" : 0})
      */
     private $lowStockNotification = 0;
 
@@ -123,44 +122,44 @@ class Products
     private $productAvailableDate;
 
     /**
-     * @var bool
+     * @var bool|false
      *
-     * @ORM\Column(name="product_availability", type="boolean", nullable=true)
+     * @ORM\Column(name="product_availability", type="boolean", nullable=false, options={"default":false})
      */
     private $productAvailability = false;
 
     /**
-     * @var boolean
+     * @var bool|false
      *
-     * @ORM\Column(name="product_special", type="boolean", nullable=false)
+     * @ORM\Column(name="product_special", type="boolean", nullable=false, options={"default":false})
      */
     private $productSpecial = false;
 
     /**
-     * @var boolean
+     * @var bool|false
      *
-     * @ORM\Column(name="product_discontinued", type="boolean", nullable=false)
+     * @ORM\Column(name="product_discontinued", type="boolean", nullable=false, options={"default":false})
      */
     private $productDiscontinued = false;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="product_sales", type="integer", nullable=false)
+     * @ORM\Column(name="product_sales", type="integer", nullable=false, options={"default" : 0})
      */
     private $productSales = 0;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="product_unit", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_unit", type="string", nullable=false, options={"default" : 0})
      */
     private $productUnit = 0;
 
     /**
      * @var NumberType|null
      *
-     * @ORM\Column(name="product_packaging", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_packaging", type="integer", nullable=true, options={"default" : 0})
      */
     private $productPackaging = 0;
 
@@ -172,66 +171,66 @@ class Products
     private $productParams = 'product_params';
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="product_canon_category_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_canon_category_id", type="integer", nullable=false, options={"default" : 0})
      */
     private $productCanonCategoryId = 0;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="product_hits", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_hits", type="integer", nullable=false, options={"default" : 0})
      */
     private $productHits = 0;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="product_notes", type="text", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_notes", type="text", nullable=false, options={"default"="product_notes"})
      */
-    private $productNotes = 0;
+    private $productNotes = "product_notes";
 
     /**
      * @var string
      *
-     * @ORM\Column(name="meta_robot", type="string", nullable=true, options={"default"="meta_robot"})
+     * @ORM\Column(name="meta_robot", type="string", nullable=false, options={"default"="meta_robot"})
      */
     private $metaRobot = 'meta_robot';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="meta_author", type="string", nullable=true, options={"default"="meta_author"})
+     * @ORM\Column(name="meta_author", type="string", nullable=false, options={"default"="meta_author"})
      */
     private $metaAuthor = 'meta_author';
 
 	/**
      * @var int|null
      *
-     * @ORM\Column(name="layout", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="layout", type="integer", nullable=false, options={"default" : 0})
      */
     private $layout = 0;
 
 	/**
-     * @var boolean
+     * @var bool|true
      *
-     * @ORM\Column(name="published", type="boolean", nullable=false)
+     * @ORM\Column(name="published", type="boolean", nullable=false, options={"default":true})
      */
-    private $published = false;
+    private $published = true;
 
 	/**
 	* @var string
-	* @ORM\Column(name="product_country_origin", type="string", nullable=false, options={"default"=""})
+	* @ORM\Column(name="product_country_origin", type="string", nullable=false, options={"default"="product_country_origin"})
 	*/
-	private $productCountryOrigin = "";
+	private $productCountryOrigin = "product_country_origin";
 
 	/**
-     * @var int
-     *
-     * @ORM\Column(name="ordering", type="integer", nullable=false)
+     * @var int|1
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="ordering", type="integer", nullable=false, options={"default" : 1})
      */
-    private $ordering = 0;
+    private $ordering = 1;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", mappedBy="productEnGb", orphanRemoval=true, fetch="EAGER")
@@ -283,9 +282,9 @@ class Products
 	/**
      * @var int
      *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
+     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
      */
-    private $createdBy = 0;
+    private $createdBy = 1;
 
 	/**
      * @var DateTime
@@ -297,23 +296,23 @@ class Products
 	/**
      * @var int
      *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false)
+     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
      */
-    private $modifiedBy = 0;
+    private $modifiedBy = 1;
 
 	/**
      * @var DateTime
      *
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false)
+     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $lockedOn;
 
 	/**
      * @var int
      *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false)
+     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
      */
-    private $lockedBy = 0;
+    private $lockedBy = 1;
 
 
 
@@ -904,32 +903,37 @@ class Products
     }
 
     /**
-     * @ORM\PrePersist
-     * @throws Exception
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 * @throws Exception
      */
     public function setCreatedOn(): void
     {
         $this->createdOn = new DateTime();
     }
 
-    /**
-     * @return int
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
+	/**
+	 * @return int
+	 */
+	public function getCreatedBy(): int
+	{
+		return $this->createdBy;
+	}
 
 	/**
-	 * @ORM\PrePersist()
-	 * @param Vendors|null $createdBy
+	 * @param int $createdBy
 	 */
-    public function setCreatedBy(Vendors $createdBy = null): void
-    {
-        $this->createdBy = $createdBy;
-    }
+	public function setCreatedBy(int $createdBy): void
+	{
+		$this->createdBy = $createdBy;
+	}
+
+
 
     /**
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 * @throws Exception
      * @return DateTime
      */
     public function getModifiedOn(): DateTime
@@ -956,15 +960,12 @@ class Products
     }
 
 	/**
-	 * @ORM\PreFlush
-	 * @ORM\PreUpdate
-	 *
-	 * @param Vendors|null $modifiedBy
+	 * @param int $modifiedBy
 	 */
-    public function setModifiedBy(Vendors $modifiedBy = null): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
+	public function setModifiedBy(?int $modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
 
     /**
      * @return DateTime
@@ -993,15 +994,14 @@ class Products
     }
 
 	/**
-	 * @ORM\PreFlush
-	 * @ORM\PreUpdate
-	 *
-	 * @param Vendors|null $lockedBy
+	 * @param int $lockedBy
 	 */
-    public function setLockedBy(Vendors $lockedBy = null): void
-    {
-        $this->lockedBy = $lockedBy;
-    }
+	public function setLockedBy(?int $lockedBy): void
+	{
+		$this->lockedBy = $lockedBy;
+	}
+
+
 
     /**
      * @return mixed

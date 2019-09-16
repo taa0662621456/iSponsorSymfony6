@@ -6,17 +6,17 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 
-/**
- * @ORM\Table(name="featured")
- * @ORM\Entity(repositoryClass="App\Repository\FeaturedRepository")
- */
+ /**
+  * @ORM\Table(name="featured")
+  * @ORM\Entity(repositoryClass="App\Repository\FeaturedRepository")
+  */
 class Featured
 {
     /**
      * @var integer
-	 *
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
@@ -24,9 +24,9 @@ class Featured
     /**
      * @var int
      *
-     * @ORM\Column(name="orderid", type="integer")
+     * @ORM\Column(name="ordering", type="integer")
      */
-    private $orderId;
+    private $ordering;
 
     /**
      * @var string
@@ -36,6 +36,31 @@ class Featured
     private $featuredType;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectFeatured")
+	 * @ORM\JoinColumn(name="projectFeatured_id", referencedColumnName="id")
+     */
+    private $projectFeatured;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productFeatured")
+	 * @ORM\JoinColumn(name="productFeatured_id", referencedColumnName="id")
+     */
+    private $productFeatured;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryFeatured")
+	 * @ORM\JoinColumn(name="categoryFeatured_id", referencedColumnName="id")
+     */
+    private $categoryFeatured;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorFeatured")
+	 * @ORM\JoinColumn(name="vendorFeatured_id", referencedColumnName="id")
+     */
+    private $vendorFeatured;
+
+    
+    /**
      * @return integer
      */
     public function getId()
@@ -44,21 +69,22 @@ class Featured
     }
 
 	/**
-	 * @param $orderId
+	 * @param $ordering
 	 *
 	 * @return Featured
 	 */
-    public function setOrderId($orderId)
+    public function setOrdering($ordering)
     {
-        $this->orderId = $orderId;
+        $this->ordering = $ordering;
         return $this;
     }
+
     /**
      * @return integer
      */
-    public function getOrderId()
+    public function getOrdering()
     {
-        return $this->orderId;
+        return $this->ordering;
     }
 
     /**
@@ -69,12 +95,11 @@ class Featured
         return $this->featuredType;
     }
 
-    /**
-     * @param string $featuredType
-     */
+	/**
+	 * @param string $featuredType
+	 */
     public function setFeaturedType(string $featuredType): void
     {
         $this->featuredType = $featuredType;
     }
-
 }

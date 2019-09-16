@@ -14,22 +14,22 @@ class VendorsIban
     /**
      * @var integer
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="iban", type="string", unique=true, nullable=true, options={"default"="0", "comment"="Primary Key"})
+     * @ORM\Column(name="iban", type="string", nullable=false, options={"default"="0"})
      */
     private $iban = '0';
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorIban", orphanRemoval=true)
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
 	private $vendorIban;
 

@@ -25,7 +25,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * @var integer
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
      */
     private $id;
@@ -43,7 +43,7 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", unique=true, nullable=false, options={"default":0})
+     * @ORM\Column(name="password", type="string", unique=true, nullable=false, options={"default" : 0})
      */
     private $password = '0';
 
@@ -71,12 +71,50 @@ class VendorsSecurity implements UserInterface, Serializable
      */
     private $sendEmail = null;
 
-    /**
-     * @var datetime
-     *
-     * @ORM\Column(name="register_date", type="datetime", nullable=false)
-     */
-    private $registerDate;
+	/**
+	 * @var DateTime
+	 *
+	 * @Assert\DateTime
+	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $createdOn;
+
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $createdBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @Assert\DateTime
+	 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $modifiedOn;
+
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $modifiedBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @Assert\DateTime
+	 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $lockedOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $lockedBy = 1;
 
     /**
      * @var datetime
@@ -152,7 +190,7 @@ class VendorsSecurity implements UserInterface, Serializable
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorSecurity", orphanRemoval=true)
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $vendorSecurity;
 
@@ -174,11 +212,12 @@ class VendorsSecurity implements UserInterface, Serializable
         $this->roles = [self::ROLE_USER];
         $this->lastResetTime = new \DateTime();
         $this->lastVisitDate = new \DateTime();
-        $this->registerDate = new \DateTime();
+		$this->createdOn = new DateTime();
+		$this->modifiedOn = new DateTime();
+		$this->lockedOn = new DateTime();
     }
 
     /**
-     *
      * @ORM\Column(name="salt", type="string")
      */
     private $salt ='0';
@@ -190,6 +229,8 @@ class VendorsSecurity implements UserInterface, Serializable
     {
         return $this->id;
     }
+
+
 
     /**
      * @return string
@@ -246,23 +287,102 @@ class VendorsSecurity implements UserInterface, Serializable
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getRegisterDate(): DateTime
-    {
-        return $this->registerDate;
-    }
+	/**
+	 * @return DateTime
+	 */
+	public function getCreatedOn(): DateTime
+	{
+		return $this->createdOn;
+	}
 
-    /**
-     * @param DateTime $registerDate
-     * @return VendorsSecurity
-     */
-    public function setRegisterDate(DateTime $registerDate): self
-    {
-        $this->registerDate = $registerDate;
-        return $this;
-    }
+	/**
+	 * @param DateTime $createdOn
+	 */
+	public function setCreatedOn(DateTime $createdOn): void
+	{
+		$this->createdOn = $createdOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCreatedBy(): int
+	{
+		return $this->createdBy;
+	}
+
+	/**
+	 * @param int $createdBy
+	 */
+	public function setCreatedBy(int $createdBy): void
+	{
+		$this->createdBy = $createdBy;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getModifiedOn(): DateTime
+	{
+		return $this->modifiedOn;
+	}
+
+	/**
+	 * @param DateTime $modifiedOn
+	 */
+	public function setModifiedOn(DateTime $modifiedOn): void
+	{
+		$this->modifiedOn = $modifiedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getModifiedBy(): int
+	{
+		return $this->modifiedBy;
+	}
+
+	/**
+	 * @param int $modifiedBy
+	 */
+	public function setModifiedBy(int $modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getLockedOn(): DateTime
+	{
+		return $this->lockedOn;
+	}
+
+	/**
+	 * @param DateTime $lockedOn
+	 */
+	public function setLockedOn(DateTime $lockedOn): void
+	{
+		$this->lockedOn = $lockedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLockedBy(): int
+	{
+		return $this->lockedBy;
+	}
+
+	/**
+	 * @param int $lockedBy
+	 */
+	public function setLockedBy(int $lockedBy): void
+	{
+		$this->lockedBy = $lockedBy;
+	}
+
 
     /**
      * @return DateTime
@@ -445,6 +565,15 @@ class VendorsSecurity implements UserInterface, Serializable
         ];
     }
 
+	/**
+	 * @param array $roles
+	 */
+	public function setRoles(array $roles): void
+	{
+		$this->roles = $roles;
+	}
+
+
     /**
      * Returns the password used to authenticate the user.
      *
@@ -556,5 +685,15 @@ class VendorsSecurity implements UserInterface, Serializable
     {
         return $this->email;
     }
+
+	/**
+	 * @param Vendors $vendorSecurity
+	 */
+	public function setVendorSecurity(Vendors $vendorSecurity): void
+	{
+		$this->vendorSecurity = $vendorSecurity;
+	}
+
+
 }
 

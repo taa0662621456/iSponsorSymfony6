@@ -17,16 +17,16 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Projects
 {
-	/**
-	 * @var integer
-	 *
-	 * @ORM\Id
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 * @ORM\Column(name="id", type="integer", nullable=false)
-	 */
-	private $id;
+    public const NUM_ITEMS = 10;
 
-	public const NUM_ITEMS = 10;
+    /**
+     * @var integer
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     */
+    private $id;
 
     /**
      * @var int
@@ -34,6 +34,12 @@ class Projects
      * @ORM\Column(name="ordering", type="integer", nullable=false)
      */
     private $ordering = 0;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryProjects")
+	 * @ORM\JoinColumn(name="categoryProject_id", referencedColumnName="id")
+     */
+    private $categoryProject;
 
     /**
      * @var DateTime
@@ -45,7 +51,7 @@ class Projects
     /**
      * @var int
      *
-     * @ORM\Column(name="created_by", type="string", nullable=false, options={"default":0})
+     * @ORM\Column(name="created_by", type="string", nullable=false, options={"default" : 0})
      */
     private $createdBy = 0;
 
@@ -77,14 +83,8 @@ class Projects
      */
     private $lockedBy = 0;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="projectCategory")
-	 */
-	private $projectCategory;
-
     /**
-     * @ORM\OneToOne(targetEntity="ProjectsEnGb", mappedBy="projectEnGb", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb", mappedBy="projectEnGb", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
      * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
      * @Assert\Valid()
      */
@@ -158,17 +158,17 @@ class Projects
     /**
      * @return mixed
      */
-    public function getProjectCategory()
+    public function getCategoryProject()
     {
-        return $this->projectCategory;
+        return $this->categoryProject;
     }
 
-    /**
-     * @param mixed $projectCategory
-     */
-    public function setCategory($projectCategory): void
+	/**
+	 * @param $categoryProject
+	 */
+    public function setCategoryProject($categoryProject): void
     {
-        $this->projectCategory = $projectCategory;
+        $this->categoryProject = $categoryProject;
     }
 
     /**

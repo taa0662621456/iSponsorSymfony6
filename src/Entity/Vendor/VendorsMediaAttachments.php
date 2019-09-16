@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +22,7 @@ class VendorsMediaAttachments
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 

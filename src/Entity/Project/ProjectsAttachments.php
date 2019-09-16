@@ -19,9 +19,9 @@ class ProjectsAttachments
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
@@ -32,7 +32,7 @@ class ProjectsAttachments
      * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */
-	private $file = 'noimage';
+	private $file = 'no image';
 
     /**
      * @var string

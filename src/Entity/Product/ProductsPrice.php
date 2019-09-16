@@ -17,7 +17,7 @@ class ProductsPrice
      * @var integer
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
@@ -25,14 +25,14 @@ class ProductsPrice
     /**
      * @var int
      *
-     * @ORM\Column(name="product_id", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="product_id", type="integer", nullable=false, options={"default" : 0})
      */
     private $productId = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="shopper_group_id", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="shopper_group_id", type="integer", nullable=false, options={"default" : 0})
      */
     private $shopperGroupId = 0;
 
@@ -45,35 +45,35 @@ class ProductsPrice
     /**
      * @var boolean|null
      *
-     * @ORM\Column(name="override", type="boolean", nullable=true, options={"default":0})
+     * @ORM\Column(name="override", type="boolean", nullable=true, options={"default" : 0})
      */
     private $override = false;
 
     /**
      * @var 
      *
-     * @ORM\Column(name="product_override_price", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="product_override_price", type="decimal", precision=7, scale=2, nullable=true, options={"default" : 0})
      */
     private $productOverridePrice = 0;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="product_tax_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_tax_id", type="integer", nullable=true, options={"default" : 0})
      */
     private $productTaxId = 0;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="product_discount_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_discount_id", type="integer", nullable=true, options={"default" : 0})
      */
     private $productDiscountId = 0;
 
     /**
      * @var int|null
      *
-     * @ORM\Column(name="product_currency", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="product_currency", type="integer", nullable=true, options={"default" : 0})
      */
     private $productCurrency = 0;
 
@@ -94,14 +94,14 @@ class ProductsPrice
     /**
      * @var int
      *
-     * @ORM\Column(name="price_quantity_start", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="price_quantity_start", type="integer", nullable=false, options={"default" : 0})
      */
     private $priceQuantityStart = 0;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="price_quantity_end", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="price_quantity_end", type="integer", nullable=false, options={"default" : 0})
      */
     private $priceQuantityEnd = 0;
 
@@ -115,7 +115,7 @@ class ProductsPrice
     /**
      * @var int
      *
-     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 0})
      */
     private $createdBy = 0;
 
@@ -129,7 +129,7 @@ class ProductsPrice
     /**
      * @var int
      *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 0})
      */
     private $modifiedBy = '0';
 
@@ -143,7 +143,7 @@ class ProductsPrice
     /**
      * @var int
      *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 0})
      */
     private $lockedBy = 0;
 

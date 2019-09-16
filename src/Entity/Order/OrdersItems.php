@@ -3,15 +3,13 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use DateTime;
+use \DateTime;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- * OrderItems
- *
- * @ORM\Table(name="order_items")
+ * @ORM\Table(name="orders_items")
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -20,23 +18,23 @@ class OrdersItems
     /**
      * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
     /**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="item", type="integer", nullable=false, options={"default":0})
+	 * @ORM\Column(name="item", type="integer", nullable=false, options={"default" : 0})
      */
     private $item;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default":0})
+     * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default" : 0})
      */
     private $itemSku = 0;
 
@@ -50,42 +48,42 @@ class OrdersItems
     /**
      * @var int|null
      *
-     * @ORM\Column(name="item_quantity", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="item_quantity", type="integer", nullable=true, options={"default" : 0})
      */
     private $itemQuantity = 1;
 
     /**
      * @var null
      *
-     * @ORM\Column(name="item_price", type="decimal", precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="item_price", type="decimal", precision=7, scale=2, nullable=true, options={"default" : 0})
      */
     private $itemPrice = 1;
 
     /**
      * @var null
      *
-     * @ORM\Column(name="item_price_without_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="item_price_without_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
     private $itemPriceWithoutTax = 0;
 
     /**
      * @var null
      *
-     * @ORM\Column(name="item_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="item_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
     private $itemTax = 0;
 
     /**
      * @var null
      *
-     * @ORM\Column(name="item_base_price_with_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="item_base_price_with_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
     private $itemBasePriceWithTax = 0;
 
     /**
      * @var null
      *
-     * @ORM\Column(name="item_discounted_price_without_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default":0})
+     * @ORM\Column(name="item_discounted_price_without_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
     private $itemDiscountedPriceWithoutTax = 0;
 
@@ -113,7 +111,7 @@ class OrdersItems
     /**
      * @var int|null
      *
-     * @ORM\Column(name="item_order_currency", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="item_order_currency", type="integer", nullable=true, options={"default" : 0})
      */
     private $itemOrderCurrency = 0;
 
@@ -132,7 +130,7 @@ class OrdersItems
     private $itemHash = 'item_hash';
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
@@ -146,7 +144,7 @@ class OrdersItems
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false)
      */
@@ -160,7 +158,7 @@ class OrdersItems
     private $modifiedBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false)
      */
@@ -175,7 +173,7 @@ class OrdersItems
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\Orders", inversedBy="orderItems")
-	 * @ORM\JoinColumn(name="id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="orderItems_id", referencedColumnName="id")
 	 */
     private $orderItems;
 
@@ -203,9 +201,9 @@ class OrdersItems
      */
     public function __construct()
     {
-        $this->lockedOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->createdOn = new \DateTime();
+        $this->lockedOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->createdOn = new DateTime();
     }
 
 

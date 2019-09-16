@@ -8,6 +8,7 @@ use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -19,10 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Vendors
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
      */
     private $id;
@@ -30,7 +31,7 @@ class Vendors
     /**
      * @var bool|false
      *
-     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default":0})
+     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 0})
      */
     private $active = false;
 
@@ -41,18 +42,56 @@ class Vendors
      */
     private $roles = [];
 
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="register_date", type="datetime", nullable=false)
-     */
-    private $registerDate;
+	/**
+	 * @var DateTime
+	 *
+	 * @Assert\DateTime
+	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $createdOn;
+
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $createdBy = 1;		
+
+	/**
+	 * @var DateTime
+	 *
+	 * @Assert\DateTime
+	 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $modifiedOn;
+
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $modifiedBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @Assert\DateTime
+	 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $lockedOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $lockedBy = 1;
 
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="last_visit_date", type="datetime", nullable=false)
      * @Assert\DateTime()
+     * @ORM\Column(name="last_visit_date", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $lastVisitDate;
 
@@ -80,15 +119,15 @@ class Vendors
     /**
      * @var datetime
      *
-     * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"comment"="Date of last password reset"})
      * @Assert\DateTime()
+     * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP", "comment"="Date of last password reset"})
      */
     private $lastResetTime;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"comment"="Count of password resets since lastResetTime"})
+     * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"default" : 0, "comment"="Count of password resets since lastResetTime"})
      */
     private $resetCount = 0;
 
@@ -107,9 +146,9 @@ class Vendors
     private $otep = '';
 
     /**
-     * @var boolean
+     * @var boolean/false
      *
-     * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"comment"="Require user to reset password on next login"})
+     * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require user to reset password on next login"})
      */
     private $requireReset = 0;
 
@@ -141,6 +180,13 @@ class Vendors
      */
     private $vendorOrders;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
+	 * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
+	 * @Assert\Valid()
+	 */
+    private $vendorOrderItems;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", mappedBy="vendorDocAttachments")
      * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
@@ -156,14 +202,13 @@ class Vendors
     private $vendorMediaAttachments;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites")
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", mappedBy="vendorFavourites")
+	 * @ORM\JoinTable(name="products_tags")
+	 * @ORM\OrderBy({"name": "ASC"})
+	 * @Assert\Count(max="4", maxMessage="products.too_many_tags")
 	 */
     private $vendorFavourites;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
-	 */
-    private $vendorOrderItems;
 
 
 
@@ -176,9 +221,11 @@ class Vendors
      */
     public function __construct()
     {
+		$this->createdOn = new DateTime();
+		$this->modifiedOn = new DateTime();
+		$this->lockedOn = new DateTime();
         $this->lastResetTime = new DateTime();
         $this->lastVisitDate = new DateTime();
-        $this->registerDate = new DateTime();
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
@@ -208,27 +255,106 @@ class Vendors
 		$this->active = $active;
 	}
 
+	/**
+	 * @return DateTime
+	 */
+	public function getCreatedOn(): DateTime
+	{
+		return $this->createdOn;
+	}
 
+	/**
+	 * @ORM\PrePersist
+	 * @throws Exception
+	 */
+	public function setCreatedOn(): void
+	{
+		$this->createdOn = new DateTime();
+	}
 
-    /**
-     * @return DateTime
-     */
-    public function getRegisterDate(): DateTime
-    {
-        return $this->registerDate;
-    }
+	/**
+	 * @return integer
+	 */
+	public function getCreatedBy(): int
+	{
+		return $this->createdBy;
+	}
 
-    /**
-     * @param DateTime $registerDate
-     * @return Vendors
-     */
-    public function setRegisterDate(DateTime $registerDate): self
-    {
-        $this->registerDate = $registerDate;
-        return $this;
-    }
+	/**
+	 * @param integer $createdBy
+	 */
+	public function setCreatedBy(int $createdBy): void
+	{
+		$this->createdBy = $createdBy;
+	}
 
-    /**
+	/**
+	 * @return DateTime
+	 */
+	public function getModifiedOn(): DateTime
+	{
+		return $this->modifiedOn;
+	}
+
+	/**
+	 * @ORM\PreFlush
+	 * @ORM\PreUpdate
+	 * @throws Exception
+	 */
+	public function setModifiedOn(): void
+	{
+		$this->modifiedOn = new DateTime();
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getModifiedBy(): int
+	{
+		return $this->modifiedBy;
+	}
+
+	/**
+	 * @param integer $modifiedBy
+	 */
+	public function setModifiedBy(int $modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getLockedOn(): DateTime
+	{
+		return $this->lockedOn;
+	}
+
+	/**
+	 * @param datetime $lockedOn
+	 */
+	public function setLockedOn(DateTime $lockedOn): void
+	{
+		$this->lockedOn = $lockedOn;
+	}
+
+	/**
+	 * @return integer
+	 */
+	public function getLockedBy(): int
+	{
+		return $this->lockedBy;
+	}
+
+	/**
+	 * @param integer $lockedBy
+	 */
+	public function setLockedBy(int $lockedBy): void
+	{
+		$this->lockedBy = $lockedBy;
+	}
+
+	/**
      * @return DateTime
      */
     public function getLastVisitDate(): DateTime
@@ -575,6 +701,10 @@ class Vendors
 	public function setVendorOrderItems($vendorOrderItems): void
 	{
 		$this->vendorOrderItems = $vendorOrderItems;
+	}
+
+	public function setRoles()
+	{
 	}
 }
 

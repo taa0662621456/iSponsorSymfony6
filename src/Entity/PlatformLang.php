@@ -23,7 +23,7 @@ class PlatformLang
      *
      * @ORM\Column(name="lang_id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $langId;
 

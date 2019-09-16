@@ -9,18 +9,18 @@ use Exception;
 
 
 /**
- * @ORM\Table(name="order_histories")
+ * @ORM\Table(name="orders_histories")
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class OrderHistories
+class OrdersHistories
 {
     /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -42,14 +42,14 @@ class OrderHistories
     /**
      * @var string|null
      *
-     * @ORM\Column(name="comments", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="comments", type="string", nullable=true, options={"default" : 0})
      */
     private $comments = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="o_hash", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="o_hash", type="string", nullable=true, options={"default" : 0})
      */
     private $oHash = '0';
 

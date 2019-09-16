@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Entity\Category;
 
 use App\Entity\Project\Projects;
+use \DateTime;
 use Exception;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,10 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Categories
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
@@ -39,14 +39,14 @@ class Categories
      * @var DateTime
      *
      * @Assert\DateTime
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
+     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $createdOn;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
+     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
      */
     private $createdBy = 0;
 
@@ -54,39 +54,39 @@ class Categories
      * @var DateTime
      *
      * @Assert\DateTime
-     * @ORM\Column(name="modified_on", type="datetime", nullable=false)
+     * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $modifiedOn;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false)
+     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
      */
-    private $modifiedBy = 0;
+    private $modifiedBy = 1;
 
     /**
      * @var DateTime
      *
      * @Assert\DateTime
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false)
+     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private $lockedOn;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false)
+     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
      */
-    private $lockedBy = 0;
+    private $lockedBy = 1;
 
     /**
      * @var int
      *
-     * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true)
-	 * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
+	 * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $ordering = 0;
+    private $ordering = 1;
 
 
     /**
@@ -94,16 +94,16 @@ class Categories
      */
     private $children;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="children")
-     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
-     */
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="children")
+	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+	 */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="projectCategory")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="categoryProject")
      */
-    private $projectCategory;
+    private $categoryProjects;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb", cascade={"persist", "remove"}, mappedBy="categoriesEnGb")
@@ -133,11 +133,11 @@ class Categories
     public function __construct()
     {
 
-        $this->createdOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->lockedOn = new \DateTime();
+        $this->createdOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->lockedOn = new DateTime();
         $this->children = new ArrayCollection();
-        $this->projectCategory = new ArrayCollection();
+        $this->categoryProjects = new ArrayCollection();
         $this->categoryAttachments = new ArrayCollection();
     }
 
@@ -171,9 +171,9 @@ class Categories
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -184,7 +184,7 @@ class Categories
      */
     public function setCreatedOn(): void
     {
-        $this->createdOn = new \DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -204,9 +204,9 @@ class Categories
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -218,7 +218,7 @@ class Categories
      */
     public function setModifiedOn(): void
     {
-        $this->modifiedOn = new \DateTime();
+        $this->modifiedOn = new DateTime();
     }
 
     /**
@@ -239,9 +239,9 @@ class Categories
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -273,9 +273,9 @@ class Categories
     /**
      * @return Collection|Projects[]
      */
-    public function getProjectCategory(): Collection
+    public function getCategoryProjects(): Collection
     {
-        return $this->projectCategory;
+        return $this->categoryProjects;
     }
 
     /**
@@ -340,21 +340,34 @@ class Categories
         return $this->children;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
+	/**
+	 * @param mixed $children
+	 */
+	public function setChildren($children): void
+	{
+		$this->children = $children;
+	}
 
-    /**
-     * @param Categories $parent
-     */
-    public function setParent(Categories $parent = null): void
-    {
-        $this->parent = $parent;
-    }
+	/**
+	 * @return Categories
+	 */
+	public function getParent()
+	{
+		return $this->parent;
+	}
+
+	/**
+	 * @param Categories $parent
+	 *
+	 * @return Categories
+	 */
+	public function setParent(Categories $parent = null): Categories
+	{
+		$this->parent = $parent;
+
+		return $this;
+	}
+
 
 	/**
 	 * @param CategoriesAttachments $attachments
