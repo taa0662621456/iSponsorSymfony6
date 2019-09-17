@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,11 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CategoriesEnGb
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -84,7 +83,7 @@ class CategoriesEnGb
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryEnGb")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="categoriesEnGb_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $categoriesEnGb;
 

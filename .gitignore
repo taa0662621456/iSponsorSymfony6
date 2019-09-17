@@ -21,3 +21,6 @@ yarn-error.log
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+/src/Trash/
+/templates/bootstrap-4.0.0/
+/bin/

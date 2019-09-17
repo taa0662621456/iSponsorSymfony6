@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use App\Entity\Vendor\Vendors;
-use DateTime;
+use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,37 +24,37 @@ class Orders
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_number", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_number", type="string", nullable=true, options={"default" : 0})
      */
     private $orderNumber = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_customer_number", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_customer_number", type="string", nullable=true, options={"default" : 0})
      */
     private $orderCustomerNumber = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_pass", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_pass", type="string", nullable=true, options={"default" : 0})
      */
     private $orderPass = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_create_invoice_pass", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_create_invoice_pass", type="string", nullable=true, options={"default" : 0})
      */
     private $orderCreateInvoicePass = '0';
 
@@ -83,7 +82,7 @@ class Orders
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_bill_tax", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_bill_tax", type="string", nullable=true, options={"default" : 0})
      */
     private $orderBillTax = '0';
 
@@ -104,42 +103,42 @@ class Orders
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_subtotal", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_subtotal", type="decimal", nullable=true, options={"default" : 0})
      */
     private $orderSubtotal = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_tax", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_tax", type="decimal", nullable=true, options={"default" : 0})
      */
     private $orderTax = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_shipment", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_shipment", type="decimal", nullable=true, options={"default" : 0})
      */
     private $orderShipment = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_shipment_tax", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_shipment_tax", type="decimal", nullable=true, options={"default" : 0})
      */
     private $orderShipmentTax = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_payment", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_payment", type="decimal", nullable=true, options={"default" : 0})
      */
     private $orderPayment = '0';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_payment_tax", type="decimal", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_payment_tax", type="decimal", nullable=true, options={"default" : 0})
      */
     private $orderPaymentTax = '0';
 
@@ -153,7 +152,7 @@ class Orders
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_coupon_code", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_coupon_code", type="string", nullable=true, options={"default" : 0})
      */
     private $orderCouponCode = '0';
 
@@ -167,14 +166,14 @@ class Orders
     /**
      * @var int|null
      *
-     * @ORM\Column(name="order_currency", type="smallint", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_currency", type="smallint", nullable=true, options={"default" : 0})
      */
     private $orderCurrency = 0;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_status", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_status", type="string", nullable=true, options={"default" : 0})
      */
     private $orderStatus = '0';
 
@@ -195,7 +194,7 @@ class Orders
     /**
      * @var int|null
      *
-     * @ORM\Column(name="order_payment_currency_id", type="smallint", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_payment_currency_id", type="smallint", nullable=true, options={"default" : 0})
      */
     private $orderPaymentCurrencyId = '0';
 
@@ -209,14 +208,14 @@ class Orders
     /**
      * @var integer|null
      *
-     * @ORM\Column(name="order_payment_method_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_payment_method_id", type="integer", nullable=true, options={"default" : 0})
      */
     private $orderPaymentMethodId = 0;
 
     /**
      * @var integer|null
      *
-     * @ORM\Column(name="order_shipment_method_id", type="integer", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_shipment_method_id", type="integer", nullable=true, options={"default" : 0})
      */
     private $orderShipmentMethodId = '0';
 
@@ -230,7 +229,7 @@ class Orders
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_language", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_language", type="string", nullable=true, options={"default" : 0})
      */
     private $orderLanguage = '0';
 
@@ -251,7 +250,7 @@ class Orders
     /**
      * @var string|null
      *
-     * @ORM\Column(name="order_hash", type="string", nullable=true, options={"default":0})
+     * @ORM\Column(name="order_hash", type="string", nullable=true, options={"default" : 0})
      */
     private $orderHash = '0';
 
@@ -271,8 +270,6 @@ class Orders
 
 	/**
      * @ORM\Column(name="created_by", type="integer", nullable=false)
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vendors", inversedBy="id")
-     * @ORM\JoinColumn(name="createdBy_id", referencedColumnName="id", nullable=true)
      */
     private $createdBy;
 
@@ -284,11 +281,7 @@ class Orders
     private $modifiedOn;
 
 	/**
-     * @var int
-     *
      * @ORM\Column(name="modified_by", type="integer", nullable=false)
-     * ORM\ManyToOne(targetEntity="App\Entity\Vendors")
-     * ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     private $modifiedBy = 0;
 
@@ -300,10 +293,7 @@ class Orders
     private $lockedOn;
 
 	/**
-     * @var int
      * @ORM\Column(name="locked_by", type="integer", nullable=false)
-     * ORM\ManyToOne(targetEntity="App\Entity\Vendors")
-     * ORM\JoinColumn(name="id", referencedColumnName="id")
      */
     private $lockedBy = 0;
 
@@ -341,10 +331,10 @@ class Orders
      */
     public function __construct()
     {
-        $this->orderDeliveryDate = new \DateTime();
-        $this->createdOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->lockedOn = new \DateTime();
+        $this->orderDeliveryDate = new DateTime();
+        $this->createdOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->lockedOn = new DateTime();
         $this->orderItems = new ArrayCollection();
 
     }
@@ -790,17 +780,17 @@ class Orders
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getOrderDeliveryDate(): \DateTime
+    public function getOrderDeliveryDate(): DateTime
     {
         return $this->orderDeliveryDate;
     }
 
     /**
-     * @param \DateTime $orderDeliveryDate
+     * @param DateTime $orderDeliveryDate
      */
-    public function setOrderDeliveryDate(\DateTime $orderDeliveryDate): void
+    public function setOrderDeliveryDate(DateTime $orderDeliveryDate): void
     {
         $this->orderDeliveryDate = $orderDeliveryDate;
     }
@@ -902,15 +892,14 @@ class Orders
 
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
 
     /**
-     *
      * @ORM\PrePersist
      */
     public function setCreatedOn(): void
@@ -918,27 +907,27 @@ class Orders
         $this->createdOn = new DateTime();
     }
 
-    /**
-     * @ORM\PrePersist
-     * @return Vendors
-     */
-    public function getCreatedBy(): Vendors
-    {
-        return $this->createdBy;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getCreatedBy()
+	{
+		return $this->createdBy;
+	}
 
 	/**
-	 * @param Vendors|null $createdBy
+	 * @param mixed $createdBy
 	 */
-    public function setCreatedBy(Vendors $createdBy = null): void
-    {
-        $this->createdBy = $createdBy;
-    }
+	public function setCreatedBy($createdBy): void
+	{
+		$this->createdBy = $createdBy;
+	}
+
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -952,29 +941,29 @@ class Orders
         $this->modifiedOn = new DateTime();
     }
 
-    /**
-     * @return int
-     */
-    public function getModifiedBy(): int
-    {
-        return $this->modifiedBy;
-    }
-
 	/**
 	 * @ORM\PreFlush
 	 * @ORM\PreUpdate
-	 *
-	 * @param Vendors|null $modifiedBy
+	 * @return int
 	 */
-    public function setModifiedBy(Vendors $modifiedBy = null): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
+	public function getModifiedBy(): int
+	{
+		return $this->modifiedBy;
+	}
+
+	/**
+	 * @param mixed $modifiedBy
+	 */
+	public function setModifiedBy($modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
+
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -988,24 +977,23 @@ class Orders
         $this->lockedOn = new DateTime();
     }
 
-    /**
-     * @return int
-     */
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getLockedBy()
+	{
+		return $this->lockedBy;
+	}
 
 	/**
-	 * @ORM\PreFlush
-	 * @ORM\PreUpdate
-	 *
-	 * @param Vendors|null $lockedBy
+	 * @param mixed $lockedBy
 	 */
-    public function setLockedBy(Vendors $lockedBy = null): void
-    {
-        $this->lockedBy = $lockedBy;
-    }
+	public function setLockedBy($lockedBy): void
+	{
+		$this->lockedBy = $lockedBy;
+	}
+
+
 
 
 }

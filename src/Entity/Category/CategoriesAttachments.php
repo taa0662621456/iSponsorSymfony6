@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
+use \DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
 /**
- *
  * @ORM\Table(name="categories_attachments")
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -18,11 +16,11 @@ use Exception;
 class CategoriesAttachments
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -34,7 +32,7 @@ class CategoriesAttachments
      * @Assert\NotBlank(message="Please, upload the category's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */
-    protected $file = 'noimage';
+    protected $file = 'no image';
 
     /**
      * @var string
@@ -142,7 +140,7 @@ class CategoriesAttachments
     private $published = true;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
@@ -156,7 +154,7 @@ class CategoriesAttachments
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false)
      */
@@ -170,7 +168,7 @@ class CategoriesAttachments
     private $modifiedBy = 0;
 
     /**
-     * @var \datetime
+     * @var datetime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -184,9 +182,10 @@ class CategoriesAttachments
     private $lockedBy = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="attachments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryAttachments")
+	 * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id")
      */
-    private $category;
+    private $categoryAttachments;
 
 
 
@@ -202,9 +201,9 @@ class CategoriesAttachments
      */
     public function __construct()
     {
-        $this->lockedOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->createdOn = new \DateTime();
+        $this->lockedOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -375,23 +374,23 @@ class CategoriesAttachments
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getCategoryAttachments()
+	{
+		return $this->categoryAttachments;
+	}
 
-    /**
-     * @param mixed $category
-     * @return CategoriesAttachments
-     */
-    public function setCategory($category): self
-    {
-        $this->category = $category;
-        return $this;
-    }
+	/**
+	 * @param mixed $categoryAttachments
+	 */
+	public function setCategoryAttachments($categoryAttachments): void
+	{
+		$this->categoryAttachments = $categoryAttachments;
+	}
+
+
 
     /**
      * @return bool
@@ -522,7 +521,7 @@ class CategoriesAttachments
     /**
      * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -555,7 +554,7 @@ class CategoriesAttachments
     /**
      * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -589,7 +588,7 @@ class CategoriesAttachments
     /**
      * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }

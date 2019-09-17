@@ -11,9 +11,10 @@ use App\Entity\Vendor\VendorsIban;
 use App\Entity\Vendor\VendorsMediaAttachments;
 use App\Entity\Vendor\VendorsSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class VendorsFixtures extends Fixture
+class VendorsFixtures extends Fixture implements FixtureGroupInterface
 {
 
     public function load(ObjectManager $manager)
@@ -51,4 +52,12 @@ class VendorsFixtures extends Fixture
 		$manager->persist($vendorOrderItems);
         $manager->flush();
     }
+
+	/**
+	 * @return string[]
+	 */
+	public static function getGroups(): array
+	{
+		return ['vendors'];
+	}
 }
