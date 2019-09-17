@@ -165,6 +165,9 @@
     "symfony/asset": {
         "version": "4.3.x-dev"
     },
+    "symfony/browser-kit": {
+        "version": "4.3.x-dev"
+    },
     "symfony/cache": {
         "version": "4.3.x-dev"
     },
@@ -187,13 +190,31 @@
             "./config/bootstrap.php"
         ]
     },
+    "symfony/css-selector": {
+        "version": "4.3.x-dev"
+    },
     "symfony/debug": {
         "version": "4.3.x-dev"
+    },
+    "symfony/debug-bundle": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.1",
+            "ref": "f8863cbad2f2e58c4b65fa1eac892ab189971bea"
+        },
+        "files": [
+            "./config/packages/dev/debug.yaml"
+        ]
     },
     "symfony/dependency-injection": {
         "version": "4.3.x-dev"
     },
     "symfony/doctrine-bridge": {
+        "version": "4.3.x-dev"
+    },
+    "symfony/dom-crawler": {
         "version": "4.3.x-dev"
     },
     "symfony/dotenv": {
@@ -312,6 +333,22 @@
     },
     "symfony/orm-pack": {
         "version": "dev-master"
+    },
+    "symfony/phpunit-bridge": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "b0582341f1df39aaf3a9a866cdbe49937da35984"
+        },
+        "files": [
+            "./.env.test",
+            "./bin/phpunit",
+            "./config/bootstrap.php",
+            "./phpunit.xml.dist",
+            "./tests/.gitignore"
+        ]
     },
     "symfony/polyfill-intl-icu": {
         "version": "1.12-dev"
@@ -451,11 +488,28 @@
             "./config/packages/validator.yaml"
         ]
     },
+    "symfony/var-dumper": {
+        "version": "4.3.x-dev"
+    },
     "symfony/var-exporter": {
         "version": "4.3.x-dev"
     },
     "symfony/web-link": {
         "version": "4.3.x-dev"
+    },
+    "symfony/web-profiler-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bdfa1a95f6b2e677ab985cd1af2eae35d62e0f6"
+        },
+        "files": [
+            "./config/packages/dev/web_profiler.yaml",
+            "./config/packages/test/web_profiler.yaml",
+            "./config/routes/dev/web_profiler.yaml"
+        ]
     },
     "symfony/web-server-bundle": {
         "version": "3.3",

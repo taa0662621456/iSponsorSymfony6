@@ -28,7 +28,7 @@ class CategoriesAttachments
      * //пока только картинки, а вообще поле для разных типов (сохраняет имена файлов)
      * @var string
      *
-     * @ORM\Column(name="file", type="string", nullable=false, options={"default"="noimage"})
+     * @ORM\Column(name="file", type="string", nullable=false, options={"default"="no image"})
      * @Assert\NotBlank(message="Please, upload the category's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */

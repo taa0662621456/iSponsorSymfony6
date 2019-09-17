@@ -540,6 +540,8 @@ class Vendors
         $this->vendorSecurity = $vendorSecurity;
     }
 
+
+
     /**
      * @return mixed
      */

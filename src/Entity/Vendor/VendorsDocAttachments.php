@@ -29,11 +29,11 @@ class VendorsDocAttachments
      * //пока только картинки, а вообще поле для разных типов (сохраняет имена файлов)
      * @var string
      *
-     * @ORM\Column(name="file", type="string", nullable=false, options={"default"="noimage"})
+     * @ORM\Column(name="file", type="string", nullable=false, options={"default"="no image"})
      * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
      * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files only")
      */
-    protected $file = 'noimage';
+    protected $file = 'no image';
 
     /**
      * @var string
@@ -185,8 +185,9 @@ class VendorsDocAttachments
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorsDocsAttachments")
+	 * @ORM\JoinColumn(name="vendorsDocsAttachments_id", referencedColumnName="id")
      */
-    private $vendor;
+    private $vendorsDocsAttachments;
 
 
 
@@ -602,4 +603,22 @@ class VendorsDocAttachments
     {
         $this->lockedBy = $lockedBy;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorsDocsAttachments()
+	{
+		return $this->vendorsDocsAttachments;
+	}
+
+	/**
+	 * @param mixed $vendorsDocsAttachments
+	 */
+	public function setVendorsDocsAttachments($vendorsDocsAttachments): void
+	{
+		$this->vendorsDocsAttachments = $vendorsDocsAttachments;
+	}
+
+
 }

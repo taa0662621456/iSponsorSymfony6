@@ -115,6 +115,8 @@ class Categories
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", mappedBy="categoryAttachments")
+	 * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
+	 * @Assert\Valid()
      */
     private $categoryAttachments;
 

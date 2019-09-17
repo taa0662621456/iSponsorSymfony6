@@ -41,7 +41,15 @@
     "tgalopin/html-sanitizer-bundle": "dev-master"
   },
   "require-dev": {
-    "doctrine/doctrine-fixtures-bundle": "^3.3@dev"
+    "doctrine/doctrine-fixtures-bundle": "^3.3@dev",
+    "symfony/browser-kit": "4.3.*",
+    "symfony/css-selector": "4.3.*",
+    "symfony/debug-bundle": "4.3.*",
+    "symfony/maker-bundle": "^1.11",
+    "symfony/phpunit-bridge": "*",
+    "symfony/stopwatch": "4.3.*",
+    "symfony/web-profiler-bundle": "*",
+    "symfony/web-server-bundle": "*"
   },
   "config": {
     "preferred-install": {
