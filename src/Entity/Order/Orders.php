@@ -11,8 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Orders
- *
  * @ORM\Table(name="orders")
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
