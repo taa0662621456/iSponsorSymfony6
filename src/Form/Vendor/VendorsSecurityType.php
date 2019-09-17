@@ -16,7 +16,6 @@ class VendorsSecurityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-			->add('id')
             ->add('email', EmailType::class, array(
                 'label' => 'label.email',
                 'label_attr' => array(
@@ -28,6 +27,7 @@ class VendorsSecurityType extends AbstractType
                     'name' => '_email',
                     'class' => 'form-control',
                     'placeholder' => 'exemple@yahoo.com',
+					'tabindex' => '101',
                     'autofocus' => true
                 ),
             ))
@@ -40,7 +40,8 @@ class VendorsSecurityType extends AbstractType
                     ),
                     'attr' => array(
                         'class' => '',
-                        'placeholder' => 'placeholder.password.enter'
+                        'placeholder' => 'placeholder.password.enter',
+						'tabindex' => '201'
                     )
                 ),
                 'second_options' => array(
@@ -50,7 +51,8 @@ class VendorsSecurityType extends AbstractType
                     ),
                     'attr' => array(
                         'class' => '',
-                        'placeholder' => 'placeholder.password.confirm'
+                        'placeholder' => 'placeholder.password.confirm',
+						'tabindex' => '202'
                     )
                 ),
                 'required' => true,
@@ -58,7 +60,8 @@ class VendorsSecurityType extends AbstractType
                     'id' => 'password',
                     'name' => '_password',
                     'class' =>'form-control',
-                    'placeholder' => 'Password'
+                    'placeholder' => 'Password',
+					'tabindex' => '203'
                 )
             ))
         ;

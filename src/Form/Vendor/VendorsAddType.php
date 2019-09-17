@@ -14,11 +14,25 @@
 		public function buildForm(FormBuilderInterface $builder, array $options):void
 		{
 			$builder
-				->add('security', VendorsSecurityType::class)
+				->add('vendorSecurity', VendorsSecurityType::class)
 				->add('vendorEnGb', VendorsEnGbType::class)
+				->add('previous', SubmitType::class, array(
+					'label' => 'label.previous',
+					'attr' => array(
+						'id' => 'next',
+						'class' => 'btn btn-primary previous action-button-previous'
+					)
+				))
+				->add('next', SubmitType::class, array(
+					'label' => 'label.next',
+					'attr' => array(
+						'id' => 'next',
+						'class' => 'btn btn-primary next action-button'
+					)
+				))
 				->add('summit', SubmitType::class, array(
 					'attr' => array(
-						'class' => 'btn'
+						'class' => 'btn btn-primary submit'
 					)
 				))
 			;
@@ -29,6 +43,9 @@
 		{
 			$resolver->setDefaults([
 				'data_class' => Vendors::class,
+				'attr' => array(
+					'id' => 'msform'
+				)
 			]);
 		}
 	}

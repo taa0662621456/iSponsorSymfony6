@@ -18,10 +18,62 @@ class ProductsEnGbType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('productName', TextType::class, ['label' => 'productName'])
-            ->add('productSDesc', TextareaType::class, ['label' => 'productSDesc'])
-            ->add('productDesc', TextareaType::class, ['label' => 'productDesc'])
-            ->add('slug', TextType::class, ['label' => 'slug'])
+            ->add('productName', TextType::class, array(
+            	'label' => 'label.product.name',
+				'label_attr' => array(
+					'class' => 'sr-only'
+				),
+				'required' => true,
+				'attr' => array(
+					'id' => 'productName',
+					'class' => 'form-control',
+					'placeholder' => 'Enter product name',
+					'tabindex' => '101',
+					'autofocus' => true
+				)
+			))
+            ->add('productSDesc', TextareaType::class, array(
+            	'label' => 'label.product.sdesc',
+				'label_attr' => array(
+					'class' => 'sr-only'
+				),
+				'required' => false,
+				'attr' => array(
+					'id' => 'productSDesc',
+					'class' => 'form-control',
+					'placeholder' => 'Enter product short description',
+					'tabindex' => '102',
+					'autofocus' => false
+				)
+			))
+            ->add('productDesc', TextareaType::class, array(
+            	'label' => 'label.product.desc',
+				'label_attr' => array(
+					'class' => 'sr-only'
+				),
+				'required' => false,
+				'attr' => array(
+					'id' => 'productDesc',
+					'class' => 'form-control',
+					'placeholder' => 'Enter product description',
+					'tabindex' => '103',
+					'autofocus' => false
+				)
+			))
+            ->add('slug', TextType::class, array(
+            	'label' => 'label.product.slug',
+				'label_attr' => array(
+					'class' => 'sr-only'
+				),
+				'required' => false,
+				'attr' => array(
+					'id' => 'slug',
+					'class' => 'form-control',
+					'placeholder' => 'Enter product tags',
+					'tabindex' => '104',
+					'autofocus' => false
+				)
+				))
         ;
     }
 

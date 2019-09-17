@@ -1,0 +1,460 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20190917.220330.2828.0.001.json",
+    "dumpEventTime": "2019-09-17T22:03:30Z",
+    "dumpEventTimeStamp": "1568747010211",
+    "processId": 2828,
+    "cwd": "C:\\Users\\President2024\\PhpstormProjects\\isponsor-n08092019-1300",
+    "commandLine": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\update-notifier\\check.js",
+      "{\"pkg\":{\"name\":\"npm\",\"version\":\"6.10.3\"}}"
+    ],
+    "nodejsVersion": "v12.10.0",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.10.0",
+      "v8": "7.6.303.29-node.16",
+      "uv": "1.31.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.10.0/node-v12.10.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.10.0/node-v12.10.0.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.10.0/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.14393",
+    "osVersion": "Windows 10 Enterprise 2016 LTSB",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "AMD A4-4000 APU with Radeon(tm) HD Graphics    ",
+        "speed": 2994,
+        "user": 4831687,
+        "nice": 0,
+        "sys": 1984140,
+        "idle": 31266625,
+        "irq": 169281
+      },
+      {
+        "model": "AMD A4-4000 APU with Radeon(tm) HD Graphics    ",
+        "speed": 2994,
+        "user": 5345687,
+        "nice": 0,
+        "sys": 1719312,
+        "idle": 31017218,
+        "irq": 126640
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "Ethernet",
+        "internal": false,
+        "mac": "d8:cb:8a:77:b0:e6",
+        "address": "192.168.0.65",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "DESKTOP-USMMDM7"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff699506eb9",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69950b24c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69950a1f8",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6995f63cb",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699de976e",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699dd1711",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699c9f1cc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699ca6d81",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699c9c7a3",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699c9b044",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699cba855",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699a294ed",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a20300d",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a2040d5",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a256d67",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a17a10c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a17a10c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a180abc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a17e411",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a17dffc",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699cf6a8c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699cf5776",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff699dc837b",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69961a57e",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69961a827",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6996196fa",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6995be775",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69961a213",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff6994dc91c",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ff69a2b0fd8",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ffc968f8364",
+      "symbol": ""
+    },
+    {
+      "pc": "0x00007ffc98b3e851",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 3162112,
+    "totalCommittedMemory": 3162112,
+    "usedMemory": 2488288,
+    "availableMemory": 1772306272,
+    "memoryLimit": 1774190592,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261832,
+        "used": 31432,
+        "available": 230400
+      },
+      "new_space": {
+        "memorySize": 1048576,
+        "committedMemory": 1048576,
+        "capacity": 1047328,
+        "used": 1047312,
+        "available": 16
+      },
+      "old_space": {
+        "memorySize": 1159168,
+        "committedMemory": 1159168,
+        "capacity": 1020152,
+        "used": 1020104,
+        "available": 48
+      },
+      "code_space": {
+        "memorySize": 425984,
+        "committedMemory": 425984,
+        "capacity": 154560,
+        "used": 154560,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 266240,
+        "committedMemory": 266240,
+        "capacity": 234880,
+        "used": 234880,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 0,
+        "used": 0,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 0,
+        "used": 0,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 1047328,
+        "used": 0,
+        "available": 1047328
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 0.062,
+    "kernelCpuSeconds": 0.046,
+    "cpuConsumptionPercent": 2.7,
+    "maxRss": 17297408,
+    "pageFaults": {
+      "IORequired": 4388,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 0,
+      "writes": 99
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "ACLOCAL_PATH": "C:\\Program Files\\Git\\mingw64\\share\\aclocal;C:\\Program Files\\Git\\usr\\share\\aclocal",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\President2024\\AppData\\Roaming",
+    "ChocolateyInstall": "C:\\ProgramData\\chocolatey",
+    "ChocolateyLastPathUpdate": "132124043882858006",
+    "COMMONPROGRAMFILES": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "DESKTOP-USMMDM7",
+    "COMSPEC": "C:\\WINDOWS\\system32\\cmd.exe",
+    "CONFIG_SITE": "C:/Program Files/Git/mingw64/etc/config.site",
+    "DISPLAY": "needs-to-be-defined",
+    "EXEPATH": "C:\\Program Files\\Git",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "HOME": "C:\\Users\\President2024",
+    "HOMEDRIVE": "C:",
+    "HOMEPATH": "\\Users\\President2024",
+    "HOSTNAME": "DESKTOP-USMMDM7",
+    "INFOPATH": "C:\\Program Files\\Git\\usr\\local\\info;C:\\Program Files\\Git\\usr\\share\\info;C:\\Program Files\\Git\\usr\\info;C:\\Program Files\\Git\\share\\info",
+    "LANG": "ru_RU.UTF-8",
+    "LOCALAPPDATA": "C:\\Users\\President2024\\AppData\\Local",
+    "LOGONSERVER": "\\\\DESKTOP-USMMDM7",
+    "MANPATH": "C:\\Program Files\\Git\\mingw64\\local\\man;C:\\Program Files\\Git\\mingw64\\share\\man;C:\\Program Files\\Git\\usr\\local\\man;C:\\Program Files\\Git\\usr\\share\\man;C:\\Program Files\\Git\\usr\\man;C:\\Program Files\\Git\\share\\man",
+    "MINGW_CHOST": "x86_64-w64-mingw32",
+    "MINGW_PACKAGE_PREFIX": "mingw-w64-x86_64",
+    "MINGW_PREFIX": "C:/Program Files/Git/mingw64",
+    "MSYSTEM": "MINGW64",
+    "MSYSTEM_CARCH": "x86_64",
+    "MSYSTEM_CHOST": "x86_64-w64-mingw32",
+    "MSYSTEM_PREFIX": "C:/Program Files/Git/mingw64",
+    "NUMBER_OF_PROCESSORS": "2",
+    "ORIGINAL_PATH": "C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\President2024\\bin;C:\\Python27;C:\\Python27\\Scripts;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0;C:\\ProgramData\\ComposerSetup\\bin;E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64;C:\\Program Files (x86)\\Yarn\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Symfony;C:\\Users\\President2024\\AppData\\Local\\Microsoft\\WindowsApps;E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64;C:\\Program Files\\JetBrains\\PhpStorm 2019.2.1\\bin;C:\\Users\\President2024\\AppData\\Roaming\\Composer\\vendor\\bin;E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64;C:\\Users\\President2024\\AppData\\Local\\Yarn\\bin;C:\\Users\\President2024\\AppData\\Roaming\\npm",
+    "ORIGINAL_TEMP": "C:/Users/PRESID~1/AppData/Local/Temp",
+    "ORIGINAL_TMP": "C:/Users/PRESID~1/AppData/Local/Temp",
+    "OS": "Windows_NT",
+    "PATH": "C:\\Users\\President2024\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\local\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\Users\\President2024\\bin;C:\\Python27;C:\\Python27\\Scripts;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0;C:\\ProgramData\\ComposerSetup\\bin;E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64;C:\\Program Files (x86)\\Yarn\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\nodejs;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files\\Symfony;C:\\Users\\President2024\\AppData\\Local\\Microsoft\\WindowsApps;E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64;C:\\Program Files\\JetBrains\\PhpStorm 2019.2.1\\bin;C:\\Users\\President2024\\AppData\\Roaming\\Composer\\vendor\\bin;E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64;C:\\Users\\President2024\\AppData\\Local\\Yarn\\bin;C:\\Users\\President2024\\AppData\\Roaming\\npm;C:\\Program Files\\Git\\usr\\bin\\vendor_perl;C:\\Program Files\\Git\\usr\\bin\\core_perl",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC",
+    "php": "E:\\OpenServer\\OSPanel\\modules\\php\\PHP_7.1-x64",
+    "PhpStorm": "C:\\Program Files\\JetBrains\\PhpStorm 2019.2.1\\bin;",
+    "PKG_CONFIG_PATH": "C:\\Program Files\\Git\\mingw64\\lib\\pkgconfig;C:\\Program Files\\Git\\mingw64\\share\\pkgconfig",
+    "PLINK_PROTOCOL": "ssh",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "AMD64 Family 21 Model 19 Stepping 1, AuthenticAMD",
+    "PROCESSOR_LEVEL": "21",
+    "PROCESSOR_REVISION": "1301",
+    "ProgramData": "C:\\ProgramData",
+    "PROGRAMFILES": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules",
+    "PUBLIC": "C:\\Users\\Public",
+    "PWD": "C:/Users/President2024/PhpstormProjects/isponsor-n08092019-1300",
+    "SESSIONNAME": "Console",
+    "SHELL": "C:\\Program Files\\Git\\usr\\bin\\bash.exe",
+    "SHLVL": "2",
+    "SSH_ASKPASS": "C:/Program Files/Git/mingw64/libexec/git-core/git-gui--askpass",
+    "SYSTEMDRIVE": "C:",
+    "SYSTEMROOT": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\PRESID~1\\AppData\\Local\\Temp",
+    "TERM": "xterm",
+    "TMP": "C:\\Users\\PRESID~1\\AppData\\Local\\Temp",
+    "TMPDIR": "C:\\Users\\PRESID~1\\AppData\\Local\\Temp",
+    "USERDOMAIN": "DESKTOP-USMMDM7",
+    "USERDOMAIN_ROAMINGPROFILE": "DESKTOP-USMMDM7",
+    "USERNAME": "President2024",
+    "USERPROFILE": "C:\\Users\\President2024",
+    "WINDIR": "C:\\WINDOWS",
+    "_": "C:/Program Files/nodejs/node.exe"
+  },
+  "sharedObjects": [
+    "C:\\Program Files\\nodejs\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\SYSTEM32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMMBASE.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll"
+  ]
+}

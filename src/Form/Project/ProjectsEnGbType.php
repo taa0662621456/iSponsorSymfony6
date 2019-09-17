@@ -18,21 +18,59 @@ class ProjectsEnGbType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('projectTitle', TextType::class, ['label' => 'projectTitle'])
-            ->add('projectSDesc', TextareaType::class, ['label' => 'projectSDesc'])
-            ->add('projectDesc', TextareaType::class, ['label' => 'projectDesc'])
-
-            /*
-            ->add('categoriesEnGb', EntityType::class, array (
-                'class' => CategoriesEnGb::class,
-                'choice_label' => 'categoryName'
-                ))
-            */
-
-            ->add('projectProductName', TextType::class, ['label' => 'productName'])
-            ->add('projectProductSDesc', TextareaType::class, ['label' => 'productSDesc'])
-            ->add('projectProductDesc', TextareaType::class, ['label' => 'productDesc'])
-            ->add('slug', TextType::class, ['label' => 'slug'])
+            ->add('projectTitle', TextType::class, array(
+            	'label' => 'label.project.title',
+				'label_attr' => array(
+					'class' => 'sr-only',
+				),
+				'required' => true,
+				'attr' => array(
+					'id' => 'projectTitle',
+					'class' => 'form-control',
+					'placeholder' => 'Enter project title',
+					'tabindex' => '101',
+					'autofocus' => true
+				),
+			))
+            ->add('projectSDesc', TextareaType::class, array(
+            	'label' => 'label.project.sdesc',
+				'label_attr' => array(
+					'class' => 'sr-only',
+				),
+				'attr' => array(
+					'id' => 'projectSDesc',
+					'class' => 'form-control',
+					'placeholder' => 'Enter project short description',
+					'tabindex' => '102',
+					'autofocus' => false
+				)
+			))
+            ->add('projectDesc', TextareaType::class, array(
+            	'label' => 'label.project.desc',
+				'label_attr' => array(
+					'class' => 'sr-only',
+				),
+				'attr' => array(
+					'id' => 'projectDesc',
+					'class' => 'form-control',
+					'placeholder' => 'Enter project description',
+					'tabindex' => '103',
+					'autofocus' => false
+				)
+			))
+            ->add('slug', TextType::class, array(
+            	'label' => 'slug',
+				'label_attr' => array(
+					'class' => 'sr-only',
+				),
+				'attr' => array(
+					'id' => 'slug',
+					'class' => 'form-control',
+					'placeholder' => 'Enter tags for project',
+					'tabindex' => '103',
+					'autofocus' => false
+				)
+			))
         ;
     }
 
