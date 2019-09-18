@@ -2,9 +2,13 @@ framework:
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
     #http_method_override: true
-    default_locale: ru
+    default_locale: ru_RU
     translator:
-        fallbacks: ['en']
+        fallbacks: ['en_GB']
+        paths:
+            - '%kernel.project_dir%/translations/en-GB'
+            - '%kernel.project_dir%/translations/ru-RU'
+            - '%kernel.project_dir%/translations/uk-UA'
 
     router:
         strict_requirements: ~
@@ -21,3 +25,12 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    # The 'ide' option turns all of the file paths in an exception page
+    # into clickable links that open the given file using your favorite IDE.
+    # When 'ide' is set to null the file is opened in your web browser.
+    # See https://symfony.com/doc/current/reference/configuration/framework.html#ide
+    ide: ~
+    validation:
+        email_validation_mode: 'html5'
+        enable_annotations: true

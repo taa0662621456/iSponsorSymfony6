@@ -5,7 +5,7 @@ namespace App\Form\Project;
 
 use App\Entity\Project\ProjectsEnGb;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{SubmitType, TextareaType, TextType};
+use Symfony\Component\Form\Extension\Core\Type\{TextareaType, TextType};
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

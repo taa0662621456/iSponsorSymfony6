@@ -31,6 +31,7 @@
 					)
 				))
 				->add('summit', SubmitType::class, array(
+					'label' => 'mail.sku',
 					'attr' => array(
 						'class' => 'btn btn-primary submit'
 					)
