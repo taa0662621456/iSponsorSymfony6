@@ -19,6 +19,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "card": "^2.4.0",
         "tinymce": "^5.0.15"
     }
 }
