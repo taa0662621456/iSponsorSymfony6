@@ -27,6 +27,21 @@ class VendorsIban
      */
     private $iban = '0';
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="expires_end", type="string", nullable=false, options={"default"="0"})
+	 */
+    private $expiresEnd = '0';
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="signature_code", type="smallint", nullable=false, options={"default" : 0})
+	 */
+    private $signatureCode = 0;
+
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorIban", orphanRemoval=true)
      * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
@@ -72,4 +87,38 @@ class VendorsIban
 	{
 		$this->vendorIban = $vendorIban;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getExpiresEnd(): string
+	{
+		return $this->expiresEnd;
+	}
+
+	/**
+	 * @param string $expiresEnd
+	 */
+	public function setExpiresEnd(string $expiresEnd): void
+	{
+		$this->expiresEnd = $expiresEnd;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getSignatureCode(): int
+	{
+		return $this->signatureCode;
+	}
+
+	/**
+	 * @param int $signatureCode
+	 */
+	public function setSignatureCode(int $signatureCode): void
+	{
+		$this->signatureCode = $signatureCode;
+	}
+
+
 }

@@ -153,51 +153,43 @@ class Vendors
     private $requireReset = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", mappedBy="vendorSecurity")
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", cascade={"persist", "remove"}, mappedBy="vendorSecurity")
      * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
      * @Assert\Valid()
      */
     private $vendorSecurity;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsIban", mappedBy="vendorIban")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsIban", cascade={"persist", "remove"}, mappedBy="vendorIban")
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
 	 * @Assert\Valid()
 	 */
 	private $vendorIban;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", mappedBy="vendorEnGb")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb")
-     * @Assert\Valid()
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", cascade={"persist", "remove"}, mappedBy="vendorEnGb")
+	 * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb")
+	 * @Assert\Valid()
      */
     private $vendorEnGb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", mappedBy="vendorOrders")
-     * @Assert\Type(type="App\Entity\Vendor\Orders")
-     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", cascade={"persist"}, mappedBy="vendorOrders")
      */
     private $vendorOrders;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
-	 * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
-	 * @Assert\Valid()
 	 */
     private $vendorOrderItems;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", mappedBy="vendorDocAttachments")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
-     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", cascade={"persist", "remove"}, mappedBy="vendorDocAttachments")
      */
     private $vendorDocAttachments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments", mappedBy="vendorMediaAttachments")
-     * @Assert\Type(type="App\Entity\Vendor\VendorsMediaAttachments")
-     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments", cascade={"persist", "remove"}, mappedBy="vendorMediaAttachments")
      */
     private $vendorMediaAttachments;
 
@@ -231,13 +223,15 @@ class Vendors
         $this->vendorMediaAttachments = new ArrayCollection();
     }
 
-    /**
-     * @return integer
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
+	/**
+	 * @return int
+	 */
+	public function getId(): int
+	{
+		return $this->id;
+	}
+
+
 
 	/**
 	 * @return bool|false

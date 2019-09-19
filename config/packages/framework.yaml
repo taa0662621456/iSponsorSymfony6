@@ -2,9 +2,9 @@ framework:
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
     #http_method_override: true
-    default_locale: ru_RU
+    default_locale: ru
     translator:
-        fallbacks: ['en_GB']
+        fallbacks: ['en']
         paths:
             - '%kernel.project_dir%/translations/en-GB'
             - '%kernel.project_dir%/translations/ru-RU'

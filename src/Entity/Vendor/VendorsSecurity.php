@@ -3,18 +3,20 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\DateTime as DateTimeAlias;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Table(name="vendors_security")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
- * @UniqueEntity(fields="email", message="You have an account alredy!")
+ * UniqueEntity(fields="email", message="You have an account already!")
  * @ORM\HasLifecycleCallbacks()
  */
 class VendorsSecurity implements UserInterface, Serializable
@@ -33,7 +35,7 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true, nullable=false)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Length(min=3)
      * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
@@ -72,7 +74,7 @@ class VendorsSecurity implements UserInterface, Serializable
     private $sendEmail = null;
 
 	/**
-	 * @var DateTime
+	 * @var DateTimeAlias
 	 *
 	 * @Assert\DateTime
 	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
@@ -102,7 +104,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	private $modifiedBy = 1;
 
 	/**
-	 * @var DateTime
+	 * @var DateTimeAlias
 	 *
 	 * @Assert\DateTime
 	 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
@@ -117,7 +119,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	private $lockedBy = 1;
 
     /**
-     * @var datetime
+     * @var DateTimeAlias
      *
      * @ORM\Column(name="last_visit_date", type="datetime", nullable=false)
      * @Assert\DateTime()
@@ -146,7 +148,7 @@ class VendorsSecurity implements UserInterface, Serializable
     private $params = 'params';
 
     /**
-     * @var datetime
+     * @var DateTimeAlias
      *
      * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"comment"="Date of last password reset"})
      * @Assert\DateTime()
@@ -184,7 +186,7 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="api_key", type="string", options={"comment"="API key"})
+     * @ORM\Column(name="api_key", type="string", nullable=false, options={"comment"="API key"})
      */
     private $apiKey = 'api_key';
 
@@ -195,23 +197,16 @@ class VendorsSecurity implements UserInterface, Serializable
     protected $vendorSecurity;
 
 
-
-
-
-
-
-
-
-
-
-    /**
-     * Vendors constructor.
-     */
+	/**
+	 * VendorsSecurity constructor.
+	 *
+	 * @throws Exception
+	 */
     public function __construct()
     {
         $this->roles = [self::ROLE_USER];
-        $this->lastResetTime = new \DateTime();
-        $this->lastVisitDate = new \DateTime();
+        $this->lastResetTime = new DateTime();
+        $this->lastVisitDate = new DateTime();
 		$this->createdOn = new DateTime();
 		$this->modifiedOn = new DateTime();
 		$this->lockedOn = new DateTime();
@@ -288,17 +283,17 @@ class VendorsSecurity implements UserInterface, Serializable
     }
 
 	/**
-	 * @return DateTime
+	 * @return DateTimeAlias
 	 */
-	public function getCreatedOn(): DateTime
+	public function getCreatedOn(): DateTimeAlias
 	{
 		return $this->createdOn;
 	}
 
 	/**
-	 * @param DateTime $createdOn
+	 * @param DateTimeAlias $createdOn
 	 */
-	public function setCreatedOn(DateTime $createdOn): void
+	public function setCreatedOn(DateTimeAlias $createdOn): void
 	{
 		$this->createdOn = $createdOn;
 	}
@@ -393,7 +388,8 @@ class VendorsSecurity implements UserInterface, Serializable
     }
 
     /**
-     * @param DateTime $lastVisitDate
+     * @param DateTimeAlias $lastVisitDate
+     *
      * @return VendorsSecurity
      */
     public function setLastVisitDate(DateTime $lastVisitDate): self
@@ -455,17 +451,18 @@ class VendorsSecurity implements UserInterface, Serializable
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLastResetTime(): \DateTime
+    public function getLastResetTime(): DateTime
     {
         return $this->lastResetTime;
     }
 
-    /**
-     * @param DateTime $lastResetTime
-     * @return VendorsSecurity
-     */
+	/**
+	 * @param DateTime $lastResetTime
+	 *
+	 * @return VendorsSecurity
+	 */
     public function setLastResetTime(DateTime $lastResetTime): self
     {
         $this->lastResetTime = $lastResetTime;

@@ -225,7 +225,7 @@ class VendorsEnGb
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorEnGb", orphanRemoval=true)
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     protected $vendorEnGb;
 
