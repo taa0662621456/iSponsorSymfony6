@@ -185,8 +185,9 @@ class VendorsMediaAttachments
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorsMediasAttachments")
+	 * @ORM\JoinColumn(name="vendorMediaAttachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
-    private $vendor;
+    private $vendorMediaAttachments;
 
 
 
@@ -602,4 +603,22 @@ class VendorsMediaAttachments
     {
         $this->lockedBy = $lockedBy;
     }
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorMediaAttachments()
+	{
+		return $this->vendorMediaAttachments;
+	}
+
+	/**
+	 * @param mixed $vendorMediaAttachments
+	 */
+	public function setVendorMediaAttachments($vendorMediaAttachments): void
+	{
+		$this->vendorMediaAttachments = $vendorMediaAttachments;
+	}
+
+
 }

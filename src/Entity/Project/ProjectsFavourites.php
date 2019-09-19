@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use DateTime;
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
@@ -25,13 +25,13 @@ class ProjectsFavourites
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="favourites")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectFavourites")
+     * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      **/
     private $project;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -45,7 +45,7 @@ class ProjectsFavourites
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -59,7 +59,7 @@ class ProjectsFavourites
     private $modifiedBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -78,15 +78,13 @@ class ProjectsFavourites
      */
     public function __construct()
     {
-        $this->createdOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->lockedOn = new \DateTime();
+        $this->createdOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->lockedOn = new DateTime();
     }
 
     /**
-     * Get id
-     *
-     * @return integer 
+     * @return integer
      */
     public function getId(): int
     {
@@ -131,10 +129,10 @@ class ProjectsFavourites
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
 
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -146,13 +144,13 @@ class ProjectsFavourites
      */
     public function setCreatedOn(): void
     {
-        $this->createdOn = new \DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -160,7 +158,7 @@ class ProjectsFavourites
     /**
      * @param DateTime $lockedOn
      */
-    public function setLockedOn(\DateTime $lockedOn): void
+    public function setLockedOn(DateTime $lockedOn): void
     {
         $this->lockedOn = $lockedOn;
     }

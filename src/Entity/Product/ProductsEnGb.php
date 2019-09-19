@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -12,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * ProductsEnGb
  *
  * @ORM\Table(name="products_en_gb")
- * @UniqueEntity("slug", message="This slug is already in use.")
+ * UniqueEntity("slug", message="This slug is already in use.")
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  */
 class ProductsEnGb
@@ -29,6 +30,13 @@ class ProductsEnGb
     /**
      * @var string
      *
+     * @ORM\Column(name="product_name", type="string", nullable=false, options={"default"=""})
+     */
+    private $productName = 'product_name';
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="product_s_desc", type="text", nullable=false, options={"default"="product_s_desc"})
      */
     private $productSDesc ='product_s_desc';
@@ -40,12 +48,6 @@ class ProductsEnGb
      */
     private $productDesc = 'product_desc';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_name", type="string", nullable=false, options={"default"=""})
-     */
-    private $productName = 'product_name';
 
     /**
      * @var string
@@ -75,12 +77,53 @@ class ProductsEnGb
      */
     private $slug = '';
 
+	/**
+	 * @var DateTime
+	 *
+	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $createdOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $createdBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $modifiedOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $modifiedBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $lockedOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $lockedBy = 1;
+
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productEnGb")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="productEnGb_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
-    private $product;
-
+    private $productEnGb;
 
 
 
@@ -93,7 +136,9 @@ class ProductsEnGb
      */
     public function __construct()
     {
-        $this->createdOn = new \DateTime();
+		$this->createdOn = new DateTime();
+		$this->modifiedOn = new DateTime();
+		$this->lockedOn = new DateTime();
     }
 
     /**
@@ -103,7 +148,6 @@ class ProductsEnGb
     {
         return $this->id;
     }
-
 
     /**
      * @return string
@@ -217,21 +261,117 @@ class ProductsEnGb
         $this->slug = $slug;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getProductEnGb()
+	{
+		return $this->productEnGb;
+	}
 
-    /**
-     * @param mixed $product
-     */
-    public function setProducts($product): void
-    {
-        $this->product = $product;
-    }
+	/**
+	 * @param mixed $productEnGb
+	 */
+	public function setProductEnGb($productEnGb): void
+	{
+		$this->productEnGb = $productEnGb;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getCreatedOn(): DateTime
+	{
+		return $this->createdOn;
+	}
+
+	/**
+	 * @param DateTime $createdOn
+	 */
+	public function setCreatedOn(DateTime $createdOn): void
+	{
+		$this->createdOn = $createdOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getCreatedBy(): int
+	{
+		return $this->createdBy;
+	}
+
+	/**
+	 * @param int $createdBy
+	 */
+	public function setCreatedBy(int $createdBy): void
+	{
+		$this->createdBy = $createdBy;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getModifiedOn(): DateTime
+	{
+		return $this->modifiedOn;
+	}
+
+	/**
+	 * @param DateTime $modifiedOn
+	 */
+	public function setModifiedOn(DateTime $modifiedOn): void
+	{
+		$this->modifiedOn = $modifiedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getModifiedBy(): int
+	{
+		return $this->modifiedBy;
+	}
+
+	/**
+	 * @param int $modifiedBy
+	 */
+	public function setModifiedBy(int $modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getLockedOn(): DateTime
+	{
+		return $this->lockedOn;
+	}
+
+	/**
+	 * @param DateTime $lockedOn
+	 */
+	public function setLockedOn(DateTime $lockedOn): void
+	{
+		$this->lockedOn = $lockedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLockedBy(): int
+	{
+		return $this->lockedBy;
+	}
+
+	/**
+	 * @param int $lockedBy
+	 */
+	public function setLockedBy(int $lockedBy): void
+	{
+		$this->lockedBy = $lockedBy;
+	}
 
 
 

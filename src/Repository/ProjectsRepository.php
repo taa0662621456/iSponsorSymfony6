@@ -4,14 +4,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Project\Projects;
-use App\Entity\Project\ProjectsTags;
-use App\Entity\Vendor\Vendors;
-use App\Pagination\Paginator;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Exception;
-use phpDocumentor\Reflection\Project;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**

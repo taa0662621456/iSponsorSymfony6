@@ -179,6 +179,7 @@ class OrdersItems
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorOrderItems")
+	 * @ORM\JoinColumn(name="vendorOrderItems_id", referencedColumnName="id", nullable=true)
 	 */
     private $vendorOrderItems;
 

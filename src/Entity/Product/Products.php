@@ -22,6 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Products
 {
+	public const NUM_ITEMS = 10;
+
     /**
      * @var int
      *
@@ -189,7 +191,7 @@ class Products
      *
      * @ORM\Column(name="product_notes", type="text", nullable=false, options={"default"="product_notes"})
      */
-    private $productNotes = "product_notes";
+    private $productNotes = 'product_notes';
 
     /**
      * @var string
@@ -213,28 +215,29 @@ class Products
     private $layout = 0;
 
 	/**
-     * @var bool|true
+     * @var boolean
      *
-     * @ORM\Column(name="published", type="boolean", nullable=false, options={"default":true})
+     * @ORM\Column(name="product_published", type="boolean", nullable=false, options={"default":true})
      */
-    private $published = true;
+    private $productPublished = true;
 
 	/**
 	* @var string
+	 *
 	* @ORM\Column(name="product_country_origin", type="string", nullable=false, options={"default"="product_country_origin"})
 	*/
-	private $productCountryOrigin = "product_country_origin";
+	private $productCountryOrigin = 'product_country_origin';
 
 	/**
-     * @var int|1
+     * @var int
+	 *
 	 * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="ordering", type="integer", nullable=false, options={"default" : 1})
+     * @ORM\Column(name="ordering", type="integer", unique=true, nullable=false, options={"default" : 1})
      */
     private $ordering = 1;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", mappedBy="productEnGb", orphanRemoval=true, fetch="EAGER")
-	 * @ORM\JoinColumn(name="id", referencedColumnName="id")
 	 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
 	 * @Assert\Valid()
 	 */
@@ -799,19 +802,19 @@ class Products
     }
 
     /**
-     * @return bool
+     * @return boolean
      */
-    public function isPublished(): bool
+    public function isProductPublished(): bool
     {
-        return $this->published;
+        return $this->productPublished;
     }
 
-    /**
-     * @param bool $published
-     */
-    public function setPublished(bool $published): void
+	/**
+	 * @param bool $productPublished
+	 */
+    public function setProductPublished(bool $productPublished): void
     {
-        $this->published = $published;
+        $this->productPublished = $productPublished;
     }
 
 	/**
@@ -1092,5 +1095,7 @@ class Products
     {
         return $this->productAttachments;
     }
+
+
 
 }

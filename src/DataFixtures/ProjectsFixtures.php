@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category\Categories;
 use App\Entity\Project\Projects;
 use App\Entity\Project\ProjectsAttachments;
 use App\Entity\Project\ProjectsEnGb;
@@ -14,12 +15,17 @@ class ProjectsFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
-    	for ($p=1; $p <= 26; $p++) {
+		$categoriesRepository = $manager->getRepository(Categories::class);
+
+		$categories = $categoriesRepository->findAll();
+
+		for ($p=1; $p <= 26; $p++) {
 
 			$projects = new Projects();
 			$projectEnGb = new ProjectsEnGb();
 			$projectAttachments = new ProjectsAttachments();
 
+			$projects->setCategoryProjects($categories[array_rand($categories)]);
 			$projects->setOrdering($p);
 			$projects->setCreatedBy(0);
 			$projectEnGb->setProjectSlug('p' . $p);

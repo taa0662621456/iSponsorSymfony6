@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category\Categories;
 use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsDocAttachments;
 use App\Entity\Vendor\VendorsEnGb;
@@ -17,13 +18,14 @@ class VendorsFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+
     	$rand = rand(0,999999);
     	$password = md5($rand);
 
     	$vendor = new Vendors();
 		$vendorSecurity = new VendorsSecurity();
-    	$vendorEnGb = new VendorsEnGb();
     	$vendorIban = new VendorsIban();
+    	$vendorEnGb = new VendorsEnGb();
 		$vendorDocAttachments = new VendorsDocAttachments();
 		$vendorMediaAttachments = new VendorsMediaAttachments();
 

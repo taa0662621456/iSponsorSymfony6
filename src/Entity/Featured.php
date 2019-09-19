@@ -37,25 +37,25 @@ class Featured
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectFeatured")
-	 * @ORM\JoinColumn(name="projectFeatured_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="projectFeatured_id", referencedColumnName="id", nullable=true)
      */
     private $projectFeatured;
     
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productFeatured")
-	 * @ORM\JoinColumn(name="productFeatured_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="productFeatured_id", referencedColumnName="id", nullable=true)
      */
     private $productFeatured;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryFeatured")
-	 * @ORM\JoinColumn(name="categoryFeatured_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="categoryFeatured_id", referencedColumnName="id", nullable=true)
      */
     private $categoryFeatured;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorFeatured")
-	 * @ORM\JoinColumn(name="vendorFeatured_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="vendorFeatured_id", referencedColumnName="id", nullable=true)
      */
     private $vendorFeatured;
 

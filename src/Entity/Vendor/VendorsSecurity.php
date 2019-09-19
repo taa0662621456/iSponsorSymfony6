@@ -7,7 +7,6 @@ use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Serializable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\DateTime as DateTimeAlias;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -74,7 +73,7 @@ class VendorsSecurity implements UserInterface, Serializable
     private $sendEmail = null;
 
 	/**
-	 * @var DateTimeAlias
+	 * @var DateTime
 	 *
 	 * @Assert\DateTime
 	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
@@ -119,7 +118,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	private $lockedBy = 1;
 
     /**
-     * @var DateTimeAlias
+     * @var DateTime
      *
      * @ORM\Column(name="last_visit_date", type="datetime", nullable=false)
      * @Assert\DateTime()
@@ -148,7 +147,7 @@ class VendorsSecurity implements UserInterface, Serializable
     private $params = 'params';
 
     /**
-     * @var DateTimeAlias
+     * @var DateTime
      *
      * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"comment"="Date of last password reset"})
      * @Assert\DateTime()
@@ -283,17 +282,17 @@ class VendorsSecurity implements UserInterface, Serializable
     }
 
 	/**
-	 * @return DateTimeAlias
+	 * @return DateTime
 	 */
-	public function getCreatedOn(): DateTimeAlias
+	public function getCreatedOn(): DateTime
 	{
 		return $this->createdOn;
 	}
 
 	/**
-	 * @param DateTimeAlias $createdOn
+	 * @param DateTime $createdOn
 	 */
-	public function setCreatedOn(DateTimeAlias $createdOn): void
+	public function setCreatedOn(DateTime $createdOn): void
 	{
 		$this->createdOn = $createdOn;
 	}

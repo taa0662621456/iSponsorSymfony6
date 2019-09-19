@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
+use Datetime;
 use Symfony\Component\Validator\Constraints as Assert;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
@@ -19,9 +19,9 @@ class ProductsAttachments
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      */
     private $id;
 
@@ -140,7 +140,7 @@ class ProductsAttachments
     private $published = true;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false)
      */
@@ -154,7 +154,7 @@ class ProductsAttachments
     private $createdBy = 0;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="modified_on", type="datetime", nullable=false)
      */
@@ -168,7 +168,7 @@ class ProductsAttachments
     private $modifiedBy = 0;
 
     /**
-     * @var \datetime
+     * @var Datetime
      *
      * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
@@ -183,6 +183,7 @@ class ProductsAttachments
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product\Products", inversedBy="productAttachments")
+	 * @ORM\JoinColumn(name="productAttachments_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $productAttachments;
 
@@ -199,9 +200,9 @@ class ProductsAttachments
      */
     public function __construct()
     {
-        $this->lockedOn = new \DateTime();
-        $this->modifiedOn = new \DateTime();
-        $this->createdOn = new \DateTime();
+        $this->lockedOn = new DateTime();
+        $this->modifiedOn = new DateTime();
+        $this->createdOn = new DateTime();
     }
 
     /**
@@ -519,7 +520,7 @@ class ProductsAttachments
     /**
      * @return DateTime
      */
-    public function getCreatedOn(): \DateTime
+    public function getCreatedOn(): DateTime
     {
         return $this->createdOn;
     }
@@ -552,7 +553,7 @@ class ProductsAttachments
     /**
      * @return DateTime
      */
-    public function getModifiedOn(): \DateTime
+    public function getModifiedOn(): DateTime
     {
         return $this->modifiedOn;
     }
@@ -586,7 +587,7 @@ class ProductsAttachments
     /**
      * @return DateTime
      */
-    public function getLockedOn(): \DateTime
+    public function getLockedOn(): DateTime
     {
         return $this->lockedOn;
     }
@@ -595,7 +596,6 @@ class ProductsAttachments
      * @ORM\PreFlush
      * @ORM\PreUpdate
      * @throws Exception
-
      */
     public function setLockedOn(): void
     {
@@ -617,4 +617,6 @@ class ProductsAttachments
     {
         $this->lockedBy = $lockedBy;
     }
+
+
 }

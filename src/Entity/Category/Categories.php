@@ -9,12 +9,16 @@ use Exception;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Table(name="categories")
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
+ * @UniqueEntity("slug"),
+ *     errorPath="slug",
+ *     message="This slug is already in use."
  * @ORM\HasLifecycleCallbacks()
  */
 class Categories
@@ -83,10 +87,18 @@ class Categories
     /**
      * @var int
      *
-     * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
 	 * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
      */
     private $ordering = 1;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="published", type="string", nullable=false)
+
+	 */
+    private $slug;
 
 
     /**
@@ -112,7 +124,6 @@ class Categories
      */
     private $categoryEnGb;
 
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", mappedBy="categoryAttachments")
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
@@ -134,7 +145,6 @@ class Categories
      */
     public function __construct()
     {
-
         $this->createdOn = new DateTime();
         $this->modifiedOn = new DateTime();
         $this->lockedOn = new DateTime();
@@ -310,6 +320,28 @@ class Categories
 	{
 		$this->ordering = $ordering;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getSlug(): string
+	{
+		return $this->slug;
+	}
+
+	/**
+	 * @param string $slug
+	 */
+	public function setSlug(string $slug): void
+	{
+		$this->slug = $slug;
+	}
+
+
+
+
+
+
 
 
 

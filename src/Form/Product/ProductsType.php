@@ -14,12 +14,12 @@ class ProductsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('id', HiddenType::class, array(
+            ->add('productSku', HiddenType::class, array(
             	'required' => false
 			))
             ->add('productEnGb', ProductsEnGbType::class)
             ->add('productsAttachments', ProductsAttachmentsType::class)
-            ->add('tags', ProductsTagsType::class, array(
+            ->add('productTags', ProductsTagsType::class, array(
                 'required' => false
             ))
 
@@ -31,7 +31,7 @@ class ProductsType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => Products::class,
 			'attr' => array(
-				'id' => 'msform'
+				//'id' => 'msform'
 			)
 		));
     }

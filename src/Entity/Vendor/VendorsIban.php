@@ -43,7 +43,7 @@ class VendorsIban
 
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorIban", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorIban", orphanRemoval=true)
      * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
 	private $vendorIban;

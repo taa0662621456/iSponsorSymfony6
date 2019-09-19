@@ -14,6 +14,7 @@ class ProductsFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
+
     	for ($p=1; $p <= 26; $p++) {
 
 			$products = new Products();
@@ -24,6 +25,7 @@ class ProductsFixtures extends Fixture implements FixtureGroupInterface
 			$products->setCreatedBy(0);
 			$products->setModifiedBy(0);
 			$products->setLockedBy(0);
+			$productEnGb->setProductName('Product # ' . $p);
 			$productEnGb->setSlug('p' . $p);
 			$productAttachments->setFile('cover.jpg');
 			$productAttachments->setFileUrl('/');

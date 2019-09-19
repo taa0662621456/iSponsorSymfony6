@@ -174,16 +174,6 @@ class Vendors
     private $vendorEnGb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", cascade={"persist"}, mappedBy="vendorOrders")
-     */
-    private $vendorOrders;
-
-	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
-	 */
-    private $vendorOrderItems;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", cascade={"persist", "remove"}, mappedBy="vendorDocAttachments")
      */
     private $vendorDocAttachments;
@@ -192,6 +182,16 @@ class Vendors
      * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments", cascade={"persist", "remove"}, mappedBy="vendorMediaAttachments")
      */
     private $vendorMediaAttachments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", cascade={"persist"}, mappedBy="vendorOrders")
+     */
+    private $vendorOrders;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
+	 */
+    private $vendorOrderItems;
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", mappedBy="vendorFavourites")
@@ -230,8 +230,6 @@ class Vendors
 	{
 		return $this->id;
 	}
-
-
 
 	/**
 	 * @return bool|false

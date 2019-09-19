@@ -48,9 +48,9 @@
 		{
 			$resolver->setDefaults([
 				'data_class' => Vendors::class,
-				//'attr' => array(
-				//	'id' => 'msform'
-				//)
+				'attr' => array(
+					'id' => 'msform'
+				)
 			]);
 		}
 	}

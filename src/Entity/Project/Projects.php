@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
+use App\Entity\Category\Categories;
 use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -37,7 +38,7 @@ class Projects
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryProjects")
-	 * @ORM\JoinColumn(name="categoryProject_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="categoryProject_id", referencedColumnName="id", nullable=true)
      */
     private $categoryProjects;
 
@@ -84,7 +85,7 @@ class Projects
     private $lockedBy = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb", mappedBy="projectEnGb", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
+     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb", mappedBy="projectEnGb")
      * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
      * @Assert\Valid()
      */
@@ -104,8 +105,8 @@ class Projects
     /**
      * @var ProjectsAttachments[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsAttachments", cascade={"persist", "remove"}, mappedBy="pro")
-     * @ORM\JoinTable(name="projects_attachments")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsAttachments", mappedBy="projectAttachments")
+     * ORM\JoinTable(name="projects_attachments")
      * @Assert\Count(max="8", maxMessage="projects.too_many_files")
 	 */
     private $projectAttachments;
@@ -113,12 +114,12 @@ class Projects
     /**
      * @var ProjectsFavourites[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsFavourites", mappedBy="favourites")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsFavourites", mappedBy="project")
      **/
     private $projectFavourites;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="projectFeatured", cascade={"persist", "remove"}, orphanRemoval=true, fetch="EAGER")
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="projectFeatured")
      */
     private $projectFeatured;
 
@@ -156,7 +157,7 @@ class Projects
     }
 
     /**
-     * @return mixed
+     * @return Categories
      */
     public function getCategoryProjects()
     {
@@ -164,9 +165,9 @@ class Projects
     }
 
 	/**
-	 * @param $categoryProjects
+	 * @param Categories $categoryProjects
 	 */
-    public function setCategoryProjects($categoryProjects): void
+    public function setCategoryProjects(Categories $categoryProjects = null): void
     {
         $this->categoryProjects = $categoryProjects;
     }

@@ -185,7 +185,7 @@ class VendorsDocAttachments
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorsDocsAttachments")
-	 * @ORM\JoinColumn(name="vendorsDocsAttachments_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="vendorsDocsAttachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      */
     private $vendorsDocsAttachments;
 

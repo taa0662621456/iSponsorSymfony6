@@ -38,7 +38,7 @@ class ProductsPrice
 
     /**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productPrice")
-	 * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="productPrice_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $productPrice = 0;
 

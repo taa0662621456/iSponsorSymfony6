@@ -253,7 +253,7 @@ class Orders
     private $orderHash = '0';
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="orderItems")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", cascade={"persist"}, mappedBy="orderItems")
 	 * @Assert\Type(type="App\Entity\Order\Orders"))
 	 * @Assert\Valid()
 	 **/

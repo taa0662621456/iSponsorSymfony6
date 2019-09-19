@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use App\Entity\Product\Products;
-use App\Entity\Vendors;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
+
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 
@@ -14,16 +12,16 @@ use Exception;
  * ProductsFavourites
  *
  * @ORM\Table(name="products_favourites")
- * @ORM\Entity(repositoryClass="ProductsFavouritesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductsFavouritesRepository")
  */
 class ProductsFavourites
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(name="id", type="integer")
      */
     private $id;
 
