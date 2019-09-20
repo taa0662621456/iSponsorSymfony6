@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use App\Entity\Project\Projects;
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 
@@ -22,9 +20,15 @@ class ProductsEnGb
     /**
      * @var int
      *
+<<<<<<< HEAD
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+=======
+     * @ORM\Column(type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+>>>>>>> github/master
      */
     private $id;
 
@@ -249,9 +253,9 @@ class ProductsEnGb
     }
 
 	/**
-	 * @param Projects $productsEnGb
+	 * @param Products $productsEnGb
 	 */
-	public function setProductsEnGb(Projects $productsEnGb): void
+	public function setProductsEnGb(Products $productsEnGb): void
 	{
 		$this->productsEnGb = $productsEnGb;
 	}

@@ -28,7 +28,9 @@ class VendorsFixtures extends Fixture implements FixtureGroupInterface
 		$vendorDocAttachments = new VendorsDocAttachments();
 		$vendorMediaAttachments = new VendorsMediaAttachments();
 
+
 		$vendor->setVendorSlug('slug' . 1);
+		$vendor->setOtep('ok');
 		$vendorEnGb->setZip($rand);
 		$vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
 		$vendorSecurity->setPassword($password);

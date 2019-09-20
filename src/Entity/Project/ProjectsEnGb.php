@@ -21,7 +21,11 @@ class ProjectsEnGb
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
+<<<<<<< HEAD
      * @ORM\Column(type="integer")
+=======
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
+>>>>>>> github/master
      */
     private $id;
 
@@ -116,6 +120,7 @@ class ProjectsEnGb
 	/**
 	 * @var DateTime
 	 *
+<<<<<<< HEAD
 	 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 	 */
 	private $modifiedOn;
@@ -123,6 +128,7 @@ class ProjectsEnGb
 	/**
 	 * @var int
 	 *
+>>>>>>> github/master
 	 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
 	 */
 	private $modifiedBy = 1;

@@ -23,7 +23,11 @@ class VendorsEnGb
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
+<<<<<<< HEAD
      * @ORM\Column(type="integer")
+=======
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
+>>>>>>> github/master
      *
      */
     private $id;
