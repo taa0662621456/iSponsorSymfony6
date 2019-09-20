@@ -22,9 +22,9 @@ class Vendors
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
      */
     private $id;
 

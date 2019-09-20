@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Category;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -13,8 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="categories_en_gb", uniqueConstraints={
  * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
- * UniqueEntity(fields={"slug"}, message="This Slug already in use. Try enter a new slug.")
- * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity("slug"),
+ *     errorPath="slug",
+ *     message="This slug is already in use."
+ * * @ORM\HasLifecycleCallbacks()
  */
 class CategoriesEnGb
 {

@@ -27,9 +27,9 @@ class Products
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -231,7 +231,7 @@ class Products
 	/**
      * @var int
 	 *
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\GeneratedValue()
      * @ORM\Column(name="ordering", type="integer", unique=true, nullable=false, options={"default" : 1})
      */
     private $ordering = 1;

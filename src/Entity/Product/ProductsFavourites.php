@@ -19,8 +19,8 @@ class ProductsFavourites
     /**
      * @var integer
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(name="id", type="integer")
      */
     private $id;

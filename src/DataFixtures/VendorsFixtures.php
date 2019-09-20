@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category\Categories;
 use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsDocAttachments;
 use App\Entity\Vendor\VendorsEnGb;
@@ -29,7 +28,7 @@ class VendorsFixtures extends Fixture implements FixtureGroupInterface
 		$vendorDocAttachments = new VendorsDocAttachments();
 		$vendorMediaAttachments = new VendorsMediaAttachments();
 
-		$vendor->setActive(true);
+		$vendor->setOtep('ok');
 		$vendorEnGb->setZip($rand);
 		$vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
 		$vendorSecurity->setPassword($password);

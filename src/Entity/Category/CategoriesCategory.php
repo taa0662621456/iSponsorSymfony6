@@ -26,7 +26,7 @@ class CategoriesCategory
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
      */
     private $id;
 

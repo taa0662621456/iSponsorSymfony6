@@ -12,8 +12,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Vendors
- *
  * @ORM\Table(name="vendors_en_gb")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * UniqueEntity(fields={"phone"})
@@ -24,11 +22,11 @@ class VendorsEnGb
 {
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
      *
      */
     private $id;

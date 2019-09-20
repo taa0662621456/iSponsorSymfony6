@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
+use App\Entity\Project\Projects;
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
@@ -21,9 +22,9 @@ class ProductsEnGb
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      */
     private $id;
 
@@ -140,6 +141,15 @@ class ProductsEnGb
 		$this->modifiedOn = new DateTime();
 		$this->lockedOn = new DateTime();
     }
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+
+		return $this->getProductName();
+
+	}
 
     /**
      * @return int
@@ -270,9 +280,9 @@ class ProductsEnGb
 	}
 
 	/**
-	 * @param mixed $productEnGb
+	 * @param Products $productEnGb
 	 */
-	public function setProductEnGb($productEnGb): void
+	public function setProductEnGb(Products $productEnGb): void
 	{
 		$this->productEnGb = $productEnGb;
 	}

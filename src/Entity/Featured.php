@@ -9,15 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  /**
   * @ORM\Table(name="featured")
   * @ORM\Entity(repositoryClass="App\Repository\FeaturedRepository")
+  * @ORM\HasLifecycleCallbacks()
   */
 class Featured
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
