@@ -22,8 +22,8 @@ class PlatformLang
      * @var integer
      *
      * @ORM\Column(name="lang_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      */
     private $langId;
 

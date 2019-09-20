@@ -7,15 +7,19 @@ use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Serializable;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\DateTime as DateTimeAlias;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="vendors_security")
+ * @ORM\Table(name="vendors_security", uniqueConstraints={
+ * @ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
- * UniqueEntity(fields="email", message="You have an account already!")
+ * @UniqueEntity("email"),
+ * 		errorPath="email",
+ * 		message="You have an account already or this email already in use!"
  * @ORM\HasLifecycleCallbacks()
  */
 class VendorsSecurity implements UserInterface, Serializable
@@ -25,9 +29,9 @@ class VendorsSecurity implements UserInterface, Serializable
     /**
      * @var integer
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
      */
     private $id;
 
@@ -190,10 +194,10 @@ class VendorsSecurity implements UserInterface, Serializable
     private $apiKey = 'api_key';
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorSecurity", orphanRemoval=true)
-     * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorSecurity")
+     * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $vendorSecurity;
+	private $vendorSecurity;
 
 
 	/**
@@ -387,7 +391,7 @@ class VendorsSecurity implements UserInterface, Serializable
     }
 
     /**
-     * @param DateTimeAlias $lastVisitDate
+     * @param DateTime $lastVisitDate
      *
      * @return VendorsSecurity
      */
@@ -689,6 +693,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	{
 		$this->vendorSecurity = $vendorSecurity;
 	}
+
 
 
 }

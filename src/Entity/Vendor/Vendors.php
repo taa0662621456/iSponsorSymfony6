@@ -9,12 +9,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="vendors")
+ * @ORM\Table(name="vendors", uniqueConstraints={
+ * @ORM\UniqueConstraint(name="vendor_slug", columns={"vendor_slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
+ * @UniqueEntity("vendor_slug"),
+ *		errorPath="vendor_slug",
+ *		message="This name is already in use."
  * @ORM\HasLifecycleCallbacks()
  */
 class Vendors
@@ -22,9 +27,9 @@ class Vendors
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -151,6 +156,15 @@ class Vendors
      * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require user to reset password on next login"})
      */
     private $requireReset = 0;
+
+	/**
+	 * @var string|null
+	 *
+	 * @ORM\Column(name="vendor_slug", type="string", nullable=true, options={"default"="vendor_slug"})
+	 * @Assert\NotBlank(message="vendor_slug.blank_content")
+	 * @Assert\Length(min=6, minMessage="vendor_slug.too_short_content")
+	 */
+    private $vendorSlug;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", cascade={"persist", "remove"}, mappedBy="vendorSecurity")
@@ -516,6 +530,24 @@ class Vendors
         ];
     }
 
+	/**
+	 * @return string|null
+	 */
+	public function getVendorSlug(): ?string
+	{
+		return $this->vendorSlug;
+	}
+
+	/**
+	 * @param string|null $vendorSlug
+	 */
+	public function setVendorSlug(?string $vendorSlug): void
+	{
+		$this->vendorSlug = $vendorSlug;
+	}
+
+
+
     /**
      * @return mixed
      */
@@ -687,14 +719,6 @@ class Vendors
 	public function getVendorOrderItems()
 	{
 		return $this->vendorOrderItems;
-	}
-
-	/**
-	 * @param mixed $vendorOrderItems
-	 */
-	public function setVendorOrderItems($vendorOrderItems): void
-	{
-		$this->vendorOrderItems = $vendorOrderItems;
 	}
 
 	public function setRoles()

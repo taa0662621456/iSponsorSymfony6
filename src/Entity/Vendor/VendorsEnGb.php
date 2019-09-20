@@ -6,29 +6,24 @@ namespace App\Entity\Vendor;
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Vendors
- *
  * @ORM\Table(name="vendors_en_gb")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
- * UniqueEntity(fields={"phone"})
- * UniqueEntity(fields={"phone_second"}, message="Phone number already taken")
  * @ORM\HasLifecycleCallbacks()
  */
 class VendorsEnGb
 {
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      *
      */
     private $id;
@@ -224,10 +219,10 @@ class VendorsEnGb
     private $lockedBy = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorEnGb", orphanRemoval=true)
-     * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorEnGb")
+     * @ORM\JoinColumn(name="vendorsEnGb_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $vendorEnGb;
+    protected $vendorsEnGb;
 
 
 
@@ -641,17 +636,17 @@ class VendorsEnGb
 	/**
 	 * @return mixed
 	 */
-	public function getVendorEnGb()
+	public function getVendorsEnGb()
 	{
-		return $this->vendorEnGb;
+		return $this->vendorsEnGb;
 	}
 
 	/**
-	 * @param mixed $vendorEnGb
+	 * @param Vendors $vendorsEnGb
 	 */
-	public function setVendorEnGb(Vendors $vendorEnGb): void
+	public function setVendorsEnGb(Vendors $vendorsEnGb): void
 	{
-		$this->vendorEnGb = $vendorEnGb;
+		$this->vendorsEnGb = $vendorsEnGb;
 	}
 
 

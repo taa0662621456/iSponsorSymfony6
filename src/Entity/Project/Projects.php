@@ -9,25 +9,40 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="projects")
+ * @ORM\Table(name="projects", uniqueConstraints={
+ * @ORM\UniqueConstraint(name="project_slug", columns={"project_slug"})})
+ * @UniqueEntity("project_slug"),
+ *		errorPath="project_slug",
+ *		message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\ProjectsRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Projects
 {
     public const NUM_ITEMS = 10;
 
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="project_slug", type="string", nullable=true, options={"default"="project_slug"})
+	 * @Assert\NotBlank(message="project_slug.blank_content")
+	 * @Assert\Length(min=4, minMessage="project_slug.too_short_content")
+	 */
+	private $projectSlug = 'project_slug';
 
     /**
      * @var int
@@ -100,7 +115,7 @@ class Projects
      * @Assert\Count(max="4", maxMessage="projects.too_many_tags")
      *
      */
-    private $tags;
+    private $projectTags;
 
     /**
      * @var ProjectsAttachments[]|ArrayCollection
@@ -145,7 +160,7 @@ class Projects
         $this->modifiedOn = new DateTime();
         $this->lockedOn = new DateTime();
         $this->projectAttachments = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->projectTags = new ArrayCollection();
     }
 
     /**
@@ -172,7 +187,27 @@ class Projects
         $this->categoryProjects = $categoryProjects;
     }
 
-    /**
+	/**
+	 * @return string
+	 */
+	public function getProjectSlug(): string
+	{
+		return $this->projectSlug;
+	}
+
+	/**
+	 * @param string|null $projectSlug
+	 *
+	 * @return Projects
+	 */
+	public function setProjectSlug(string $projectSlug = null): self
+	{
+		$this->projectSlug = $projectSlug;
+		return $this;
+	}
+
+
+	/**
      * @return integer
      */
     public function getOrdering(): int
@@ -191,11 +226,11 @@ class Projects
     /**
      * @param ProjectsTags $tags
      */
-    public function addTags(ProjectsTags $tags): void
+    public function addProjectTag(ProjectsTags $tags): void
     {
         foreach ($tags as $tag) {
-            if (!$this->tags->contains($tag)) {
-                $this->tags->add($tag);
+            if (!$this->projectTags->contains($tag)) {
+                $this->projectTags->add($tag);
             }
         }
     }
@@ -204,23 +239,23 @@ class Projects
     /**
      * @param ProjectsTags $tag
      */
-    public function removeTag(ProjectsTags $tag): void
+    public function removeProjectTag(ProjectsTags $tag): void
     {
-        $this->tags->removeElement($tag);
+        $this->projectTags->removeElement($tag);
     }
 
     /**
      * @return Collection|ProjectsTags[]
      */
-    public function getTags(): Collection
+    public function getProjectTags(): Collection
     {
-        return $this->tags;
+        return $this->projectTags;
     }
 
     /**
      * @param ProjectsAttachments $attachments
      */
-    public function addAttachments(ProjectsAttachments $attachments): void
+    public function addProjectAttachment(ProjectsAttachments $attachments): void
     {
         foreach ($attachments as $attachment) {
             if (!$this->projectAttachments->contains($attachment)) {
@@ -233,7 +268,7 @@ class Projects
     /**
      * @param ProjectsAttachments $attachment
      */
-    public function removeAttachments(ProjectsAttachments $attachment): void
+    public function removeProjectAttachment(ProjectsAttachments $attachment): void
     {
         $this->projectAttachments->removeElement($attachment);
     }
@@ -241,7 +276,7 @@ class Projects
     /**
      * @return Collection|ProjectsAttachments[]
      */
-    public function getAttachments(): Collection
+    public function getProjectAttachments(): Collection
     {
         return $this->projectAttachments;
     }

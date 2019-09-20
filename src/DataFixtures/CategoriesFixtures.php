@@ -16,13 +16,14 @@ class CategoriesFixtures extends Fixture implements FixtureGroupInterface
     {
     	// Parent categories
     	for ($p=1; $p <= 26; $p++) {
+
 			$categories = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
 			$categoryAttachments = new CategoriesAttachments();
 
 			$categories->setOrdering($p);
+			$categories->setCategorySlug('slug' . $p);
 			$categoryEnGb->setCategoryName('Category #' . $p);
-			$categoryEnGb->setSlug($p);
 			$categoryAttachments->setFile('cover.jpg');
 			$categoryAttachments->setFileUrl('/');
 

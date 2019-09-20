@@ -9,14 +9,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Products
- *
- * @ORM\Table(name="products")
+ * @ORM\Table(name="products", uniqueConstraints={
+ * @ORM\UniqueConstraint(name="product_slug", columns={"product_slug"})})
+ * @UniqueEntity("product_slug"),
+ *     errorPath="product_slug",
+ *     message="This slug is already in use."
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -27,11 +30,20 @@ class Products
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="product_slug", type="string", nullable=true, options={"default"="product_slug"})
+	 * @Assert\NotBlank(message="products.blank_content")
+	 * @Assert\Length(min=4, minMessage="products.too_short_content")
+	 */
+	private $productSlug = 'product_slug';
 
     /**
      * @var int
@@ -231,13 +243,13 @@ class Products
 	/**
      * @var int
 	 *
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\GeneratedValue()
      * @ORM\Column(name="ordering", type="integer", unique=true, nullable=false, options={"default" : 1})
      */
     private $ordering = 1;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", mappedBy="productEnGb", orphanRemoval=true, fetch="EAGER")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", cascade={"persist", "remove"}, mappedBy="productsEnGb")
 	 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
 	 * @Assert\Valid()
 	 */
@@ -349,6 +361,22 @@ class Products
     {
         return $this->id;
     }
+
+	/**
+	 * @return string|null
+	 */
+	public function getProductSlug(): string
+	{
+		return $this->productSlug;
+	}
+
+	/**
+	 * @param string $productSlug
+	 */
+	public function setProductSlug(string $productSlug = null): void
+	{
+		$this->productSlug = $productSlug;
+	}
 
     /**
      * @return int|null

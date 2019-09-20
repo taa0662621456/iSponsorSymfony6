@@ -14,11 +14,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="categories")
+ * @ORM\Table(name="categories", uniqueConstraints={
+ * @ORM\UniqueConstraint(name="category_slug", columns={"category_slug"})})
+ * @UniqueEntity("category_slug"),
+ *		errorPath="category_slug",
+ *		message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
- * @UniqueEntity("slug"),
- *     errorPath="slug",
- *     message="This slug is already in use."
  * @ORM\HasLifecycleCallbacks()
  */
 class Categories
@@ -26,9 +27,9 @@ class Categories
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -38,6 +39,15 @@ class Categories
      * @ORM\Column(name="published", type="boolean", nullable=false)
      */
     private $published = true;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="category_slug", type="string", nullable=true, options={"default"="category_slug"})
+	 * @Assert\NotBlank(message="categories.blank_content")
+	 * @Assert\Length(min=4, minMessage="categories.too_short_content")
+	 */
+	private $categorySlug = 'category_slug';
 
     /**
      * @var DateTime
@@ -87,19 +97,10 @@ class Categories
     /**
      * @var int
      *
-	 * @ORM\GeneratedValue(strategy="IDENTITY")
+	 * @ORM\GeneratedValue()
      * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
      */
     private $ordering = 1;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="published", type="string", nullable=false)
-
-	 */
-    private $slug;
-
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent")
@@ -182,7 +183,24 @@ class Categories
         $this->published = $published;
     }
 
-    /**
+	/**
+	 * @return string
+	 */
+	public function getCategorySlug(): string
+	{
+		return $this->categorySlug;
+	}
+
+	/**
+	 * @param string|null $categorySlug
+	 */
+	public function setCategorySlug(string $categorySlug = null): void
+	{
+		$this->categorySlug = $categorySlug;
+	}
+
+
+	/**
      * @return DateTime
      */
     public function getCreatedOn(): DateTime
@@ -320,27 +338,6 @@ class Categories
 	{
 		$this->ordering = $ordering;
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getSlug(): string
-	{
-		return $this->slug;
-	}
-
-	/**
-	 * @param string $slug
-	 */
-	public function setSlug(string $slug): void
-	{
-		$this->slug = $slug;
-	}
-
-
-
-
-
 
 
 

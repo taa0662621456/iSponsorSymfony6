@@ -10,8 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Projects
- *
  * @ORM\Table(name="projects_en_gb")
  * @ORM\Entity(repositoryClass="App\Repository\ProjectsEnGbRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -19,11 +17,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ProjectsEnGb
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(name="id", type="integer", nullable=false, options={"comment"="Primary Key"})
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -96,33 +94,52 @@ class ProjectsEnGb
     private $projectProductMetaKey = 'project_product_meta_key';
 
 	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="project_slug", type="string", nullable=false, options={"default"=""})
-	 */
-	private $projectSlug = '';
-
-	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", cascade={"persist", "remove"}, inversedBy="projectEnGb", orphanRemoval=true)
 	 * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
 	private $projectEnGb;
 
 	/**
-     * @var int
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
-     * ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors")
-     * ORM\JoinColumn(name="id", referencedColumnName="id", nullable=true)
-     */
-    private $createdBy = 0;
+	 * @var DateTime
+	 *
+	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $createdOn;
 
 	/**
-     * @var DateTime
-     *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
-     */
-    private $createdOn;
+	 * @var int
+	 *
+	 * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $createdBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $modifiedOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $modifiedBy = 1;
+
+	/**
+	 * @var DateTime
+	 *
+	 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 */
+	private $lockedOn;
+
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $lockedBy = 1;
 
 
 
@@ -132,7 +149,14 @@ class ProjectsEnGb
      */
     public function __construct()
     {
-       $this->createdOn = new DateTime();
+		$this->createdOn = new DateTime();
+		$this->modifiedOn = new DateTime();
+		$this->lockedOn = new DateTime();
+    }
+
+	public function __toString()
+	{
+		return $this->getProjectTitle();
     }
 
     /**
@@ -288,25 +312,6 @@ class ProjectsEnGb
         return $this;
     }
 
-  	/**
-	 * @return string
-	 */
-	public function getProjectSlug(): string
-	{
-		return $this->projectSlug;
-	}
-
-	/**
-	 * @param string $projectSlug
-	 *
-	 * @return ProjectsEnGb
-	 */
-	public function setProjectSlug(string $projectSlug): self
-	{
-		$this->projectSlug = $projectSlug;
-		return $this;
-	}
-
 	/**
 	 * @return mixed
 	 */
@@ -316,9 +321,9 @@ class ProjectsEnGb
 	}
 
 	/**
-	 * @param mixed $projectEnGb
+	 * @param Projects $projectEnGb
 	 */
-	public function setProjectEnGb($projectEnGb): void
+	public function setProjectEnGb(Projects $projectEnGb): void
 	{
 		$this->projectEnGb = $projectEnGb;
 	}
@@ -357,6 +362,70 @@ class ProjectsEnGb
     {
         $this->createdOn = new DateTime();
     }
+
+	/**
+	 * @return DateTime
+	 */
+	public function getModifiedOn(): DateTime
+	{
+		return $this->modifiedOn;
+	}
+
+	/**
+	 * @param DateTime $modifiedOn
+	 */
+	public function setModifiedOn(DateTime $modifiedOn): void
+	{
+		$this->modifiedOn = $modifiedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getModifiedBy(): int
+	{
+		return $this->modifiedBy;
+	}
+
+	/**
+	 * @param int $modifiedBy
+	 */
+	public function setModifiedBy(int $modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
+
+	/**
+	 * @return DateTime
+	 */
+	public function getLockedOn(): DateTime
+	{
+		return $this->lockedOn;
+	}
+
+	/**
+	 * @param DateTime $lockedOn
+	 */
+	public function setLockedOn(DateTime $lockedOn): void
+	{
+		$this->lockedOn = $lockedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getLockedBy(): int
+	{
+		return $this->lockedBy;
+	}
+
+	/**
+	 * @param int $lockedBy
+	 */
+	public function setLockedBy(int $lockedBy): void
+	{
+		$this->lockedBy = $lockedBy;
+	}
 
 
 

@@ -8,12 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * CategoriesEnGb
- *
- * @ORM\Table(name="categories_en_gb", uniqueConstraints={
- * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
+ * @ORM\Table(name="categories_en_gb")
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
- * UniqueEntity(fields={"slug"}, message="This Slug already in use. Try enter a new slug.")
  * @ORM\HasLifecycleCallbacks()
  */
 class CategoriesEnGb
@@ -73,15 +69,6 @@ class CategoriesEnGb
     private $customTitle = 'custom_title';
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", nullable=true)
-     * Assert\NotBlank(message="categories_en_gb.blank_content")
-     * Assert\Length(min=4, minMessage="categories_en_gb.too_short_content")
-     */
-    private $slug = 'slug';
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryEnGb")
      * @ORM\JoinColumn(name="categoriesEnGb_id", referencedColumnName="id", onDelete="CASCADE")
      */
@@ -89,6 +76,18 @@ class CategoriesEnGb
 
 
 
+
+
+
+
+    /**
+     * @return string
+     */
+    public function __toString() {
+
+        return $this->getCategoryName();
+
+    }
 
     /**
      * @return int
@@ -177,31 +176,6 @@ class CategoriesEnGb
     public function setCustomTitle(string $customTitle): void
     {
         $this->customTitle = $customTitle;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param string $slug
-     */
-    public function setSlug(string $slug = null): void
-    {
-        $this->slug = $slug;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString() {
-
-        return $this->getCategoryName();
-
     }
 
     /**

@@ -16,7 +16,7 @@ class ProductsTags implements JsonSerializable
     /**
      * @var int
      *
-     * @ORM\Id
+     * @ORM\Id()
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */

@@ -3,27 +3,28 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
+use App\Entity\Project\Projects;
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
- * ProductsEnGb
- *
  * @ORM\Table(name="products_en_gb")
- * UniqueEntity("slug", message="This slug is already in use.")
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ProductsEnGb
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -66,16 +67,9 @@ class ProductsEnGb
     /**
      * @var string
      *
-     * @ORM\Column(name="custom_title", type="string", nullable=false, options={"default"=""})
+     * @ORM\Column(name="custom_title", type="string", nullable=false, options={"default"="custom_title"})
      */
-    private $customTitle = '';
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="slug", type="string", nullable=true, options={"default"=""})
-     */
-    private $slug = '';
+    private $customTitle = 'custom_title';
 
 	/**
 	 * @var DateTime
@@ -121,9 +115,9 @@ class ProductsEnGb
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productEnGb")
-     * @ORM\JoinColumn(name="productEnGb_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="productsEnGb_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $productEnGb;
+    private $productsEnGb;
 
 
 
@@ -140,6 +134,15 @@ class ProductsEnGb
 		$this->modifiedOn = new DateTime();
 		$this->lockedOn = new DateTime();
     }
+
+	/**
+	 * @return string
+	 */
+	public function __toString() {
+
+		return $this->getProductName();
+
+	}
 
     /**
      * @return int
@@ -245,36 +248,12 @@ class ProductsEnGb
         $this->customTitle = $customTitle;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    /**
-     * @param string|null $slug
-     */
-    public function setSlug(string $slug): void
-    {
-        $this->slug = $slug;
-    }
-
 	/**
-	 * @return mixed
+	 * @param Projects $productsEnGb
 	 */
-	public function getProductEnGb()
+	public function setProductsEnGb(Projects $productsEnGb): void
 	{
-		return $this->productEnGb;
-	}
-
-	/**
-	 * @param mixed $productEnGb
-	 */
-	public function setProductEnGb($productEnGb): void
-	{
-		$this->productEnGb = $productEnGb;
+		$this->productsEnGb = $productsEnGb;
 	}
 
 	/**

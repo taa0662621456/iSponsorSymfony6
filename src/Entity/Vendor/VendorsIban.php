@@ -4,19 +4,21 @@ declare(strict_types=1);
 namespace App\Entity\Vendor;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(name="vendors_iban")
+ * @UniqueEntity("iban")
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  */
 class VendorsIban
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
      */
     private $id;
 

@@ -26,9 +26,9 @@ class ProjectsFixtures extends Fixture implements FixtureGroupInterface
 			$projectAttachments = new ProjectsAttachments();
 
 			$projects->setCategoryProjects($categories[array_rand($categories)]);
+			$projects->setProjectSlug('slug' . $p);
 			$projects->setOrdering($p);
 			$projects->setCreatedBy(0);
-			$projectEnGb->setProjectSlug('p' . $p);
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');
 

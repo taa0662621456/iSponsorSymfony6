@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VendorGroupMap
  * @ORM\Table(name="vendors_group_map")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
@@ -15,11 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
 class VendorsGroupMap
 {
     /**
-     * @var integer
+     * @var int
      *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
      */
     private $id;
 
@@ -34,7 +32,7 @@ class VendorsGroupMap
      * @var int
      *
      * @ORM\Column(name="group_id", type="integer", nullable=false, options={"comment"="Foreign Key to #__usergroups.id"})
-     * @ORM\Id
+     * @ORM\Id()
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $groupId = 0;
