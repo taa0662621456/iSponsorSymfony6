@@ -79,14 +79,14 @@ class CategoriesController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($category);
 
             $s = $form->getData()->categoryEnGb->getSlug();
 
             if (!isset($s)) {
-                $categoryEnGb->setSlug($slug->slugify($categoryEnGb->getCategoryName()));
+                $category->setCategorySlug($slug->slugify($categoryEnGb->getCategoryName()));
             }
 
+            $entityManager->persist($category);
             $entityManager->flush();
 
             return $this->redirectToRoute('categories_index');

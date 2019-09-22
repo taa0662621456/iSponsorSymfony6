@@ -8,14 +8,9 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>MiddleName</th>
+                <th>Name</th>
                 <th>Phone</th>
-                <th>PhoneSecond</th>
-                <th>Fax</th>
                 <th>Address</th>
-                <th>AddressSecond</th>
                 <th>City</th>
                 <th>StateId</th>
                 <th>CountryId</th>
@@ -40,14 +35,17 @@
         {% for vendor in vendors %}
             <tr>
                 <td>{{ vendor.id }}</td>
-                <td>{{ vendor.firstName }}</td>
-                <td>{{ vendor.lastName }}</td>
-                <td>{{ vendor.middleName }}</td>
-                <td>{{ vendor.phone }}</td>
-                <td>{{ vendor.phoneSecond }}</td>
-                <td>{{ vendor.fax }}</td>
+                <td>
+                    <p>{{ vendor.firstName }}</p>
+                    <p>{{ vendor.lastName }}</p>
+                    <p>{{ vendor.middleName }}</p>
+                </td>
+                <th>
+                    <p>{{ vendor.phone }}</p>
+                    <p>{{ vendor.phoneSecond }}</p>
+                    <p>{{ vendor.fax }}</p>
+                </th>
                 <td>{{ vendor.address }}</td>
-                <td>{{ vendor.addressSecond }}</td>
                 <td>{{ vendor.city }}</td>
                 <td>{{ vendor.stateId }}</td>
                 <td>{{ vendor.countryId }}</td>
@@ -66,10 +64,8 @@
                 <td>{{ vendor.lockedBy }}</td>
                 #}
                 <td>
-                    {#
                     <a href="{{ path('vendors_show', {'id': vendor.id}) }}">show</a>
                     <a href="{{ path('vendors_edit', {'id': vendor.id}) }}">edit</a>
-                    #}
                 </td>
             </tr>
         {% else %}
@@ -79,6 +75,7 @@
         {% endfor %}
         </tbody>
     </table>
+
     {% block article_summery %}<p>All Vendors this</p>{% endblock %}
     {% block article_footer %}<a href="{{ path('vendors_new') }}">Create new</a>{% endblock %}
 {% endblock %}

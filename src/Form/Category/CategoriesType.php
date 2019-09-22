@@ -30,7 +30,7 @@ class CategoriesType extends AbstractType
             //->add('file', FileType::class)
             */
             ->add('categoryEnGb', CategoriesEnGbType::class)
-            ->add('categoriesAttachments', CategoriesAttachmentsType::class)
+            //->add('categoriesAttachments', CategoriesAttachmentsType::class)
         ;
     }
 

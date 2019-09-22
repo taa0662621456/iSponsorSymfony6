@@ -77,6 +77,10 @@ $(".previous").click(function(){
     });
 });
 
+$(".msform_unset").click(function () {
+   document.querySelectorAll(".msform").css()
+});
+
 $(".submit").click(function(){
     return false;
 });

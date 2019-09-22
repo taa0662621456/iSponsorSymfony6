@@ -211,12 +211,7 @@
 				->add('vendorParams')
 				->add('metaRobot')
 				->add('metaAuthor')
-				->add('createdOn')
 				->add('createdBy')
-				->add('modifiedOn')
-				->add('modifiedBy')
-				->add('lockedOn')
-				->add('lockedBy')
 				*/
 			;
 		}

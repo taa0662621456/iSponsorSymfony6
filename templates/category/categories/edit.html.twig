@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Categories{% endblock %}
-
-{% block body %}
-    <h1>Edit Categories</h1>
-
-    {{ include('categories/_form.html.twig', {'button_label': 'Update'}) }}
-
+{% block title %}Edit Category{% endblock %}
+{% block header %}<h1>Category</h1>{% endblock %}
+{% block article_header %}<h1>Edit Category</h1>{% endblock %}
+{% block article_content %}
+    {{ include('category/categories/_form.html.twig', {'button_label': 'Update'}) }}
+    {% block article_summery %}
     <a href="{{ path('categories_index') }}">back to list</a>
-
-    {{ include('categories/_delete_form.html.twig') }}
+    {{ include('category/categories/_delete_form.html.twig') }}
+    {% endblock %}
 {% endblock %}

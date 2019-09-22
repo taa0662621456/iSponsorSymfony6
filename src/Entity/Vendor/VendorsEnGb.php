@@ -23,11 +23,7 @@ class VendorsEnGb
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
-<<<<<<< HEAD
      * @ORM\Column(type="integer")
-=======
-     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
->>>>>>> github/master
      *
      */
     private $id;
@@ -35,114 +31,114 @@ class VendorsEnGb
     /**
      * @var string
      *
-     * @ORM\Column(name="first_name", type="string", nullable=false, options={"default"="first_name"})
+     * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="first_name"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $firstName = 'first_name';
+    private $vendorFirstName = 'first_name';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="last_name", type="string", nullable=false, options={"default"="last_name"})
+     * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="last_name"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $lastName = 'last_name';
+    private $vendorLastName = 'last_name';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="middle_name", type="string", nullable=false, options={"default"="middle_name"})
+     * @ORM\Column(name="vendor_middle_name", type="string", nullable=false, options={"default"="middle_name"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $middleName = 'middle_name';
+    private $vendorMiddleName = 'middle_name';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", nullable=false, unique=true, options={"default"="0000000000000"})
+     * @ORM\Column(name="vendor_phone", type="string", nullable=false, unique=true, options={"default"="0000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
-    private $phone = '0000000000000';
+    private $vendorPhone = '0000000000000';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phone_second", type="string", nullable=true, unique=true, options={"default"="0000000000000"})
+     * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, unique=true, options={"default"="0000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
-    private $phoneSecond = '0000000000000';
+    private $vendorSecondPhone = '0000000000000';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="fax", type="string", nullable=true, options={"default"="000000000000"})
+     * @ORM\Column(name="vendor_fax", type="string", nullable=true, options={"default"="000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=11, maxMessage="vendors_en_gb.too_long_content")
      */
-    private $fax = '000000000000';
+    private $vendorFax = '000000000000';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="address", type="string", nullable=false, options={"default"="address"})
+     * @ORM\Column(name="vendor_address", type="string", nullable=false, options={"default"="address"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $address = 'address';
+    private $vendorAddress = 'address';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="address_second", type="string", nullable=true, options={"default"="address_second"})
+     * @ORM\Column(name="vendor_second_address", type="string", nullable=true, options={"default"="address_second"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $addressSecond = 'address_second';
+    private $vendorSecondAddress = 'address_second';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="city", type="string", nullable=false, options={"default"="your_city"})
+     * @ORM\Column(name="vendor_city", type="string", nullable=false, options={"default"="your_city"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
      */
-    private $city = 'your_city';
+    private $vendorCity = 'your_city';
 
     /**
      * @var int
      *
-     * @ORM\Column(name="state_id", type="integer", nullable=false, options={"default"="0"})
+     * @ORM\Column(name="vendor_state_id", type="integer", nullable=false, options={"default"="0"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
      */
-    private $stateId = 0;
+    private $vendorStateId = 0;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="country_id", type="string", nullable=false, options={"default"="country_id"})
+     * @ORM\Column(name="vendor_country_id", type="string", nullable=false, options={"default"="country_id"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
      */
-    private $countryId = 'country_id';
+    private $vendorCountryId = 'country_id';
 
     /**
      * @var int
      *
-     * @ORM\Column(name="zip", type="integer", nullable=false, options={"default"="000000"})
+     * @ORM\Column(name="vendor_zip", type="integer", nullable=false, options={"default"="000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=4, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=7, maxMessage="vendors_en_gb.too_long_content")
      */
-    private $zip = 0;
+    private $vendorZip = 0;
 
     /**
      * @var string
@@ -169,16 +165,16 @@ class VendorsEnGb
     /**
      * @var string
      *
-     * @ORM\Column(name="meta_robot", type="string", nullable=false, options={"default"="meta_robot"})
+     * @ORM\Column(name="vendor_meta_robot", type="string", nullable=false, options={"default"="meta_robot"})
      */
-    private $metaRobot = 'meta_robot';
+    private $vendorMetaRobot = 'meta_robot';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="meta_author", type="string", nullable=true, options={"default"="meta_author"})
+     * @ORM\Column(name="vendor_meta_author", type="string", nullable=true, options={"default"="meta_author"})
      */
-    private $metaAuthor = 'meta_author';
+    private $vendorMetaAuthor = 'meta_author';
 
     /**
      * @var DateTime
@@ -226,7 +222,7 @@ class VendorsEnGb
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorEnGb")
      * @ORM\JoinColumn(name="vendorsEnGb_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $vendorsEnGb;
+	private $vendorsEnGb;
 
 
 
@@ -256,203 +252,203 @@ class VendorsEnGb
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getId(): string
+    public function getId(): int
     {
-        return $this->firstName;
+        return $this->id;
     }
 
     /**
      * @return string|null
      */
-    public function getFirstName(): string
+    public function getVendorFirstName(): string
     {
-        return $this->firstName;
+        return $this->vendorFirstName;
     }
 
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName(string $firstName): void
+	/**
+	 * @param string $vendorFirstName
+	 */
+    public function setVendorFirstName(string $vendorFirstName): void
     {
-        $this->firstName = $firstName;
+        $this->vendorFirstName = $vendorFirstName;
     }
 
     /**
      * @return string
      */
-    public function getLastName(): string
+    public function getVendorLastName(): string
     {
-        return $this->lastName;
+        return $this->vendorLastName;
     }
 
     /**
      * @param string $lastName
      */
-    public function setLastName(string $lastName): void
+    public function setVendorLastName(string $lastName): void
     {
-        $this->lastName = $lastName;
+        $this->vendorLastName = $lastName;
     }
 
     /**
      * @return string
      */
-    public function getMiddleName(): string
+    public function getVendorMiddleName(): string
     {
-        return $this->middleName;
+        return $this->vendorMiddleName;
     }
 
-    /**
-     * @param string $middleName
-     */
-    public function setMiddleName(string $middleName): void
+	/**
+	 * @param string $vendorMiddleName
+	 */
+    public function setVendorMiddleName(string $vendorMiddleName): void
     {
-        $this->middleName = $middleName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPhone(): string
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @param string $phone
-     */
-    public function setPhone(string $phone): void
-    {
-        $this->phone = $phone;
+        $this->vendorMiddleName = $vendorMiddleName;
     }
 
     /**
      * @return string
      */
-    public function getPhoneSecond(): string
+    public function getVendorPhone(): string
     {
-        return $this->phoneSecond;
+        return $this->vendorPhone;
+    }
+
+	/**
+	 * @param string $vendorPhone
+	 */
+    public function setVendorPhone(string $vendorPhone): void
+    {
+        $this->vendorPhone = $vendorPhone;
     }
 
     /**
-     * @param string $phoneSecond
+     * @return string
      */
-    public function setPhoneSecond(string $phoneSecond): void
+    public function getVendorSecondPhone(): string
     {
-        $this->phoneSecond = $phoneSecond;
+        return $this->vendorSecondPhone;
+    }
+
+	/**
+	 * @param string $vendorSecondPhone
+	 */
+    public function setVendorSecondPhone(string $vendorSecondPhone): void
+    {
+        $this->vendorSecondPhone = $vendorSecondPhone;
     }
 
     /**
      * @return string|null
      */
-    public function getFax(): string
+    public function getVendorFax(): string
     {
-        return $this->fax;
+        return $this->vendorFax;
     }
 
     /**
      * @param string $fax
      */
-    public function setFax(string $fax): void
+    public function setVendorFax(string $fax): void
     {
-        $this->fax = $fax;
+        $this->vendorFax = $fax;
     }
 
     /**
      * @return string
      */
-    public function getAddress(): string
+    public function getVendorAddress(): string
     {
-        return $this->address;
+        return $this->vendorAddress;
     }
 
     /**
      * @param string $address
      */
-    public function setAddress(string $address): void
+    public function setVendorAddress(string $address): void
     {
-        $this->address = $address;
+        $this->vendorAddress = $address;
     }
 
     /**
      * @return string
      */
-    public function getAddressSecond(): string
+    public function getVendorAddressSecond(): string
     {
-        return $this->address;
+        return $this->vendorAddress;
     }
 
-    /**
-     * @param string|null $addressSecond
-     */
-    public function setAddressSecond(string $addressSecond): void
+	/**
+	 * @param string $vendorSecondAddress
+	 */
+    public function setVendorAddressSecond(string $vendorSecondAddress): void
     {
-        $this->addressSecond = $addressSecond;
+        $this->vendorSecondAddress = $vendorSecondAddress;
     }
 
     /**
      * @return string
      */
-    public function getCity(): string
+    public function getVendorCity(): string
     {
-        return $this->city;
+        return $this->vendorCity;
     }
 
-    /**
-     * @param string $city
-     */
-    public function setCity(string $city): void
+	/**
+	 * @param string $vendorCity
+	 */
+    public function setVendorCity(string $vendorCity): void
     {
-        $this->city = $city;
+        $this->vendorCity = $vendorCity;
     }
 
     /**
      * @return int
      */
-    public function getStateId(): int
+    public function getVendorStateId(): int
     {
-        return $this->stateId;
+        return $this->vendorStateId;
     }
 
-    /**
-     * @param int $stateId
-     */
-    public function setStateId(int $stateId): void
+	/**
+	 * @param int $vendorStateId
+	 */
+    public function setVendorStateId(int $vendorStateId): void
     {
-        $this->stateId = $stateId;
+        $this->vendorStateId = $vendorStateId;
     }
 
     /**
      * @return string
      */
-    public function getCountryId(): string
+    public function getVendorCountryId(): string
     {
-        return $this->countryId;
+        return $this->vendorCountryId;
     }
 
-    /**
-     * @param string $countryId
-     */
-    public function setCountryId(string $countryId): void
+	/**
+	 * @param string $vendorCountryId
+	 */
+    public function setVendorCountryId(string $vendorCountryId): void
     {
-        $this->countryId = $countryId;
+        $this->vendorCountryId = $vendorCountryId;
     }
 
     /**
      * @return int
      */
-    public function getZip(): int
+    public function getVendorZip(): int
     {
-        return $this->zip;
+        return $this->vendorZip;
     }
 
-    /**
-     * @param int $zip
-     */
-    public function setZip(int $zip): void
+	/**
+	 * @param int $vendorZip
+	 */
+    public function setVendorZip(int $vendorZip): void
     {
-        $this->zip = $zip;
+        $this->vendorZip = $vendorZip;
     }
 
     /**
@@ -506,33 +502,33 @@ class VendorsEnGb
     /**
      * @return string
      */
-    public function getMetaRobot(): string
+    public function getVendorMetaRobot(): string
     {
-        return $this->metaRobot;
+        return $this->vendorMetaRobot;
     }
 
-    /**
-     * @param string $metaRobot
-     */
-    public function setMetaRobot(string $metaRobot): void
+	/**
+	 * @param string $vendorMetaRobot
+	 */
+    public function setVendorMetaRobot(string $vendorMetaRobot): void
     {
-        $this->metaRobot = $metaRobot;
+        $this->vendorMetaRobot = $vendorMetaRobot;
     }
 
     /**
      * @return string
      */
-    public function getMetaAuthor(): string
+    public function getVendorMetaAuthor(): string
     {
-        return $this->metaAuthor;
+        return $this->vendorMetaAuthor;
     }
 
-    /**
-     * @param string $metaAuthor
-     */
-    public function setMetaAuthor(string $metaAuthor): void
+	/**
+	 * @param string $vendorMetaAuthor
+	 */
+    public function setVendorMetaAuthor(string $vendorMetaAuthor): void
     {
-        $this->metaAuthor = $metaAuthor;
+        $this->vendorMetaAuthor = $vendorMetaAuthor;
     }
 
     /**

@@ -4,10 +4,12 @@ declare(strict_types=1);
 namespace App\Controller\Vendor;
 
 use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsEnGb;
 use App\Form\Vendor\VendorsAddType;
-use App\Form\Vendor\VendorsType;
+use App\Form\Vendor\VendorsEditType;
 use App\Repository\ProjectsRepository;
 use App\Repository\VendorsEnGbRepository;
+use Cocur\Slugify\Slugify;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,14 +41,23 @@ class VendorsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+		$slug = new Slugify();
         $vendor = new Vendors();
+        $vendorEnGb = new VendorsEnGb();
         $form = $this->createForm(VendorsAddType::class, $vendor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($vendor);
+
+			$s = $form->getData()->vendorEnGb->getSlug();
+
+			if (!isset($s)) {
+				$vendor->setVendorSlug($slug->slugify($vendorEnGb->getFirstName()));
+			}
+
+			$entityManager->persist($vendor);
             $entityManager->flush();
 
             return $this->redirectToRoute('vendors');
@@ -59,7 +70,7 @@ class VendorsController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}", name="vendors_show", methods={"GET"})
+     * @Route("/{id}", name="vendors_show", methods={"GET"})
      * @param Vendors $vendor
      * @return Response
      */
@@ -71,14 +82,14 @@ class VendorsController extends AbstractController
     }
 
     /**
-     * @Route("/{id<\d+>}/edit", name="vendors_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="vendors_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Vendors $vendor
      * @return Response
      */
     public function edit(Request $request, Vendors $vendor): Response
     {
-        $form = $this->createForm(VendorsType::class, $vendor);
+        $form = $this->createForm(VendorsEditType::class, $vendor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
