@@ -8,9 +8,11 @@ use App\Entity\Order\OrdersStatus;
 use App\Entity\Product\ProductsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class OrdersFixtures extends Fixture implements FixtureGroupInterface
+class OrdersFixtures extends Fixture implements DependentFixtureInterface
+//class OrdersFixtures extends Fixture implements FixtureGroupInterface
 {
 
     public function load(ObjectManager $manager)
@@ -47,6 +49,13 @@ class OrdersFixtures extends Fixture implements FixtureGroupInterface
 			$manager->flush();
 		}
     }
+
+	public function getDependencies ()
+	{
+		return array (
+			ProductsFixtures::class,
+		);
+	}
 
 	/**
 	 * @return int
