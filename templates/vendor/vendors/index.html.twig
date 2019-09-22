@@ -37,7 +37,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for vendors in vendors %}
+        {% for vendor in vendors %}
             <tr>
                 <td>{{ vendor.id }}</td>
                 <td>{{ vendor.firstName }}</td>
@@ -66,8 +66,10 @@
                 <td>{{ vendor.lockedBy }}</td>
                 #}
                 <td>
+                    {#
                     <a href="{{ path('vendors_show', {'id': vendor.id}) }}">show</a>
                     <a href="{{ path('vendors_edit', {'id': vendor.id}) }}">edit</a>
+                    #}
                 </td>
             </tr>
         {% else %}

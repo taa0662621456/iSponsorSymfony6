@@ -18,9 +18,11 @@
 {% endblock %}
 {% block body %}
     <body>
+        <header class="section-header">
+
          {% block navbar %}
-             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                 <menu>
+             <nav class="navbar navbar-expand-sm navbar-dark bg-secondary">
+                 <menu class="container">
                      <a class="navbar-brand" href="#">...iSponsor!
                          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                              Username: {{ app.user.username }}
@@ -84,11 +86,40 @@
                  </menu>
              </nav>
          {% endblock %}
-             <header>
+            <section class="header-main bg">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-hidden-xs col-sm-1 col-md-1 col-lg-1">
+                        </div>
+                        <div class="col-hidden-xs col-sm-2 col-md-1 col-lg-1">
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
+                            <div class="brand-wrap">
+                                <img class="logo" src="">
+                                <h2 class="logo-text">LOGO</h2>
+                                </div> <!-- brand-wrap.// -->
+                        </div>
+                        <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
+                            <form action="#" class="widget-header float-right">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form> <!-- search-wrap .end// -->
+                        </div> <!-- col.// -->
+
+                    </div> <!-- row.// -->
+                </div> <!-- container.// -->
+            </section> <!-- header-main .// -->
                  <hgroup>
                      {% block header %}{% endblock %}
                  </hgroup>
-             </header>
+        </header>
          {% block blocks %}
              <main role="main" class="row container-fluid">
                  <aside id="b1" class="hidden-xs col-sm-1 col-md-1 col-lg-1 z1 hidden-phone nopadding nomargin">
@@ -126,34 +157,34 @@
          {% endblock %}
     </body>
 {% endblock %}
-    <footer id="footer" class="footer">
+    <footer id="footer" class="footer section-footer bg-dark white">
         {% block footer %}
-            <div class="container-fluid">
-            <div class="row foot">
-                <div class="col-xs-12 col-lg-12 col-sm-12 center">
+            <section class="container-fluid footer-bottom">
+                <div class="row foot">
+                    <div class="col-xs-12 col-lg-12 col-sm-12 center">
 
+                    </div>
                 </div>
-            </div>
-            <div class="row foot">
+                <div class="row foot">
 
-                <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
-            </div>
-            <div class="row foot">
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
+                </div>
+                <div class="row foot">
 
-                <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
-                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
-                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
-            </div>
-        </div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
+                    <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+                    <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+                </div>
+            </section>
         {% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
