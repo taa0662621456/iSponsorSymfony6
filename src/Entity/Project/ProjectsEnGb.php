@@ -21,11 +21,7 @@ class ProjectsEnGb
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
-<<<<<<< HEAD
      * @ORM\Column(type="integer")
-=======
-     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
->>>>>>> github/master
      */
     private $id;
 
@@ -98,8 +94,10 @@ class ProjectsEnGb
     private $projectProductMetaKey = 'project_product_meta_key';
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", cascade={"persist", "remove"}, inversedBy="projectEnGb", orphanRemoval=true)
-	 * @ORM\JoinColumn(name="id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects",
+	 *     inversedBy="projectEnGb"
+	 * )
+	 * @ORM\JoinColumn(name="projectEnGb_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	private $projectEnGb;
 

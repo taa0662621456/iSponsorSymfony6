@@ -27,7 +27,7 @@ class ProductsFavourites
 
     /**
      * @ORM\ManyToOne(targetEntity="Products", inversedBy="favourites")
-     * @ORM\JoinColumn(name="id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="CASCADE")
      **/
     private $product;
 

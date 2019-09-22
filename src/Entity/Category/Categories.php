@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use App\Entity\Project\Projects;
 use \DateTime;
 use Exception;
 use Doctrine\ORM\Mapping as ORM;
@@ -103,30 +102,41 @@ class Categories
     private $ordering = 1;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent", fetch="EXTRA_LAZY")
      */
     private $children;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="children")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
+	 *      cascade={"persist"},
+	 *      inversedBy="children"
+	 * )
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
 	 */
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects", cascade={"persist"}, mappedBy="categoryProjects")
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects",
+	 *      cascade={"persist"},
+	 *      mappedBy="projectCategory",
+	 *      fetch="EXTRA_LAZY"
+	 * )
      */
     private $categoryProjects;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb", cascade={"persist", "remove"}, mappedBy="categoriesEnGb")
+     * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="categoriesEnGb",
+	 *     orphanRemoval=true
+	 *	 )
      * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
      * @Assert\Valid()
      */
     private $categoryEnGb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", mappedBy="categoryAttachments")
+     * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", cascade={"persist", "remove"}, mappedBy="categoryAttachments", orphanRemoval=true)
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
 	 * @Assert\Valid()
      */
@@ -150,8 +160,9 @@ class Categories
         $this->modifiedOn = new DateTime();
         $this->lockedOn = new DateTime();
         $this->children = new ArrayCollection();
-        $this->categoryProjects = new ArrayCollection();
-        $this->categoryAttachments = new ArrayCollection();
+		$this->categoryProjects = new ArrayCollection();
+
+		$this->categoryAttachments = new ArrayCollection();
     }
 
 
@@ -299,13 +310,22 @@ class Categories
         $this->lockedBy = $lockedBy;
     }
 
-    /**
-     * @return Collection|Projects[]
-     */
-    public function getCategoryProjects(): Collection
-    {
-        return $this->categoryProjects;
-    }
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getCategoryProjects(): ArrayCollection
+	{
+		return $this->categoryProjects;
+	}
+
+	/**
+	 * @param ArrayCollection $categoryProjects
+	 */
+	public function setCategoryProjects(ArrayCollection $categoryProjects): void
+	{
+		$this->categoryProjects = $categoryProjects;
+	}
+
 
     /**
      * @return mixed

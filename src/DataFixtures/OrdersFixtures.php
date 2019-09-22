@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Order\Orders;
 use App\Entity\Order\OrdersItems;
 use App\Entity\Order\OrdersStatus;
+use App\Entity\Product\ProductsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -14,21 +15,46 @@ class OrdersFixtures extends Fixture implements FixtureGroupInterface
 
     public function load(ObjectManager $manager)
     {
-    	// Parent categories
-    	for ($p=1; $p <= 26; $p++) {
-			$orders = new Orders();
-			//$orderItems = new OrdersItems();
-			//$orderStatus = new OrdersStatus();
+		//$productsRepository = $manager->getRepository(Products::class);
+		$productsEnGbRepository = $manager->getRepository(ProductsEnGb::class);
+        $products = $productsEnGbRepository->findAll();
+        $productsCount = count($products);
 
-			$orders->setorderIpAddress('127.0.0.1');
+    	for ($p=1; $p <= rand(1, $productsCount); $p++) {
+
+			$orders = new Orders();
+			$orderStatus = new OrdersStatus();
+
+			$orders->setOrderIpAddress('127.0.0.1');
+			$orderStatus->setOrderStatusCode('N');
+
+			for ($i=1; $i <= rand(1, $productsCount); $i++) {
+
+				//$productCurrent = $productsRepository->find($productRand);
+				//$productEnGbCurrent = $productsEnGbRepository->find($i);
+				//$productEnGbCurrentName = $productEnGbCurrent->getProductName();
+
+				$orderItems = new OrdersItems();
+
+				$orderItems->setItemId($i);
+				$orderItems->setItemName('item ' . $i);
+
+				$manager->persist($orderItems);
+			}
 
 			$manager->persist($orders);
-			//$manager->persist($orderItems);
-			//$manager->persist($orderStatus);
+			$manager->persist($orderStatus);
 			$manager->flush();
 		}
     }
 
+	/**
+	 * @return int
+	 */
+	public function getOrder()
+	{
+		return 5;
+	}
 
 	/**
 	 * @return string[]

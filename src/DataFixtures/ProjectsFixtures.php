@@ -25,10 +25,10 @@ class ProjectsFixtures extends Fixture implements FixtureGroupInterface
 			$projectEnGb = new ProjectsEnGb();
 			$projectAttachments = new ProjectsAttachments();
 
-			$projects->setCategoryProjects($categories[array_rand($categories)]);
+			$projects->setProjectCategory($categories[array_rand($categories)]);
 			$projects->setProjectSlug('slug' . $p);
 			$projects->setOrdering($p);
-			$projects->setCreatedBy(0);
+			$projectEnGb->setProjectTitle('Project #' . $p);
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');
 
@@ -40,6 +40,13 @@ class ProjectsFixtures extends Fixture implements FixtureGroupInterface
 		}
     }
 
+	/**
+	 * @return int
+	 */
+	public function getOrder()
+	{
+		return 3;
+	}
 
 	/**
 	 * @return string[]

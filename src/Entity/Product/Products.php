@@ -110,7 +110,9 @@ class Products
     private $productInStock = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="productOrdered")
+     * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
+	 *     mappedBy="productOrdered"
+	 * )
      */
     private $productOrdered;
 
@@ -249,7 +251,11 @@ class Products
     private $ordering = 1;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb", cascade={"persist", "remove"}, mappedBy="productsEnGb")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="productsEnGb",
+	 *     orphanRemoval=true
+	 * )
 	 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
 	 * @Assert\Valid()
 	 */
@@ -266,7 +272,11 @@ class Products
 	private $productTags;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice", mappedBy="productPrice", orphanRemoval=true, fetch="EAGER")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice",
+	 *     mappedBy="productPrice",
+	 *     orphanRemoval=true,
+	 *     fetch="EAGER"
+	 * )
 	 * @Assert\Type(type="App\Entity\Product\ProductsPrice")
 	 * @Assert\Valid()
 	 */
@@ -283,7 +293,12 @@ class Products
 	private $productFeatured;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductsAttachments", mappedBy="productAttachments")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductsAttachments",
+	 *     mappedBy="productAttachments",
+	 *     cascade={"persist", "remove"},
+	 *     orphanRemoval=true,
+	 *     fetch="EXTRA_LAZY"
+	 * )
 	 */
 	private $productAttachments;
 

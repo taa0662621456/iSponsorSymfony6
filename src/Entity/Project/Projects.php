@@ -52,12 +52,6 @@ class Projects
     private $ordering = 0;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryProjects")
-	 * @ORM\JoinColumn(name="categoryProject_id", referencedColumnName="id", nullable=true)
-     */
-    private $categoryProjects;
-
-    /**
      * @var DateTime
      *
      * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
@@ -100,11 +94,52 @@ class Projects
     private $lockedBy = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb", mappedBy="projectEnGb")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
+	 *      cascade={"persist"},
+	 *      inversedBy="categoryProjects",
+	 *      fetch="EXTRA_LAZY"
+	 * )
+     */
+    private $projectCategory;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb",
+	 *      cascade={"persist", "remove"},
+	 *      mappedBy="projectEnGb",
+	 *      orphanRemoval=true
+	 * )
      * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
      * @Assert\Valid()
      */
     private $projectEnGb;
+
+
+    /**
+     * @var ProjectsAttachments[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsAttachments",
+	 *      cascade={"persist", "remove"},
+	 *      mappedBy="projectAttachments",
+	 *      orphanRemoval=true)
+     * @ORM\JoinTable(name="project_attachments")
+     * @Assert\Count(max="8", maxMessage="projects.too_many_files")
+	 */
+    private $projectAttachments;
+
+    /**
+     * @var ProjectsFavourites[]|ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsFavourites", cascade={"persist", "remove"}, mappedBy="projectFavourites")
+     **/
+    private $projectFavourites;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="projectFeatured"
+	 * )
+     */
+    private $projectFeatured;
 
     /**
      * @var ProjectsTags[]|ArrayCollection
@@ -116,28 +151,6 @@ class Projects
      *
      */
     private $projectTags;
-
-    /**
-     * @var ProjectsAttachments[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsAttachments", mappedBy="projectAttachments")
-     * ORM\JoinTable(name="projects_attachments")
-     * @Assert\Count(max="8", maxMessage="projects.too_many_files")
-	 */
-    private $projectAttachments;
-
-    /**
-     * @var ProjectsFavourites[]|ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectsFavourites", mappedBy="project")
-     **/
-    private $projectFavourites;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="projectFeatured")
-     */
-    private $projectFeatured;
-
 
 
 
@@ -171,21 +184,22 @@ class Projects
         return $this->id;
     }
 
-    /**
-     * @return Categories
-     */
-    public function getCategoryProjects()
-    {
-        return $this->categoryProjects;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getProjectCategory()
+	{
+		return $this->projectCategory;
+	}
 
 	/**
-	 * @param Categories $categoryProjects
+	 * @param Categories $projectCategory
 	 */
-    public function setCategoryProjects(Categories $categoryProjects = null): void
-    {
-        $this->categoryProjects = $categoryProjects;
-    }
+	public function setProjectCategory(Categories $projectCategory): void
+	{
+		$this->projectCategory = $projectCategory;
+	}
+
 
 	/**
 	 * @return string
@@ -282,24 +296,6 @@ class Projects
     }
 
     /**
-     * @return integer
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param int $createdBy
-     */
-    public function setCreatedBy(int $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-
-
-    /**
      * @return DateTime
      */
 
@@ -317,6 +313,54 @@ class Projects
     {
         $this->createdOn = new DateTime();
     }
+
+    /**
+     * @return integer
+     */
+    public function getCreatedBy(): int
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param int $createdBy
+     */
+    public function setCreatedBy(int $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+	/**
+	 * @return DateTime
+	 */
+	public function getModifiedOn(): DateTime
+	{
+		return $this->modifiedOn;
+	}
+
+	/**
+	 * @param DateTime $modifiedOn
+	 */
+	public function setModifiedOn(DateTime $modifiedOn): void
+	{
+		$this->modifiedOn = $modifiedOn;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getModifiedBy(): int
+	{
+		return $this->modifiedBy;
+	}
+
+	/**
+	 * @param int $modifiedBy
+	 */
+	public function setModifiedBy(int $modifiedBy): void
+	{
+		$this->modifiedBy = $modifiedBy;
+	}
 
     /**
      * @return DateTime
@@ -350,8 +394,6 @@ class Projects
         $this->lockedBy = $lockedBy;
     }
 
-
-
     /**
      * @return mixed
      */
@@ -366,28 +408,6 @@ class Projects
     public function setProjectEnGb($projectEnGb): void
     {
         $this->projectEnGb = $projectEnGb;
-    }
-
-    /**
-     * Method for get name Category by Project id
-     * First: get Project object
-     * Second: get associate objects
-     *
-     * таке будет создаваться второй запрос. Возможно в этом нет необходимости для нашей платформы
-     * возможно мы сделаем это через set
-     *
-     * @param $id
-     */
-    public function show($id): void
-    {
-        /*
-        $project = $this->getDoctrine()
-            ->getRepository(ProjectsRepository::class)
-            ->find($id);
-        $categoryName = $project->getCategories()->getName();
-        return $categoryName;
-        */
-
     }
 
 

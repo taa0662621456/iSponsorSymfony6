@@ -20,7 +20,7 @@ class Orders
     public const NUM_ITEMS = 10;
 
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -253,7 +253,12 @@ class Orders
     private $orderHash = '0';
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", cascade={"persist"}, mappedBy="orderItems")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="orderItems",
+	 *     orphanRemoval=true,
+	 *     fetch="EXTRA_LAZY"
+	 * )
 	 * @Assert\Type(type="App\Entity\Order\Orders"))
 	 * @Assert\Valid()
 	 **/
@@ -267,9 +272,9 @@ class Orders
     private $createdOn;
 
 	/**
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
+     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 0})
      */
-    private $createdBy;
+    private $createdBy = 0;
 
 	/**
      * @var DateTime
@@ -858,18 +863,10 @@ class Orders
     }
 
     /**
-     * @return ArrayCollection
-     */
-    public function getOrderItems(): ArrayCollection
-    {
-        return $this->orderItems;
-    }
-
-    /**
      * @param OrdersItems $orderItem
      * @return $this
      */
-    public function addOrderItems(OrdersItems $orderItem): self
+    public function addOrderItem(OrdersItems $orderItem): self
     {
         $this->orderItems[] = $orderItem;
 
@@ -879,10 +876,18 @@ class Orders
     /**
      * @param OrdersItems $orderItem
      */
-    public function removeOrderItems(OrdersItems $orderItem): void
+    public function removeOrderItem(OrdersItems $orderItem): void
     {
         $this->orderItems->removeElement($orderItem);
     }
+    /**
+     * @return ArrayCollection
+     */
+    public function getOrderItems(): ArrayCollection
+    {
+        return $this->orderItems;
+    }
+
 
 
 

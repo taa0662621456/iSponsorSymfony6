@@ -183,7 +183,7 @@ class ProjectsAttachments
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectAttachments")
-	 * @ORM\JoinColumn(name="projectAttachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="projectAttachments_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $projectAttachments;
 

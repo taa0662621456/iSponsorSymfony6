@@ -34,6 +34,13 @@ class CategoriesFixtures extends Fixture implements FixtureGroupInterface
 		}
     }
 
+	/**
+	 * @return int
+	 */
+	public function getOrder()
+	{
+		return 2;
+	}
 
 	/**
 	 * @return string[]

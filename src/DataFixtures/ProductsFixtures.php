@@ -35,6 +35,13 @@ class ProductsFixtures extends Fixture implements FixtureGroupInterface
 		}
     }
 
+	/**
+	 * @return int
+	 */
+	public function getOrder()
+	{
+		return 4;
+	}
 
 	/**
 	 * @return string[]

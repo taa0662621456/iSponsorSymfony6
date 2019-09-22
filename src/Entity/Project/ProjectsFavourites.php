@@ -28,7 +28,7 @@ class ProjectsFavourites
      * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectFavourites")
      * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      **/
-    private $project;
+    private $projectFavourites;
 
     /**
      * @var DateTime
@@ -92,12 +92,12 @@ class ProjectsFavourites
     }
 
     /**
-     * @param Projects $project
+     * @param Projects $projectFavourites
      * @return ProjectsFavourites
      */
-    public function setProject(Projects $project = null): ProjectsFavourites
+    public function setProjectFavourites(Projects $projectFavourites = null): ProjectsFavourites
     {
-        $this->project = $project;
+        $this->projectFavourites = $projectFavourites;
 
         return $this;
     }
@@ -105,9 +105,9 @@ class ProjectsFavourites
     /**
      * @return Projects
      */
-    public function getProject(): Projects
+    public function getProjectFavourites(): Projects
     {
-        return $this->project;
+        return $this->projectFavourites;
     }
 
 

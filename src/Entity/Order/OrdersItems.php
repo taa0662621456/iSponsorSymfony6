@@ -27,16 +27,16 @@ class OrdersItems
     /**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="item", type="integer", nullable=false, options={"default" : 0})
+	 * @ORM\Column(name="item_id", type="integer", nullable=false, options={"default" : 0})
      */
-    private $item;
+    private $itemId = 0;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default" : 0})
+     * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default" : 1})
      */
-    private $itemSku = 0;
+    private $itemSku = 1;
 
     /**
      * @var string
@@ -172,8 +172,10 @@ class OrdersItems
     private $lockedBy = 0;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\Orders", inversedBy="orderItems")
-	 * @ORM\JoinColumn(name="orderItems_id", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\Orders",
+	 *     inversedBy="orderItems"
+	 * )
+	 * @ORM\JoinColumn(name="orderItems_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
     private $orderItems;
 
@@ -220,17 +222,17 @@ class OrdersItems
     /**
      * @return int|null
      */
-    public function getItem(): ?int
+    public function getItemId(): ?int
     {
-        return $this->item;
+        return $this->itemId;
     }
 
     /**
-     * @param int|null $item
+     * @param int|null $itemId
      */
-    public function setItem(?int $item): void
+    public function setItemId(?int $itemId): void
     {
-        $this->item = $item;
+        $this->itemId = $itemId;
     }
 
     /**

@@ -15,7 +15,7 @@ use Exception;
 class OrdersStatus
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()

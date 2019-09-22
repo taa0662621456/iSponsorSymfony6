@@ -50,6 +50,14 @@ class VendorsFixtures extends Fixture implements FixtureGroupInterface
     }
 
 	/**
+	 * @return int
+	 */
+	public function getOrder()
+	{
+		return 1;
+	}
+
+	/**
 	 * @return string[]
 	 */
 	public static function getGroups(): array
