@@ -54,7 +54,7 @@ class VendorsController extends AbstractController
 			$s = $form->getData()->vendorEnGb->getSlug();
 
 			if (!isset($s)) {
-				$vendor->setVendorSlug($slug->slugify($vendorEnGb->getFirstName()));
+				$vendor->setVendorSlug($slug->slugify($vendorEnGb->getVendorFirstName()));
 			}
 
 			$entityManager->persist($vendor);

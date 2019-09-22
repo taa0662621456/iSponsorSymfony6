@@ -78,7 +78,7 @@ $(".previous").click(function(){
 });
 
 $(".msform_unset").click(function () {
-   document.querySelectorAll(".msform").css()
+       document.querySelector("#msform").removeAttribute("#msform")
 });
 
 $(".submit").click(function(){

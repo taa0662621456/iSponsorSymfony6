@@ -15,11 +15,15 @@
 		public function buildForm(FormBuilderInterface $builder, array $options):void
 		{
 			$builder
-				->add('locale', TextType::class, array(
-					'required' => false
-				))
 				->add('vendorSecurity', VendorsSecurityType::class)
 				->add('vendorEnGb', VendorsEnGbType::class)
+				->add('vendorSlug', TextType::class, array(
+					'label' => 'label.slug',
+					'label_attr' => array(
+						'class' => 'sr-omly'
+					),
+					'required' => false
+				))
 				->add('previous', SubmitType::class, array(
 					'label' => 'label.previous',
 					'attr' => array(

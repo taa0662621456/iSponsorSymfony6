@@ -6,6 +6,7 @@
 	use App\Entity\Vendor\VendorsEnGb;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+	use Symfony\Component\Form\Extension\Core\Type\TelType;
 	use Symfony\Component\Form\Extension\Core\Type\TextType;
 	use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\Intl\Intl;
@@ -18,21 +19,21 @@
 			$countries = Intl::getRegionBundle()->getCountryNames();
 			$currencies = Intl::getCurrencyBundle()->getCurrencyNames();
 			$builder
-				->add('firstName', null, array(
+				->add('vendorFirstName', TextType::class, array(
 					'label' => 'label.first.name',
 					'label_attr' => array(
 						'class' => 'sr-only',
 					),
 					'required' => true,
 					'attr' => array(
-						'id' => 'firstName',
+						'id' => 'vendorFirstName',
 						'class' => 'form-control',
 						'placeholder' => 'Enter Your first name',
 						'tabindex' => '101',
 						'autofocus' => true
 					)
 				))
-				->add('lastName', null, array(
+				->add('vendorLastName', TextType::class, array(
 					'label' => 'label.last.name',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -46,7 +47,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('middleName', null, array(
+				->add('vendorMiddleName', TextType::class, array(
 					'label' => 'label.middle.name',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -60,7 +61,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('phone', null, array(
+				->add('vendorPhone', TelType::class, array(
 					'label' => 'label.phone.number',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -74,7 +75,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('phoneSecond', null, array(
+				->add('vendorSecondPhone', TelType::class, array(
 					'label' => 'label.second_phone.number',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -88,7 +89,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('fax', null, array(
+				->add('vendorFax', TelType::class, array(
 					'label' => 'label.fax.number',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -102,7 +103,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('address', null, array(
+				->add('vendorAddress', TextType::class, array(
 					'label' => 'label.first.address',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -116,7 +117,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('addressSecond', null, array(
+				->add('vendorSecondAddress', TextType::class, array(
 					'label' => 'label.second.address',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -130,7 +131,7 @@
 						'autofocus' => false
 					),
 				))
-				->add('city', null, array(
+				->add('vendorCity', TextType::class, array(
 					'label' => 'label.city',
 					'label_attr' => array(
 						'class' => 'sr-only'
@@ -145,7 +146,7 @@
 					),
 				))
 				//->add('stateId')
-				->add('countryId', ChoiceType::class, array(
+				->add('vendorCountryId', ChoiceType::class, array(
 					//'choices' => array_flip($countries),
 					'choices' => Intl::getRegionBundle()->getCountryNames(),
 					'label'=>'Country',
@@ -161,7 +162,7 @@
 						'autofocus' => false
 					)
 				))
-				->add('zip', TextType::class, array(
+				->add('vendorZip', TextType::class, array(
 					'label' => 'label.zip',
 					'label_attr' => array(
 						'class' => 'sr-only'

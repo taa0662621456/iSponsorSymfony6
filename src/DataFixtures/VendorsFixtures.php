@@ -31,7 +31,7 @@ class VendorsFixtures extends Fixture implements FixtureGroupInterface
 
 		$vendor->setVendorSlug('slug' . 1);
 		$vendor->setOtep('ok');
-		$vendorEnGb->setZip($rand);
+		$vendorEnGb->setVendorZip($rand);
 		$vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
 		$vendorSecurity->setPassword($password);
 		$vendorIban->setIban('0000000000000000');
