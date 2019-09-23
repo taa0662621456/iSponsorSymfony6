@@ -19,7 +19,9 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "bootstrap-autohide-navbar": "^1.0.0",
         "card": "^2.4.0",
+        "infinite-scroll": "^3.0.6",
         "jquery-bridget": "^2.0.1",
         "masonry-layout": "^4.2.2",
         "tinymce": "^5.0.15"

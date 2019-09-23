@@ -20,7 +20,7 @@
 				->add('vendorSlug', TextType::class, array(
 					'label' => 'label.slug',
 					'label_attr' => array(
-						'class' => 'sr-omly'
+						'class' => 'sr-only'
 					),
 					'required' => false
 				))

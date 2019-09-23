@@ -31,29 +31,29 @@ class VendorsEnGb
     /**
      * @var string
      *
-     * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="first_name"})
+     * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $vendorFirstName = 'first_name';
+    private $vendorFirstName = 'vendor_first_name';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="last_name"})
+     * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="vendor_last_name"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $vendorLastName = 'last_name';
+    private $vendorLastName = 'vendor_last_name';
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="vendor_middle_name", type="string", nullable=false, options={"default"="middle_name"})
+     * @ORM\Column(name="vendor_middle_name", type="string", nullable=false, options={"default"="vendor_middle_name"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
-    private $vendorMiddleName = 'middle_name';
+    private $vendorMiddleName = 'vendor_middle_name';
 
     /**
      * @var string
