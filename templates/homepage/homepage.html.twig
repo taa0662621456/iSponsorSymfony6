@@ -12,9 +12,9 @@
 
 
     <h5>categories</h5>
-    {% for category in categories %}
         <div class="row">
-            <div class="col-md-4">
+            {% for category in categories %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -29,17 +29,17 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
     <h5>latest_projects</h5>
-    {% for project in latest_projects %}
         <div class="row">
-            <div class="col-md-4">
+            {% for project in latest_projects %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -54,17 +54,17 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
     <h5>featured_projects</h5>
-    {% for project in featured_projects %}
         <div class="row">
-            <div class="col-md-4">
+            {% for project in featured_projects %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -79,17 +79,17 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
     <h5>latest_products</h5>
-    {% for product in latest_products %}
         <div class="row">
-            <div class="col-md-4">
+            {% for product in latest_products %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -104,17 +104,17 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
     <h5>featured_products</h5>
-    {% for product in featured_products %}
         <div class="row">
-            <div class="col-md-4">
+            {% for product in featured_products %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -129,17 +129,17 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
     <h5>featured_vendors</h5>
-    {% for vendor in featured_vendors %}
         <div class="row">
-            <div class="col-md-4">
+            {% for vendor in featured_vendors %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -154,17 +154,17 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
     <h5>featured_categories</h5>
-    {% for category in featured_categories %}
         <div class="row">
-            <div class="col-md-4">
+            {% for category in featured_categories %}
+                <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect fill="#55595c" width="100%" height="100%"></rect><text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text></svg>
                     <div class="card-body">
@@ -179,12 +179,11 @@
                     </div>
                 </div>
             </div>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
         </div>
-    {% else %}
-        <tr>
-            <td colspan="4">no records found</td>
-        </tr>
-    {% endfor %}
 
 {% endblock %}
-{% block footer %}{%  endblock %}
