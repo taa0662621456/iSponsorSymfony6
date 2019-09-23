@@ -382,21 +382,12 @@ class Categories
     }
 
     /**
-     * Get children
-     * @return mixed
+	 * @return Collection
      */
     public function getChildren()
     {
         return $this->children;
     }
-
-	/**
-	 * @param mixed $children
-	 */
-	public function setChildren($children): void
-	{
-		$this->children = $children;
-	}
 
 	/**
 	 * @return Categories

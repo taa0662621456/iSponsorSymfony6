@@ -1,0 +1,15 @@
+{# https://gist.github.com/tentacode/3892186 #}
+{# import "macros/categoriesCategory.html.twig" as recursiveCategory #}
+{% macro recursiveCategory(category) %}
+    <li>
+        <h4><a href="{{ path(category.route, category.routeParams) }}">{{ category }}</a></h4>
+
+        {% if category.children|length %}
+            <ul>
+                {% for children in category.children %}
+                    {{ _self.recursiveCategory(children) }}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endmacro %}

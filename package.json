@@ -24,6 +24,7 @@
         "infinite-scroll": "^3.0.6",
         "jquery-bridget": "^2.0.1",
         "masonry-layout": "^4.2.2",
+      "phone": "^2.3.21",
         "tinymce": "^5.0.15"
     }
 }
