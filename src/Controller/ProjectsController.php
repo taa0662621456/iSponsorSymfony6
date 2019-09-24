@@ -42,7 +42,7 @@ class ProjectsController extends AbstractController
         $categoriesRepository = $em->getRepository(CategoriesRepository::class);
         //$newsRepository = $em->getRepository('News');
         //$slideRepository = $em->getRepository('Slide');
-        $projectsRepository = $em->getRepository(ProjectsRepository::class);
+		//$projectsRepository = $em->getRepository(ProjectsRepository::class);
 
         //sorted by order number
         //$slides = $slideRepository->findBy(['enabled' => true], ['slideOrder' => 'ASC']);
@@ -87,7 +87,7 @@ class ProjectsController extends AbstractController
 
             $s = $form->get('projectEnGb')->get('slug')->getData();
             if (!isset($s)) {
-                $projectEnGb->setSlug($slug->slugify($projectEnGb->getProjectTitle()));
+				$project->setProjectSlug($slug->slugify($projectEnGb->getProjectTitle()));
 
             }
             $entityManager->flush();
@@ -225,6 +225,6 @@ class ProjectsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('projects_index');
+		return $this->redirectToRoute('projects');
     }
 }

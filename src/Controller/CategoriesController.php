@@ -8,6 +8,9 @@ use App\Entity\Category\CategoriesEnGb;
 use App\Entity\Category\Categories;
 use App\Form\Category\CategoriesType;
 use App\Repository\CategoriesRepository;
+use App\Repository\FeaturedRepository;
+use App\Repository\ProductsRepository;
+use App\Repository\ProjectsRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Exception;
@@ -46,9 +49,12 @@ class CategoriesController extends AbstractController
     }
 
 	/**
+	 * For back-end; for administrator
+	 *
 	 * @Route("/category/{id<\d+>}", methods={"GET"}, name="categories_category")
 	 * @param Categories           $category
 	 * @param CategoriesRepository $categoriesRepository
+	 *
 	 * @return Response
 	 */
 	public function category(Categories $category, CategoriesRepository $categoriesRepository): Response
@@ -98,32 +104,52 @@ class CategoriesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id<\d+>}", name="categories_show", methods={"GET"})
-     * @param Categories $category
+	/**
+	 * For back-end; for administrators only
+	 *
+	 * @Route("/category/{id<\d+>}", name="categories_show", methods={"GET"})
+	 * @param Categories $category
+	 *
      * @return Response
      */
     public function show(Categories $category): Response
     {
         return $this->render('category/categories/show.html.twig', [
             'category' => $category,
-        ]);
-    }
+		]);
+	}
 
-    /*
-    /**
-     * @Route("/{slug}", methods={"GET"}, name="show_by_slug")
-     * @param CategoriesEnGb $slug
-     * @return Response
-     *
-    public function slug(CategoriesEnGb $slug): Response
-    {
-        return $this->render('category/details.html.twig', [
-            'category' => $slug
-        ]);
-    }
 
-    */
+	/**
+	 * @Route("/{category_slug}", methods={"GET"}, name="category_slug")
+	 * @param Categories           $category_slug
+	 * @param CategoriesRepository $categoriesRepository
+	 *
+	 * @param ProjectsRepository   $projectsRepository
+	 * @param ProductsRepository   $productsRepository
+	 * @param FeaturedRepository   $featuredRepository
+	 *
+	 * @return Response
+	 */
+	public function slug(Categories $category_slug, CategoriesRepository $categoriesRepository, ProjectsRepository $projectsRepository, ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
+	{
+
+		//$id = $category_slug->getId();
+		return $this->render(':category/categories_category:index.html.twig', array(
+			'category' => $category_slug,
+			//'categories' => $categoriesRepository->findBy(['published' => true, 'children' =>], ['id' => 'ASC']),
+			//'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
+			'projects' => $projectsRepository->findBy(['projectCategory' => $category_slug->getId(), 'published' => 1], ['createdOn' => 'ASC'], null, null),
+			/*
+			'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
+			'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
+			'featured_projects' => $featuredRepository->findBy(['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null),
+			'featured_products' => $featuredRepository->findBy(['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null),
+			'featured_categories' => $featuredRepository->findBy(['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null),
+			'featured_vendors' => $featuredRepository->findBy(['featuredType' => 'V'], ['ordering' => 'ASC'], 12, null)
+			*/
+		));
+	}
 
     /**
      * @Route("/{id<\d+>}/edit", name="categories_edit", methods={"GET","POST"})

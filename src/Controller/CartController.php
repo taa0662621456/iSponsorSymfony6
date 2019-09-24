@@ -8,36 +8,30 @@ namespace App\Controller;
 use App\Entity\Order\Orders;
 use App\Entity\Product\Products;
 use App\Entity\Product\ProductsPrice;
-use App\Entity\Vendor\Vendors;
 use App\Event\OrderSubmitedEvent;
-use App\Event\RegisteredEvent;
-use App\Form\OrdersType;
-use App\Service\Mailer;
+use App\Form\Order\OrdersType;
+use App\Service\ProductsUtilities;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\ProductsUtilities;
-use Twig\Error\Error;
-
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @Route("/cart")
  */
 class CartController extends AbstractController
 {
-    /**
-     * @Route("/show", name="showcart", methods={"GET"})
-     * @param Request $request
-     * @return array
-     */
-    public function show(Request $request): array
+	/**
+	 * @Route("/", name="showcart", methods={"GET"})
+	 * @param Request $request
+	 *
+	 * @return Response
+	 */
+	public function show(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
         $productsRepository = $em->getRepository('Products');
@@ -73,21 +67,22 @@ class CartController extends AbstractController
             }
         }
 
-        return array(
+		return $this->render('cart/showCart.html.twig', array(
             'products' => $products,
             'total' => $totalSum
+			)
         );
     }
 
-    /**
-     * Shows order form.
-     *
-     * @Route("/orderform", name="orderform", methods={"GET", "POST"})
-     * @Template()
-     * @param Request $request
-     * @param EventDispatcherInterface $eventDispatcher
-     * @return array|RedirectResponse|Response
-     */
+	/**
+	 * Shows order form.
+	 *
+	 * @Route("/orderform", name="orderform", methods={"GET", "POST"})
+	 * @param Request                  $request
+	 * @param EventDispatcherInterface $eventDispatcher
+	 *
+	 * @return array|RedirectResponse|Response
+	 */
     public function order(Request $request, EventDispatcherInterface $eventDispatcher)
     {
         $order = new Orders();
@@ -145,13 +140,14 @@ class CartController extends AbstractController
         return [];
     }
 
-    /**
-     * Count cart from cookies
-     *
-     * @param Request $request
-     * @return array
-     */
-    public function navbar(Request $request): array
+	/**
+	 * Count cart from cookies
+	 *
+	 * @param Request $request
+	 *
+	 * @return array
+	 */
+	public function navbarCart(Request $request): array
     {
 
         $em = $this->getDoctrine()->getManager();

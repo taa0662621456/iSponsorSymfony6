@@ -68,7 +68,7 @@ class ProductsController extends AbstractController
             if (!isset($s))
             {
                 //$form->set('productEnGb')->set('slug')->setSlug($slug->slugify($productEnGb->getProductName()))
-                $productEnGb->setSlug($slug->slugify($productEnGb->getProductName()));
+				$product->setProductSlug($slug->slugify($productEnGb->getProductName()));
             }
             $entityManager->flush();
 

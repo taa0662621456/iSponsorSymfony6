@@ -1,11 +1,25 @@
+{#
+    Navbar, headbar and mail blocks must have same parameters for 'col'
+    use var b1 = '';
+    use var b2 = '';
+    use var b3 = '';
+    use var b4 = '';
+
+#}
+
+{% set b1 = 'hidden-xs col-sm-1 col-md-1 col-lg-1 z1 hidden-phone ml-1 m-0 p-0' %}
+{% set b2 = 'col-hidden-xs col-sm-1 col-md-1 col-lg-1' %}
+{% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 container' %}
+{% set b4 = 'col-xs-12 col-sm-3 col-md-2 col-lg-2' %}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 {% block head %}
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="author" content="Smartresponsor, Llc">
 
         <link rel="icon" href="/favicon.ico">
 
@@ -18,175 +32,188 @@
 {% endblock %}
 {% block body %}
     <body>
-        <header class="section-header">
+    <header class="section-header">
 
-         {% block navbar %}
-             <nav class="navbar navbar-expand-sm navbar-dark bg-secondary">
-                 <menu class="container m-0">
-                     <a class="navbar-brand" href="#">...iSponsor!
-                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                             Username: {{ app.user.username }}
-                         {% endif %}
-                     </a>
-                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                         <span class="navbar-toggler-icon"></span>
-                     </button>
+        {% block navbar %}
+            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary">
+                <menu class="{{ b1 }}">
+                    <a class="navbar-brand" href="#">...iSponsor!
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            Username: {{ app.user.username }}
+                        {% endif %}
+                    </a>
 
-                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                         <ul class="navbar-nav mr-auto">
-                             <li class="nav-item active">
-                                 <a class="nav-link" href="{{ path('projects') }}">Home <span class="sr-only">(current)</span></a>
-                             </li>
-                             <li class="nav-item">
-                                 <a class="nav-link" href="#">Link</a>
-                             </li>
-                             <li class="nav-item dropdown">
-                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                     Dropdown
-                                 </a>
-                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                     <a class="dropdown-item" href="#">Action</a>
-                                     <a class="dropdown-item" href="#">Another action</a>
-                                     <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                     <a class="dropdown-item" href="{{path('projects_new')}}">Add Project</a>
-                                     <a class="dropdown-item" href="#">Something else here</a>
-                                     <a class="dropdown-item" href="#">Something else here</a>
-                                 </div>
-                             </li>
-                             <li class="nav-item dropdown">
-                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                     <span class="navbar-toggler-icon"></span>
-                                 </a>
-                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                     <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsor</a>
-                                     <a class="dropdown-item" href="{{ path('author') }}">Author</a>
-                                     <div class="dropdown-divider"></div>
-                                     <a class="dropdown-item" href="{{ path('orders') }}">Orders</a>
-                                     <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                     <a class="dropdown-item" href="{{ path('products') }}">Products</a>
-                                     {#
-                                     <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                     <a class="dropdown-item" href="{{path('projects_new')}}">Add Project</a>
-                                     <a class="dropdown-item" href="#">Something else here</a>
-                                     <a class="dropdown-item" href="#">Something else here</a>
-                                     #}
-                                 </div>
-                             </li>
-                             <li class="nav-item">
-                                 <a class="nav-link disabled" href="#">Disabled</a>
-                             </li>
-                             {% include 'security/navbarAuthBlock.html.twig' %}
-                         </ul>
-                         <form class="form-inline my-2 my-lg-0">
-                             <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
-                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                         </form>
-                     </div>
-                 </menu>
-             </nav>
-         {% endblock %}
-            <section class="header-main bg">
-                <div class="container">
-                    <div class="row align-items-center">
+                </menu>
+                <menu class="{{ b2 }} left">
 
-                        <div class="col-hidden-xs col-sm-1 col-md-1 col-lg-1">
-                        </div>
-                        <div class="col-hidden-xs col-sm-2 col-md-1 col-lg-1">
-                        </div>
-                        <div class="col-xs-12 col-sm-6 col-md-8 col-lg-8">
-                            <div class="brand-wrap">
-                                <img class="logo" src="">
-                                <h2 class="logo-text">LOGO</h2>
-                                </div> <!-- brand-wrap.// -->
-                        </div>
-                        <div class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
-                            <form action="#" class="widget-header float-right">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary" type="submit">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </div>
+                </menu>
+                <menu class="{{ b3 }}">
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ path('projects') }}">Home <span
+                                            class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+                                    <a class="dropdown-item" href="{{ path('projects_new') }}">Add Project</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
                                 </div>
-                            </form> <!-- search-wrap .end// -->
-                        </div> <!-- col.// -->
+                            </li>
+                            <li class="nav-item dropdown">
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsor</a>
+                                    <a class="dropdown-item" href="{{ path('author') }}">Author</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ path('orders') }}">Orders</a>
+                                    <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+                                    <a class="dropdown-item" href="{{ path('products') }}">Products</a>
+                                    {#
+                                    <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+                                    <a class="dropdown-item" href="{{path('projects_new')}}">Add Project</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    #}
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#">Disabled</a>
+                            </li>
+                        </ul>
+                    </div>
+                </menu>
+                <menu class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
 
-                    </div> <!-- row.// -->
-                </div> <!-- container.// -->
-            </section> <!-- header-main .// -->
-                 <hgroup>
-                     {% block header %}{% endblock %}
-                 </hgroup>
-        </header>
-         {% block blocks %}
-             <main role="main" class="row container-fluid">
-                 <aside id="b1" class="hidden-xs col-sm-1 col-md-1 col-lg-1 z1 hidden-phone nopadding nomargin">
-                     <a id="move_up" href="#"><span class="glyphicon glyphicon-chevron-up"></span>Go to up</a>
-                     {% block ontop %}{% endblock %}
-                 </aside>
-                 <aside id="b2" class="hidden-xs col-sm-2 col-md-2 col-lg-1 z2 nopaddingleft left">
-                     {% block sidebar %}{% endblock %}
-                 </aside>
-                 {#<div id="b3" class="col-xs-12 col-sm-7 col-md-9 col-lg-7 z3-10 nopaddingleft nomargin">#}
-                 <article id="b3" class="col-xs-12 col-sm-6 col-md-8 col-lg-8 z3-10 nopaddingleft nomargin">
-                         <header>
-                             {% block article_header %}{% endblock %}
-                         </header>
-                         <section>
-                             {% block article_content %}{% endblock %}
-                         </section>
-                         <section>
-                             <details>
-                                 <summary>
-                                     {% block article_summery %}{% endblock %}
-                                 </summary>
-                             </details>
-                         </section>
-                         <footer>
-                             {% block article_footer %}{% endblock %}
-                         </footer>
-                 </article>
-                 <aside id="b4" class="col-xs-12 col-sm-3 col-md-2 col-lg-2 z11-12">
-                     {% block aside %}{% endblock %}
-                 </aside>
-             </main>
-         {% endblock %}
-    </body>
-{% endblock %}
-    <footer id="footer" class="footer section-footer bg-dark white">
-        {% block footer %}
-            <section class="container-fluid footer-bottom">
-                <div class="row foot">
-                    <div class="col-xs-12 col-lg-12 col-sm-12 center">
+                </menu>
 
+            </nav>
+        {% endblock %}
+        <section class="row header-main bg m-1">
+            <div class="{{ b1 }}">
+            </div>
+            <div class="{{ b2 }}">
+            </div>
+            <div class="{{ b3 }}">
+                <div class="row btn-toolbar justify-content-between" role="toolbar" aria-label="View settings">
+                    <div class="col-1 btn-group btn-group-toggle" role="group" data-toggle="buttons">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                            <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option2" autocomplete="off">
+                            <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option3" autocomplete="off">
+                            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option4" autocomplete="off">
+                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                    <div class="col-10 input-group">
+                        <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-1 input-group">
+                        <a class="btn btn-light" href="{{ path('showcart') }}">
+                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
+                            {# render(controller('App\\Controller\\CartController::navbarCart')) #}
+                        </a>
                     </div>
                 </div>
-                <div class="row foot">
+            </div>
+            <div class="{{ b4 }}">
+            </div>
+        </section>
+        <hgroup>
+            {% block header %}{% endblock %}
+        </hgroup>
+    </header>
+    {% block blocks %}
+        <main role="main" class="row m-1">
+            <aside id="b1" class="{{ b1 }}">
+                <a id="move_up" href="#"><span class="glyphicon glyphicon-chevron-up"></span>Go to up</a>
+                {% block ontop %}{% endblock %}
+            </aside>
+            <aside id="b2" class="{{ b2 }}">
+                {% block sidebar %}{% endblock %}
+            </aside>
+            <article id="b3" class="{{ b3 }}">
+                <header>
+                    {% block article_header %}{% endblock %}
+                </header>
+                <section>
+                    {% block article_content %}{% endblock %}
+                </section>
+                <section>
+                    <details>
+                        <summary>
+                            {% block article_summery %}{% endblock %}
+                        </summary>
+                    </details>
+                </section>
+                <footer>
+                    {% block article_footer %}{% endblock %}
+                </footer>
+            </article>
+            <aside id="b4" class="{{ b4 }}">
+                {% block aside %}{% endblock %}
+            </aside>
+        </main>
+    {% endblock %}
+    </body>
+{% endblock %}
+<footer id="footer" class="footer section-footer bg-dark white">
+    {% block footer %}
+        <section class="container-fluid footer-bottom">
+            <div class="row foot">
+                <div class="col-xs-12 col-lg-12 col-sm-12 center">
 
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
                 </div>
-                <div class="row foot">
+            </div>
+            <div class="row foot">
 
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
-                    <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
-                    <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
-                    <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
-                </div>
-            </section>
-        {% endblock %}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </footer>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
+            </div>
+            <div class="row foot">
+
+                <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
+                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+            </div>
+        </section>
+    {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</footer>
 </html>
 

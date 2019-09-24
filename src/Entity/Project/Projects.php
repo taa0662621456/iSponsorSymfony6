@@ -44,12 +44,12 @@ class Projects
 	 */
 	private $projectSlug = 'project_slug';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ordering", type="integer", nullable=false)
-     */
-    private $ordering = 0;
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="published", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $published = 1;
 
     /**
      * @var DateTime
@@ -220,22 +220,22 @@ class Projects
 		return $this;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getPublished(): int
+	{
+		return $this->published;
+	}
 
 	/**
-     * @return integer
-     */
-    public function getOrdering(): int
-    {
-        return $this->ordering;
-    }
+	 * @param int $published
+	 */
+	public function setPublished(int $published): void
+	{
+		$this->published = $published;
+	}
 
-    /**
-     * @param integer $ordering
-     */
-    public function setOrdering(int $ordering): void
-    {
-        $this->ordering = $ordering;
-    }
 
     /**
      * @param ProjectsTags $tags

@@ -21,7 +21,9 @@
                                     <section>
                                         {% for category in category.getChildren() %}
                                             <ul>
-                                                <li><a href="#">{{ category.getCategoryEnGb.categoryName }}</a></li>
+                                                <li>
+                                                    <a href="{{ path('category_slug', {'category_slug': category.getCategorySlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+                                                </li>
                                             </ul>
                                         {% endfor %}
                                     </section>
