@@ -1,30 +1,49 @@
 security:
     encoders:
-        App\Entity\Vendors: bcrypt
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+      App\Entity\Vendor\VendorSecurity: bcrypt
     providers:
+      chain_provider:
+        chain:
+          providers: [in_memory, database_users]
+      in_memory:
+        memory:
+          users:
+            admin:
+              # kitten
+              password: $2a$12$cyTWeE9kpq1PjqKFiWUZFuCRPwVyAZwm4XzMZ1qPUFl7/flCM3V0G
+              roles: 'ROLE_ADMIN'
         database_users:
             entity:
                 class: App\Entity\Vendor\VendorsSecurity
                 property: email
     firewalls:
+      #admin:
+      #   pattern: ^/admin*
+      #  provider: in_memory
+      # anonymous: false
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+          pattern: ^/
+          provider: database_users
             form_login:
                 check_path: login
                 login_path: login
                 csrf_token_generator: security.csrf.token_manager
-                default_target_path: projects
+                default_target_path: homepage
+                use_referer: true
+                target_path_parameter: redirect
             logout:
                 path: logout
-                target: projects
+                target: homepage
             anonymous: true
+          json_login:
+            check_path: jsonLogin
             remember_me:
-                secret:   '%kernel.secret%'
+              secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
-                path:     /
+              path: /
                 # always_remember_me: true
 
             # activate different ways to authenticate
@@ -33,15 +52,17 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-    # Easy way to control access for large sections of your site
+    role_hierarchy:
+      ROLE_ADMIN: ROLE_USER
+      ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+
+  # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/(%app_locales%)/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(%app_locales%)/registration, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/(%app_locales%)/administrator, roles: ROLE_ADMIN }
+        - { path: ^/(%app_locales%)/admin*, roles: ROLE_ADMIN }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/(%app_locales%)/profile, roles: ROLE_USER }
         - { path: ^/api, roles: ROLE_API_USER }
-    role_hierarchy:
-        ROLE_ADMIN: ROLE_USER
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+

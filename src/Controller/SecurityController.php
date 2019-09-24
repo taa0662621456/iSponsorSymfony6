@@ -16,6 +16,7 @@ use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -100,7 +101,7 @@ class SecurityController extends AbstractController
             return new Response('404');
         }
 
-        $vendor->setIsActive(true);
+		$vendor->setActive(true);
         $vendor->setActivationCode('');
 
         $em = $this->getDoctrine()->getManager();
@@ -125,13 +126,13 @@ class SecurityController extends AbstractController
     public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils): Response
     {
         if ($security->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute('projects');
+			return $this->redirectToRoute('homepage');
         }
         // this statement solves an edge-case: if you change the locale in the login
         // page, after a successful login you are redirected to a page in the previous
         // locale. This code regenerates the referrer URL whenever the login page is
         // browsed, to ensure that its locale is always the current one.
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('projects'));
+		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
         $lastUsername = $authenticationUtils->getLastUsername();
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -182,6 +183,31 @@ class SecurityController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+	/**
+	 * @Route("/admin")
+	 * @Route("/administrator")
+	 */
+	public function admin()
+	{
+		return new Response('<html lang="en"><body>Admin page!</body></html>');
+	}
+
+	/**
+	 * @Route("/login/json", name="login_json", methods={"POST"})
+	 * @param Request $request
+	 *
+	 * @return mixed|JsonResponse
+	 */
+	public function jsonLogin(Request $request)
+	{
+		$user = $this->getUser();
+
+		return $this->json(array(
+			'username' => $user->getUsername(),
+			'roles' => $user->getRoles(),
+		));
+	}
 
 
 

@@ -36,6 +36,9 @@ class VendorsLoginType extends AbstractType
                     'class' => ''
                 ),
             ))
+			->add('locale', HiddenType::class, array(
+				'mapped' => false
+			))
             ->add('token', HiddenType::class, array(
                 'mapped' => false,
                 'attr' => array(
