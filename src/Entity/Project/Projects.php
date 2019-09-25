@@ -45,6 +45,12 @@ class Projects
 	private $projectSlug = 'project_slug';
 
 	/**
+	 * @var string|null
+	 * @ORM\Column(name="project_type", type="string", nullable=true)
+	 */
+	private $projectType;
+
+	/**
 	 * @var int
 	 *
 	 * @ORM\Column(name="published", type="integer", nullable=false, options={"default" : 1})
@@ -219,6 +225,24 @@ class Projects
 		$this->projectSlug = $projectSlug;
 		return $this;
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getProjectType(): ?string
+	{
+		return $this->projectType;
+	}
+
+	/**
+	 * @param string|null $projectType
+	 */
+	public function setProjectType(?string $projectType): void
+	{
+		$this->projectType = $projectType;
+	}
+
+
 
 	/**
 	 * @return int

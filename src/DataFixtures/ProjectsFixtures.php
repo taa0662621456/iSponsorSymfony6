@@ -28,8 +28,8 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 			$projectAttachments = new ProjectsAttachments();
 
 			$projects->setProjectCategory($categories[array_rand($categories)]);
+			$projects->setProjectType(rand(1, 4));
 			$projects->setProjectSlug('slug' . $p);
-			$projects->setOrdering($p);
 			$projectEnGb->setProjectTitle('Project #' . $p);
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');

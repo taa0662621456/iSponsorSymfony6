@@ -16,14 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="vendors_security", uniqueConstraints={
  * @ORM\UniqueConstraint(name="email", columns={"email"})})
- * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
-<<<<<<< HEAD
  * @UniqueEntity("email"),
  * 		errorPath="email",
  * 		message="You have an account already or this email already in use!"
-=======
- * @UniqueEntity(fields={"email"}, message="You have an account already or this email already in use!")
->>>>>>> github/master
+ * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class VendorsSecurity implements UserInterface, Serializable
@@ -198,11 +194,7 @@ class VendorsSecurity implements UserInterface, Serializable
     private $apiKey = 'api_key';
 
     /**
-<<<<<<< HEAD
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorSecurity")
-=======
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"}, inversedBy="vendorSecurity", orphanRemoval=true)
->>>>>>> github/master
      * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE")
      */
 	private $vendorSecurity;

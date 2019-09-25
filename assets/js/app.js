@@ -4,6 +4,7 @@ require('../css/app.css');
 
 require('./bootstrap-tags-input-init.js');
 require('./cart.js');
+require('../../templates/bootstrap-4.0.0/js/src/carousel.js');
 require('./dropzone');
 require('./js.cookie');
 require('./tinymce_init');

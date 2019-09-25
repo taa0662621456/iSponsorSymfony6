@@ -6,6 +6,12 @@ $fa-font-path: "~font-awesome/fonts";
 
 // the ~ allows you to reference things in node_modules
 @import '~bootstrap/scss/bootstrap';
+//@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+//@import '~@fortawesome/fontawesome-free/scss/regular';
+//@import '~@fortawesome/fontawesome-free/scss/solid';
+//@import '~@fortawesome/fontawesome-free/scss/brands';
+
+@import "~bootstrap/scss/carousel";
 @import "bootstrap-tagsinput";
 @import "~tinymce/skins/ui/oxide/content.min.css";
 @import "~tinymce/skins/ui/oxide/skin.min.css";

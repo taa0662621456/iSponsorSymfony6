@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block meta_description %}Please, sign in!{% endblock %}
-{% block title %}Please, sign in!{% endblock %}
+{% block meta_description %}Please, sign in or registration!{% endblock %}
+{% block title %}Please, sign in or registration!{% endblock %}
 {% block stylesheets %}
     {{ encore_entry_link_tags('sign') }}
 {% endblock %}
@@ -13,7 +13,7 @@
 
         </div>
     {% endif %}
-        {{ form(form) }}
+    {{ form(form) }}
     </body>
 {% endblock %}
 {% block footer %}{% endblock %}

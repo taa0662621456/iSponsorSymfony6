@@ -14,6 +14,7 @@ use App\Repository\ProjectsRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,7 +122,7 @@ class CategoriesController extends AbstractController
 
 
 	/**
-	 * @Route("/{category_slug}", methods={"GET"}, name="category_slug")
+	 * @Route("/{categorySlug}", methods={"GET"}, name="category_slug")
 	 * @param Categories           $category_slug
 	 * @param CategoriesRepository $categoriesRepository
 	 *
@@ -135,11 +136,9 @@ class CategoriesController extends AbstractController
 	{
 
 		//$id = $category_slug->getId();
-		return $this->render(':category/categories_category:index.html.twig', array(
+		return $this->render('category/categories_category/index.html.twig', array(
 			'category' => $category_slug,
-			//'categories' => $categoriesRepository->findBy(['published' => true, 'children' =>], ['id' => 'ASC']),
-			//'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
-			'projects' => $projectsRepository->findBy(['projectCategory' => $category_slug->getId(), 'published' => 1], ['createdOn' => 'ASC'], null, null),
+			'projects' => $projectsRepository->findBy(['projectCategory' => $category_slug->getId(), 'published' => 1], ['createdOn' => 'ASC'], 1000, null),
 			/*
 			'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
 			'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
@@ -147,6 +146,8 @@ class CategoriesController extends AbstractController
 			'featured_products' => $featuredRepository->findBy(['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null),
 			'featured_categories' => $featuredRepository->findBy(['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null),
 			'featured_vendors' => $featuredRepository->findBy(['featuredType' => 'V'], ['ordering' => 'ASC'], 12, null)
+			'categories' => $categoriesRepository->findBy(['published' => true, 'children' =>], ['id' => 'ASC']),
+			'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
 			*/
 		));
 	}

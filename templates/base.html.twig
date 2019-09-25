@@ -51,7 +51,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ path('projects') }}">Home <span
+                                <a class="nav-link" href="{{ path('homepage') }}">Home <span
                                             class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
@@ -70,6 +70,10 @@
                                     <a class="dropdown-item" href="{{ path('projects_new') }}">Add Project</a>
                                     <a class="dropdown-item" href="#">Something else here</a>
                                     <a class="dropdown-item" href="#">Something else here</a>
+                                    {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
+                                        <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} "> Exit
+                                            impersonation </a>
+                                    {% endif %}
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
@@ -182,38 +186,39 @@
     {% endblock %}
     </body>
 {% endblock %}
+
+{% block footer %}
 <footer id="footer" class="footer section-footer bg-dark white">
-    {% block footer %}
-        <section class="container-fluid footer-bottom">
-            <div class="row foot">
-                <div class="col-xs-12 col-lg-12 col-sm-12 center">
+    <section class="container-fluid footer-bottom">
+        <div class="row foot">
+            <div class="col-xs-12 col-lg-12 col-sm-12 center">
 
-                </div>
             </div>
-            <div class="row foot">
+        </div>
+        <div class="row foot">
 
-                <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
-            </div>
-            <div class="row foot">
+            <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
+        </div>
+        <div class="row foot">
 
-                <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
-                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
-                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
-            </div>
-        </section>
-    {% endblock %}
+            <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
+            <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
+            <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+            <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+        </div>
+    </section>
+</footer>
+{% endblock %}
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
-</footer>
 </html>
 

@@ -15,7 +15,7 @@ class VendorsRegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('security', VendorsSecurityType::class)
+			->add('vendorSecurity', VendorsSecurityType::class)
             ->add('submit', SubmitType::class, array(
                 'label' => 'label.signup.submit',
                 'attr' => array(

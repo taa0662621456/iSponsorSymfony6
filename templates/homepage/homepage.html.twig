@@ -16,16 +16,17 @@
                                 <rect fill="#55595c" width="100%" height="100%"></rect>
                                 <text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text>
                             </svg>
+                            <a href="{{ path('category_slug', {'categorySlug': category.getCategorySlug}) }}">{{ category.categoryEnGb.categoryName }}</a>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <section>
-                                        {% for category in category.getChildren() %}
-                                            <ul>
-                                                <li>
-                                                    <a href="{{ path('category_slug', {'category_slug': category.getCategorySlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+                                        <menu class="list-group">
+                                            {% for category in category.getChildren() %}
+                                                <li class="list-group-item">
+                                                    <a href="{{ path('category_slug', {'categorySlug': category.getCategorySlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
                                                 </li>
-                                            </ul>
-                                        {% endfor %}
+                                            {% endfor %}
+                                        </menu>
                                     </section>
                                 </div>
                             </div>

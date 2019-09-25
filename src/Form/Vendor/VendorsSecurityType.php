@@ -19,7 +19,8 @@ class VendorsSecurityType extends AbstractType
             ->add('email', EmailType::class, array(
                 'label' => 'label.email',
                 'label_attr' => array(
-                    'class' => 'sr-only'
+					'class' => 'sr-only',
+					'value' => 'last_username'
                 ),
                 'required' => true,
                 'attr' => array(
@@ -28,7 +29,7 @@ class VendorsSecurityType extends AbstractType
                     'class' => 'form-control',
                     'placeholder' => 'exemple@yahoo.com',
 					'tabindex' => '101',
-                    'autofocus' => true
+					//'autofocus' => true
                 ),
             ))
             ->add('plainPassword', RepeatedType::class, array(

@@ -1,6 +1,7 @@
 security:
     encoders:
       App\Entity\Vendor\VendorSecurity: bcrypt
+
     providers:
       chain_provider:
         chain:
@@ -10,23 +11,41 @@ security:
           users:
             admin:
               # kitten
-              password: $2a$12$cyTWeE9kpq1PjqKFiWUZFuCRPwVyAZwm4XzMZ1qPUFl7/flCM3V0G
+              password: kitten
               roles: 'ROLE_ADMIN'
         database_users:
             entity:
                 class: App\Entity\Vendor\VendorsSecurity
                 property: email
+
+    role_hierarchy:
+      ROLE_USER: [ROLE_ALLOWED_TO_SWITCH]
+      ROLE_ADMIN: [ROLE_USER]
+      ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+
     firewalls:
-      #admin:
-      #   pattern: ^/admin*
-      #  provider: in_memory
-      # anonymous: false
+      admin:
+        pattern: ^/admin*
+        provider: in_memory
+        anonymous: ~
+          #remember_me: ~
+          #secret: '%kernel.secret%'
+          #lifetime: 604800 # 1 week in seconds
+          #path: /admin
+          #name: AdminRememberCookie
+        #always_remember_me: true
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
           pattern: ^/
+          switch_user: { role: ROLE_ADMIN }
           provider: database_users
+          http_basic: ~
+          anonymous: ~
+          guard:
+            authenticators:
+              - App\Security\TokenAuthenticator
             form_login:
                 check_path: login
                 login_path: login
@@ -37,24 +56,17 @@ security:
             logout:
                 path: logout
                 target: homepage
-            anonymous: true
           json_login:
             check_path: jsonLogin
+          # token_provider : 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
+          #
+          # https://symfony.com.ua/doc/current/security/guard_authentication.html
             remember_me:
               secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
               path: /
-                # always_remember_me: true
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    role_hierarchy:
-      ROLE_ADMIN: ROLE_USER
-      ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+              name: RememberCookie
+              always_remember_me: true
 
   # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

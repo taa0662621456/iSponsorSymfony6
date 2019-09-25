@@ -81,7 +81,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('security/registration.html.twig', [
-            'form' => $form->createView()
+			'form' => $form->createView(),
         ]);
 
     }
@@ -114,10 +114,11 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="login")
-     * @param AuthenticationUtils $authenticationUtils
+	 * @Route("/login", name="login", methods={"GET", "POST"})
+	 * @param AuthenticationUtils $authenticationUtils
      * @param Request $request
      * @param Security $security
+     *
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError

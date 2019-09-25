@@ -1,11 +1,15 @@
-{% extends 'security/base.html.twig' %}
-
-{% block title %} Регистрация {% endblock %}
-
+{% extends 'base.html.twig' %}
+{% block meta_description %}Please, sign up!{% endblock %}
+{% block title %}Please, sign up!{% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('sign') }}
+{% endblock %}
 {% block body %}
-
-    <div class="container">
-        <h3 class="text-center">Регистрация</h3>
-        {{ form(form) }}
-    </div>
+    <body class="text-center">
+    {{ form(form) }}
+    </body>
+{% endblock %}
+{% block footer %}{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('sign') }}
 {% endblock %}
