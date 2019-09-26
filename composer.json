@@ -38,7 +38,8 @@
     "symfony/web-server-bundle": "4.3.*",
     "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.3.*",
-    "tgalopin/html-sanitizer-bundle": "dev-master"
+    "tgalopin/html-sanitizer-bundle": "dev-master",
+    "ext-gmp": "*"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.3@dev",

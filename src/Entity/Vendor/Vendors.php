@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Exception;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -158,9 +160,10 @@ class Vendors
     private $requireReset = 0;
 
 	/**
-	 * @var string|null
+	 * @var UuidInterface|null
 	 *
-	 * @ORM\Column(name="vendor_slug", type="string", nullable=true, options={"default"="vendor_slug"})
+	 * @ORM\Column(name="vendor_slug", type="uuid")
+	 * @ORM\GeneratedValue(strategy="UUID")
 	 * @Assert\NotBlank(message="vendor_slug.blank_content")
 	 * @Assert\Length(min=6, minMessage="vendor_slug.too_short_content")
 	 */
@@ -539,14 +542,15 @@ class Vendors
 	}
 
 	/**
-	 * @param string|null $vendorSlug
+	 * @return UuidInterface
+	 * @throws Exception
+	 * @ORM\PrePersist
+	 * @ORM\PreUpdate
 	 */
-	public function setVendorSlug(?string $vendorSlug): void
+	public function setVendorSlug(): UuidInterface
 	{
-		$this->vendorSlug = $vendorSlug;
+		$this->vendorSlug = Uuid::uuid4();
 	}
-
-
 
     /**
      * @return mixed

@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block meta_description %}{{ vendor.getVendorEnGb.id }}{% endblock %}
 {% block title %}Vendors{% endblock %}
 {% block header %}<h1>Vendors</h1>{% endblock %}
 {% block blocks %}
@@ -11,7 +11,6 @@
                  <aside id="b2" class="hidden-xs col-sm-2 col-md-2 col-lg-1 z2 nopaddingleft left">
                      {% block sidebar %}{% endblock %}
                  </aside>
-                 {#<div id="b3" class="col-xs-12 col-sm-7 col-md-9 col-lg-7 z3-10 nopaddingleft nomargin">#}
                  <article id="b3" class="col-xs-12 col-sm-6 col-md-8 col-lg-8 z3-10 nopaddingleft nomargin">
                      <div id="nent">
                          <header class="cover" style="background-image: url('{{ asset('cover.jpg') }}')">
