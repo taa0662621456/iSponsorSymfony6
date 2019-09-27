@@ -6,6 +6,7 @@ namespace App\Entity\Vendor;
 use App\Entity\EntitySystemTrait;
 use App\Entity\Order\Orders;
 
+use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="vendors", uniqueConstraints={
- * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
+ * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+ * @ORM\Index(name="vendor_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * @UniqueEntity("slug"),
  *        errorPath="slug",
@@ -74,32 +76,28 @@ class Vendors
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"default" : 0, "comment"="Count of
-     *                                 password resets since lastResetTime"})
+	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"default" : 0, "comment"="Count of password resets since lastResetTime"})
      */
 	private $resetCount = 0;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="","comment"="Two factor
-     *                             authentication encrypted keys"})
+	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="","comment"="Two factor authentication encrypted keys"})
      */
 	private $otpKey = '';
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency
-     *                          passwords"})
+	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency passwords"})
      */
 	private $otep = '';
 
 	/**
 	 * @var boolean/false
 	 *
-	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require
-     *                                   user to reset password on next login"})
+	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require user to reset password on next login"})
      */
 	private $requireReset = 0;
 

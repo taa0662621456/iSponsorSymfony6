@@ -14,7 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="categories", uniqueConstraints={
- * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
+ * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+ * @ORM\Index(name="category_slug", columns={"slug"})})
  * @UniqueEntity("slug"),
  *        errorPath="slug",
  *		message="This slug is already in use!"

@@ -10,6 +10,7 @@
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
+	use Exception;
 	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 	use Symfony\Component\Form\Extension\Core\Type\NumberType;
 	use Symfony\Component\Validator\Constraints as Assert;
@@ -17,7 +18,8 @@
 
 	/**
 	 * @ORM\Table(name="products", uniqueConstraints={
-	 * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
+	 * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+	 * @ORM\Index(name="product_slug", columns={"slug"})})
 	 * @UniqueEntity("slug"),
 	 *     errorPath="slug",
 	 *     message="This slug is already in use."

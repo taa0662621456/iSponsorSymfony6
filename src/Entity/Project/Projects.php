@@ -14,7 +14,8 @@
 
 	/**
 	 * @ORM\Table(name="projects", uniqueConstraints={
-	 * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
+	 * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+	 * @ORM\Index(name="project_slug", columns={"slug"})})
 	 * @UniqueEntity("slug"),
 	 *        errorPath="slug",
 	 *        message="This slug is already in use!"
