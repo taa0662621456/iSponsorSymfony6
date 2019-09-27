@@ -27,8 +27,7 @@ class DefaultController extends AbstractController
     public function index(CategoriesRepository $categoriesRepository, ProjectsRepository $projectsRepository, ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
     {
         return $this->render('homepage/homepage.html.twig', array(
-			'categories' => $categoriesRepository->findAll(),
-			//'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
+			'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
             'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
             'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
             'featured_projects' => $featuredRepository->findBy(['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null),

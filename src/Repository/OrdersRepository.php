@@ -5,9 +5,8 @@ namespace App\Repository;
 use App\Entity\Order\Orders;
 use App\Entity\Tag;
 use App\Pagination\Paginator;
-use DateTime;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Exception;
 use phpDocumentor\Reflection\Project;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

@@ -7,7 +7,6 @@ use App\Entity\Project\Projects;
 use App\Entity\Project\ProjectsAttachments;
 use App\Entity\Project\ProjectsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -29,7 +28,7 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 
 			$projects->setProjectCategory($categories[array_rand($categories)]);
 			$projects->setProjectType(rand(1, 4));
-			$projects->setProjectSlug('slug' . $p);
+			$projects->setSlug('slug' . $p);
 			$projectEnGb->setProjectTitle('Project #' . $p);
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');

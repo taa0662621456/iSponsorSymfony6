@@ -6,11 +6,13 @@
   "require": {
     "php": "7.1.22",
     "ext-ctype": "*",
+    "ext-gmp": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-pdo_pgsql": "*",
     "cocur/slugify": "^3.2",
     "erusev/parsedown": "^1.7",
+    "ramsey/uuid-doctrine": "dev-master",
     "sensio/framework-extra-bundle": "^5.4",
     "symfony/asset": "4.3.*",
     "symfony/console": "4.3.*",
@@ -38,8 +40,7 @@
     "symfony/web-server-bundle": "4.3.*",
     "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.3.*",
-    "tgalopin/html-sanitizer-bundle": "dev-master",
-    "ext-gmp": "*"
+    "tgalopin/html-sanitizer-bundle": "dev-master"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.3@dev",

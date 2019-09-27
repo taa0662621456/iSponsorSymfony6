@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Vendor;
 
 use Doctrine\ORM\Mapping as ORM;
+use Fig\Link\EvolvableLinkTrait;
 
 /**
  * @ORM\Table(name="vendors_group_map")
@@ -12,14 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class VendorsGroupMap
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
-     */
-    private $id;
+	use EvolvableLinkTrait;
 
     /**
      * @var int
@@ -37,18 +31,6 @@ class VendorsGroupMap
      */
     private $groupId = 0;
 
-
-
-
-
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     /**
      * @return int

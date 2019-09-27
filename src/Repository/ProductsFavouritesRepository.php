@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\Vendors;
+use App\Entity\Product\ProductsFavourites;
+use App\Entity\Vendor\VendorsFavourites;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
@@ -16,8 +17,9 @@ use Doctrine\ORM\NonUniqueResultException;
 class ProductsFavouritesRepository extends EntityRepository
 {
     /**
-     * @param Vendors $vendor
-     * @param integer $productId
+	 * @param VendorsFavourites $vendor
+	 * @param integer           $productId
+	 *
      * @return bool
      * @throws NonUniqueResultException
      */
@@ -26,7 +28,7 @@ class ProductsFavouritesRepository extends EntityRepository
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('count(f.id)')
-            ->from(':ProductsFavourites', 'f')
+			->from(ProductsFavourites::class, 'f')
             ->innerJoin('f.vendor', 'v')
             ->innerJoin('f.product', 'p')
             ->where('v = :vendor')

@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use \DateTime;
+use App\Entity\EntitySystemTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 
 /**
  * @ORM\Table(name="categories_attachments")
@@ -15,14 +14,7 @@ use Exception;
  */
 class CategoriesAttachments
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
-     */
-    private $id;
+	use EntitySystemTrait;
 
     /**
      * //пока только картинки, а вообще поле для разных типов (сохраняет имена файлов)
@@ -139,80 +131,12 @@ class CategoriesAttachments
      */
     private $published = true;
 
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
-     */
-    private $createdOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
-     */
-    private $createdBy = 0;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="modified_on", type="datetime", nullable=false)
-     */
-    private $modifiedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false)
-     */
-    private $modifiedBy = 0;
-
-    /**
-     * @var datetime
-     *
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $lockedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false)
-     */
-    private $lockedBy = 0;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryAttachments")
 	 * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id")
      */
     private $categoryAttachments;
-
-
-
-
-
-
-
-
-
-    /**
-     * CategoriesAttachments constructor.
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $this->lockedOn = new DateTime();
-        $this->modifiedOn = new DateTime();
-        $this->createdOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     /**
      * @return string
@@ -518,105 +442,4 @@ class CategoriesAttachments
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getCreatedOn(): DateTime
-    {
-        return $this->createdOn;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @throws Exception
-     */
-    public function setCreatedOn(): void
-    {
-        $this->createdOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param int $createdBy
-     */
-    public function setCreatedBy(int $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getModifiedOn(): DateTime
-    {
-        return $this->modifiedOn;
-    }
-
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-     */
-    public function setModifiedOn(): void
-    {
-        $this->modifiedOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getModifiedBy(): int
-    {
-        return $this->modifiedBy;
-    }
-
-    /**
-     * @param int $modifiedBy
-     */
-    public function setModifiedBy(int $modifiedBy): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getLockedOn(): DateTime
-    {
-        return $this->lockedOn;
-    }
-
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-
-     */
-    public function setLockedOn(): void
-    {
-        $this->lockedOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
-
-    /**
-     * @param int $lockedBy
-     */
-    public function setLockedBy(int $lockedBy): void
-    {
-        $this->lockedBy = $lockedBy;
-    }
 }

@@ -11,7 +11,6 @@ use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
 use App\Repository\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
-use Exception;
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

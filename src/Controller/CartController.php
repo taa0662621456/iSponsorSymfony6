@@ -8,12 +8,14 @@ namespace App\Controller;
 use App\Entity\Order\Orders;
 use App\Entity\Product\Products;
 use App\Entity\Product\ProductsPrice;
+use App\Entity\Vendor\Vendors;
 use App\Event\OrderSubmitedEvent;
 use App\Form\Order\OrdersType;
 use App\Service\ProductsUtilities;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +36,7 @@ class CartController extends AbstractController
 	public function show(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-        $productsRepository = $em->getRepository('Products');
+		$productsRepository = $em->getRepository(Products::class);
         $products = [];
         $cart = [];
         $totalSum = 0;
@@ -141,13 +143,11 @@ class CartController extends AbstractController
     }
 
 	/**
-	 * Count cart from cookies
-	 *
 	 * @param Request $request
 	 *
 	 * @return array
 	 */
-	public function navbarCart(Request $request): array
+	public function navBarCart(Request $request): array
     {
 
         $em = $this->getDoctrine()->getManager();

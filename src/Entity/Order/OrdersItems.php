@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use \DateTime;
+use App\Entity\EntitySystemTrait;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 
 /**
  * @ORM\Table(name="orders_items")
@@ -15,14 +14,7 @@ use Exception;
  */
 class OrdersItems
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+	use EntitySystemTrait;
 
     /**
 	 * @var integer
@@ -129,48 +121,6 @@ class OrdersItems
      */
     private $itemHash = 'item_hash';
 
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
-     */
-    private $createdOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
-     */
-    private $createdBy = 0;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="modified_on", type="datetime", nullable=false)
-     */
-    private $modifiedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false)
-     */
-    private $modifiedBy = 0;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false)
-     */
-    private $lockedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false)
-     */
-    private $lockedBy = 0;
-
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\Orders",
 	 *     inversedBy="orderItems"
@@ -186,38 +136,6 @@ class OrdersItems
     private $vendorOrderItems;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * OrdersItems constructor.
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $this->lockedOn = new DateTime();
-        $this->modifiedOn = new DateTime();
-        $this->createdOn = new DateTime();
-    }
-
-
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     /**
      * @return int|null
@@ -457,102 +375,6 @@ class OrdersItems
     public function setItemHash(?string $itemHash): void
     {
         $this->itemHash = $itemHash;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedOn(): DateTime
-    {
-        return $this->createdOn;
-    }
-
-    /**
-     * @param DateTime $createdOn
-     */
-    public function setCreatedOn(DateTime $createdOn): void
-    {
-        $this->createdOn = $createdOn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param int $createdBy
-     */
-    public function setCreatedBy(?int $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getModifiedOn(): DateTime
-    {
-        return $this->modifiedOn;
-    }
-
-    /**
-     * @param DateTime $modifiedOn
-     */
-    public function setModifiedOn(DateTime $modifiedOn): void
-    {
-        $this->modifiedOn = $modifiedOn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getModifiedBy(): int
-    {
-        return $this->modifiedBy;
-    }
-
-    /**
-     * @param int $modifiedBy
-     */
-    public function setModifiedBy(?int $modifiedBy): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getLockedOn(): DateTime
-    {
-        return $this->lockedOn;
-    }
-
-    /**
-     * @param DateTime $lockedOn
-     */
-    public function setLockedOn(DateTime $lockedOn): void
-    {
-        $this->lockedOn = $lockedOn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
-
-    /**
-     * @param int $lockedBy
-     */
-    public function setLockedBy(?int $lockedBy): void
-    {
-        $this->lockedBy = $lockedBy;
     }
 
 	/**

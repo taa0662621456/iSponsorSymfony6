@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use \DateTime;
+use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 
 /**
  * @ORM\Table(name="vendors_favourites")
@@ -13,72 +12,16 @@ use Exception;
  */
 class VendorsFavourites
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+	use EntitySystemTrait;
 
     /**
 	 * @var int
 	 *
-	 * @ORM\Column(name="vendor_favourites", type="integer", nullable=false, options={"default" : 0})
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", inversedBy="vendorFavourites")
+	 * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id")
 	 */
     private $vendorFavourites = 0;
 
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $createdOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
-     */
-    private $createdBy = 0;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $lockedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false)
-     */
-    private $lockedBy = 0;
-
-
-
-
-
-
-
-    /**
-     * VendorsFavorites constructor.
-     */
-    public function __construct()
-    {
-        $this->createdOn = new DateTime();
-        $this->lockedOn = new DateTime();
-    }
-
-    /**
-     * @return integer
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
 	/**
 	 * @return int
@@ -95,73 +38,4 @@ class VendorsFavourites
 	{
 		$this->vendorFavourites = $vendorFavourites;
 	}
-
-
-    /**
-     * @return integer
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param string $createdBy
-     * @return void
-     */
-    public function setCreatedBy(?string $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-	/**
-	 * @return DateTime
-	 */
-	public function getCreatedOn(): DateTime
-	{
-		return $this->createdOn;
-	}
-
-	/**
-	 * @param DateTime $createdOn
-	 */
-	public function setCreatedOn(DateTime $createdOn): void
-	{
-		$this->createdOn = $createdOn;
-	}
-
-
-
-    /**
-     * @return DateTime
-     */
-    public function getLockedOn(): DateTime
-    {
-        return $this->lockedOn;
-    }
-
-    /**
-     * @param DateTime $lockedOn
-     */
-    public function setLockedOn(DateTime $lockedOn): void
-    {
-        $this->lockedOn = $lockedOn;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
-
-    /**
-     * @param int $lockedBy
-     */
-    public function setLockedBy(int $lockedBy): void
-    {
-        $this->lockedBy = $lockedBy;
-    }
-
 }

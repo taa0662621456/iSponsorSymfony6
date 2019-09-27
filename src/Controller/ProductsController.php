@@ -10,7 +10,6 @@ use App\Repository\CategoriesRepository;
 use App\Repository\ProductsRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

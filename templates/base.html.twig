@@ -129,7 +129,7 @@
                             <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
                         </label>
                     </div>
-                    <div class="col-10 input-group">
+                    <div class="col-8 input-group">
                         <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">
@@ -137,11 +137,39 @@
                             </button>
                         </div>
                     </div>
-                    <div class="col-1 input-group">
-                        <a class="btn btn-light" href="{{ path('showcart') }}">
+                    <div class="col-3 input-group">
+                        <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
                             <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
                             {# render(controller('App\\Controller\\CartController::navbarCart')) #}
                         </a>
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
+                                <div class="btn-group mr-1" role="group" aria-label="Favourites">
+                                    <a class="btn btn-secondary"
+                                       href="{{ path('favourites', {'favourites' : 'projects'}) }}">
+                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                        J</a>
+                                    <a class="btn btn-secondary"
+                                       href="{{ path('favourites', {'favourites' : 'products'}) }}">
+                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                        D</a>
+                                    <a class="btn btn-secondary"
+                                       href="{{ path('favourites', {'favourites' : 'vendors'}) }}">
+                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                        V</a>
+                                </div>
+                                <div class="btn-group mr-1">
+                                    <a class="btn btn-secondary"
+                                       href="{{ path('favourites', {'favourites' : 'index'}) }}">
+                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                        A</a>
+                                    {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
+                                        <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }}">
+                                            Exit impersonation</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -155,7 +183,8 @@
     {% block blocks %}
         <main role="main" class="row m-1">
             <aside id="b1" class="{{ b1 }}">
-                <a id="move_up" href="#"><span class="glyphicon glyphicon-chevron-up"></span>Go to up</a>
+                <a id="move_up" class="float-right mr-3" href="#"><span class="glyphicon glyphicon-chevron-up"></span>Go
+                    to up</a>
                 {% block ontop %}{% endblock %}
             </aside>
             <aside id="b2" class="{{ b2 }}">

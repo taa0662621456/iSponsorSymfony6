@@ -1,11 +1,10 @@
-{% extends '@Shop/layout.html.twig' %}
-{% trans_default_domain 'ShopBundle' %}
-
+{% extends 'base.html.twig' %}
+{% block meta_description %}This cart-page{% endblock %}
 {% block title %}
     {{ 'cart.title.cart'|trans }}
 {% endblock title %}
-
-{% block page_content -%}
+{% block header %}Some head{% endblock %}
+{% block article_content %}
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             {% if products|length %}
@@ -35,8 +34,10 @@
                                         <img src="{{ asset( ('uploads/gallery/' ~ product.product.images.first().path) | imagine_filter('some_thumb')) }}"
                                              alt="{{ product.product.name }}">
                                     {% else %}
+                                        {#
                                         <img src="{{ asset( ('uploads/gallery/no_image_available.png') | imagine_filter('some_thumb')) }}"
                                              alt="{{ product.product.name }}">
+                                             #}
                                     {% endif %}
                                 </a>
                                 <div>

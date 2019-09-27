@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
+use App\Entity\EntitySystemTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -21,105 +22,86 @@ use Doctrine\ORM\Mapping\OneToMany;
  */
 class CategoriesCategory
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
-     */
-    private $id;
+	use EntitySystemTrait;
 
-    /**
-     * @var int
-     * @ORM\Column(name="category_parent_id", type="integer", nullable=false)
-     *
-     * Many ChildCategories have One Category.
-     * @ManyToOne(targetEntity="App\Entity\Category\CategoriesCategory", inversedBy="categoryChildId")
-     * @JoinColumn(name="category_parent_id", referencedColumnName="id")
-     */
-    private $categoryParentId = 0;
+	/**
+	 * @var int
+	 * @ORM\Column(name="category_parent_id", type="integer", nullable=false)
+	 *
+	 * Many ChildCategories have One Category.
+	 * @ManyToOne(targetEntity="App\Entity\Category\CategoriesCategory", inversedBy="categoryChildId")
+	 * @JoinColumn(name="category_parent_id", referencedColumnName="id")
+	 */
+	private $categoryParentId = 0;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="category_child_id", type="integer", nullable=false)
-     *
-     * One Category has Many ChildCategories.
-     * @OneToMany(targetEntity="App\Entity\Category\CategoriesCategory", mappedBy="categoryParentId")
-     */
-    private $categoryChildId = 0;
+	/**
+	 * @var int
+	 *
+	 * @ORM\Column(name="category_child_id", type="integer", nullable=false)
+	 *
+	 * One Category has Many ChildCategories.
+	 * @OneToMany(targetEntity="App\Entity\Category\CategoriesCategory", mappedBy="categoryParentId")
+	 */
+	private $categoryChildId = 0;
 
-    /**
-     * @var int
-     * @ORM\Column(name="ordering", type="integer", nullable=false)
-     */
-    private $ordering = 0;
+	/**
+	 * @var int
+	 * @ORM\Column(name="ordering", type="integer", nullable=false)
+	 */
+	private $ordering = 0;
 
 
+	public function __construct()
+	{
+		$this->categoryChildId = new ArrayCollection();
+	}
 
+	/**
+	 * @return int
+	 */
+	public function getCategoryParentId(): int
+	{
+		return $this->categoryParentId;
+	}
 
+	/**
+	 * @param int $categoryParentId
+	 */
+	public function setCategoryParentId(int $categoryParentId): void
+	{
+		$this->categoryParentId = $categoryParentId;
+	}
 
+	/**
+	 * @return int
+	 */
+	public function getCategoryChildId(): int
+	{
+		return $this->categoryChildId;
+	}
 
+	/**
+	 * @param int $categoryChildId
+	 */
+	public function setCategoryChildId(int $categoryChildId): void
+	{
+		$this->categoryChildId = $categoryChildId;
+	}
 
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
+	/**
+	 * @return int
+	 */
+	public function getOrdering(): int
+	{
+		return $this->ordering;
+	}
 
-    /**
-     * @return int
-     */
-    public function getCategoryParentId(): int
-    {
-        return $this->categoryParentId;
-    }
+	/**
+	 * @param int $ordering
+	 */
+	public function setOrdering(int $ordering): void
+	{
+		$this->ordering = $ordering;
+	}
 
-    /**
-     * @param int $categoryParentId
-     */
-    public function setCategoryParentId(int $categoryParentId): void
-    {
-        $this->categoryParentId = $categoryParentId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCategoryChildId(): int
-    {
-        return $this->categoryChildId;
-    }
-
-    /**
-     * @param int $categoryChildId
-     */
-    public function setCategoryChildId(int $categoryChildId): void
-    {
-        $this->categoryChildId = $categoryChildId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOrdering(): int
-    {
-        return $this->ordering;
-    }
-
-    /**
-     * @param int $ordering
-     */
-    public function setOrdering(int $ordering): void
-    {
-        $this->ordering = $ordering;
-    }
-
-    public function __construct()
-    {
-        $this->categoryChildId = new ArrayCollection();
-    }
 }

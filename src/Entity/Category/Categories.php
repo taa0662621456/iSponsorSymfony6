@@ -3,34 +3,27 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use \DateTime;
-use Exception;
+use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Table(name="categories", uniqueConstraints={
- * @ORM\UniqueConstraint(name="category_slug", columns={"category_slug"})})
- * @UniqueEntity("category_slug"),
- *		errorPath="category_slug",
+ * @ORM\UniqueConstraint(name="slug", columns={"slug"})})
+ * @UniqueEntity("slug"),
+ *        errorPath="slug",
  *		message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Categories
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+	use EntitySystemTrait;
 
     /**
      * @var boolean
@@ -38,60 +31,6 @@ class Categories
      * @ORM\Column(name="published", type="boolean", nullable=false)
      */
     private $published = true;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="category_slug", type="string", nullable=true, options={"default"="category_slug"})
-	 * @Assert\NotBlank(message="categories.blank_content")
-	 * @Assert\Length(min=4, minMessage="categories.too_short_content")
-	 */
-	private $categorySlug = 'category_slug';
-
-    /**
-     * @var DateTime
-     *
-     * @Assert\DateTime
-     * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $createdOn;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
-     */
-    private $createdBy = 0;
-
-    /**
-     * @var DateTime
-     *
-     * @Assert\DateTime
-     * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $modifiedOn;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
-     */
-    private $modifiedBy = 1;
-
-    /**
-     * @var DateTime
-     *
-     * @Assert\DateTime
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $lockedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
-     */
-    private $lockedBy = 1;
 
     /**
      * @var int
@@ -156,26 +95,9 @@ class Categories
      */
     public function __construct()
     {
-        $this->createdOn = new DateTime();
-        $this->modifiedOn = new DateTime();
-        $this->lockedOn = new DateTime();
         $this->children = new ArrayCollection();
 		$this->categoryProjects = new ArrayCollection();
-
 		$this->categoryAttachments = new ArrayCollection();
-    }
-
-
-
-
-
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
     }
 
     /**
@@ -192,122 +114,6 @@ class Categories
     public function setPublished(bool $published): void
     {
         $this->published = $published;
-    }
-
-	/**
-	 * @return string
-	 */
-	public function getCategorySlug(): string
-	{
-		return $this->categorySlug;
-	}
-
-	/**
-	 * @param string|null $categorySlug
-	 */
-	public function setCategorySlug(string $categorySlug = null): void
-	{
-		$this->categorySlug = $categorySlug;
-	}
-
-
-	/**
-     * @return DateTime
-     */
-    public function getCreatedOn(): DateTime
-    {
-        return $this->createdOn;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @throws Exception
-     */
-    public function setCreatedOn(): void
-    {
-        $this->createdOn = new DateTime();
-    }
-
-    /**
-     * @return integer
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param integer $createdBy
-     */
-    public function setCreatedBy(int $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getModifiedOn(): DateTime
-    {
-        return $this->modifiedOn;
-    }
-
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-     */
-    public function setModifiedOn(): void
-    {
-        $this->modifiedOn = new DateTime();
-    }
-
-    /**
-     * @return integer
-     */
-    public function getModifiedBy(): int
-    {
-        return $this->modifiedBy;
-    }
-
-    /**
-     * @param integer $modifiedBy
-     */
-    public function setModifiedBy(int $modifiedBy): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getLockedOn(): DateTime
-    {
-        return $this->lockedOn;
-    }
-
-    /**
-     * @param datetime $lockedOn
-     */
-    public function setLockedOn(DateTime $lockedOn): void
-    {
-        $this->lockedOn = $lockedOn;
-    }
-
-    /**
-     * @return integer
-     */
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
-
-    /**
-     * @param integer $lockedBy
-     */
-    public function setLockedBy(int $lockedBy): void
-    {
-        $this->lockedBy = $lockedBy;
     }
 
 	/**

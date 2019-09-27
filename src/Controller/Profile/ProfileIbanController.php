@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Profile;
 
-use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsIban;
 use App\Form\Vendor\VendorsIbanType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,7 +55,7 @@ class ProfileIbanController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('vendor/vendor_vendors_iban_index');
+			return $this->redirectToRoute('vendor_vendors_iban_edit');
         }
 
         return $this->render('vendor/vendors_iban/edit.html.twig', [
@@ -79,6 +78,6 @@ class ProfileIbanController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('vendor/vendor_vendors_iban_index');
+		return $this->redirectToRoute('vendor_vendors_iban_show');
     }
 }

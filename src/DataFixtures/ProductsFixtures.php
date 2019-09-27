@@ -22,7 +22,7 @@ class ProductsFixtures extends Fixture implements FixtureGroupInterface
 			$productAttachments = new ProductsAttachments();
 
 			$products->setOrdering($p);
-			$products->setProductSlug('slug' . $p);
+			$products->setSlug('slug' . $p);
 			$productEnGb->setProductName('Product # ' . $p);
 			$productAttachments->setFile('cover.jpg');
 			$productAttachments->setFileUrl('/');

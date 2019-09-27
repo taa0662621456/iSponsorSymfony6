@@ -3,9 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use \DateTime;
+use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 
 
 
@@ -17,20 +16,7 @@ use Exception;
  */
 class ProductsEnGb
 {
-    /**
-     * @var int
-     *
-<<<<<<< HEAD
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-=======
-     * @ORM\Column(type="integer")
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
->>>>>>> github/master
-     */
-    private $id;
+	use EntitySystemTrait;
 
     /**
      * @var string
@@ -75,48 +61,6 @@ class ProductsEnGb
      */
     private $customTitle = 'custom_title';
 
-	/**
-	 * @var DateTime
-	 *
-	 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-	 */
-	private $createdOn;
-
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
-	 */
-	private $createdBy = 1;
-
-	/**
-	 * @var DateTime
-	 *
-	 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-	 */
-	private $modifiedOn;
-
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
-	 */
-	private $modifiedBy = 1;
-
-	/**
-	 * @var DateTime
-	 *
-	 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-	 */
-	private $lockedOn;
-
-	/**
-	 * @var int
-	 *
-	 * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
-	 */
-	private $lockedBy = 1;
-
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productEnGb")
      * @ORM\JoinColumn(name="productsEnGb_id", referencedColumnName="id", onDelete="CASCADE")
@@ -126,19 +70,6 @@ class ProductsEnGb
 
 
 
-
-
-    /**
-     * ProjectsEnGb constructor.
-     * @throws Exception
-     */
-    public function __construct()
-    {
-		$this->createdOn = new DateTime();
-		$this->modifiedOn = new DateTime();
-		$this->lockedOn = new DateTime();
-    }
-
 	/**
 	 * @return string
 	 */
@@ -147,14 +78,6 @@ class ProductsEnGb
 		return $this->getProductName();
 
 	}
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     /**
      * @return string
@@ -259,110 +182,4 @@ class ProductsEnGb
 	{
 		$this->productsEnGb = $productsEnGb;
 	}
-
-	/**
-	 * @return DateTime
-	 */
-	public function getCreatedOn(): DateTime
-	{
-		return $this->createdOn;
-	}
-
-	/**
-	 * @param DateTime $createdOn
-	 */
-	public function setCreatedOn(DateTime $createdOn): void
-	{
-		$this->createdOn = $createdOn;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getCreatedBy(): int
-	{
-		return $this->createdBy;
-	}
-
-	/**
-	 * @param int $createdBy
-	 */
-	public function setCreatedBy(int $createdBy): void
-	{
-		$this->createdBy = $createdBy;
-	}
-
-	/**
-	 * @return DateTime
-	 */
-	public function getModifiedOn(): DateTime
-	{
-		return $this->modifiedOn;
-	}
-
-	/**
-	 * @param DateTime $modifiedOn
-	 */
-	public function setModifiedOn(DateTime $modifiedOn): void
-	{
-		$this->modifiedOn = $modifiedOn;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getModifiedBy(): int
-	{
-		return $this->modifiedBy;
-	}
-
-	/**
-	 * @param int $modifiedBy
-	 */
-	public function setModifiedBy(int $modifiedBy): void
-	{
-		$this->modifiedBy = $modifiedBy;
-	}
-
-	/**
-	 * @return DateTime
-	 */
-	public function getLockedOn(): DateTime
-	{
-		return $this->lockedOn;
-	}
-
-	/**
-	 * @param DateTime $lockedOn
-	 */
-	public function setLockedOn(DateTime $lockedOn): void
-	{
-		$this->lockedOn = $lockedOn;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getLockedBy(): int
-	{
-		return $this->lockedBy;
-	}
-
-	/**
-	 * @param int $lockedBy
-	 */
-	public function setLockedBy(int $lockedBy): void
-	{
-		$this->lockedBy = $lockedBy;
-	}
-
-
-
-
-
-
-
-
-
-
 }

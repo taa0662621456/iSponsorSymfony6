@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
+use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -13,66 +14,51 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class VendorsIban
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer", options={"comment"="Primary Key"})
-     */
-    private $id;
+	use EntitySystemTrait;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="iban", type="string", nullable=false, options={"default"="0"})
-     */
-    private $iban = '0';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="iban", type="string", nullable=false, options={"default"="0"})
+	 */
+	private $iban = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="expires_end", type="string", nullable=false, options={"default"="0"})
 	 */
-    private $expiresEnd = '0';
+	private $expiresEnd = '0';
 
 	/**
 	 * @var int
 	 *
 	 * @ORM\Column(name="signature_code", type="smallint", nullable=false, options={"default" : 0})
 	 */
-    private $signatureCode = 0;
+	private $signatureCode = 0;
 
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorIban", orphanRemoval=true)
-     * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-     */
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorIban", orphanRemoval=true)
+	 * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 */
 	private $vendorIban;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
+	/**
+	 * @return string
+	 */
+	public function getIban(): string
+	{
+		return $this->iban;
+	}
 
-    /**
-     * @return string
-     */
-    public function getIban(): string
-    {
-        return $this->iban;
-    }
-
-    /**
-     * @param string $iban
-     */
-    public function setIban(string $iban): void
-    {
-        $this->iban = $iban;
-    }
+	/**
+	 * @param string $iban
+	 */
+	public function setIban(string $iban): void
+	{
+		$this->iban = $iban;
+	}
 
 	/**
 	 * @return mixed
@@ -121,6 +107,4 @@ class VendorsIban
 	{
 		$this->signatureCode = $signatureCode;
 	}
-
-
 }

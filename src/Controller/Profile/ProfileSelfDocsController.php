@@ -8,7 +8,6 @@ use App\Entity\Vendor\VendorsDocAttachments;
 use App\Form\Vendor\VendorsDocAttachmentsType;
 use App\Form\Vendor\VendorsType;
 use App\Repository\VendorsRepository;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

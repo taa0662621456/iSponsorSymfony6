@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use Datetime;
+use App\Entity\EntitySystemTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 
 /**
  *
@@ -16,14 +15,7 @@ use Exception;
  */
 class ProductsAttachments
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+	use EntitySystemTrait;
 
     /**
      * @var string
@@ -140,78 +132,11 @@ class ProductsAttachments
     private $published = true;
 
     /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="created_on", type="datetime", nullable=false)
-     */
-    private $createdOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="created_by", type="integer", nullable=false)
-     */
-    private $createdBy = 0;
-
-    /**
-     * @var DateTime
-     *
-     * @ORM\Column(name="modified_on", type="datetime", nullable=false)
-     */
-    private $modifiedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="modified_by", type="integer", nullable=false)
-     */
-    private $modifiedBy = 0;
-
-    /**
-     * @var Datetime
-     *
-     * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-     */
-    private $lockedOn;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="locked_by", type="integer", nullable=false)
-     */
-    private $lockedBy = 0;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Product\Products", inversedBy="productAttachments")
 	 * @ORM\JoinColumn(name="productAttachments_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $productAttachments;
 
-
-
-
-
-
-
-
-
-    /**
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $this->lockedOn = new DateTime();
-        $this->modifiedOn = new DateTime();
-        $this->createdOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
     /**
      * @return string
@@ -516,107 +441,5 @@ class ProductsAttachments
         $this->published = $published;
         return $this;
     }
-
-    /**
-     * @return DateTime
-     */
-    public function getCreatedOn(): DateTime
-    {
-        return $this->createdOn;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @throws Exception
-     */
-    public function setCreatedOn(): void
-    {
-        $this->createdOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * @param int $createdBy
-     */
-    public function setCreatedBy(int $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getModifiedOn(): DateTime
-    {
-        return $this->modifiedOn;
-    }
-
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-     */
-    public function setModifiedOn(): void
-    {
-        $this->modifiedOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getModifiedBy(): int
-    {
-        return $this->modifiedBy;
-    }
-
-    /**
-     * @param int $modifiedBy
-     */
-    public function setModifiedBy(int $modifiedBy): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getLockedOn(): DateTime
-    {
-        return $this->lockedOn;
-    }
-
-    /**
-     * @ORM\PreFlush
-     * @ORM\PreUpdate
-     * @throws Exception
-     */
-    public function setLockedOn(): void
-    {
-        $this->lockedOn = new DateTime();
-    }
-
-    /**
-     * @return int
-     */
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
-
-    /**
-     * @param int $lockedBy
-     */
-    public function setLockedBy(int $lockedBy): void
-    {
-        $this->lockedBy = $lockedBy;
-    }
-
 
 }

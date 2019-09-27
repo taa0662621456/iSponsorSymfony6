@@ -6,7 +6,6 @@ use App\Entity\Category\Categories;
 use App\Entity\Category\CategoriesAttachments;
 use App\Entity\Category\CategoriesEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
@@ -24,7 +23,7 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			$categoryAttachments = new CategoriesAttachments();
 
 			$categories->setOrdering($p);
-			$categories->setCategorySlug('slug' . $p);
+			$categories->setSlug('slug' . $p);
 			$categoryEnGb->setCategoryName('Category #' . $p);
 			$categoryAttachments->setFile('cover.jpg');
 			$categoryAttachments->setFileUrl('/');

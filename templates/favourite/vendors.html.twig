@@ -1,0 +1,17 @@
+{% block meta_description %}My Favourites Projects, Vendors and Vendors{% endblock %}
+{% block title %}Favourites{% endblock %}
+{% block article_content %}
+    {% for vendor in vendors %}
+        <div class="row">
+            <div class="col-6">
+                {{ vendor.getVendorEnGb.vendor.name }}
+            </div>
+            <div class="col-6">
+                {{ vendor.getVendorEnGb.vendor.desc }}
+            </div>
+
+
+        </div>
+    {% endfor %}
+
+{% endblock %}

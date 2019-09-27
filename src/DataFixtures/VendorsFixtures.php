@@ -29,7 +29,7 @@ class VendorsFixtures extends Fixture implements FixtureGroupInterface
 		$vendorMediaAttachments = new VendorsMediaAttachments();
 
 
-		$vendor->setVendorSlug('slug' . 1);
+		$vendor->setSlug('slug' . 1);
 		$vendor->setOtep('ok');
 		$vendorEnGb->setVendorZip($rand);
 		$vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');

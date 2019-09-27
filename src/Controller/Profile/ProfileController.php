@@ -15,14 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends AbstractController
 {
     /**
-     * @Route( "/profile", name="profile", methods={"GET","POST"})
-     * @param VendorsRepository $vendorsRepository
+	 * @Route( "/", name="profile", methods={"GET","POST"})
+	 * @param VendorsRepository $vendorsRepository
+	 *
      * @return Response
      */
     public function index(VendorsRepository $vendorsRepository): Response
-    {
+	{
 
-        return $this->render('profile/index.html.twig', array(
+		return $this->render('vendor/vendors_profile/profile.html.twig', array(
             'vendor' => $vendorsRepository->findBy(
                 array('id' => $this->getUser())
             ),

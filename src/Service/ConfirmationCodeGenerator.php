@@ -1,8 +1,6 @@
 <?php
 namespace App\Service;
 
-use Exception;
-
 class ConfirmationCodeGenerator
 {
     public const RANDOM_STRING = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';

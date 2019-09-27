@@ -1,9 +1,11 @@
 <?php
+	declare(strict_types=1);
 
 	namespace App\Doctrine;
 
 	use Ramsey\Uuid\Uuid;
 	use Ramsey\Uuid\UuidInterface;
+	use \Throwable;
 
 	class UuidEncoder
 	{
@@ -36,7 +38,7 @@
 						STR_PAD_LEFT
 					)
 				));
-			} catch (\Throwable $e) {
+			} catch (Throwable $e) {
 				return null;
 			}
 		}

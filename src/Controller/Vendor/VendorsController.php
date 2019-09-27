@@ -10,7 +10,6 @@ use App\Form\Vendor\VendorsEditType;
 use App\Repository\ProjectsRepository;
 use App\Repository\VendorsEnGbRepository;
 use Cocur\Slugify\Slugify;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -13,7 +13,6 @@ use App\Repository\ProductsRepository;
 use App\Repository\ProjectsRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
-use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

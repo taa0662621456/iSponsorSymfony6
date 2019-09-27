@@ -1,0 +1,17 @@
+{% block meta_description %}My Favourites Projects, Products and Vendors{% endblock %}
+{% block title %}Favourites{% endblock %}
+{% block article_content %}
+    {% for project in projects %}
+        <div class="row">
+            <div class="col-6">
+                {{ project.getProjectEnGb.project.title }}
+            </div>
+            <div class="col-6">
+                {{ project.getProjectEnGb.project.desc }}
+            </div>
+
+
+        </div>
+    {% endfor %}
+
+{% endblock %}

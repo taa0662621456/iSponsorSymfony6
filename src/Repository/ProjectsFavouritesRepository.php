@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Project\ProjectsFavourites;
+use App\Entity\Vendor\VendorsFavourites;
 use Doctrine\ORM\EntityRepository;
-use App\Entity\Vendors;
 use Doctrine\ORM\NonUniqueResultException;
 
 /**
@@ -15,31 +16,32 @@ use Doctrine\ORM\NonUniqueResultException;
  */
 class ProjectsFavouritesRepository extends EntityRepository
 {
-    /**
-     * @param Vendors $vendor
-     * @param integer $projectId
-     * @return bool
-     * @throws NonUniqueResultException
-     */
-    public function checkIsLiked($vendor, $projectId): ?bool
-    {
-        $qb = $this->getEntityManager()
-            ->createQueryBuilder()
-            ->select('count(f.id)')
-            ->from('ProjectsFavourites', 'f')
-            ->innerJoin('f.createBy', 'v')
-            ->innerJoin('f.project', 'p')
-            ->where('v = :createBy')
-            ->andWhere('p.id = :project_id')
-            ->setParameters([
-                'project_id' => $projectId,
-                'vendor' => $vendor
-            ]);
+	/**
+	 * @param VendorsFavourites $vendor
+	 * @param integer           $projectId
+	 *
+	 * @return bool
+	 * @throws NonUniqueResultException
+	 */
+	public function checkIsLiked($vendor, $projectId): ?bool
+	{
+		$qb = $this->getEntityManager()
+			->createQueryBuilder()
+			->select('count(f.id)')
+			->from(ProjectsFavourites::class, 'f')
+			->innerJoin('f.createBy', 'v')
+			->innerJoin('f.project', 'p')
+			->where('v = :createBy')
+			->andWhere('p.id = :project_id')
+			->setParameters([
+				'project_id' => $projectId,
+				'vendor' => $vendor
+			]);
 
-        if ($qb->getQuery()->getSingleScalarResult()) {
-            return true;
-        }
+		if ($qb->getQuery()->getSingleScalarResult()) {
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 }
