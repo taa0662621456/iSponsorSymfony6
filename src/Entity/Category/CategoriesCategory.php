@@ -16,7 +16,8 @@ use Doctrine\ORM\Mapping\OneToMany;
  * @ORM\Table(name="category_categories", uniqueConstraints={
  * @ORM\UniqueConstraint(name="category_parent_id", columns={"category_parent_id", "category_child_id"})}, indexes={
  * @ORM\Index(name="category_child_id", columns={"category_child_id"}),
- * @ORM\Index(name="ordering", columns={"ordering"})})
+ * @ORM\Index(name="ordering", columns={"ordering"}),
+ * @ORM\Index(name="category_categories_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
  */

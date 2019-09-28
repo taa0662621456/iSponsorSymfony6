@@ -8,7 +8,8 @@ use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="product_price")
+ * @ORM\Table(name="product_price", indexes={
+ * @ORM\Index(name="product_price_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  */
 class ProductsPrice

@@ -8,8 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- *
- * @ORM\Table(name="products_attachments")
+ * @ORM\Table(name="products_attachments", indexes={
+ * @ORM\Index(name="product_attachment_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
  * @ORM\HasLifecycleCallbacks()
  */

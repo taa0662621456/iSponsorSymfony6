@@ -11,24 +11,20 @@
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
 	use Exception;
-	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 	use Symfony\Component\Form\Extension\Core\Type\NumberType;
 	use Symfony\Component\Validator\Constraints as Assert;
 
 
 	/**
-	 * @ORM\Table(name="products", uniqueConstraints={
-	 * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+	 * @ORM\Table(name="products", indexes={
 	 * @ORM\Index(name="product_slug", columns={"slug"})})
-	 * @UniqueEntity("slug"),
-	 *     errorPath="slug",
-	 *     message="This slug is already in use."
 	 * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
 	class Products
 	{
 		use EntitySystemTrait;
+
 		public const NUM_ITEMS = 10;
 
 

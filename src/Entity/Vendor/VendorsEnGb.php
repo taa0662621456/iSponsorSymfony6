@@ -10,7 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="vendors_en_gb")
+ * @ORM\Table(name="vendors_en_gb", indexes={
+ * @ORM\Index(name="vendor_en_gb_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */

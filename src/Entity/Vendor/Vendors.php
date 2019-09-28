@@ -5,7 +5,6 @@ namespace App\Entity\Vendor;
 
 use App\Entity\EntitySystemTrait;
 use App\Entity\Order\Orders;
-
 use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,13 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="vendors", uniqueConstraints={
- * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+ * @ORM\Table(name="vendors", indexes={
  * @ORM\Index(name="vendor_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
- * @UniqueEntity("slug"),
- *        errorPath="slug",
- *		message="This name is already in use."
+ * @UniqueEntity("slug"), errorPath="slug", message="This name is already in use."
  * @ORM\HasLifecycleCallbacks()
  */
 class Vendors
@@ -124,13 +120,13 @@ class Vendors
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", cascade={"persist", "remove"},
-	 *                                                                        mappedBy="vendorDocAttachments")
+	 * mappedBy="vendorDocAttachments")
 	 */
 	private $vendorDocAttachments;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments", cascade={"persist", "remove"},
-	 *                                                                          mappedBy="vendorMediaAttachments")
+	 * mappedBy="vendorMediaAttachments")
 	 */
 	private $vendorMediaAttachments;
 

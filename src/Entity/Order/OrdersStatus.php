@@ -7,7 +7,8 @@ use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="orders_status")
+ * @ORM\Table(name="orders_status", indexes={
+ * @ORM\Index(name="order_status_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */

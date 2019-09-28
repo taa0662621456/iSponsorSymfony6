@@ -5,7 +5,9 @@ namespace App\Entity\Vendor;
 
 use App\Entity\EntitySystemTrait;
 
+use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,11 +15,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="vendors_security", uniqueConstraints={
+ * @ORM\Table(name="vendors_security", indexes={
+ * @ORM\Index(name="vendor_security_slug", columns={"slug"})}, uniqueConstraints={
  * @ORM\UniqueConstraint(name="email", columns={"email"})})
  * @UniqueEntity("email"),
- * 		errorPath="email",
- * 		message="You have an account already or this email already in use!"
+ *        errorPath="email",
+ *        message="You have an account already or this email already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -110,32 +113,32 @@ class VendorsSecurity implements UserInterface, Serializable
 	 * @var integer
 	 *
 	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"comment"="Count of password resets
-     *                                 since lastResetTime"})
-     */
+	 *                                 since lastResetTime"})
+	 */
 	private $resetCount = 0;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="","comment"="Two factor
-     *                             authentication encrypted keys"})
-     */
+	 *                             authentication encrypted keys"})
+	 */
 	private $otpKey = '';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency
-     *                          passwords"})
-     */
+	 *                          passwords"})
+	 */
 	private $otep = '';
 
 	/**
 	 * @var boolean
 	 *
 	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"comment"="Require user to reset
-     *                                   password on next login"})
-     */
+	 *                                   password on next login"})
+	 */
 	private $requireReset = 0;
 
 	/**

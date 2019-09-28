@@ -17,6 +17,8 @@
 	{
 		/**
 		 * @Route("/{favourites}", defaults={"page": "1", "_format"="html"}, name="favourites", methods={"GET"})
+		 * @Route("/{favourites}", defaults={"page": "1", "_format"="xmlhttp"}, name="favourites_XmlHttpReq",
+		 *                         methods={"GET"})
 		 * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="homepage_paginated")
 		 * @param                              $favourites
 		 * @param ProjectsFavouritesRepository $projectsFavouritesRepository

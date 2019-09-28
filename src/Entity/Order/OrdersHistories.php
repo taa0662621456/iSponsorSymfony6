@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Table(name="orders_histories")
+ * @ORM\Table(name="orders_histories", indexes={
+ * @ORM\Index(name="order_history_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */

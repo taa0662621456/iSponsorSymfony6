@@ -79,6 +79,12 @@
 		 */
 		private $lockedBy = 1;
 
+		/**
+		 * @ORM\Column(type="integer")
+		 * @ORM\Version
+		 */
+		protected $version;
+
 		public function __construct()
 		{
 			$this->createdOn = new DateTime();
@@ -218,4 +224,22 @@
 		{
 			$this->lockedBy = $lockedBy;
 		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getVersion()
+		{
+			return $this->version;
+		}
+
+		/**
+		 * @param mixed $version
+		 */
+		public function setVersion($version): void
+		{
+			$this->version = $version;
+		}
+
+
 	}

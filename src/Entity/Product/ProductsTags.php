@@ -9,7 +9,8 @@ use JsonSerializable;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="products_tags")
+ * @ORM\Table(name="products_tags", indexes={
+ * @ORM\Index(name="product_tag_slug", columns={"slug"})})
  * @ORM\HasLifecycleCallbacks()
  */
 class ProductsTags implements JsonSerializable

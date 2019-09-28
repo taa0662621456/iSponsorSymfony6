@@ -8,8 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
 /**
+ * @ORM\Table(name="projects_tags", indexes={
+ * @ORM\Index(name="project_tag_slug", columns={"slug"})})
  * @ORM\Entity()
- * @ORM\Table(name="projects_tags")
  * @ORM\HasLifecycleCallbacks()
  */
 class ProjectsTags implements JsonSerializable

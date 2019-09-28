@@ -12,7 +12,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="orders")
+ * @ORM\Table(name="orders", indexes={
+ * @ORM\Index(name="order_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */

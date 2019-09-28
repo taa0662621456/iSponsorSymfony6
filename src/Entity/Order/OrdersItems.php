@@ -8,7 +8,8 @@ use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="orders_items")
+ * @ORM\Table(name="orders_items", indexes={
+ * @ORM\Index(name="order_item_slug", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  * @ORM\HasLifecycleCallbacks()
  */

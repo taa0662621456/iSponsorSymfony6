@@ -7,9 +7,8 @@ use App\Entity\EntitySystemTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProjectsFavourites
- *
- * @ORM\Table(name="projects_favourites")
+ * @ORM\Table(name="projects_favourites", indexes={
+ * @ORM\Index(name="project_favourite_slug", columns={"slug"})}))
  * @ORM\Entity(repositoryClass="App\Repository\ProductsFavouritesRepository")
  */
 class ProjectsFavourites
