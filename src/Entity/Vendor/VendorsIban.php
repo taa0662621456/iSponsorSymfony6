@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class VendorsIban
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * @var string

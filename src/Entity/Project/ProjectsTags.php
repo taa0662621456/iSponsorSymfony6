@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
@@ -15,7 +15,7 @@ use JsonSerializable;
  */
 class ProjectsTags implements JsonSerializable
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * @var string

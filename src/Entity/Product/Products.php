@@ -3,7 +3,7 @@
 
 	namespace App\Entity\Product;
 
-	use App\Entity\EntitySystemTrait;
+	use App\Entity\BaseTrait;
 	use App\Entity\Order\OrdersItems;
 
 	use \DateTime;
@@ -23,7 +23,7 @@
 	 */
 	class Products
 	{
-		use EntitySystemTrait;
+		use BaseTrait;
 
 		public const NUM_ITEMS = 10;
 

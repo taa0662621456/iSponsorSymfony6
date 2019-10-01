@@ -9,27 +9,37 @@ use App\Entity\Project\ProjectsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
+use Ramsey\Uuid\Uuid;
 
 class ProjectsFixtures extends Fixture implements DependentFixtureInterface
-//class ProjectsFixtures extends Fixture implements FixtureGroupInterface
 {
 
-    public function load(ObjectManager $manager)
-    {
+	public function load(ObjectManager $manager)
+	{
 		$categoriesRepository = $manager->getRepository(Categories::class);
 
 		$categories = $categoriesRepository->findAll();
 
-		for ($p=1; $p <= 26; $p++) {
+		for ($p = 1; $p <= 26; $p++) {
 
 			$projects = new Projects();
 			$projectEnGb = new ProjectsEnGb();
 			$projectAttachments = new ProjectsAttachments();
 
+			try {
+				$projects->setUuid(Uuid::uuid4());
+				$projects->setSlug(Uuid::uuid4());
+			} catch (Exception $e) {
+			}
+
 			$projects->setProjectCategory($categories[array_rand($categories)]);
 			$projects->setProjectType(rand(1, 4));
-			$projects->setSlug('slug' . $p);
+			$projects->setProjectEnGb($projectEnGb);
+			$projects->addProjectAttachment($projectAttachments);
+
 			$projectEnGb->setProjectTitle('Project #' . $p);
+
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');
 

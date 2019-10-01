@@ -8,23 +8,36 @@ use App\Entity\Category\CategoriesEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
+use Ramsey\Uuid\Uuid;
 
 class CategoriesFixtures extends Fixture implements DependentFixtureInterface
-//class CategoriesFixtures extends Fixture implements FixtureGroupInterface
 {
 
-    public function load(ObjectManager $manager)
-    {
-    	// Parent categories
-    	for ($p=1; $p <= 26; $p++) {
+	public function load(ObjectManager $manager)
+	{
+		// Parent categories
+		for ($p = 1; $p <= 26; $p++) {
 
 			$categories = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
 			$categoryAttachments = new CategoriesAttachments();
 
+			try {
+				$categories->setUuid(Uuid::uuid4());
+			} catch (Exception $e) {
+			}
+			try {
+				$categories->setSlug(Uuid::uuid4());
+			} catch (Exception $e) {
+			}
+
 			$categories->setOrdering($p);
-			$categories->setSlug('slug' . $p);
+			$categories->setCategoryEnGb($categoryEnGb);
+			$categories->addCategoryAttachment($categoryAttachments);
+
 			$categoryEnGb->setCategoryName('Category #' . $p);
+
 			$categoryAttachments->setFile('cover.jpg');
 			$categoryAttachments->setFileUrl('/');
 

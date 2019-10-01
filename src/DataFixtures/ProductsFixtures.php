@@ -8,22 +8,31 @@ use App\Entity\Product\ProductsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
+use Ramsey\Uuid\Uuid;
 
 class ProductsFixtures extends Fixture implements FixtureGroupInterface
 {
 
-    public function load(ObjectManager $manager)
-    {
+	public function load(ObjectManager $manager)
+	{
 
-    	for ($p=1; $p <= 26; $p++) {
+		for ($p = 1; $p <= 26; $p++) {
 
 			$products = new Products();
 			$productEnGb = new ProductsEnGb();
 			$productAttachments = new ProductsAttachments();
 
-			$products->setOrdering($p);
-			$products->setSlug('slug' . $p);
+			try {
+				$products->setUuid(Uuid::uuid4());
+				$products->setSlug(Uuid::uuid4());
+			} catch (Exception $e) {
+			}
+			$products->setProductEnGb($productEnGb);
+			$products->addProductAttachment($productAttachments);
+
 			$productEnGb->setProductName('Product # ' . $p);
+
 			$productAttachments->setFile('cover.jpg');
 			$productAttachments->setFileUrl('/');
 

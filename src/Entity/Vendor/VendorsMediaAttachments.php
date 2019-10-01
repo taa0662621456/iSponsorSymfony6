@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class VendorsMediaAttachments
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * //пока только картинки, а вообще поле для разных типов (сохраняет имена файлов)

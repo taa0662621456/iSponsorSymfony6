@@ -75,5 +75,9 @@ class ProductsRepository extends ServiceEntityRepository
         ;
     }
     */
+	public function findBySearchQuery($query, $limit)
+	{
+		//TODO
+	}
 
 }

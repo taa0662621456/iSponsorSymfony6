@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Project;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,26 +13,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProjectsFavourites
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
+	/**
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Project\Projects", inversedBy="projectFavourites")
 	 * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id")
-     **/
-    private $projectFavourites;
+	 **/
+	private $projectFavourites;
 
 
+	/**
+	 * @param Projects $projectFavourites
+	 *
+	 * @return ProjectsFavourites
+	 */
+	public function setProjectFavourites(Projects $projectFavourites = null): ProjectsFavourites
+	{
+		$this->projectFavourites = $projectFavourites;
 
-    /**
-     * @param Projects $projectFavourites
-     * @return ProjectsFavourites
-     */
-    public function setProjectFavourites(Projects $projectFavourites = null): ProjectsFavourites
-    {
-        $this->projectFavourites = $projectFavourites;
-
-        return $this;
-    }
+		return $this;
+	}
 
     /**
      * @return Projects

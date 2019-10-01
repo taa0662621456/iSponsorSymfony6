@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OrdersHistories
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * @var string

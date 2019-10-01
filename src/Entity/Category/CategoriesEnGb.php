@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CategoriesEnGb
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * @var string

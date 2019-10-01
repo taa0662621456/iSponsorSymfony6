@@ -8,7 +8,8 @@ require('../css/app.css');
 
 require('./bootstrap-tags-input-init.js');
 require('../../templates/bootstrap-4.0.0/js/src/carousel.js');
-require('~bootstrap-confirmation');
+require('bootstrap-autohide-navbar');
+require('bootstrap-confirmation2');
 
 //Cookie (must before the cart.js
 require('./js.cookie.js');

@@ -6,41 +6,41 @@ namespace App\Listeners;
 use App\Entity\Attachment;
 use App\Entity\Post;
 use App\Repository\AttachmentRepository;
-use App\Service\AttachmentManager;
+use App\Service\AttachmentsManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 
 class ProjectListener
 {
-    /**
-     * @var AttachmentManager
-     */
-    private $attachmentManager;
-    /**
-     * @var EntityManagerInterface
-     */
-    private $entityManager;
-    /**
-     * @var AttachmentRepository
-     */
-    private $attachmentRepository;
+	/**
+	 * @var AttachmentsManager
+	 */
+	private $attachmentManager;
+	/**
+	 * @var EntityManagerInterface
+	 */
+	private $entityManager;
+	/**
+	 * @var AttachmentRepository
+	 */
+	private $attachmentRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, AttachmentRepository $attachmentRepository, AttachmentManager $attachmentManager)
-    {
-        $this->attachmentManager = $attachmentManager;
-        $this->entityManager = $entityManager;
-        $this->attachmentRepository = $attachmentRepository;
-    }
+	public function __construct(EntityManagerInterface $entityManager, AttachmentRepository $attachmentRepository, AttachmentsManager $attachmentManager)
+	{
+		$this->attachmentManager = $attachmentManager;
+		$this->entityManager = $entityManager;
+		$this->attachmentRepository = $attachmentRepository;
+	}
 
-    public function preUpdate(Post $post, PreUpdateEventArgs $args)
-    {
-        if ($args->hasChangedField('content')){
+	public function preUpdate(Post $post, PreUpdateEventArgs $args)
+	{
+		if ($args->hasChangedField('content')) {
 
-            $em = $args->getEntityManager();
-            $attachmentRepository = $em->getRepository(Attachment::class);
-            /** @var  AttachmentRepository $attachmentRepository */
-            $regex = '~/upload/[a-zA-Z0-9]+\.\w+~';
-            $matches = [];
+			$em = $args->getEntityManager();
+			$attachmentRepository = $em->getRepository(Attachment::class);
+			/** @var  AttachmentRepository $attachmentRepository */
+			$regex = '~/upload/[a-zA-Z0-9]+\.\w+~';
+			$matches = [];
 
             if (preg_match_all($regex, $args->getNewValue('content'), $matches) > 0){
 

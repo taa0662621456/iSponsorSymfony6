@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Category;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,27 +24,27 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Categories
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
-     * @var boolean
-     *
-     * @ORM\Column(name="published", type="boolean", nullable=false)
-     */
-    private $published = true;
+	/**
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="published", type="boolean", nullable=false)
+	 */
+	private $published = true;
 
-    /**
-     * @var int
-     *
+	/**
+	 * @var int
+	 *
 	 * @ORM\GeneratedValue()
-     * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
-     */
-    private $ordering = 1;
+	 * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
+	 */
+	private $ordering = 1;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent", fetch="EXTRA_LAZY")
-     */
-    private $children;
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent", fetch="EXTRA_LAZY")
+	 */
+	private $children;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",

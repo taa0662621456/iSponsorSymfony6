@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use App\Entity\Order\Orders;
 use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Vendors
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * @var bool|false

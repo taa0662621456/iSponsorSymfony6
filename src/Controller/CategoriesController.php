@@ -11,7 +11,7 @@ use App\Repository\CategoriesRepository;
 use App\Repository\FeaturedRepository;
 use App\Repository\ProductsRepository;
 use App\Repository\ProjectsRepository;
-use App\Service\AttachmentManager;
+use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,15 +25,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CategoriesController extends AbstractController
 {
-    /**
-     * @var AttachmentManager
-     */
-    private $attachmentManager;
+	/**
+	 * @var AttachmentsManager
+	 */
+	private $attachmentManager;
 
-    public function __construct(AttachmentManager $attachmentManager)
-    {
-        $this->attachmentManager = $attachmentManager;
-    }
+	public function __construct(AttachmentsManager $attachmentManager)
+	{
+		$this->attachmentManager = $attachmentManager;
+	}
 
 	/**
 	 * @Route("/", name="categories_index", methods={"GET"})
@@ -41,9 +41,9 @@ class CategoriesController extends AbstractController
 	 *
 	 * @return Response
 	 */
-    public function categories(CategoriesRepository $categories): Response
-    {
-        return $this->render('category/categories/index.html.twig', array(
+	public function categories(CategoriesRepository $categories): Response
+	{
+		return $this->render('category/categories/index.html.twig', array(
             'categories' => $categories->findAll(),
 		));
     }

@@ -10,27 +10,36 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
+use Ramsey\Uuid\Uuid;
 
 class OrdersFixtures extends Fixture implements DependentFixtureInterface
-//class OrdersFixtures extends Fixture implements FixtureGroupInterface
 {
 
-    public function load(ObjectManager $manager)
-    {
+	public function load(ObjectManager $manager)
+	{
 		//$productsRepository = $manager->getRepository(Products::class);
 		$productsEnGbRepository = $manager->getRepository(ProductsEnGb::class);
-        $products = $productsEnGbRepository->findAll();
-        $productsCount = count($products);
+		$products = $productsEnGbRepository->findAll();
+		$productsCount = count($products);
 
-    	for ($p=1; $p <= rand(1, $productsCount); $p++) {
+		for ($p = 1; $p <= rand(1, $productsCount); $p++) {
 
 			$orders = new Orders();
 			$orderStatus = new OrdersStatus();
 
+			try {
+				$orders->setUuid(Uuid::uuid4());
+				$orders->setSlug(Uuid::uuid4());
+			} catch (Exception $e) {
+			}
+
 			$orders->setOrderIpAddress('127.0.0.1');
+			$orders->setOrderStatus($orders);
+
 			$orderStatus->setOrderStatusCode('N');
 
-			for ($i=1; $i <= rand(1, $productsCount); $i++) {
+			for ($i = 1; $i <= rand(1, $productsCount); $i++) {
 
 				//$productCurrent = $productsRepository->find($productRand);
 				//$productEnGbCurrent = $productsEnGbRepository->find($i);

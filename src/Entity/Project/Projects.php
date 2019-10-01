@@ -4,7 +4,7 @@
 	namespace App\Entity\Project;
 
 	use App\Entity\Category\Categories;
-	use App\Entity\EntitySystemTrait;
+	use App\Entity\BaseTrait;
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +23,7 @@
 	 */
 	class Projects
 	{
-		use EntitySystemTrait;
+		use BaseTrait;
 
 		public const NUM_ITEMS = 10;
 
@@ -250,6 +250,5 @@
 		{
 			$this->projectFavourites = $projectFavourites;
 		}
-
 
 	}

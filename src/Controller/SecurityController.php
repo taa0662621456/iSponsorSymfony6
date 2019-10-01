@@ -94,65 +94,68 @@ class SecurityController extends AbstractController
     public function confirmation(VendorsRepository $vendorsRepository, string $code): Response
     {
 
-        $vendor = $vendorsRepository->findOneBy(['activationCode' => $code]);
+		$vendor = $vendorsRepository->findOneBy(['activationCode' => $code]);
 
-        if ($vendor === null) {
-            return new Response('404');
-        }
+		if ($vendor === null) {
+			return new Response('404');
+		}
 
 		$vendor->setActive(true);
-        $vendor->setActivationCode('');
+		$vendor->setActivationCode('');
 
-        $em = $this->getDoctrine()->getManager();
+		$em = $this->getDoctrine()->getManager();
 
-        $em->flush();
+		$em->flush();
 
-        return $this->render('security/confirmed.html.twig', [
-            'vendor' => $vendor,
-        ]);
-    }
+		return $this->render('security/confirmed.html.twig', [
+			'vendor' => $vendor,
+		]);
+	}
 
-    /**
-	 * @Route("/login", name="login", methods={"GET", "POST"})
+	/**
+	 * @Route("/login", defaults={"layout" : "login"}, name="login", methods={"GET", "POST"})
+	 * @Route("/login", name="login", methods={"GET", "POST"}, options={"layout" : "loginFormHomePage"})
+	 * @param Request             $request
+	 * @param Security            $security
+	 *
 	 * @param AuthenticationUtils $authenticationUtils
-     * @param Request $request
-     * @param Security $security
-     *
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils): Response
-    {
-        if ($security->isGranted('ROLE_USER')) {
+	 * @param                     $layout
+	 *
+	 * @return Response
+	 * @throws LoaderError
+	 * @throws RuntimeError
+	 * @throws SyntaxError
+	 */
+	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
+	{
+		if ($security->isGranted('ROLE_USER')) {
 			return $this->redirectToRoute('homepage');
-        }
-        // this statement solves an edge-case: if you change the locale in the login
-        // page, after a successful login you are redirected to a page in the previous
-        // locale. This code regenerates the referrer URL whenever the login page is
-        // browsed, to ensure that its locale is always the current one.
+		}
+		// this statement solves an edge-case: if you change the locale in the login
+		// page, after a successful login you are redirected to a page in the previous
+		// locale. This code regenerates the referrer URL whenever the login page is
+		// browsed, to ensure that its locale is always the current one.
 		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
-        $lastUsername = $authenticationUtils->getLastUsername();
-        $error = $authenticationUtils->getLastAuthenticationError();
+		$lastUsername = $authenticationUtils->getLastUsername();
+		$error = $authenticationUtils->getLastAuthenticationError();
 
-        $vendor = new Vendors();
-        $form = $this->createForm(VendorsLoginType::class, $vendor, array(
-            'action' => $this->generateUrl('login'),
-            'method' => 'POST',
-            'attr' => array(
-                'id' => 'login',
-                'name' => 'login'
-            )
-        ));
+		$vendor = new Vendors();
+		$form = $this->createForm(VendorsLoginType::class, $vendor, array(
+			'action' => $this->generateUrl('login'),
+			'method' => 'POST',
+			'attr' => array(
+				'id' => 'login',
+				'name' => 'login'
+			)
+		));
 
-        return new Response($this->twig->render('security/login.html.twig', array(
-            'last_username' => $lastUsername,
-            'form'=> $form->createView(),
-            'error' =>  $error
-        )));
-    }
+		return new Response($this->twig->render('security/' . $layout . '.html.twig', array(
+			'last_username' => $lastUsername,
+			'form' => $form->createView(),
+			'error' => $error
+		)));
+	}
 
     /**
      * @Route("/logout", name="logout")

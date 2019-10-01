@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductsPrice
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	/**
 	 * @var int

@@ -1,0 +1,71 @@
+{% trans_default_domain 'Project' %}
+<div class="mr-1 p-1 card shadow-sm">
+    <div class="card-header">
+        Header
+    </div>
+    <figure>
+        {{ render(controller( 'App\\Controller\\AttachmentsController::getAttachments', {
+            'entity' : 'ProjectsAttachments',
+            'published' : true,
+            'fileTemplatePosition' : 'homepageBrick',
+            'fileClass' : 'slider',
+            'fileLang': 'en'
+        })) }}
+
+        {#        {% if product.getAttachments.fileClass|length %}
+            <img class="group list-group-image"
+                 src="{{ asset( ('uploads/gallery/' ~ product.images.first().path) | imagine_filter('category_mainpage_thumb')) }}"
+                 alt="{{ product.name }}"/>
+        {% else %}
+            <img class="group list-group-image"
+                 src="{{ asset( ('uploads/gallery/no_image_available.png') | imagine_filter('category_mainpage_thumb')) }}"
+                 alt="{{ product.name }}"/>
+        {% endif %}#}
+
+
+        <a href="">
+            <img class="bd-placeholder-img card-img-top"
+                 src=""
+                 alt="{{ project.getProjectEnGb.projectTitle }}">
+
+        </a>
+
+        <figcaption>
+            <a href="">{{ project.getProjectEnGb.projectTitle }}</a>
+        </figcaption>
+    </figure>
+    <div class="card-body ">
+        <p class="card-text">{{ project.getProjectEnGb.projectSDesc }}</p>
+
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+        </ul>
+
+        <a href="{{ path('products_show', {'slug' :project.slug }) }}" class="card-link">Переход куда-нибудь</a>
+        <a href="#" class="card-link">Переход куда-нибудь</a>
+        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+
+    </div>
+</div>
+
+
+<div class="caption description-container id-row" data-id="{{ product.id }}">
+    {% if product.favourites|length %}
+        <a href="#"><span class="glyphicon glyphicon-heart like" aria-hidden="true"></span></a>
+    {% else %}
+        <a href="#"><span class="glyphicon glyphicon-heart-empty like" aria-hidden="true"></span></a>
+    {% endif %}
+    <a href="{{ path('show_product', {'slug' : product.slug}) }}">
+        <h4 class="group inner list-group-item-heading product-title">
+            {{ product.name }} ({{ product.measureQuantity }} {{ product.measure.name }})
+        </h4>
+    </a>
+    <p class="lead price">
+        <span>{{ product.price }}</span> {{ 'currency'|trans }}
+    </p>
+    <a class="btn btn-success addtocart-btn" href="#">{{ 'cart.addtocart'|trans }}</a>
+</div>
+</div>
+</div>

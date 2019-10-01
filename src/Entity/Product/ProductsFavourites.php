@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductsFavourites
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
+	/**
 	 * @var int
 	 *
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Product\Products", inversedBy="productFavourites")

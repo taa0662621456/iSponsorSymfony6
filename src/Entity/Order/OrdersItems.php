@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,27 +15,27 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class OrdersItems
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
+	/**
 	 * @var integer
 	 *
 	 * @ORM\Column(name="item_id", type="integer", nullable=false, options={"default" : 0})
-     */
-    private $itemId = 0;
+	 */
+	private $itemId = 0;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default" : 1})
-     */
-    private $itemSku = 1;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default" : 1})
+	 */
+	private $itemSku = 1;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="item_name", type="string", nullable=false, options={"default"=""})
-     */
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="item_name", type="string", nullable=false, options={"default"=""})
+	 */
     private $itemName = 'item_name';
 
     /**

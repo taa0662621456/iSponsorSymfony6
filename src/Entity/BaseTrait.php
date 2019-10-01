@@ -2,6 +2,7 @@
 
 	namespace App\Entity;
 
+	use App\Doctrine\UuidEncoder;
 	use \DateTime;
 	use Doctrine\ORM\Mapping as ORM;
 	use Exception;
@@ -9,10 +10,10 @@
 	use Ramsey\Uuid\UuidInterface;
 	use Symfony\Component\Validator\Constraints as Assert;
 
-	trait EntitySystemTrait
+	trait BaseTrait
 	{
 		/**
-		 * @var int
+		 * @var integer
 		 *
 		 * @ORM\Id
 		 * @ORM\Column(type="integer")
@@ -23,22 +24,22 @@
 		/**
 		 * @var UuidInterface
 		 *
-		 * @ORM\Column(type="uuid", unique=true)
+		 * @ORM\Column(type="uuid", unique=true, nullable=false)
 		 */
-		private $uuid;
+		protected $uuid;
 
 		/**
 		 * @var string
 		 *
-		 * @ORM\Column(name="slug", type="string", unique=true, nullable=false, options={"default" = ""})
+		 * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
 		 */
-		private $slug = '';
+		protected $slug;
 
 		/**
 		 * @var DateTime
 		 *
-		 * @Assert\DateTime
 		 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+		 * @Assert\DateTime
 		 */
 		private $createdOn;
 
@@ -52,8 +53,8 @@
 		/**
 		 * @var DateTime
 		 *
-		 * @Assert\DateTime
 		 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+		 * @Assert\DateTime
 		 */
 		private $modifiedOn;
 
@@ -67,8 +68,8 @@
 		/**
 		 * @var DateTime
 		 *
-		 * @Assert\DateTime
 		 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+		 * @Assert\DateTime
 		 */
 		private $lockedOn;
 
@@ -92,21 +93,37 @@
 			$this->lockedOn = new DateTime();
 			try {
 				$this->uuid = Uuid::uuid4();
+
+				$slugEncode = new UuidEncoder();
+				$this->slug = $slugEncode->encode($this->uuid);
 			} catch (Exception $e) {
 			}
-			$this->slug = $this->getUuid();
-
 		}
 
-		public function getId(): ?int
+		/**
+		 * @return int
+		 */
+		public function getId(): int
 		{
 			return $this->id;
 		}
 
-		public function getUuid(): UuidInterface
+		/**
+		 * @return UuidInterface|null
+		 */
+		public function getUuid(): ?UuidInterface
 		{
 			return $this->uuid;
 		}
+
+		/**
+		 * @param UuidInterface $uuid
+		 */
+		public function setUuid(UuidInterface $uuid): void
+		{
+			$this->uuid = $uuid;
+		}
+
 
 		/**
 		 * @return string
@@ -118,7 +135,6 @@
 
 		/**
 		 * @param string $slug
-		 * @ORM\PrePersist()
 		 */
 		public function setSlug(string $slug): void
 		{
@@ -202,12 +218,16 @@
 		}
 
 		/**
-		 * @param datetime $lockedOn
+		 * @ORM\PrePersist
+		 * @ORM\PreFlush
+		 * @ORM\PreUpdate
+		 * @throws Exception
 		 */
-		public function setLockedOn(DateTime $lockedOn): void
+		public function setLockedOn(): void
 		{
-			$this->lockedOn = $lockedOn;
+			$this->lockedOn = new DateTime();
 		}
+
 
 		/**
 		 * @return integer
@@ -240,6 +260,4 @@
 		{
 			$this->version = $version;
 		}
-
-
 	}

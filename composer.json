@@ -38,7 +38,6 @@
     "symfony/validator": "4.3.*",
     "symfony/web-link": "4.3.*",
     "symfony/web-server-bundle": "4.3.*",
-    "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.3.*",
     "tgalopin/html-sanitizer-bundle": "dev-master"
   },
@@ -50,6 +49,7 @@
     "symfony/maker-bundle": "^1.11",
     "symfony/phpunit-bridge": "*",
     "symfony/stopwatch": "4.3.*",
+    "symfony/var-dumper": "4.3.*",
     "symfony/web-profiler-bundle": "*",
     "symfony/web-server-bundle": "*"
   },

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class VendorsSecurity implements UserInterface, Serializable
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	public const ROLE_USER = 'ROLE_USER';
 

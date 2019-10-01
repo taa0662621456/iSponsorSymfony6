@@ -8,7 +8,7 @@ use App\Entity\Product\ProductsEnGb;
 use App\Form\Product\ProductsType;
 use App\Repository\CategoriesRepository;
 use App\Repository\ProductsRepository;
-use App\Service\AttachmentManager;
+use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,25 +20,26 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProductsController extends AbstractController
 {
-    /**
-     * @var AttachmentManager
-     */
-    private $attachmentManager;
+	/**
+	 * @var AttachmentsManager
+	 */
+	private $attachmentManager;
 
-    public function __construct(AttachmentManager $attachmentManager)
-    {
-        $this->attachmentManager = $attachmentManager;
-    }
+	public function __construct(AttachmentsManager $attachmentManager)
+	{
+		$this->attachmentManager = $attachmentManager;
+	}
 
-    /**
-     * @Route("/", name="products_index", methods={"GET"})
-     * @param CategoriesRepository $categoriesRepository
-     * @param ProductsRepository $projectsRepository
-     * @return Response
-     */
-    public function index(CategoriesRepository $categoriesRepository, ProductsRepository $projectsRepository): Response
-    {
-        return $this->render('product/products/index.html.twig', [
+	/**
+	 * @Route("/", name="products_index", methods={"GET"})
+	 * @param CategoriesRepository $categoriesRepository
+	 * @param ProductsRepository   $projectsRepository
+	 *
+	 * @return Response
+	 */
+	public function index(CategoriesRepository $categoriesRepository, ProductsRepository $projectsRepository): Response
+	{
+		return $this->render('product/products/index.html.twig', [
             'categories' => $categoriesRepository->findAll(),
             'products' => $projectsRepository->findAll() // должна быть ленивая порционная загрузка
         ]);

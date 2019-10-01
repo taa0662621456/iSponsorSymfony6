@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,25 +17,25 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class VendorsEnGb
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
-     */
-    private $vendorFirstName = 'vendor_first_name';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
+	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+	 * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+	 */
+	private $vendorFirstName = 'vendor_first_name';
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="vendor_last_name"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
-     */
-    private $vendorLastName = 'vendor_last_name';
+	/**
+	 * @var string|null
+	 *
+	 * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="vendor_last_name"})
+	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+	 * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+	 */
+	private $vendorLastName = 'vendor_last_name';
 
     /**
      * @var string|null

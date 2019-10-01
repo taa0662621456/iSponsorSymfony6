@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Product;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -17,27 +17,27 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductsEnGb
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_name", type="string", nullable=false, options={"default"=""})
-     */
-    private $productName = 'product_name';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="product_name", type="string", nullable=false, options={"default"=""})
+	 */
+	private $productName = 'product_name';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_s_desc", type="text", nullable=false, options={"default"="product_s_desc"})
-     */
-    private $productSDesc ='product_s_desc';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="product_s_desc", type="text", nullable=false, options={"default"="product_s_desc"})
+	 */
+	private $productSDesc = 'product_s_desc';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="product_desc", type="text", nullable=false, options={"default"="product_desc"})
-     */
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="product_desc", type="text", nullable=false, options={"default"="product_desc"})
+	 */
     private $productDesc = 'product_desc';
 
 

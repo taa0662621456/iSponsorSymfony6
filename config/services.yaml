@@ -9,6 +9,7 @@ parameters:
     locale: 'en'
     homepage.number_of_items: 10
     categories_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
+    menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
     projects_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
     products_images_directory: '%kernel.project_dir%/public/uploads/products/images'
     vendors_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'

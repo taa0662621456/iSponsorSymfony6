@@ -127,59 +127,63 @@ class CartController extends AbstractController
         }
 
         return array(
-            'order' => $order,
-            'form' => $form->createView()
-        );
-    }
+			'order' => $order,
+			'form' => $form->createView()
+		);
+	}
 
-    /**
-     * If cart is empty.
-     *
-     * @Route("/cartisempty", name="cartisempty", methods={"GET"})
-     */
-    public function empty(): array
-    {
-        return [];
-    }
+	/**
+	 * If cart is empty.
+	 *
+	 * @Route("/cartisempty", name="cartisempty", methods={"GET"})
+	 */
+	public function empty(): array
+	{
+		return [];
+	}
 
 	/**
 	 * @param Request $request
 	 *
-	 * @return array
+	 * @return Response
 	 */
-	public function navBarCart(Request $request): array
-    {
+	public function navbarCart(Request $request): Response
+	{
 
-        $em = $this->getDoctrine()->getManager();
-        //quantity -> sum array
-        $cartArray = ['cart' => ['quantity' => 0, 'sum' => 0]];
-        $cookies = $request->cookies->all();
+		$em = $this->getDoctrine()->getManager();
+		//quantity -> sum array
+		$cartArray = ['cart' => ['quantity' => 0, 'sum' => 0]];
+		$cookies = $request->cookies->all();
 
-        if (isset($cookies['cart'])) {
-            $cart = json_decode($cookies['cart'], true);
-            if ($cart === '') {
-                return $cartArray;
-            }
-        } else {
-            return $cartArray;
-        }
+		if (isset($cookies['cart'])) {
+			$cart = json_decode($cookies['cart'], true);
+			if ($cart === '') {
+				return $this->render('cart/navbarCart.html.twig', array(
+					'cart' => $cartArray
+				));
+			}
+		} else {
+			return $this->render('cart/cartIsEmpty.html.twig');
+		}
 
-        $productRepository = $em->getRepository(Products::class);
+		$productRepository = $em->getRepository(Products::class);
 
-        /**
-         * @var Products $product
-         */
-        foreach ($cart as $productId => $productQuantity) {
+		/**
+		 * @var Products $product
+		 */
+		foreach ($cart as $productId => $productQuantity) {
 
-            $product = $productRepository->find((int)$productId);
-            if (is_object($product)) {
-                $cartArray['cart']['sum'] += ($product->getPrice() * abs((int)$productQuantity));
-                $cartArray['cart']['quantity'] += abs((int)$productQuantity);
-            }
-        }
+			$product = $productRepository->find((int)$productId);
+			if (is_object($product)) {
+				$cartArray['cart']['sum'] += ($product->getPrice() * abs((int)$productQuantity));
+				$cartArray['cart']['quantity'] += abs((int)$productQuantity);
+			}
+		}
 
-        return $cartArray;
-    }
+		return $this->render('cart/showCart.html.twig', array(
+			'cart' => $cartArray
+		));
+	}
 
     /**
      * @param Vendors $user

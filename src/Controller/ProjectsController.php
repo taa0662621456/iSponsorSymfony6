@@ -9,8 +9,9 @@ use App\Entity\Project\ProjectsEnGb;
 use App\Form\Project\ProjectsType;
 use App\Repository\CategoriesRepository;
 use App\Repository\ProjectsRepository;
-use App\Service\AttachmentManager;
+use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,25 +22,25 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProjectsController extends AbstractController
 {
-    /**
-     * @var AttachmentManager
-     */
-    private $attachmentManager;
+	/**
+	 * @var AttachmentsManager
+	 */
+	private $attachmentManager;
 
-    public function __construct(AttachmentManager $attachmentManager)
-    {
-        $this->attachmentManager = $attachmentManager;
-    }
+	public function __construct(AttachmentsManager $attachmentManager)
+	{
+		$this->attachmentManager = $attachmentManager;
+	}
 
-    /**
-     * @Route("/", name="projects", methods={"GET"})
-     * @return Response
-     */
-    public function index(): Response
-    {
-        $em = $this->getDoctrine()->getManager();
-        $categoriesRepository = $em->getRepository(CategoriesRepository::class);
-        //$newsRepository = $em->getRepository('News');
+	/**
+	 * @Route("/", name="projects", methods={"GET"})
+	 * @return Response
+	 */
+	public function index(): Response
+	{
+		$em = $this->getDoctrine()->getManager();
+		$categoriesRepository = $em->getRepository(CategoriesRepository::class);
+		//$newsRepository = $em->getRepository('News');
         //$slideRepository = $em->getRepository('Slide');
 		//$projectsRepository = $em->getRepository(ProjectsRepository::class);
 
@@ -86,9 +87,9 @@ class ProjectsController extends AbstractController
 
             $s = $form->get('projectEnGb')->get('slug')->getData();
             if (!isset($s)) {
-				$project->setProjectSlug($slug->slugify($projectEnGb->getProjectTitle()));
+				$project->setSlug($slug->slugify($projectEnGb->getProjectTitle()));
 
-            }
+			}
             $entityManager->flush();
 
             return $this->redirectToRoute('projects');
@@ -106,11 +107,11 @@ class ProjectsController extends AbstractController
      * @return Response
      */
     public function show(Projects $project): Response
-    {
-        return $this->render('projects/show.html.twig', [
-            'project' => $project,
-        ]);
-    }
+	{
+		return $this->render('project/projects/show.html.twig', [
+			'project' => $project,
+		]);
+	}
 
     /**
      * @Route("/{id}/edit", name="projects_edit", methods={"GET","POST"})
@@ -119,21 +120,21 @@ class ProjectsController extends AbstractController
      * @return Response
      */
     public function edit(Request $request, Projects $project): Response
-    {
-        $form = $this->createForm(ProjectsType::class, $project);
-        $form->handleRequest($request);
+	{
+		$form = $this->createForm(ProjectsType::class, $project);
+		$form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+		if ($form->isSubmitted() && $form->isValid()) {
+			$this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('projects_index');
-        }
+			return $this->redirectToRoute('projects');
+		}
 
-        return $this->render('projects/edit.html.twig', array(
-            'project' => $project,
-            'form' => $form->createView(),
-        ));
-    }
+		return $this->render('project/projects/edit.html.twig', array(
+			'project' => $project,
+			'form' => $form->createView(),
+		));
+	}
 
     /**
      * @Route("/search", methods={"GET"}, name="project_search")
@@ -144,8 +145,8 @@ class ProjectsController extends AbstractController
     public function search(Request $request, ProjectsRepository $projects): ?Response
     {
         if (!$request->isXmlHttpRequest()) {
-            return $this->render('project/search.html.twig');
-        }
+			return $this->render('project/projects/search.html.twig');
+		}
 
         $query = $request->query->get('q', '');
         $limit = $request->query->get('l', 10);

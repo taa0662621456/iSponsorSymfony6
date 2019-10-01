@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,15 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class VendorsFavourites
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
-    /**
+	/**
 	 * @var int
 	 *
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", inversedBy="vendorFavourites")
 	 * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id")
 	 */
-    private $vendorFavourites = 0;
+	private $vendorFavourites = 0;
 
 
 	/**

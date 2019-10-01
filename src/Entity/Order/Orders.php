@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Order;
 
-use App\Entity\EntitySystemTrait;
+use App\Entity\BaseTrait;
 
 use \DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Orders
 {
-	use EntitySystemTrait;
+	use BaseTrait;
 
 	public const NUM_ITEMS = 10;
 

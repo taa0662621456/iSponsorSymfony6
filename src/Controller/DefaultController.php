@@ -27,13 +27,14 @@ class DefaultController extends AbstractController
     public function index(CategoriesRepository $categoriesRepository, ProjectsRepository $projectsRepository, ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
     {
         return $this->render('homepage/homepage.html.twig', array(
-			'categories' => $categoriesRepository->findOneBy(['published' => true], ['id' => 'ASC']),
-            'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-            'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-            'featured_projects' => $featuredRepository->findBy(['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null),
-            'featured_products' => $featuredRepository->findBy(['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null),
-            'featured_categories' => $featuredRepository->findBy(['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null),
-            'featured_vendors' => $featuredRepository->findBy(['featuredType' => 'V'], ['ordering' => 'ASC'], 12, null)
+			'categories' => $categoriesRepository->findAll(),
+			//'categories' => $categoriesRepository->findOneBy(['published' => 't'], ['id' => 'ASC']),
+			'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
+			'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
+			'featured_projects' => $featuredRepository->findBy(['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null),
+			'featured_products' => $featuredRepository->findBy(['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null),
+			'featured_categories' => $featuredRepository->findBy(['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null),
+			'featured_vendors' => $featuredRepository->findBy(['featuredType' => 'V'], ['ordering' => 'ASC'], 12, null)
 		));
     }
 }
