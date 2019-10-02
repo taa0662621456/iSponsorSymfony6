@@ -102,10 +102,12 @@ class ProjectsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="projects_show", methods={"GET"})
-     * @param Projects $project
-     * @return Response
-     */
+	 * @Route("/{id<\d+>}", name="projects_show", methods={"GET"})
+	 * @Route("/{slug}", name="projects_slug", methods={"GET"})
+	 * @param Projects $project
+	 *
+	 * @return Response
+	 */
     public function show(Projects $project): Response
 	{
 		return $this->render('project/projects/show.html.twig', [

@@ -29,42 +29,42 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-            Vendors:
+            Vendor:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity/Vendor'
                 prefix: 'App\Entity\Vendor'
-                alias: Vendors
-            Categories:
+                alias: Vendor
+            Category:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity/Category'
                 prefix: 'App\Entity\Category'
-                alias: Categories
-            Projects:
+                alias: Category
+            Project:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity/Project'
                 prefix: 'App\Entity\Project'
-                alias: Projects
-            Products:
+                alias: Project
+            Product:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity/Product'
                 prefix: 'App\Entity\Product'
-                alias: Products
+                alias: Product
             Order:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity/Order'
                 prefix: 'App\Entity\Order'
-                alias: Products
+                alias: Order
 
             Menu:
                 is_bundle: false
                 type: annotation
                 dir: '%kernel.project_dir%/src/Entity/Menu'
                 prefix: 'App\Entity\Menu'
-                alias: Menus
+                alias: Menu
 
 

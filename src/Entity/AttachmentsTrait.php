@@ -355,6 +355,4 @@
 		{
 			$this->published = $published;
 		}
-
-
 	}
