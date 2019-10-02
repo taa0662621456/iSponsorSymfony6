@@ -1,27 +1,26 @@
 <?php
-declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Project;
 
-use App\Entity\Project\ProjectsEnGb;
+use App\Entity\Project\ProjectsOptions;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method ProjectsEnGb|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProjectsEnGb|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProjectsEnGb[]    findAll()
- * @method ProjectsEnGb[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProjectsOptions|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProjectsOptions|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProjectsOptions[]    findAll()
+ * @method ProjectsOptions[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectsEnGbRepository extends ServiceEntityRepository
+class ProjectsOptionsRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ProjectsEnGb::class);
+		parent::__construct($registry, ProjectsOptions::class);
     }
 
     // /**
-    //  * @return ProjectsEnGb[] Returns an array of ProjectsEnGb objects
+    //  * @return ProjectsOptions[] Returns an array of ProjectsOptions objects
     //  */
     /*
     public function findByExampleField($value)
@@ -38,7 +37,7 @@ class ProjectsEnGbRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ProjectsEnGb
+    public function findOneBySomeField($value): ?ProjectsOptions
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

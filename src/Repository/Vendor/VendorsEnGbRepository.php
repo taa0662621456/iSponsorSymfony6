@@ -1,27 +1,26 @@
 <?php
 
+namespace App\Repository\Vendor;
 
-namespace App\Repository;
-
-use App\Entity\VendorsGroups;
+use App\Entity\Vendor\VendorsEnGb;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method VendorsGroups|null find($id, $lockMode = null, $lockVersion = null)
- * @method VendorsGroups|null findOneBy(array $criteria, array $orderBy = null)
- * @method VendorsGroups[]    findAll()
- * @method VendorsGroups[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method VendorsEnGb|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VendorsEnGb|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VendorsEnGb[]    findAll()
+ * @method VendorsEnGb[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorsGroupsRepository extends ServiceEntityRepository
+class VendorsEnGbRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, VendorsGroups::class);
+        parent::__construct($registry, VendorsEnGb::class);
     }
 
     // /**
-    //  * @return VendorsGroups[] Returns an array of VendorsGroups objects
+    //  * @return VendorsEnGb[] Returns an array of VendorsEnGb objects
     //  */
     /*
     public function findByExampleField($value)
@@ -38,7 +37,7 @@ class VendorsGroupsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?VendorsGroups
+    public function findOneBySomeField($value): ?VendorsEnGb
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

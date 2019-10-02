@@ -56,9 +56,10 @@
 		/**
 		 * @var string
 		 *
-		 * @ORM\Column(name="file_layout_position", type="string", nullable=true, options={"default"=""})
+		 * @ORM\Column(name="file_layout_position", type="string", nullable=true,
+		 *                                          options={"default"="file_layout_position"})
 		 */
-		private $fileLayoutPosition = '';
+		private $fileLayoutPosition = 'file_layout_position';
 
 		/**
 		 * @var string

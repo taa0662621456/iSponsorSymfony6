@@ -3,9 +3,9 @@
 
 	namespace App\Controller\Profile;
 
-	use App\Repository\ProductsFavouritesRepository;
-	use App\Repository\ProjectsFavouritesRepository;
-	use App\Repository\VendorsFavouritesRepository;
+	use App\Repository\Product\ProductsFavouritesRepository;
+	use App\Repository\Project\ProjectsFavouritesRepository;
+	use App\Repository\Vendor\VendorsFavouritesRepository;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;

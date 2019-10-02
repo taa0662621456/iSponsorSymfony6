@@ -253,6 +253,7 @@ class Orders
 	private $orderItems;
 
 	/**
+	 *
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\OrdersStatus",
 	 *     inversedBy="orders",
 	 *     fetch="EXTRA_LAZY")

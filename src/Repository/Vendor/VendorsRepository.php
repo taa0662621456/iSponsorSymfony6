@@ -1,26 +1,27 @@
 <?php
+declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Vendor;
 
-use App\Entity\Product\ProductsOptions;
+use App\Entity\Vendor\Vendors;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method ProductsOptions|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductsOptions|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductsOptions[]    findAll()
- * @method ProductsOptions[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Vendors|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Vendors|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Vendors[]    findAll()
+ * @method Vendors[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectsOptionsRepository extends ServiceEntityRepository
+class VendorsRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, ProductsOptions::class);
+        parent::__construct($registry, Vendors::class);
     }
 
     // /**
-    //  * @return ProjectsOptions[] Returns an array of ProjectsOptions objects
+    //  * @return Vendors[] Returns an array of Vendors objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +38,7 @@ class ProjectsOptionsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?ProjectsOptions
+    public function findOneBySomeField($value): ?Vendors
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

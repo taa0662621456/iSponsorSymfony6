@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="projects_favourites", indexes={
  * @ORM\Index(name="project_favourite_slug", columns={"slug"})}))
- * @ORM\Entity(repositoryClass="App\Repository\ProductsFavouritesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Product\ProductsFavouritesRepository")
  */
 class ProjectsFavourites
 {

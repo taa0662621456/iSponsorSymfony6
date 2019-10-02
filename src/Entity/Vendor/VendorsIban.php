@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="vendors_iban", indexes={
  * @ORM\Index(name="vendor_iban_slug", columns={"slug"})})
  * @UniqueEntity("iban")
- * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  */
 class VendorsIban
 {

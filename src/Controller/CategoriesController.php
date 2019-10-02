@@ -9,10 +9,11 @@ use App\Entity\Category\Categories;
 use App\Form\Category\CategoriesType;
 use App\Repository\CategoriesRepository;
 use App\Repository\FeaturedRepository;
-use App\Repository\ProductsRepository;
-use App\Repository\ProjectsRepository;
+use App\Repository\Product\ProductsRepository;
+use App\Repository\Project\ProjectsRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -66,21 +67,22 @@ class CategoriesController extends AbstractController
 
 	}
 
-    /**
-     * @Route("/new", name="categories_new", methods={"GET","POST"})
-     * @param Request $request
-     * @return Response
-     * @throws Exception
-     */
-    public function new(Request $request): Response
-    {
-        $slug = new Slugify();
-        $category = new Categories();
-        $categoryEnGb = new CategoriesEnGb();
-        $form = $this->createForm(CategoriesType::class, $category);
-        $form->handleRequest($request);
+	/**
+	 * @Route("/new", name="categories_new", methods={"GET","POST"})
+	 * @param Request $request
+	 *
+	 * @return Response
+	 * @throws Exception
+	 */
+	public function new(Request $request): Response
+	{
+		$slug = new Slugify();
+		$category = new Categories();
+		$categoryEnGb = new CategoriesEnGb();
+		$form = $this->createForm(CategoriesType::class, $category);
+		$form->handleRequest($request);
 
-        //dump($form->getData());
+		//dump($form->getData());
 
         if ($form->isSubmitted() && $form->isValid()){
 
@@ -89,7 +91,7 @@ class CategoriesController extends AbstractController
             $s = $form->getData()->categoryEnGb->getSlug();
 
             if (!isset($s)) {
-                $category->setCategorySlug($slug->slugify($categoryEnGb->getCategoryName()));
+				$category->setSlug($slug->slugify($categoryEnGb->getCategoryName()));
             }
 
             $entityManager->persist($category);

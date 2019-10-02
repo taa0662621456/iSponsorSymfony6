@@ -32,14 +32,14 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 			} catch (Exception $e) {
 			}
 
-
-			$products->setProductEnGb($productEnGb);
-			$products->addProductAttachment($productAttachments);
-
 			$productEnGb->setProductName('Product # ' . $p);
 
 			$productAttachments->setFile('cover.jpg');
 			$productAttachments->setFilePath('/');
+
+
+			$products->addProductAttachment($productAttachments);
+			$products->setProductEnGb($productEnGb);
 
 			$manager->persist($productAttachments);
 			$manager->persist($productEnGb);

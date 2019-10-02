@@ -9,7 +9,7 @@ use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
-use App\Repository\VendorsRepository;
+use App\Repository\Vendor\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

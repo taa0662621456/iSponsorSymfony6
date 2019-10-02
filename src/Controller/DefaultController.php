@@ -5,8 +5,8 @@ namespace App\Controller;
 
 use App\Repository\CategoriesRepository;
 use App\Repository\FeaturedRepository;
-use App\Repository\ProductsRepository;
-use App\Repository\ProjectsRepository;
+use App\Repository\Product\ProductsRepository;
+use App\Repository\Project\ProjectsRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

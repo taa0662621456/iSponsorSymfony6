@@ -18,7 +18,7 @@
 	 * UniqueEntity("slug"),
 	 *        errorPath="slug",
 	 *        message="This slug is already in use!"
-	 * @ORM\Entity(repositoryClass="App\Repository\ProjectsRepository")
+	 * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
 	class Projects

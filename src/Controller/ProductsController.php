@@ -7,7 +7,7 @@ use App\Entity\Product\ProductsAttachments;
 use App\Entity\Product\ProductsEnGb;
 use App\Form\Product\ProductsType;
 use App\Repository\CategoriesRepository;
-use App\Repository\ProductsRepository;
+use App\Repository\Product\ProductsRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\Profile;
 
 use App\Repository\OrdersRepository;
-use App\Repository\ProductsRepository;
-use App\Repository\ProjectsRepository;
+use App\Repository\Product\ProductsRepository;
+use App\Repository\Project\ProjectsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ProfileSelfProController extends AbstractController
 {
-    /**
+	/**
      * @Route("/", name="index", methods={"GET"})
      * @return array
      */

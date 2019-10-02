@@ -20,18 +20,18 @@
 		}
 
 		/**
-		 * @param         $entity
-		 * @param         $published
-		 * @param         $fileTemplatePosition
-		 * @param         $fileClass
-		 * @param         $fileLang
+		 * @param string      $entity
+		 * @param bool|true   $published
+		 * @param string|null $fileLayoutPosition
+		 * @param string|null $fileClass
+		 * @param string|null $fileLang
 		 *
 		 * @return Response
 		 */
-		public function getAttachments($entity, $published, $fileTemplatePosition, $fileClass, $fileLang)
+		public function getAttachments(string $entity, bool $published, string $fileLayoutPosition, string $fileClass, string $fileLang)
 		{
 			$createdBy = $this->getUser();
-			$files = $this->attachmentsManager->getAttachments($entity, $createdBy, $published, $fileTemplatePosition, $fileClass, $fileLang);
+			$files = $this->attachmentsManager->getAttachments($entity, $createdBy, $published, $fileLayoutPosition, $fileClass, $fileLang);
 
 
 			return $this->render('attachment/attachments.html.twig', array(

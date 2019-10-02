@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="vendors", indexes={
  * @ORM\Index(name="vendor_slug", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  * @UniqueEntity("slug"), errorPath="slug", message="This name is already in use."
  * @ORM\HasLifecycleCallbacks()
  */

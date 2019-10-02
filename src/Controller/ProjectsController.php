@@ -8,7 +8,7 @@ use App\Entity\Project\ProjectsAttachments;
 use App\Entity\Project\ProjectsEnGb;
 use App\Form\Project\ProjectsType;
 use App\Repository\CategoriesRepository;
-use App\Repository\ProjectsRepository;
+use App\Repository\Project\ProjectsRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Exception;

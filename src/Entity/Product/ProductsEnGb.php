@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="products_en_gb", indexes={
  * @ORM\Index(name="product_en_gb_slug", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\ProductsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Product\ProductsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class ProductsEnGb

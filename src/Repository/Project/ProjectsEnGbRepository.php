@@ -1,27 +1,27 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Project;
 
-use App\Entity\Vendor\Vendors;
+use App\Entity\Project\ProjectsEnGb;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Vendors|null find($id, $lockMode = null, $lockVersion = null)
- * @method Vendors|null findOneBy(array $criteria, array $orderBy = null)
- * @method Vendors[]    findAll()
- * @method Vendors[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProjectsEnGb|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProjectsEnGb|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProjectsEnGb[]    findAll()
+ * @method ProjectsEnGb[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorsRepository extends ServiceEntityRepository
+class ProjectsEnGbRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Vendors::class);
+        parent::__construct($registry, ProjectsEnGb::class);
     }
 
     // /**
-    //  * @return Vendors[] Returns an array of Vendors objects
+    //  * @return ProjectsEnGb[] Returns an array of ProjectsEnGb objects
     //  */
     /*
     public function findByExampleField($value)
@@ -38,7 +38,7 @@ class VendorsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Vendors
+    public function findOneBySomeField($value): ?ProjectsEnGb
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

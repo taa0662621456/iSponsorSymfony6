@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity("email"),
  *        errorPath="email",
  *        message="You have an account already or this email already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\VendorsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class VendorsSecurity implements UserInterface, Serializable

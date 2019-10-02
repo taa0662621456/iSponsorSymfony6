@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -82,24 +83,25 @@ class AttachmentsManager
 
 
 	/**
-	 * @param         $entity
-	 * @param         $createdBy
-	 * @param         $published
-	 * @param         $fileLayoutPosition
-	 * @param         $fileClass
-	 * @param         $fileLang
+	 * @param string         $entity
+	 * @param                $createdBy
+	 * @param bool|true      $published
+	 * @param string|null    $fileLayoutPosition
+	 * @param string|null    $fileClass
+	 * @param string|null    $fileLang
 	 *
 	 * @return array
 	 */
-	public function getAttachments($entity, $createdBy, $published, $fileLayoutPosition, $fileClass, $fileLang)
+	public function getAttachments(string $entity, $createdBy, bool $published, string $fileLayoutPosition, string $fileClass, string $fileLang)
 	{
+
 		$repository = $this->entityManager->getRepository($entity);
 		return $repository->findBy(array(
 			'createdBy' => $createdBy,
 			'published' => $published,
-			'fileLayoutPosition' => $fileLayoutPosition,
-			'fileClass' => $fileClass,
-			'fileLang' => $fileLang,
+			//'fileLayoutPosition' => $fileLayoutPosition,
+			//'fileClass' = $fileClass,
+			//'fileLang' => $fileLang,
 		), array(
 			'createdOn' => 'ASC'
 		), 12, null);

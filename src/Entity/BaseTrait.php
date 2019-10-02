@@ -92,7 +92,6 @@
 			try {
 				$this->uuid = Uuid::uuid4();
 				$slugEncode = new UuidEncoder();
-
 				$this->slug = $slugEncode->encode($this->uuid);
 			} catch (Exception $e) {
 			}
