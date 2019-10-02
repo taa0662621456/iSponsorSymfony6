@@ -2,16 +2,17 @@
 
 namespace App\DataFixtures;
 
+use App\Doctrine\UuidEncoder;
 use App\Entity\Product\Products;
 use App\Entity\Product\ProductsAttachments;
 use App\Entity\Product\ProductsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Ramsey\Uuid\Uuid;
 
-class ProductsFixtures extends Fixture implements FixtureGroupInterface
+class ProductsFixtures extends Fixture implements DependentFixtureInterface
 {
 
 	public function load(ObjectManager $manager)
@@ -22,27 +23,41 @@ class ProductsFixtures extends Fixture implements FixtureGroupInterface
 			$products = new Products();
 			$productEnGb = new ProductsEnGb();
 			$productAttachments = new ProductsAttachments();
+			$slug = new UuidEncoder();
 
 			try {
-				$products->setUuid(Uuid::uuid4());
-				$products->setSlug(Uuid::uuid4());
+				$uuid = Uuid::uuid4();
+				$products->setUuid($uuid);
+				$products->setSlug($slug->encode($uuid));
 			} catch (Exception $e) {
 			}
+
+
 			$products->setProductEnGb($productEnGb);
 			$products->addProductAttachment($productAttachments);
 
 			$productEnGb->setProductName('Product # ' . $p);
 
 			$productAttachments->setFile('cover.jpg');
-			$productAttachments->setFileUrl('/');
+			$productAttachments->setFilePath('/');
 
-			$manager->persist($products);
-			$manager->persist($productEnGb);
 			$manager->persist($productAttachments);
+			$manager->persist($productEnGb);
+			$manager->persist($products);
 			$manager->flush();
 
 		}
-    }
+	}
+
+	public function getDependencies()
+	{
+		return array(
+			VendorsFixtures::class,
+			CategoriesFixtures::class,
+			ProjectsFixtures::class,
+			OrdersStatusFixtures::class,
+		);
+	}
 
 	/**
 	 * @return int

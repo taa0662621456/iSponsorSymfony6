@@ -4,6 +4,7 @@
 
 	use App\Doctrine\UuidEncoder;
 	use \DateTime;
+	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\ORM\Mapping as ORM;
 	use Exception;
 	use Ramsey\Uuid\Uuid;
@@ -88,16 +89,17 @@
 
 		public function __construct()
 		{
-			$this->createdOn = new DateTime();
-			$this->modifiedOn = new DateTime();
-			$this->lockedOn = new DateTime();
 			try {
 				$this->uuid = Uuid::uuid4();
-
 				$slugEncode = new UuidEncoder();
+
 				$this->slug = $slugEncode->encode($this->uuid);
 			} catch (Exception $e) {
 			}
+
+			$this->createdOn = new DateTime();
+			$this->modifiedOn = new DateTime();
+			$this->lockedOn = new DateTime();
 		}
 
 		/**

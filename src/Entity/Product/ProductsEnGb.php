@@ -169,17 +169,17 @@ class ProductsEnGb
     }
 
     /**
-     * @param string $customTitle
-     */
-    public function setCustomTitle(string $customTitle): void
-    {
-        $this->customTitle = $customTitle;
-    }
+	 * @param string $customTitle
+	 */
+	public function setCustomTitle(string $customTitle): void
+	{
+		$this->customTitle = $customTitle;
+	}
 
 	/**
-	 * @param Products $productsEnGb
+	 * @param ProductsEnGb $productsEnGb
 	 */
-	public function setProductsEnGb(Products $productsEnGb): void
+	public function setProductsEnGb(ProductsEnGb $productsEnGb): void
 	{
 		$this->productsEnGb = $productsEnGb;
 	}

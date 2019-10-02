@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Project\ProjectsAttachments;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -39,7 +38,7 @@ class AttachmentsManager
 	 * @param              $fileDescription
 	 * @param              $fileMeta
 	 * @param              $fileClass
-	 * @param              $fileTemplatePosition
+	 * @param              $fileLayoutPosition
 	 * @param              $filePath
 	 * @param              $fileIsForSale
 	 * @param              $fileLang
@@ -48,7 +47,7 @@ class AttachmentsManager
 	 *
 	 * @return array
 	 */
-	public function setAttachment($entity, UploadedFile $file, $fileTitle, $fileDescription, $fileMeta, $fileClass, $fileTemplatePosition, $filePath, $fileIsForSale, $fileLang, $published, $attachment)
+	public function setAttachment($entity, UploadedFile $file, $fileTitle, $fileDescription, $fileMeta, $fileClass, $fileLayoutPosition, $filePath, $fileIsForSale, $fileLang, $published, $attachment)
 	{
 		$filename = md5(uniqid()) . '.' . $file->guessExtension();
 
@@ -62,7 +61,7 @@ class AttachmentsManager
 		$attachment->setFileMeta($fileMeta);
 		$attachment->setMets($fileDescription);
 		$attachment->setFileClass($fileClass);
-		$attachment->setFileTemplatePosition($fileTemplatePosition);
+		$attachment->setFileLayoutPosition($fileLayoutPosition);
 		$attachment->setFilePath('/uploads/' . $filePath);
 		$attachment->setFileMimeType('MimeType');
 		$attachment->setFileIsForSale($fileIsForSale);
@@ -86,19 +85,19 @@ class AttachmentsManager
 	 * @param         $entity
 	 * @param         $createdBy
 	 * @param         $published
-	 * @param         $fileTemplatePosition
+	 * @param         $fileLayoutPosition
 	 * @param         $fileClass
 	 * @param         $fileLang
 	 *
 	 * @return array
 	 */
-	public function getAttachments($entity, $createdBy, $published, $fileTemplatePosition, $fileClass, $fileLang)
+	public function getAttachments($entity, $createdBy, $published, $fileLayoutPosition, $fileClass, $fileLang)
 	{
 		$repository = $this->entityManager->getRepository($entity);
 		return $repository->findBy(array(
 			'createdBy' => $createdBy,
 			'published' => $published,
-			'fileTemplatePosition' => $fileTemplatePosition,
+			'fileLayoutPosition' => $fileLayoutPosition,
 			'fileClass' => $fileClass,
 			'fileLang' => $fileLang,
 		), array(

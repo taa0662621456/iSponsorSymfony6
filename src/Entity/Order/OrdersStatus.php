@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -65,6 +66,17 @@ class OrdersStatus
 	 */
 	private $published = true;
 
+	/**
+	 * @var ArrayCollection
+	 *
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", mappedBy="orderStatus")
+	 */
+	private $orders;
+
+	public function __construct()
+	{
+		$this->orders = new ArrayCollection();
+	}
 
 	/**
 	 * @return string
@@ -178,5 +190,37 @@ class OrdersStatus
 		$this->published = $published;
 	}
 
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getOrders(): ArrayCollection
+	{
+		return $this->orders;
+	}
 
+	/**
+	 * @param Orders $order
+	 *
+	 * @return OrdersStatus
+	 */
+	public function addOrder(Orders $order)
+	{
+		if (!$this->orders->contains($order)) {
+			$order->setOrderStatus($this);
+			$this->orders->add($order);
+		}
+
+		return $this;
+
+	}
+
+	/**
+	 * @param Orders $order
+	 */
+	public function removeOrder(Orders $order)
+	{
+		if (!$this->orders->contains($order)) {
+			$this->orders->removeElement($order);
+		}
+	}
 }

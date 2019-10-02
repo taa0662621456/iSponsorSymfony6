@@ -164,13 +164,6 @@ class Orders
 	private $orderCurrency = 0;
 
 	/**
-	 * @var string|null
-	 *
-	 * @ORM\Column(name="order_status", type="string", nullable=true, options={"default" : 0})
-	 */
-	private $orderStatus = '0';
-
-	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
@@ -254,16 +247,20 @@ class Orders
 	 *     orphanRemoval=true,
 	 *     fetch="EXTRA_LAZY"
 	 * )
-	 * @Assert\Type(type="App\Entity\Order\Orders"))
+	 * @Assert\Type(type="App\Entity\Order\Orders")
 	 * @Assert\Valid()
 	 **/
 	private $orderItems;
 
-
 	/**
-	 * Orders constructor.
-	 *
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\OrdersStatus",
+	 *     inversedBy="orders",
+	 *     fetch="EXTRA_LAZY")
+	 * @ORM\JoinColumn(name="orderStatus_id", referencedColumnName="id")
 	 */
+	private $orderStatus;
+
+
 	public function __construct()
 	{
 		$this->orderDeliveryDate = new DateTime();
@@ -599,22 +596,6 @@ class Orders
 	}
 
 	/**
-	 * @return string|null
-	 */
-	public function getOrderStatus(): ?string
-	{
-		return $this->orderStatus;
-	}
-
-	/**
-	 * @param string|null $orderStatus
-	 */
-	public function setOrderStatus(?string $orderStatus): void
-	{
-		$this->orderStatus = $orderStatus;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getOrderCurrencyRate(): string
@@ -793,7 +774,7 @@ class Orders
 	/**
 	 * @param OrdersItems $orderItem
 	 *
-	 * @return $this
+	 * @return Orders
 	 */
 	public function addOrderItem(OrdersItems $orderItem): self
 	{
@@ -805,7 +786,7 @@ class Orders
 	/**
 	 * @param OrdersItems $orderItem
 	 */
-	public function removeOrderItem(OrdersItems $orderItem): void
+	public function removeOrderItem(OrdersItems $orderItem)
 	{
 		$this->orderItems->removeElement($orderItem);
 	}
@@ -813,8 +794,27 @@ class Orders
 	/**
 	 * @return ArrayCollection
 	 */
-	public function getOrderItems(): ArrayCollection
+	public function getOrderItems()
 	{
 		return $this->orderItems;
+	}
+
+	/**
+	 * @return Orders
+	 */
+	public function getOrderStatus()
+	{
+		return $this->orderStatus;
+	}
+
+	/**
+	 * @param OrdersStatus $orderStatus
+	 *
+	 * @return self
+	 */
+	public function setOrderStatus(OrdersStatus $orderStatus): self
+	{
+		$this->orderStatus = $orderStatus;
+		return $this;
 	}
 }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Doctrine\UuidEncoder;
 use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsDocAttachments;
 use App\Entity\Vendor\VendorsEnGb;
@@ -27,48 +28,44 @@ class VendorsFixtures extends Fixture
 		$vendorEnGb = new VendorsEnGb();
 		$vendorDocAttachments = new VendorsDocAttachments();
 		$vendorMediaAttachments = new VendorsMediaAttachments();
+		$slug = new UuidEncoder();
 
 		try {
-			$vendor->setUuid(Uuid::uuid4());
-			$vendor->setSlug(Uuid::uuid4());
-			//$vendorEnGb->setUuid(Uuid::uuid4());
-			//$vendorEnGb->setSlug(Uuid::uuid4());
-			$vendorSecurity->setUuid(Uuid::uuid4());
-			$vendorSecurity->setSlug(Uuid::uuid4());
-			//$vendorIban->setUuid(Uuid::uuid4());
-			//$vendorIban->setSlug(Uuid::uuid4());
-			//$vendorDocAttachments->setUuid(Uuid::uuid4());
-			//$vendorDocAttachments->setSlug(Uuid::uuid4());
-			//$vendorMediaAttachments->setUuid(Uuid::uuid4());
-			//$vendorMediaAttachments->setSlug(Uuid::uuid4());
+			$uuid = Uuid::uuid4();
+			$vendor->setUuid($uuid);
+			$vendor->setSlug($slug->encode($uuid));
+
+			$vendorSecurity->setUuid($uuid);
+			$vendorSecurity->setSlug($uuid);
 		} catch (Exception $e) {
 		}
+
 		$vendor->setVendorEnGb($vendorEnGb);
 		$vendor->setVendorSecurity($vendorSecurity);
 		$vendor->setVendorIban($vendorIban);
 		$vendor->addVendorDocAttachment($vendorDocAttachments);
 		$vendor->addVendorMediaAttachment($vendorMediaAttachments);
 
-		$vendorEnGb->setVendorZip($rand);
-
 		$vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
 		$vendorSecurity->setPassword($password);
+
+		$vendorEnGb->setVendorZip($rand);
 
 		$vendorIban->setIban('0000000000000000');
 
 		$vendorDocAttachments->setFile('cover.jpg');
-		$vendorDocAttachments->setFileUrl('/');
+		$vendorDocAttachments->setFilePath('/');
 
 		$vendorMediaAttachments->setFile('cover.jpg');
-		$vendorMediaAttachments->setFileUrl('/');
+		$vendorMediaAttachments->setFilePath('/');
 
 
-		$manager->persist($vendor);
-		$manager->persist($vendorSecurity);
-		$manager->persist($vendorIban);
-		$manager->persist($vendorEnGb);
 		$manager->persist($vendorDocAttachments);
 		$manager->persist($vendorMediaAttachments);
+		$manager->persist($vendorIban);
+		$manager->persist($vendorEnGb);
+		$manager->persist($vendorSecurity);
+		$manager->persist($vendor);
 		$manager->flush();
 	}
 

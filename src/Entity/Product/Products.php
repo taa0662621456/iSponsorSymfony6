@@ -98,8 +98,7 @@
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
-		 *     mappedBy="productOrdered"
-		 * )
+		 *     mappedBy="productOrdered")
 		 */
 		private $productOrdered;
 
@@ -231,14 +230,6 @@
 		 *                                            options={"default"="product_country_origin"})
 		 */
 		private $productCountryOrigin = 'product_country_origin';
-
-		/**
-		 * @var int
-		 *
-		 * @ORM\GeneratedValue()
-		 * @ORM\Column(name="ordering", type="integer", unique=true, nullable=false, options={"default" : 1})
-		 */
-		private $ordering = 1;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb",
@@ -834,22 +825,6 @@
 		public function setProductFeatured($productFeatured): void
 		{
 			$this->productFeatured = $productFeatured;
-		}
-
-		/**
-		 * @return int
-		 */
-		public function getOrdering(): int
-		{
-			return $this->ordering;
-		}
-
-		/**
-		 * @param int $ordering
-		 */
-		public function setOrdering(int $ordering): void
-		{
-			$this->ordering = $ordering;
 		}
 
 		/**

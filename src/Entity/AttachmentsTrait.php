@@ -56,9 +56,9 @@
 		/**
 		 * @var string
 		 *
-		 * @ORM\Column(name="file_template_position", type="string", nullable=false, options={"default"=""})
+		 * @ORM\Column(name="file_layout_position", type="string", nullable=true, options={"default"=""})
 		 */
-		private $fileTemplatePosition = '';
+		private $fileLayoutPosition = '';
 
 		/**
 		 * @var string
@@ -215,17 +215,17 @@
 		/**
 		 * @return string
 		 */
-		public function getFileTemplatePosition(): string
+		public function getFileLayoutPosition(): string
 		{
-			return $this->fileTemplatePosition;
+			return $this->fileLayoutPosition;
 		}
 
 		/**
-		 * @param string $fileTemplatePosition
+		 * @param string $fileLayoutPosition
 		 */
-		public function setFileTemplatePosition(string $fileTemplatePosition): void
+		public function setFileLayoutPosition(string $fileLayoutPosition): void
 		{
-			$this->fileTemplatePosition = $fileTemplatePosition;
+			$this->fileLayoutPosition = $fileLayoutPosition;
 		}
 
 		/**

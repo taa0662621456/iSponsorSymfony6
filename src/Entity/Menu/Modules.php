@@ -36,21 +36,21 @@
 		 *
 		 * @ORM\Column(name="title", type="string", nullable=false, options={"default"="''"})
 		 */
-		private $title = '\'\'';
+		private $title = '';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="note", type="string", nullable=false, options={"default"="''"})
 		 */
-		private $note = '\'\'';
+		private $note = '';
 
 		/**
-		 * @var text
+		 * @var string
 		 *
 		 * @ORM\Column(name="content", type="text", nullable=false, options={"default"="''"})
 		 */
-		private $content = '\'\'';
+		private $content = '';
 
 		/**
 		 * @var integer
@@ -64,7 +64,7 @@
 		 *
 		 * @ORM\Column(name="position", type="string", nullable=false, options={"default"="''"})
 		 */
-		private $position = '\'\'';
+		private $position = '';
 
 		/**
 		 * @var integer

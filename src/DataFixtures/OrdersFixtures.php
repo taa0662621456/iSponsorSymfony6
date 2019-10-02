@@ -2,12 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Doctrine\UuidEncoder;
 use App\Entity\Order\Orders;
 use App\Entity\Order\OrdersItems;
 use App\Entity\Order\OrdersStatus;
 use App\Entity\Product\ProductsEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
@@ -18,50 +18,50 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 
 	public function load(ObjectManager $manager)
 	{
-		//$productsRepository = $manager->getRepository(Products::class);
 		$productsEnGbRepository = $manager->getRepository(ProductsEnGb::class);
-		$products = $productsEnGbRepository->findAll();
-		$productsCount = count($products);
+		$productsCount = count($productsEnGbRepository->findAll());
+
+		$ordersStatusRepository = $manager->getRepository(OrdersStatus::class);
+		$ordersStatusCount = count($ordersStatusRepository->findAll());
+		$randStatus = $ordersStatusRepository->find(rand(1, $ordersStatusCount));
 
 		for ($p = 1; $p <= rand(1, $productsCount); $p++) {
 
 			$orders = new Orders();
-			$orderStatus = new OrdersStatus();
+			$slug = new UuidEncoder();
 
 			try {
-				$orders->setUuid(Uuid::uuid4());
-				$orders->setSlug(Uuid::uuid4());
+				$uuid = Uuid::uuid4();
+				$orders->setUuid($uuid);
+				$orders->setSlug($slug->encode($uuid));
 			} catch (Exception $e) {
 			}
 
-			$orders->setOrderIpAddress('127.0.0.1');
-			$orders->setOrderStatus($orders);
+			$orders->setOrderStatus($randStatus);
 
-			$orderStatus->setOrderStatusCode('N');
+			$orders->setOrderIpAddress('127.0.0.1');
 
 			for ($i = 1; $i <= rand(1, $productsCount); $i++) {
-
-				//$productCurrent = $productsRepository->find($productRand);
-				//$productEnGbCurrent = $productsEnGbRepository->find($i);
-				//$productEnGbCurrentName = $productEnGbCurrent->getProductName();
 
 				$orderItems = new OrdersItems();
 
 				$orderItems->setItemId($i);
 				$orderItems->setItemName('item ' . $i);
 
+				$orders->addOrderItem($orderItems);
 				$manager->persist($orderItems);
 			}
 
+
 			$manager->persist($orders);
-			$manager->persist($orderStatus);
 			$manager->flush();
 		}
-    }
+	}
 
 	public function getDependencies ()
 	{
-		return array (
+		return array(
+			OrdersStatusFixtures::class,
 			ProductsFixtures::class,
 		);
 	}
@@ -71,7 +71,7 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public function getOrder()
 	{
-		return 5;
+		return 6;
 	}
 
 	/**

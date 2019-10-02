@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Doctrine\UuidEncoder;
 use App\Entity\Category\Categories;
 use App\Entity\Project\Projects;
 use App\Entity\Project\ProjectsAttachments;
@@ -26,12 +27,15 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 			$projects = new Projects();
 			$projectEnGb = new ProjectsEnGb();
 			$projectAttachments = new ProjectsAttachments();
+			$slug = new UuidEncoder();
 
 			try {
-				$projects->setUuid(Uuid::uuid4());
-				$projects->setSlug(Uuid::uuid4());
+				$uuid = Uuid::uuid4();
+				$projects->setUuid($uuid);
+				$projects->setSlug($slug->encode($uuid));
 			} catch (Exception $e) {
 			}
+
 
 			$projects->setProjectCategory($categories[array_rand($categories)]);
 			$projects->setProjectType(rand(1, 4));
@@ -43,13 +47,13 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');
 
-			$manager->persist($projects);
-			$manager->persist($projectEnGb);
 			$manager->persist($projectAttachments);
+			$manager->persist($projectEnGb);
+			$manager->persist($projects);
 			$manager->flush();
 
 		}
-    }
+	}
 
 	public function getDependencies ()
 	{

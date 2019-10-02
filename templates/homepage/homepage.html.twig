@@ -32,9 +32,9 @@
                 <div class="{{ block }}">
                     <div class="card p-1 shadow-sm">
                         {{ render(controller( 'App\\Controller\\AttachmentsController::getAttachments', {
-                            'entity' : 'Category\\CategoriesAttachments',
+                            'entity' : 'App\\Entity\\Category\\CategoriesAttachments',
                             'published' : true,
-                            'fileTemplatePosition' : 'homepageBrick',
+                            'fileLayoutPosition' : 'homepageBrick',
                             'fileClass' : 'slider',
                             'fileLang': 'en'
                         })) }}
@@ -67,7 +67,7 @@
                     {{ render(controller( 'App\\Controller\\AttachmentsController::getAttachments', {
                         'entity' : 'CategoriesAttachments',
                         'published' : true,
-                        'fileTemplatePosition' : 'homepageBrick',
+                        'fileLayoutPosition' : 'homepageBrick',
                         'fileClass' : 'slider',
                         'fileLang': 'en'
                     })) }}

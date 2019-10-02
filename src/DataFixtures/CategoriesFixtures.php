@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Doctrine\UuidEncoder;
 use App\Entity\Category\Categories;
 use App\Entity\Category\CategoriesAttachments;
 use App\Entity\Category\CategoriesEnGb;
@@ -22,15 +23,15 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			$categories = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
 			$categoryAttachments = new CategoriesAttachments();
+			$slug = new UuidEncoder();
 
 			try {
-				$categories->setUuid(Uuid::uuid4());
+				$uuid = Uuid::uuid4();
+				$categories->setUuid($uuid);
+				$categories->setSlug($slug->encode($uuid));
 			} catch (Exception $e) {
 			}
-			try {
-				$categories->setSlug(Uuid::uuid4());
-			} catch (Exception $e) {
-			}
+
 
 			$categories->setOrdering($p);
 			$categories->setCategoryEnGb($categoryEnGb);
@@ -39,14 +40,14 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			$categoryEnGb->setCategoryName('Category #' . $p);
 
 			$categoryAttachments->setFile('cover.jpg');
-			$categoryAttachments->setFileUrl('/');
+			$categoryAttachments->setFilePath('/');
 
-			$manager->persist($categories);
-			$manager->persist($categoryEnGb);
 			$manager->persist($categoryAttachments);
+			$manager->persist($categoryEnGb);
+			$manager->persist($categories);
 			$manager->flush();
 		}
-    }
+	}
 
 	public function getDependencies ()
 	{
@@ -54,6 +55,7 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			VendorsFixtures::class,
 		);
 	}
+
 	/**
 	 * @return int
 	 */
