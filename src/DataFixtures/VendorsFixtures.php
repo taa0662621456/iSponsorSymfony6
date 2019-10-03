@@ -40,16 +40,12 @@ class VendorsFixtures extends Fixture
 		} catch (Exception $e) {
 		}
 
-		$vendor->setVendorEnGb($vendorEnGb);
-		$vendor->setVendorSecurity($vendorSecurity);
-		$vendor->setVendorIban($vendorIban);
-		$vendor->addVendorDocAttachment($vendorDocAttachments);
-		$vendor->addVendorMediaAttachment($vendorMediaAttachments);
 
 		$vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
 		$vendorSecurity->setPassword($password);
 
 		$vendorEnGb->setVendorZip($rand);
+		//$vendorEnGb->setVendorPhone('00000000' . $rand);
 
 		$vendorIban->setIban('0000000000000000');
 
@@ -59,6 +55,11 @@ class VendorsFixtures extends Fixture
 		$vendorMediaAttachments->setFile('cover.jpg');
 		$vendorMediaAttachments->setFilePath('/');
 
+		$vendor->setVendorEnGb($vendorEnGb);
+		$vendor->setVendorSecurity($vendorSecurity);
+		$vendor->setVendorIban($vendorIban);
+		$vendor->addVendorDocAttachment($vendorDocAttachments);
+		$vendor->addVendorMediaAttachment($vendorMediaAttachments);
 
 		$manager->persist($vendorDocAttachments);
 		$manager->persist($vendorMediaAttachments);

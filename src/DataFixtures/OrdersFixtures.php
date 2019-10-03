@@ -36,7 +36,7 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 			} catch (Exception $e) {
 			}
 
-			$orders->setOrderStatus($randStatus);
+			$orders->setOrderStatus($randStatus[array_rand((array)$randStatus)]);
 
 			$orders->setOrderIpAddress('127.0.0.1');
 
