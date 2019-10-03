@@ -168,14 +168,6 @@ class VendorsEnGb
     private $vendorMetaAuthor = 'meta_author';
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorEnGb")
-	 * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-	private $vendorEnGb;
-
-
-
-    /**
      * @return string|null
      */
     public function getVendorFirstName(): string
@@ -447,19 +439,4 @@ class VendorsEnGb
         $this->vendorMetaAuthor = $vendorMetaAuthor;
     }
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorEnGb()
-	{
-		return $this->vendorEnGb;
-	}
-
-	/**
-	 * @param Vendors $vendorEnGb
-	 */
-	public function setVendorEnGb(Vendors $vendorEnGb): void
-	{
-		$this->vendorEnGb = $vendorEnGb;
-	}
 }

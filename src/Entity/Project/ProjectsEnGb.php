@@ -89,14 +89,6 @@ class ProjectsEnGb
 	 */
 	private $projectProductMetaKey = 'project_product_meta_key';
 
-	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects",
-	 *     inversedBy="projectEnGb"
-	 * )
-	 * @ORM\JoinColumn(name="projectEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	private $projectEnGb;
-
 
 	public function __toString()
 	{
@@ -256,19 +248,4 @@ class ProjectsEnGb
 		return $this;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getProjectEnGb()
-	{
-		return $this->projectEnGb;
-	}
-
-	/**
-	 * @param Projects $projectEnGb
-	 */
-	public function setProjectEnGb(Projects $projectEnGb): void
-	{
-		$this->projectEnGb = $projectEnGb;
-	}
 }

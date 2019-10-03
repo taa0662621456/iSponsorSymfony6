@@ -21,8 +21,7 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 		$productsEnGbRepository = $manager->getRepository(ProductsEnGb::class);
 		$productsCount = count($productsEnGbRepository->findAll());
 
-		$ordersStatusCount = count($manager->getRepository(OrdersStatus::class)->findAll());
-		$randStatus = $manager->getRepository(OrdersStatus::class)->find(rand(1, $ordersStatusCount));
+		$status = $manager->getRepository(OrdersStatus::class)->findAll();
 
 		for ($p = 1; $p <= rand(1, $productsCount); $p++) {
 
@@ -36,7 +35,7 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 			} catch (Exception $e) {
 			}
 
-			$orders->setOrderStatus($randStatus[array_rand((array)$randStatus)]);
+			$orders->setOrderStatus($status[array_rand($status)]);
 
 			$orders->setOrderIpAddress('127.0.0.1');
 

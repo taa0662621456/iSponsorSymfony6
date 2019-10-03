@@ -19,22 +19,24 @@
 	class FixturesTest extends WebTestCase
 	{
 		/**
-		 * @var EntityManager|object|null
+		 * @var EntityManagerInterface|object|null
 		 */
 		private static $em;
 
 		protected function setUp()
 		{
+			static::bootKernel();
+
 			self::$em = self::$container->get(EntityManagerInterface::class);
 		}
 
 		public function testFixtures()
 		{
 			/** @var EntityManagerInterface $em */
-			self::$em->getContainer()->get('doctrine')->getManager();
+			//self::$em->getContainer()->get('doctrine');
 
-			$schemaTool = new SchemaTool($em);
-			$metadata = $em->getMetadataFactory()->getAllMetadata();
+			$schemaTool = new SchemaTool(self::$em);
+			$metadata = self::$em->getMetadataFactory()->getAllMetadata();
 
 			// Drop and recreate tables for all entities
 			$schemaTool->dropSchema($metadata);

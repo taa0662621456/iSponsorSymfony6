@@ -112,7 +112,10 @@ class Vendors
 	private $vendorIban;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb", cascade={"persist", "remove"}, mappedBy="vendorEnGb")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="vendorEnGb", orphanRemoval=true)
+	 * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb")
 	 * @Assert\Valid()
 	 */
@@ -363,9 +366,9 @@ class Vendors
 	}
 
 	/**
-	 * @param mixed $vendorEnGb
+	 * @param VendorsEnGb $vendorEnGb
 	 */
-	public function setVendorEnGb($vendorEnGb): void
+	public function setVendorEnGb(VendorsEnGb $vendorEnGb): void
 	{
 		$this->vendorEnGb = $vendorEnGb;
 	}

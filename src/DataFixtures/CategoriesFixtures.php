@@ -47,6 +47,14 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			$manager->persist($categories);
 			$manager->flush();
 		}
+
+		$parent = $manager->getRepository(Categories::class)->findAll();
+
+		for ($i = 1; $i <= 26; $i++) {
+			$categories = new Categories();
+			$categories->setParent($parent[array_rand($parent)]);
+			$manager->flush();
+		}
 	}
 
 	public function getDependencies ()

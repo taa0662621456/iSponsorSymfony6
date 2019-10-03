@@ -65,14 +65,14 @@ class Categories
     private $categoryProjects;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb",
+	 * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="categoriesEnGb",
-	 *     orphanRemoval=true
-	 *	 )
-     * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
-     * @Assert\Valid()
-     */
+	 *     orphanRemoval=true)
+	 * @ORM\JoinColumn(name="categoryEnGb_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
+	 * @Assert\Valid()
+	 */
     private $categoryEnGb;
 
     /**
@@ -142,13 +142,13 @@ class Categories
         return $this->categoryEnGb;
     }
 
-    /**
-     * @param mixed $categoryEnGb
-     */
-    public function setCategoryEnGb($categoryEnGb): void
-    {
-        $this->categoryEnGb = $categoryEnGb;
-    }
+	/**
+	 * @param CategoriesEnGb $categoryEnGb
+	 */
+	public function setCategoryEnGb(CategoriesEnGb $categoryEnGb): void
+	{
+		$this->categoryEnGb = $categoryEnGb;
+	}
 
 	/**
 	 * @return int

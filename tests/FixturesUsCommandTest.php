@@ -13,6 +13,7 @@
 
 		protected function setUp()
 		{
+
 			//self::runCommand('doctrine:database:create');
 			//self::testFixtures('doctrine:schema:update --force');
 			//self::testFixtures('doctrine:fixtures:load --append');

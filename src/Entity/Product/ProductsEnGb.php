@@ -62,15 +62,6 @@ class ProductsEnGb
      */
     private $customTitle = 'custom_title';
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productEnGb")
-     * @ORM\JoinColumn(name="productsEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $productsEnGb;
-
-
-
-
 	/**
 	 * @return string
 	 */
@@ -174,13 +165,5 @@ class ProductsEnGb
 	public function setCustomTitle(string $customTitle): void
 	{
 		$this->customTitle = $customTitle;
-	}
-
-	/**
-	 * @param ProductsEnGb $productsEnGb
-	 */
-	public function setProductsEnGb(ProductsEnGb $productsEnGb): void
-	{
-		$this->productsEnGb = $productsEnGb;
 	}
 }

@@ -52,9 +52,8 @@
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb",
 		 *      cascade={"persist", "remove"},
-		 *      mappedBy="projectEnGb",
-		 *      orphanRemoval=true
-		 * )
+		 *      orphanRemoval=true)
+		 * @ORM\JoinColumn(name="projectEnGb_id", referencedColumnName="id", onDelete="CASCADE")
 		 * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
 		 * @Assert\Valid()
 		 */
@@ -228,9 +227,9 @@
 		}
 
 		/**
-		 * @param mixed $projectEnGb
+		 * @param ProjectsEnGb $projectEnGb
 		 */
-		public function setProjectEnGb($projectEnGb): void
+		public function setProjectEnGb(ProjectsEnGb $projectEnGb): void
 		{
 			$this->projectEnGb = $projectEnGb;
 		}

@@ -234,9 +234,8 @@
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb",
 		 *     cascade={"persist", "remove"},
-		 *     mappedBy="productsEnGb",
-		 *     orphanRemoval=true
-		 * )
+		 *     orphanRemoval=true)
+		 * @ORM\JoinColumn(name="productEnGb_id", referencedColumnName="id", onDelete="CASCADE")
 		 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
 		 * @Assert\Valid()
 		 */
@@ -836,9 +835,9 @@
 		}
 
 		/**
-		 * @param mixed $productEnGb
+		 * @param ProductsEnGb $productEnGb
 		 */
-		public function setProductEnGb($productEnGb): void
+		public function setProductEnGb(ProductsEnGb $productEnGb): void
 		{
 			$this->productEnGb = $productEnGb;
 		}

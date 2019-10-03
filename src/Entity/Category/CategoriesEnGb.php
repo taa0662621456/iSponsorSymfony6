@@ -63,12 +63,6 @@ class CategoriesEnGb
 	 */
 	private $customTitle = 'custom_title';
 
-	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryEnGb")
-	 * @ORM\JoinColumn(name="categoriesEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	private $categoriesEnGb;
-
 
 	/**
 	 * @return string
@@ -160,11 +154,4 @@ class CategoriesEnGb
 		$this->customTitle = $customTitle;
 	}
 
-	/**
-	 * @param Categories $categoriesEnGb
-	 */
-	public function setCategoriesEnGb(Categories $categoriesEnGb): void
-	{
-		$this->categoriesEnGb = $categoriesEnGb;
-	}
 }
