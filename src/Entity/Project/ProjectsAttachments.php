@@ -5,7 +5,6 @@ namespace App\Entity\Project;
 
 use App\Entity\AttachmentsTrait;
 use App\Entity\BaseTrait;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -20,7 +19,8 @@ class ProjectsAttachments
 	use AttachmentsTrait;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectAttachments")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects",
+	 *     inversedBy="projectAttachments")
 	 * @ORM\JoinColumn(name="projectAttachments_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	private $projectAttachments;
@@ -34,9 +34,9 @@ class ProjectsAttachments
 	}
 
 	/**
-	 * @param mixed $projectAttachments
+	 * @param Projects $projectAttachments
 	 */
-	public function setProjectAttachments($projectAttachments): void
+	public function setProjectAttachments(Projects $projectAttachments): void
 	{
 		$this->projectAttachments = $projectAttachments;
 	}

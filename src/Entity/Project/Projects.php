@@ -44,8 +44,7 @@
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
 		 *      cascade={"persist"},
 		 *      inversedBy="categoryProjects",
-		 *      fetch="EXTRA_LAZY"
-		 * )
+		 *      fetch="EXTRA_LAZY")
 		 */
 		private $projectCategory;
 

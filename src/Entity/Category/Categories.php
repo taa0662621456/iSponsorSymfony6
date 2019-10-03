@@ -37,20 +37,21 @@ class Categories
 	 * @var int
 	 *
 	 * @ORM\GeneratedValue()
-	 * @ORM\Column(name="ordering", type="integer", nullable=false, unique=true, options={"default" : 1})
+	 * @ORM\Column(name="ordering", type="integer", nullable=false, unique=false, options={"default" : 1})
 	 */
 	private $ordering = 1;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories", mappedBy="parent", fetch="EXTRA_LAZY")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories",
+	 *     mappedBy="parent",
+	 *     fetch="EXTRA_LAZY")
 	 */
 	private $children;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
-	 *      cascade={"persist"},
-	 *      inversedBy="children"
-	 * )
+	 *     cascade={"persist"},
+	 *     inversedBy="children")
 	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
 	 */
     private $parent;
@@ -75,11 +76,12 @@ class Categories
 	 */
     private $categoryEnGb;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments", cascade={"persist", "remove"}, mappedBy="categoryAttachments", orphanRemoval=true)
-	 * @Assert\Type(type="App\Entity\Vendor\VendorsDocAttachments")
-	 * @Assert\Valid()
-     */
+	/**
+	 * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments",
+	 *     mappedBy="categoryAttachments",
+	 *     cascade={"persist", "remove"},
+	 *     orphanRemoval=true)
+	 */
     private $categoryAttachments;
 
 
@@ -91,7 +93,6 @@ class Categories
 
 
     /**
-     * Categories constructor.
      * @throws Exception
      */
     public function __construct()
@@ -205,15 +206,11 @@ class Categories
 	}
 
 	/**
-	 * @param Categories $parent
-	 *
-	 * @return Categories
+	 * @param mixed $parent
 	 */
-	public function setParent(Categories $parent = null): Categories
+	public function setParent($parent): void
 	{
 		$this->parent = $parent;
-
-		return $this;
 	}
 
 

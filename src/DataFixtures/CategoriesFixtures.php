@@ -17,12 +17,13 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 
 	public function load(ObjectManager $manager)
 	{
-		// Parent categories
 		for ($p = 1; $p <= 26; $p++) {
 
 			$categories = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
 			$categoryAttachments = new CategoriesAttachments();
+
+
 			$slug = new UuidEncoder();
 
 			try {
@@ -32,27 +33,18 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			} catch (Exception $e) {
 			}
 
-
 			$categories->setOrdering($p);
 			$categories->setCategoryEnGb($categoryEnGb);
-			$categories->addCategoryAttachment($categoryAttachments);
 
 			$categoryEnGb->setCategoryName('Category #' . $p);
 
 			$categoryAttachments->setFile('cover.jpg');
 			$categoryAttachments->setFilePath('/');
+			$categoryAttachments->setCategoryAttachments($categories);
 
 			$manager->persist($categoryAttachments);
 			$manager->persist($categoryEnGb);
 			$manager->persist($categories);
-			$manager->flush();
-		}
-
-		$parent = $manager->getRepository(Categories::class)->findAll();
-
-		for ($i = 1; $i <= 26; $i++) {
-			$categories = new Categories();
-			$categories->setParent($parent[array_rand($parent)]);
 			$manager->flush();
 		}
 	}

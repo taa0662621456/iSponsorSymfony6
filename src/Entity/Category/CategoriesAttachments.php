@@ -33,13 +33,12 @@ class CategoriesAttachments
 	}
 
 	/**
-	 * @param mixed $categoryAttachments
+	 * @param Categories $categoryAttachments
 	 */
-	public function setCategoryAttachments($categoryAttachments): void
+	public function setCategoryAttachments(Categories $categoryAttachments): void
 	{
 		$this->categoryAttachments = $categoryAttachments;
 	}
-
 
 
 }

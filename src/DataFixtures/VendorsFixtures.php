@@ -45,21 +45,20 @@ class VendorsFixtures extends Fixture
 		$vendorSecurity->setPassword($password);
 
 		$vendorEnGb->setVendorZip($rand);
-		//$vendorEnGb->setVendorPhone('00000000' . $rand);
 
 		$vendorIban->setIban('0000000000000000');
 
 		$vendorDocAttachments->setFile('cover.jpg');
 		$vendorDocAttachments->setFilePath('/');
+		$vendorDocAttachments->setVendorsDocsAttachments($vendor);
 
 		$vendorMediaAttachments->setFile('cover.jpg');
 		$vendorMediaAttachments->setFilePath('/');
+		$vendorMediaAttachments->setVendorMediaAttachments($vendor);
 
 		$vendor->setVendorEnGb($vendorEnGb);
 		$vendor->setVendorSecurity($vendorSecurity);
 		$vendor->setVendorIban($vendorIban);
-		$vendor->addVendorDocAttachment($vendorDocAttachments);
-		$vendor->addVendorMediaAttachment($vendorMediaAttachments);
 
 		$manager->persist($vendorDocAttachments);
 		$manager->persist($vendorMediaAttachments);

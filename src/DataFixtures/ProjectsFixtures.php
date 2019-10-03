@@ -40,12 +40,12 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 			$projects->setProjectCategory($categories[array_rand($categories)]);
 			$projects->setProjectType(rand(1, 4));
 			$projects->setProjectEnGb($projectEnGb);
-			$projects->addProjectAttachment($projectAttachments);
 
 			$projectEnGb->setProjectTitle('Project #' . $p);
 
 			$projectAttachments->setFile('cover.jpg');
 			$projectAttachments->setFilePath('/');
+			$projectAttachments->setProjectAttachments($projects);
 
 			$manager->persist($projectAttachments);
 			$manager->persist($projectEnGb);

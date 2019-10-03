@@ -33,9 +33,9 @@ class ProductsAttachments
 	}
 
 	/**
-	 * @param mixed $productAttachments
+	 * @param Products $productAttachments
 	 */
-	public function setProductAttachments($productAttachments): void
+	public function setProductAttachments(Products $productAttachments): void
 	{
 		$this->productAttachments = $productAttachments;
 	}

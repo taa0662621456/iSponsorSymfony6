@@ -122,14 +122,16 @@ class Vendors
 	private $vendorEnGb;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments", cascade={"persist", "remove"},
-	 * mappedBy="vendorDocAttachments")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="vendorDocAttachments")
 	 */
 	private $vendorDocAttachments;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments", cascade={"persist", "remove"},
-	 * mappedBy="vendorMediaAttachments")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="vendorMediaAttachments")
 	 */
 	private $vendorMediaAttachments;
 

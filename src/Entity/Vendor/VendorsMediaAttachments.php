@@ -33,9 +33,9 @@ class VendorsMediaAttachments
 	}
 
 	/**
-	 * @param mixed $vendorMediaAttachments
+	 * @param Vendors $vendorMediaAttachments
 	 */
-	public function setVendorMediaAttachments($vendorMediaAttachments): void
+	public function setVendorMediaAttachments(Vendors $vendorMediaAttachments): void
 	{
 		$this->vendorMediaAttachments = $vendorMediaAttachments;
 	}
