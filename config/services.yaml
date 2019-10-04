@@ -47,14 +47,14 @@ services:
         arguments:
             $targetDir: '%categories_images_directory%'
 
-        #App\Service\WsseProvider:
-        #   arguments:
-        #      $cachePool: '@cache.app'
-        # public: false
+    #App\Service\WsseProvider:
+    #   arguments:
+    #      $cachePool: '@cache.app'
+    # public: false
 
-        #App\Listener\WsseListener:
-        #   arguments: ['@security.token_storage', '@security.authentication.manager']
-        #  public: false
+    #App\Listener\WsseListener:
+    #   arguments: ['@security.token_storage', '@security.authentication.manager']
+    #  public: false
 
     Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider: ~
 
@@ -65,7 +65,7 @@ services:
         tags:
         - { name: doctrine.event, event: prePersist, lazy: true }
         - { name: doctrine.event, event: preUpdate, lazy: true }
-            - { name: doctrine.event, event: postLoad, lazy: true }
+        - { name: doctrine.event, event: postLoad, lazy: true }
 
 
     # add more service definitions when explicit configuration is needed
