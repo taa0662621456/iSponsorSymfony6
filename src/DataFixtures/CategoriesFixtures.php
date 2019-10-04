@@ -38,7 +38,7 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 
 			$categoryEnGb->setCategoryName('Category #' . $p);
 
-			$categoryAttachments->setFile('cover.jpg');
+			$categoryAttachments->setFileName('cover.jpg');
 			$categoryAttachments->setFilePath('/');
 			$categoryAttachments->setCategoryAttachments($categories);
 

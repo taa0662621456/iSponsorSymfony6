@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\CategoriesRepository;
+use App\Repository\Category\CategoriesRepository;
 use App\Repository\FeaturedRepository;
 use App\Repository\Product\ProductsRepository;
 use App\Repository\Project\ProjectsRepository;

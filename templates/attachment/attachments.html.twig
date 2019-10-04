@@ -1,9 +1,18 @@
-<figure id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-        {% for file in files if files %}
-            <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-            </div>
-        {% endfor %}
-    </div>
-</figure>
+{% if files %}
+    <figure id="carouselExampleSlidesOnly" class="carousel slide m-0" data-ride="carousel">
+        <div class="carousel-inner">
+            {% for file in files if files %}
+                <div class="carousel-item {% if loop.first %} active {% endif %}">
+                    <img src="{{ file.filePath }}{{ file.fileName }}" class="d-block w-100" alt="...">
+                </div>
+            {% endfor %}
+        </div>
+    </figure>
+{% else %}
+    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+        <title>No image</title>
+        <rect fill="#55595c" width="100%" height="100%"></rect>
+        <text fill="#eceeef" dy=".3em" x="50%" y="50%">No image</text>
+    </svg>
+{% endif %}

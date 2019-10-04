@@ -34,7 +34,7 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 
 			$productEnGb->setProductName('Product # ' . $p);
 
-			$productAttachments->setFile('cover.jpg');
+			$productAttachments->setFileName('cover.jpg');
 			$productAttachments->setFilePath('/');
 			$productAttachments->setProductAttachments($products);
 

@@ -16,10 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="categories", uniqueConstraints={
  * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
  * @ORM\Index(name="category_slug", columns={"slug"})})
- * @UniqueEntity("slug"),
- *        errorPath="slug",
- *		message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\CategoriesRepository")
+ * @UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
+ * @ORM\Entity(repositoryClass="App\Repository\Category\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Categories
@@ -52,7 +50,6 @@ class Categories
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
 	 *     cascade={"persist"},
 	 *     inversedBy="children")
-	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
 	 */
     private $parent;
 
@@ -174,20 +171,20 @@ class Categories
      * @param Categories $children
      * @return Categories
      */
-    public function addChild(Categories $children): Categories
-    {
-        $this->children[] = $children;
+	public function addChildren(Categories $children): Categories
+	{
+		$this->children = $children;
 
-        return $this;
-    }
+		return $this;
+	}
 
     /**
      * @param Categories $children
      */
-    public function removeChild(Categories $children): void
-    {
-        $this->children->removeElement($children);
-    }
+	public function removeChildren(Categories $children): void
+	{
+		$this->children->removeElement($children);
+	}
 
     /**
 	 * @return Collection
@@ -206,11 +203,15 @@ class Categories
 	}
 
 	/**
-	 * @param mixed $parent
+	 * @param Categories $parent
+	 *
+	 * @return Categories
 	 */
-	public function setParent($parent): void
+	public function setParent(Categories $parent): Categories
 	{
 		$this->parent = $parent;
+
+		return $this;
 	}
 
 

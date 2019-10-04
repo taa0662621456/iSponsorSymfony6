@@ -11,12 +11,12 @@
 		/**
 		 * @var string
 		 *
-		 * @ORM\Column(name="file", type="string", nullable=false, options={"default"="noimage"})
+		 * @ORM\Column(name="file_name", type="string", nullable=false, options={"default"="noimage"})
 		 * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
 		 * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files
 		 *                                       only")
 		 */
-		private $file = 'no image';
+		private $fileName = 'no image';
 
 		/**
 		 * @var string
@@ -113,24 +113,24 @@
 		/**
 		 * @var boolean|true
 		 *
-		 * @ORM\Column(name="published", type="boolean", nullable=false, options={"default"="1"})
+		 * @ORM\Column(name="published", type="boolean", nullable=false, options={"default" : 1})
 		 */
 		private $published = true;
 
 		/**
 		 * @return string
 		 */
-		public function getFile(): string
+		public function getFileName(): string
 		{
-			return $this->file;
+			return $this->fileName;
 		}
 
 		/**
-		 * @param string $file
+		 * @param string $fileName
 		 */
-		public function setFile(string $file): void
+		public function setFileName(string $fileName): void
 		{
-			$this->file = $file;
+			$this->fileName = $fileName;
 		}
 
 		/**

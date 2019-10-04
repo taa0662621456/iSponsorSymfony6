@@ -48,11 +48,11 @@ class VendorsFixtures extends Fixture
 
 		$vendorIban->setIban('0000000000000000');
 
-		$vendorDocAttachments->setFile('cover.jpg');
+		$vendorDocAttachments->setFileName('cover.jpg');
 		$vendorDocAttachments->setFilePath('/');
 		$vendorDocAttachments->setVendorsDocsAttachments($vendor);
 
-		$vendorMediaAttachments->setFile('cover.jpg');
+		$vendorMediaAttachments->setFileName('cover.jpg');
 		$vendorMediaAttachments->setFilePath('/');
 		$vendorMediaAttachments->setVendorMediaAttachments($vendor);
 

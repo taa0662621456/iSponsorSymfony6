@@ -83,12 +83,12 @@ class AttachmentsManager
 
 
 	/**
-	 * @param string         $entity
-	 * @param                $createdBy
-	 * @param bool|true      $published
-	 * @param string|null    $fileLayoutPosition
-	 * @param string|null    $fileClass
-	 * @param string|null    $fileLang
+	 * @param string      $entity
+	 * @param object|null $createdBy
+	 * @param bool|true   $published
+	 * @param string|null $fileLayoutPosition
+	 * @param string|null $fileClass
+	 * @param string|null $fileLang
 	 *
 	 * @return array
 	 */
@@ -96,13 +96,16 @@ class AttachmentsManager
 	{
 
 		$repository = $this->entityManager->getRepository($entity);
+
 		return $repository->findBy(array(
 			'createdBy' => $createdBy,
+			'published' => 't',
 			//'published' => $published,
-			//'fileLayoutPosition' => $fileLayoutPosition,
-			//'fileClass' = $fileClass,
-			//'fileLang' => $fileLang,
+			'fileLayoutPosition' => $fileLayoutPosition,
+			'fileClass' => $fileClass,
+			'fileLang' => $fileLang,
 			//TODO
+			//Unrecognized field: fileLayoutPosition, fileClass, fileLang
 		), array(
 			'createdOn' => 'ASC'
 		), 12, null);

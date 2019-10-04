@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Category;
 
 use App\Entity\Category\Categories;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

@@ -1,20 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Category;
 
 use App\Entity\Category\CategoriesAttachments;
 use App\Entity\Category\CategoriesEnGb;
 use App\Entity\Category\Categories;
 use App\Form\Category\CategoriesType;
-use App\Repository\CategoriesRepository;
+use App\Repository\Category\CategoriesRepository;
 use App\Repository\FeaturedRepository;
 use App\Repository\Product\ProductsRepository;
 use App\Repository\Project\ProjectsRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Exception;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

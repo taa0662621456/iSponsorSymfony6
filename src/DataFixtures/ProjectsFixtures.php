@@ -43,8 +43,9 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 
 			$projectEnGb->setProjectTitle('Project #' . $p);
 
-			$projectAttachments->setFile('cover.jpg');
+			$projectAttachments->setFileName('cover.jpg');
 			$projectAttachments->setFilePath('/');
+
 			$projectAttachments->setProjectAttachments($projects);
 
 			$manager->persist($projectAttachments);

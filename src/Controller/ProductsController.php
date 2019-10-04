@@ -6,7 +6,7 @@ use App\Entity\Product\Products;
 use App\Entity\Product\ProductsAttachments;
 use App\Entity\Product\ProductsEnGb;
 use App\Form\Product\ProductsType;
-use App\Repository\CategoriesRepository;
+use App\Repository\Category\CategoriesRepository;
 use App\Repository\Product\ProductsRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
@@ -65,11 +65,10 @@ class ProductsController extends AbstractController
 
 
             $s = $form->get('productEnGb')->get('slug')->getData();
-            if (!isset($s))
-            {
-                //$form->set('productEnGb')->set('slug')->setSlug($slug->slugify($productEnGb->getProductName()))
-				$product->setProductSlug($slug->slugify($productEnGb->getProductName()));
-            }
+            if (!isset($s)) {
+				//$form->set('productEnGb')->set('slug')->setSlug($slug->slugify($productEnGb->getProductName()))
+				$product->setSlug($slug->slugify($productEnGb->getProductName()));
+			}
             $entityManager->flush();
 
 

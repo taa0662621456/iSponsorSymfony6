@@ -1,13 +1,14 @@
 <?php
-	declare(strict_types=1);
 
-	namespace App\Controller;
+
+	namespace App\Controller\Vendor;
+
 
 	use App\Service\AttachmentsManager;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Response;
 
-	class AttachmentsController extends AbstractController
+	class VendorsAttachmentController extends AbstractController
 	{
 		/**
 		 * @var AttachmentsManager
@@ -28,7 +29,7 @@
 		 *
 		 * @return Response
 		 */
-		public function getAttachments(string $entity, bool $published, string $fileLayoutPosition, string $fileClass, string $fileLang)
+		public function getVendorAttachments(string $entity, bool $published, string $fileLayoutPosition, string $fileClass, string $fileLang)
 		{
 			$createdBy = $this->getUser();
 			$files = $this->attachmentsManager->getAttachments($entity, $createdBy, $published, $fileLayoutPosition, $fileClass, $fileLang);
