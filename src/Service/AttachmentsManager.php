@@ -98,10 +98,11 @@ class AttachmentsManager
 		$repository = $this->entityManager->getRepository($entity);
 		return $repository->findBy(array(
 			'createdBy' => $createdBy,
-			'published' => $published,
+			//'published' => $published,
 			//'fileLayoutPosition' => $fileLayoutPosition,
 			//'fileClass' = $fileClass,
 			//'fileLang' => $fileLang,
+			//TODO
 		), array(
 			'createdOn' => 'ASC'
 		), 12, null);

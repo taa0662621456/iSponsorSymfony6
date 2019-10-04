@@ -21,6 +21,10 @@ security:
         ROLE_ADMIN: [ROLE_USER]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN]
     firewalls:
+        #wsse:
+        #   pattern:   ^/wsse/
+        #  stateless: true
+        # wsse:      { lifetime: 30 }
         admin:
             pattern: ^/admin*
             provider: in_memory
