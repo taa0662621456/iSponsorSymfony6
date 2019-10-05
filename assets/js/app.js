@@ -21,6 +21,8 @@ require('./dropzone');
 
 //TinyMce
 require('./tinymce_init');
+//Masonry
+require('./masonry_init');
 
 
 // MultiStepForms init
