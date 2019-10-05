@@ -12,15 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class Profile
  * @Route("/profile")
  */
-class ProfileController extends AbstractController
+class VenforsProfileController extends AbstractController
 {
-    /**
+	/**
 	 * @Route( "/", name="profile", methods={"GET","POST"})
 	 * @param VendorsRepository $vendorsRepository
 	 *
-     * @return Response
-     */
-    public function index(VendorsRepository $vendorsRepository): Response
+	 * @return Response
+	 */
+	public function index(VendorsRepository $vendorsRepository): Response
 	{
 
 		return $this->render('vendor/vendors_profile/profile.html.twig', array(

@@ -51,9 +51,9 @@
         {% for project in latest_projects %}
             <div class="{{ block }}">
                 <div class="card p-1 shadow-sm">
-                    {#
-                                        {{ render(controller( 'App\\Controller\\AttachmentsController::getBrickImages')) }}
-                    #}
+                    {{ render(controller( 'App\\Controller\\SystemMediaHandlerController::getHomepageBrick', {
+                        'entity' => 'App\Entity\Category\CategoriesAttachments',
+                    })) }}
                     <div class="card-body ">
                         <p class="card-text">{{ project.getProjectEnGb.projectSDesc }}</p>
 

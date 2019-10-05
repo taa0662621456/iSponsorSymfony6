@@ -13,7 +13,7 @@
 	/**
 	 * @Route("/profile/favourites")
 	 */
-	class ProfileFavouritesController extends AbstractController
+	class VendorsFavouritesController extends AbstractController
 	{
 		/**
 		 * @Route("/{favourites}", defaults={"page": "1", "_format"="html"}, name="favourites", methods={"GET"})
@@ -36,7 +36,8 @@
 				'projects' => $projectsFavouritesRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
 				'products' => $productsFavouritesRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
 				'vendors' => $vendorsFavouritesRepository->findBy([], ['createdOn' => 'ASC'], 12, null)
-
+				//TODO
+				//categories
 			));
 		}
 	}

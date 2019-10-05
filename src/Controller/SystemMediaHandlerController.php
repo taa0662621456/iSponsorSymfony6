@@ -1,12 +1,13 @@
 <?php
+	declare(strict_types=1);
 
-	namespace App\Controller\Category;
+	namespace App\Controller;
 
 	use App\Service\AttachmentsManager;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Response;
 
-	class CategoryAttachmentsController extends AbstractController
+	class SystemMediaHandlerController extends AbstractController
 	{
 		/**
 		 * @var AttachmentsManager
@@ -19,22 +20,25 @@
 		}
 
 		/**
+		 * @param string      $entity
+		 * @param string      $fileLang
 		 * @param string|null $layout
 		 *
 		 * @return Response
 		 */
-		public function getBrickImages(string $layout = 'attachment')
+		public function getHomepageBrick(?string $entity, string $fileLang, string $layout = 'attachments')
 		{
-			$attachments = $this->attachmentsManager->getAttachments(
-				$entity = 'App\Entity\Category\CategoriesAttachments',
+			$files = $this->attachmentsManager->getAttachments(
+				$entity,
 				$createdBy = null,
 				$published = true,
 				$fileLayoutPosition = 'homepage',
-				$fileClass = '',
-				$fileLang = ''
+				(string)$fileClass = null,
+				$fileLang
 			);
+
 			return $this->render('attachment/' . $layout . '.html.twig', array(
-				'attachments' => $attachments
+				'files' => $files
 			));
 		}
 	}

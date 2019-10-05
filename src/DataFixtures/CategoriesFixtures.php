@@ -40,6 +40,7 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 
 			$categoryAttachments->setFileName('cover.jpg');
 			$categoryAttachments->setFilePath('/');
+			$categoryAttachments->setFileLayoutPosition('homepage');
 			$categoryAttachments->setCategoryAttachments($categories);
 
 			$manager->persist($categoryAttachments);

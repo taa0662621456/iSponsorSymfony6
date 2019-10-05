@@ -35,15 +35,15 @@ class AttachmentsManager
 	/**
 	 * @param              $entity
 	 * @param UploadedFile $file
-	 * @param              $fileTitle
-	 * @param              $fileDescription
-	 * @param              $fileMeta
-	 * @param              $fileClass
-	 * @param              $fileLayoutPosition
-	 * @param              $filePath
-	 * @param              $fileIsForSale
-	 * @param              $fileLang
-	 * @param              $published
+	 * @param string       $fileTitle
+	 * @param string|null  $fileDescription
+	 * @param string|null  $fileMeta
+	 * @param string|null  $fileClass
+	 * @param string|null  $fileLayoutPosition
+	 * @param string       $filePath
+	 * @param bool|true    $fileIsForSale
+	 * @param string|null  $fileLang
+	 * @param bool|true    $published
 	 * @param              $attachment
 	 *
 	 * @return array
@@ -56,7 +56,7 @@ class AttachmentsManager
 			$this->getUploadsDirectory(),
 			$filename
 		);
-		$attachment->setFile($filename);
+		$attachment->setFileName($filename);
 		$attachment->setFileTitle($fileTitle);
 		$attachment->setFileDescription($fileDescription);
 		$attachment->setFileMeta($fileMeta);
@@ -98,18 +98,16 @@ class AttachmentsManager
 		$repository = $this->entityManager->getRepository($entity);
 
 		return $repository->findBy(array(
-			'createdBy' => $createdBy,
-			'published' => 't',
-			//'published' => $published,
+			//'createdBy' => $createdBy,
+			'published' => $published,
 			'fileLayoutPosition' => $fileLayoutPosition,
-			'fileClass' => $fileClass,
-			'fileLang' => $fileLang,
-			//TODO
-			//Unrecognized field: fileLayoutPosition, fileClass, fileLang
+			'fileClass' => $fileClass ?: 'file_class',
+			'fileLang' => $fileLang ?: 'file_lang',
 		), array(
 			'createdOn' => 'ASC'
 		), 12, null);
 	}
+
 
 	public function removeAttachment(?string $filename)
 	{
