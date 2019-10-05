@@ -6,8 +6,8 @@ const $ = require('jquery');
 require('../scss/app.scss');
 require('../css/app.css');
 
-require('./bootstrap-tags-input-init.js');
-require('../../templates/bootstrap-4.0.0/js/src/carousel.js');
+require('./bootstrap-tags-input-init');
+require('../../templates/bootstrap-4.0.0/js/src/carousel');
 require('bootstrap-autohide-navbar');
 require('bootstrap-confirmation2');
 
@@ -23,22 +23,15 @@ require('./dropzone');
 require('./tinymce_init');
 //Masonry
 require('./masonry_init');
-
-
-// MultiStepForms init
-// by https://codepen.io/designify-me/pen/qrJWpG
-import('./multistep_forms.js');
-
+// MultiStepForms init by https://codepen.io/designify-me/pen/qrJWpG
+require('./multistep_forms');
 //Move to top
-import('./move_up.js');
-
+require('./move_up');
 // Bootstrap AutoHidingNavbar
-import('./auto_hiding_navbar_init.js');
-
+require('./auto_hiding_navbar_init');
 //cols adapter
-import('./grid_cols_adapter.js');
-
+require('./grid_cols_adapter');
 //Full-screen size adapter
-import('./full_screen_adapter.js');
+require('./full_screen_adapter');
 
 
