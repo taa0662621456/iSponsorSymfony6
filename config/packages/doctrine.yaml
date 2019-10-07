@@ -7,64 +7,96 @@ parameters:
 
 doctrine:
     dbal:
-        # configure these for your database server
-        driver: 'pdo_pgsql'
-        server_version: '11.2'
-        charset: utf8
-        default_table_options:
-            charset: utf8mb4
-            collate: utf8mb4_unicode_ci
-
-        url: '%env(DATABASE_URL)%'
-        schema_filter : '~^(?!messenger_messages)~'
+        default_connection: postgres
+            connections:
+                postgres:
+                    # configure these for your database server
+                    # this connectors for all project's information
+                    url: '%env(DATABASE_URL)%'
+                    driver: 'pdo_pgsql'
+                    server_version: '11.2'
+                    charset: utf8
+                    default_table_options:
+                        charset: utf8mb4
+                        collate: utf8mb4_unicode_ci
+                    schema_filter: '~^(?!messenger_messages)~'
+                sqllite:
+                    # configure these for your database server
+                    # this connector for all modules, menus, parameters of system
+                    url: '%env(resolve:SQL_LITE_DATABASE_URL)%'
+                    driver: 'pdo_sqlite'
+                    server_version: '3.15'
+                    charset: utf8mb4
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
-            Vendor:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Vendor'
-                prefix: 'App\Entity\Vendor'
-                alias: Vendor
-            Category:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Category'
-                prefix: 'App\Entity\Category'
-                alias: Category
-            Project:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Project'
-                prefix: 'App\Entity\Project'
-                alias: Project
-            Product:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Product'
-                prefix: 'App\Entity\Product'
-                alias: Product
-            Order:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Order'
-                prefix: 'App\Entity\Order'
-                alias: Order
-
-            Menu:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity/Menu'
-                prefix: 'App\Entity\Menu'
-                alias: Menu
-
-
+        default_entity_manager: postgres
+            entity_managers:
+                postgres:
+                    connection: postgres
+                    mappings:
+                        App:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity'
+                            prefix: 'App\Entity'
+                            alias: App
+                        Vendor:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/Vendor'
+                            prefix: 'App\Entity\Vendor'
+                            alias: Vendor
+                        Category:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/Category'
+                            prefix: 'App\Entity\Category'
+                            alias: Category
+                        Project:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/Project'
+                            prefix: 'App\Entity\Project'
+                            alias: Project
+                        Product:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/Product'
+                            prefix: 'App\Entity\Product'
+                            alias: Product
+                        Order:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/Order'
+                            prefix: 'App\Entity\Order'
+                            alias: Order
+                sqllite:
+                    connection: sqllite
+                    mappings:
+                        App:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/System'
+                            prefix: 'App\Entity\System'
+                            alias: System
+                        Menu:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/System/Menu'
+                            prefix: 'App\Entity\System\Menu'
+                            alias: Menu
+                        Module:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/System/Module'
+                            prefix: 'App\Entity\System\Module'
+                            alias: Module
+                        Category:
+                            is_bundle: false
+                            type: annotation
+                            dir: '%kernel.project_dir%/src/Entity/System/Category'
+                            prefix: 'App\Entity\System\Category'
+                            alias: Category
