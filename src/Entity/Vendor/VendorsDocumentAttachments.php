@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class VendorsDocAttachments
+class VendorsDocumentAttachments
 {
 	use BaseTrait;
 	use AttachmentsTrait;

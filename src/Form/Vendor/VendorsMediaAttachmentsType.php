@@ -1,34 +1,52 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Form\Vendor;
 
-use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsMediaAttachments;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VendorsMediaAttachmentsType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options):void
-    {
-        $builder
-            ->add('vendorsMediaAttachments',CollectionType::class, array(
-                'entry_type' => VendorsMediaAttachmentsType::class,
-                'data_class' => null,
-                'allow_add' => true,
-                'by_reference' => false,
-                'allow_delete' => true,
-                'prototype' => true
-            ))
+	public function buildForm(FormBuilderInterface $builder,
+							  array $options)
+	{
+		$builder
+			->add('uuid')
+			->add('slug')
+			->add('createdOn')
+			->add('createdBy')
+			->add('modifiedOn')
+			->add('modifiedBy')
+			->add('lockedOn')
+			->add('lockedBy')
+			->add('version')
+			->add('fileName')
+			->add('fileTitle')
+			->add('fileDescription')
+			->add('fileMeta')
+			->add('fileClass')
+			->add('fileMimeType')
+			->add('fileLayoutPosition')
+			->add('filePath')
+			->add('filePathThumb')
+			->add('fileIsDownloadable')
+			->add('fileIsForSale')
+			->add('fileParams')
+			->add('fileLang')
+			->add('fileShared')
+			->add('published')
+			->add('attachments')
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver):void
-    {
-        $resolver->setDefaults([
-            'data_class' => Vendors::class,
-        ]);
-    }
+	public function configureOptions(OptionsResolver $resolver)
+	{
+		$resolver->setDefaults(
+			[
+				'data_class' => VendorsMediaAttachments::class,
+			]
+		);
+	}
 }
