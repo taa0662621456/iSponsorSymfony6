@@ -76,27 +76,21 @@ doctrine:
                 sqllite:
                     connection: sqllite
                     mappings:
-                        App:
-                            is_bundle: false
-                            type: annotation
-                            dir: '%kernel.project_dir%/src/Entity/System'
-                            prefix: 'App\Entity\System'
-                            alias: System
                         Menu:
                             is_bundle: false
                             type: annotation
-                            dir: '%kernel.project_dir%/src/Entity/System/Menu'
-                            prefix: 'App\Entity\System\Menu'
+                            dir: '%kernel.project_dir%/src/Entity/Menu'
+                            prefix: 'App\Entity\Menu'
                             alias: Menu
                         Module:
                             is_bundle: false
                             type: annotation
-                            dir: '%kernel.project_dir%/src/Entity/System/Module'
-                            prefix: 'App\Entity\System\Module'
+                            dir: '%kernel.project_dir%/src/Entity/Module'
+                            prefix: 'App\Entity\Module'
                             alias: Module
                         Category:
                             is_bundle: false
                             type: annotation
-                            dir: '%kernel.project_dir%/src/Entity/System/Category'
-                            prefix: 'App\Entity\System\Category'
+                            dir: '%kernel.project_dir%/src/Entity/Category'
+                            prefix: 'App\Entity\Category'
                             alias: Category
