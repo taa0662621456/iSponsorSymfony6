@@ -1,59 +1,58 @@
 <?php
 
 
+	use App\Entity\BaseTrait;
 	use Doctrine\ORM\Mapping as ORM;
+	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 	/**
-	 * Vq5bwMenuTypes
+	 * MenuTypes
 	 *
-	 * @ORM\Table(name="vq5bw_menu_types", uniqueConstraints={@ORM\UniqueConstraint(name="idx_menutype", columns={"menutype"})})
+	 * @ORM\Table(name="menu_types", uniqueConstraints={
+	 * @ORM\UniqueConstraint(name="menu_types_slug", columns={"slug"})}, indexes={
+	 * @ORM\Index(name="menus_items_slug", columns={"slug"})})
+	 * @UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
 	 * @ORM\Entity
 	 */
-	class Vq5bwMenuTypes
+	class MenuTypes
 	{
-		/**
-		 * @var integer
-		 *
-		 * @ORM\Column(name="id", type="integer", nullable=false)
-		 * @ORM\Id
-		 * @ORM\GeneratedValue(strategy="IDENTITY")
-		 */
-		private $id;
+
+		use BaseTrait;
 
 		/**
 		 * @var integer
 		 *
 		 * @ORM\Column(name="asset_id", type="integer", nullable=false)
 		 */
-		private $assetId = '0';
+		private $assetId = 0;
 
 		/**
 		 * @var string
 		 *
-		 * @ORM\Column(name="menutype", type="string", nullable=false)
+		 * @ORM\Column(name="menu_type", type="string", nullable=false)
 		 */
-		private $menutype;
+		private $menuType = '';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="title", type="string", nullable=false)
 		 */
-		private $title;
+		private $title = '';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="description", type="string", nullable=false, options={"default"="''"})
 		 */
-		private $description = '\'\'';
+		private $description = '';
 
 		/**
 		 * @var integer
 		 *
 		 * @ORM\Column(name="client_id", type="integer", nullable=false)
 		 */
-		private $clientId = '0';
+		private $clientId = 0;
 
 
 	}
