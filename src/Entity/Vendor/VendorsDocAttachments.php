@@ -21,23 +21,23 @@ class VendorsDocAttachments
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorsDocsAttachments")
-	 * @ORM\JoinColumn(name="vendorsDocsAttachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
-	private $vendorsDocsAttachments;
+	private $attachments;
 
 	/**
 	 * @return mixed
 	 */
-	public function getVendorsDocsAttachments()
+	public function getAttachments()
 	{
-		return $this->vendorsDocsAttachments;
+		return $this->attachments;
 	}
 
 	/**
-	 * @param mixed $vendorsDocsAttachments
+	 * @param Vendors $attachments
 	 */
-	public function setVendorsDocsAttachments($vendorsDocsAttachments): void
+	public function setAttachment(Vendors $attachments): void
 	{
-		$this->vendorsDocsAttachments = $vendorsDocsAttachments;
+		$this->attachments = $attachments;
 	}
 }

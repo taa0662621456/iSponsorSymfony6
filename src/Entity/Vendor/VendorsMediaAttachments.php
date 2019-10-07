@@ -20,23 +20,23 @@ class VendorsMediaAttachments
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorsMediasAttachments")
-	 * @ORM\JoinColumn(name="vendorMediaAttachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
-	private $vendorMediaAttachments;
+	private $attachments;
 
 	/**
 	 * @return mixed
 	 */
-	public function getVendorMediaAttachments()
+	public function getAttachments()
 	{
-		return $this->vendorMediaAttachments;
+		return $this->attachments;
 	}
 
 	/**
-	 * @param Vendors $vendorMediaAttachments
+	 * @param Vendors $attachments
 	 */
-	public function setVendorMediaAttachments(Vendors $vendorMediaAttachments): void
+	public function setAttachments(Vendors $attachments): void
 	{
-		$this->vendorMediaAttachments = $vendorMediaAttachments;
+		$this->attachments = $attachments;
 	}
 }
