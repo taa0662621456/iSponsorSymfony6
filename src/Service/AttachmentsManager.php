@@ -1,119 +1,84 @@
 <?php
-declare(strict_types=1);
+	declare(strict_types=1);
 
-namespace App\Service;
+	namespace App\Service;
 
-use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+	use Doctrine\ORM\EntityManagerInterface;
+	use Psr\Container\ContainerInterface;
+	use Symfony\Component\Filesystem\Filesystem;
 
-class AttachmentsManager
-{
-	/**
-	 * @var ContainerInterface
-	 */
-	private $container;
-	/**
-	 * @var EntityManagerInterface
-	 */
-	private $entityManager;
-
-	public function __construct(ContainerInterface $container, EntityManagerInterface $entityManager)
+	class AttachmentsManager
 	{
-		$this->container = $container;
-		$this->entityManager = $entityManager;
-	}
+		/**
+		 * @var EntityManagerInterface
+		 */
+		private EntityManagerInterface $entityManager;
+		/**
+		 * @var ContainerInterface
+		 */
+		private ContainerInterface $container;
 
-	public function getUploadsDirectory()
-	{
-		return $this->container->getParameter('uploads');
+		public function __construct(ContainerInterface $container,
+									EntityManagerInterface $entityManager)
+		{
+			$this->container = $container;
+			$this->entityManager = $entityManager;
 
-	}
+		}
 
-	/**
-	 * @param              $entity
-	 * @param UploadedFile $file
-	 * @param string       $fileTitle
-	 * @param string|null  $fileDescription
-	 * @param string|null  $fileMeta
-	 * @param string|null  $fileClass
-	 * @param string|null  $fileLayoutPosition
-	 * @param string       $filePath
-	 * @param bool|true    $fileIsForSale
-	 * @param string|null  $fileLang
-	 * @param bool|true    $published
-	 * @param              $attachment
-	 *
-	 * @return array
-	 */
-	public function setAttachment($entity, UploadedFile $file, $fileTitle, $fileDescription, $fileMeta, $fileClass, $fileLayoutPosition, $filePath, $fileIsForSale, $fileLang, $published, $attachment)
-	{
-		$filename = md5(uniqid()) . '.' . $file->guessExtension();
+		public function getUploadsDirectory()
+		{
 
-		$file->move(
-			$this->getUploadsDirectory(),
-			$filename
-		);
-		$attachment->setFileName($filename);
-		$attachment->setFileTitle($fileTitle);
-		$attachment->setFileDescription($fileDescription);
-		$attachment->setFileMeta($fileMeta);
-		$attachment->setMets($fileDescription);
-		$attachment->setFileClass($fileClass);
-		$attachment->setFileLayoutPosition($fileLayoutPosition);
-		$attachment->setFilePath('/uploads/' . $filePath);
-		$attachment->setFileMimeType('MimeType');
-		$attachment->setFileIsForSale($fileIsForSale);
-		$attachment->setFileLang($fileLang);
-		$attachment->setPublished($published);
+			return $this->container->getParameter('uploads');
 
-		$entity->setAttachment($attachment);
+		}
 
-		$this->entityManager->persist($attachment);
-		$this->entityManager->flush();
+		/**
+		 * @param string|null $entity
+		 * @param int|null    $id
+		 * @param string|null $slug
+		 * @param int|null    $createdBy
+		 * @param bool|true   $published
+		 * @param string|null $fileLayoutPosition
+		 * @param string|null $fileClass
+		 * @param string|null $fileLang
+		 *
+		 * @return object[]
+		 */
+		public function getAttachments(string $entity = null,
+									   int $id = null,
+									   string $slug = null,
+									   int $createdBy = null,
+									   bool $published = true,
+									   string $fileLayoutPosition = null,
+									   string $fileClass = null,
+									   string $fileLang = null)
+		{
 
+			$repository = $this->entityManager->getRepository($entity);
+			return $repository->findBy(
+				array(
+					'id'                 => $id ?: null,
+					'slug'               => $slug ?: null,
+					'createdBy'          => $createdBy ?: null,
+					'published'          => $published ?: true,
+					'fileLayoutPosition' => $fileLayoutPosition ?: 'file_layout_position',
+					'fileClass'          => $fileClass ?: 'file_class',
+					'fileLang'           => $fileLang ?: 'file_lang',
+				),
+				array(
+					'createdOn' => 'ASC'
+				),
+				12,
+				null
+			);
+		}
 
-		return [
-			'filename' => $filename,
-			'path' => '/uploads/' . $filename
-		];
-	}
-
-
-	/**
-	 * @param string      $entity
-	 * @param object|null $createdBy
-	 * @param bool|true   $published
-	 * @param string|null $fileLayoutPosition
-	 * @param string|null $fileClass
-	 * @param string|null $fileLang
-	 *
-	 * @return array
-	 */
-	public function getAttachments(string $entity, $createdBy, bool $published, string $fileLayoutPosition, string $fileClass, string $fileLang)
-	{
-
-		$repository = $this->entityManager->getRepository($entity);
-
-		return $repository->findBy(array(
-			//'createdBy' => $createdBy,
-			'published' => $published,
-			'fileLayoutPosition' => $fileLayoutPosition,
-			'fileClass' => $fileClass ?: 'file_class',
-			'fileLang' => $fileLang ?: 'file_lang',
-		), array(
-			'createdOn' => 'ASC'
-		), 12, null);
-	}
-
-
-	public function removeAttachment(?string $filename)
-	{
-		if (!empty($filename)) {
-			$filesystem = new Filesystem();
-			$filesystem->remove($this->getUploadsDirectory() . $filename);
+		public function removeAttachment(?string $filename)
+		{
+			if (!empty($filename)) {
+				$filesystem = new Filesystem();
+				$filesystem->remove($this->getUploadsDirectory() . $filename);
+			}
 		}
 	}
-}
