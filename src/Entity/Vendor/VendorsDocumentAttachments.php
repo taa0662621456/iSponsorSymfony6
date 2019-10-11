@@ -20,7 +20,7 @@ class VendorsDocumentAttachments
 	use AttachmentsTrait;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorsDocsAttachments")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorDocumentAttachments")
 	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
 	private $attachments;

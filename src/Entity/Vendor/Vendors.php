@@ -122,16 +122,16 @@ class Vendors
 	private $vendorEnGb;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocAttachments",
+	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocumentAttachments",
 	 *     cascade={"persist", "remove"},
-	 *     mappedBy="vendorDocAttachments")
+	 *     mappedBy="attachments")
 	 */
-	private $vendorDocAttachments;
+	private $vendorDocumentAttachments;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments",
 	 *     cascade={"persist", "remove"},
-	 *     mappedBy="vendorMediaAttachments")
+	 *     mappedBy="attachments")
 	 */
 	private $vendorMediaAttachments;
 
@@ -163,7 +163,7 @@ class Vendors
 		$this->lastResetTime = new DateTime();
 		$this->lastVisitDate = new DateTime();
 		$this->vendorOrders = new ArrayCollection();
-		$this->vendorDocAttachments = new ArrayCollection();
+		$this->vendorDocumentAttachments = new ArrayCollection();
 		$this->vendorMediaAttachments = new ArrayCollection();
 	}
 
@@ -404,31 +404,31 @@ class Vendors
 	}
 
 	/**
-	 * @param VendorsDocAttachments $vendorDocAttachment
+	 * @param VendorsDocumentAttachments $vendorDocumentAttachment
 	 *
 	 * @return Vendors
 	 */
-	public function addVendorDocAttachment(VendorsDocAttachments $vendorDocAttachment): Vendors
+	public function addVendorDocumentAttachment(VendorsDocumentAttachments $vendorDocumentAttachment): Vendors
 	{
-		$this->vendorDocAttachments[] = $vendorDocAttachment;
+		$this->vendorDocumentAttachments[] = $vendorDocumentAttachment;
 
 		return $this;
 	}
 
 	/**
-	 * @param VendorsDocAttachments $vendorDocAttachment
+	 * @param VendorsDocumentAttachments $vendorDocumentAttachment
 	 */
-	public function removeVendorDocAttachment(VendorsDocAttachments $vendorDocAttachment)
+	public function removeVendorDocumentAttachment(VendorsDocumentAttachments $vendorDocumentAttachment)
 	{
-		$this->vendorDocAttachments->removeElement($vendorDocAttachment);
+		$this->vendorDocumentAttachments->removeElement($vendorDocumentAttachment);
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getVendorDocAttachments()
+	public function getVendorDocumentAttachments()
 	{
-		return $this->vendorDocAttachments;
+		return $this->vendorDocumentAttachments;
 	}
 
 	/**
