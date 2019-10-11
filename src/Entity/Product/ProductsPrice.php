@@ -5,6 +5,7 @@ namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -3,8 +3,8 @@
 	namespace App\Entity;
 
 	use App\Doctrine\UuidEncoder;
+	use App\Entity\Vendor\Vendors;
 	use \DateTime;
-	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\ORM\Mapping as ORM;
 	use Exception;
 	use Ramsey\Uuid\Uuid;
@@ -260,5 +260,10 @@
 		public function setVersion($version): void
 		{
 			$this->version = $version;
+		}
+
+		public function isAuthor(Vendors $vendor = null)
+		{
+			return $vendor && $vendor->getId() == $this->getCreatedBy();
 		}
 	}

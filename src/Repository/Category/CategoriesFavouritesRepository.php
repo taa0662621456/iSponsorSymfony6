@@ -1,10 +1,12 @@
 <?php
 
+	namespace App\Repository\Category;
 
-	namespace App\Controller\Category;
 
+	use Doctrine\ORM\EntityRepository;
 
 	class CategoriesFavouritesRepository
+		extends EntityRepository
 	{
-
+		//TODO
 	}

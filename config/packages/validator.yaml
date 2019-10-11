@@ -8,3 +8,4 @@ framework:
             App\Entity\Project: []
             App\Entity\Order: []
             App\Entity\Vendor: []
+            App\Entity\Menu:[]

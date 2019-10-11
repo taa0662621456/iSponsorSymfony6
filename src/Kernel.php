@@ -20,7 +20,7 @@ class Kernel extends BaseKernel
 
 	public function registerBundles(): iterable
 	{
-		$contents = require $this->getProjectDir().'/config/bundles.php';
+		$contents = require $this->getProjectDir() . '/config/bundles.php';
 		foreach ($contents as $class => $envs) {
 			if ($envs[$this->environment] ?? $envs['all'] ?? false) {
 				yield new $class();
@@ -45,6 +45,7 @@ class Kernel extends BaseKernel
 		$container->setParameter('container.dumper.inline_class_loader', true);
 		$confDir = $this->getProjectDir() . '/config';
 
+
 		try {
 			$loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
 			$loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
@@ -52,6 +53,7 @@ class Kernel extends BaseKernel
 			$loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
 		} catch (Exception $e) {
 		}
+
 	}
 
 	protected function configureRoutes(RouteCollectionBuilder $routes): void

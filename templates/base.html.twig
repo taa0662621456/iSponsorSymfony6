@@ -27,7 +27,7 @@
         <title>{% block title %}{% endblock %}</title>
 
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_css_files('app') }}
         {% endblock %}
     </head>
 {% endblock %}
@@ -82,9 +82,9 @@
                                     <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsor</a>
                                     <a class="dropdown-item" href="{{ path('author') }}">Author</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ path('orders') }}">Orders</a>
+                                    <a class="dropdown-item" href="{{ path('orders_index') }}">Orders</a>
                                     <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                    <a class="dropdown-item" href="{{ path('products') }}">Products</a>
+                                    <a class="dropdown-item" href="{{ path('products_index') }}">Products</a>
                                     {#
                                     <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
                                     <a class="dropdown-item" href="{{path('projects_new')}}">Add Project</a>
@@ -258,7 +258,7 @@
 </footer>
 {% endblock %}
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+        {{ encore_entry_js_files('app') }}
     {% endblock %}
 </html>
 

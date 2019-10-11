@@ -4,15 +4,18 @@
 
 
 	use App\Entity\Vendor\Vendors;
-	use App\Entity\Vendor\VendorsDocAttachments;
-	use App\Form\Vendor\VendorsDocAttachmentsType;
+	use App\Entity\Vendor\VendorsDocumentAttachments;
+	use App\Entity\Vendor\VendorsMediaAttachments;
+	use App\Form\Vendor\VendorsDocumentAttachmentsType;
+	use App\Form\Vendor\VendorsMediaAttachmentsType;
 	use App\Service\AttachmentsManager;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;
 
-	class VendorsAttachmentController extends AbstractController
+	class VendorsAttachmentController
+		extends AbstractController
 	{
 		/**
 		 * @var AttachmentsManager
@@ -25,118 +28,170 @@
 		}
 
 		/**
-		 * @Route("/", name="docs", methods={"GET"})
+		 * @Route("/", name="vendor_get_attachments", methods={"GET"})
+		 * @param Request     $request
 		 * @param string|null $entity
 		 * @param string|null $layout
 		 *
 		 * @return Response
 		 */
-		public function index(string $entity = 'App\Entity\Vendor\VendorsMediaAttachments', string $layout = 'index'): Response
+		public function getAttachments(Request $request,
+									   string $entity = 'App\Entity\Vendor\VendorsMediaAttachments',
+									   string $layout = 'index'): Response
 		{
+			/**
+			 * если роль Админ и выше, параметр $createdBy принимается из запроса,
+			 * в противном случе = $this->getUser()
+			 *
+			 */
+
+			if ($request->get('_route') == 'profile') {            //TODO: need add role by ROLE_ADMIN; maybe PHP Switch
+				$createdBy = null;                                 // Vendor is null for template Security
+				$published = true;                                 // ...for marketing security
+				$fileLayoutPosition = $request->get('_route');     // ... for filtering
+				$fileLang = $request->get('_locale') ?: '*';       // ... for different
+			}
+
 			$attachments = $this->attachmentsManager->getAttachments(
-				$entity,
-				$createdBy = $this->getUser(),
+				$entity = null,
+				$createdBy = '', //Important! Must by User object
 				$published = true,
-				$fileLayoutPosition = 'homepage',
-				(string)$fileClass = null,
-				(string)$fileLang = null
+				$fileLayoutPosition = null,
+				$fileClass = null,
+				$fileLang = null
 			);
 
-			return $this->render('vendor/vendors_attachments/' . $layout . '.html.twig', [
-				'attachments' => $attachments,
-			]);
+			return $this->render(
+				'vendor/vendors_attachments/' . $layout . '.html.twig',
+				[
+					'attachments' => $attachments,
+				]
+			);
 		}
 
 		/**
-		 * @Route("/new", name="doc_new", methods={"GET","POST"})
+		 * @Route("/set", name="vendor_set_attachment", methods={"GET","POST"})
 		 * @param Request $request
 		 *
 		 * @return Response
 		 * @throws Exception
 		 *
-		 * необходимо засетить тип медиа (документ, возможно добавить(засетить класс) любую информацию, что будет
-		 * отличать данный тип медиа от простых изображений и др. типов)
 		 */
-		public function new(Request $request): Response
+		public function setAttachment(Request $request): Response
 		{
 			$vendor = new Vendors();
-			$form = $this->createForm(VendorsDocAttachmentsType::class, $vendor);
+			$form = $this->createForm(VendorsMediaAttachmentsType::class, $vendor);
+
+			if ($request->request->get('_route') !== 'media')
+				$form = $this->createForm(VendorsDocumentAttachmentsType::class, $vendor);
+
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()) {
-
-				$entityManager = $this->getDoctrine()->getManager();
+				$entityManager = $this->getDoctrine()
+									  ->getManager()
+				;
 				$entityManager->persist($vendor);
 				$entityManager->flush();
 
-				return $this->redirectToRoute('docs');
+				return $this->redirectToRoute('category_attachment_edit_slug');
 			}
 
-			return $this->render('vendor/vendors/new.html.twig', [
-				'vendors' => $vendor,
-				'form' => $form->createView(),
-			]);
+			return $this->render(
+				'vendor/vendors/new.html.twig',
+				[
+					'vendors' => $vendor,
+					'form'    => $form->createView(),
+				]
+			);
 		}
 
 		/**
-		 * @Route("/{id<\d+>}", name="doc_show", methods={"GET"})
-		 * @param VendorsDocAttachments $vendorsAttachments
+		 * @Route("/{id<\d+>}", name="vendor_attachment_show_id", methods={"GET"})
+		 * @Route("/{slug}", name="vendor_attachment_show_slug", methods={"GET"})
+		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
+		 * @param VendorsDocumentAttachments $vendorsDocumentAttachments
 		 *
 		 * @return Response
 		 *
 		 * добавить ограничите по тем ИД, которые пренадлежать вендору (его собственные медиа, его собственные медия
 		 * документов)
 		 */
-		public function show(VendorsDocAttachments $vendorsAttachments): Response
+		public function show(VendorsMediaAttachments $vendorsMediaAttachments,
+							 VendorsDocumentAttachments $vendorsDocumentAttachments): Response
 		{
-			return $this->render('vendor/vendors_attachments/show.html.twig', [
-				'vendors_attachment' => $vendorsAttachments,
-			]);
+			//TODO: необходимо ветвление
+			return $this->render(
+				'vendor/vendors_attachments/show.html.twig',
+				[
+					'vendors_attachment' => $vendorsMediaAttachments,
+				]
+			);
 		}
 
 		/**
+		 * @Route("/{slug}/edit", name="doc_edit", methods={"GET","POST"})
 		 * @Route("/{id<\d+>}/edit", name="doc_edit", methods={"GET","POST"})
-		 * @param Request               $request
-		 * @param VendorsDocAttachments $vendorsAttachments
+		 * @param Request                    $request
+		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
+		 * @param VendorsDocumentAttachments $vendorsDocumentAttachments
 		 *
 		 * @return Response
 		 */
-		public function edit(Request $request, VendorsDocAttachments $vendorsAttachments): Response
+		public function edit(Request $request,
+							 VendorsMediaAttachments $vendorsMediaAttachments,
+							 VendorsDocumentAttachments $vendorsDocumentAttachments): Response
 		{
-			$form = $this->createForm(VendorsDocAttachmentsType::class, $vendorsAttachments);
+
+			$form = $this->createForm(VendorsMediaAttachmentsType::class, $vendorsMediaAttachments);
+
+			if ($request->request->get('_route') !== 'media')
+				$form = $this->createForm(VendorsDocumentAttachmentsType::class, $vendorsDocumentAttachments);
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()) {
-				$this->getDoctrine()->getManager()->flush();
+				$this->getDoctrine()
+					 ->getManager()
+					 ->flush()
+				;
 
-				return $this->redirectToRoute('doc_show');
+				return $this->redirectToRoute('category_attachment_edit_slug');
 			}
 
-			return $this->render('vendor/vendors/edit.html.twig', [
-				'vendors_attachment' => $vendorsAttachments,
-				'form' => $form->createView(),
-			]);
+			return $this->render(        //TODO: необходимо ветвление между документами и простым медиа
+				'vendor/vendors/edit.html.twig',
+				[
+					'vendors_attachment' => $vendorsMediaAttachments,
+					'form'               => $form->createView(),
+				]
+			);
 		}
 
 
 		/**
-		 * @Route("/{id}", name="vendors_delete", methods={"DELETE"})
-		 * @param Request               $request
-		 * @param VendorsDocAttachments $vendorsAttachments
+		 * @Route("/{slug}", name="vendors_delete_slug", methods={"DELETE"})
+		 * @Route("/{id<\d+>}", name="vendors_delete_id", methods={"DELETE"})
+		 * @param Request                    $request
+		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
+		 * @param VendorsDocumentAttachments $VendorsDocumentAttachmentsType
 		 *
 		 * @return Response
-		 *
-		 * добавить ограничение удаления только своих медиа с "типом", документ или паспорт
-		 * добавить ограничение по принципу "пометить на удаление"
 		 */
-		public function delete(Request $request, VendorsDocAttachments $vendorsAttachments): Response
+		public function delete(Request $request,
+							   VendorsMediaAttachments $vendorsMediaAttachments,
+							   VendorsDocumentAttachments $VendorsDocumentAttachmentsType): Response
 		{
-			if ($this->isCsrfTokenValid('delete' . $vendorsAttachments->getId(), $request->request->get('_token'))) {
-				$entityManager = $this->getDoctrine()->getManager();
-				$entityManager->remove($vendorsAttachments);
+			//TODO: необходимо ветвление между документами и обычным медиа
+			if ($this->isCsrfTokenValid(
+				'delete' . $vendorsMediaAttachments->getId(), $request->request->get('_token')
+			)) {
+				$entityManager = $this->getDoctrine()
+									  ->getManager()
+				;
+				$entityManager->remove($vendorsMediaAttachments);
 				$entityManager->flush();
 			}
 
-			return $this->redirectToRoute('docs');
+			return $this->redirectToRoute('categories_attachments_get');
 		}
 	}

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\Profile;
+namespace App\Controller\Vendor;
 
 use App\Repository\Vendor\VendorsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

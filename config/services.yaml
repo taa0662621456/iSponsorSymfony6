@@ -13,6 +13,7 @@ parameters:
     projects_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
     products_images_directory: '%kernel.project_dir%/public/uploads/products/images'
     vendors_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
+    # kernel.secret: '63f52df98ad426a42bc971b2ee6300f0'
 
 services:
     # default configuration for services in *this* file

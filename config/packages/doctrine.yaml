@@ -25,7 +25,7 @@ doctrine:
                 # this connector for all modules, menus, parameters of system
                 url: '%env(resolve:SQL_LITE_DATABASE_URL)%'
                 driver: 'pdo_sqlite'
-                server_version: '3.15'
+                server_version: '3.21'
                 charset: utf8mb4
     orm:
         # auto_generate_proxy_classes: '%kernel.debug%'

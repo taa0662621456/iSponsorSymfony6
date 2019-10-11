@@ -31,7 +31,7 @@
             {% else %}
                 <div class="{{ block }}">
                     <div class="card p-1 shadow-sm">
-                        {{ render(controller( 'App\\Controller\\Category\\CategoryAttachmentsController::getBrickImages')) }}
+                        {{ render(controller( 'App\\Controller\\CategoriesAttachmentController::getAttachments')) }}
                         <menu class="list-group list-group-flush pt-0 mt-0" role="menu">
                             <li class="list-group-item active">
                                 <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
@@ -51,9 +51,9 @@
         {% for project in latest_projects %}
             <div class="{{ block }}">
                 <div class="card p-1 shadow-sm">
-                    {{ render(controller( 'App\\Controller\\SystemMediaHandlerController::getHomepageBrick', {
-                        'entity' => 'App\Entity\Category\CategoriesAttachments',
-                    })) }}
+                    {#      {{ render(controller( 'App\\Controller\\SystemMediaHandlerController::getHomepageBrick', {
+                              'entity' => 'App\Entity\Category\CategoriesAttachments',
+                          })) }}#}
                     <div class="card-body ">
                         <p class="card-text">{{ project.getProjectEnGb.projectSDesc }}</p>
 

@@ -26,7 +26,7 @@
 
 				if ($request->query->get('_route') == 'media') {
 					$form->add(
-						'vendorsDocAttachments', CollectionType::class,
+						'vendorsMediaAttachments', CollectionType::class,
 						array(
 							'entry_type'   => VendorsMediaAttachmentsType::class,
 							'data_class'   => null,
@@ -38,7 +38,7 @@
 					);
 				} elseif ($request->query->get('_route') == 'docs') {
 					$form->add(
-						'vendorsDocAttachments', CollectionType::class,
+						'vendorsDocumentAttachments', CollectionType::class,
 						array(
 							'entry_type'   => VendorsDocumentAttachmentsType::class,
 							'data_class'   => null,

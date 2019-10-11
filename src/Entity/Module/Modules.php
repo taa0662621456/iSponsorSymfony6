@@ -1,18 +1,16 @@
 <?php
 
+	namespace App\Entity\Module;
 
 	use Doctrine\ORM\Mapping as ORM;
 
 	/**
-	 * Vq5bwModules
+	 * Modules
 	 *
-	 * @ORM\Table(name="vq5bw_modules", indexes={@ORM\Index(name="idx_language", columns={"language"}),
-	 *                                  @ORM\Index(name="newsfeeds", columns={"module", "published"}),
-	 *                                                               @ORM\Index(name="published", columns={"published",
-	 *                                                                                            "access"})})
+	 * @ORM\Table(name="modules")
 	 * @ORM\Entity
 	 */
-	class Vq5bwModules
+	class Modules
 	{
 		/**
 		 * @var integer
@@ -26,9 +24,8 @@
 		/**
 		 * @var integer
 		 *
-		 * @ORM\Column(name="asset_id", type="integer", nullable=false, options={"comment"="FK to the #__assets
-         *                              table."})
-         */
+		 * @ORM\Column(name="asset_id", type="integer", nullable=false, options={"comment"="FK to the #__assets table."})
+		 */
 		private $assetId = '0';
 
 		/**
@@ -57,7 +54,7 @@
 		 *
 		 * @ORM\Column(name="ordering", type="integer", nullable=false)
 		 */
-		private $ordering = '0';
+		private $ordering = 0;
 
 		/**
 		 * @var string
@@ -71,7 +68,7 @@
 		 *
 		 * @ORM\Column(name="checked_out", type="integer", nullable=false)
 		 */
-		private $checkedOut = '0';
+		private $checkedOut = 0;
 
 		/**
 		 * @var datetime
@@ -79,28 +76,28 @@
 		 * @ORM\Column(name="checked_out_time", type="datetime", nullable=false,
 		 *                                      options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $checkedOutTime = '\'0000-00-00 00:00:00\'';
+		private $checkedOutTime = '';
 
 		/**
 		 * @var datetime
 		 *
 		 * @ORM\Column(name="publish_up", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $publishUp = '\'0000-00-00 00:00:00\'';
+		private $publishUp = '';
 
 		/**
 		 * @var datetime
 		 *
 		 * @ORM\Column(name="publish_down", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $publishDown = '\'0000-00-00 00:00:00\'';
+		private $publishDown = '';
 
 		/**
 		 * @var boolean
 		 *
 		 * @ORM\Column(name="published", type="boolean", nullable=false)
 		 */
-		private $published = '0';
+		private $published = false;
 
 		/**
 		 * @var string|null
@@ -114,14 +111,14 @@
 		 *
 		 * @ORM\Column(name="access", type="integer", nullable=false)
 		 */
-		private $access = '0';
+		private $access = 0;
 
 		/**
 		 * @var boolean
 		 *
-		 * @ORM\Column(name="showtitle", type="boolean", nullable=false, options={"default"="1"})
+		 * @ORM\Column(name="show_title", type="boolean", nullable=false, options={"default"="1"})
 		 */
-		private $showtitle = '1';
+		private $showTitle = true;
 
 		/**
 		 * @var text

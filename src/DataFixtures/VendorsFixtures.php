@@ -4,7 +4,7 @@ namespace App\DataFixtures;
 
 use App\Doctrine\UuidEncoder;
 use App\Entity\Vendor\Vendors;
-use App\Entity\Vendor\VendorsDocAttachments;
+use App\Entity\Vendor\VendorsDocumentAttachments;
 use App\Entity\Vendor\VendorsEnGb;
 use App\Entity\Vendor\VendorsIban;
 use App\Entity\Vendor\VendorsMediaAttachments;
@@ -26,7 +26,7 @@ class VendorsFixtures extends Fixture
 		$vendorSecurity = new VendorsSecurity();
 		$vendorIban = new VendorsIban();
 		$vendorEnGb = new VendorsEnGb();
-		$vendorDocAttachments = new VendorsDocAttachments();
+		$vendorDocumentAttachments = new VendorsDocumentAttachments();
 		$vendorMediaAttachments = new VendorsMediaAttachments();
 		$slug = new UuidEncoder();
 
@@ -48,19 +48,19 @@ class VendorsFixtures extends Fixture
 
 		$vendorIban->setIban('0000000000000000');
 
-		$vendorDocAttachments->setFileName('cover.jpg');
-		$vendorDocAttachments->setFilePath('/');
-		$vendorDocAttachments->setVendorsDocsAttachments($vendor);
+		$vendorDocumentAttachments->setFileName('cover.jpg');
+		$vendorDocumentAttachments->setFilePath('/');
+		$vendorDocumentAttachments->setAttachment($vendor);
 
 		$vendorMediaAttachments->setFileName('cover.jpg');
 		$vendorMediaAttachments->setFilePath('/');
-		$vendorMediaAttachments->setVendorMediaAttachments($vendor);
+		$vendorMediaAttachments->setAttachment($vendor);
 
 		$vendor->setVendorEnGb($vendorEnGb);
 		$vendor->setVendorSecurity($vendorSecurity);
 		$vendor->setVendorIban($vendorIban);
 
-		$manager->persist($vendorDocAttachments);
+		$manager->persist($vendorDocumentAttachments);
 		$manager->persist($vendorMediaAttachments);
 		$manager->persist($vendorIban);
 		$manager->persist($vendorEnGb);
