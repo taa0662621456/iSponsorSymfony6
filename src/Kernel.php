@@ -2,10 +2,7 @@
 
 namespace App;
 
-use App\Factory\WsseFactory;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\Config\Exception\LoaderLoadException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -36,7 +33,7 @@ class Kernel extends BaseKernel
 	public function build(ContainerBuilder $container)
 	{
 		$extension = $container->getExtension('security');
-		$extension->addSecurityListenerFactory(new WsseFactory());
+		//$extension->addSecurityListenerFactory(new WsseFactory());
 	}
 
 	protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
@@ -46,13 +43,10 @@ class Kernel extends BaseKernel
 		$confDir = $this->getProjectDir() . '/config';
 
 
-		try {
-			$loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
-			$loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
-			$loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
-			$loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
-		} catch (Exception $e) {
-		}
+		$loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
+		$loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
+		$loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
+		$loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
 
 	}
 
@@ -60,12 +54,10 @@ class Kernel extends BaseKernel
 	{
 		$confDir = $this->getProjectDir() . '/config';
 
-		try {
-			$routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
-			$routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
-			$routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
-		} catch (LoaderLoadException $e) {
-		}
+		$routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
+		$routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
+		$routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
+
 	}
 
 }
