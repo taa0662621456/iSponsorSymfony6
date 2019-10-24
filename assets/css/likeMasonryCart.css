@@ -1,0 +1,49 @@
+.brows {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: space-between;
+    /* Your container needs a fixed height, and it
+     * needs to be taller than your tallest column. */
+    height: 2000px;
+
+    counter-reset: items;
+}
+
+.brick {
+    width: 24%;
+    /* Optional */
+    position: relative;
+    /* максимальную высоту блока устанавливать через js и в куки, чтобы была ровна высоте .brows */
+    max-height: 2000px;
+
+    box-sizing: border-box;
+}
+
+/* Just to print out numbers */
+div.brick::before {
+    counter-increment: items;
+    content: counter(items);
+}
+
+/* Re-order items into 3 rows */
+.brick:nth-of-type(4n+1) {
+    order: 1;
+}
+
+.brick:nth-of-type(4n+2) {
+    order: 2;
+}
+
+.brick:nth-of-type(4n+3) {
+    order: 3;
+}
+
+.brick:nth-of-type(4n) {
+    order: 4;
+}
+
+/* Force new columns */
+.break {
+    flex-basis: 100%;
+    width: 0;
+}

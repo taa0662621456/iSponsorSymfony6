@@ -1,6 +1,5 @@
 display = Math.round(100 * $('#b3').width() / $('#b3').parent().width());
-$('.view').masonry('layout');
-$('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
+
 if (display != '100') {
     $('#fullscreen-message').toggleClass('hidden');
     $('#fullscreen-message').animate({
@@ -77,8 +76,8 @@ $(document).ready(function ($) {
     });
 });
 $(document).keyup(function (e) {
-    if (e.keyCode == 27) {
-        if (display == '100') {
+    if (e.keyCode === 27) {
+        if (display === '100') {
             $('#fullscreen-message').toggleClass('hidden');
             $('#b1').show();
             $('#b2').show();
@@ -98,80 +97,11 @@ $(document).keyup(function (e) {
     } else {
         $('#full-s-btn').removeAttr('class').addClass('glyphicon glyphicon-fullscreen');
         $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
 
     }
 });
 $(document).ready(function () {
-    if (cookie_cols != 'undefined') {
-        var cookie_cols = $.cookie('cookie_cols');
-    } else {
-        cookie_cols = '22%';
-    }
-    ;
-    $('.spacer').css('text-align', 'center');
-    $('.spacer').css('padding', '0');
-    $('.browse').css('margin', '2px');
-    $('.browse').css('width', cookie_cols);
-    $('div.addtocart-bar').addClass('hidden-xs');
-    $('form.formfavorit').addClass('hidden-xs');
-    $(window).load(function () {
-        $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
-    });
 
-    $('#col1').click(function () {
-        $.cookie('cookie_cols', '100%');
-        $('.spacer').css('text-align', 'left');
-        $('.spacer').css('padding', '0px 10px');
-        $('.browse').css('margin', '5');
-        $('.browse').css('width', '100%');
-        $('.category-vendor-avatar').css('height', '160px');
-        $('.category-vendor-avatar').css('width', '160px');
-        $('div.addtocart-bar').removeClass('hidden-xs');
-        $('form.formfavorit').removeClass('hidden-xs');
-        $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
-    });
-    $('#col2').click(function () {
-        $.cookie('cookie_cols', '48%');
-        cookie_cols = $.cookie('cookie_cols');
-        $('.spacer').css('text-align', 'left');
-        $('.spacer').css('padding', '0px 10px');
-        $('.browse').css('margin', '4px');
-        $('.browse').css('width', '48%');
-        $('.category-vendor-avatar').css('height', '100px');
-        $('.category-vendor-avatar').css('width', '100px');
-        $('div.addtocart-bar').removeClass('hidden-xs');
-        $('form.formfavorit').removeClass('hidden-xs');
-        $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
-
-    });
-    $('#col3').click(function () {
-        $.cookie('cookie_cols', '33%');
-        cookie_cols = $.cookie('cookie_cols');
-        $('.spacer').css('text-align', 'left');
-        $('.spacer').css('padding', '0px 10px');
-        $('.browse').css('margin', '3px');
-        $('.browse').css('width', '33%');
-        $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
-
-    });
-    $('#col4').click(function () {
-        $.cookie('cookie_cols', '23%');
-        cookie_cols = $.cookie('cookie_cols');
-        $('.spacer').css('text-align', 'center');
-        $('.spacer').css('padding', '0');
-        $('.browse').css('margin', '2px');
-        $('.browse').css('width', '23%');
-        $('.category-vendor-avatar').css('height', '65px');
-        $('.category-vendor-avatar').css('width', '65px');
-        $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
-
-    });
     $('#addtzip').on('click', function () {
         $('.zip').toggleClass('disabled');
         var bl = $('#nent').find('.masonry-brick');
@@ -199,6 +129,5 @@ $(document).ready(function () {
         $('.folders').toggleClass('hide');
         $('#spanfolders').toggleClass('glyphicon-folder-open glyphicon-folder-close');
         $('.view').masonry('layout');
-        $('#b1,#b2,#b3,#b4').css('height', $('#nent').height());
     });
 });

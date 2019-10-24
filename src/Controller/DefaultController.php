@@ -29,7 +29,7 @@
 							  ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
 		{
 			return $this->render(
-				'homepage/homepage.html.twig', array(
+				'homepage/homepageCssGrid.html.twig', array(
 					'categories'          => $categoriesRepository->findAll(),
 					//'categories' => $categoriesRepository->findOneBy(['published' => 't'], ['id' => 'ASC']),
 					'latest_projects'     => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
@@ -50,3 +50,4 @@
 			);
 		}
 	}
+

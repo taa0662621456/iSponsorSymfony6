@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+{% block title %}Homepage{% endblock %}
+{% block header %}{% endblock %}
+{% block article_header %}{% endblock %}
+{% block article_content %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="p-1 card shadow-sm">
+                Rand block (Fatured, Vendors ....)
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-1 card shadow-sm">
+                Some Other (Advertysment)
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-1 card shadow-sm">
+                Some Other
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-1 card shadow-sm">
+                {{ render(controller( 'App\\Controller\\SecurityController::login' , {'layout' : 'loginFormHomePage'})) }}
+            </div>
+        </div>
+    </div>
+    <div class="brows">
+        {% for category in categories %}
+            {% if category.parent %}
+            {% else %}
+                <div class="{{ brick }}">
+                    <div class="card p-1 shadow-sm">
+                        {{ render(controller( 'App\\Controller\\Category\\CategoriesAttachmentsController::getAttachments')) }}
+                        <menu class="list-group list-group-flush pt-0 mt-0" role="menu">
+                            <li class="list-group-item active">
+                                <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+                            </li>
+                            {% for category in category.getChildren() %}
+                                <li class="list-group-item">
+                                    <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+                                </li>
+                            {% endfor %}
+                        </menu>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+        {% endfor %}
+
+        {% for project in latest_projects %}
+            <div class="{{ brick }}">
+                <div class="card p-1 shadow-sm">
+                    {#      {{ render(controller( 'App\\Controller\\SystemMediaHandlerController::getHomepageBrick', {
+                              'entity' => 'App\Entity\Category\CategoriesAttachments',
+                          })) }}#}
+                    <div class="card-body ">
+                        <p class="card-text">{{ project.getProjectEnGb.projectSDesc }}</p>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Cras justo odio</li>
+                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Vestibulum at eros</li>
+                        </ul>
+
+                        <a href="{{ path('projects_slug', {'slug' :project.slug }) }}" class="card-link">Переход
+                            куда-нибудь</a>
+                        <a href="#" class="card-link">Переход куда-нибудь</a>
+                        <a href="#" class="btn btn-primary">Переход куда-нибудь</a>
+
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        {% endfor %}
+
+        {% for project in featured_projects %}
+        {% else %}
+        {% endfor %}
+
+        {% for product in latest_products %}
+
+        {% else %}
+        {% endfor %}
+
+        {% for product in featured_products %}
+
+        {% else %}
+        {% endfor %}
+
+        {% for vendor in featured_vendors %}
+            <div class="{{ brick }}">
+                <div class="card mb-4 shadow-sm">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                         role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
+                        <rect fill="#55595c" width="100%" height="100%"></rect>
+                        <text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text>
+                    </svg>
+                    <div class="card-body">
+                        <p class="card-text">{{ vendor.id }} This is a wider card with supporting text below as a
+                            natural lead-in to additional content. This content is a little bit longer.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        {% endfor %}
+
+        {% for category in featured_categories %}
+            <div class="{{ brick }}">
+                <div class="card mb-4 shadow-sm">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="112"
+                         xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                         role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
+                        <rect fill="#55595c" width="100%" height="100%"></rect>
+                        <text fill="#eceeef" dy=".3em" x="50%" y="50%">Thumbnail</text>
+                    </svg>
+                    <div class="card-body">
+                        <p class="card-text">{{ category.id }} This is a wider card with supporting text below as a
+                            natural lead-in to additional content. This content is a little bit longer.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+        {% endfor %}
+        <span class="brick break"></span>
+        <span class="brick break"></span>
+        <span class="brick break"></span>
+    </div>
+{% endblock %}

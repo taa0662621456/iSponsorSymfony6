@@ -5,11 +5,13 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $fa-font-path: "~font-awesome/fonts";
 
 // the ~ allows you to reference things in node_modules
-@import '~bootstrap/scss/bootstrap';
+
+@import '../fontawesome-pro/scss/fontawesome.scss';
+@import "~bootstrap/scss/bootstrap";
 @import "~bootstrap/scss/carousel";
 @import "bootstrap-tagsinput";
 @import "~tinymce/skins/ui/oxide/content.min.css";
 @import "~tinymce/skins/ui/oxide/skin.min.css";
-
-//
 @import "../css/multistep_forms.css";
+
+
