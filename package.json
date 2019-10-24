@@ -1,0 +1,39 @@
+{
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "@symfony/webpack-encore": "^0.28.0",
+    "core-js": "^3.0.0",
+    "jquery": "^3.4.1",
+    "regenerator-runtime": "^0.13.2",
+    "webpack-notifier": "^1.6.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "bootstrap-autohide-navbar": "^1.0.0",
+    "bootstrap-confirmation2": "^4.1.0",
+    "bootstrap4-less": "^4.0.0-alpha.6.2",
+    "font-awesome": "^4.7.0",
+    "fs": "0.0.1-security",
+    "glyphicons": "^0.2.0",
+    "infinite-scroll": "^3.0.6",
+    "jquery-bridget": "^2.0.1",
+    "jquery.cookie": "^1.4.1",
+    "masonry": "0.0.2",
+    "masonry-layout": "^4.2.2",
+    "node-sass": "^4.12.0",
+    "popper": "^1.0.1",
+    "popper.js": "^1.15.0",
+    "propel": "^3.3.1",
+    "query": "^0.2.0",
+    "sass-loader": "^7.0.1",
+    "tinymce": "^5.0.16"
+  }
+}

@@ -88,7 +88,7 @@
 				// $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
 			];
 
-			return new JsonResponse ($data, Response :: HTTP_FORBIDDEN);
+			return new JsonResponse ($data, Response::HTTP_FORBIDDEN);
 		}
 
 		/**
@@ -106,7 +106,7 @@
 				'message' => 'Authentication Required'
 			];
 
-			return new JsonResponse ($data, Response :: HTTP_UNAUTHORIZED);
+			return new JsonResponse ($data, Response::HTTP_UNAUTHORIZED);
 		}
 
 		public function supportsRememberMe()

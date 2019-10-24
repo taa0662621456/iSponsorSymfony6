@@ -8,8 +8,7 @@
 	/**
 	 * MenuTypes
 	 *
-	 * @ORM\Table(name="menu_types", uniqueConstraints={
-	 * @ORM\UniqueConstraint(name="menu_types_slug", columns={"slug"})}, indexes={
+	 * @ORM\Table(name="menu_types", indexes={
 	 * @ORM\Index(name="menus_items_slug", columns={"slug"})})
 	 * @UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
 	 * @ORM\Entity

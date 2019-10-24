@@ -17,9 +17,9 @@ class VendorsFavourites
 
 	/**
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", inversedBy="vendorFavourites")
-	 * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id")
+	 * @ORM\JoinColumn(name="vendorFavourites_id", referencedColumnName="id")
 	 */
-	private $vendorFavourites = 0;
+	private $vendorFavourites;
 
 
 	/**

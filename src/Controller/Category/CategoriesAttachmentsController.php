@@ -43,7 +43,7 @@
 		 * @Route("/", name="categories_attachments_get", methods={"GET"})
 		 * @param Request                       $request
 		 * @param AuthorizationCheckerInterface $authChecker
-		 * @param                               $name
+		 * @param null                          $name
 		 * @param int|null                      $id
 		 * @param string|null                   $slug
 		 * @param int|null                      $createdBy
@@ -54,14 +54,14 @@
 		 */
 		public function getAttachments(Request $request,
 									   AuthorizationCheckerInterface $authChecker,
-									   $name,
+									   $name = null,
 									   int $id = null,
 									   string $slug = null,
 									   int $createdBy = null,
 									   bool $published = true,
 									   string $fileLang = null): Response
 		{
-			$layout = $request->get('_route');
+			$layout = $this->container->get('request_stack')->getParentRequest()->attributes->get('_route');
 
 			if (false === $authChecker->isGranted('ROLE_ADMIN')) {
 				$id = null;
@@ -70,22 +70,29 @@
 				$published = true;
 			}
 
-			if ($request->request->get('_route') == 'homepage' xor
-				$request->request->get('_route') == 'category')
+			if ($layout == 'homepage' xor
+				$layout == 'category' xor
+				$layout == 'project' xor
+				$layout == 'product' xor
+				$layout == 'vendor_media' xor // либо парсить, либо думать над роутами
+				$layout == 'vendor_document' xor // либо парсить, либо думать над роутами
+				$layout == 'vendor' and
+				false === $authChecker->isGranted('ROLE_ADMIN'))
 				$attachments = $this->attachmentsManager->getAttachments(
 					$entity = 'App\Entity\Category\CategoriesAttachments',
-					$id,
-					$slug,
-					$createdBy,
-					$published,
-					$fileLayoutPosition = $request->get('_route'),
-					null,
-					$fileLang = $request->get('_locale')
+					$id = null,
+					$slug = null,
+					$createdBy = null,
+					$published = true,
+					$fileLayoutPosition = $layout,
+					$fileClass = null,
+					$fileLang = $layout
 				);
-
+			// $layout с большой буквы
+			$entity = 'App\Entity\\' . $layout . '\\' . $layout . 'Attachments';
 
 			return $this->render(
-				'category/categories_attachments/' . $layout . '.html.twig',
+				'category/categories_attachments/' . $layout . '_attachments.html.twig',
 				array(
 					'attachments' => $attachments,
 				)
@@ -161,8 +168,8 @@
 		 * @param string                $slug
 		 *
 		 * @return Response
-		 * @Security("categoriesAttachments.isAuthor(vendor)")
-		 * @Security("has_role('ROLE_ADMIN')
+		 * Security("categoriesAttachments.isAuthor(vendor)")
+		 * Security("has_role('ROLE_ADMIN')
 		 */
 		public function editAttachment(Request $request, CategoriesAttachments $categoriesAttachments, int $id,
 									   string $slug): Response

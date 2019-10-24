@@ -1,5 +1,5 @@
 {#
-    Navbar, headbar and mail blocks must have same parameters for 'col'
+    Navbar, headbar and main blocks must have same parameters for 'col' vertical oriented
     use var b1 = '';
     use var b2 = '';
     use var b3 = '';
@@ -9,9 +9,10 @@
 
 {% set b1 = 'hidden-xs col-sm-1 col-md-1 col-lg-1 z1 hidden-phone ml-1 m-0 p-0' %}
 {% set b2 = 'col-hidden-xs col-sm-1 col-md-1 col-lg-1' %}
-{% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 container' %}
+{% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 pl-1 ml-1 container' %}
 {% set b4 = 'col-xs-12 col-sm-3 col-md-2 col-lg-2' %}
 {% set block = 'col-md-3 p-1 masonry-brick' %}
+{% set brick = 'brick' %}
 
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
@@ -27,7 +28,7 @@
         <title>{% block title %}{% endblock %}</title>
 
         {% block stylesheets %}
-            {{ encore_entry_css_files('app') }}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
 {% endblock %}
@@ -36,9 +37,9 @@
     <header class="section-header">
 
         {% block navbar %}
-            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary">
+            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top pt-0 pb-0">
                 <menu class="{{ b1 }}">
-                    <a class="navbar-brand float-right" href="#">...iSponsor!
+                    <a class="navbar-brand float-right" href="#"><span class="text-break">...iSponsor!</span>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             Username: {{ app.user.username }}
                         {% endif %}
@@ -51,6 +52,9 @@
                 <menu class="{{ b3 }}">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
+                            <li class="nav-item btn-warning">
+                                <a class="nav-link" href="{{ path('projects_new') }}"><i class="fal fa-plus-circle"></i></a>
+                            </li>
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ path('homepage') }}">Home <span
                                             class="sr-only">(current)</span></a>
@@ -99,7 +103,7 @@
                         </ul>
                     </div>
                 </menu>
-                <menu class="col-xs-12 col-sm-3 col-md-2 col-lg-2">
+                <menu class="{{ b4 }}">
 
                 </menu>
 
@@ -112,29 +116,29 @@
             </div>
             <div class="{{ b3 }}">
                 <div class="row btn-toolbar justify-content-between" role="toolbar" aria-label="View settings">
-                    <div class="col-1 btn-group btn-group-toggle" role="group" data-toggle="buttons">
-                        <label class="btn btn-secondary active">
-                            <input type="radio" name="options" id="option1" autocomplete="off" checked>
-                            <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+                    <div class="col-1 btn-group btn-group-toggle p-0" role="group" data-toggle="buttons">
+                        <label class="btn btn-secondary p-1 active">
+                            <input type="radio" name="options" id="col1" autocomplete="off" checked>
+                            <i class="fad fa-th"></i>
                         </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option2" autocomplete="off">
-                            <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+                        <label class="btn btn-secondary p-1">
+                            <input type="radio" name="options" id="col2" autocomplete="off">
+                            <i class="fas fa-th"></i>
                         </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option3" autocomplete="off">
-                            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                        <label class="btn btn-secondary p-1">
+                            <input type="radio" name="options" id="col3" autocomplete="off">
+                            <i class="fad fa-line-columns"></i>
                         </label>
-                        <label class="btn btn-secondary">
-                            <input type="radio" name="options" id="option4" autocomplete="off">
-                            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                        <label class="btn btn-secondary p-1">
+                            <input type="radio" name="options" id="col4" autocomplete="off">
+                            <i class="fad fa-list-ul"></i>
                         </label>
                     </div>
                     <div class="col-8 input-group">
                         <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="submit">
-                                <i class="fa fa-search"></i>
+                                <i class="fad fa-search"></i>
                             </button>
                         </div>
                     </div>
@@ -183,13 +187,16 @@
         </hgroup>
     </header>
     {% block blocks %}
-        <main role="main" class="row m-1">
+
+        <main role="main" class="row h-100">
             <aside id="b1" class="{{ b1 }}">
-                <a id="move_up" class="float-right mr-3" href="#"><span class="glyphicon glyphicon-chevron-up"></span>Go
-                    to up</a>
+                <div class="sticky-top text-center pt-5">
+                    <a id="move_up" href="#"><span style="font-size: 2em"><i
+                                    class="fal fa-chevron-circle-up"></i></span></a>
+                </div>
                 {% block ontop %}{% endblock %}
             </aside>
-            <aside id="b2" class="{{ b2 }}">
+            <aside id="b2" class="{{ b2 }} h-100">
                 {% block sidebar %}{% endblock %}
             </aside>
             <article id="b3" class="{{ b3 }}">
@@ -258,7 +265,7 @@
 </footer>
 {% endblock %}
     {% block javascripts %}
-        {{ encore_entry_js_files('app') }}
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
 </html>
 

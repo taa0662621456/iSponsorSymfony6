@@ -35,7 +35,7 @@ class VendorsMediaAttachments
 	/**
 	 * @param Vendors $attachments
 	 */
-	public function setAttachments(Vendors $attachments): void
+	public function setAttachment(Vendors $attachments): void
 	{
 		$this->attachments = $attachments;
 	}

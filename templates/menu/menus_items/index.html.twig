@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MenusItems index{% endblock %}
+
+{% block body %}
+    <h1>MenusItems index</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>MenuItemTitle</th>
+            <th>MenuItemPath</th>
+            <th>MenuItemDisplayType</th>
+            <th>MenuItemPublished</th>
+            <th>Role</th>
+            <th>Home</th>
+            <th>Locale</th>
+            <th>Id</th>
+            <th>Uuid</th>
+            <th>Slug</th>
+            <th>CreatedOn</th>
+            <th>CreatedBy</th>
+            <th>ModifiedOn</th>
+            <th>ModifiedBy</th>
+            <th>LockedOn</th>
+            <th>LockedBy</th>
+            <th>Version</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for menus_item in menus_items %}
+            <tr>
+                <td>{{ menus_item.menuItemTitle }}</td>
+                <td>{{ menus_item.menuItemPath }}</td>
+                <td>{{ menus_item.menuItemDisplayType }}</td>
+                <td>{{ menus_item.menuItemPublished ? 'Yes' : 'No' }}</td>
+                <td>{{ menus_item.role }}</td>
+                <td>{{ menus_item.home ? 'Yes' : 'No' }}</td>
+                <td>{{ menus_item.locale }}</td>
+                <td>{{ menus_item.id }}</td>
+                <td>{{ menus_item.uuid }}</td>
+                <td>{{ menus_item.slug }}</td>
+                <td>{{ menus_item.createdOn ? menus_item.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menus_item.createdBy }}</td>
+                <td>{{ menus_item.modifiedOn ? menus_item.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menus_item.modifiedBy }}</td>
+                <td>{{ menus_item.lockedOn ? menus_item.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menus_item.lockedBy }}</td>
+                <td>{{ menus_item.version }}</td>
+                <td>
+                    <a href="{{ path('menus_items_show', {'id': menus_item.id}) }}">show</a>
+                    <a href="{{ path('menus_items_edit', {'id': menus_item.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="18">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('menus_items_new') }}">Create new</a>
+{% endblock %}

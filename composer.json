@@ -39,6 +39,7 @@
     "symfony/validator": "4.3.*",
     "symfony/web-link": "4.3.*",
     "symfony/web-server-bundle": "*",
+    "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.3.*",
     "tgalopin/html-sanitizer-bundle": "dev-master"
   },

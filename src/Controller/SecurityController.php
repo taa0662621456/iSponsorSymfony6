@@ -11,6 +11,7 @@ use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
 use App\Repository\Vendor\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
+use Exception;
 use RuntimeException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,49 +30,54 @@ use Twig\Error\SyntaxError;
 use Twig_Environment;
 
 
-class SecurityController extends AbstractController
+class SecurityController
+	extends AbstractController
 {
-    use TargetPathTrait;
+	use TargetPathTrait;
 
-    /**
-     * @var Twig_Environment $twig
-     */
-    private $twig;
+	/**
+	 * @var Twig_Environment $twig
+	 */
+	private $twig;
 
-    public function __construct(
-        Twig_Environment $twig
-    ) {
-        $this->twig = $twig;
-    }
+	public function __construct(
+		Twig_Environment $twig
+	)
+	{
+		$this->twig = $twig;
+	}
 
-    /**
-     * @Route("/registration", name="registration")
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param Request $request
-     * @param ConfirmationCodeGenerator $codeGenerator
-     * @param EventDispatcherInterface $eventDispatcher
-     * @return Response
-     * @throws Exception
-     */
-    public function registration(UserPasswordEncoderInterface $passwordEncoder, Request $request, ConfirmationCodeGenerator $codeGenerator, EventDispatcherInterface $eventDispatcher): Response
-    {
-        $vendor = new Vendors();
+	/**
+	 * @Route("/registration", name="registration")
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param Request                      $request
+	 * @param ConfirmationCodeGenerator    $codeGenerator
+	 * @param EventDispatcherInterface     $eventDispatcher
+	 *
+	 * @return Response
+	 * @throws Exception
+	 */
+	public function registration(UserPasswordEncoderInterface $passwordEncoder, Request $request,
+								 ConfirmationCodeGenerator $codeGenerator,
+								 EventDispatcherInterface $eventDispatcher): Response
+	{
+		$vendor = new Vendors();
 
-        $form = $this->createForm(VendorsRegistrationType::class);
-        $form->handleRequest($request);
+		$form = $this->createForm(VendorsRegistrationType::class);
+		$form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $vendor = $form->getData();
+		if ($form->isSubmitted() && $form->isValid()) {
+			$vendor = $form->getData();
 
-            $password = $passwordEncoder->encodePassword(
-                $vendor,
-                $vendor->getPlainPassword()
-            );
+			$password = $passwordEncoder->encodePassword(
+				$vendor,
+				$vendor->getPlainPassword()
+			);
 
-            $vendor->setPassword($password);
-            $vendor->setActivationCode($codeGenerator->getConfirmationCode());
+			$vendor->setPassword($password);
+			$vendor->setActivationCode($codeGenerator->getConfirmationCode());
 
-            $em = $this->getDoctrine()->getManager();
+			$em = $this->getDoctrine()->getManager();
             $em->persist($vendor);
             $em->flush();
 
@@ -113,8 +119,8 @@ class SecurityController extends AbstractController
 	}
 
 	/**
-	 * @Route("/login", defaults={"layout" : "login"}, name="login", methods={"GET", "POST"})
-	 * @Route("/login", name="login", methods={"GET", "POST"}, options={"layout" : "loginFormHomePage"})
+	 * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "loginFormHomePage"},
+	 *     methods={"GET", "POST"})
 	 * @param Request             $request
 	 * @param Security            $security
 	 *

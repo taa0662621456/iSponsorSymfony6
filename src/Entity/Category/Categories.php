@@ -56,9 +56,7 @@ class Categories
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects",
 	 *      cascade={"persist"},
-	 *      mappedBy="projectCategory",
-	 *      fetch="EXTRA_LAZY"
-	 * )
+	 *      mappedBy="projectCategory")
      */
     private $categoryProjects;
 

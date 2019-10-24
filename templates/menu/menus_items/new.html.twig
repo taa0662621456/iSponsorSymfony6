@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New MenusItems{% endblock %}
+
+{% block body %}
+    <h1>Create new MenusItems</h1>
+
+    {{ include('menus_items/_form.html.twig') }}
+
+    <a href="{{ path('menus_items_index') }}">back to list</a>
+{% endblock %}

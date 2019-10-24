@@ -1,6 +1,6 @@
 security:
     encoders:
-        App\Entity\Vendor\VendorSecurity: bcrypt
+        App\Entity\Vendor\VendorSecurity: auto
     providers:
         chain_provider:
             chain:
@@ -44,9 +44,9 @@ security:
             provider: database_users
             http_basic: ~
             anonymous: ~
-            guard:
-                authenticators:
-                - App\Security\TokenAuthenticator
+            # guard:
+            #     authenticators:
+            #     - App\Security\TokenAuthenticator
             form_login:
                 check_path: login
                 login_path: login

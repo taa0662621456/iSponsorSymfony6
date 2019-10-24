@@ -4,22 +4,22 @@
 {% block article_header %}{% endblock %}
 {% block article_content %}
     <div class="row">
-        <div class="col-md-3 p1">
+        <div class="col-md-3">
             <div class="p-1 card shadow-sm">
                 Rand block (Fatured, Vendors ....)
             </div>
         </div>
-        <div class="col-md-3 p1">
+        <div class="col-md-3">
             <div class="p-1 card shadow-sm">
                 Some Other (Advertysment)
             </div>
         </div>
-        <div class="col-md-3 p1">
+        <div class="col-md-3">
             <div class="p-1 card shadow-sm">
                 Some Other
             </div>
         </div>
-        <div class="col-md-3 p1">
+        <div class="col-md-3">
             <div class="p-1 card shadow-sm">
                 {{ render(controller( 'App\\Controller\\SecurityController::login' , {'layout' : 'loginFormHomePage'})) }}
             </div>
@@ -31,7 +31,7 @@
             {% else %}
                 <div class="{{ block }}">
                     <div class="card p-1 shadow-sm">
-                        {{ render(controller( 'App\\Controller\\CategoriesAttachmentController::getAttachments')) }}
+                        {{ render(controller( 'App\\Controller\\Category\\CategoriesAttachmentsController::getAttachments')) }}
                         <menu class="list-group list-group-flush pt-0 mt-0" role="menu">
                             <li class="list-group-item active">
                                 <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>

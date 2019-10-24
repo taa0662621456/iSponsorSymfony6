@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MenusItems{% endblock %}
+
+{% block body %}
+    <h1>MenusItems</h1>
+
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>MenuItemTitle</th>
+            <td>{{ menus_item.menuItemTitle }}</td>
+        </tr>
+        <tr>
+            <th>MenuItemPath</th>
+            <td>{{ menus_item.menuItemPath }}</td>
+        </tr>
+        <tr>
+            <th>MenuItemDisplayType</th>
+            <td>{{ menus_item.menuItemDisplayType }}</td>
+        </tr>
+        <tr>
+            <th>MenuItemPublished</th>
+            <td>{{ menus_item.menuItemPublished ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Role</th>
+            <td>{{ menus_item.role }}</td>
+        </tr>
+        <tr>
+            <th>Home</th>
+            <td>{{ menus_item.home ? 'Yes' : 'No' }}</td>
+        </tr>
+        <tr>
+            <th>Locale</th>
+            <td>{{ menus_item.locale }}</td>
+        </tr>
+        <tr>
+            <th>Id</th>
+            <td>{{ menus_item.id }}</td>
+        </tr>
+        <tr>
+            <th>Uuid</th>
+            <td>{{ menus_item.uuid }}</td>
+        </tr>
+        <tr>
+            <th>Slug</th>
+            <td>{{ menus_item.slug }}</td>
+        </tr>
+        <tr>
+            <th>CreatedOn</th>
+            <td>{{ menus_item.createdOn ? menus_item.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>CreatedBy</th>
+            <td>{{ menus_item.createdBy }}</td>
+        </tr>
+        <tr>
+            <th>ModifiedOn</th>
+            <td>{{ menus_item.modifiedOn ? menus_item.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>ModifiedBy</th>
+            <td>{{ menus_item.modifiedBy }}</td>
+        </tr>
+        <tr>
+            <th>LockedOn</th>
+            <td>{{ menus_item.lockedOn ? menus_item.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>LockedBy</th>
+            <td>{{ menus_item.lockedBy }}</td>
+        </tr>
+        <tr>
+            <th>Version</th>
+            <td>{{ menus_item.version }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('menus_items_index') }}">back to list</a>
+
+    <a href="{{ path('menus_items_edit', {'id': menus_item.id}) }}">edit</a>
+
+    {{ include('menus_items/_delete_form.html.twig') }}
+{% endblock %}
