@@ -1,3 +1,4 @@
+import jQuery from 'jquery';
 (function ($, undefined) {
     let $col1 = $('input#col1');
     let $col2 = $('input#col2');

@@ -1,6 +1,6 @@
 import jQuery from 'jquery';
 
-(function ($, undefind) {
+(function ($, undefined) {
 
     let current_fs, next_fs, previous_fs;
     let left, opacity, scale;
