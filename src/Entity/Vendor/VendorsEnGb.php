@@ -137,16 +137,16 @@ class VendorsEnGb
      * @ORM\Column(name="vendor_currency", type="string", nullable=false, options={"default"="vendor_currency"})
      *
      */
-    private $vendorCurrency = 'vendor_currency';
+	private $vendorCurrency = 'vendor_currency';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="vendor_accepted_currencies", type="string", nullable=false, options={"default"="vendor_accepted_currencies"})
-     */
-    private $vendorAcceptedCurrencies = 'vendor_accepted_currencies';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="vendor_accepted_currencies", type="string", nullable=false, options={"default"="vendor_accepted_currencies"})
+	 */
+	private $vendorAcceptedCurrencies = 'vendor_accepted_currencies';
 
-    /**
+	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="vendor_params", type="string", nullable=false, options={"default"="vendor_params"})
@@ -190,14 +190,14 @@ class VendorsEnGb
 	}
 
 	/**
-     * @return string
-     */
-    public function getVendorLastName(): string
-    {
-        return $this->vendorLastName;
-    }
+	 * @return string
+	 */
+	public function getVendorLastName(): string
+	{
+		return $this->vendorLastName;
+	}
 
-    /**
+	/**
      * @param string $lastName
      */
     public function setVendorLastName(string $lastName): void
@@ -424,12 +424,12 @@ class VendorsEnGb
 	/**
 	 * @param string $vendorMetaRobot
 	 */
-    public function setVendorMetaRobot(string $vendorMetaRobot): void
-    {
-        $this->vendorMetaRobot = $vendorMetaRobot;
-    }
+	public function setVendorMetaRobot(string $vendorMetaRobot): void
+	{
+		$this->vendorMetaRobot = $vendorMetaRobot;
+	}
 
-    /**
+	/**
 	 * @return string
 	 */
 	public function getVendorMetaAuthor(): string

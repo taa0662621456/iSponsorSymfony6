@@ -92,16 +92,16 @@ class OrdersItems
      *
      * @ORM\Column(name="item_subtotal_discount", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=false, options={"default"="0.00000"})
      */
-    private $itemSubtotalDiscount = '0.00000';
+	private $itemSubtotalDiscount = '0.00000';
 
-    /**
-     * @var 
-     *
-     * @ORM\Column(name="item_subtotal_with_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=false, options={"default"="0.00000"})
-     */
-    private $itemSubtotalWithTax = '0.00000';
+	/**
+	 * @var
+	 *
+	 * @ORM\Column(name="item_subtotal_with_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=false, options={"default"="0.00000"})
+	 */
+	private $itemSubtotalWithTax = '0.00000';
 
-    /**
+	/**
 	 * @var int|null
 	 *
 	 * @ORM\Column(name="item_order_currency", type="integer", nullable=true, options={"default" : 0})
@@ -151,15 +151,15 @@ class OrdersItems
 		return $this->itemId;
 	}
 
-    /**
-     * @param int|null $itemId
-     */
-    public function setItemId(?int $itemId): void
-    {
-        $this->itemId = $itemId;
-    }
+	/**
+	 * @param int|null $itemId
+	 */
+	public function setItemId(?int $itemId): void
+	{
+		$this->itemId = $itemId;
+	}
 
-    /**
+	/**
      * @return int
      */
     public function getItemSku(): int
@@ -357,15 +357,15 @@ class OrdersItems
     public function getItemAttribute(): ?TextType
     {
         return $this->itemAttribute;
-    }
+	}
 
-    /**
-     * @param TextType|null $itemAttribute
-     */
-    public function setItemAttribute(?TextType $itemAttribute): void
-    {
-        $this->itemAttribute = $itemAttribute;
-    }
+	/**
+	 * @param TextType|null $itemAttribute
+	 */
+	public function setItemAttribute(?TextType $itemAttribute): void
+	{
+		$this->itemAttribute = $itemAttribute;
+	}
 
 	/**
 	 * @return string|null

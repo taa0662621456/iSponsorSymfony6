@@ -57,7 +57,7 @@ class Categories
      */
     private $categoryProjects;
 
-	/**
+    /**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="categoryEnGb",
@@ -93,11 +93,11 @@ class Categories
 	}
 
 	/**
-     * @return bool|false
-     */
-    public function isPublished(): bool
-    {
-        return $this->published;
+	 * @return bool|false
+	 */
+	public function isPublished(): bool
+	{
+		return $this->published;
     }
 
     /**
@@ -211,14 +211,14 @@ class Categories
 	/**
 	 * @param CategoriesAttachments $attachments
 	 */
-    public function addCategoryAttachment(CategoriesAttachments $attachments): void
-    {
-        foreach ($attachments as $attachment) {
-            if (!$this->categoryAttachments->contains($attachment)) {
-                $this->categoryAttachments->add($attachment);
-            }
-        }
-    }
+	public function addCategoryAttachment(CategoriesAttachments $attachments): void
+	{
+		foreach ($attachments as $attachment) {
+			if (!$this->categoryAttachments->contains($attachment)) {
+				$this->categoryAttachments->add($attachment);
+			}
+		}
+	}
 
 
 	/**

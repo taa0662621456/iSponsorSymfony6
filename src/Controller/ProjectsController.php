@@ -58,10 +58,10 @@ class ProjectsController extends AbstractController
 				//'projects' => $projectsRepository->findAll(),
 				//'latest' => $latestProjects,
 				//'news' => $lastNews,
-            //'slides' => $slides
-            )
-        );
-    }
+				//'slides' => $slides
+			)
+		);
+	}
 
     /**
      * @Route("/new", name="projects_new", methods={"GET","POST"})
@@ -69,7 +69,7 @@ class ProjectsController extends AbstractController
      * @return Response
      * @throws Exception
      */
-    public function new(Request $request): Response
+	public function new(Request $request): Response
 	{
 		$slug = new Slugify();
 		$project = new Projects();
@@ -88,10 +88,10 @@ class ProjectsController extends AbstractController
 				$project->setSlug($slug->slugify($projectEnGb->getProjectTitle()));
 
 			}
-            $entityManager->flush();
+			$entityManager->flush();
 
-            return $this->redirectToRoute('projects');
-        }
+			return $this->redirectToRoute('projects');
+		}
 
         return $this->render('project/projects/new.html.twig', [
             'project' => $project,
