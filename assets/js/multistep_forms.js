@@ -2,12 +2,15 @@ import jQuery from 'jquery';
 
 (function ($, undefined) {
 
-    let current_fs, next_fs, previous_fs;
-    let left, opacity, scale;
-    let animating;
     let $next = $('.next');
     let $previous = $('.previous');
     let $submit = $('.submit');
+    let $msform = $('#msform');
+    let $msform_unset = $('.msform_unset');
+
+    let current_fs, next_fs, previous_fs;
+    let left, opacity, scale;
+    let animating;
 
     $next.click(function () {
         if (animating) return false;
@@ -82,8 +85,8 @@ import jQuery from 'jquery';
         });
     });
 
-    $(".msform_unset").click(function () {
-        document.querySelector("#msform").removeAttribute("#msform")
+    $msform_unset.click(function () {
+        $msform.removeAttribute("#msform")
     });
 
     $submit.click(function () {
