@@ -18,8 +18,8 @@
 			$builder
 				->add('vendorSecurity', VendorsSecurityType::class)
 				->add('submit', SubmitType::class, array(
-					'label' => 'label.signin.submit',
-					'attr' => array(
+					'label' => 'label.signin',
+					'attr'  => array(
 						'class' => 'btn btn-primary btn-block'
 					)
 				))

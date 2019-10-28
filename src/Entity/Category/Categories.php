@@ -8,15 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="categories", uniqueConstraints={
- * @ORM\UniqueConstraint(name="slug", columns={"slug"})}, indexes={
+ * @ORM\Table(name="categories", indexes={
  * @ORM\Index(name="category_slug", columns={"slug"})})
- * @UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
+ * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Category\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -55,21 +53,20 @@ class Categories
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects",
-	 *      cascade={"persist"},
 	 *      mappedBy="projectCategory")
      */
     private $categoryProjects;
 
-    /**
+	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb",
 	 *     cascade={"persist", "remove"},
-	 *     mappedBy="categoriesEnGb",
+	 *     mappedBy="categoryEnGb",
 	 *     orphanRemoval=true)
 	 * @ORM\JoinColumn(name="categoryEnGb_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
 	 * @Assert\Valid()
 	 */
-    private $categoryEnGb;
+	private $categoryEnGb;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments",
@@ -77,27 +74,25 @@ class Categories
 	 *     cascade={"persist", "remove"},
 	 *     orphanRemoval=true)
 	 */
-    private $categoryAttachments;
+	private $categoryAttachments;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="categoryFeatured")
+	 */
+	private $categoryFeatured;
 
 
-
-
-
-
-
-
-
-    /**
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $this->children = new ArrayCollection();
+	/**
+	 * @throws Exception
+	 */
+	public function __construct()
+	{
+		$this->children = new ArrayCollection();
 		$this->categoryProjects = new ArrayCollection();
 		$this->categoryAttachments = new ArrayCollection();
-    }
+	}
 
-    /**
+	/**
      * @return bool|false
      */
     public function isPublished(): bool
@@ -226,20 +221,37 @@ class Categories
     }
 
 
-    /**
-     * @param CategoriesAttachments $attachment
-     */
-    public function removeCategoryAttachment(CategoriesAttachments $attachment): void
-    {
-        $this->categoryAttachments->removeElement($attachment);
-    }
+	/**
+	 * @param CategoriesAttachments $attachment
+	 */
+	public function removeCategoryAttachment(CategoriesAttachments $attachment): void
+	{
+		$this->categoryAttachments->removeElement($attachment);
+	}
 
-    /**
-     * @return Collection|CategoriesAttachments[]
-     */
-    public function getCategoryAttachments(): Collection
-    {
-        return $this->categoryAttachments;
-    }
+	/**
+	 * @return Collection|CategoriesAttachments[]
+	 */
+	public function getCategoryAttachments(): Collection
+	{
+		return $this->categoryAttachments;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCategoryFeatured()
+	{
+		return $this->categoryFeatured;
+	}
+
+	/**
+	 * @param mixed $categoryFeatured
+	 */
+	public function setCategoryFeatured($categoryFeatured): void
+	{
+		$this->categoryFeatured = $categoryFeatured;
+	}
+
 
 }

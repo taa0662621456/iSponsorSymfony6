@@ -14,11 +14,13 @@ class ProductsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('productSku', HiddenType::class, array(
-            	'required' => false
-			))
-            ->add('productEnGb', ProductsEnGbType::class)
-            ->add('productsAttachments', ProductsAttachmentsType::class)
+			->add(
+				'productSku', HiddenType::class, array(
+					'required' => false
+				)
+			)
+			->add('productEnGb', ProductsEnGbType::class)
+			->add('productAttachments', ProductsAttachmentsType::class)
             ->add('productTags', ProductsTagsType::class, array(
                 'required' => false
             ))

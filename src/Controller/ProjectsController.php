@@ -36,27 +36,28 @@ class ProjectsController extends AbstractController
 	 * @Route("/", name="projects", methods={"GET"})
 	 * @return Response
 	 */
-	public function index(): Response
+	public function projects(): Response
 	{
 		$em = $this->getDoctrine()->getManager();
 		$categoriesRepository = $em->getRepository(CategoriesRepository::class);
 		//$newsRepository = $em->getRepository('News');
-        //$slideRepository = $em->getRepository('Slide');
+		//$slideRepository = $em->getRepository('Slide');
 		//$projectsRepository = $em->getRepository(ProjectsRepository::class);
 
-        //sorted by order number
-        //$slides = $slideRepository->findBy(['enabled' => true], ['slideOrder' => 'ASC']);
-        //$lastNews = $newsRepository->getLastNews();
-        //$categories = $categoriesRepository->findAll();
-        //$latestProjects = $projectsRepository->getLatest(12, $this->getUser());
-        //$featuredProjects = $projectsRepository->getFeatured(12, $this->getUser());
+		//sorted by order number
+		//$slides = $slideRepository->findBy(['enabled' => true], ['slideOrder' => 'ASC']);
+		//$lastNews = $newsRepository->getLastNews();
+		//$categories = $categoriesRepository->findAll();
+		//$latestProjects = $projectsRepository->getLatest(12, $this->getUser());
+		//$featuredProjects = $projectsRepository->getFeatured(12, $this->getUser());
 
-        return $this->render('project/projects/index.html.twig', array(
-            'categories' => $categoriesRepository
-            //'featured_products' => $featuredProjects,
-            //'projects' => $projectsRepository->findAll(),
-            //'latest' => $latestProjects,
-            //'news' => $lastNews,
+		return $this->render(
+			'project/projects/index.html.twig', array(
+				'categories' => $categoriesRepository
+				//'featured_products' => $featuredProjects,
+				//'projects' => $projectsRepository->findAll(),
+				//'latest' => $latestProjects,
+				//'news' => $lastNews,
             //'slides' => $slides
             )
         );
@@ -69,24 +70,21 @@ class ProjectsController extends AbstractController
      * @throws Exception
      */
     public function new(Request $request): Response
-    {
-        $slug = new Slugify();
+	{
+		$slug = new Slugify();
+		$project = new Projects();
+		$projectEnGb = new ProjectsEnGb();
 
-        $project = new Projects();
-        //$project->setCreatedBy($this->getUser());
+		//$projectEnGb->setCreatedBy($this->getUser());
+		$form = $this->createForm(ProjectsType::class, $project);
+		$form->handleRequest($request);
 
-        $projectEnGb = new ProjectsEnGb();
-        //$projectEnGb->setCreatedBy($this->getUser());
+		if ($form->isSubmitted() && $form->isValid()) {
+			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager->persist($project);
 
-        $form = $this->createForm(ProjectsType::class, $project);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($project);
-
-            $s = $form->get('projectEnGb')->get('slug')->getData();
-            if (!isset($s)) {
+			$s = $form->get('projectEnGb')->get('slug')->getData();
+			if (!isset($s)) {
 				$project->setSlug($slug->slugify($projectEnGb->getProjectTitle()));
 
 			}

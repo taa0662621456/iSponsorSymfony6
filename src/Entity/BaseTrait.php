@@ -34,7 +34,7 @@
 		 *
 		 * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
 		 */
-		protected $slug;
+		protected $slug = 'slug';
 
 		/**
 		 * @var DateTime
@@ -104,7 +104,7 @@
 		/**
 		 * @return int
 		 */
-		public function getId(): int
+		public function getId(): ?int
 		{
 			return $this->id;
 		}

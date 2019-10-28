@@ -1,0 +1,17 @@
+button.submit: 'Отправить'
+button.save: 'Сохранить'
+button.cancel: 'Отменить'
+
+button.logout: 'Выйти'
+button.login: 'Войти'
+button.remember: 'Запомнить меня'
+
+button.back: 'Назад'
+button.to: 'Вперед'
+
+button.next: 'Далее'
+button.next.step: 'Следующий шаг'
+
+button.previous: 'Предыдущий шаг'
+button.previous.step: 'Предыдущий шаг'
+

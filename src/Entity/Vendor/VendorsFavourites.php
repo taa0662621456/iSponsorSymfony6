@@ -16,7 +16,7 @@ class VendorsFavourites
 	use BaseTrait;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", inversedBy="vendorFavourites")
+	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorFavourites")
 	 * @ORM\JoinColumn(name="vendorFavourites_id", referencedColumnName="id")
 	 */
 	private $vendorFavourites;

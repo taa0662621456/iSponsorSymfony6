@@ -8,7 +8,6 @@
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
-	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 	use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -42,16 +41,17 @@
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
-		 *      cascade={"persist"},
 		 *      inversedBy="categoryProjects",
 		 *      fetch="EXTRA_LAZY")
+		 * @ORM\JoinColumn(name="projectCategory_id", referencedColumnName="id")
 		 */
 		private $projectCategory;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectsEnGb",
-		 *      cascade={"persist", "remove"},
-		 *      orphanRemoval=true)
+		 *     cascade={"persist", "remove"},
+		 *     mappedBy="projectEnGb",
+		 *     orphanRemoval=true)
 		 * @ORM\JoinColumn(name="projectEnGb_id", referencedColumnName="id", onDelete="CASCADE")
 		 * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
 		 * @Assert\Valid()
@@ -72,11 +72,8 @@
 		private $projectAttachments;
 
 		/**
-		 * @var int
-		 *
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectsFavourites", mappedBy="projectFavourites")
 		 * @ORM\JoinTable(name="project_favourites")
-		 * @ORM\OrderBy({"name": "ASC"})
 		 **/
 		private $projectFavourites;
 
@@ -248,5 +245,22 @@
 		{
 			$this->projectFavourites = $projectFavourites;
 		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getProjectFeatured()
+		{
+			return $this->projectFeatured;
+		}
+
+		/**
+		 * @param mixed $projectFeatured
+		 */
+		public function setProjectFeatured($projectFeatured): void
+		{
+			$this->projectFeatured = $projectFeatured;
+		}
+
 
 	}

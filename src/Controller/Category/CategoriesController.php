@@ -36,7 +36,7 @@
 		}
 
 		/**
-		 * @Route("/", name="categories_index", methods={"GET"})
+		 * @Route("/", name="categories", methods={"GET"})
 		 * @param CategoriesRepository $categories
 		 *
 		 * @return Response
@@ -45,8 +45,8 @@
 		{
 			return $this->render(
 				'category/categories/index.html.twig', array(
-														 'categories' => $categories->findAll(),
-													 )
+					'categories' => $categories->findAll(),
+				)
 			);
 		}
 
@@ -99,9 +99,11 @@
 		 */
 		public function new(Request $request): Response
 		{
+
 			$slug = new Slugify();
 			$category = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
+
 			$form = $this->createForm(CategoriesType::class, $category);
 			$form->handleRequest($request);
 
@@ -112,24 +114,23 @@
 				$entityManager = $this->getDoctrine()
 									  ->getManager()
 				;
+				$entityManager->persist($category);
 
-				$s = $form->getData()->categoryEnGb->getSlug();
+				$s = $form->get('CategoryEnGb')->get('slug')->getData();
 
 				if (!isset($s)) {
 					$category->setSlug($slug->slugify($categoryEnGb->getCategoryName()));
 				}
-
-				$entityManager->persist($category);
 				$entityManager->flush();
 
-				return $this->redirectToRoute('categories_index');
+				return $this->redirectToRoute('categories');
 			}
 
 			return $this->render(
 				'category/categories/new.html.twig', [
-													   'category' => $category,
-													   'form'     => $form->createView(),
-												   ]
+					'category' => $category,
+					'form'     => $form->createView(),
+				]
 			);
 		}
 
@@ -153,14 +154,14 @@
 					 ->flush()
 				;
 
-				return $this->redirectToRoute('categories_index');
+				return $this->redirectToRoute('categories');
 			}
 
 			return $this->render(
 				'category/categories/edit.html.twig', [
-														'category' => $category,
-														'form'     => $form->createView(),
-													]
+					'category' => $category,
+					'form'     => $form->createView(),
+				]
 			);
 		}
 
@@ -182,7 +183,7 @@
 				$entityManager->flush();
 			}
 
-			return $this->redirectToRoute('categories_index');
+			return $this->redirectToRoute('categories');
 		}
 
 	}

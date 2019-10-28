@@ -4,7 +4,7 @@
   "description": "iSponsor Platform Application",
   "minimum-stability": "dev",
   "require": {
-    "php": "7.1.22",
+    "php": "^7.1.22",
     "ext-ctype": "*",
     "ext-gmp": "*",
     "ext-iconv": "*",

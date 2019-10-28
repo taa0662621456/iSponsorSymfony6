@@ -243,7 +243,7 @@ class Orders
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
 	 *     cascade={"persist", "remove"},
-	 *     mappedBy="orderItems",
+	 *     mappedBy="items",
 	 *     orphanRemoval=true,
 	 *     fetch="EXTRA_LAZY"
 	 * )
@@ -260,6 +260,11 @@ class Orders
 	 */
 	private $orderStatus;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors",
+	 *     inversedBy="vendorOrders")
+	 */
+	private $orderCreatedAt;
 
 	public function __construct()
 	{

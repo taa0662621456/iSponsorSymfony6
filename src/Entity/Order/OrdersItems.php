@@ -102,49 +102,54 @@ class OrdersItems
     private $itemSubtotalWithTax = '0.00000';
 
     /**
-     * @var int|null
-     *
-     * @ORM\Column(name="item_order_currency", type="integer", nullable=true, options={"default" : 0})
-     */
-    private $itemOrderCurrency = 0;
+	 * @var int|null
+	 *
+	 * @ORM\Column(name="item_order_currency", type="integer", nullable=true, options={"default" : 0})
+	 */
+	private $itemOrderCurrency = 0;
 
-    /**
-     * @var TextType
-     *
-     * @ORM\Column(name="item_attribute", type="text", nullable=true, options={"default"="item_attribute"})
-     */
-    private $itemAttribute = 'item_attribute';
+	/**
+	 * @var TextType
+	 *
+	 * @ORM\Column(name="item_attribute", type="text", nullable=true, options={"default"="item_attribute"})
+	 */
+	private $itemAttribute = 'item_attribute';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="item_hash", type="string", nullable=true, options={"default"="item_hash"})
-     */
-    private $itemHash = 'item_hash';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="item_hash", type="string", nullable=true, options={"default"="item_hash"})
+	 */
+	private $itemHash = 'item_hash';
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors",
+	 *     inversedBy="vendorItems"
+	 * )
+	 * @ORM\JoinColumn(name="itemVendors_id", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	private $itemVendors;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\Orders",
 	 *     inversedBy="orderItems"
 	 * )
-	 * @ORM\JoinColumn(name="orderItems_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
-    private $orderItems;
+	private $items;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorOrderItems")
-	 * @ORM\JoinColumn(name="vendorOrderItems_id", referencedColumnName="id", nullable=true)
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Product\Products", inversedBy="productOrdered")
 	 */
-    private $vendorOrderItems;
+	private $productOrdered;
 
 
-
-    /**
-     * @return int|null
-     */
-    public function getItemId(): ?int
-    {
-        return $this->itemId;
-    }
+	/**
+	 * @return int|null
+	 */
+	public function getItemId(): ?int
+	{
+		return $this->itemId;
+	}
 
     /**
      * @param int|null $itemId
@@ -362,51 +367,71 @@ class OrdersItems
         $this->itemAttribute = $itemAttribute;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getItemHash(): ?string
-    {
-        return $this->itemHash;
-    }
-
-    /**
-     * @param string|null $itemHash
-     */
-    public function setItemHash(?string $itemHash): void
-    {
-        $this->itemHash = $itemHash;
-    }
-
 	/**
-	 * @return mixed
+	 * @return string|null
 	 */
-	public function getOrderItems()
+	public function getItemHash(): ?string
 	{
-		return $this->orderItems;
+		return $this->itemHash;
 	}
 
 	/**
-	 * @param mixed $orderItems
+	 * @param string|null $itemHash
 	 */
-	public function setOrderItems($orderItems): void
+	public function setItemHash(?string $itemHash): void
 	{
-		$this->orderItems = $orderItems;
+		$this->itemHash = $itemHash;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getVendorOrderItems()
+	public function getItemVendors()
 	{
-		return $this->vendorOrderItems;
+		return $this->itemVendors;
 	}
 
 	/**
-	 * @param mixed $vendorOrderItems
+	 * @param mixed $itemVendors
 	 */
-	public function setVendorOrderItems($vendorOrderItems): void
+	public function setItemVendors($itemVendors): void
 	{
-		$this->vendorOrderItems = $vendorOrderItems;
+		$this->itemVendors = $itemVendors;
 	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getItems()
+	{
+		return $this->items;
+	}
+
+	/**
+	 * @param mixed $items
+	 */
+	public function setItems($items): void
+	{
+		$this->items = $items;
+	}
+
+
+	/**
+	 * @return mixed
+	 */
+	public function getProductOrdered()
+	{
+		return $this->productOrdered;
+	}
+
+	/**
+	 * @param mixed $productOrdered
+	 */
+	public function setProductOrdered($productOrdered): void
+	{
+		$this->productOrdered = $productOrdered;
+	}
+
+
 }

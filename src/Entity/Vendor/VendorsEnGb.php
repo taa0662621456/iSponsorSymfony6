@@ -147,43 +147,49 @@ class VendorsEnGb
     private $vendorAcceptedCurrencies = 'vendor_accepted_currencies';
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="vendor_params", type="string", nullable=false, options={"default"="vendor_params"})
-     */
-    private $vendorParams = 'vendor_params';
+	 * @var string
+	 *
+	 * @ORM\Column(name="vendor_params", type="string", nullable=false, options={"default"="vendor_params"})
+	 */
+	private $vendorParams = 'vendor_params';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="vendor_meta_robot", type="string", nullable=false, options={"default"="meta_robot"})
-     */
-    private $vendorMetaRobot = 'meta_robot';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="vendor_meta_robot", type="string", nullable=false, options={"default"="meta_robot"})
+	 */
+	private $vendorMetaRobot = 'meta_robot';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="vendor_meta_author", type="string", nullable=true, options={"default"="meta_author"})
-     */
-    private $vendorMetaAuthor = 'meta_author';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="vendor_meta_author", type="string", nullable=true, options={"default"="meta_author"})
+	 */
+	private $vendorMetaAuthor = 'meta_author';
 
-    /**
-     * @return string|null
-     */
-    public function getVendorFirstName(): string
-    {
-        return $this->vendorFirstName;
-    }
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors",
+	 *     inversedBy="vendorEnGb")
+	 */
+	private $vendorEnGb;
+
+	/**
+	 * @return string|null
+	 */
+	public function getVendorFirstName(): string
+	{
+		return $this->vendorFirstName;
+	}
 
 	/**
 	 * @param string $vendorFirstName
 	 */
-    public function setVendorFirstName(string $vendorFirstName): void
-    {
-        $this->vendorFirstName = $vendorFirstName;
-    }
+	public function setVendorFirstName(string $vendorFirstName): void
+	{
+		$this->vendorFirstName = $vendorFirstName;
+	}
 
-    /**
+	/**
      * @return string
      */
     public function getVendorLastName(): string
@@ -424,19 +430,36 @@ class VendorsEnGb
     }
 
     /**
-     * @return string
-     */
-    public function getVendorMetaAuthor(): string
-    {
-        return $this->vendorMetaAuthor;
-    }
+	 * @return string
+	 */
+	public function getVendorMetaAuthor(): string
+	{
+		return $this->vendorMetaAuthor;
+	}
 
 	/**
 	 * @param string $vendorMetaAuthor
 	 */
-    public function setVendorMetaAuthor(string $vendorMetaAuthor): void
-    {
-        $this->vendorMetaAuthor = $vendorMetaAuthor;
-    }
+	public function setVendorMetaAuthor(string $vendorMetaAuthor): void
+	{
+		$this->vendorMetaAuthor = $vendorMetaAuthor;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorEnGb()
+	{
+		return $this->vendorEnGb;
+	}
+
+	/**
+	 * @param mixed $vendorEnGb
+	 */
+	public function setVendorEnGb($vendorEnGb): void
+	{
+		$this->vendorEnGb = $vendorEnGb;
+	}
+
 
 }

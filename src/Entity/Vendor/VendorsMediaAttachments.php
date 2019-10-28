@@ -19,7 +19,7 @@ class VendorsMediaAttachments
 	use AttachmentsTrait;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorMediasAttachments")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorMediaAttachments")
 	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
 	private $attachments;

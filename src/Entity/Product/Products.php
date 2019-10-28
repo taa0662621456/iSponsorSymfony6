@@ -99,6 +99,7 @@
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
 		 *     mappedBy="productOrdered")
+		 * @ORM\JoinTable(name="ordersItems")
 		 */
 		private $productOrdered;
 
@@ -267,7 +268,6 @@
 		 *
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductsFavourites", mappedBy="productFavourites")
 		 * @ORM\JoinTable(name="product_favourites")
-		 * @ORM\OrderBy({"name": "ASC"})
 		 **/
 		private $productFavourites;
 

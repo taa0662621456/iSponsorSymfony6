@@ -16,12 +16,14 @@ class VendorsRegistrationType extends AbstractType
     {
         $builder
 			->add('vendorSecurity', VendorsSecurityType::class)
-            ->add('submit', SubmitType::class, array(
-                'label' => 'label.signup.submit',
-                'attr' => array(
-                    'class' => 'btn btn-primary btn-block'
-                )
-            ))
+			->add(
+				'submit', SubmitType::class, array(
+				'label' => 'label.signup',
+				'attr'  => array(
+					'class' => 'btn btn-primary btn-block'
+				)
+			)
+			)
             ->add('token', HiddenType::class, array(
                 'mapped' => false,
                 'attr' => array(

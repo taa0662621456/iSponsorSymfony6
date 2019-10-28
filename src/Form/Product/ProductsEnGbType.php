@@ -25,11 +25,11 @@ class ProductsEnGbType extends AbstractType
 				),
 				'required' => true,
 				'attr' => array(
-					'id' => 'productName',
-					'class' => 'form-control',
-					'placeholder' => 'Enter product name',
-					'tabindex' => '101',
-					'autofocus' => true
+					'id'          => 'productName',
+					'class'       => 'form-control',
+					'placeholder' => 'product.name.placeholder',
+					'tabindex'    => '101',
+					'autofocus'   => true
 				)
 			))
             ->add('productSDesc', TextareaType::class, array(
@@ -39,11 +39,11 @@ class ProductsEnGbType extends AbstractType
 				),
 				'required' => false,
 				'attr' => array(
-					'id' => 'productSDesc',
-					'class' => 'form-control',
-					'placeholder' => 'Enter product short description',
-					'tabindex' => '102',
-					'autofocus' => false
+					'id'          => 'productSDesc',
+					'class'       => 'form-control',
+					'placeholder' => 'product.sdesc.placeholder',
+					'tabindex'    => '102',
+					'autofocus'   => false
 				)
 			))
             ->add('productDesc', TextareaType::class, array(
@@ -53,11 +53,11 @@ class ProductsEnGbType extends AbstractType
 				),
 				'required' => false,
 				'attr' => array(
-					'id' => 'productDesc',
-					'class' => 'form-control',
-					'placeholder' => 'Enter product description',
-					'tabindex' => '103',
-					'autofocus' => false
+					'id'          => 'productDesc',
+					'class'       => 'form-control',
+					'placeholder' => 'product.desc.placeholder',
+					'tabindex'    => '103',
+					'autofocus'   => false
 				)
 			))
             ->add('slug', TextType::class, array(
@@ -67,11 +67,11 @@ class ProductsEnGbType extends AbstractType
 				),
 				'required' => false,
 				'attr' => array(
-					'id' => 'slug',
-					'class' => 'form-control',
-					'placeholder' => 'Enter product tags',
-					'tabindex' => '104',
-					'autofocus' => false
+					'id'          => 'slug',
+					'class'       => 'form-control',
+					'placeholder' => 'product.tags.placeholder',
+					'tabindex'    => '104',
+					'autofocus'   => false
 				)
 				))
         ;

@@ -89,6 +89,13 @@ class ProjectsEnGb
 	 */
 	private $projectProductMetaKey = 'project_product_meta_key';
 
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects",
+	 *     inversedBy="projectEnGb"
+	 *     )
+	 */
+	private $projectEnGb;
+
 
 	public function __toString()
 	{
@@ -247,5 +254,22 @@ class ProjectsEnGb
 		$this->projectProductMetaKey = $projectProductMetaKey;
 		return $this;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getProjectEnGb()
+	{
+		return $this->projectEnGb;
+	}
+
+	/**
+	 * @param mixed $projectEnGb
+	 */
+	public function setProjectEnGb($projectEnGb): void
+	{
+		$this->projectEnGb = $projectEnGb;
+	}
+
 
 }

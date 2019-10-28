@@ -7,11 +7,10 @@ use App\Entity\Category\Categories;
 use App\Entity\Project\Projects;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Intl\Intl;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectsType extends AbstractType
@@ -19,20 +18,27 @@ class ProjectsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
 		$builder
-			->add('category', EntityType::class, array(
-				'required'  => true,
-				'multiple' => false,
-				'class' => Categories::class,
-				'choice_label' => 'id'
-			))
+			->add('id', HiddenType::class)
+			->add(
+				'projectCategory', EntityType::class, array(
+					'class'        => Categories::class,
+					'required'     => true,
+					'multiple'     => false,
+					'choice_label' => 'id'
+				)
+			)
 			->add('projectEnGb', ProjectsEnGbType::class)
-			->add('projectsAttachments', CollectionType::class, array(
-				'entry_type' => ProjectsTagsType::class,
-				'allow_add' => true
-			))
-			->add('tags', ProjectsTagsType::class, array(
-				'required'  => false,
-			))
+			->add(
+				'projectAttachments', CollectionType::class, array(
+					'entry_type' => ProjectsAttachmentsType::class,
+					'allow_add'  => true
+				)
+			)
+			->add(
+				'projectTags', ProjectsTagsType::class, array(
+					'required' => false,
+				)
+			)
 			->add('previous', SubmitType::class, array(
 				'label' => 'label.previous',
 				'attr' => array(

@@ -1,0 +1,15 @@
+label.submit: 'Отправить'
+label.save: 'Сохранить'
+label.cancel: 'Отменить'
+
+label.logout: 'Выйти'
+
+label.back: 'Назад'
+label.to: 'Вперед'
+
+label.next: 'Далее'
+label.next.step: 'Следующий шаг'
+
+label.previous: 'Предыдущий шаг'
+label.previous.step: 'Предыдущий шаг'
+

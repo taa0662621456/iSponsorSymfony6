@@ -19,56 +19,56 @@ class ProjectsEnGbType extends AbstractType
     {
         $builder
             ->add('projectTitle', TextType::class, array(
-            	'label' => 'label.project.title',
+				'label'      => 'project.title.label',
 				'label_attr' => array(
 					'class' => 'sr-only',
 				),
-				'required' => true,
-				'attr' => array(
-					'id' => 'projectTitle',
-					'class' => 'form-control',
-					'placeholder' => 'Enter project title',
-					'tabindex' => '101',
-					'autofocus' => true
+				'required'   => true,
+				'attr'       => array(
+					'id'          => 'projectTitle',
+					'class'       => 'form-control',
+					'placeholder' => 'project.title.placeholder',
+					'tabindex'    => '101',
+					'autofocus'   => true
 				),
 			))
             ->add('projectSDesc', TextareaType::class, array(
-            	'label' => 'label.project.sdesc',
+				'label'      => 'project.sdesc.label',
 				'label_attr' => array(
 					'class' => 'sr-only',
 				),
-				'attr' => array(
-					'id' => 'projectSDesc',
-					'class' => 'form-control',
-					'placeholder' => 'Enter project short description',
-					'tabindex' => '102',
-					'autofocus' => false
+				'attr'       => array(
+					'id'          => 'projectSDesc',
+					'class'       => 'form-control',
+					'placeholder' => 'project.sdesc.placeholder',
+					'tabindex'    => '102',
+					'autofocus'   => false
 				)
 			))
             ->add('projectDesc', TextareaType::class, array(
-            	'label' => 'label.project.desc',
+				'label'      => 'project.desc.label',
 				'label_attr' => array(
 					'class' => 'sr-only',
 				),
-				'attr' => array(
-					'id' => 'projectDesc',
-					'class' => 'form-control',
-					'placeholder' => 'Enter project description',
-					'tabindex' => '103',
-					'autofocus' => false
+				'attr'       => array(
+					'id'          => 'projectDesc',
+					'class'       => 'form-control',
+					'placeholder' => 'project.desc.placeholder',
+					'tabindex'    => '103',
+					'autofocus'   => false
 				)
 			))
             ->add('slug', TextType::class, array(
-            	'label' => 'slug',
+				'label'      => 'project.slug.label',
 				'label_attr' => array(
 					'class' => 'sr-only',
 				),
-				'attr' => array(
-					'id' => 'slug',
-					'class' => 'form-control',
-					'placeholder' => 'Enter tags for project',
-					'tabindex' => '103',
-					'autofocus' => false
+				'attr'       => array(
+					'id'          => 'slug',
+					'class'       => 'form-control',
+					'placeholder' => 'project.slug.placeholder',
+					'tabindex'    => '103',
+					'autofocus'   => false
 				)
 			))
         ;

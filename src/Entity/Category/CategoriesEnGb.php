@@ -63,6 +63,12 @@ class CategoriesEnGb
 	 */
 	private $customTitle = 'custom_title';
 
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories",
+	 *     inversedBy="categoryEnGb")
+	 */
+	private $categoryEnGb;
+
 
 	/**
 	 * @return string
@@ -153,5 +159,14 @@ class CategoriesEnGb
 	{
 		$this->customTitle = $customTitle;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCategoryEnGb()
+	{
+		return $this->categoryEnGb;
+	}
+
 
 }

@@ -136,23 +136,29 @@ class Vendors
 	private $vendorMediaAttachments;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", cascade={"persist"}, mappedBy="vendorOrders")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders",
+	 *     mappedBy="orderCreatedAt")
+	 * @ORM\JoinTable(name="orders")
 	 */
 	private $vendorOrders;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems", mappedBy="vendorOrderItems")
+	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
+	 *     mappedBy="itemVendors")
+	 * @ORM\JoinTable(name="ordersItems")
 	 */
-	private $vendorOrderItems;
+	private $vendorItems;
 
 	/**
-	 * @var int
-	 *
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", mappedBy="vendorFavourites")
 	 * @ORM\JoinTable(name="vendors_favourites")
-	 * @ORM\OrderBy({"name": "ASC"})
 	 */
 	private $vendorFavourites;
+
+	/**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="vendorFeatured")
+	 */
+	private $vendorFeatured;
 
 
 	/**
@@ -507,6 +513,21 @@ class Vendors
 		$this->vendorFavourites = $vendorFavourites;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function getVendorFeatured()
+	{
+		return $this->vendorFeatured;
+	}
+
+	/**
+	 * @param mixed $vendorFeatured
+	 */
+	public function setVendorFeatured($vendorFeatured): void
+	{
+		$this->vendorFeatured = $vendorFeatured;
+	}
 
 	/**
 	 * @return mixed

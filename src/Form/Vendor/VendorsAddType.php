@@ -17,13 +17,15 @@
 			$builder
 				->add('vendorSecurity', VendorsSecurityType::class)
 				->add('vendorEnGb', VendorsEnGbType::class)
-				->add('vendorSlug', TextType::class, array(
-					'label' => 'label.slug',
-					'label_attr' => array(
-						'class' => 'sr-only'
-					),
-					'required' => false
-				))
+				->add(
+					'slug', TextType::class, array(
+						'label'      => 'label.slug',
+						'label_attr' => array(
+							'class' => 'sr-only'
+						),
+						'required'   => false
+					)
+				)
 				->add('previous', SubmitType::class, array(
 					'label' => 'label.previous',
 					'attr' => array(
