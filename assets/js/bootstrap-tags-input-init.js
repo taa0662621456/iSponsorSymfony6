@@ -1,5 +1,6 @@
-$(function()
-{
+import jQuery from 'jquery';
+
+(function ($, undefined) {
     const $input = $('input[data-toggle="tagsinput"]');
     if ($input.length) {
         const source = new Bloodhound({
@@ -18,4 +19,4 @@ $(function()
             }
         });
     }
-});
+})(jQuery);
