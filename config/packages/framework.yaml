@@ -3,14 +3,14 @@ framework:
     csrf_protection: true
     #http_method_override: true
     default_locale: '%locale%'
-    translator:
-        default_path: '%kernel.project_dir%/translations'
-        fallbacks:
-        - '%locale%'
-        paths:
-        - '%kernel.project_dir%/translations/en-GB'
-        - '%kernel.project_dir%/translations/ru-RU'
-        - '%kernel.project_dir%/translations/uk-UA'
+    #translator:
+    #    default_path: '%kernel.project_dir%/translations'
+    #    fallbacks:
+    #    - '%locale%'
+    #    paths:
+    #    - '%kernel.project_dir%/translations/en-GB'
+    #    - '%kernel.project_dir%/translations/ru-RU'
+    #    - '%kernel.project_dir%/translations/uk-UA'
 
     router:
         strict_requirements: ~

@@ -19,14 +19,13 @@ class ProjectsType extends AbstractType
     {
 		$builder
 			->add('id', HiddenType::class)
-			->add(
-				'projectCategory', EntityType::class, array(
+			/*->add('projectCategory', EntityType::class, array(
 					'class'        => Categories::class,
 					'required'     => true,
 					'multiple'     => false,
 					'choice_label' => 'id'
 				)
-			)
+			)*/
 			->add('projectEnGb', ProjectsEnGbType::class)
 			->add(
 				'projectAttachments', CollectionType::class, array(
