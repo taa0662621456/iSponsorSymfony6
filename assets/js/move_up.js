@@ -1,23 +1,34 @@
-/*left-move_up-panel */
-$(window).scroll(function() {
-    if ($(this).scrollTop() > 400) {
-        $('#move_up').fadeIn(600);
-        $('#b1').css({'background-color':'#cfcfcf'});
-    } else {
-        $('#move_up').fadeOut(600);
-        $('#b1').css({'background-color':'transparent'});
-    }
-});
-/* move_up */
-$('#move_up').click(function() {
-    $('html').animate({
-        scrollTop: 0
-    }, 0);
-    return false;
-});
-$('#b1').click(function() {
-    $('html').animate({
-        scrollTop: 0
-    }, 0);
-    return false;
-});
+import jQuery from 'jquery';
+
+(function ($, undefined) {
+
+    let $moveUp = $('#move_up').filter('div');
+    let $moveUpBlock = $('#b1').filter('aside');
+
+    $(window).scroll(function () {
+
+        if ($(this).scrollTop() > 400) {
+            $moveUp.fadeIn(600);
+            $moveUpBlock.css({'background-color': '#cfcfcf'});
+        } else {
+            $moveUp.fadeOut(600);
+            $moveUpBlock.css({'background-color': 'transparent'});
+        }
+    });
+
+    $moveUp.click(function () {
+        $('html').animate({
+            scrollTop: 0
+        }, 0);
+        return false;
+    });
+
+    $moveUpBlock.click(function () {
+        $('html').animate({
+            scrollTop: 0
+        }, 0);
+        return false;
+    });
+
+})
+(jQuery);

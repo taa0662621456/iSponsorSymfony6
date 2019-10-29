@@ -1,20 +1,18 @@
 import jQuery from 'jquery';
+import Cookies from 'js-cookie';
 
 (function ($, undefined) {
-    let $col1 = $('input#col1');
-    let $col2 = $('input#col2');
-    let $col3 = $('input#col3');
-    let $col4 = $('input#col4');
-    let $masonryBrick = $('div.masonry-brick');
-    let $masonryGrid = $('div.masonry-grid');
-    let $cookie = $.cookie('cookie_cols');
+    let $col1 = $('#col1').filter('input');
+    let $col2 = $('#col2').filter('input');
+    let $col3 = $('#col3').filter('input');
+    let $col4 = $('#col4').filter('input');
+    let $masonryBrick = $('.masonry-brick').filter('div');
+    let $masonryGrid = $('.masonry-grid').filter('div');
 
-    if ($cookie === 'undefined') {
-
-    } else {
+    if (Cookies.get('cookie_cols')) {
+        let $cookie = Cookies.get('cookie_cols');
         $masonryBrick.css('width', $cookie);
         msnry.layout();
-        console.log($cookie);
     }
 
     $col1.click(function () {
@@ -27,11 +25,12 @@ import jQuery from 'jquery';
         //$('form.formfavorit').removeClass('hidden-xs');
         $masonryBrick.css('width', '100%');
         $masonryGrid.Masonry('layout');
-        $.cookie('cookie_cols', '100%');
+        Cookies.set('cookie_cols', '100%');
+        return false;
     });
 
     $col2.click(function () {
-        //let cookie_cols = $.cookie('cookie_cols');
+        //let cookie_cols = Cookies.set('cookie_cols');
         //$('.spacer').css('text-align', 'left');
         //$('.spacer').css('padding', '0px 10px');
         //$('.browse').css('margin', '4px');
@@ -41,26 +40,29 @@ import jQuery from 'jquery';
         //$('form.formfavorit').removeClass('hidden-xs');
         $masonryBrick.css('width', '48%');
         $masonryGrid.Masonry('layout');
-        $.cookie('cookie_cols', '48%');
+        Cookies.set('cookie_cols', '48%');
+        return false;
     });
 
     $col3.click(function () {
-        //let cookie_cols = $.cookie('cookie_cols');
+        //let cookie_cols = Cookies.set('cookie_cols');
         //$('.spacer').css('text-align', 'left');
         //$('.spacer').css('padding', '0px 10px');
         //$('.browse').css('margin', '3px');
         $masonryBrick.css('width', '33%');
         $masonryGrid.Masonry('layout');
-        $.cookie('cookie_cols', '33%');
+        Cookies.set('cookie_cols', '33%');
+        return false;
     });
 
     $col4.click(function () {
-        //let cookie_cols = $.cookie('cookie_cols');
+        //let cookie_cols = Cookies.set('cookie_cols');
         //$('.spacer').css('text-align', 'center');
         //$('.spacer').css('padding', '0');
         //$('.browse').css('margin', '2px');
         $masonryBrick.css('width', '23%');
         $masonryGrid.Masonry('layout');
-        $.cookie('cookie_cols', '23%');
+        Cookies.set('cookie_cols', '23%');
+        return false;
     });
 })(jQuery);

@@ -1,64 +1,53 @@
-$(document).ready(function () {
-    $('[data-toggle="confirmation"]').confirmation();
+import jQuery from 'jquery';
+import Cookies from 'js-cookie';
 
-    $(document).on('click', '.addtocart-btn', function (e) {
-        e.preventDefault();
-        //define var
-        var cartObj;
+(function ($, undefined) {
 
-        //get all cart
-        if (Cookies.get('cart')) {
-            cartObj = JSON.parse(Cookies.get('cart'));
-        } else {
-            cartObj = {};
-        }
+    let $clearCart = $('.clear').filter('input');
+    let $removeItem = $('.remove').filter('input');
+    let $addToCart = $('.add').filter('input');
+    let $quantity = $('.quantity').filter('input');
 
-        //get new vars
-        var productRow = $(this).closest('.id-row');
+    //TODO: диалоговое окно, которое непонятно, как работает на образце и используется вместе с Bootstrap,
+    // мне больше по душе jquery-confirm plugin
+    // всё установлено, нужно доделать
+    //$('[data-toggle="confirmation"]').confirmation();
 
-        var productIdRaw = productRow.data('id');
-        var productId = toPositiveInt(productIdRaw);
+    $addToCart.click(function () {
 
-        var productQuantityRaw = productRow.find('.addtocart-input').val();
-        var productQuantity = toPositiveInt(productQuantityRaw);
-        if (isNaN(productQuantity)) {
-            productQuantity = 1;
-        }
+        let productDescription = $(this).closest('.description').filter('div');
+        let productId = productDescription.data('id');
+        let productPrice = productDescription.parent().find('.price span').text();
+        let productQuantity = productDescription.find('.quantity-input').val();
 
-        var productPriceRaw = productRow.parent().find('.price span').text();
-        var productPrice = toPositiveInt(productPriceRaw);
-        addToNavbarCart(productQuantity, productPrice);
+        updateNavbarCart(productQuantity, productPrice);
+        updateCartObject(productId, productQuantity);
 
-        //record to cart
-        if (cartObj[productId]) {
-            cartObj[productId] = cartObj[productId] + productQuantity;
-        } else {
-            cartObj[productId] = productQuantity;
-        }
-
-        //set cookie
-        Cookies.set('cart', JSON.stringify(cartObj));
+        return false;
     });
 
-    $('.product-remove').on('click', function(e){
-        e.preventDefault();
-        var productRecord = $(this).closest('tr');
+
+    $removeItem.click(function () {
+        let productRecord = $(this).closest('tr');
         productRecord.remove();
 
         recalculateCart();
+
+        return false;
     });
 
-    $('.clear-cart').on('click', function(e){
-        e.preventDefault();
-        $('.product-position').each(function () {
+    $clearCart.click(function () {
+        $item.each(function () {
                 $(this).remove();
             }
         );
         recalculateCart();
+
+        return false;
     });
 
-    $(".quantity").bind('keyup change click', function (e) {
-        if (! $(this).data("previousValue") || $(this).data("previousValue") != $(this).val()) {
+    $quantity.bind('keyup change click', function () {
+        if (!$(this).data("previousValue") || $(this).data("previousValue") !== $(this).val()) {
             $(this).data("previousValue", $(this).val());
 
             //if quantity changed
@@ -66,76 +55,77 @@ $(document).ready(function () {
         }
     });
 
-    $(".quantity").each(function () {
+    $quantity.each(function () {
         $(this).data("previousValue", $(this).val());
     });
-});
 
-function recalculateCart(){
-    var totalSum = 0;
-    var totalQuantity = 0;
-    var cartObj = {};
+    function recalculateCart() {
+        let $totalSum = 0;
+        let $totalQuantity = 0;
+        let $cartObject = {};
+        let $item = $('.item');
 
-    $('.product-position').each(function () {
-        var quantityInput = $(this).find('.quantity');
+        $item.each(function () {
+            let quantityInput = $(this).find('.quantity');
 
-        //get all values
-        var productId = toPositiveInt(quantityInput.data('id'));
-        var productQuantity = toPositiveInt(quantityInput.val());
-        var productPrice = toPositiveInt($(this).find('.price span').text());
-        var productSum = productPrice * productQuantity;
+            //get all values
+            let productId = quantityInput.data('id');
+            let $productQuantity = quantityInput.val();
+            let $productPrice = $(this).find('.price span').text();
+            let $productSum = $productPrice * $productQuantity;
 
-        //show new sum
-        var productSumSelector = $(this).find('.sum');
-        productSumSelector.html(productSum);
+            let productSumNew = $(this).find('.sum');
+            productSumNew.html($productSum);
 
-        //record to obj
-        cartObj[productId] = productQuantity;
+            //record to obj
+            $cartObject[productId] = $productQuantity; // непонятная логика
 
-        totalSum += productSum;
-        totalQuantity += productQuantity;
-    });
+            $totalSum += $productSum;
+            $totalQuantity += $productQuantity;
+        });
 
-    //show new total sum
-    var totalSumSelector = $('.totalsum');
-    totalSumSelector.html(totalSum);
+        //show new total sum
+        let totalSumNew = $('.totalsum');
+        totalSumNew.html($totalSum);
 
-    //update navbar cart
-    updateNavbarCart(totalQuantity, totalSum);
+        updateNavbarCart($totalQuantity, $totalSum);
 
-    //update cookies
-    Cookies.remove('cart');
-    Cookies.set('cart', JSON.stringify(cartObj));
-}
+        Cookies.remove('cart');
+        Cookies.set('cart', JSON.stringify($cartObject));
+    }
 
-function toPositiveInt(rawVal) {
-    return Math.abs(Math.round(rawVal));
-}
+    function updateNavbarCart(quantity, price) {
 
+        let quantitySelector = $('#cart-quantity');
+        let sumSelector = $('#cart-sum');
 
-function addToNavbarCart(quantity, price){
-    //find selectors
-    var quantitySelector = $('#cart-quantity');
-    var sumSelector = $('#cart-sum');
-
-    var oldQuantity = toPositiveInt(quantitySelector.text());
-    var oldSum = toPositiveInt(sumSelector.text());
-
-    if (quantity > 0 && price > 0) {
-        var newQuantity = oldQuantity + quantity;
-        var newSum = oldSum + (price * quantity);
+        let newQuantity = quantitySelector + quantity;
+        let newSum = sumSelector + (price * quantity);
 
         quantitySelector.text(newQuantity);
         sumSelector.text(newSum);
     }
-}
 
-function updateNavbarCart(totalQuantity, totalSum){
-    //find selectors
-    var quantitySelector = $('#cart-quantity');
-    var sumSelector = $('#cart-sum');
+    function updateCartObject(product, quantity) {
 
-    //show new values
-    quantitySelector.text(totalQuantity);
-    sumSelector.text(totalSum);
-}
+        let cartObject;
+
+        if (Cookies.get('cart')) {
+            cartObject = JSON.parse(Cookies.get('cart'));
+        } else {
+            cartObject = {};
+        }
+
+        if (cartObject[product]) {
+            cartObject[product] = cartObject[product] + quantity;
+        } else {
+            cartObject[product] = quantity;
+        }
+
+        Cookies.set('cart', JSON.stringify(cartObject));
+
+    }
+
+})
+(jQuery);
+
