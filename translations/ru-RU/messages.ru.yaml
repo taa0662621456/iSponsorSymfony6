@@ -172,5 +172,12 @@ label.next.step: 'Следующий шаг'
 
 label.previous: 'Предыдущий шаг'
 label.previous.step: 'Предыдущий шаг'
+# CATEGORY
+category.name.lebel: 'Название категории'
+category.name.placeholder: 'Составте название категории'
+category.desc.lebel: 'Описание категории'
+category.desc.placeholder: 'Составте описание категории'
+category.slug.lebel: 'Читаемый идентификатор категории (алиас)'
+category.slug.placeholder: 'Составте читаемый идентификатор категории'
 
 
