@@ -52,7 +52,7 @@
 
 		/**
 		 * @Route("/category/{id<\d+>}", methods={"GET"}, name="categories_category")
-		 * @Route("/{categorySlug}", methods={"GET"}, name="category_slug")
+		 * @Route("/category/{categorySlug}", methods={"GET"}, name="category_slug")
 		 * @param Categories           $id
 		 * @param Categories           $slug
 		 * @param CategoriesRepository $categoriesRepository

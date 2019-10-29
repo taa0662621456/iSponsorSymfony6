@@ -30,7 +30,7 @@ class ProjectsEnGbType extends AbstractType
 					'placeholder' => 'project.title.placeholder',
 					'tabindex'    => '101',
 					'autofocus'   => true
-				),
+				)
 			))
             ->add('projectSDesc', TextareaType::class, array(
 				'label'      => 'project.sdesc.label',

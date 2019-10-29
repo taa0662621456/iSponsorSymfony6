@@ -14,15 +14,17 @@ class CategoriesAttachmentsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('file', FileType::class, array(
-                'data_class' => null,
-                'label' => 'Category\'s files',
-                'attr' => array(
-                    'class' => 'file',
-                    'multiple' => true,
-                    'data-preview-file-type' => 'any'
-                )
-            ))
+			->add(
+				'file', FileType::class, array(
+					'data_class' => null,
+					'label'      => 'category.attach.label',
+					'attr'       => array(
+						'class'                  => 'file',
+						'multiple'               => true,
+						'data-preview-file-type' => 'any'
+					)
+				)
+			)
             /*
             ->add('fileTitle')
             ->add('fileDescription')
@@ -40,12 +42,6 @@ class CategoriesAttachmentsType extends AbstractType
             ->add('isShared')
             ->add('published')
             /*
-            ->add('createdOn')
-            ->add('createdBy')
-            ->add('modifiedOn')
-            ->add('modifiedBy')
-            ->add('lockedOn')
-            ->add('lockedBy')
             ->add('category')
             */
         ;

@@ -20,18 +20,18 @@
 			$builder
 				->add('id', HiddenType::class)
 				->add('published')
-				->add(
+/*				->add(
 					'parent', EntityType::class, array(
 						'class'        => Categories::class,
 						'required'     => false,
 						'multiple'     => false,
 						'choice_label' => 'id'
 					)
-				)
+				)*/
 				->add('categoryEnGb', CategoriesEnGbType::class)
 				->add(
-					'categoriesAttachments', CategoriesAttachmentsType::class, array(
-						'entry_type' => CollectionType::class,
+					'categoryAttachments', CollectionType::class, array(
+						'entry_type' => CategoriesAttachmentsType::class,
 						'allow_add'  => true
 					)
 				)
@@ -55,7 +55,8 @@
 				)
 				->add(
 					'submit', SubmitType::class, array(
-						'attr' => array(
+						'label' => 'label.submit',
+						'attr'  => array(
 							'class' => 'btn btn-primary submit'
 						)
 					)

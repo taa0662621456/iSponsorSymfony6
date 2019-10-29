@@ -19,8 +19,9 @@ class CategoriesAttachments
 	use AttachmentsTrait;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories", inversedBy="categoryAttachments")
-	 * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
+	 *     inversedBy="categoryAttachments")
+	 * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	private $categoryAttachments;
 
