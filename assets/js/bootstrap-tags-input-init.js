@@ -1,4 +1,5 @@
 import jQuery from 'jquery';
+import Bloodhound from 'bloodhound-js';
 
 (function ($, undefined) {
     const $input = $('input[data-toggle="tagsinput"]');
