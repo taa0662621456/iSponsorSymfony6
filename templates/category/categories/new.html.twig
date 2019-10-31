@@ -1,16 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block title %}New Category{% endblock %}
 {% block header %}{% endblock %}
+{% block little_panel %}
+    {{ include('tools.html.twig') }}
+{% endblock %}
 {% block article_header %}{% endblock %}
 {% block article_content %}
     <div class="row">
-        <div class="col-3">
+        <div class="{{ c1 }}">
         </div>
-        <div class="col-6">
+        <div class="{{ c2 }}">
             <h3>Create new Category</h3>
             {{ include('category/categories/_form.html.twig') }}
         </div>
-        <div class="col-3">
+        <div class="{{ c3 }}">
         </div>
     </div>
 {% endblock %}
