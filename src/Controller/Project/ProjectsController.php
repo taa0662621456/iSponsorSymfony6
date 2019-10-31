@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Project;
 
 use App\Entity\Project\Projects;
 use App\Entity\Project\ProjectsAttachments;

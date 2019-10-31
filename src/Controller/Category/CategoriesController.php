@@ -104,6 +104,8 @@
 			$category = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
 
+			//$this->denyAccessUnlessGranted('edit', $category);
+
 			$form = $this->createForm(CategoriesType::class, $category);
 			$form->handleRequest($request);
 
