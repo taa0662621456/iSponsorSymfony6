@@ -1,8 +1,8 @@
 // Creates links to the TinyMCE
-import tinymce from 'tinymce';
-import "tinymce/themes/silver";
-import "tinymce/plugins/image";
+var tinymce = require('tinymce');
 
+require('tinymce/themes/silver/index');
+require('tinymce/plugins/image');
 
 let form = document.querySelector('#tinymce_editor');
 //console.dir(form); console.log(form.dataset.id);

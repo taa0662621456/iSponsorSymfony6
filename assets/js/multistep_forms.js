@@ -1,4 +1,4 @@
-import jQuery from 'jquery';
+var jQuery = require('jquery');
 
 (function ($, undefined) {
 
