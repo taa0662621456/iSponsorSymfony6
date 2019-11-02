@@ -74,6 +74,9 @@ class ProjectsController extends AbstractController
 		$slug = new Slugify();
 		$project = new Projects();
 		$projectEnGb = new ProjectsEnGb();
+		$projectAttachment = new ProjectsAttachments();
+		$projectAttachment->setFileClass('');
+		$project->getProjectAttachments()->add($projectAttachment);
 
 		//$projectEnGb->setCreatedBy($this->getUser());
 		$form = $this->createForm(ProjectsType::class, $project);

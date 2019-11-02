@@ -1,3 +1,4 @@
+# PRODUCT
 product.product: 'Товары'
 product.added.successfully: 'Товар был успешно добавлен'
 product.add.product: 'Добавить товар'
@@ -8,7 +9,7 @@ product.available.date: 'Дата поступления товара в про�
 product.baseprice: 'Основная цена: '
 product.baseprice.variant: 'Основная цена для варианта: '
 product.baseprice.withtax: 'Основная цена с НДС: '
-product.desc: 'Описание товара'
+product.desc.label: 'Описание товара'
 product.desc.title: 'Описание'
 product.details: 'Описание товара'
 product.details.manufacturer.lbl: 'Производитель: '
@@ -70,3 +71,4 @@ product.variant.mod: 'Модификатор цены: '
 product.weight: 'Вес товара'
 product.weight.uom: 'Единица измерения веса'
 product.width: 'Ширина товара'
+product.tags.placeholder: 'Введите один или несколько тегов для лучшего поиска'

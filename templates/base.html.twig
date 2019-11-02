@@ -112,67 +112,69 @@
 
             </nav>
         {% endblock %}
-        <section class="row header-main bg m-1">
-            <div class="{{ b1 }}">
-            </div>
-            <div class="{{ b2 }}">
-            </div>
-            <div class="{{ b3 }}">
-                <div class="row btn-toolbar justify-content-between" role="toolbar" aria-label="View settings">
-                    <div class="{{ c1 }}  btn-group btn-group-toggle" role="group" data-toggle="buttons">
-                        {% block little_panel %}
-                            {{ include('col_per_row.html.twig') }}
-                        {% endblock %}
-                    </div>
-                    <div class="{{ c2 }} input-group pl-0 pr-0">
-                        <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fad fa-search"></i>
-                            </button>
+        {% block section %}
+            <section class="row header-main bg m-1">
+                <div class="{{ b1 }}">
+                </div>
+                <div class="{{ b2 }}">
+                </div>
+                <div class="{{ b3 }}">
+                    <div class="row btn-toolbar justify-content-between" role="toolbar" aria-label="View settings">
+                        <div class="{{ c1 }}  btn-group btn-group-toggle" role="group" data-toggle="buttons">
+                            {% block little_panel %}
+                                {{ include('col_per_row.html.twig') }}
+                            {% endblock %}
+                        </div>
+                        <div class="{{ c2 }} input-group pl-0 pr-0">
+                            <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fad fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="{{ c3 }} input-group">
+                            <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
+                                <i class="fad fa-abacus"></i>
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
+                                {{ render(controller('App\\Controller\\CartController::navbarCart')) }}
+
+                            </a>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
+                                    <div class="btn-group mr-1" role="group" aria-label="Favourites">
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'projects'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            J</a>
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'products'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            D</a>
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'vendors'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            V</a>
+                                    </div>
+                                    <div class="btn-group mr-1">
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'index'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            A</a>
+                                        {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
+                                            <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }}">
+                                                Exit impersonation</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-                    <div class="{{ c3 }} input-group">
-                        <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
-                            <i class="fad fa-abacus"></i>
-                            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
-                            {{ render(controller('App\\Controller\\CartController::navbarCart')) }}
-
-                        </a>
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
-                                <div class="btn-group mr-1" role="group" aria-label="Favourites">
-                                    <a class="btn btn-secondary"
-                                       href="{{ path('favourites', {'favourites' : 'projects'}) }}">
-                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                        J</a>
-                                    <a class="btn btn-secondary"
-                                       href="{{ path('favourites', {'favourites' : 'products'}) }}">
-                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                        D</a>
-                                    <a class="btn btn-secondary"
-                                       href="{{ path('favourites', {'favourites' : 'vendors'}) }}">
-                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                        V</a>
-                                </div>
-                                <div class="btn-group mr-1">
-                                    <a class="btn btn-secondary"
-                                       href="{{ path('favourites', {'favourites' : 'index'}) }}">
-                                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                        A</a>
-                                    {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
-                                        <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }}">
-                                            Exit impersonation</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
                 </div>
-            </div>
-            <div class="{{ b4 }}">
-            </div>
-        </section>
+                <div class="{{ b4 }}">
+                </div>
+            </section>
+        {% endblock %}
         <hgroup>
             {% block header %}{% endblock %}
         </hgroup>

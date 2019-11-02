@@ -2,11 +2,11 @@ var jQuery = require('jquery');
 
 (function ($, undefined) {
 
-    let $next = $('.next');
-    let $previous = $('.previous');
-    let $submit = $('.submit');
-    let $msform = $('#msform');
-    let $msform_unset = $('.msform_unset');
+    let $next = $('.next').filter('button');
+    let $previous = $('.previous').filter('button');
+    let $submit = $('.submit').filter('button');
+    let $form = $('form:first');
+    let $formScrBtn = $('#msform-screen').filter('button');
 
     let current_fs, next_fs, previous_fs;
     let left, opacity, scale;
@@ -85,11 +85,19 @@ var jQuery = require('jquery');
         });
     });
 
-    $msform_unset.click(function () {
-        $msform.removeAttribute("#msform")
+    $formScrBtn.click(function () {
+        $form.toggle(
+            function () {
+                $(this).removeAttribute('id');
+            },
+            function () {
+                $(this).attr('id', '#msform');
+            }
+        );
     });
 
     $submit.click(function () {
         return false;
     });
 })(jQuery);
+

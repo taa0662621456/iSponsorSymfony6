@@ -53,18 +53,22 @@ class ProductsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $slug = new Slugify();
-        $product = new Products();
-        $productEnGb = new ProductsEnGb();
-        $form = $this->createForm(ProductsType::class, $product);
-        $form->handleRequest($request);
+		$slug = new Slugify();
+		$product = new Products();
+		$productEnGb = new ProductsEnGb();
+		$productAttachment = new ProductsAttachments();
+		$productAttachment->setFileClass('');
+		$product->getProductAttachments()->add($productAttachment);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($product);
+		$form = $this->createForm(ProductsType::class, $product);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager->persist($product);
 
 
-            $s = $form->get('productEnGb')->get('slug')->getData();
+			$s = $form->get('productEnGb')->get('slug')->getData();
             if (!isset($s)) {
 				//$form->set('productEnGb')->set('slug')->setSlug($slug->slugify($productEnGb->getProductName()))
 				$product->setSlug($slug->slugify($productEnGb->getProductName()));

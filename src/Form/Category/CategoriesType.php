@@ -6,6 +6,9 @@
 	use App\Entity\Category\Categories;
 	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Component\Form\AbstractType;
+	use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 	use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 	use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -19,24 +22,48 @@
 		{
 			$builder
 				->add('id', HiddenType::class)
-				->add('published')
-/*				->add(
-					'parent', EntityType::class, array(
-						'class'        => Categories::class,
-						'required'     => false,
-						'multiple'     => false,
-						'choice_label' => 'id'
-					)
-				)*/
-				->add('categoryEnGb', CategoriesEnGbType::class)
 				->add(
-					'categoryAttachments', CollectionType::class, array(
-						'entry_type' => CategoriesAttachmentsType::class,
-						'allow_add'  => true
+					'published', CheckboxType::class, array(
+					'label'              => 'category.published.label',
+					'translation_domain' => 'category',
+					'required'           => false
+				)
+				)
+				/*				->add('parent', CheckboxType::class, array(
+										'label' => 'categories.parent',
+										'class'        => Categories::class,
+										'required'     => false,
+										'multiple'     => false,
+										'choice_label' => 'id'
+									)
+								)*/
+				->add(
+					'categoryEnGb', CategoriesEnGbType::class, array(
+						'label'              => 'category.engb.label',
+						'translation_domain' => 'category',
 					)
 				)
 				->add(
-					'previous', SubmitType::class, array(
+					'categoryAttachments', CollectionType::class, array(
+						'entry_type'         => CategoriesAttachmentsType::class,
+						'label'              => 'category.attachment.label',
+						'translation_domain' => 'category',
+						'entry_options'      => array('label' => false),
+						'required'           => false,
+						//'empty_data' => true,
+						'allow_add'          => true,
+						'allow_delete'       => true,
+						'prototype'          => true,
+						//'prototype_name' => 'attach',
+						//'prototype_data' => 'placeholder',
+						//'by_reference' => false
+						//'attr'         => [
+						//	'class' => "{$name}-collection",
+						//],
+					)
+				)
+				->add(
+					'previous', ButtonType::class, array(
 						'label' => 'label.previous',
 						'attr'  => array(
 							'id'    => 'next',
@@ -45,7 +72,7 @@
 					)
 				)
 				->add(
-					'next', SubmitType::class, array(
+					'next', ButtonType::class, array(
 						'label' => 'label.next',
 						'attr'  => array(
 							'id'    => 'next',

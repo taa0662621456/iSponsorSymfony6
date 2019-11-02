@@ -1,16 +1,30 @@
 {% extends 'base.html.twig' %}
 {% block title %}New Category{% endblock %}
 {% block header %}{% endblock %}
-{% block little_panel %}
-    {{ include('tools.html.twig') }}
-{% endblock %}
+{% block little_panel %}{% endblock %}
 {% block article_header %}{% endblock %}
+{% block section %}{% endblock %}
 {% block article_content %}
     <div class="row">
         <div class="{{ c1 }}">
         </div>
         <div class="{{ c2 }}">
             <h3>Create new Category</h3>
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+                {{ include('tools.html.twig') }}
+                <div class="btn-group col-7" role="group" aria-label="Second group">
+                    <div class="progress col-12">
+                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                             aria-valuemin="0" aria-valuemax="100">25%
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group" role="group" aria-label="Second group">
+                    <button type="button" class="btn btn-success">Успех</button>
+                </div>
+            </div>
+
+
             {{ include('category/categories/_form.html.twig') }}
         </div>
         <div class="{{ c3 }}">

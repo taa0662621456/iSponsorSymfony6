@@ -29,8 +29,15 @@ class ProjectsType extends AbstractType
 			->add('projectEnGb', ProjectsEnGbType::class)
 			->add(
 				'projectAttachments', CollectionType::class, array(
-					'entry_type' => ProjectsAttachmentsType::class,
-					'allow_add'  => true
+					'entry_type'         => ProjectsAttachmentsType::class,
+					'label'              => 'project.attachment.label',
+					'translation_domain' => 'project',
+					'entry_options'      => array('label' => false),
+					'required'           => false,
+					//'empty_data' => true,
+					'allow_add'          => true,
+					'allow_delete'       => true,
+					'prototype'          => true,
 				)
 			)
 			->add(

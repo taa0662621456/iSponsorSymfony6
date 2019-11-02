@@ -1,3 +1,4 @@
+# CATEGORY
 category: 'Категория'
 category.categories: 'Категории'
 category.search: 'Поиск'
@@ -13,3 +14,7 @@ category.desc.lebel: 'Описание категории'
 category.desc.placeholder: 'Составте описание категории'
 category.slug.lebel: 'Читаемый идентификатор категории (алиас)'
 category.slug.placeholder: 'Составте читаемый идентификатор категории'
+category.attachment.label: 'Изображение категории'
+category.attach.label: 'Изображение категории'
+category.engb.label: 'Введите информацию о категории (английская версия)'
+category.published.label: 'Опубликовать'

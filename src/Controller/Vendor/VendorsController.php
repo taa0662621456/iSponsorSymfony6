@@ -4,7 +4,9 @@ declare(strict_types=1);
 namespace App\Controller\Vendor;
 
 use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsDocumentAttachments;
 use App\Entity\Vendor\VendorsEnGb;
+use App\Entity\Vendor\VendorsMediaAttachments;
 use App\Form\Vendor\VendorsAddType;
 use App\Form\Vendor\VendorsEditType;
 use App\Repository\Project\ProjectsRepository;
@@ -39,16 +41,25 @@ class VendorsController extends AbstractController
      * @throws Exception
      */
     public function new(Request $request): Response
-    {
+	{
 		$slug = new Slugify();
-        $vendor = new Vendors();
-        $vendorEnGb = new VendorsEnGb();
-        $form = $this->createForm(VendorsAddType::class, $vendor);
-        $form->handleRequest($request);
+		$vendor = new Vendors();
+		$vendorEnGb = new VendorsEnGb();
+		// костыль, чтобы вывести пустую форму коллекции
+		$vendorMediaAttachment = new VendorsMediaAttachments();
+		$vendorMediaAttachment->setFileClass('');
+		$vendor->getVendorMediaAttachments()->add($vendorMediaAttachment);
+		// костыль, чтобы вывести пустую форму коллекции
+		$vendorDocAttachment = new VendorsDocumentAttachments();
+		$vendorDocAttachment->setFileClass('');
+		$vendor->getVendorDocumentAttachments()->add($vendorDocAttachment);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+		$form = $this->createForm(VendorsAddType::class, $vendor);
+		$form->handleRequest($request);
 
-            $entityManager = $this->getDoctrine()->getManager();
+		if ($form->isSubmitted() && $form->isValid()) {
+
+			$entityManager = $this->getDoctrine()->getManager();
 
 			$s = $form->getData()->vendorEnGb->getSlug();
 

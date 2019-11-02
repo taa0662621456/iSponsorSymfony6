@@ -4,6 +4,7 @@
 	namespace App\Controller\Category;
 
 	use App\Entity\Category\Categories;
+	use App\Entity\Category\CategoriesAttachments;
 	use App\Entity\Category\CategoriesEnGb;
 	use App\Form\Category\CategoriesType;
 	use App\Repository\Category\CategoriesRepository;
@@ -103,6 +104,10 @@
 			$slug = new Slugify();
 			$category = new Categories();
 			$categoryEnGb = new CategoriesEnGb();
+			$categoryAttachment = new CategoriesAttachments();
+			$categoryAttachment->setFileClass('');
+			$category->getCategoryAttachments()->add($categoryAttachment);
+
 
 			//$this->denyAccessUnlessGranted('edit', $category);
 

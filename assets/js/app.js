@@ -22,3 +22,4 @@ require('./multistep_forms');
 require('./tinymce_init');
 require('./move_up');
 require('./cols_per_row');
+require('./add-collection-widget');

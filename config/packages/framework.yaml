@@ -1,16 +1,19 @@
 framework:
+    assets:
+        json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
     #http_method_override: true
     default_locale: '%locale%'
-    #translator:
-    #    default_path: '%kernel.project_dir%/translations'
-    #    fallbacks:
-    #    - '%locale%'
-    #    paths:
-    #    - '%kernel.project_dir%/translations/en-GB'
-    #    - '%kernel.project_dir%/translations/ru-RU'
-    #    - '%kernel.project_dir%/translations/uk-UA'
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        #fallbacks: { fallbacks: [en] }
+        fallbacks:
+        - '%locale%'
+        paths:
+        - '%kernel.project_dir%/translations/en-GB'
+        - '%kernel.project_dir%/translations/ru-RU'
+        - '%kernel.project_dir%/translations/uk-UA'
 
     router:
         strict_requirements: ~
@@ -24,7 +27,9 @@ framework:
         cookie_samesite: lax
 
     #esi: true
-    #fragments: true
+    #fragments: { path: /_fragment }
+    #templating:
+    #    hinclude_default_template: '%kernel.project_dir%/templates/hinclude.html.twig'
     php_errors:
         log: true
 
@@ -32,7 +37,7 @@ framework:
     # into clickable links that open the given file using your favorite IDE.
     # When 'ide' is set to null the file is opened in your web browser.
     # See https://symfony.com/doc/current/reference/configuration/framework.html#ide
-    ide: ~
+    ide: phpstorm
     validation:
         email_validation_mode: 'html5'
         enable_annotations: true

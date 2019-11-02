@@ -111,7 +111,7 @@
 		{
 			$attachment = new CategoriesAttachments();
 
-			$this->denyAccessUnlessGranted('create', $attachment);
+			//$this->denyAccessUnlessGranted('create', $attachment);
 
 			$form = $this->createForm(
 				CategoriesAttachmentsType::class,

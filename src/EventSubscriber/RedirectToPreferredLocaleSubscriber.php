@@ -19,7 +19,7 @@
 	 * @author Oleg Voronkovich <oleg-voronkovich@yandex.ru>
 	 */
 	class RedirectToPreferredLocaleSubscriber
-		implements EventSubscriberInterface
+
 	{
 		private $urlGenerator;
 		private $locales;
