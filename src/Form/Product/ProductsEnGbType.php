@@ -83,8 +83,9 @@ class ProductsEnGbType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ProductsEnGb::class,
-        ]);
+			'data_class'         => ProductsEnGb::class,
+			'translation_domain' => 'product'
+		]);
     }
 }
 

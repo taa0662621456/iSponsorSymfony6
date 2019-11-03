@@ -220,7 +220,8 @@
 		public function configureOptions(OptionsResolver $resolver):void
 		{
 			$resolver->setDefaults([
-				'data_class' => VendorsEnGb::class,
+				'data_class'         => VendorsEnGb::class,
+				'translation_domain' => 'vendor'
 			]);
 		}
 	}

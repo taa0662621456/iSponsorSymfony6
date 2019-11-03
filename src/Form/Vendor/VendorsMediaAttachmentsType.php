@@ -45,7 +45,8 @@ class VendorsMediaAttachmentsType extends AbstractType
 	{
 		$resolver->setDefaults(
 			[
-				'data_class' => VendorsMediaAttachments::class,
+				'data_class'         => VendorsMediaAttachments::class,
+				'translation_domain' => 'vendor'
 			]
 		);
 	}

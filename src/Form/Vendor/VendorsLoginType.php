@@ -47,10 +47,11 @@
 		public function configureOptions(OptionsResolver $resolver): void
 		{
 			$resolver->setDefaults(array(
-				'data_class' => Vendors::class,
-				'csrf_protection' => true,
-				'csrf_field_name' => '_csrf_token',
-				'csrf_token_id' => '6cb546b7fb9e056773030920402e4172'
+				'data_class'         => Vendors::class,
+				'csrf_protection'    => true,
+				'csrf_field_name'    => '_csrf_token',
+				'csrf_token_id'      => '6cb546b7fb9e056773030920402e4172',
+				'translation_domain' => 'vendor'
 			));
 		}
 	}

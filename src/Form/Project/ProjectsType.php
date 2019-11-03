@@ -26,7 +26,11 @@ class ProjectsType extends AbstractType
 					'choice_label' => 'id'
 				)
 			)*/
-			->add('projectEnGb', ProjectsEnGbType::class)
+			->add(
+				'projectEnGb', ProjectsEnGbType::class, array(
+				'label' => 'project.add.project',
+			)
+			)
 			->add(
 				'projectAttachments', CollectionType::class, array(
 					'entry_type'         => ProjectsAttachmentsType::class,

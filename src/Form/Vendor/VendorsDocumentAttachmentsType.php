@@ -46,7 +46,8 @@
 		{
 			$resolver->setDefaults(
 				[
-					'data_class' => VendorsDocumentAttachments::class,
+					'data_class'         => VendorsDocumentAttachments::class,
+					'translation_domain' => 'vendor'
 				]
 			);
 		}

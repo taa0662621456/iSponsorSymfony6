@@ -54,7 +54,8 @@ class ProductsAttachmentsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver):void
     {
         $resolver->setDefaults([
-            'data_class' => ProductsAttachments::class,
-        ]);
+			'data_class'         => ProductsAttachments::class,
+			'translation_domain' => 'product'
+		]);
     }
 }

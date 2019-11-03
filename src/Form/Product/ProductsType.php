@@ -44,9 +44,10 @@ class ProductsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver):void
     {
         $resolver->setDefaults(array(
-            'data_class' => Products::class,
-			'attr' => array(
-				//'id' => 'msform'
+			'data_class'         => Products::class,
+			'translation_domain' => 'product',
+			'attr'               => array(
+				'id' => 'msform'
 			)
 		));
     }

@@ -44,7 +44,8 @@ class VendorsProfileType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Vendors::class,
-        ]);
+			'data_class'         => Vendors::class,
+			'translation_domain' => 'vendor'
+		]);
     }
 }

@@ -71,7 +71,8 @@ class VendorsSecurityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver):void
     {
         $resolver->setDefaults([
-            'data_class' => VendorsSecurity::class,
-        ]);
+			'data_class'         => VendorsSecurity::class,
+			'translation_domain' => 'vendor'
+		]);
     }
 }

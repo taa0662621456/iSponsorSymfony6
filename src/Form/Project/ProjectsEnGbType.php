@@ -52,7 +52,7 @@ class ProjectsEnGbType extends AbstractType
 				),
 				'attr'       => array(
 					'id'          => 'projectDesc',
-					'class'       => 'form-control',
+					'class'       => 'form-control obj_desc',
 					'placeholder' => 'project.desc.placeholder',
 					'tabindex'    => '103',
 					'autofocus'   => false
@@ -79,9 +79,11 @@ class ProjectsEnGbType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults([
-            'data_class' => ProjectsEnGb::class,
-        ]);
+        $resolver->setDefaults(
+			[
+				'data_class'         => ProjectsEnGb::class,
+				'translation_domain' => 'project',
+			]);
     }
 }
 
