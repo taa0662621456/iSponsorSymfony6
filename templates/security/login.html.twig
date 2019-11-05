@@ -13,8 +13,11 @@
 
         </div>
     {% endif %}
-        {{ form(form) }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
     {{ form_errors (form) }}
+
     </body>
 {% endblock %}
 {% block footer %}{% endblock %}

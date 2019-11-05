@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class Profile
  * @Route("/profile")
  */
-class VenforsProfileController extends AbstractController
+class VendorsProfileController
+	extends AbstractController
 {
 	/**
 	 * @Route( "/", name="profile", methods={"GET","POST"})

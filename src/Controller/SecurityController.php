@@ -9,6 +9,7 @@ use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
+use App\Form\Vendor\VendorsSigninType;
 use App\Repository\Vendor\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
 use Exception;
@@ -28,7 +29,6 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig_Environment;
-
 
 class SecurityController
 	extends AbstractController
@@ -137,30 +137,23 @@ class SecurityController
 		if ($security->isGranted('ROLE_USER')) {
 			return $this->redirectToRoute('homepage');
 		}
-		// this statement solves an edge-case: if you change the locale in the login
-		// page, after a successful login you are redirected to a page in the previous
-		// locale. This code regenerates the referrer URL whenever the login page is
-		// browsed, to ensure that its locale is always the current one.
+
 		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
 		$lastUsername = $authenticationUtils->getLastUsername();
 		$error = $authenticationUtils->getLastAuthenticationError();
 
-		$vendor = new Vendors();
-		$form = $this->createForm(VendorsLoginType::class, $vendor, array(
-			'action' => $this->generateUrl('login'),
-			'method' => 'POST',
-			'attr' => array(
-				'id' => 'login',
-				'name' => 'login'
-			)
-		));
+		$form = $this->createForm(VendorsLoginType::class);
 
-		return new Response($this->twig->render('security/' . $layout . '.html.twig', array(
-			'last_username' => $lastUsername,
-			'form' => $form->createView(),
-			'error' => $error
-		)));
+		return new Response(
+			$this->twig->render(
+				'security/' . $layout . '.html.twig', array(
+				'last_username' => $lastUsername,
+				'form'          => $form->createView(),
+				'error'         => $error
+			)
+			)
+		);
 	}
 
     /**
@@ -217,7 +210,5 @@ class SecurityController
 			'roles' => $user->getRoles(),
 		));
 	}
-
-
 
 }

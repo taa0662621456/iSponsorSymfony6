@@ -17,45 +17,47 @@ class VendorsSecurityType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, array(
-                'label' => 'label.email',
-                'label_attr' => array(
+				'invalid_message' => 'The email address is invalid.',
+				'label'           => 'vendor.email.label',
+				'label_attr'      => array(
 					'class' => 'sr-only',
 					'value' => 'last_username'
-                ),
-                'required' => true,
-                'attr' => array(
-                    'id' => 'email',
-                    'name' => '_email',
-                    'class' => 'form-control',
-                    'placeholder' => 'exemple@yahoo.com',
-					'tabindex' => '101',
+				),
+				'required'        => true,
+				'attr'            => array(
+					'id'          => 'email',
+					'name'        => '_email',
+					'class'       => 'form-control',
+					'placeholder' => 'vendor.email.placeholder',
+					'tabindex'    => '101',
 					//'autofocus' => true
-                ),
+				),
             ))
             ->add('plainPassword', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'first_options' => array(
-                    'label' => 'label.password',
-                    'label_attr' => array(
-                    'class' => 'sr-only',
-                    ),
-                    'attr' => array(
-                        'class' => '',
-                        'placeholder' => 'placeholder.password.enter',
-						'tabindex' => '201'
-                    )
-                ),
+				'invalid_message' => 'The password is invalid.',
+				'type'            => PasswordType::class,
+				'first_options'   => array(
+					'label'      => 'vendor.password.label',
+					'label_attr' => array(
+						'class' => 'sr-only',
+					),
+					'attr'       => array(
+						'class'       => '',
+						'placeholder' => 'vendor.password.placeholder',
+						'tabindex'    => '201'
+					)
+				),
                 'second_options' => array(
-                    'label' => 'label.repeat.password',
-                    'label_attr' => array(
-                        'class' => 'sr-only'
-                    ),
-                    'attr' => array(
-                        'class' => '',
-                        'placeholder' => 'placeholder.password.confirm',
-						'tabindex' => '202'
-                    )
-                ),
+					'label'      => 'vendor.password.confirm.label',
+					'label_attr' => array(
+						'class' => 'sr-only'
+					),
+					'attr'       => array(
+						'class'       => '',
+						'placeholder' => 'vendor.password.confirm.placeholder',
+						'tabindex'    => '202'
+					)
+				),
                 'required' => true,
                 'attr' => array(
                     'id' => 'password',

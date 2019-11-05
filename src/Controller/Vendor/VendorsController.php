@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/vendors")
+ * @Route("/sponsors")
  */
 class VendorsController extends AbstractController
 {

@@ -3,36 +3,70 @@
 
 	namespace App\Form\Vendor;
 
-	use App\Entity\Vendor\Vendors;
+	use App\Entity\Vendor\VendorsSecurity;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+	use Symfony\Component\Form\Extension\Core\Type\EmailType;
 	use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+	use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 	use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
 
-	class VendorsLoginType extends AbstractType
+	class VendorsLoginType
+		extends AbstractType
 	{
 		public function buildForm(FormBuilderInterface $builder, array $options): void
 		{
 			$builder
-				->add('vendorSecurity', VendorsSecurityType::class)
+				->add(
+					'email', EmailType::class, array(
+					'invalid_message' => 'The email address is invalid.',
+					'label'           => 'vendor.email.label',
+					'label_attr'      => array(
+						'class' => 'sr-only',
+						'value' => 'last_username'
+					),
+					'required'        => true,
+					'attr'            => array(
+						'id'          => 'email',
+						'name'        => '_email',
+						'class'       => 'form-control',
+						'placeholder' => 'vendor.email.placeholder',
+						'tabindex'    => '101',
+						//'autofocus' => true
+					),
+				)
+				)
+				->add(
+					'password', PasswordType::class, array(
+					'invalid_message' => 'The password is invalid.',
+					'required'        => true,
+					'attr'            => array(
+						'id'          => 'password',
+						'name'        => '_password',
+						'class'       => 'form-control',
+						'placeholder' => 'vendor.password.placeholder',
+						'tabindex'    => '203'
+					)
+				)
+				)
 				->add('submit', SubmitType::class, array(
-					'label' => 'label.signin',
+					'label' => 'vendor.submit.label',
 					'attr'  => array(
 						'class' => 'btn btn-primary btn-block'
 					)
 				))
 				->add('remember', CheckboxType::class, array(
-					'mapped' => false,
-					'label' => 'label.remember',
-					'required' => false,
+					'mapped'     => false,
+					'label'      => 'vendor.remember.label',
+					'required'   => false,
 					'label_attr' => array(
 						'class' => ''
 					),
-					'attr' => array(
-						'id' => 'remember_me',
-						'name' => '_remember_me',
+					'attr'       => array(
+						'id'    => 'remember_me',
+						'name'  => '_remember_me',
 						'class' => ''
 					),
 				))
@@ -44,14 +78,23 @@
 				));
 		}
 
+
 		public function configureOptions(OptionsResolver $resolver): void
 		{
-			$resolver->setDefaults(array(
-				'data_class'         => Vendors::class,
-				'csrf_protection'    => true,
-				'csrf_field_name'    => '_csrf_token',
-				'csrf_token_id'      => '6cb546b7fb9e056773030920402e4172',
-				'translation_domain' => 'vendor'
-			));
+			$resolver->setDefaults(
+				array(
+					'csrf_protection'    => true,
+					'csrf_field_name'    => '_csrf_token',
+					'csrf_token_id'      => '6cb546b7fb9e056773030920402e4172',
+					'translation_domain' => 'vendor',
+					'method'             => 'POST',
+					'attr'               => array(
+						'id'   => 'login',
+						'name' => 'login'
+					)
+				)
+			);
 		}
+
+		public function getBlockPrefix() { }
 	}

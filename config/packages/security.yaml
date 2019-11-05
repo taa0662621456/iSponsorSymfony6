@@ -54,6 +54,8 @@ security:
                 default_target_path: homepage
                 use_referer: true
                 target_path_parameter: redirect
+                username_parameter: _username
+                password_parameter: _password
             logout:
                 path: logout
                 target: homepage

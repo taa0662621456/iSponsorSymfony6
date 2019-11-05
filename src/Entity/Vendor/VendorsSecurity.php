@@ -110,10 +110,11 @@ class VendorsSecurity implements UserInterface, Serializable
 	private $lastResetTime;
 
 	/**
-	 * @var integer
+	 * @var int
 	 *
-	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"comment"="Count of password resets
-	 *                                 since lastResetTime"})
+	 * @ORM\Column(name="reset_count", type="integer", options={"comment"="Count of password resets
+     * since lastResetTime"})
+     *
 	 */
 	private $resetCount = 0;
 
@@ -121,7 +122,8 @@ class VendorsSecurity implements UserInterface, Serializable
 	 * @var string
 	 *
 	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="","comment"="Two factor
-	 *                             authentication encrypted keys"})
+     * authentication encrypted keys"})
+     *
 	 */
 	private $otpKey = '';
 
@@ -129,7 +131,8 @@ class VendorsSecurity implements UserInterface, Serializable
 	 * @var string
 	 *
 	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency
-	 *                          passwords"})
+     * passwords"})
+     *
 	 */
 	private $otep = '';
 
@@ -137,7 +140,8 @@ class VendorsSecurity implements UserInterface, Serializable
 	 * @var boolean
 	 *
 	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"comment"="Require user to reset
-	 *                                   password on next login"})
+     * password on next login"})
+     *
 	 */
 	private $requireReset = 0;
 
@@ -543,6 +547,15 @@ class VendorsSecurity implements UserInterface, Serializable
 	{
 		return $this->email;
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getVendorSecurity()
+	{
+		return $this->vendorSecurity;
+	}
+
 
 	/**
 	 * @param Vendors $vendorSecurity
