@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsEnGb;
+use App\Entity\Vendor\VendorsSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
@@ -56,8 +58,10 @@ class SecurityController
 								 EventDispatcherInterface $eventDispatcher): Response
 	{
 		$vendor = new Vendors();
+		$vendorSecurity = new VendorsSecurity();
+		$vendorEnGb = new VendorsEnGb();
 
-		$form = $this->createForm(VendorsRegistrationType::class);
+		$form = $this->createForm(VendorsRegistrationType::class, $vendor);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -68,16 +72,22 @@ class SecurityController
 				$vendor->getPlainPassword()
 			);
 
-			$vendor->setPassword($password);
-			$vendor->setActivationCode($codeGenerator->getConfirmationCode());
+			$vendor->setVendorSecurity($vendorSecurity);
+			$vendorSecurity->setPassword($password);
+			$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
+
+			$vendor->setVevdorEnGb($vendorEnGb);
+			$vendorEnGb->setVendorZip(000000);
 
 			$em = $this->getDoctrine()->getManager();
-            $em->persist($vendor);
-            $em->flush();
+			$em->persist($vendorEnGb);
+			$em->persist($vendorSecurity);
+			$em->persist($vendor);
+			$em->flush();
 
 			$vendorRegisteredEvent = new RegisteredEvent($vendor);
 			$eventDispatcher->dispatch($vendorRegisteredEvent);
-        }
+		}
 
         return $this->render('security/registration.html.twig', [
 			'form' => $form->createView(),
