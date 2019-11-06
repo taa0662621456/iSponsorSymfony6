@@ -4,17 +4,14 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Vendor\Vendors;
-use App\Entity\Vendor\VendorsSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
-use App\Form\Vendor\VendorsSigninType;
 use App\Repository\Vendor\VendorsRepository;
 use App\Service\ConfirmationCodeGenerator;
 use Exception;
 use RuntimeException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -25,9 +22,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twig_Environment;
 
 class SecurityController
@@ -128,9 +122,6 @@ class SecurityController
 	 * @param                     $layout
 	 *
 	 * @return Response
-	 * @throws LoaderError
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 */
 	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
 	{
@@ -145,13 +136,21 @@ class SecurityController
 
 		$form = $this->createForm(VendorsLoginType::class);
 
-		return new Response(
+		/*return new Response(
 			$this->twig->render(
 				'security/' . $layout . '.html.twig', array(
 				'last_username' => $lastUsername,
 				'form'          => $form->createView(),
 				'error'         => $error
 			)
+			)
+		);*/
+
+		return $this->render(
+			'security/' . $layout . '.html.twig', array(
+				'last_username' => $lastUsername,
+				'form'          => $form->createView(),
+				'error'         => $error
 			)
 		);
 	}
@@ -205,10 +204,20 @@ class SecurityController
 	{
 		$user = $this->getUser();
 
-		return $this->json(array(
-			'username' => $user->getUsername(),
-			'roles' => $user->getRoles(),
-		));
+		return $this->json(
+			array(
+				'username' => $user->getUsername(),
+				'roles'    => $user->getRoles(),
+			)
+		);
 	}
 
+	/**
+	 * @Route("/forgot", name="forgot")
+	 * @return Response
+	 */
+	public function forgot()
+	{
+		return new Response('<html lang="en"><body>Are You forgot any auth parameters?</body></html>');
+	}
 }

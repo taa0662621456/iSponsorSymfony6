@@ -1,4 +1,7 @@
 <?php
+	/**
+	 * https://symfony.com/doc/current/security/guard_authentication.html
+	 */
 
 	namespace App\Security;
 
@@ -9,11 +12,13 @@
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 	use Symfony\Component\Security\Core\Exception\AuthenticationException;
+	use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 	use Symfony\Component\Security\Core\User\UserInterface;
 	use Symfony\Component\Security\Core\User\UserProviderInterface;
 	use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-	class TokenAuthenticator extends AbstractGuardAuthenticator
+	class TokenAuthenticator
+		extends AbstractGuardAuthenticator
 	{
 		private $em;
 
@@ -46,6 +51,7 @@
 		 */
 		public function getCredentials(Request $request)
 		{
+
 			return [
 				'token' => $request->headers->get('X-AUTH-TOKEN'),
 			];
