@@ -57,6 +57,9 @@ class SecurityController
 								 ConfirmationCodeGenerator $codeGenerator,
 								 EventDispatcherInterface $eventDispatcher): Response
 	{
+
+
+		// https://rojas.io/symfony-4-login-registration-system/
 		$vendor = new Vendors();
 		$vendorSecurity = new VendorsSecurity();
 		$vendorEnGb = new VendorsEnGb();
@@ -67,13 +70,13 @@ class SecurityController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$vendor = $form->getData();
 
-			$vendor->setVendorSecurity($vendorSecurity);
-			//dd($vendor->setVendorSecurity($vendorSecurity));
+			$vendor->setVendorSecurity($vendor);
 
 			$password = $passwordEncoder->encodePassword(
 				$vendorSecurity,
 				$vendorSecurity->getPlainPassword()
 			);
+			dd($password);
 
 			$vendorSecurity->setPassword($password);
 			$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
@@ -89,6 +92,14 @@ class SecurityController
 
 			$vendorRegisteredEvent = new RegisteredEvent($vendor);
 			$eventDispatcher->dispatch($vendorRegisteredEvent);
+
+			/*			    // This handles logging the user in after they’ve signed up.
+							return $guardHandler->authenticateUserAndHandleSuccess(
+							$user,
+							$request,
+							$authenticator,
+							'main' // firewall name in security.yaml
+						);*/
 		}
 
         return $this->render('security/registration.html.twig', [
