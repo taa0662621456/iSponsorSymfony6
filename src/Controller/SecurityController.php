@@ -67,12 +67,14 @@ class SecurityController
 		if ($form->isSubmitted() && $form->isValid()) {
 			$vendor = $form->getData();
 
+			$vendor->setVendorSecurity($vendorSecurity);
+			//dd($vendor->setVendorSecurity($vendorSecurity));
+
 			$password = $passwordEncoder->encodePassword(
-				$vendor,
-				$vendor->getPlainPassword()
+				$vendorSecurity,
+				$vendorSecurity->getPlainPassword()
 			);
 
-			$vendor->setVendorSecurity($vendorSecurity);
 			$vendorSecurity->setPassword($password);
 			$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
 
