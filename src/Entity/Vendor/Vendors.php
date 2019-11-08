@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="vendors", indexes={
- * @ORM\Index(name="vendor_slug", columns={"slug"})})
+ * @ORM\Index(name="vendor_idx", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  * @UniqueEntity("slug"), errorPath="slug", message="This name is already in use."
  * @ORM\HasLifecycleCallbacks()
@@ -98,14 +98,19 @@ class Vendors
 	private $requireReset = 0;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity", cascade={"persist", "remove"}, mappedBy="vendorSecurity")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="vendorSecurity")
+	 * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE")
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
 	 * @Assert\Valid()
 	 */
 	private $vendorSecurity;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsIban", cascade={"persist", "remove"}, mappedBy="vendorIban")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsIban",
+	 *     cascade={"persist", "remove"},
+	 *     mappedBy="vendorIban")
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
 	 * @Assert\Valid()
 	 */
@@ -357,9 +362,9 @@ class Vendors
 	}
 
 	/**
-	 * @param mixed $vendorSecurity
+	 * @param VendorsSecurity $vendorSecurity
 	 */
-	public function setVendorSecurity($vendorSecurity): void
+	public function setVendorSecurity(VendorsSecurity $vendorSecurity): void
 	{
 		$this->vendorSecurity = $vendorSecurity;
 	}
@@ -532,10 +537,19 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorOrderItems()
+	public function getVendorItems()
 	{
-		return $this->vendorOrderItems;
+		return $this->vendorItems;
 	}
+
+	/**
+	 * @param mixed $vendorItems
+	 */
+	public function setVendorItems($vendorItems): void
+	{
+		$this->vendorItems = $vendorItems;
+	}
+
 
 	public function setRoles()
 	{

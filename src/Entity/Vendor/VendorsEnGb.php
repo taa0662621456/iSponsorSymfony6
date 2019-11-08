@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="vendors_en_gb", indexes={
- * @ORM\Index(name="vendor_en_gb_slug", columns={"slug"})})
+ * @ORM\Index(name="vendor_en_gb_idx", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -46,15 +46,16 @@ class VendorsEnGb
      */
     private $vendorMiddleName = 'vendor_middle_name';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="vendor_phone", type="string", nullable=false, unique=true, options={"default"="0000000000000"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
-     * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
-     * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
-     */
-    private $vendorPhone = '0000000000000';
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="vendor_phone", type="string", nullable=true, unique=true,
+	 *     options={"default"="0000000000000"})
+	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+	 * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
+	 * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
+	 */
+	private $vendorPhone;
 
     /**
      * @var string
@@ -64,7 +65,7 @@ class VendorsEnGb
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
-    private $vendorSecondPhone = '0000000000000';
+	private $vendorSecondPhone;
 
     /**
      * @var string

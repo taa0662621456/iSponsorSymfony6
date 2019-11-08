@@ -17,7 +17,7 @@
 
 	/**
 	 * @ORM\Table(name="products", indexes={
-	 * @ORM\Index(name="product_slug", columns={"slug"})})
+	 * @ORM\Index(name="product_idx", columns={"slug"})})
 	 * @ORM\Entity(repositoryClass="App\Repository\Product\ProductsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */

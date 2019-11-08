@@ -13,7 +13,7 @@
 
 	/**
 	 * @ORM\Table(name="projects", indexes={
-	 * @ORM\Index(name="project_slug", columns={"slug"})})
+	 * @ORM\Index(name="project_idx", columns={"slug"})})
 	 * UniqueEntity("slug"),
 	 *        errorPath="slug",
 	 *        message="This slug is already in use!"

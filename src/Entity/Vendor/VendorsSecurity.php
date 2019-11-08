@@ -12,15 +12,19 @@ use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Length;
 
 
 /**
  * @ORM\Table(name="vendors_security", indexes={
- * @ORM\Index(name="vendor_security_slug", columns={"slug"})}, uniqueConstraints={
- * @ORM\UniqueConstraint(name="email", columns={"email"})})
- * @UniqueEntity("email"),
+ * @ORM\Index(name="vendor_security_idx", columns={"slug", "email", "phone"})}, uniqueConstraints={
+ * @ORM\UniqueConstraint(name="vendor_security_idx", columns={"slug", "email", "phone"})})
+ * @UniqueEntity("email",
  *        errorPath="email",
- *        message="You have an account already or this email already in use!"
+ *        message="You have an account already or this email already in use!")
+ * @UniqueEntity("phone",
+ *        errorPath="phone",
+ *        message="You have an account already or this phone already in use!")
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -34,11 +38,21 @@ class VendorsSecurity implements UserInterface, Serializable
 	 * @var string
 	 *
 	 * @ORM\Column(name="email", type="string", length=255, nullable=false)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message="vendors_security.blank_content")
 	 * @Assert\Length(min=3)
 	 * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
 	 */
 	private $email = 'taa0662621456@gmail.com';
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="phone", type="string", nullable=false, unique=true)
+	 * @Assert\NotBlank(message="vendors_security.blank_content")
+	 * @Length(min=10, minMessage="vendors_security.too_short_content")
+	 * @Length(max=12, maxMessage="vendors_security.too_long_content")
+	 */
+	private $phone = '';
 
 	/**
 	 * @var string
@@ -153,9 +167,9 @@ class VendorsSecurity implements UserInterface, Serializable
 	private $apiKey = 'api_key';
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors", cascade={"persist", "remove"},
-	 *                                                         inversedBy="vendorSecurity")
-	 * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors",
+	 *     cascade={"persist", "remove"},
+	 *     inversedBy="vendorSecurity")
 	 */
 	private $vendorSecurity;
 
@@ -215,6 +229,23 @@ class VendorsSecurity implements UserInterface, Serializable
 		$this->email = $email;
 		return $this;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getPhone(): string
+	{
+		return $this->phone;
+	}
+
+	/**
+	 * @param string $phone
+	 */
+	public function setPhone(string $phone): void
+	{
+		$this->phone = $phone;
+	}
+
 
 	/**
 	 * @return bool|null

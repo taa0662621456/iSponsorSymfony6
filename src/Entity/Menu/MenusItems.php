@@ -9,7 +9,7 @@
 
 	/**
 	 * @ORM\Table(name="menus_items", indexes={
-	 * @ORM\Index(name="menus_items_slug", columns={"slug"})})
+	 * @ORM\Index(name="menus_items_idx", columns={"slug"})})
 	 * @UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
 	 * @ORM\Entity
 	 */

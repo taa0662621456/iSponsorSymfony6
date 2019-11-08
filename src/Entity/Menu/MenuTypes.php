@@ -9,7 +9,7 @@
 	 * MenuTypes
 	 *
 	 * @ORM\Table(name="menu_types", indexes={
-	 * @ORM\Index(name="menus_items_slug", columns={"slug"})})
+	 * @ORM\Index(name="menus_types_idx", columns={"slug"})})
 	 * @UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
 	 * @ORM\Entity
 	 */

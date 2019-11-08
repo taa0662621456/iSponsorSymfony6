@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="categories", indexes={
- * @ORM\Index(name="category_slug", columns={"slug"})})
+ * @ORM\Index(name="category_idx", columns={"slug"})})
  * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Category\CategoriesRepository")
  * @ORM\HasLifecycleCallbacks()

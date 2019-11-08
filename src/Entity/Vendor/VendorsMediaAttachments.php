@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="vendors_medias", indexes={
- * @ORM\Index(name="vendor_media_slug", columns={"slug"})})
+ * @ORM\Index(name="vendor_media_idx", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
