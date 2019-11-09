@@ -17,6 +17,7 @@ use App\Service\ConfirmationCodeGenerator;
 use DateTime;
 use Exception;
 use Ramsey\Uuid\Uuid;
+use ReCaptcha\ReCaptcha;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -30,6 +31,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Twig_Environment;
 
+/**
+ * @Route("/vendor")
+ * @Route("/sponsor")
+ * @Route("/user")
+ *
+ * @package App\Controller
+ */
 class SecurityController
 	extends AbstractController
 {
@@ -85,7 +93,13 @@ class SecurityController
 					$vendorSecurity,
 					$formData->getVendorSecurity()->getPlainPassword()
 				);
-
+				/**
+				 * TODO:
+				 * Блок try необходимо поместить в проверку наличия объекта
+				 * пользователя и выполнять при его отсутствии.
+				 * Таким образом вс логику регистрации можно вынести в отдельный метод
+				 * и повторно использовать при смене параметров безопастности в т.ч.
+				 */
 				$slug = new UuidEncoder();
 
 				try {
@@ -117,6 +131,7 @@ class SecurityController
 				$em->persist($vendorEnGb);
 				$em->persist($vendorSecurity);
 				$em->persist($vendor);
+
 				$em->flush();
 
 				$vendorRegisteredEvent = new RegisteredEvent($vendor);
@@ -168,11 +183,13 @@ class SecurityController
 	}
 
 	/**
+	 * @Route("/signin", defaults={"layout" : "signin"}, name="signin", options={"layout" : "signinFormHomePage"},
+	 *     methods={"GET", "POST"})
 	 * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "loginFormHomePage"},
 	 *     methods={"GET", "POST"})
+	 *
 	 * @param Request             $request
 	 * @param Security            $security
-	 *
 	 * @param AuthenticationUtils $authenticationUtils
 	 * @param                     $layout
 	 *
@@ -219,25 +236,75 @@ class SecurityController
 	}
 
 	/**
-	 * @Route("/change-password", methods={"GET", "POST"}, name="change_password")
-	 * @param Request $request
-	 * @param UserPasswordEncoderInterface $encoder
+	 * @Route("/change", methods={"GET", "POST"}, name="change_security")
+	 * @param Request                      $request
+	 * @param UserPasswordEncoderInterface $passwordEncoder
+	 * @param ConfirmationCodeGenerator    $codeGenerator
+	 *
+	 * @param EventDispatcherInterface     $eventDispatcher
+	 *
 	 * @return Response
+	 * @throws Exception
 	 */
-	public function change(Request $request, UserPasswordEncoderInterface $encoder): Response
+	public function change(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+						   ConfirmationCodeGenerator $codeGenerator,
+						   EventDispatcherInterface $eventDispatcher): Response
 	{
-		$vendor = $this->getUser();
+		/**
+		 * TODO:
+		 * логика маршрута изменения параметров безопастности практически
+		 * идентична маршруту регистрации.
+		 * Необходимо коды этих маршрутов вынести в один метод...
+		 */
+		$recaptcha = new ReCaptcha($this->getParameter('recaptcha_secret'));
+		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
+
+
+		$vendor = new Vendors();
+		$vendorSecurity = new VendorsSecurity();
+
+		$vendorCurrent = $this->getUser();
+
 		$form = $this->createForm(SecurityChangePasswordType::class);
 		$form->handleRequest($request);
-		if ($form->isSubmitted() && $form->isValid()) {
+
+		if (!$resp->isSuccess()) {
+			foreach ($resp->getErrorCodes() as $errorCode) {
+				$this->addFlash('danger', 'Error captcha: ' . $errorCode);
+			}
+		} else {
+
+			$formData = $form->getData();
+			//dd($formData);
+			$password = $passwordEncoder->encodePassword(
+				$vendorSecurity,
+				$formData->getVendorSecurity()->getPlainPassword()
+			);
 			//$vendor->setEmail();  Хочу добавить в область безопастности смену Емаил
-			$vendor->setPassword($encoder->encodePassword($vendor, $form->get('newPassword')->getData()));
+
+			$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
+
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($vendorSecurity);
+			$em->persist($vendor);
+
+			$em->flush();
+
+			$vendorRegisteredEvent = new RegisteredEvent($vendor);
+			$eventDispatcher->dispatch($vendorRegisteredEvent);
+
+			$this->addFlash('success', 'Success');
+
+
 			$this->getDoctrine()->getManager()->flush();
-			return $this->redirectToRoute('change_password');
+			return $this->redirectToRoute('change_security');
 		}
-		return $this->render('security/change.html.twig', [
-			'form' => $form->createView(),
-		]);
+
+		return $this->render(
+			'security/change.html.twig', array(
+				'form' => $form->createView(),
+			)
+		);
 	}
 
 	/**

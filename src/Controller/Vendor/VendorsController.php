@@ -81,23 +81,24 @@ class VendorsController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="vendors_show", methods={"GET"})
-     * @param Vendors $vendor
-     * @return Response
-     */
+	 * @Route("/{id<\d+>}", name="vendors_show", methods={"GET"})
+	 * @param Vendors $vendor
+	 *
+	 * @return Response
+	 */
     public function show(Vendors $vendor): Response
     {
         return $this->render('vendor/vendors/show.html.twig', [
             'vendors' => $vendor,
         ]);
-    }
+	}
 
-    /**
-     * @Route("/{id}/edit", name="vendors_edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Vendors $vendor
-     * @return Response
-     */
+	/**
+	 * @Route("/{id<\d+>}/edit", name="vendors_edit", methods={"GET","POST"})
+	 * @param Request $request
+	 * @param Vendors $vendor
+	 * @return Response
+	 */
     public function edit(Request $request, Vendors $vendor): Response
     {
         $form = $this->createForm(VendorsEditType::class, $vendor);
@@ -132,12 +133,12 @@ class VendorsController extends AbstractController
     }
 
 
-    /**
-     * @Route("/{id}", name="vendors_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Vendors $vendor
-     * @return Response
-     */
+	/**
+	 * @Route("/{id<\d+>}", name="vendors_delete", methods={"DELETE"})
+	 * @param Request $request
+	 * @param Vendors $vendor
+	 * @return Response
+	 */
     public function delete(Request $request, Vendors $vendor): Response
     {
         if ($this->isCsrfTokenValid('delete'.$vendor->getId(), $request->request->get('_token'))) {

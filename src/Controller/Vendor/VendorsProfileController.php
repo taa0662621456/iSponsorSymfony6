@@ -9,24 +9,46 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/profile")
+ * @Route("/vendors/profile")
+ * @Route("/sponsor/profile")
  */
 class VendorsProfileController
 	extends AbstractController
 {
 	/**
-	 * @Route( "/", name="profile", methods={"GET","POST"})
+	 * @Route( "/{slug}", name="profile", methods={"GET","POST"})
+	 * @Route( "/{id<\d+>}", name="profile", methods={"GET","POST"})
 	 * @param VendorsRepository $vendorsRepository
 	 *
 	 * @return Response
 	 */
 	public function index(VendorsRepository $vendorsRepository): Response
 	{
-
+		/**
+		 * TODO: проверка "на админа" (только админ и выше может с фронта запрашивать по ИД)
+		 * если админ и в 'id'
+		 */
+		/*if ($id)
+		{
 		return $this->render('vendor/vendors_profile/profile.html.twig', array(
             'vendor' => $vendorsRepository->findBy(
                 array('id' => $this->getUser())
             ),
         ));
-    }
+
+		}*/
+
+		/**
+		 * TODO: в противном случае возвращать по 'slug'
+		 */
+		return $this->render(
+			'vendor/vendors_profile/profile.html.twig', array(
+			'vendor' => $vendorsRepository->findBy(
+				array('slug' => $this->getUser())
+			),
+		)
+		);
+
+
+	}
 }
