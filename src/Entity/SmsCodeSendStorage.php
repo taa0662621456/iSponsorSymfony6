@@ -1,14 +1,26 @@
 <?php
 
 	namespace App\Entity;
+
+	use Doctrine\ORM\Mapping as ORM;
+
+
 	/**
-	 * @ORM\Entity
-	 * @ORM\Table(name="sms_code_send_storage")
+	 * @ORM\Table(name="sms_code_send_storage", indexes={
+	 * @ORM\Index(name="sms_code_send_storage_idx", columns={"phone"})}))
+	 * @ORM\Entity(repositoryClass="App\Repository\SmsCodeStorageRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
 	class SmsCodeSendStorage
 	{
-		use BaseTrait;
+		/**
+		 * @var integer
+		 *
+		 * @ORM\Id
+		 * @ORM\Column(type="integer")
+		 * @ORM\GeneratedValue
+		 */
+		private $id;
 
 		/**
 		 * @var srting
@@ -24,11 +36,20 @@
 		 */
 		private $code;
 
-		/** @var bool
+		/**
+		 * @var bool
 		 *
 		 * @ORM\Column(type="boolean", name="is_login")
 		 */
 		protected $isLogin;
+
+		/**
+		 * @return int
+		 */
+		public function getId(): int
+		{
+			return $this->id;
+		}
 
 		/**
 		 * @return srting
