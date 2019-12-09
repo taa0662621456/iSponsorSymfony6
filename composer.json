@@ -2,7 +2,7 @@
   "type": "project",
   "license": "MIT",
   "description": "iSponsor Platform Application",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
     "php": "^7.1.22",
     "ext-ctype": "*",
@@ -20,28 +20,29 @@
     "symfony/dotenv": "4.3.*",
     "symfony/event-dispatcher": "4.3.*",
     "symfony/expression-language": "4.3.*",
-    "symfony/flex": "*",
+    "symfony/flex": "dev-master",
     "symfony/form": "4.3.*",
-    "symfony/framework-bundle": "*",
+    "symfony/framework-bundle": "4.3.x-dev",
     "symfony/http-client": "4.3.*",
     "symfony/maker-bundle": "^1.0@dev",
     "symfony/messenger": "4.3.*",
     "symfony/monolog-bundle": "^3.1",
-    "symfony/orm-pack": "*",
+    "symfony/orm-pack": "dev-master",
     "symfony/process": "4.3.*",
     "symfony/security-bundle": "4.3.*",
     "symfony/security-csrf": "4.3.*",
-    "symfony/serializer-pack": "*",
+    "symfony/serializer-pack": "dev-master",
     "symfony/swiftmailer-bundle": "^3.1",
     "symfony/templating": "4.3.*",
     "symfony/translation": "4.3.*",
     "symfony/twig-bundle": "4.3.*",
     "symfony/validator": "4.3.*",
     "symfony/web-link": "4.3.*",
-    "symfony/web-server-bundle": "*",
+    "symfony/web-server-bundle": "4.3.x-dev",
     "symfony/webpack-encore-bundle": "dev-master",
     "symfony/yaml": "4.3.*",
-    "tgalopin/html-sanitizer-bundle": "dev-master"
+    "tgalopin/html-sanitizer-bundle": "dev-master",
+    "google/recaptcha": "^1.2"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.3@dev",
@@ -49,11 +50,10 @@
     "symfony/css-selector": "4.3.*",
     "symfony/debug-bundle": "4.3.*",
     "symfony/maker-bundle": "^1.11",
-    "symfony/phpunit-bridge": "*",
+    "symfony/phpunit-bridge": "dev-master",
     "symfony/stopwatch": "4.3.*",
     "symfony/var-dumper": "4.3.*",
-    "symfony/web-profiler-bundle": "*",
-    "symfony/web-server-bundle": "*"
+    "symfony/web-profiler-bundle": "4.3.x-dev"
   },
   "config": {
     "preferred-install": {
