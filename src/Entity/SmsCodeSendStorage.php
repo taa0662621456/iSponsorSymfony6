@@ -32,7 +32,7 @@
 		/**
 		 * @var int
 		 *
-		 * @ORM\Column(type="code")
+		 * @ORM\Column(type="smallint")
 		 */
 		private $code;
 
