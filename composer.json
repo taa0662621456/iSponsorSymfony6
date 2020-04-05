@@ -11,7 +11,7 @@
     "ext-json": "*",
     "ext-pdo_pgsql": "*",
     "ext-pdo_sqlite": "*",
-    "cocur/slugify": "^3.2",
+    "cocur/slugify": "*",
     "erusev/parsedown": "^1.7",
     "ramsey/uuid-doctrine": "dev-master",
     "sensio/framework-extra-bundle": "^5.4@dev",
