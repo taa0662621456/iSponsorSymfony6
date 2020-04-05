@@ -5,7 +5,7 @@
 
 	use App\Entity\Vendor\VendorsDocumentAttachments;
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-	use Symfony\Bridge\Doctrine\RegistryInterface;
+	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
 	 * @method VendorsDocumentAttachments|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +16,7 @@
 	class VendorsDocumentAttachmentsRepository
 		extends ServiceEntityRepository
 	{
-		public function __construct(RegistryInterface $registry)
+		public function __construct(ManagerRegistry $registry)
 		{
 			parent::__construct($registry, VendorsDocumentAttachments::class);
 		}

@@ -6,7 +6,7 @@
 
 	use App\Entity\Project\ProjectsAttachments;
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-	use Symfony\Bridge\Doctrine\RegistryInterface;
+	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
 	 * @method ProjectsAttachments|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +16,7 @@
 	 */
 	class ProjectsAttachmentsRepository extends ServiceEntityRepository
 	{
-		public function __construct(RegistryInterface $registry)
+		public function __construct(ManagerRegistry $registry)
 		{
 			parent::__construct($registry, ProjectsAttachments::class);
 		}

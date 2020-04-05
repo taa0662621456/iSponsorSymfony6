@@ -5,7 +5,7 @@ namespace App\Repository\Project;
 
 use App\Entity\Project\Projects;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Projects|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +19,7 @@ class ProjectsRepository extends ServiceEntityRepository
      * ProjectsRepository constructor.
      * @param RegistryInterface $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Projects::class);
     }

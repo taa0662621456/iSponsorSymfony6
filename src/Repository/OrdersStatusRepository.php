@@ -5,7 +5,7 @@
 	use App\Entity\Order\OrdersStatus;
 
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-	use Symfony\Bridge\Doctrine\RegistryInterface;
+	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
 	 * @method OrdersStatus|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,7 +18,7 @@
 		/**
 		 * @param RegistryInterface $registry
 		 */
-		public function __construct(RegistryInterface $registry)
+		public function __construct(ManagerRegistry $registry)
 		{
 			parent::__construct($registry, OrdersStatus::class);
 		}

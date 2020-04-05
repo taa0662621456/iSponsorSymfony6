@@ -8,7 +8,7 @@ use App\Pagination\Paginator;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use phpDocumentor\Reflection\Project;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Orders|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,7 +22,7 @@ class OrdersRepository extends ServiceEntityRepository
      * ProjectsRepository constructor.
      * @param RegistryInterface $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Orders::class);
     }

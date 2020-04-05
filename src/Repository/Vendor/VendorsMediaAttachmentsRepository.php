@@ -6,7 +6,7 @@
 	use App\Entity\Vendor\Vendors;
 	use App\Entity\Vendor\VendorsMediaAttachments;
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-	use Symfony\Bridge\Doctrine\RegistryInterface;
+	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
 	 * @method VendorsMediaAttachments|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,7 +17,7 @@
 	class VendorsMediaAttachmentsRepository
 		extends ServiceEntityRepository
 	{
-		public function __construct(RegistryInterface $registry)
+		public function __construct(ManagerRegistry $registry)
 		{
 			parent::__construct($registry, VendorsMediaAttachments::class);
 		}

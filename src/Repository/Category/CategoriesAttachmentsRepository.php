@@ -5,7 +5,7 @@
 
 	use App\Entity\Category\CategoriesAttachments;
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-	use Symfony\Bridge\Doctrine\RegistryInterface;
+	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
 	 * @method CategoriesAttachments|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,7 +15,7 @@
 	 */
 	class CategoriesAttachmentsRepository extends ServiceEntityRepository
 	{
-		public function __construct(RegistryInterface $registry)
+		public function __construct(ManagerRegistry $registry)
 		{
 			parent::__construct($registry, CategoriesAttachments::class);
 		}

@@ -6,7 +6,7 @@ namespace App\Repository\Product;
 use App\Entity\Product\Products;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 /**
@@ -21,7 +21,7 @@ class ProductsRepository extends ServiceEntityRepository
      * ProductsRepository constructor.
      * @param RegistryInterface $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Products::class);
     }
