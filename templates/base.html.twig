@@ -223,14 +223,13 @@
         <section class="container-fluid footer-bottom">
             <div class="row foot">
                 <div class="col-xs-12 col-lg-12 col-sm-12 center">
-                    <ul class="list-group list-group-horizontal-sm locales" role="menu" aria-labelledby="locales">1
-                        {% for locale in locales() %} 2
-                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="font-weight-bold"
-                                {% else %}aria-checked="false"{% endif %} role="menuitem">
-                                <a href="{{ path(app.request.get('_route', 'blog_index'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}"><small>{{ locale.name|capitalize }}
-                                        ({{ locale.code[0:2] }})</small></a>
+                    <ul class="list-group list-group-horizontal-sm locales" role="menu" aria-labelledby="locales">
+                        {% for locale in locales() %}
+                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="list-unstyled font-weight-bold"
+                                {% else %}aria-checked="false" class="list-unstyled font-weight-bold" {% endif %} role="menuitem">
+                                <a href="{{ path(app.request.get('_route', 'blog_index'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}"><small>{{ locale.name|capitalize }}({{ locale.code[0:2] }})</small></a>
                             </li>
-                            <li>|</li>
+                            <li class="list-unstyled"> | </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -238,7 +237,21 @@
             <div class="row foot">
 
                 <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
-                <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">
+                    <ul class="list-unstyled">
+                        <li class=""><a href="{{ path('career') }}">Карьера</a></li>
+                        <li class=""><a href="{{ path('teame') }}">Команда</a></li>
+                        <li class=""><a href="{{ path('general') }}">Пользовательское соглашение</a></li>
+                        <li class=""><a href="{{ path('licensesearch') }}">Лицензия на использование поисковой системы</a></li>
+                        <li class=""><a href="{{ path('confidenctial') }}">Политика конфиденциальности</a></li>
+                        <li class=""><a href="{{ path('companydetails') }}">Реквизиты ООО "СМАРТРЕСПОНСОР"</a></li>
+                        <li class=""><a href="{{ path('agreement') }}">Соглашение</a></li>
+                        <li class=""><a href="{{ path('forsale') }}">Договор купли-продажи</a></li>
+                        <li class=""><a href="{{ path('forsupply') }}">Договор поставки</a></li>
+                    </ul>
+
+
+                    4-5</div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
