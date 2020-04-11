@@ -1,13 +1,13 @@
 import jQuery from 'jquery';
 import Cookies from 'js-cookie';
-//import Masonry from 'masonry-layout';
+import Masonry from 'masonry-layout';
 
 (function ($, undefined) {
 
     let $hideArray = $('#b1, #b2, #header'); // elements for hiding in full-screen
     let $contentBlock = $('#b3').filter('div'); // col with main content
     let $asideRightPanel = $('#b4').filter('div');
-    let $fullScreenButton = $('#fool-screen').filter('input');
+    let $fullScreenButton = $('#full-screen').filter('input');
     let $fullScreenMessage = $('#fullscreen-message').filter('div');
     let $fullScreenIcon = $('.fa-arrows-alt').filter('i');
     let $fullScrIconClass = 'fad fa-arrows-alt';
@@ -59,7 +59,7 @@ import Cookies from 'js-cookie';
             fullScreenIcon();
         }
 
-        //$masonryLayout.masonry('layout');
+        $masonryLayout.masonry('layout');
 
     });
 
