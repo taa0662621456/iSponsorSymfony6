@@ -5,7 +5,7 @@ var tinymce = require('tinymce');
 
 require('tinymce/themes/silver/index');
 require('tinymce/plugins/image');
-let form = document.querySelector('object');
+let form = document.querySelector('#object');
 //let form = $('#object').filter('form');
 //console.dir(document.documentElement); console.log(form.dataset.objectId);
 if (form != undefined) {

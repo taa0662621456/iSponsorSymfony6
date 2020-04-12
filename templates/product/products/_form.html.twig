@@ -1,4 +1,4 @@
-{{ form_start(form, {attr: {'data-name': product.slug, 'data-object':'object', 'data-object-id': product.id, 'id':'#object'}}) }}
+{{ form_start(form, {attr: {'data-name': product.slug, 'data-object':'object', 'data-object-id': product.id, 'id':'object'}}) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
