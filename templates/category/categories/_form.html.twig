@@ -1,2 +1,3 @@
-{{ form_errors(form, {attr: {'id': 'tinymce_editor'}}) }}
+{% form_theme form 'form/btn-group.html.twig' %}
+{{ form_errors(form) }}
 {{ form(form, {attr: {'data-name': category.slug, 'data-object':'object', 'data-object-id': category.id, 'id':'object'}}) }}

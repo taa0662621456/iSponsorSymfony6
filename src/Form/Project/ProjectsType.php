@@ -7,7 +7,9 @@ use App\Entity\Category\Categories;
 use App\Entity\Project\Projects;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,20 +51,34 @@ class ProjectsType extends AbstractType
 					'required' => false,
 				)
 			)
-			->add('previous', SubmitType::class, array(
-				'label' => 'label.previous',
-				'attr' => array(
-					'id' => 'next',
-					'class' => 'btn btn-primary previous'
-				)
-			))
-			->add('next', SubmitType::class, array(
-				'label' => 'label.next',
-				'attr' => array(
-					'id' => 'next',
-					'class' => 'btn btn-primary next'
-				)
-			))
+            ->add(
+                $builder
+                    ->create('step', FormType::class, array(
+                        'inherit_data' => true,
+                        'label' => false,
+                        'attr'=> array(
+                            'class' => 'btn-group'
+                        )
+                    ))
+                    ->add(
+                        'previous', ButtonType::class, array(
+                            'label' => 'label.previous',
+                            'attr'  => array(
+                                'id'    => 'next',
+                                'class' => 'btn btn-primary previous'
+                            )
+                        )
+                    )
+                    ->add(
+                        'next', ButtonType::class, array(
+                            'label' => 'label.next',
+                            'attr'  => array(
+                                'id'    => 'next',
+                                'class' => 'btn btn-primary next'
+                            )
+                        )
+                    )
+            )
 			->add('submit', SubmitType::class, array(
 				'attr' => array(
 					'class' => 'btn btn-primary submit'

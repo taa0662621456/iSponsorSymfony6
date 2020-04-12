@@ -1,3 +1,4 @@
-{{ form_start(form, {attr: {'data-name': project.slug, 'data-object':'object', 'data-object-id': project.id, 'id':'object'}}) }}
-    {{ form_widget(form) }}
-{{ form_end(form) }}
+{% form_theme form 'form/btn-group.html.twig' %}
+{{ form_errors(form) }}
+{{ form(form, {attr: {'data-name': project.slug, 'data-object':'object', 'data-object-id': project.id, 'id':'object'}}) }}
+

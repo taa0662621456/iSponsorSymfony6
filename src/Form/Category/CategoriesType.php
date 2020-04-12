@@ -4,15 +4,14 @@
 	namespace App\Form\Category;
 
 	use App\Entity\Category\Categories;
-	use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 	use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-	use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+    use Symfony\Component\Form\Extension\Core\Type\FormType;
+    use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-	use Symfony\Component\Form\FormBuilderInterface;
+    use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
 
 	class CategoriesType
@@ -62,24 +61,34 @@
 						//],
 					)
 				)
-				->add(
-					'previous', ButtonType::class, array(
-						'label' => 'label.previous',
-						'attr'  => array(
-							'id'    => 'next',
-							'class' => 'btn btn-primary previous'
-						)
-					)
-				)
-				->add(
-					'next', ButtonType::class, array(
-						'label' => 'label.next',
-						'attr'  => array(
-							'id'    => 'next',
-							'class' => 'btn btn-primary next'
-						)
-					)
-				)
+                ->add(
+                    $builder
+                        ->create('step', FormType::class, array(
+                            'inherit_data' => true,
+                            'label' => false,
+                            'attr'=> array(
+                                'class' => 'btn-group'
+                            )
+                        ))
+                    ->add(
+                        'previous', ButtonType::class, array(
+                            'label' => 'label.previous',
+                            'attr'  => array(
+                                'id'    => 'next',
+                                'class' => 'btn btn-primary previous'
+                            )
+                        )
+                    )
+                    ->add(
+                        'next', ButtonType::class, array(
+                            'label' => 'label.next',
+                            'attr'  => array(
+                                'id'    => 'next',
+                                'class' => 'btn btn-primary next'
+                            )
+                        )
+                    )
+                )
 				->add(
 					'submit', SubmitType::class, array(
 						'label' => 'label.submit',
@@ -88,7 +97,7 @@
 						)
 					)
 				)
-			;
+            ;
 		}
 
 		public function configureOptions(OptionsResolver $resolver): void
