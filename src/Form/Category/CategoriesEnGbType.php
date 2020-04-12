@@ -40,7 +40,7 @@
 						),
 						'attr'       => array(
 							'id'          => 'categoryDesc',
-							'class'       => 'form-control',
+							'class'       => 'form-control reader',
 							'placeholder' => 'category.desc.placeholder',
 							'tabindex'    => '102',
 							'autofocus'   => false

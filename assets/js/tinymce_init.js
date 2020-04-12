@@ -1,17 +1,19 @@
 // Creates links to the TinyMCE
+// https://www.youtube.com/watch?v=fOCw15bpbSw
+//
 var tinymce = require('tinymce');
 
 require('tinymce/themes/silver/index');
 require('tinymce/plugins/image');
 
-let form = document.querySelector('#tinymce_editor');
-//console.dir(form); console.log(form.dataset.id);
+let form = document.querySelector('.object');
+console.dir(document.documentElement); console.log(form.dataset.objectId);
 tinymce.init({
-    selector: '#post_content',
+    selector: '.reader',
     plugins: 'image',
     toolbar: 'undo redo | link image',
     automatic_uploads: true,
-    images_upload_url: '/attachment/' + form.dataset.id,
+    images_upload_url: '/attachment/' + form.dataset.name + form.dataset.objectId,
     file_picker_types: 'image',
     file_picker_callback: function (cb, value, meta) {
         var input = document.createElement('input');

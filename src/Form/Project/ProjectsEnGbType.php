@@ -52,7 +52,7 @@ class ProjectsEnGbType extends AbstractType
 				),
 				'attr'       => array(
 					'id'          => 'projectDesc',
-					'class'       => 'form-control obj_desc',
+					'class'       => 'form-control reader',
 					'placeholder' => 'project.desc.placeholder',
 					'tabindex'    => '103',
 					'autofocus'   => false
