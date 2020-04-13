@@ -1,0 +1,10 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{% block button_row -%}
+        {{- form_widget(form) -}}
+{%- endblock button_row %}
+
+{% block button_widget -%}
+    {%- set attr = attr|merge({class: (attr.class|default('btn-secondary') ~ ' btn')|trim}) -%}
+    {{- parent() -}}
+{%- endblock button_widget %}

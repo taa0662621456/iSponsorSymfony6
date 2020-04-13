@@ -14,10 +14,14 @@
     use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
 
-	class CategoriesType
+    class CategoriesType
 		extends AbstractType
 	{
-		public function buildForm(FormBuilderInterface $builder, array $options): void
+        /**
+         * @param FormBuilderInterface $builder
+         * @param array $options
+         */
+        public function buildForm(FormBuilderInterface $builder, array $options): void
 		{
 			$builder
 				->add('id', HiddenType::class)
@@ -72,7 +76,8 @@
                         ))
                     ->add(
                         'previous', ButtonType::class, array(
-                            'label' => 'label.previous',
+                            'label' => 'btn.label.previous',
+                            'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'id'    => 'next',
                                 'class' => 'btn btn-primary previous'
@@ -81,7 +86,8 @@
                     )
                     ->add(
                         'next', ButtonType::class, array(
-                            'label' => 'label.next',
+                            'label' => 'btn.label.next',
+                            'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'id'    => 'next',
                                 'class' => 'btn btn-primary next'
@@ -89,14 +95,35 @@
                         )
                     )
                 )
-				->add(
-					'submit', SubmitType::class, array(
-						'label' => 'label.submit',
-						'attr'  => array(
-							'class' => 'btn btn-primary submit'
-						)
-					)
-				)
+                ->add(
+                    $builder
+                        ->create('submit', FormType::class, array(
+                            'inherit_data' => true,
+                            'label' => false,
+                            'attr'=> array(
+                                'class' => 'btn-group'
+                            )
+                        ))
+                    ->add(
+                        'back', ButtonType::class, array(
+                            'label' => 'btn.label.back',
+                            'translation_domain' => 'buttons',
+                            'attr'  => array(
+                                'class' => 'btn btn-primary submit',
+                                'onclick' => 'window.history.back()'
+                            )
+                        )
+                    )
+                    ->add(
+                        'submit', SubmitType::class, array(
+                            'label' => 'btn.label.submit',
+                            'translation_domain' => 'buttons',
+                            'attr'  => array(
+                                'class' => 'btn btn-primary submit'
+                            )
+                        )
+                    )
+                )
             ;
 		}
 

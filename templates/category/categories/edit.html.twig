@@ -5,8 +5,4 @@
 {% block article_header %}<h1>Edit Category</h1>{% endblock %}
 {% block article_content %}
     {{ include('category/categories/_form.html.twig', {'button_label': 'Update'}) }}
-    {% block article_summery %}
-    <a href="{{ path('categories') }}">back to list</a>
-    {{ include('category/categories/_delete_form.html.twig') }}
-    {% endblock %}
 {% endblock %}
