@@ -4,7 +4,6 @@ require('bootstrap');
 require('bootstrap-confirmation2');
 //require('bootstrap-confirmation2'); // предстоит заменить на jquery-comfirm
 require('bootstrap-autohide-navbar');
-require('bootstrap-autohide-navbar');
 
 //require('masonry-layout');
 
@@ -23,3 +22,4 @@ require('./tinymce_init');
 require('./move_up');
 require('./cols_per_row');
 require('./add-collection-widget');
+require('./full_screen_adapter');
