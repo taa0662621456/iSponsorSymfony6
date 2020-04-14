@@ -3,15 +3,16 @@
 
 	namespace App\Entity\Project;
 
-	use App\Entity\Category\Categories;
-	use App\Entity\BaseTrait;
-	use Doctrine\Common\Collections\ArrayCollection;
-	use Doctrine\Common\Collections\Collection;
-	use Doctrine\ORM\Mapping as ORM;
-	use Symfony\Component\Validator\Constraints as Assert;
+    use App\Entity\BaseTrait;
+    use Doctrine\ORM\Mapping as ORM;
+    use App\Entity\Category\Categories;
+    use Doctrine\Common\Collections\ArrayCollection;
+    use Doctrine\Common\Collections\Collection;
+    use Symfony\Component\Validator\Constraints as Assert;
 
 
-	/**
+
+    /**
 	 * @ORM\Table(name="projects", indexes={
 	 * @ORM\Index(name="project_idx", columns={"slug"})})
 	 * UniqueEntity("slug"),

@@ -32,35 +32,18 @@ class ProjectsController extends AbstractController
 		$this->attachmentManager = $attachmentManager;
 	}
 
-	/**
-	 * @Route("/", name="projects", methods={"GET"})
-	 * @return Response
-	 */
-	public function projects(): Response
+    /**
+     * @Route("/", name="projects", methods={"GET"})
+     * @param ProjectsRepository $projectsRepository
+     * @return Response
+     */
+	public function projects(ProjectsRepository $projectsRepository): Response
 	{
-		$em = $this->getDoctrine()->getManager();
-		$categoriesRepository = $em->getRepository(CategoriesRepository::class);
-		//$newsRepository = $em->getRepository('News');
-		//$slideRepository = $em->getRepository('Slide');
-		//$projectsRepository = $em->getRepository(ProjectsRepository::class);
-
-		//sorted by order number
-		//$slides = $slideRepository->findBy(['enabled' => true], ['slideOrder' => 'ASC']);
-		//$lastNews = $newsRepository->getLastNews();
-		//$categories = $categoriesRepository->findAll();
-		//$latestProjects = $projectsRepository->getLatest(12, $this->getUser());
-		//$featuredProjects = $projectsRepository->getFeatured(12, $this->getUser());
-
-		return $this->render(
-			'project/projects/index.html.twig', array(
-				'categories' => $categoriesRepository
-				//'featured_products' => $featuredProjects,
-				//'projects' => $projectsRepository->findAll(),
-				//'latest' => $latestProjects,
-				//'news' => $lastNews,
-				//'slides' => $slides
-			)
-		);
+        return $this->render(
+            'project/projects/index.html.twig', array(
+                'projects' => $projectsRepository->findAll(),
+            )
+        );
 	}
 
     /**

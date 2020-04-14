@@ -38,15 +38,15 @@
 
 		/**
 		 * @Route("/", name="categories", methods={"GET"})
-		 * @param CategoriesRepository $categories
+		 * @param CategoriesRepository $categoriesRepository
 		 *
 		 * @return Response
 		 */
-		public function categories(CategoriesRepository $categories): Response
+		public function categories(CategoriesRepository $categoriesRepository): Response
 		{
 			return $this->render(
 				'category/categories/index.html.twig', array(
-					'categories' => $categories->findAll(),
+					'categories' => $categoriesRepository->findAll(),
 				)
 			);
 		}
