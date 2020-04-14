@@ -24,28 +24,31 @@
         public function buildForm(FormBuilderInterface $builder, array $options): void
 		{
 			$builder
-				->add('id', HiddenType::class)
-				->add(
-					'published', CheckboxType::class, array(
-					'label'              => 'category.published.label',
-					'translation_domain' => 'category',
-					'required'           => false
-				)
-				)
-				/*				->add('parent', CheckboxType::class, array(
-										'label' => 'categories.parent',
-										'class'        => Categories::class,
-										'required'     => false,
-										'multiple'     => false,
-										'choice_label' => 'id'
-									)
-								)*/
+                ->add(
+                $builder
+                    ->create('step-1', FormType::class, array(
+                        'inherit_data' => true,
+                        'label' => false,
+                        'row_attr' => array(
+                            'id' => 'step-1'
+                        ),
+                    ))
 				->add(
 					'categoryEnGb', CategoriesEnGbType::class, array(
 						'label'              => 'category.engb.label',
 						'translation_domain' => 'category',
 					)
 				)
+                )
+                ->add(
+                    $builder
+                        ->create('step-2', FormType::class, array(
+                            'inherit_data' => true,
+                            'label' => false,
+                            'row_attr' => array(
+                                'id' => 'step-2'
+                            ),
+                        ))
 				->add(
 					'categoryAttachments', CollectionType::class, array(
 						'entry_type'         => CategoriesAttachmentsType::class,
@@ -65,9 +68,35 @@
 						//],
 					)
 				)
+                )
                 ->add(
                     $builder
-                        ->create('step', FormType::class, array(
+                        ->create('step-3', FormType::class, array(
+                            'inherit_data' => true,
+                            'label' => false,
+                            'row_attr'=> array(
+                                'id' => 'step-3'
+                            )
+                        ))
+                ->add('id', HiddenType::class)
+                ->add('published', CheckboxType::class, array(
+                        'label'              => 'category.published.label',
+                        'translation_domain' => 'category',
+                        'required'           => false
+                    )
+                )
+                /*				->add('parent', CheckboxType::class, array(
+                                        'label' => 'categories.parent',
+                                        'class'        => Categories::class,
+                                        'required'     => false,
+                                        'multiple'     => false,
+                                        'choice_label' => 'id'
+                                    )
+                                )*/
+                )
+                ->add(
+                    $builder
+                        ->create('steps', FormType::class, array(
                             'inherit_data' => true,
                             'label' => false,
                             'attr'=> array(
@@ -109,11 +138,20 @@
                             'label' => 'btn.label.back',
                             'translation_domain' => 'buttons',
                             'attr'  => array(
-                                'class' => 'btn btn-primary submit',
+                                'class' => 'btn btn-primary back',
                                 'onclick' => 'window.history.back()'
                             )
                         )
                     )
+                    ->add(
+                        'submitAndNew', SubmitType::class, array(
+                            'label' => 'btn.label.submitAndNew',
+                            'translation_domain' => 'buttons',
+                            'attr'  => array(
+                                'class' => 'btn btn-primary submitAndNew'
+                            )
+                        )
+                    ) //TODO: добавить в контролер по єтой доке https://symfony.com/doc/current/form/multiple_buttons.html
                     ->add(
                         'submit', SubmitType::class, array(
                             'label' => 'btn.label.submit',

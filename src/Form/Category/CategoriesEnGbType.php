@@ -5,7 +5,8 @@
 
 	use App\Entity\Category\CategoriesEnGb;
 	use Symfony\Component\Form\AbstractType;
-	use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+    use Symfony\Component\Form\Extension\Core\Type\FormType;
+    use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 	use Symfony\Component\Form\Extension\Core\Type\TextType;
 	use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,6 +33,22 @@
 						)
 					)
 				)
+                ->add(
+                    'slug', TextType::class, array(
+                        'label'      => 'category.slug.label',
+                        'label_attr' => array(
+                            'class' => 'sr-only',
+                        ),
+                        'required'   => true,
+                        'attr'       => array(
+                            'id'          => 'categorySlug',
+                            'class'       => 'form-control ',
+                            'placeholder' => 'category.slug.placeholder',
+                            'tabindex'    => '103',
+                            'autofocus'   => true
+                        )
+                    )
+                )
 				->add(
 					'categoryDesc', TextareaType::class, array(
 						'label'      => 'category.desc.label',
@@ -46,26 +63,10 @@
 							'autofocus'   => false
 						)
 					)
-				)
+                )
 				//->add('metaDesc')
 				//->add('metaKey')
 				//->add('customTitle')
-				->add(
-					'slug', TextType::class, array(
-						'label'      => 'category.slug.label',
-						'label_attr' => array(
-							'class' => 'sr-only',
-						),
-						'required'   => true,
-						'attr'       => array(
-							'id'          => 'categorySlug',
-							'class'       => 'form-control ',
-							'placeholder' => 'category.slug.placeholder',
-							'tabindex'    => '103',
-							'autofocus'   => true
-						)
-					)
-				)
 			;
 		}
 
