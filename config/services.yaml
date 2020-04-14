@@ -48,6 +48,7 @@ services:
         arguments:
             $targetDir: '%categories_images_directory%'
 
+
     #App\Service\WsseProvider:
     #   arguments:
     #      $cachePool: '@cache.app'
@@ -73,7 +74,14 @@ services:
     # please note that last definitions always *replace* previous ones
 
     #Twig\Extensions\ArrayExtension: ~
-    Twig\Extensions\DateExtension: ~
-    Twig\Extensions\IntlExtension: ~
-    Twig\Extensions\I18nExtension: ~
+    #Twig\Extensions\DateExtension: ~
+    #Twig\Extensions\IntlExtension: ~
+    #Twig\Extensions\I18nExtension: ~
     #Twig\Extensions\TextExtension: ~
+
+    # не получилось сделать в Симфони4 (помечено на удаление)
+    # https://habr.com/ru/post/184484/
+    #fieldset.form.my_extension:
+    #    class: App\Tool\FieldsetExtension
+    #    tags:
+    #        - { name: form.type_extension, alias: textarea }
