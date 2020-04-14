@@ -1,8 +1,23 @@
 import jQuery from 'jquery';
 import Cookies from 'js-cookie';
-//import Masonry from 'masonry-layout';
+import Masonry from 'masonry-layout';
+
+
+
+
+let grid = document.querySelector('.masonry-grid');
+    if (grid != undefined){
+        let msnry = new Masonry( '.masonry-grid', {
+            // options...
+            itemSelector: '.masonry-brick',
+        });
+    } else {
+        let msnry = null
+    }
 
 let fullScreenButton = document.querySelector('#full-screen');
+
+
 
 if (fullScreenButton != undefined ) {
 
@@ -63,7 +78,7 @@ if (fullScreenButton != undefined ) {
                 fullScreenIcon();
             }
 
-            $masonryLayout.masonry('layout');
+            msnry.layout();
 
         });
 
@@ -78,7 +93,8 @@ if (fullScreenButton != undefined ) {
                 asideRightPanel();
                 fullScreenIcon();
 
-                $masonryLayout.masonry('layout');
+                msnry.layout();
+
             }
         });
 

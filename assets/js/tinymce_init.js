@@ -1,7 +1,7 @@
 // Creates links to the TinyMCE
 // https://www.youtube.com/watch?v=fOCw15bpbSw
 //
-var tinymce = require('tinymce');
+let tinymce = require('tinymce');
 
 require('tinymce/themes/silver/index');
 require('tinymce/plugins/image');
