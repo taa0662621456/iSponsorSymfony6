@@ -61,38 +61,30 @@
 									   bool $published = true,
 									   string $fileLang = null): Response
 		{
-			$layout = $requestStack->getMasterRequest()->attributes->get('_route');
+			$route = $requestStack->getMasterRequest()->attributes->get('_route');
 
-			if (false === $authChecker->isGranted('ROLE_ADMIN')) {
-				$id = null;
-				$slug = null;
-				$createdBy = null;
-				$published = true;
-			}
-
-			if ($layout == 'homepage' ||
-				$layout == 'category' ||
-				$layout == 'project' ||
-				$layout == 'product' ||
-				$layout == 'vendor_media' || // либо парсить, либо думать над роутами
-				$layout == 'vendor_document' || // либо парсить, либо думать над роутами
-				$layout == 'vendor' and
-				false === $authChecker->isGranted('ROLE_ADMIN'))
+			if (false === $authChecker->isGranted('ROLE_ADMIN')){
+                $id = null;
+                $slug = null;
+                $createdBy = null;
+                $published = true;
+                $fileLayoutPosition = $route;
+                $fileClass = null;
+                $fileLang = $route;
+            }
 				$attachments = $this->attachmentsManager->getAttachments(
 					$entity = 'App\Entity\Category\CategoriesAttachments',
 					$id = null,
 					$slug = null,
 					$createdBy = null,
 					$published = true,
-					$fileLayoutPosition = $layout,
+					$fileLayoutPosition = $route,
 					$fileClass = null,
-					$fileLang = $layout
+					$fileLang = $route
 				);
-			// $layout с большой буквы
-			$entity = 'App\Entity\\' . $layout . '\\' . $layout . 'Attachments';
 
 			return $this->render(
-				'category/categories_attachments/' . $layout . '_attachments.html.twig',
+				'category/categories_attachments/' . $route . '_attachments.html.twig',
 				array(
 					'attachments' => $attachments,
 				)
