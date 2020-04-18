@@ -5,7 +5,8 @@
 
 	use App\Entity\Vendor\VendorsSecurity;
 	use Symfony\Component\Form\AbstractType;
-	use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+    use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+    use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 	use Symfony\Component\Form\Extension\Core\Type\EmailType;
 	use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 	use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -22,9 +23,10 @@
 				->add(
 					'email', EmailType::class, array(
 					'invalid_message' => 'The email address is invalid.',
-					'label'           => 'vendor.email.label',
+                    'translation_domain' => 'security',
+					'label'           => 'security.email.label',
 					'label_attr'      => array(
-						'class' => 'sr-only',
+						'class' => '',
 						'value' => 'last_username'
 					),
 					'required'        => true,
@@ -32,7 +34,7 @@
 						'id'          => 'email',
 						'name'        => '_email',
 						'class'       => 'form-control',
-						'placeholder' => 'vendor.email.placeholder',
+						'placeholder' => 'security.email.placeholder',
 						'tabindex'    => '101',
 						//'autofocus' => true
 					),
@@ -41,25 +43,28 @@
 				->add(
 					'password', PasswordType::class, array(
 					'invalid_message' => 'The password is invalid.',
+                    'translation_domain' => 'security',
 					'required'        => true,
 					'attr'            => array(
 						'id'          => 'password',
 						'name'        => '_password',
 						'class'       => 'form-control',
-						'placeholder' => 'vendor.password.placeholder',
+						'placeholder' => 'security.password.placeholder',
 						'tabindex'    => '203'
 					)
 				)
 				)
 				->add('submit', SubmitType::class, array(
-					'label' => 'vendor.submit.label',
+                    'translation_domain' => 'button',
+					'label' => 'button.submit.label',
 					'attr'  => array(
 						'class' => 'btn btn-primary btn-block'
 					)
 				))
 				->add('remember', CheckboxType::class, array(
+                    'translation_domain' => 'buttons',
 					'mapped'     => false,
-					'label'      => 'vendor.remember.label',
+					'label'      => 'button.remember.label',
 					'required'   => false,
 					'label_attr' => array(
 						'class' => ''
@@ -70,6 +75,26 @@
 						'class' => ''
 					),
 				))
+                ->add(
+                    'back', ButtonType::class, array(
+                        'label' => 'btn.label.back',
+                        'translation_domain' => 'buttons',
+                        'attr'  => array(
+                            'class' => 'btn btn-primary btn-block back',
+                            'onclick' => 'window.history.back()'
+                        )
+                    )
+                )
+                ->add(
+                    'signup', ButtonType::class, array(
+                        'label' => 'btn.label.signup',
+                        'translation_domain' => 'buttons',
+                        'attr'  => array(
+                            'class' => 'btn btn-link btn-sm signup',
+                            'onclick' => 'window.history.back()'
+                        )
+                    )
+                )
 				->add('token', HiddenType::class, array(
 					'mapped' => false,
 					'attr' => array(
@@ -86,7 +111,7 @@
 					'csrf_protection'    => true,
 					'csrf_field_name'    => '_csrf_token',
 					'csrf_token_id'      => '6cb546b7fb9e056773030920402e4172',
-					'translation_domain' => 'vendor',
+					'translation_domain' => 'vendor', //TODO: дублируется объявление на форму и на поля. Нужно определиться и правильно организовать переводы (структуру файлов)
 					'method'             => 'POST',
 					'attr'               => array(
 						'id'   => 'login',

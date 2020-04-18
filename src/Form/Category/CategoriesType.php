@@ -151,7 +151,7 @@
                                 'class' => 'btn btn-primary submitAndNew'
                             )
                         )
-                    ) //TODO: добавить в контролер по єтой доке https://symfony.com/doc/current/form/multiple_buttons.html
+                    ) //TODO: добавить в контролер по этой доке https://symfony.com/doc/current/form/multiple_buttons.html
                     ->add(
                         'submit', SubmitType::class, array(
                             'label' => 'btn.label.submit',
