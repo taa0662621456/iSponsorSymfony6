@@ -15,3 +15,7 @@ button.next.step: 'Следующий шаг'
 button.previous: 'Предыдущий шаг'
 button.previous.step: 'Предыдущий шаг'
 
+button.remember.label: 'Запомнить меня'
+
+button.submit.label: 'Авторизоваться'
+

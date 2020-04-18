@@ -1,0 +1,3 @@
+security.password.placeholder: 'Введите пароль'
+security.email.label: 'Введите e-mail'
+security.email.placeholder: 'Введите e-mail'

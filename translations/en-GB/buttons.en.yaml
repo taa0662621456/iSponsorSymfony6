@@ -2,3 +2,10 @@ btn.label.previous: 'Previous'
 btn.label.next: 'Next'
 btn.label.back: 'Back'
 btn.label.submit: 'Save'
+
+button.submit.label: 'Авторизоваться'
+button.remember.label: 'Запомнить меня'
+
+
+button.navbar.signin: 'Авторизоваться'
+button.navbar.signup: 'Зарегистрироваться'
