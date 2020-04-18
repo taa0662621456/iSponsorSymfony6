@@ -7,10 +7,10 @@
 	use App\Form\Category\CategoriesAttachmentsType;
 	use App\Service\AttachmentsManager;
 	use Doctrine\ORM\EntityManagerInterface;
-	use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\RequestStack;
+    use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;
 	use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -39,20 +39,20 @@
 			$this->entity = $entity;
 		}
 
-		/**
-		 * @Route("/", name="categories_attachments_get", methods={"GET"})
-		 * @param Request                       $request
-		 * @param AuthorizationCheckerInterface $authChecker
-		 * @param null                          $name
-		 * @param int|null                      $id
-		 * @param string|null                   $slug
-		 * @param int|null                      $createdBy
-		 * @param bool|true                     $published
-		 * @param string|null                   $fileLang
-		 *
-		 * @return Response
-		 */
-		public function getAttachments(Request $request,
+        /**
+         * @Route("/", name="categories_attachments_get", methods={"GET"})
+         * @param RequestStack $requestStack
+         * @param AuthorizationCheckerInterface $authChecker
+         * @param null $name
+         * @param int|null $id
+         * @param string|null $slug
+         * @param int|null $createdBy
+         * @param bool|true $published
+         * @param string|null $fileLang
+         *
+         * @return Response
+         */
+		public function getAttachments(RequestStack $requestStack,
 									   AuthorizationCheckerInterface $authChecker,
 									   $name = null,
 									   int $id = null,
@@ -61,7 +61,7 @@
 									   bool $published = true,
 									   string $fileLang = null): Response
 		{
-			$layout = $this->container->get('request_stack')->getParentRequest()->attributes->get('_route');
+			$layout = $requestStack->getMasterRequest()->attributes->get('_route');
 
 			if (false === $authChecker->isGranted('ROLE_ADMIN')) {
 				$id = null;
@@ -70,12 +70,12 @@
 				$published = true;
 			}
 
-			if ($layout == 'homepage' xor
-				$layout == 'category' xor
-				$layout == 'project' xor
-				$layout == 'product' xor
-				$layout == 'vendor_media' xor // либо парсить, либо думать над роутами
-				$layout == 'vendor_document' xor // либо парсить, либо думать над роутами
+			if ($layout == 'homepage' ||
+				$layout == 'category' ||
+				$layout == 'project' ||
+				$layout == 'product' ||
+				$layout == 'vendor_media' || // либо парсить, либо думать над роутами
+				$layout == 'vendor_document' || // либо парсить, либо думать над роутами
 				$layout == 'vendor' and
 				false === $authChecker->isGranted('ROLE_ADMIN'))
 				$attachments = $this->attachmentsManager->getAttachments(
