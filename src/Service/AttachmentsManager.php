@@ -5,31 +5,45 @@
 
 	use Doctrine\ORM\EntityManagerInterface;
 	use Psr\Container\ContainerInterface;
-	use Symfony\Component\Filesystem\Filesystem;
+    use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+    use Symfony\Component\Filesystem\Filesystem;
+    use Symfony\Component\HttpFoundation\RequestStack;
+    use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-	class AttachmentsManager
+    class AttachmentsManager
 	{
 		/**
 		 * @var EntityManagerInterface
 		 */
 		private $entityManager;
-		/**
-		 * @var ContainerInterface
-		 */
-		private $container;
+        /**
+         * @var RequestStack
+         */
+        private $requestStack;
+        /**
+         * @var AuthorizationCheckerInterface
+         */
+        private $authChecker;
+        /**
+         * @var ParameterBagInterface
+         */
+        private $parameterBag;
 
-		public function __construct(ContainerInterface $container,
-									EntityManagerInterface $entityManager)
+        public function __construct(EntityManagerInterface $entityManager,
+                                    RequestStack $requestStack,
+                                    AuthorizationCheckerInterface $authChecker,
+                                    ParameterBagInterface $parameterBag)
 		{
-			$this->container = $container;
 			$this->entityManager = $entityManager;
-
+			$this->requestStack = $requestStack;
+			$this->authChecker = $authChecker;
+			$this->parameterBag = $parameterBag;
 		}
 
 		public function getUploadsDirectory()
 		{
-
-			return $this->container->getParameter('uploads');
+            $route = $this->requestStack->getMasterRequest()->attributes->get('_route');
+			return $this->parameterBag->get( $route . '_images_directory');
 
 		}
 
@@ -55,8 +69,25 @@
 									   string $fileLang = null)
 		{
 
-			$repository = $this->entityManager->getRepository($entity);
-			return $repository->findBy(
+            $route = $this->requestStack->getMasterRequest()->attributes->get('_route');
+            if ($route == 'category' || // TODO: временно условие, чтобы на главной стр. не вытаскивались аттачменты
+                $route == 'project' ||
+                $route == 'product' ||
+                $route == 'vendor_media' ||
+                $route == 'vendor_document' ||
+                $route == 'vendor' and
+                false === $this->authChecker->isGranted('ROLE_ADMIN')) {
+                $entity = 'App\Entity\\' . $route . '\\' . $route . 'Attachments';
+                $id = null;
+                $slug = null;
+                $createdBy = null;
+                $published = true;
+                $fileLayoutPosition = $route;
+                $fileClass = null;
+                $fileLang = $route;
+            }
+
+			return $this->entityManager->getRepository($entity)->findBy(
 				array(
 					'id'                 => $id ?: null,
 					'slug'               => $slug ?: null,
