@@ -4,20 +4,21 @@ declare(strict_types=1);
 namespace App\Entity\Vendor;
 
 use App\Entity\BaseTrait;
-use App\Entity\Order\Orders;
-use \DateTime;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Entity\Order\Orders;
+use Exception;
+use \DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
  * @ORM\Table(name="vendors", indexes={
  * @ORM\Index(name="vendor_idx", columns={"slug"})})
+ * UniqueEntity("slug"), errorPath="slug", message="This name is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
- * @UniqueEntity("slug"), errorPath="slug", message="This name is already in use."
  * @ORM\HasLifecycleCallbacks()
  */
 class Vendors
@@ -34,7 +35,7 @@ class Vendors
 	/**
 	 * @var array
 	 *
-	 * @ORM\Column(name="roles", type="json_array", nullable=false)
+	 * @ORM\Column(name="roles", type="string", nullable=false)
 	 */
 	private $roles = [];
 
@@ -166,9 +167,9 @@ class Vendors
 	private $vendorFeatured;
 
 
-	/**
-	 * Vendors constructor.
-	 */
+    /**
+     * @throws Exception
+     */
 	public function __construct()
 	{
 		$this->lastResetTime = new DateTime();

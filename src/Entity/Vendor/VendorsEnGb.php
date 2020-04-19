@@ -50,22 +50,22 @@ class VendorsEnGb
 	 * @var string
 	 *
 	 * @ORM\Column(name="vendor_phone", type="string", nullable=true, unique=true,
-	 *     options={"default"="0000000000000"})
+	 *     options={"default"="000000000000"})
 	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
 	 * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
 	 * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
 	 */
-	private $vendorPhone;
+	private $vendorPhone = '000000000000';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, unique=true, options={"default"="0000000000000"})
+     * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, unique=true, options={"default"="000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
-	private $vendorSecondPhone;
+	private $vendorSecondPhone = '000000000000';
 
     /**
      * @var string
@@ -73,7 +73,7 @@ class VendorsEnGb
      * @ORM\Column(name="vendor_fax", type="string", nullable=true, options={"default"="000000000000"})
      * @Assert\NotBlank(message="vendors_en_gn.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
-     * @Length(max=11, maxMessage="vendors_en_gb.too_long_content")
+     * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
     private $vendorFax = '000000000000';
 

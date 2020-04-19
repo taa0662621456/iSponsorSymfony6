@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="vendors_medias", indexes={
  * @ORM\Index(name="vendor_media_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsMediaAttachmentsRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class VendorsMediaAttachments
@@ -19,7 +19,8 @@ class VendorsMediaAttachments
 	use AttachmentsTrait;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorMediaAttachments")
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors",
+     *      inversedBy="vendorMediaAttachments")
 	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
 	private $attachments;
