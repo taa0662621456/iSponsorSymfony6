@@ -9,7 +9,8 @@
 	use App\Form\Vendor\VendorsDocumentAttachmentsType;
 	use App\Form\Vendor\VendorsMediaAttachmentsType;
 	use App\Service\AttachmentsManager;
-	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+    use Exception;
+    use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +29,7 @@
 		}
 
 		/**
+         * TODO: метод перенесен в общий AttachmentController  и помечен на удаление
 		 * @Route("/", name="vendor_get_attachments", methods={"GET"})
 		 * @param Request     $request
 		 * @param string|null $entity
@@ -53,8 +55,10 @@
 			}
 
 			$attachments = $this->attachmentsManager->getAttachments(
-				$entity = null,
-				$createdBy = '', //Important! Must by User object
+				$entity = 'App\Entity\Vendor\VendorsMediaAttachments',
+				$id = null,
+				$slug = null,
+				$createdBy = null, //Important! Must by User object
 				$published = true,
 				$fileLayoutPosition = null,
 				$fileClass = null,
@@ -70,6 +74,7 @@
 		}
 
 		/**
+         * TODO: метод перенесен в общий AttachmentController  и помечен на удаление
 		 * @Route("/set", name="vendor_set_attachment", methods={"GET","POST"})
 		 * @param Request $request
 		 *
@@ -108,7 +113,7 @@
 
 		/**
 		 * @Route("/{id<\d+>}", name="vendor_attachment_show_id", methods={"GET"})
-		 * @Route("/{slug}", name="vendor_attachment_show_slug", methods={"GET"})
+		 * @ Route("/{slug}", name="vendor_attachment_show_slug", methods={"GET"})
 		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
 		 * @param VendorsDocumentAttachments $vendorsDocumentAttachments
 		 *

@@ -31,12 +31,18 @@
 		 * @var EntityManagerInterface
 		 */
 		private $entity;
+        /**
+         * @var RequestStack
+         */
+        private $requestStack;
 
-		public function __construct(AttachmentsManager $attachmentsManager,
-									EntityManagerInterface $entity)
+        public function __construct(AttachmentsManager $attachmentsManager,
+									EntityManagerInterface $entity,
+                                    RequestStack $requestStack)
 		{
 			$this->attachmentsManager = $attachmentsManager;
 			$this->entity = $entity;
+            $this->requestStack = $requestStack;
 		}
 
         /**
@@ -52,8 +58,7 @@
          *
          * @return Response
          */
-		public function getAttachments(RequestStack $requestStack,
-									   AuthorizationCheckerInterface $authChecker,
+		public function getAttachments(AuthorizationCheckerInterface $authChecker,
 									   $name = null,
 									   int $id = null,
 									   string $slug = null,
@@ -61,7 +66,7 @@
 									   bool $published = true,
 									   string $fileLang = null): Response
 		{
-			$route = $requestStack->getMasterRequest()->attributes->get('_route');
+			$route = $this->requestStack->getMasterRequest()->attributes->get('_route');
 
 			if (false === $authChecker->isGranted('ROLE_ADMIN')){
                 $id = null;

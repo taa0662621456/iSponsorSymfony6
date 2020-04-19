@@ -10,8 +10,10 @@ use App\Entity\Vendor\VendorsMediaAttachments;
 use App\Form\Vendor\VendorsAddType;
 use App\Form\Vendor\VendorsEditType;
 use App\Repository\Project\ProjectsRepository;
-use App\Repository\Vendor\VendorsEnGbRepository;
+use App\Repository\Vendor\VendorsRepository;
+use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,14 +26,25 @@ use Symfony\Component\Routing\Annotation\Route;
 class VendorsController extends AbstractController
 {
     /**
+     * @var AttachmentsManager
+     */
+    private $attachmentManager;
+
+    public function __construct(AttachmentsManager $attachmentManager)
+    {
+        $this->attachmentManager = $attachmentManager;
+    }
+
+    /**
      * @Route("/", name="vendors", methods={"GET"})
-     * @param VendorsEnGbRepository $vendors
+     * @param VendorsRepository $vendorsRepository
+     *
      * @return Response
      */
-    public function index(VendorsEnGbRepository $vendors): Response
+    public function vendors(VendorsRepository $vendorsRepository): Response
     {
         return $this->render('vendor/vendors/index.html.twig', [
-            'vendors' => $vendors->findAll(),
+            'vendors' => $vendorsRepository->findAll(),
         ]);
     }
 
