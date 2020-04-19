@@ -19,8 +19,8 @@
 		public function buildForm(FormBuilderInterface $builder, array $options):void
 		{
 
-			$countries = Intl::getRegionBundle()->getCountryNames();
-			$currencies = Intl::getCurrencyBundle()->getCurrencyNames();
+			$countries = Intl::getRegionBundle()->getCountryNames(); //TODO: устаревшие методы. Заменить
+			$currencies = Intl::getCurrencyBundle()->getCurrencyNames(); //TODO: устаревшие методы. Заменить
 			$builder
 				->add('vendorFirstName', TextType::class, array(
 					'label' => 'label.first.name',

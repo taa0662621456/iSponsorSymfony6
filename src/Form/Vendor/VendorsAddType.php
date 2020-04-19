@@ -46,7 +46,7 @@
 						'required'   => false
 					))
                 )
-                ->add(
+                ->add( //TODO: повторяющийся код. Вынести в отдельную форму и добавлять, как дочернюю
                     $builder
                         ->create('steps', FormType::class, array(
                             'inherit_data' => true,
@@ -73,7 +73,7 @@
                     ))
                 )
                 ->add(
-                    $builder
+                    $builder //TODO: повторяющийся код. Вынести в отдельную форму и добавлять, как дочернюю
                         ->create('submit', FormType::class, array(
                             'inherit_data' => true,
                             'label' => false,
