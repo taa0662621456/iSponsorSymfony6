@@ -1,7 +1,8 @@
-btn.label.previous: 'Previous'
-btn.label.next: 'Next'
-btn.label.back: 'Back'
-btn.label.submit: 'Save'
+button.label.previous: 'Previous'
+button.label.next: 'Next'
+button.label.back: 'Back'
+button.label.submit: 'Save'
+button.label.submitAndNew: 'Save and New'
 
 button.submit.label: 'Авторизоваться'
 button.remember.label: 'Запомнить меня'
