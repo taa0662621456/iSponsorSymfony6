@@ -1,22 +1,20 @@
-{% trans_default_domain 'ShopBundle' %}
 
 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     {% if is_granted('ROLE_ADMIN') %}
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-               aria-expanded="true">
-                {{ 'layout.navbar.admin'|trans }} <span class="caret"></span>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+               aria-expanded="true"><span class="caret"></span>
             </a>
-            <ul class="dropdown-menu">
-                <li><a href="{{ path('projects') }}">{{ 'logout'|trans }}</a></li>
-                <li><a href="{{ path('logout') }}">{{ 'logout'|trans }}</a></li>
-            </ul>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{{ path('projects') }}">{{ 'logout'|trans }}</a></li>
+                <li><a class="dropdown-item" href="{{ path('logout') }}">{{ 'logout'|trans }}</a></li>
+            </div>
         </li>
     {% else %}
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                aria-expanded="true">
-                {{ 'layout.navbar.loggedas'|trans }} {{ app.user.username }} <span class="caret"></span>
+                {{ app.user.username }} <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
                 <li><a href="{{ path('logout') }}">{{ 'logout'|trans }}</a></li>
@@ -24,14 +22,17 @@
         </li>
     {% endif %}
 {% else %}
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+    <li class="nav-item dropdown">
+        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
            aria-expanded="true">
-            {{ 'layout.navbar.login'|trans }} <span class="caret"></span>
+            <span class="caret"></span>
         </a>
-        <ul class="dropdown-menu">
-            <li><a href="{{ path('login') }}">{{ 'layout.navbar.signin'|trans }}</a></li>
-            <li><a href="{{ path('registration') }}">{{ 'layout.navbar.signup'|trans }}</a></li>
-        </ul>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{{ path('login') }}">{{ 'button.navbar.signin'|trans }}</a>
+            <a class="dropdown-item" href="{{ path('registration') }}">{{ 'button.navbar.signup'|trans }}</a>
+        </div>
     </li>
 {% endif %}
+
+
+
