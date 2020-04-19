@@ -22,15 +22,6 @@
 			$countries = Intl::getRegionBundle()->getCountryNames();
 			$currencies = Intl::getCurrencyBundle()->getCurrencyNames();
 			$builder
-                ->add(
-                    $builder
-                    ->create('name', FormType::class, array(
-                        'inherit_data' => true,
-                        'label' => false,
-                        'row_attr' => array(
-                            'id' => 'step-1'
-                        )
-                    ))
 				->add('vendorFirstName', TextType::class, array(
 					'label' => 'label.first.name',
 					'label_attr' => array(
@@ -73,16 +64,6 @@
 						'autofocus' => false
 					),
 				))
-                )
-                ->add(
-                    $builder
-                    ->create('phone', FormType::class, array(
-                        'inherit_data' => true,
-                        'label' => false,
-                        'row_attr' => array(
-                            'id' => 'step-2'
-                        )
-                    ))
 				->add('vendorPhone', TelType::class, array(
 					'label' => 'label.phone.number',
 					'label_attr' => array(
@@ -125,7 +106,6 @@
 						'autofocus' => false
 					),
 				))
-                )
 				->add('vendorAddress', TextType::class, array(
 					'label' => 'label.first.address',
 					'label_attr' => array(

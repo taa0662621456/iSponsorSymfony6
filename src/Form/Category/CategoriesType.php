@@ -105,7 +105,7 @@
                         ))
                     ->add(
                         'previous', ButtonType::class, array(
-                            'label' => 'btn.label.previous',
+                            'label' => 'button.label.previous',
                             'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'id'    => 'next',
@@ -115,7 +115,7 @@
                     )
                     ->add(
                         'next', ButtonType::class, array(
-                            'label' => 'btn.label.next',
+                            'label' => 'button.label.next',
                             'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'id'    => 'next',
@@ -135,7 +135,7 @@
                         ))
                     ->add(
                         'back', ButtonType::class, array(
-                            'label' => 'btn.label.back',
+                            'label' => 'button.label.back',
                             'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'class' => 'btn btn-primary back',
@@ -145,7 +145,7 @@
                     )
                     ->add(
                         'submitAndNew', SubmitType::class, array(
-                            'label' => 'btn.label.submitAndNew',
+                            'label' => 'button.label.submitAndNew',
                             'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'class' => 'btn btn-primary submitAndNew'
@@ -154,7 +154,7 @@
                     ) //TODO: добавить в контролер по этой доке https://symfony.com/doc/current/form/multiple_buttons.html
                     ->add(
                         'submit', SubmitType::class, array(
-                            'label' => 'btn.label.submit',
+                            'label' => 'button.label.submit',
                             'translation_domain' => 'buttons',
                             'attr'  => array(
                                 'class' => 'btn btn-primary submit'
