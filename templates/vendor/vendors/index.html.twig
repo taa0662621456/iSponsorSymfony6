@@ -36,33 +36,33 @@
             <tr>
                 <td>{{ vendor.id }}</td>
                 <td>
-                    <p>{{ vendor.firstName }}</p>
-                    <p>{{ vendor.lastName }}</p>
-                    <p>{{ vendor.middleName }}</p>
-                </td>
-                <th>
-                    <p>{{ vendor.phone }}</p>
-                    <p>{{ vendor.phoneSecond }}</p>
-                    <p>{{ vendor.fax }}</p>
-                </th>
-                <td>{{ vendor.address }}</td>
-                <td>{{ vendor.city }}</td>
-                <td>{{ vendor.stateId }}</td>
-                <td>{{ vendor.countryId }}</td>
-                <td>{{ vendor.zip }}</td>
-                {#
-                <td>{{ vendor.vendorCurrency }}</td>
-                <td>{{ vendor.vendorAcceptedCurrencies }}</td>
-                <td>{{ vendor.vendorParams }}</td>
-                <td>{{ vendor.metaRobot }}</td>
-                <td>{{ vendor.metaAuthor }}</td>
-                <td>{{ vendor.createdOn ? vendor.createdOn|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ vendor.createdBy }}</td>
-                <td>{{ vendor.modifiedOn ? vendor.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ vendor.modifiedBy }}</td>
-                <td>{{ vendor.lockedOn ? vendor.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ vendor.lockedBy }}</td>
-                #}
+                    <p>{{ vendor.slug }}</p>
+                    {#
+                        <p>{{ vendor.lastName }}</p>
+                        <p>{{ vendor.middleName }}</p>
+                    </td>
+                    <th>
+                        <p>{{ vendor.phone }}</p>
+                        <p>{{ vendor.phoneSecond }}</p>
+                        <p>{{ vendor.fax }}</p>
+                    </th>
+                    <td>{{ vendor.address }}</td>
+                    <td>{{ vendor.city }}</td>
+                    <td>{{ vendor.stateId }}</td>
+                    <td>{{ vendor.countryId }}        <td>{{ vendor.zip }}</td>
+                    {#
+                    <td>{{ vendor.vendorCurrency }}</td>
+                    <td>{{ vendor.vendorAcceptedCurrencies }}</td>
+                    <td>{{ vendor.vendorParams }}</td>
+                    <td>{{ vendor.metaRobot }}</td>
+                    <td>{{ vendor.metaAuthor }}</td>
+                    <td>{{ vendor.createdOn ? vendor.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vendor.createdBy }}</td>
+                    <td>{{ vendor.modifiedOn ? vendor.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vendor.modifiedBy }}</td>
+                    <td>{{ vendor.lockedOn ? vendor.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vendor.lockedBy }}</td>
+                    #}
                 <td>
                     <a href="{{ path('vendors_show', {'id': vendor.id}) }}">show</a>
                     <a href="{{ path('vendors_edit', {'id': vendor.id}) }}">edit</a>

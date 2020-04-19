@@ -4,17 +4,19 @@
 {% block article_header %}{% endblock %}
 {% block article_content %}
     <div class="row">
-        <div class="col-3">
+        <div class="{{ c1 }}">
         </div>
-        <div class="col-6">
+        <div class="{{ c2 }}">
             <h3>Create new Vendor</h3>
-            {{ form(form) }}
-            {{ form_errors (form) }}
+            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+            </div>
+
+
+            {{ include('vendor/vendors/_form.html.twig') }}
         </div>
-        <div class="col-3">
+        <div class="{{ c3 }}">
         </div>
     </div>
 {% endblock %}
-{% block article_summery %}<p>This form for adding new Vendor</p>{% endblock %}
 {% block footer %}{% endblock %}
 
