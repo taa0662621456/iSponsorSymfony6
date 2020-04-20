@@ -69,7 +69,7 @@ class SecurityController
 								 ConfirmationCodeGenerator $codeGenerator,
 								 EventDispatcherInterface $eventDispatcher): Response
 	{
-		$recaptcha = new ReCaptcha($this->getParameter('recaptcha_secret'));
+		$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
 		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
 
 		$vendor = new Vendors();
@@ -88,7 +88,6 @@ class SecurityController
 			} else {
 
 				$formData = $form->getData();
-				//dd($formData);
 				$password = $passwordEncoder->encodePassword(
 					$vendorSecurity,
 					$formData->getVendorSecurity()->getPlainPassword()
