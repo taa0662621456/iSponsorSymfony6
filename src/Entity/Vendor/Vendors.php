@@ -35,7 +35,7 @@ class Vendors
 	/**
 	 * @var array
 	 *
-	 * @ORM\Column(name="roles", type="string", nullable=false)
+	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
 	private $roles = [];
 

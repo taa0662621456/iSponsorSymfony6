@@ -60,7 +60,7 @@ class VendorsEnGb
     /**
      * @var string
      *
-     * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, unique=true, options={"default"="000000000000"})
+     * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, options={"default"="000000000000"})
      * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
