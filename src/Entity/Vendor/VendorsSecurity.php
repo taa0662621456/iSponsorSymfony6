@@ -73,7 +73,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	/**
 	 * @var array
 	 *
-	 * @ORM\Column(name="roles", type="json_array", nullable=false)
+	 * @ORM\Column(name="roles", type="string", nullable=false)
 	 */
 	private $roles = [];
 
