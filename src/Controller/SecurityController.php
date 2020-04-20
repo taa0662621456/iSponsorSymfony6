@@ -47,25 +47,30 @@ class SecurityController
 	 * @var Twig_Environment $twig
 	 */
 	private $twig;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
 
-	public function __construct(
-		Twig_Environment $twig
+    public function __construct(
+		Twig_Environment $twig,
+        UserPasswordEncoderInterface $passwordEncoder
 	)
 	{
 		$this->twig = $twig;
+		$this->passwordEncoder = $passwordEncoder;
 	}
 
-	/**
-	 * @Route("/registration", name="registration")
-	 * @param UserPasswordEncoderInterface $passwordEncoder
-	 * @param Request                      $request
-	 * @param ConfirmationCodeGenerator    $codeGenerator
-	 * @param EventDispatcherInterface     $eventDispatcher
-	 *
-	 * @return Response
-	 * @throws Exception
-	 */
-	public function registration(UserPasswordEncoderInterface $passwordEncoder, Request $request,
+    /**
+     * @Route("/registration", name="registration")
+     * @param Request $request
+     * @param ConfirmationCodeGenerator $codeGenerator
+     * @param EventDispatcherInterface $eventDispatcher
+     *
+     * @return Response
+     * @throws Exception
+     */
+	public function registration(Request $request,
 								 ConfirmationCodeGenerator $codeGenerator,
 								 EventDispatcherInterface $eventDispatcher): Response
 	{
@@ -80,25 +85,19 @@ class SecurityController
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
-
+/*
 			if (!$resp->isSuccess()) {
 				foreach ($resp->getErrorCodes() as $errorCode) {
 					$this->addFlash('danger', 'Error captcha: ' . $errorCode);
 				}
 			} else {
-
+*/
 				$formData = $form->getData();
-				$password = $passwordEncoder->encodePassword(
-					$vendorSecurity,
+				$password = $this->passwordEncoder->encodePassword(
+				    $vendorSecurity,
 					$formData->getVendorSecurity()->getPlainPassword()
 				);
-				/**
-				 * TODO:
-				 * Блок try необходимо поместить в проверку наличия объекта
-				 * пользователя и выполнять при его отсутствии.
-				 * Таким образом вс логику регистрации можно вынести в отдельный метод
-				 * и повторно использовать при смене параметров безопастности в т.ч.
-				 */
+
 				$slug = new UuidEncoder();
 
 				try {
@@ -138,7 +137,10 @@ class SecurityController
 
 				$this->addFlash('success', 'Success');
 
-				/*			    // This handles logging the user in after they’ve signed up.
+				/*
+				 * для автоматической авторизации после регистрации
+				 *
+				 * 			    // This handles logging the user in after they’ve signed up.
 								return $guardHandler->authenticateUserAndHandleSuccess(
 								$user,
 								$request,
@@ -146,7 +148,7 @@ class SecurityController
 								'main' // firewall name in security.yaml
 							);*/
 			}
-		}
+//		}
 
 		return $this->render('security/registration.html.twig', [
 			'form' => $form->createView(),
@@ -234,18 +236,17 @@ class SecurityController
 		throw new RuntimeException('This should never be reached!');
 	}
 
-	/**
-	 * @Route("/change", methods={"GET", "POST"}, name="change_security")
-	 * @param Request                      $request
-	 * @param UserPasswordEncoderInterface $passwordEncoder
-	 * @param ConfirmationCodeGenerator    $codeGenerator
-	 *
-	 * @param EventDispatcherInterface     $eventDispatcher
-	 *
-	 * @return Response
-	 * @throws Exception
-	 */
-	public function change(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+    /**
+     * @Route("/change", methods={"GET", "POST"}, name="change_security")
+     * @param Request $request
+     * @param ConfirmationCodeGenerator $codeGenerator
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     *
+     * @return Response
+     * @throws Exception
+     */
+	public function change(Request $request,
 						   ConfirmationCodeGenerator $codeGenerator,
 						   EventDispatcherInterface $eventDispatcher): Response
 	{
@@ -275,7 +276,7 @@ class SecurityController
 
 			$formData = $form->getData();
 			//dd($formData);
-			$password = $passwordEncoder->encodePassword(
+			$password = $this->passwordEncoder->encodePassword(
 				$vendorSecurity,
 				$formData->getVendorSecurity()->getPlainPassword()
 			);
