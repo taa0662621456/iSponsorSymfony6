@@ -23,7 +23,7 @@ class VendorsEnGb
 	 * @var string
 	 *
 	 * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
-	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+	 * @Assert\NotBlank(message="vendors_en_gb.blank_content")
 	 * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
 	 */
 	private $vendorFirstName = 'vendor_first_name';
@@ -32,7 +32,7 @@ class VendorsEnGb
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="vendor_last_name"})
-	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+	 * @Assert\NotBlank(message="vendors_en_gb.blank_content")
 	 * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
 	 */
 	private $vendorLastName = 'vendor_last_name';
@@ -41,7 +41,7 @@ class VendorsEnGb
      * @var string|null
      *
      * @ORM\Column(name="vendor_middle_name", type="string", nullable=false, options={"default"="vendor_middle_name"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
     private $vendorMiddleName = 'vendor_middle_name';
@@ -51,7 +51,7 @@ class VendorsEnGb
 	 *
 	 * @ORM\Column(name="vendor_phone", type="string", nullable=true, unique=true,
 	 *     options={"default"="000000000000"})
-	 * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+	 * @Assert\NotBlank(message="vendors_en_gb.blank_content")
 	 * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
 	 * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
 	 */
@@ -61,7 +61,7 @@ class VendorsEnGb
      * @var string
      *
      * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, unique=true, options={"default"="000000000000"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
@@ -71,7 +71,7 @@ class VendorsEnGb
      * @var string
      *
      * @ORM\Column(name="vendor_fax", type="string", nullable=true, options={"default"="000000000000"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
      */
@@ -81,7 +81,7 @@ class VendorsEnGb
      * @var string
      *
      * @ORM\Column(name="vendor_address", type="string", nullable=false, options={"default"="address"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
     private $vendorAddress = 'address';
@@ -90,7 +90,7 @@ class VendorsEnGb
      * @var string
      *
      * @ORM\Column(name="vendor_second_address", type="string", nullable=true, options={"default"="address_second"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
      */
     private $vendorSecondAddress = 'address_second';
@@ -99,7 +99,7 @@ class VendorsEnGb
      * @var string
      *
      * @ORM\Column(name="vendor_city", type="string", nullable=false, options={"default"="your_city"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
      */
     private $vendorCity = 'your_city';
@@ -108,7 +108,7 @@ class VendorsEnGb
      * @var int
      *
      * @ORM\Column(name="vendor_state_id", type="integer", nullable=false, options={"default"="0"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
      */
     private $vendorStateId = 0;
@@ -117,7 +117,7 @@ class VendorsEnGb
      * @var string
      *
      * @ORM\Column(name="vendor_country_id", type="string", nullable=false, options={"default"="country_id"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
      */
     private $vendorCountryId = 'country_id';
@@ -126,7 +126,7 @@ class VendorsEnGb
      * @var int
      *
      * @ORM\Column(name="vendor_zip", type="integer", nullable=false, options={"default"="000000"})
-     * @Assert\NotBlank(message="vendors_en_gn.blank_content")
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
      * @Length(min=4, minMessage="vendors_en_gb.too_short_content")
      * @Length(max=7, maxMessage="vendors_en_gb.too_long_content")
      */

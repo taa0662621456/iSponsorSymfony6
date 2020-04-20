@@ -8,6 +8,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -65,6 +67,15 @@ class VendorsSecurityType extends AbstractType
                     'class' =>'form-control',
                     'placeholder' => 'Password',
 					'tabindex' => '203'
+                )
+            ))
+            ->add('phone', TelType::class, array(
+                'label' => 'vendor.phone.label',
+                'label_attr' => array(
+                    'class' => 'sr-only'
+                ),
+                'attr' => array(
+                    'placeholder' => 'vendor.phone.placeholder'
                 )
             ))
         ;

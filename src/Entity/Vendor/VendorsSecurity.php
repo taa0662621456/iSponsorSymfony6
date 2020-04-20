@@ -47,8 +47,8 @@ class VendorsSecurity implements UserInterface, Serializable
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="phone", type="string", nullable=false, unique=true)
-	 * @Assert\NotBlank(message="vendors_security.blank_content")
+	 * @ORM\Column(name="phone", type="string", nullable=true)
+	 * @Assert\NotBlank(message="vendors.message.error.phone")
 	 * @Length(min=10, minMessage="vendors_security.too_short_content")
 	 * @Length(max=12, maxMessage="vendors_security.too_long_content")
 	 */
