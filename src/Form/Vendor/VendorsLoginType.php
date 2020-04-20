@@ -8,7 +8,8 @@
     use Symfony\Component\Form\Extension\Core\Type\ButtonType;
     use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 	use Symfony\Component\Form\Extension\Core\Type\EmailType;
-	use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+    use Symfony\Component\Form\Extension\Core\Type\FormType;
+    use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 	use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 	use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 	use Symfony\Component\Form\FormBuilderInterface;
@@ -23,10 +24,9 @@
 				->add(
 					'email', EmailType::class, array(
 					'invalid_message' => 'The email address is invalid.',
-                    'translation_domain' => 'security',
-					'label'           => 'security.email.label',
+					'label'           => 'vendor.label.email',
 					'label_attr'      => array(
-						'class' => '',
+						'class' => 'sr-only',
 						'value' => 'last_username'
 					),
 					'required'        => true,
@@ -34,7 +34,7 @@
 						'id'          => 'email',
 						'name'        => '_email',
 						'class'       => 'form-control',
-						'placeholder' => 'security.email.placeholder',
+						'placeholder' => 'vendor.placeholder.email',
 						'tabindex'    => '101',
 						//'autofocus' => true
 					),
@@ -43,28 +43,22 @@
 				->add(
 					'password', PasswordType::class, array(
 					'invalid_message' => 'The password is invalid.',
-                    'translation_domain' => 'security',
+                    'label'           => 'vendor.label.password',
+                    'label_attr'      => array(
+                        'class' => 'sr-only'
+                    ),
 					'required'        => true,
 					'attr'            => array(
 						'id'          => 'password',
 						'name'        => '_password',
 						'class'       => 'form-control',
-						'placeholder' => 'security.password.placeholder',
+						'placeholder' => 'vendor.placeholder.password',
 						'tabindex'    => '203'
-					)
-				)
-				)
-				->add('submit', SubmitType::class, array(
-                    'translation_domain' => 'button',
-					'label' => 'button.submit.label',
-					'attr'  => array(
-						'class' => 'btn btn-primary btn-block'
 					)
 				))
 				->add('remember', CheckboxType::class, array(
-                    'translation_domain' => 'buttons',
 					'mapped'     => false,
-					'label'      => 'button.remember.label',
+					'label'      => 'button.label.remember',
 					'required'   => false,
 					'label_attr' => array(
 						'class' => ''
@@ -75,25 +69,35 @@
 						'class' => ''
 					),
 				))
+                ->add('submit', SubmitType::class, array(
+                    'label' => 'button.label.authorization',
+                    'attr'  => array(
+                        'class' => 'btn btn-primary btn-block'
+                    )
+                ))
                 ->add(
-                    'back', ButtonType::class, array(
-                        'label' => 'btn.label.back',
-                        'translation_domain' => 'buttons',
+                $builder
+                    ->create('group', FormType::class, array(
+                        'inherit_data' => true,
+                        'label' => false,
+                        'attr'=> array(
+                            'class' => 'btn-group'
+                        )
+                    ))
+                ->add('back', ButtonType::class, array(
+                        'label' => 'button.label.back',
                         'attr'  => array(
-                            'class' => 'btn btn-primary btn-block back',
+                            'class' => 'btn btn-link btn-sm back',
                             'onclick' => 'window.history.back()'
                         )
+                    ))
+                ->add('registration', ButtonType::class, array(
+                    'label' => 'button.label.registration',
+                    'attr'  => array(
+                        'class' => 'btn btn-link btn-sm signup',
+                        'onclick' => 'window.history.back()' //TODO: заменить на маршрут к форме регистрации
                     )
-                )
-                ->add(
-                    'signup', ButtonType::class, array(
-                        'label' => 'btn.label.signup',
-                        'translation_domain' => 'buttons',
-                        'attr'  => array(
-                            'class' => 'btn btn-link btn-sm signup',
-                            'onclick' => 'window.history.back()'
-                        )
-                    )
+                ))
                 )
 				->add('token', HiddenType::class, array(
 					'mapped' => false,
