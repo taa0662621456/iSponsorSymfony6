@@ -1,6 +1,7 @@
 security:
     encoders:
-        App\Entity\Vendor\VendorSecurity: bcrypt
+        App\Entity\Vendor\VendorsSecurity:
+            algorithm: auto
     providers:
         chain_provider:
             chain:
