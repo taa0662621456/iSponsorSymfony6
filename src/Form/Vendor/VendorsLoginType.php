@@ -21,8 +21,7 @@
 		public function buildForm(FormBuilderInterface $builder, array $options): void
 		{
 			$builder
-				->add(
-					'email', EmailType::class, array(
+				->add('email', EmailType::class, array(
 					'invalid_message' => 'The email address is invalid.',
 					'label'           => 'vendor.label.email',
 					'label_attr'      => array(
@@ -40,8 +39,7 @@
 					),
 				)
 				)
-				->add(
-					'password', PasswordType::class, array(
+				->add('password', PasswordType::class, array(
 					'invalid_message' => 'The password is invalid.',
                     'label'           => 'vendor.label.password',
                     'label_attr'      => array(
@@ -115,7 +113,7 @@
 					'csrf_protection'    => true,
 					'csrf_field_name'    => '_csrf_token',
 					'csrf_token_id'      => '6cb546b7fb9e056773030920402e4172',
-					'translation_domain' => 'vendor', //TODO: дублируется объявление на форму и на поля. Нужно определиться и правильно организовать переводы (структуру файлов)
+					'translation_domain' => 'vendor',
 					'method'             => 'POST',
 					'attr'               => array(
 						'id'   => 'login',

@@ -20,7 +20,7 @@ class VendorsSecurityType extends AbstractType
         $builder
             ->add('email', EmailType::class, array(
 				'invalid_message' => 'The email address is invalid.',
-				'label'           => 'vendor.email.label',
+				'label'           => 'vendor.label.email',
 				'label_attr'      => array(
 					'class' => 'sr-only',
 					'value' => 'last_username'
@@ -30,7 +30,7 @@ class VendorsSecurityType extends AbstractType
 					'id'          => 'email',
 					'name'        => '_email',
 					'class'       => 'form-control',
-					'placeholder' => 'vendor.email.placeholder',
+					'placeholder' => 'vendor.placeholder.email',
 					'tabindex'    => '101',
 					//'autofocus' => true
 				),
@@ -39,24 +39,24 @@ class VendorsSecurityType extends AbstractType
 				'invalid_message' => 'The password is invalid.',
 				'type'            => PasswordType::class,
 				'first_options'   => array(
-					'label'      => 'vendor.password.label',
+					'label'      => 'vendor.label.password',
 					'label_attr' => array(
 						'class' => 'sr-only',
 					),
 					'attr'       => array(
 						'class'       => '',
-						'placeholder' => 'vendor.password.placeholder',
+						'placeholder' => 'vendor.placeholder.password',
 						'tabindex'    => '201'
 					)
 				),
                 'second_options' => array(
-					'label'      => 'vendor.password.confirm.label',
+					'label'      => 'vendor.label.password.confirm',
 					'label_attr' => array(
 						'class' => 'sr-only'
 					),
 					'attr'       => array(
 						'class'       => '',
-						'placeholder' => 'vendor.password.confirm.placeholder',
+						'placeholder' => 'vendor.placeholder.password.confirm',
 						'tabindex'    => '202'
 					)
 				),
@@ -70,12 +70,12 @@ class VendorsSecurityType extends AbstractType
                 )
             ))
             ->add('phone', TelType::class, array(
-                'label' => 'vendor.phone.label',
+                'label' => 'vendor.label.phone',
                 'label_attr' => array(
                     'class' => 'sr-only'
                 ),
                 'attr' => array(
-                    'placeholder' => 'vendor.phone.placeholder'
+                    'placeholder' => 'vendor.placeholder.phone'
                 )
             ))
         ;
