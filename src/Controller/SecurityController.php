@@ -21,10 +21,13 @@ use ReCaptcha\ReCaptcha;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -51,14 +54,26 @@ class SecurityController
      * @var UserPasswordEncoderInterface
      */
     private $passwordEncoder;
+    /**
+     * @var FormFactory
+     */
+    private $formFactory;
+    /**
+     * @var RouterInterface
+     */
+    private $router;
 
     public function __construct(
 		Twig_Environment $twig,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        FormFactoryInterface $formFactory,
+        RouterInterface $router
 	)
 	{
 		$this->twig = $twig;
 		$this->passwordEncoder = $passwordEncoder;
+		$this->formFactory = $formFactory;
+		$this->router = $router;
 	}
 
     /**
@@ -109,6 +124,9 @@ class SecurityController
 
 					$vendorSecurity->setUuid($uuid);
 					$vendorSecurity->setSlug($slug);
+					$vendorSecurity->setEmail($formData->getVendorSecurity()->getEmail());
+					$vendorSecurity->setPhone($formData->getVendorSecurity()->getPhone());
+
 
 					$vendorEnGb->setUuid($uuid);
 					$vendorEnGb->setSlug($slug);
@@ -129,7 +147,6 @@ class SecurityController
 				$em->persist($vendorEnGb);
 				$em->persist($vendorSecurity);
 				$em->persist($vendor);
-
 				$em->flush();
 
 				$vendorRegisteredEvent = new RegisteredEvent($vendor);
@@ -137,16 +154,11 @@ class SecurityController
 
 				$this->addFlash('success', 'Success');
 
-				/*
-				 * для автоматической авторизации после регистрации
-				 *
-				 * 			    // This handles logging the user in after they’ve signed up.
-								return $guardHandler->authenticateUserAndHandleSuccess(
-								$user,
-								$request,
-								$authenticator,
-								'main' // firewall name in security.yaml
-							);*/
+                /*return $guardHandler->authenticateUserAndHandleSuccess(
+                $vendorSecurity,
+                $request,
+                $authenticator,
+                'main' // firewall name in security.yaml);*/
 			}
 //		}
 
@@ -183,19 +195,19 @@ class SecurityController
 		]);
 	}
 
-	/**
-	 * @Route("/signin", defaults={"layout" : "signin"}, name="signin", options={"layout" : "signinFormHomePage"},
-	 *     methods={"GET", "POST"})
-	 * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "loginFormHomePage"},
-	 *     methods={"GET", "POST"})
-	 *
-	 * @param Request             $request
-	 * @param Security            $security
-	 * @param AuthenticationUtils $authenticationUtils
-	 * @param                     $layout
-	 *
-	 * @return Response
-	 */
+    /**
+     * @Route("/signin", defaults={"layout" : "signin"}, name="signin", options={"layout" : "signinFormHomePage"},
+     *     methods={"GET", "POST"})
+     * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "loginFormHomePage"},
+     *     methods={"GET", "POST"})
+     *
+     * @param Request $request
+     * @param Security $security
+     * @param AuthenticationUtils $authenticationUtils
+     * @param                     $layout
+     *
+     * @return Response
+     */
 	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
 	{
 		if ($security->isGranted('ROLE_USER')) {
@@ -204,26 +216,16 @@ class SecurityController
 
 		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
-		$lastUsername = $authenticationUtils->getLastUsername();
-		$error = $authenticationUtils->getLastAuthenticationError();
+        $loginForm = $this->formFactory->createNamed('', VendorsLoginType::class, array(
+            '_username' => $authenticationUtils->getLastUsername()), array(
+                'action' => $this->router->generate('login')));
 
-		$form = $this->createForm(VendorsLoginType::class);
-
-		/*return new Response(
-			$this->twig->render(
-				'security/' . $layout . '.html.twig', array(
-				'last_username' => $lastUsername,
-				'form'          => $form->createView(),
-				'error'         => $error
-			)
-			)
-		);*/
 
 		return $this->render(
 			'security/' . $layout . '.html.twig', array(
-				'last_username' => $lastUsername,
-				'form'          => $form->createView(),
-				'error'         => $error
+				'last_username' => $authenticationUtils->getLastUsername(),
+				'form'          => $loginForm->createView(),
+				'error'         => $authenticationUtils->getLastAuthenticationError()
 			)
 		);
 	}
