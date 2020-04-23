@@ -4,9 +4,7 @@
     use var b2 = '';
     use var b3 = '';
     use var b4 = '';
-
 #}
-
 {% set b1 = 'hidden-xs col-sm-1 col-md-1 col-lg-1 z1 hidden-phone ml-1 m-0 p-0' %}
 {% set b2 = 'col-hidden-xs col-sm-1 col-md-1 col-lg-1' %}
 {% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 pl-1 ml-1 container' %}
@@ -16,7 +14,6 @@
 {% set c3 = 'col-3' %}
 {% set block = 'col-md-3 p-1 masonry-brick' %}
 {% set brick = 'brick' %}
-
 <!DOCTYPE html>
 <html lang="{{ app.request.locale }}">
 {% block head %}
@@ -101,8 +98,9 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Sign..</a>
+                            <a class="nav-link" href="#">Sign..</a>
                             </li>
+                            {{ render(controller( 'App\\Controller\\SecurityController::login' , {'layout' : 'navbarAuthBlock'})) }}
                         </ul>
                     </div>
                 </menu>
@@ -215,6 +213,9 @@
             </aside>
         </main>
     {% endblock %}
+
+    {{ include('fullscreen.html.twig') }}
+
     </body>
 {% endblock %}
 
