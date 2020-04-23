@@ -7,7 +7,7 @@ require('bootstrap-autohide-navbar');
 
 require('smartwizard');
 
-require('masonry-layout');
+//require('masonry-layout');
 require('../scss/app.scss');
 
 
@@ -27,4 +27,4 @@ require('./move_up');
 //require('./masonry_init');
 require('./cols_per_row');
 require('./add-collection-widget');
-require('./full_screen_adapter');
+require('./full_screen');

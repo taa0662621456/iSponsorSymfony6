@@ -5,6 +5,7 @@ import jQuery from 'jquery';
 
 //if (smartwizard != undefined) {
     (function ($, undefined) {
+        //$(document).on('load', function(){
         $(document).ready(function(){
             $('#smartwizard, #object').smartWizard({
                 keyNavigation: true,
