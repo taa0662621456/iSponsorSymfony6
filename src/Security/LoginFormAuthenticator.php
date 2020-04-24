@@ -7,10 +7,13 @@
 	use Exception;
 	use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\Routing\RouterInterface;
+    use Symfony\Component\HttpFoundation\Response;
+    use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+    use Symfony\Component\Routing\RouterInterface;
 	use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 	use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-	use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+    use Symfony\Component\Security\Core\Exception\AuthenticationException;
+    use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 	use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 	use Symfony\Component\Security\Core\Security;
 	use Symfony\Component\Security\Core\User\UserInterface;
@@ -18,7 +21,8 @@
 	use Symfony\Component\Security\Csrf\CsrfToken;
 	use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 	use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-	use Symfony\Component\Security\Http\Util\TargetPathTrait;
+    use Symfony\Component\Security\Guard\AuthenticatorInterface;
+    use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 	class LoginFormAuthenticator
 		extends AbstractFormLoginAuthenticator
@@ -29,20 +33,26 @@
 		private $router;
 		private $csrfTokenManager;
 		private $passwordEncoder;
+        /**
+         * @var FlashBagInterface
+         */
+        private $flashBag;
 
-		public function __construct(EntityManagerInterface $entityManager, RouterInterface $router,
+        public function __construct(EntityManagerInterface $entityManager, RouterInterface $router,
 									CsrfTokenManagerInterface $csrfTokenManager,
-									UserPasswordEncoderInterface $passwordEncoder)
+									UserPasswordEncoderInterface $passwordEncoder,
+                                    FlashBagInterface $flashBag)
 		{
 			$this->entityManager = $entityManager;
 			$this->router = $router;
 			$this->csrfTokenManager = $csrfTokenManager;
 			$this->passwordEncoder = $passwordEncoder;
+			$this->flashBag = $flashBag;
 		}
 
 		public function supports(Request $request)
 		{
-			return 'app_login' === $request->attributes->get('_route')
+			return 'login' === $request->attributes->get('_route')
 				&& $request->isMethod('POST');
 		}
 
@@ -53,29 +63,27 @@
 				'password'   => $request->request->get('password'),
 				'csrf_token' => $request->request->get('_csrf_token'),
 			];
-			$request->getSession()->set(
-				Security::LAST_USERNAME,
-				$credentials['email']
-			)
-			;
+
+            $request->getSession()->set(
+                Security::LAST_USERNAME,
+                $credentials['email']
+            );
 
 			return $credentials;
 		}
 
-		public function getUser($credentials, UserProviderInterface $userProvider)
+		public function getUser($credentials, UserProviderInterface $user)
 		{
 			$token = new CsrfToken('authenticate', $credentials['csrf_token']);
-			if (!$this->csrfTokenManager->isTokenValid($token)) {
-				throw new InvalidCsrfTokenException();
+            if (!$this->csrfTokenManager->isTokenValid($token)) {
+                throw new InvalidCsrfTokenException();
 			}
-
 			$user = $this->entityManager->getRepository(VendorsSecurity::class)->findOneBy(
 				['email' => $credentials['email']]
-			)
-			;
+			);
 
 			if (!$user) {
-				// fail authentication with a custom error
+                // fail authentication with a custom error
 				throw new CustomUserMessageAuthenticationException('Email could not be found.');
 			}
 
@@ -84,7 +92,10 @@
 
 		public function checkCredentials($credentials, UserInterface $user)
 		{
-			return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+            if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+                throw new CustomUserMessageAuthenticationException('Login or User data not valid.');
+            }
+                return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 		}
 
 		public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
@@ -97,11 +108,26 @@
 			//throw new Exception('TODO: provide a valid redirect inside '.__FILE__);
 
 			// redirect to some "app_homepage" route - of wherever you want
-			return new RedirectResponse($this->urlGenerator->generate('homepage'));
+			return new RedirectResponse($this->router->generate('homepage'));
 		}
+
+
+        /*public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
+        {
+            $data = [
+                // you may want to customize or obfuscate the message first
+                'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+
+                // or to translate this message
+                // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
+            ];
+
+            return new Response ('', '','');
+        }*/
 
 		protected function getLoginUrl()
 		{
+
 			return $this->router->generate('login');
 		}
 	}

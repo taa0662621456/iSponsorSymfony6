@@ -13,6 +13,7 @@ use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
 use App\Repository\Vendor\VendorsRepository;
+use App\Repository\Vendor\VendorsSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
 use Exception;
@@ -89,9 +90,8 @@ class SecurityController
 								 ConfirmationCodeGenerator $codeGenerator,
 								 EventDispatcherInterface $eventDispatcher): Response
 	{
-		$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
-		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-
+		//$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
+		//$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
 		$vendor = new Vendors();
 		$vendorSecurity = new VendorsSecurity();
 		$vendorEnGb = new VendorsEnGb();
@@ -134,26 +134,19 @@ class SecurityController
 
 				} catch (Exception $e) {
 				}
-
-
 				$vendor->setVendorSecurity($vendorSecurity);
 				$vendorSecurity->setPassword($password);
 				$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
-
 				$vendor->setVendorEnGb($vendorEnGb);
 				$vendorEnGb->setVendorZip(000000);
-
 				$em = $this->getDoctrine()->getManager();
 				$em->persist($vendorEnGb);
 				$em->persist($vendorSecurity);
 				$em->persist($vendor);
 				$em->flush();
-
 				$vendorRegisteredEvent = new RegisteredEvent($vendor);
 				$eventDispatcher->dispatch($vendorRegisteredEvent);
-
 				$this->addFlash('success', 'Success');
-
                 /*return $guardHandler->authenticateUserAndHandleSuccess(
                 $vendorSecurity,
                 $request,
@@ -168,30 +161,31 @@ class SecurityController
 
 	}
 
-	/**
-	 * @Route("/confirm/{code}", name="email_confirmation")
-	 * @param VendorsRepository $vendorsRepository
-	 * @param string $code
-	 * @return Response
-	 */
-	public function confirmation(VendorsRepository $vendorsRepository, string $code): Response
+    /**
+     * @Route("/confirm/{code}", name="email_confirmation")
+     * @param VendorsSecurityRepository $vendorsSecurity
+     * @param string $code
+     * @return Response
+     * @throws Exception
+     */
+	public function confirmation(VendorsSecurityRepository $vendorsSecurity, string $code): Response
 	{
 
-		$vendor = $vendorsRepository->findOneBy(['activationCode' => $code]);
+        $vendorsSecurity = $vendorsSecurity->findOneBy(['activationCode' => $code]);
 
-		if ($vendor === null) {
+		if ($vendorsSecurity === null) {
 			return new Response('404');
 		}
-
-		$vendor->setActive(true);
-		$vendor->setActivationCode('');
+        //$vendor = new Vendors();
+		//$vendor->setActive(true);
+        $vendorsSecurity->setActivationCode('');
 
 		$em = $this->getDoctrine()->getManager();
-
+        //$em->persist($vendor);
 		$em->flush();
 
 		return $this->render('security/confirmed.html.twig', [
-			'vendor' => $vendor,
+			'vendor' => $vendorsSecurity,
 		]);
 	}
 
@@ -210,16 +204,21 @@ class SecurityController
      */
 	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
 	{
+	    /*
+	     * аутентификация
+	     * https://symfonycasts.com/screencast/symfony-security/login-form-authenticator
+	     * https://symfonycasts.com/screencast/symfony-security/csrf-token
+	     * аутентификация с токеном
+	     */
 		if ($security->isGranted('ROLE_USER')) {
 			return $this->redirectToRoute('homepage');
 		}
 
 		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
-        $loginForm = $this->formFactory->createNamed('', VendorsLoginType::class, array(
+        $loginForm = $this->get('form.factory')->createNamed('', VendorsLoginType::class, array(
             '_username' => $authenticationUtils->getLastUsername()), array(
-                'action' => $this->router->generate('login')));
-
+            'action' => $this->router->generate('login')));
 
 		return $this->render(
 			'security/' . $layout . '.html.twig', array(
