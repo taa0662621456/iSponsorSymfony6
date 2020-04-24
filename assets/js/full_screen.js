@@ -19,8 +19,9 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
         let $fullScrIconClass = 'fa-arrows';
         let $fullScrIconPress = 'fa-compress-arrows-alt';
         let $width = 100 * $contentBlock.width() / $contentBlock.parent().width();
+        let $masonryGrid = $('#masonry-grid').filter('div');
         let $masonryBrick = $('.masonry-brick').filter('div');
-        let $masonry = new Masonry( grid, {
+        let $masonry = new Masonry( '#masonry-grid', {
             // options...
             itemSelector: '.masonry-brick',
         });

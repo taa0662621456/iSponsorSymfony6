@@ -18,7 +18,6 @@ if (grid !== undefined ) {
             // options...
             itemSelector: '.masonry-brick',
         });
-
         if (Cookies.get('cookie_cols')) {
             let $cookie = Cookies.get('cookie_cols');
             $masonryBrick.css('width', $cookie);
