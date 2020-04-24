@@ -14,6 +14,7 @@
 	use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 	use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
     use Symfony\Component\Security\Core\Exception\AuthenticationException;
+    use Symfony\Component\Security\Core\Exception\BadCredentialsException;
     use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 	use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 	use Symfony\Component\Security\Core\Security;
@@ -23,6 +24,7 @@
 	use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 	use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
     use Symfony\Component\Security\Guard\AuthenticatorInterface;
+    use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
     use Symfony\Component\Security\Http\Util\TargetPathTrait;
     use function Sodium\add;
 
@@ -39,7 +41,6 @@
          * @var FlashBagInterface
          */
         private $flashBag;
-
         public function __construct(EntityManagerInterface $entityManager, RouterInterface $router,
 									CsrfTokenManagerInterface $csrfTokenManager,
 									UserPasswordEncoderInterface $passwordEncoder,
@@ -94,13 +95,11 @@
 
 		public function checkCredentials($credentials, UserInterface $user)
 		{
-            /*if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
-                $this->flashBag->add('success', 'sdfsdfsdfsdfsdf');
-                throw new CustomUserMessageAuthenticationException('Login or User data not valid.');
-
-            }*/
-            dd($this->passwordEncoder->isPasswordValid($user, $credentials['password']));
-                return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+            if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+                throw new BadCredentialsException('Login or User data not valid.');
+            }
+                return true;
+                //return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 		}
 
 		public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
