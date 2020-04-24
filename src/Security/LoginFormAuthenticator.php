@@ -5,7 +5,8 @@
 	use App\Entity\Vendor\VendorsSecurity;
 	use Doctrine\ORM\EntityManagerInterface;
 	use Exception;
-	use Symfony\Component\HttpFoundation\RedirectResponse;
+    use Symfony\Component\HttpFoundation\JsonResponse;
+    use Symfony\Component\HttpFoundation\RedirectResponse;
 	use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
@@ -23,8 +24,9 @@
 	use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
     use Symfony\Component\Security\Guard\AuthenticatorInterface;
     use Symfony\Component\Security\Http\Util\TargetPathTrait;
+    use function Sodium\add;
 
-	class LoginFormAuthenticator
+    class LoginFormAuthenticator
 		extends AbstractFormLoginAuthenticator
 	{
 		use TargetPathTrait;
@@ -92,9 +94,12 @@
 
 		public function checkCredentials($credentials, UserInterface $user)
 		{
-            if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+            /*if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+                $this->flashBag->add('success', 'sdfsdfsdfsdfsdf');
                 throw new CustomUserMessageAuthenticationException('Login or User data not valid.');
-            }
+
+            }*/
+            dd($this->passwordEncoder->isPasswordValid($user, $credentials['password']));
                 return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 		}
 
@@ -114,15 +119,13 @@
 
         /*public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
         {
-            $data = [
-                // you may want to customize or obfuscate the message first
-                'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+            $data = array(
+                'status' => 'error',
+                'message' => 'Authentication Required'
+            );
+            $this->flashBag->add('error', 'sdfsdfsdfsdfsdf');
 
-                // or to translate this message
-                // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
-            ];
-
-            return new Response ('', '','');
+            return new Response('', 301, '');
         }*/
 
 		protected function getLoginUrl()
