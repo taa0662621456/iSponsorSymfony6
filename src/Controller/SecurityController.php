@@ -214,11 +214,18 @@ class SecurityController
 			return $this->redirectToRoute('homepage');
 		}
 
+
 		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
         $loginForm = $this->get('form.factory')->createNamed('', VendorsLoginType::class, array(
             '_username' => $authenticationUtils->getLastUsername()), array(
             'action' => $this->router->generate('login')));
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        if ($error) {
+            $this->addFlash('error', $error->getMessage());
+        }
 
 		return $this->render(
 			'security/' . $layout . '.html.twig', array(
