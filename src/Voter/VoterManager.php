@@ -2,6 +2,8 @@
 
 namespace App\Voter;
 
+use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsSecurity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
@@ -69,12 +71,11 @@ class VoterManager
         return true;
     }
 
-    // TODO: почитать про варианты атрибутов https://symfonycasts.com/screencast/symfony-security/custom-voter
     protected function voteOnAttribute($voter, $object, TokenInterface $token)
     {
         $user = $token->getUser();
 
-        if (!$user instanceof $this->object) {
+        if (!$user instanceof VendorsSecurity) {
             throw new CustomUserMessageAuthenticationException('Вы не можете просматривать список. Вы не авторизованы'
             );
             //return false;
