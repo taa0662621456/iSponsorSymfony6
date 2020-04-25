@@ -46,7 +46,7 @@ class VoterManager
         $this->blacklistedIp = $blacklistedIp;
         $this->requestStack = $requestStack;
         //dd($requestStack->getMasterRequest()->attributes->all());
-        $this->voter = 'App\Voter\\' . (string)ucfirst(current(explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 1)) . 'Voter');
+        //$this->voter = 'App\Voter\\' . (string)ucfirst(current(explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 1)) . 'Voter');
         $this->crud = (string)current(explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2));
 
     }
@@ -63,7 +63,7 @@ class VoterManager
         if (!($user instanceof UserInterface)) {
             return null;
         }
-        $voter = new $this->voter;
+        $voter = new ObjectVoter();
         $crud = $this->crud;
         return $voter->$crud();
     }

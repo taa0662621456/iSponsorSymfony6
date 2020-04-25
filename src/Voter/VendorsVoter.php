@@ -23,8 +23,6 @@
             if (!$subject instanceof Vendors) {
                 return false;
             }
-
-
             return true;
         }
 
