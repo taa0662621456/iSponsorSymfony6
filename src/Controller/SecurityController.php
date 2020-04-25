@@ -12,7 +12,6 @@ use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
-use App\Repository\Vendor\VendorsRepository;
 use App\Repository\Vendor\VendorsSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
@@ -204,31 +203,25 @@ class SecurityController
      */
 	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
 	{
-	    /*
-	     * аутентификация
-	     * https://symfonycasts.com/screencast/symfony-security/login-form-authenticator
-	     * https://symfonycasts.com/screencast/symfony-security/csrf-token
-	     * аутентификация с токеном
-	     */
-		if ($security->isGranted('ROLE_USER')) {
-			return $this->redirectToRoute('homepage');
-		}
+        /*
+         * аутентификация
+         * https://symfonycasts.com/screencast/symfony-security/login-form-authenticator
+         * https://symfonycasts.com/screencast/symfony-security/csrf-token
+         * аутентификация с токеном
+         */
+        //if ($security->isGranted('ROLE_USER')) {
+        //return $this->redirectToRoute('homepage');
+        //}
 
 
-		$this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
+        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
         $loginForm = $this->get('form.factory')->createNamed('', VendorsLoginType::class, array(
             '_username' => $authenticationUtils->getLastUsername()), array(
             'action' => $this->router->generate('login')));
 
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        if ($error) {
-            $this->addFlash('error', $error->getMessage());
-        }
-
-		return $this->render(
-			'security/' . $layout . '.html.twig', array(
+        return $this->render(
+            'security/' . $layout . '.html.twig', array(
 				'last_username' => $authenticationUtils->getLastUsername(),
 				'form'          => $loginForm->createView(),
 				'error'         => $authenticationUtils->getLastAuthenticationError()
