@@ -1,0 +1,22 @@
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
+        <div class="btn-group btn-block m-1" role="group" aria-label="Favourites">
+            <a class="btn btn-secondary"
+               href="{{ path('favourites', {'favourites' : 'projects'}) }}">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                J</a>
+            <a class="btn btn-secondary"
+               href="{{ path('favourites', {'favourites' : 'products'}) }}">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                D</a>
+            <a class="btn btn-secondary"
+               href="{{ path('favourites', {'favourites' : 'vendors'}) }}">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                V</a>
+            <a class="btn btn-secondary"
+               href="{{ path('favourites', {'favourites' : 'index'}) }}">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                A</a>
+        </div>
+    </div>
+{% endif %}

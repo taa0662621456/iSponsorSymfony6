@@ -1,0 +1,210 @@
+{% extends 'base.html.twig' %}
+{% block title %}Products{% endblock %}
+{% block article_header %}
+    <p>Тут или блоком выше должны быть хлебные крошки</p>
+    <p>Наименование продукта</p>
+    <p>Третья строка - звездочки-оценки</p>
+{% endblock %}
+{% block article_content %}
+    <div class="card text-center m-1">
+        <div class="card-header">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                       aria-controls="nav-home" aria-selected="true">Все о товаре</a>
+                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                       aria-controls="nav-profile" aria-selected="false">Характеристики</a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                       aria-controls="nav-contact" aria-selected="false">Оставить отзыв</a>
+                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-project" role="tab"
+                       aria-controls="nav-project" aria-selected="false">Какому проекту</a>
+                </div>
+            </nav>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                    <div class="row m-0 p-0">
+                        <div class="col- col-xs-12 col-sm-12 col-md-8 col-lg-8 m-0 p-0">
+                            <div class="row">
+                                <div class="col- col-xs-12 col-sm-12 col-md-2 col-lg-2 m-0 p-0">
+                                    <img src="{{ asset('cover.jpg') }}" class="img-thumbnail mb-1"
+                                         style="max-width: 60px;" alt="Responsive image">
+                                    <img src="{{ asset('cover.jpg') }}" class="img-thumbnail mb-1"
+                                         style="max-width: 60px;" alt="Responsive image">
+                                    <img src="{{ asset('cover.jpg') }}" class="img-thumbnail mb-1"
+                                         style="max-width: 60px;" alt="Responsive image">
+                                    <img src="{{ asset('cover.jpg') }}" class="img-thumbnail mb-1"
+                                         style="max-width: 60px;" alt="Responsive image">
+                                    <img src="{{ asset('cover.jpg') }}" class="img-thumbnail mb-1"
+                                         style="max-width: 60px;" alt="Responsive image">
+                                </div>
+                                <div class="col- col-xs-12 col-sm-12 col-md-10 col-lg-10 m-0 pl-0">
+                                    <div class="card">
+                                        <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Название товара</h5>
+                                            <p class="card-text">Some quick example text to build on the card title and
+                                                make up the bulk of the card's content.</p>
+                                            <a href="#" class="btn btn-primary">Купить в один клик</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col- col-xs-12 col-sm-12 col-md-4 col-lg-4 m-0 pr-0">
+                            {#Продавец/вендор/автор проекта#}
+                            <div class="card text-center mb-1 border-0">
+                                <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+
+                                <div class="card-header">
+                                    Продавец
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Продавец</h5>
+                                    <p class="card-text">Информация об авторе проекта и продавце</p>
+                                    <a href="#" class="btn btn-primary">Подробнее (переход на гарантийные политики
+                                        вендора</a>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    2 days ago
+                                </div>
+                            </div>
+                            {#Гарантия#}
+                            <div class="card text-center mb-1">
+                                <div class="card-header">
+                                    Гарантия
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Условия гарантии</h5>
+                                    <p class="card-text">Что-то о гарантийном обслуживании</p>
+                                    <a href="#" class="btn btn-primary">Подробнее (переход на гарантийные политики
+                                        вендора</a>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    2 days ago
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <p>Страница с выборкой характеристик товара</p>
+                    <p>поскольку товар простой, то описание в простой текстовой форме</p>
+
+                </div>
+                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    <p>Форма отправки отзыва</p>
+                    <p>Тут вызываем форму отзывов</p>
+                    <p>Интересно, в какой базе мы храним информацию об отзывах</p>
+                    <p>Данная информация не является строгой важности и ее хранение в основной базе</p>
+                    <p>скорее избыточно. Необходимо зоздать отдельную базу для отзывов</p>
+
+                </div>
+                <div class="tab-pane fade" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
+                    <p>Информация о проекте, для которого продается этот товар</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                    <p>Структура информации вкладки может несколько дублировать структуру вкладки с информацией о
+                        товаре.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block article_summery %}
+    <h3>Недавно просмотренные товары</h3>
+    <div class="card-deck mb-1">
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Просмотренные товары</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Просмотренные товары</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Просмотренные товары</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This card has even longer content than the first to show that equal height action.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block article_footer %}
+    <h3>Недавно просмотренные проекты</h3>
+    <div class="card-deck mb-1">
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Просмотренные проекты</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This content is a little bit longer.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Просмотренные проекты</h5>
+                <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-img-top" src="{{ asset('cover.jpg') }}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">Просмотренные проекты</h5>
+                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional
+                    content. This card has even longer content than the first to show that equal height action.</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Last updated 3 mins ago</small>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+
