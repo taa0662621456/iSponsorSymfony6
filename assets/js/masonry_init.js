@@ -1,10 +1,12 @@
 import Masonry from 'masonry-layout';
 
-let grid = document.querySelector('#masonry-grid');
-
-if (grid !== undefined){
-        let masonry = new Masonry('#masonry-grid', {
+(function ($) {
+    let $masonryGrid = $('#masonry-grid:first').filter('div');
+    if ($masonryGrid.length !== 0) {
+        var $masonry = new Masonry('#masonry-grid', {
             // options...
             itemSelector: '.masonry-brick',
         });
-}
+        $masonry.layout();
+    }
+})(jQuery);

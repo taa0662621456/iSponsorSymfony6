@@ -2,15 +2,17 @@ import jQuery from 'jquery';
 import Cookies from 'js-cookie';
 import Masonry from 'masonry-layout';
 
-let grid = document.querySelector('#masonry-grid');
+//let grid = document.querySelector('#masonry-grid');
 let fullScreenButton = document.querySelector('#full-screen');
+let masonryGrid = document.querySelector('#masonry-grid');
 
-if (fullScreenButton !== undefined && grid !== undefined ) {
+if (fullScreenButton != null && masonryGrid != null) {
 
     (function ($, undefined) {
 
         let $html = $('html');
-        let $hideArray = $('#b1, #b2, #header');
+        let $hideArray = $('#b1, #b2, #header, #p1, #p2');
+        let $panel = $('#panel').filter('div');
         let $contentBlock = $('#b3').filter('article');
         let $asideRightPanel = $('#b4').filter('div');
         let $fullScreenButton = $('#full-screen').filter('button');
@@ -19,19 +21,22 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
         let $fullScrIconClass = 'fa-arrows';
         let $fullScrIconPress = 'fa-compress-arrows-alt';
         let $width = 100 * $contentBlock.width() / $contentBlock.parent().width();
-        let $masonryGrid = $('#masonry-grid').filter('div');
         let $masonryBrick = $('.masonry-brick').filter('div');
-        let $masonry = new Masonry( '#masonry-grid', {
-            // options...
-            itemSelector: '.masonry-brick',
-        });
+        let $masonryGrid = $('#masonry-grid:first').filter('div');
+        if ($masonryGrid.length !== 0) {
+            var $masonry = new Masonry('#masonry-grid', {
+                // options...
+                itemSelector: '.masonry-brick',
+            });
+            $masonry.layout();
+        }
 
         if (Cookies.get('screen')) {
             $masonryBrick.css('width', Cookies.get('screen'));
-            $masonry.layout();
+            masonryLayout();
         } else {
             $masonryBrick.css('width', '25%');
-            $masonry.layout();
+            masonryLayout();
         }
 
         $fullScreenButton.click(function () {
@@ -40,6 +45,7 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
 
                 $hideArray.show();
                 $contentBlock.removeClass('col-lg-12 col-sm-12 col-md-12').addClass('col-lg-8 col-sm-6 col-md-8');
+                $panel.removeClass('col-sm-12 col-md-12 col-lg-12').addClass('col-sm-6 col-md-8 col-lg-8');
 
                 $asideRightPanel
                     .css('background-color', 'transparent')
@@ -51,6 +57,7 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
                 $width = 0;
             } else {
                 $contentBlock.removeClass('col-lg-8 col-sm-6 col-md-8').addClass('col-lg-12 col-sm-12 col-md-12');
+                $panel.removeClass('col-sm-6 col-md-8 col-lg-8').addClass('col-sm-12 col-md-12 col-lg-12');
                 $hideArray.hide();
                 $asideRightPanel
                     .toggleClass('absolutepanel')
@@ -72,7 +79,7 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
                 $width = 100;
             }
 
-            $masonry.layout();
+            masonryLayout();
 
         });
 
@@ -90,7 +97,7 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
                 asideRightPanel();
                 fullScreenIcon();
 
-                $masonry.layout();
+                masonryLayout();
             }
 
             $width = 0;
@@ -109,5 +116,10 @@ if (fullScreenButton !== undefined && grid !== undefined ) {
                 .unbind('click');
         }
 
+        function masonryLayout() {
+            if ($masonryGrid.length !== 0) {
+                $masonry.layout();
+            }
+        }
     })(jQuery);
 }
