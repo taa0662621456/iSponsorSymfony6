@@ -1,10 +1,123 @@
 {% extends 'base.html.twig' %}
+{% set cover_row = 'cover_row m-0 p-0 align-items-center' %}
+{% set cover_col_2 = 'col-xs-12 col-sm-12 col-md-2 col-lg-2' %}
+{% set cover_col_7 = 'col-xs-12 col-sm-12 col-md-7 col-lg-7' %}
+{% set cover_col_3 = 'col-xs-12 col-sm-12 col-md-3 col-lg-3' %}
+{#
+{% block meta_description %}{{ vendor.getVendorEnGb.id }}{% endblock %}
+#}
+{#
+{% {{ cover_col_2 }}lock title %}Vendors{% endblock %}
+#}
+{#
+{% block header %}<h1>Vendors</h1>{% endblock %}
+#}
+{% block section %}{% endblock %}
 
-{% block body_id %}
+{% block blocks %}
+    <main role="main" class="row">
+        <aside id="b1" class="col- {{ b1 }}">
+            <a id="move_up" href="#"><span style="font-size: 2em"><i class="fal fa-chevron-circle-up"></i></span></a>
+            {% block ontop %}{% endblock %}
+        </aside>
+        <aside id="b2" class="col- {{ b2 }}">
+            {% block sidebar %}{% endblock %}
+        </aside>
+        <article id="b3" class="col- {{ b3 }}">
+            <header class="cover" style="background-image: url('{{ asset('cover.jpg') }}');">
+                <div class="row {{ cover_row }} ">
+                    <div class="col- {{ cover_col_2 }} x1y4">x1y4</div>
+                    <div class="col- {{ cover_col_7 }} x2y4">x2y4</div>
+                    <div class="col- {{ cover_col_3 }} m-0 p-0 x3y4">x3y4</div>
+                </div>
+                <div class="row {{ cover_row }}">
+                    <div class="col- {{ cover_col_2 }} x1y3">x1y3</div>
+                    <div class="col- {{ cover_col_7 }} x2y3">x2y3</div>
+                    <div class="col- {{ cover_col_3 }} m-0 p-0 x3y3">x3y3</div>
+                </div>
+                <div class="row {{ cover_row }}">
+                    <div class="col- {{ cover_col_2 }} x1y2">x1y2</div>
+                    <div class="col- {{ cover_col_7 }} x2y2">x2y2</div>
+                    <div class="col- {{ cover_col_3 }} m-0 p-0 x3y2">x3y2</div>
+                </div>
+                <div class="row {{ cover_row }}">
+                    <div class="col- {{ cover_col_2 }} x1y1"><img src="{{ asset('cover.jpg') }}"
+                                                                  class="rounded float-left img-thumbnail avatar m-1"
+                                                                  alt="Avatar"></div>
+                    <div class="col- {{ cover_col_7 }} x2y1"><span class="align-middle"><h3>{{ app.user.username }}</h3></span>
+                    </div>
+                    <div class="col- {{ cover_col_3 }} m-0 p-0 x3y1">{{ include('favourites_assets.html.twig') }}</div>
+                </div>
+                {% block article_header %}{% endblock %}
+            </header>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-0 m-0">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample08"
+                        aria-controls="navbarsExample08" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
+                <div class="collapse navbar-collapse justify-content-md-center" id="navbarsExample08">
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Centered nav only <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dropdown08" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <div class="dropdown-menu rounded-0" aria-labelledby="dropdown08">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <section class="row p-0 m-0">
+                <div class="col-4 p-0 m-0">
+                    <div class="card text-center mt-1 rounded-0">
+                        <div class="card-header">
+                            Информация обо мне
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Жил был</h5>
+                            <p class="card-text">Что-то делал</p>
+                            <a href="#" class="btn btn-primary">Померать не хотел</a>
+                        </div>
+                        <div class="card-footer text-muted">
+                            2 days ago
+                        </div>
+                    </div>
+                    {#
+                                            {{ include('feed.html.twig') }}
+                    #}
+                </div>
+                <div class="col-8 p-0 m-0">
+                    сюда вуводим ленту новостей и форму отправки новостей
+                    {{ include('feed.html.twig') }}
+                </div>
+            </section>
+            <section>
+                <details>
+                    <summary>
+                        {% block article_summery %}{% endblock %}
+                    </summary>
+                </details>
+            </section>
+            <footer>
+                {% block article_footer %}{% endblock %}
+            </footer>
+        </article>
+        <aside id="b4" class="col-xs-12 col-sm-3 col-md-2 col-lg-2 z11-12">
+            {% block aside %}{% endblock %}
+        </aside>
+    </main>
 {% endblock %}
 
-{% block body %}
-
-{% endblock %}
 

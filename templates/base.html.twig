@@ -5,13 +5,13 @@
     use var b3 = '';
     use var b4 = '';
 #}
-{% set b1 = 'hidden-xs col-sm-1 col-md-1 col-lg-1 z1 hidden-phone ml-1 m-0 p-0' %}
-{% set b2 = 'col-hidden-xs col-sm-1 col-md-1 col-lg-1' %}
-{% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 pl-1 ml-1 container' %}
-{% set b4 = 'col-xs-12 col-sm-3 col-md-2 col-lg-2' %}
-{% set c1 = 'col-2' %}
-{% set c2 = 'col-7' %}
-{% set c3 = 'col-3' %}
+{% set b1 = 'col-sm-1 col-md-1 col-lg-1 d-none d-sm-block z1 hidden-phone ml-1 m-0 p-0' %}
+{% set b2 = 'col-hidden-xs col-sm-1 col-md-1 col-lg-1 d-none d-sm-block' %}
+{% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 p-0 ml-1' %}
+{% set b4 = 'col-xs-12 col-sm-3 col-md-2 col-lg-1 d-none d-sm-block' %}
+{% set c1 = 'col-2 col-md-3 pl-0 pr-1' %}
+{% set c2 = 'col-7 col-md-6 pl-1 pr-1' %}
+{% set c3 = 'col-3 col-md-3 pl-1 pr-1' %}
 {% set block = 'col-md-3 p-1 masonry-brick' %}
 {% set brick = 'brick' %}
 <!DOCTYPE html>
@@ -37,70 +37,37 @@
     <header class="section-header">
 
         {% block navbar %}
-            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top pt-0 pb-0">
+            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">
                 <menu class="{{ b1 }}">
-                    <a class="navbar-brand float-right" href="#"><span class="text-break">...iSponsor!</span>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            Username: {{ app.user.username }}
-                        {% endif %}
-                    </a>
-
+                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"
+                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"
+                       href="#"><span class="text-break">...iSponsor!</span><span
+                                class="navbar-toggler-icon"></span></a>
                 </menu>
                 <menu class="{{ b2 }} left">
 
                 </menu>
                 <menu class="{{ b3 }}">
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="collapse navbar-collapse" id="isponsor">
+                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item btn-warning">
-                                <a class="nav-link" href="{{ path('projects_new') }}"><i class="fal fa-plus-circle"></i></a>
-                            </li>
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ path('homepage') }}">Home <span
-                                            class="sr-only">(current)</span></a>
-                            </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
+                                <a class="btn btn-warning btn-block rounded-0" role="button"
+                                   href="{{ path('projects_new') }}"><i class="fal fa-plus-circle"></i></a>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                    <a class="dropdown-item" href="{{ path('projects_new') }}">Add Project</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
-                                        <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} "> Exit
-                                            impersonation </a>
-                                    {% endif %}
-                                </div>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsor</a>
-                                    <a class="dropdown-item" href="{{ path('author') }}">Author</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ path('orders_index') }}">Orders</a>
-                                    <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                    <a class="dropdown-item" href="{{ path('products_index') }}">Products</a>
-                                    {#
-                                    <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-                                    <a class="dropdown-item" href="{{path('projects_new')}}">Add Project</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    #}
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                            <a class="nav-link" href="#">Sign..</a>
-                            </li>
-                            {{ render(controller( 'App\\Controller\\SecurityController::login' , {'layout' : 'navbarAuthBlock'})) }}
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                <li class="nav-item">
+                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="avaterka" alt="Avatar"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-link btn-block" role="button">Main</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-link btn-block" role="button">{{ app.user.username }}</a>
+                                </li>
+                            {% endif %}
+
+                            {{ include('security/yetMenuDropdown.html.twig') }}
                         </ul>
                     </div>
                 </menu>
@@ -109,35 +76,27 @@
                 </menu>
 
             </nav>
+            {#
+                        {{ include('security/navbarForAdmin.html.twig') }}
+            #}
         {% endblock %}
         {% block section %}
             <section class="row header-main bg m-1">
-                <div class="{{ b1 }}">
+                <div id="p1" class="{{ b1 }}">
                 </div>
-                <div class="{{ b2 }}">
+                <div id="p2" class="{{ b2 }}">
                 </div>
-                <div class="{{ b3 }}">
-                    <div class="row btn-toolbar justify-content-between" role="toolbar" aria-label="View settings">
-                        <div class="{{ c1 }}  btn-group btn-group-toggle" role="group" data-toggle="buttons">
+                <div id="panel" class="{{ b3 }}">
+                    <div class="row btn-toolbar justify-content-between m-0" role="toolbar" aria-label="View settings">
+                        <div id="tools" class="{{ c1 }} btn-group btn-group-toggle pl-0" role="group"
+                             data-toggle="buttons">
                             {% block little_panel %}
                                 {{ include('tools.html.twig') }}
                             {% endblock %}
                         </div>
-                        <div class="{{ c2 }} input-group pl-0 pr-0">
-                            <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fad fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="{{ c3 }} input-group">
-                            <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
-                                <i class="fad fa-abacus"></i>
-                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
-                                {{ render(controller('App\\Controller\\CartController::navbarCart')) }}
+                        <div class="{{ c2 }} input-group">
+                            {{ include('search/search.html.twig') }}
 
-                            </a>
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                 <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
                                     <div class="btn-group mr-1" role="group" aria-label="Favourites">
@@ -159,13 +118,26 @@
                                            href="{{ path('favourites', {'favourites' : 'index'}) }}">
                                             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                             A</a>
-                                        {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
-                                            <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }}">
-                                                Exit impersonation</a>
-                                        {% endif %}
                                     </div>
                                 </div>
                             {% endif %}
+                            {#
+                                                        <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
+
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-primary" type="submit">
+                                                                <i class="fad fa-search"></i>
+                                                            </button>
+                                                        </div>
+                            #}
+                        </div>
+                        <div class="{{ c3 }} input-group">
+                            <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
+                                <i class="fad fa-abacus"></i>
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
+                                {{ render(controller('App\\Controller\\CartController::navbarCart')) }}
+
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -179,7 +151,7 @@
     </header>
     {% block blocks %}
 
-        <main role="main" class="row h-100">
+        <main role="main" class="row m-0 h-100">
             <aside id="b1" class="{{ b1 }}">
                 <div class="sticky-top text-center pt-5">
                     <a id="move_up" href="#"><span style="font-size: 2em"><i
@@ -222,7 +194,7 @@
 {% block footer %}
     <footer id="footer" class="footer section-footer bg-dark white">
         <section class="container-fluid footer-bottom">
-            <div class="row foot">
+            <div class="row m-0 foot">
                 <div class="col-xs-12 col-lg-12 col-sm-12 center">
                     <ul class="list-group list-group-horizontal-sm locales" role="menu" aria-labelledby="locales">
                         {% for locale in locales() %}
@@ -235,7 +207,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row foot">
+            <div class="row m-0 foot">
 
                 <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">

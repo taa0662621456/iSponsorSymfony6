@@ -3,7 +3,7 @@
 {% block header %}{% endblock %}
 {% block article_header %}{% endblock %}
 {% block article_content %}
-    <div class="row">
+    <div class="row m-0">
         <div class="col-md-3 p-1">
             <div class="p-1 card shadow-sm">
                 Rand block (Fatured, Vendors ....)
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div id="masonry-grid" class="row">
+    <div id="masonry-grid" class="row m-0">
         {% for category in categories %}
             {% if category.parent %}
             {% else %}
