@@ -1,7 +1,6 @@
 <?php
 
-
-namespace App\Trash;
+namespace App\Controller;
 
 
 use Cocur\Slugify\Slugify;
@@ -38,26 +37,34 @@ class CRUDsController extends AbstractController
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $this->object = current(explode($requestStack->getMasterRequest()->attributes->get('_route'), 1));
-        $this->crud = end(explode($requestStack->getMasterRequest()->attributes->get('_route'), 2));
-        $this->route =& $this->object;
-        $this->type = 'App\\src\\Form\\'. $this->object . '\\' . $this->object . 'Type';
-        $this->path = $this->object . '/' . $this->object . '/' . $this->crud . '.html.twig'; //TODO: не продумана структура папок, в частности не клеится с Categories (окончание не "y")
+        $object = (string)ucfirst(current(explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2)));
+        $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's'; //TODO: не продумано для Entity
+        $crud = explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2);
+        $this->crud = $crud[1];
+        $this->route = mb_strtolower($object);
+        $this->type = '\\App\\src\\Form\\' . $object . '\\' . $object . 'Type';
+        $this->path = mb_strtolower($object . '/' . $object . '/' . $crud[1] . '.html.twig');
+        //TODO: не продумана структура папок, в частности не клеится с Categories (окончание не "y")
     }
 
     /**
-     * @Route("vendors/", name="vendors", methods={"GET"})
-     * @Route("products/", name="products", methods={"GET"})
-     * @Route("projects/", name="projects", methods={"GET"})
-     * @Route("categories/", name="categories", methods={"GET"})
-     * @Route("attachments/", name="attachments", methods={"GET"})
+     * @Route("vendors/", name="vendor_index", methods={"GET"})
+     * @Route("products/", name="product_index", methods={"GET"})
+     * @Route("projects/", name="project_index", methods={"GET"})
+     * @Route("categories/", name="category_index", methods={"GET"})
+     * @Route("attachments/", name="attachment_index", methods={"GET"})
      *
      * @return Response
      */
-    public function categories(): Response
+    public function index(): Response
     {
+        /*
+         * проверка прав на листинг записей
+         * первый вариант: $this->denyAccessUnlessGranted('view', $post); // вместо 'view' взять из роута 'index'
+         *
+         */
         return $this->render($this->path, array(
-                'object' => $this->object->findAll(),
+                $this->route => new $this->object->findAll(),
             )
         );
     }
@@ -113,7 +120,7 @@ class CRUDsController extends AbstractController
     public function show(): Response
     {
         return $this->render($this->path, array(
-            'object' => $this->object,
+            $this->route => new $this->object,
         ));
     }
 
@@ -138,7 +145,7 @@ class CRUDsController extends AbstractController
         }
 
         return $this->render($this->path, array(
-            'object' => $this->object,
+            $this->route => new $this->object,
             'form' => $form->createView(),
         ));
     }

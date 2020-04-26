@@ -97,28 +97,6 @@ class ProductsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="products_edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Products $product
-     * @return Response
-     */
-    public function edit(Request $request, Products $product): Response
-    {
-        $form = $this->createForm(ProductsType::class, $product);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('products_index');
-        }
-
-        return $this->render('product/products/edit.html.twig', [
-            'product' => $product,
-            'form' => $form->createView(),
-        ]);
-    }
 
     /**
      * @Route("/attachment/{id}", name="attachment")
@@ -138,20 +116,4 @@ class ProductsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="products_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Products $product
-     * @return Response
-     */
-    public function delete(Request $request, Products $product): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($product);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('products_index');
-    }
 }
