@@ -5,6 +5,9 @@ parameters:
     # You should not need to change this value.
     env(DATABASE_URL): ''
     env(SQL_LITE_DATABASE_URL): ''
+    env(MY_SQL_PRODUCT_REVIEWS_DATABASE_URL): ''
+    env(MY_SQL_PROJECT_REVIEWS_DATABASE_URL): ''
+
 doctrine:
     dbal:
         default_connection: postgres
@@ -25,6 +28,16 @@ doctrine:
                 # this connector for all modules, menus, parameters of system
                 url: '%env(resolve:SQL_LITE_DATABASE_URL)%'
                 driver: 'pdo_sqlite'
+                server_version: '3.21'
+                charset: utf8mb4
+            product_reviews:
+                url: '%env(resolve:MY_SQL_PRODUCT_REVIEWS_DATABASE_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '3.21'
+                charset: utf8mb4
+            project_reviews:
+                url: '%env(resolve:MY_SQL_PROJECT_REVIEWS_DATABASE_URL)%'
+                driver: 'pdo_mysql'
                 server_version: '3.21'
                 charset: utf8mb4
     orm:
@@ -72,6 +85,24 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Order'
                         prefix: 'App\Entity\Order'
                         alias: Order
+            product_reviews:
+                connection: product_reviews
+                mappings:
+                    Product_review:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Review/ProductReviews'
+                        prefix: 'App\Entity\Review\ProductReviews\ProductReviews'
+                        alias: Product_Reviews
+            project_reviews:
+                connection: project_reviews
+                mappings:
+                    Project_review:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Review/ProjectReviews'
+                        prefix: 'App\Entity\Review\Review\ProjectReviews'
+                        alias: ProjectReviews
             sqllite:
                 connection: sqllite
                 mappings:
