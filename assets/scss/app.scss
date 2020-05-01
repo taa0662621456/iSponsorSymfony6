@@ -12,6 +12,22 @@ $fa-font-path: "~font-awesome/fonts";
 @import "bootstrap-tagsinput";
 @import "~tinymce/skins/ui/oxide/content.min.css";
 @import "~tinymce/skins/ui/oxide/skin.min.css";
-@import "../css/multistep_forms.css";
+//@import "../css/multistep_forms.css";
+@import "../../assets/css/profile.css";
+
+@include media-breakpoint-up(xs) {
+}
+
+@include media-breakpoint-up(sm) {
+}
+
+@include media-breakpoint-up(md) {
+}
+
+@include media-breakpoint-up(lg) {
+}
+
+@include media-breakpoint-up(xl) {
+}
 
 
