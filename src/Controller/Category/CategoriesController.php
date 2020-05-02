@@ -171,26 +171,4 @@
 				]
 			);
 		}
-
-		/**
-		 * @Route("/{id}", name="categories_delete", methods={"DELETE"})
-		 * @param Request    $request
-		 * @param Categories $category
-		 *
-		 * @return Response
-		 */
-		public function delete(Request $request,
-							   Categories $category): Response
-		{
-			if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
-				$entityManager = $this->getDoctrine()
-									  ->getManager()
-				;
-				$entityManager->remove($category);
-				$entityManager->flush();
-			}
-
-			return $this->redirectToRoute('categories');
-		}
-
 	}

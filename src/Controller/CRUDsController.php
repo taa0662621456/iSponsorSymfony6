@@ -53,6 +53,8 @@ class CRUDsController extends AbstractController
      * @Route("projects/", name="project_index", methods={"GET"})
      * @Route("categories/", name="category_index", methods={"GET"})
      * @Route("attachments/", name="attachment_index", methods={"GET"})
+     * @Route("product/reviews/", name="product_review_index", methods={"GET"})
+     * @Route("project/reviews/", name="project_review_index", methods={"GET"})
      *
      * @return Response
      */
@@ -70,11 +72,13 @@ class CRUDsController extends AbstractController
     }
 
     /**
-     * @Route("/vendor/new", name="vendor_new", methods={"GET","POST"})
-     * @Route("/project/new", name="project_new", methods={"GET","POST"})
-     * @Route("/product/new", name="product_new", methods={"GET","POST"})
-     * @Route("/category/new", name="category_new", methods={"GET","POST"})
-     * @Route("/attachment/new", name="attachment_new", methods={"GET","POST"})
+     * @Route("vendor/new", name="vendor_new", methods={"GET","POST"})
+     * @Route("project/new", name="project_new", methods={"GET","POST"})
+     * @Route("product/new", name="product_new", methods={"GET","POST"})
+     * @Route("category/new", name="category_new", methods={"GET","POST"})
+     * @Route("attachment/new", name="attachment_new", methods={"GET","POST"})
+     * @Route("product/reviews/new", name="product_review_new", methods={"GET", "POST"})
+     * @Route("project/reviews/new", name="project_review_new", methods={"GET", "POST"})
      *
      * @param Request $request
      * @return Response
@@ -109,11 +113,13 @@ class CRUDsController extends AbstractController
     }
 
     /**
-     * @Route("/vendor/{id<\d+>}", name="vendor_show", methods={"GET"})
-     * @Route("/project/{id<\d+>}", name="project_show", methods={"GET"})
-     * @Route("/product/{id<\d+>}", name="product_show", methods={"GET"})
-     * @Route("/category/{id<\d+>}", name="category_show", methods={"GET"})
-     * @Route("/attachment/{id<\d+>}", name="attachment_show", methods={"GET"})
+     * @Route("vendor/{id<\d+>}", name="vendor_show", methods={"GET"})
+     * @Route("project/{id<\d+>}", name="project_show", methods={"GET"})
+     * @Route("product/{id<\d+>}", name="product_show", methods={"GET"})
+     * @Route("category/{id<\d+>}", name="category_show", methods={"GET"})
+     * @Route("attachment/{id<\d+>}", name="attachment_show", methods={"GET"})
+     * @Route("product/review/{id<\d+>}", name="product_review_show", methods={"GET"})
+     * @Route("project/review/{id<\d+>}", name="project_review_show", methods={"GET"})
      *
      * @return Response
      */
@@ -125,11 +131,13 @@ class CRUDsController extends AbstractController
     }
 
     /**
-     * @Route("/vendor/{id<\d+>}/edit", name="vendor_edit", methods={"GET","POST"})
-     * @Route("/project/{id<\d+>}/edit", name="project_edit", methods={"GET","POST"})
-     * @Route("/product/{id<\d+>}/edit", name="product_edit", methods={"GET","POST"})
-     * @Route("/category/{id<\d+>}/edit", name="category_edit", methods={"GET","POST"})
-     * @Route("/attachment/{id<\d+>}/edit", name="attachment_edit", methods={"GET","POST"})
+     * @Route("vendor/edit/{id<\d+>}", name="vendor_edit", methods={"GET","POST"})
+     * @Route("project/edit/{id<\d+>}", name="project_edit", methods={"GET","POST"})
+     * @Route("product/edit/{id<\d+>}", name="product_edit", methods={"GET","POST"})
+     * @Route("category/edit/{id<\d+>}", name="category_edit", methods={"GET","POST"})
+     * @Route("attachment/edit/{id<\d+>}", name="attachment_edit", methods={"GET","POST"})
+     * @Route("product/review/edit/{id<\d+>}", name="product_review_edit", methods={"GET", "POST"})
+     * @Route("project/review/edit/{id<\d+>}", name="project_review_edit", methods={"GET", "POST"})
      *
      * @return Response
      */
@@ -152,11 +160,13 @@ class CRUDsController extends AbstractController
 
 
     /**
-     * @Route("/vendor/{id<\d+>}", name="vendor_delete", methods={"DELETE"})
-     * @Route("/project/{id<\d+>}", name="project_delete", methods={"DELETE"})
-     * @Route("/product/{id<\d+>}", name="product_delete", methods={"DELETE"})
-     * @Route("/category/{id<\d+>}", name="category_delete", methods={"DELETE"})
-     * @Route("/attachment/{id<\d+>}", name="attachment_delete", methods={"DELETE"})
+     * @Route("vendor/delete/{id<\d+>}", name="vendor_delete", methods={"DELETE"})
+     * @Route("project/delete/{id<\d+>}", name="project_delete", methods={"DELETE"})
+     * @Route("product/delete/{id<\d+>}", name="product_delete", methods={"DELETE"})
+     * @Route("category/delete/{id<\d+>}", name="category_delete", methods={"DELETE"})
+     * @Route("attachment/delete/{id<\d+>}", name="attachment_delete", methods={"DELETE"})
+     * @Route("product/review/delete/{id<\d+>}", name="product_review_delete", methods={"DELETE"})
+     * @Route("project/review/delete/{id<\d+>}", name="project_review_delete", methods={"DELETE"})
      *
      * @param Request $request
      * @return Response
