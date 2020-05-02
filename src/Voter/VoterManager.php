@@ -2,7 +2,6 @@
 
 namespace App\Voter;
 
-use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsSecurity;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -27,7 +26,6 @@ class VoterManager
      * @var RequestStack
      */
     private $requestStack;
-    private $crud;
     /**
      * @var string
      */
@@ -108,7 +106,7 @@ class VoterManager
         throw new \LogicException('This code should not be reached!');
     }
 
-    public function canIndex($object, $user)
+    public final function canIndex($object, $user)
     {
         if ($object->getActive() && $this->canEdit($object, $user)) {
             return true;
@@ -121,7 +119,7 @@ class VoterManager
         return false;
     }
 
-    private function canView($object, $user)
+    private final function canView($object, $user)
     {
         if ($object->getActive() && $this->canEdit($object, $user)) {
             return true;
@@ -129,7 +127,7 @@ class VoterManager
         return false;
     }
 
-    private function canEdit($object, $user)
+    private final function canEdit($object, $user)
     {
         if ($this->security->isGranted('ROLE_SUPER_ADMIN')) {
             return true;
@@ -137,7 +135,7 @@ class VoterManager
         return $object === $object->isAuthor();
     }
 
-    private function canDelete($object, $user)
+    private final function canDelete($object, $user)
     {
         if ($object->getActive() && $this->security->isGranted('ROLE_SUPER_ADMIN')) {
             return true;
@@ -148,7 +146,7 @@ class VoterManager
         return false;
     }
 
-    private function canHomepage($object, $user)
+    private final function canHomepage($object, $user)
     {
         //TODO: чтобы на главной странице Voter вернуть true при єтом не раздавать никаких прав
         return true;
