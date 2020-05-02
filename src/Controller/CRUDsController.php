@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use App\Service\RequestDispatcher;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,11 +32,18 @@ class CRUDsController extends AbstractController
      * @var string
      */
     private $path;
+    /**
+     * @var RequestDispatcher
+     */
+    private $requestDispatcher;
 
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, RequestDispatcher $requestDispatcher)
     {
+        $this->requestDispatcher = $requestDispatcher; // TODO: протестировать на примере index action
+
         $this->requestStack = $requestStack;
+
         $object = (string)ucfirst(current(explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2)));
         $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's'; //TODO: не продумано для Entity
         $crud = explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2);
@@ -65,8 +72,8 @@ class CRUDsController extends AbstractController
          * первый вариант: $this->denyAccessUnlessGranted('view', $post); // вместо 'view' взять из роута 'index'
          *
          */
-        return $this->render($this->path, array(
-                $this->route => new $this->object->findAll(),
+        return $this->render($this->requestDispatcher->layOutPath(), array(
+                $this->route => new $this->requestDispatcher->objectRepository->findAll(),
             )
         );
     }
@@ -121,6 +128,14 @@ class CRUDsController extends AbstractController
      * @Route("product/review/{id<\d+>}", name="product_review_show", methods={"GET"})
      * @Route("project/review/{id<\d+>}", name="project_review_show", methods={"GET"})
      *
+     * @Route("vendor/{slug}", name="vendor_show", methods={"GET"})
+     * @Route("project/{slug}", name="project_show", methods={"GET"})
+     * @Route("product/{slug}", name="product_show", methods={"GET"})
+     * @Route("category/{slug}", name="category_show", methods={"GET"})
+     * @Route("attachment/{slug}", name="attachment_show", methods={"GET"})
+     * @Route("product/review/{slug}", name="product_review_show", methods={"GET"})
+     * @Route("project/review/{slug}", name="project_review_show", methods={"GET"})
+     *
      * @return Response
      */
     public function show(): Response
@@ -138,6 +153,14 @@ class CRUDsController extends AbstractController
      * @Route("attachment/edit/{id<\d+>}", name="attachment_edit", methods={"GET","POST"})
      * @Route("product/review/edit/{id<\d+>}", name="product_review_edit", methods={"GET", "POST"})
      * @Route("project/review/edit/{id<\d+>}", name="project_review_edit", methods={"GET", "POST"})
+     *
+     * @Route("vendor/edit/{slug}", name="vendor_edit", methods={"GET","POST"})
+     * @Route("project/edit/{slug}", name="project_edit", methods={"GET","POST"})
+     * @Route("product/edit/{slug}", name="product_edit", methods={"GET","POST"})
+     * @Route("category/edit/{slug}", name="category_edit", methods={"GET","POST"})
+     * @Route("attachment/edit/{slug}", name="attachment_edit", methods={"GET","POST"})
+     * @Route("product/review/edit/{slug}", name="product_review_edit", methods={"GET", "POST"})
+     * @Route("project/review/edit/{slug}", name="project_review_edit", methods={"GET", "POST"})
      *
      * @return Response
      */
@@ -168,6 +191,14 @@ class CRUDsController extends AbstractController
      * @Route("product/review/delete/{id<\d+>}", name="product_review_delete", methods={"DELETE"})
      * @Route("project/review/delete/{id<\d+>}", name="project_review_delete", methods={"DELETE"})
      *
+     * @Route("vendor/delete/{slug}", name="vendor_delete", methods={"DELETE"})
+     * @Route("project/delete/{slug}", name="project_delete", methods={"DELETE"})
+     * @Route("product/delete/{slug}", name="product_delete", methods={"DELETE"})
+     * @Route("category/delete/{slug}", name="category_delete", methods={"DELETE"})
+     * @Route("attachment/delete/{slug}", name="attachment_delete", methods={"DELETE"})
+     * @Route("product/review/delete/{slug}", name="product_review_delete", methods={"DELETE"})
+     * @Route("project/review/delete/{slug}", name="project_review_delete", methods={"DELETE"})
+     *
      * @param Request $request
      * @return Response
      */
@@ -175,7 +206,7 @@ class CRUDsController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $this->object->getId(), $request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($this->object);
+            $entityManager->remove((object)$this->requestDispatcher->object);
             $entityManager->flush();
         }
 
