@@ -6,52 +6,20 @@ use App\Service\RequestDispatcher;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CRUDsController extends AbstractController
 {
-
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
-
-    private $object;
-
-    public $crud;
-
-    private $route;
-
-    /**
-     * @var string
-     */
-    private $type;
-    /**
-     * @var string
-     */
-    private $path;
     /**
      * @var RequestDispatcher
      */
     private $requestDispatcher;
 
 
-    public function __construct(RequestStack $requestStack, RequestDispatcher $requestDispatcher)
+    public function __construct(RequestDispatcher $requestDispatcher)
     {
-        $this->requestDispatcher = $requestDispatcher; // TODO: протестировать на примере index action
-
-        $this->requestStack = $requestStack;
-
-        $object = (string)ucfirst(current(explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2)));
-        $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's'; //TODO: не продумано для Entity
-        $crud = explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2);
-        $this->crud = $crud[1];
-        $this->route = mb_strtolower($object);
-        $this->type = '\\App\\src\\Form\\' . $object . '\\' . $object . 'Type';
-        $this->path = mb_strtolower($object . '/' . $object . '/' . $crud[1] . '.html.twig');
-        //TODO: не продумана структура папок, в частности не клеится с Categories (окончание не "y")
+        $this->requestDispatcher = $requestDispatcher;
     }
 
     /**
@@ -72,8 +40,9 @@ class CRUDsController extends AbstractController
          * первый вариант: $this->denyAccessUnlessGranted('view', $post); // вместо 'view' взять из роута 'index'
          *
          */
+        $em = $this->getDoctrine()->getManager();
         return $this->render($this->requestDispatcher->layOutPath(), array(
-                $this->route => new $this->requestDispatcher->objectRepository->findAll(),
+                $this->requestDispatcher->route() => $em->getRepository($this->requestDispatcher->object())->findAll(),
             )
         );
     }
@@ -94,17 +63,21 @@ class CRUDsController extends AbstractController
     {
         //TODO: need VendorTypeAttach for difference Docs and Media
         $slug = new Slugify();
-        $object = new $this->object;
-        $objectEnGb = $this->object . 'EnGb';
+
+        $object = $this->requestDispatcher->object();
+        $object = new $object;
+
+        $objectEnGb = $this->requestDispatcher->objectEnGb();
         $objectEnGb = new $objectEnGb;
-        $objectAttachment = $this->object . 'Attachment';
+
+        $objectAttachment = $this->requestDispatcher->objectAttachment();
         $objectAttachment = new $objectAttachment;
-        $type =& $this->type;
-        $form = $this->createForm($type, $object);
+
+        $form = $this->createForm($this->requestDispatcher->objectType(), $this->requestDispatcher->object());
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            if (true==$form->getData()->objectEnGb->getSlug()){
+            if (true == $form->getData()->objectEnGb->getSlug()) {
                 $object->setSlug($slug->slugify($objectEnGb->get000000()));//TODO: нужно продумать для всех объектов поле-эквивалент FirstName (для Vendor) или вынести в отдельного слушателя для отдельного объекта
             }
             $em->persist($object);
@@ -113,8 +86,8 @@ class CRUDsController extends AbstractController
             return $this->redirect($object);
         }
 
-        return $this->render($this->path, array(
-            'object' => $this->object,
+        return $this->render($this->requestDispatcher->layOutPath(), array(
+            'object' => $this->requestDispatcher->object(),
             'form' => $form->createView(),
         ));
     }
@@ -140,8 +113,9 @@ class CRUDsController extends AbstractController
      */
     public function show(): Response
     {
-        return $this->render($this->path, array(
-            $this->route => new $this->object,
+        $object = $this->requestDispatcher->object();
+        return $this->render($this->requestDispatcher->layOutPath(), array(
+            $this->requestDispatcher->route() => new $object,
         ));
     }
 
@@ -166,17 +140,18 @@ class CRUDsController extends AbstractController
      */
     public function edit(): Response
     {
-        $form = $this->createForm($this->type, $this->object);
-        $form->handleRequest($this->object);
+        $object = $this->requestDispatcher->object();
+        $form = $this->createForm($this->requestDispatcher->objectType(), $this->requestDispatcher->object());
+        $form->handleRequest($this->requestDispatcher->object());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute($this->object);
+            return $this->redirectToRoute($this->requestDispatcher->object());
         }
 
-        return $this->render($this->path, array(
-            $this->route => new $this->object,
+        return $this->render($this->requestDispatcher->layOutPath(), array(
+            $this->requestDispatcher->route() => new $object,
             'form' => $form->createView(),
         ));
     }
@@ -204,12 +179,12 @@ class CRUDsController extends AbstractController
      */
     public function delete(Request $request): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $this->object->getId(), $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $this->requestDispatcher->object()->getId(), $request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove((object)$this->requestDispatcher->object);
+            $entityManager->remove((object)$this->requestDispatcher->object());
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute($this->object);
+        return $this->redirectToRoute($this->requestDispatcher->object());
     }
 }

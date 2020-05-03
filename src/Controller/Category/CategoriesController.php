@@ -21,8 +21,8 @@
 
 
 	/**
-	 * @Route("/categories")
-	 */
+     * @Route("/categoriess")
+     */
 	class CategoriesController
 		extends AbstractController
 	{
@@ -34,21 +34,6 @@
 		public function __construct(AttachmentsManager $attachmentManager)
 		{
 			$this->attachmentManager = $attachmentManager;
-		}
-
-		/**
-		 * @Route("/", name="categories", methods={"GET"})
-		 * @param CategoriesRepository $categoriesRepository
-		 *
-		 * @return Response
-		 */
-		public function categories(CategoriesRepository $categoriesRepository): Response
-		{
-			return $this->render(
-				'category/categories/index.html.twig', array(
-					'categories' => $categoriesRepository->findAll(),
-				)
-			);
 		}
 
 		/**
@@ -141,34 +126,4 @@
 			);
 		}
 
-		/**
-		 * @Route("/{slug}/edit", name="categories_edit", methods={"GET","POST"})
-		 * @Route("/{id<\d+>}/edit", name="categories_edit", methods={"GET","POST"})
-		 * @param Request    $request
-		 * @param Categories $category
-		 *
-		 * @return Response
-		 */
-		public function edit(Request $request,
-							 Categories $category): Response
-		{
-			$form = $this->createForm(CategoriesType::class, $category);
-			$form->handleRequest($request);
-
-			if ($form->isSubmitted() && $form->isValid()) {
-				$this->getDoctrine()
-					 ->getManager()
-					 ->flush()
-				;
-
-				return $this->redirectToRoute('categories');
-			}
-
-			return $this->render(
-				'category/categories/edit.html.twig', [
-					'category' => $category,
-					'form'     => $form->createView(),
-				]
-			);
-		}
 	}
