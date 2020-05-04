@@ -3,10 +3,9 @@ parameters:
     # This allows you to run cache:warmup even if your
     # environment variables are not available yet.
     # You should not need to change this value.
-    env(DATABASE_URL): ''
-    env(SQL_LITE_DATABASE_URL): ''
-    env(MY_SQL_PRODUCT_REVIEWS_DATABASE_URL): ''
-    env(MY_SQL_PROJECT_REVIEWS_DATABASE_URL): ''
+    env(PLATFORM_DATES_DATABASE): ''
+    env(OBJECT_REVIEWS_DATABASE): ''
+    env(PLATFORM_SYSTEM_DATABASE): ''
 
 doctrine:
     dbal:
@@ -15,7 +14,7 @@ doctrine:
             postgres:
                 # configure these for your database server
                 # this connectors for all project's information
-                url: '%env(DATABASE_URL)%'
+                url: '%env(PLATFORM_DATES_DATABASE)%'
                 driver: 'pdo_pgsql'
                 server_version: '11.2'
                 charset: utf8
@@ -23,21 +22,16 @@ doctrine:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
                 schema_filter: '~^(?!messenger_messages)~'
+            review:
+                url: '%env(resolve:OBJECT_REVIEWS_DATABASE)%'
+                driver: 'pdo_pgsql'
+                server_version: '11.2'
+                charset: utf8
             sqllite:
                 # configure these for your database server
                 # this connector for all modules, menus, parameters of system
-                url: '%env(resolve:SQL_LITE_DATABASE_URL)%'
+                url: '%env(resolve:PLATFORM_SYSTEM_DATABASE)%'
                 driver: 'pdo_sqlite'
-                server_version: '3.21'
-                charset: utf8mb4
-            product_reviews:
-                url: '%env(resolve:MY_SQL_PRODUCT_REVIEWS_DATABASE_URL)%'
-                driver: 'pdo_mysql'
-                server_version: '3.21'
-                charset: utf8mb4
-            project_reviews:
-                url: '%env(resolve:MY_SQL_PROJECT_REVIEWS_DATABASE_URL)%'
-                driver: 'pdo_mysql'
                 server_version: '3.21'
                 charset: utf8mb4
     orm:
@@ -85,23 +79,20 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Order'
                         prefix: 'App\Entity\Order'
                         alias: Order
-            product_reviews:
-                connection: product_reviews
+            review:
+                connection: review
                 mappings:
-                    Product_review:
+                    Product:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Review/ProductReviews'
-                        prefix: 'App\Entity\Review\ProductReviews\ProductReviews'
-                        alias: Product_Reviews
-            project_reviews:
-                connection: project_reviews
-                mappings:
-                    Project_review:
+                        dir: '%kernel.project_dir%/src/Entity/Review'
+                        prefix: 'App\Entity\Review'
+                        alias: ProductReviews
+                    Project:
                         is_bundle: false
                         type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Review/ProjectReviews'
-                        prefix: 'App\Entity\Review\Review\ProjectReviews'
+                        dir: '%kernel.project_dir%/src/Entity/Review'
+                        prefix: 'App\Entity\Review'
                         alias: ProjectReviews
             sqllite:
                 connection: sqllite
