@@ -5,7 +5,7 @@
 	use App\Entity\Category\Categories;
 	use Doctrine\Bundle\FixturesBundle\Fixture;
 	use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-	use Doctrine\Common\Persistence\ObjectManager;
+    use Doctrine\Persistence\ObjectManager;
 
 	class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInterface
 	{

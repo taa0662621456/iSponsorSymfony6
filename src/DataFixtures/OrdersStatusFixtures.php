@@ -6,8 +6,8 @@
 	use App\Entity\Order\OrdersStatus;
 	use Doctrine\Bundle\FixturesBundle\Fixture;
 	use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-	use Doctrine\Common\Persistence\ObjectManager;
-	use Exception;
+    use Doctrine\Persistence\ObjectManager;
+    use Exception;
 	use Ramsey\Uuid\Uuid;
 
 	class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface

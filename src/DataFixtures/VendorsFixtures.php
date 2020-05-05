@@ -10,7 +10,7 @@ use App\Entity\Vendor\VendorsIban;
 use App\Entity\Vendor\VendorsMediaAttachments;
 use App\Entity\Vendor\VendorsSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Ramsey\Uuid\Uuid;
 
