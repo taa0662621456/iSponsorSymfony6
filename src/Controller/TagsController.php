@@ -1,4 +1,5 @@
 <?php
+// TODO: перенести в универсальный CRUD
 
 namespace App\Controller;
 

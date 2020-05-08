@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CRUDsController extends AbstractController
+class ObjectCRUDsController extends AbstractController
 {
     /**
      * @var RequestDispatcher
@@ -24,6 +24,7 @@ class CRUDsController extends AbstractController
 
     /**
      * @Route("vendors/", name="vendor_index", methods={"GET"})
+     * @Route("vendor/folders", name="vendor_folders_index", methods={"GET"})
      * @Route("products/", name="product_index", methods={"GET"})
      * @Route("projects/", name="project_index", methods={"GET"})
      * @Route("categories/", name="category_index", methods={"GET"})
@@ -35,11 +36,6 @@ class CRUDsController extends AbstractController
      */
     public function index(): Response
     {
-        /*
-         * проверка прав на листинг записей
-         * первый вариант: $this->denyAccessUnlessGranted('view', $post); // вместо 'view' взять из роута 'index'
-         *
-         */
         $em = $this->getDoctrine()->getManager();
         return $this->render($this->requestDispatcher->layOutPath(), array(
                 $this->requestDispatcher->route() => $em->getRepository($this->requestDispatcher->object())->findAll(),
@@ -49,6 +45,7 @@ class CRUDsController extends AbstractController
 
     /**
      * @Route("vendor/new", name="vendor_new", methods={"GET","POST"})
+     * @Route("folder/new", name="folder_new", methods={"GET","POST"})
      * @Route("project/new", name="project_new", methods={"GET","POST"})
      * @Route("product/new", name="product_new", methods={"GET","POST"})
      * @Route("category/new", name="category_new", methods={"GET","POST"})
@@ -78,7 +75,7 @@ class CRUDsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             if (true == $form->getData()->objectEnGb->getSlug()) {
-                $object->setSlug($slug->slugify($objectEnGb->get000000()));//TODO: нужно продумать для всех объектов поле-эквивалент FirstName (для Vendor) или вынести в отдельного слушателя для отдельного объекта
+                $object->setSlug($slug->slugify($objectEnGb->getFirstTitle()));
             }
             $em->persist($object);
             $em->flush();
@@ -87,7 +84,7 @@ class CRUDsController extends AbstractController
         }
 
         return $this->render($this->requestDispatcher->layOutPath(), array(
-            'object' => $this->requestDispatcher->object(),
+            'object' => $this->requestDispatcher->object(), //TODO: вместо статического 'object' установить $ - имя класса объекта
             'form' => $form->createView(),
         ));
     }
@@ -95,6 +92,7 @@ class CRUDsController extends AbstractController
     /**
      * WARNING! Routes by 'id' for Back-end only
      * @Route("vendor/{id<\d+>}", name="vendor_id_show", methods={"GET"})
+     * @Route("folder/{id<\d+>}", name="folder_id_show", methods={"GET"})
      * @Route("project/{id<\d+>}", name="project_id_show", methods={"GET"})
      * @Route("product/{id<\d+>}", name="product_id_show", methods={"GET"})
      * @Route("category/{id<\d+>}", name="category_id_show", methods={"GET"})
@@ -104,6 +102,7 @@ class CRUDsController extends AbstractController
      *
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/{slug}", name="vendor_slug_show", methods={"GET"})
+     * @Route("folder/{slug}", name="folder_slug_show", methods={"GET"})
      * @Route("project/{slug}", name="project_slug_show", methods={"GET"})
      * @Route("product/{slug}", name="product_slug_show", methods={"GET"})
      * @Route("category/{slug}", name="category_slug_show", methods={"GET"})
@@ -124,6 +123,7 @@ class CRUDsController extends AbstractController
     /**
      * WARNING! Routes by 'id' for Back-end only
      * @Route("vendor/edit/{id<\d+>}", name="vendor_id_edit", methods={"GET","POST"})
+     * @Route("folder/edit/{id<\d+>}", name="folder_id_edit", methods={"GET","POST"})
      * @Route("project/edit/{id<\d+>}", name="project_id_edit", methods={"GET","POST"})
      * @Route("product/edit/{id<\d+>}", name="product_id_edit", methods={"GET","POST"})
      * @Route("category/edit/{id<\d+>}", name="category_id_edit", methods={"GET","POST"})
@@ -133,6 +133,7 @@ class CRUDsController extends AbstractController
      *
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/edit/{slug}", name="vendor_slug_edit", methods={"GET","POST"})
+     * @Route("folder/edit/{slug}", name="folder_slug_edit", methods={"GET","POST"})
      * @Route("project/edit/{slug}", name="project_slug_edit", methods={"GET","POST"})
      * @Route("product/edit/{slug}", name="product_slug_edit", methods={"GET","POST"})
      * @Route("category/edit/{slug}", name="category_slug_edit", methods={"GET","POST"})
@@ -164,6 +165,7 @@ class CRUDsController extends AbstractController
     /**
      * WARNING! Routes by 'id' for Back-end only
      * @Route("vendor/delete/{id<\d+>}", name="vendor_id_delete", methods={"DELETE"})
+     * @Route("folder/delete/{id<\d+>}", name="folder_id_delete", methods={"DELETE"})
      * @Route("project/delete/{id<\d+>}", name="project_id_delete", methods={"DELETE"})
      * @Route("product/delete/{id<\d+>}", name="product_id_delete", methods={"DELETE"})
      * @Route("category/delete/{id<\d+>}", name="category_id_delete", methods={"DELETE"})
@@ -173,6 +175,7 @@ class CRUDsController extends AbstractController
      *
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/delete/{slug}", name="vendor_slug_delete", methods={"DELETE"})
+     * @Route("folder/delete/{slug}", name="folder_slug_delete", methods={"DELETE"})
      * @Route("project/delete/{slug}", name="project_slug_delete", methods={"DELETE"})
      * @Route("product/delete/{slug}", name="product_slug_delete", methods={"DELETE"})
      * @Route("category/delete/{slug}", name="category_slug_delete", methods={"DELETE"})
@@ -185,7 +188,8 @@ class CRUDsController extends AbstractController
      */
     public function delete(Request $request): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $this->requestDispatcher->object()->getId(), $request->get('_token'))) { //TODO: в этой строке сделать get по тому признаку, который определен в роуте id/slug
+        if ($this->isCsrfTokenValid('delete' . $this->requestDispatcher->object()->getId(), $request->get('_token'))) {
+            //TODO: в этой строке сделать get по тому признаку, который определен в роуте id/slug
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove((object)$this->requestDispatcher->object());
             $entityManager->flush();
