@@ -5,6 +5,7 @@ namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
 
+use App\Entity\ObjectEnGbTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,16 +18,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ProjectsEnGb
 {
-	use BaseTrait;
+    use BaseTrait;
+    use ObjectEnGbTrait;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="project_title", type="string", nullable=false, options={"default"="project_title"})
-	 * @Assert\NotBlank(message="projects_en_gb.blank_content")
-	 * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
-	 */
-	private $projectTitle = 'project_title';
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="project_title", type="string", nullable=false, options={"default"="project_title"})
+     * @Assert\NotBlank(message="projects_en_gb.blank_content")
+     * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
+     */
+    private $projectTitle = 'project_title';
 
 	/**
 	 * @var string
@@ -73,21 +75,6 @@ class ProjectsEnGb
 	 * @Assert\Length(min=100, minMessage="projects_en_gb.too_short_content")
 	 */
 	private $projectProductDesc = 'project_product_desc';
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="project_product_meta_desc", type="text", nullable=false,
-	 *                                               options={"default"="project_product_meta_desc"})
-	 */
-	private $projectProductMetaDesc = 'project_product_meta_desc';
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="project_product_meta_key", type="text", nullable=false, options={"default"="project_product_meta_key"})
-	 */
-	private $projectProductMetaKey = 'project_product_meta_key';
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects",
@@ -213,45 +200,6 @@ class ProjectsEnGb
 	public function setProjectProductDesc(string $projectProductDesc): self
 	{
 		$this->projectProductDesc = $projectProductDesc;
-		return $this;
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getProjectProductMetaDesc(): string
-	{
-		return $this->projectProductMetaDesc;
-	}
-
-	/**
-	 * @param string $projectProductMetaDesc
-	 *
-	 * @return ProjectsEnGb
-	 */
-	public function setProjectProductMetaDesc(string $projectProductMetaDesc): self
-	{
-		$this->projectProductMetaDesc = $projectProductMetaDesc;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getProjectProductMetaKey(): string
-	{
-		return $this->projectProductMetaKey;
-	}
-
-	/**
-	 * @param string $projectProductMetaKey
-	 *
-	 * @return ProjectsEnGb
-	 */
-	public function setProjectProductMetaKey(string $projectProductMetaKey): self
-	{
-		$this->projectProductMetaKey = $projectProductMetaKey;
 		return $this;
 	}
 

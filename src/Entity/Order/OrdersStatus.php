@@ -60,13 +60,6 @@ class OrdersStatus
 	private $ordering = 0;
 
 	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="published", type="boolean", nullable=false, options={"default" : 1})
-	 */
-	private $published = true;
-
-	/**
 	 * @var ArrayCollection
 	 *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders", mappedBy="orderStatus")
@@ -172,22 +165,6 @@ class OrdersStatus
 	public function setOrdering(int $ordering): void
 	{
 		$this->ordering = $ordering;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function isPublished(): bool
-	{
-		return $this->published;
-	}
-
-	/**
-	 * @param bool $published
-	 */
-	public function setPublished(bool $published): void
-	{
-		$this->published = $published;
 	}
 
 	/**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
+use App\Entity\ObjectEnGbTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,13 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Categories
 {
 	use BaseTrait;
-
-	/**
-	 * @var boolean
-	 *
-	 * @ORM\Column(name="published", type="boolean", nullable=false)
-	 */
-	private $published = true;
 
 	/**
 	 * @var int
@@ -91,22 +85,6 @@ class Categories
 		$this->categoryProjects = new ArrayCollection();
 		$this->categoryAttachments = new ArrayCollection();
 	}
-
-	/**
-	 * @return bool|false
-	 */
-	public function isPublished(): bool
-	{
-		return $this->published;
-    }
-
-    /**
-     * @param bool $published
-     */
-    public function setPublished(bool $published): void
-    {
-        $this->published = $published;
-    }
 
 	/**
 	 * @return ArrayCollection

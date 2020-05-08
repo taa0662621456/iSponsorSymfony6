@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
+use App\Entity\ObjectEnGbTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,7 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CategoriesEnGb
 {
-	use BaseTrait;
+    use BaseTrait;
+    use ObjectEnGbTrait;
 
 	/**
 	 * @var string
@@ -37,33 +39,6 @@ class CategoriesEnGb
 	private $categoryDesc = 'category_desc';
 
 	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="meta_desc", type="text", nullable=false, options={"default"="meta_desc"})
-	 * @Assert\NotBlank(message="categories_en_gb.blank_content")
-	 * @Assert\Length(min=6, minMessage="categories_en_gb.too_short_content")
-	 */
-	private $metaDesc = 'meta_desc';
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="meta_key", type="text", nullable=false, options={"default"="meta_key"})
-	 * @Assert\NotBlank(message="categories_en_gb.blank_content")
-	 * @Assert\Length(min=6, minMessage="categories_en_gb.too_short_content")
-	 */
-	private $metaKey = 'meta_key';
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="custom_title", type="text", nullable=false, options={"default"="custom_title"})
-	 * @Assert\NotBlank(message="categories_en_gb.blank_content")
-	 * @Assert\Length(min=6, minMessage="categories_en_gb.too_short_content")
-	 */
-	private $customTitle = 'custom_title';
-
-	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories",
 	 *     inversedBy="categoryEnGb")
 	 */
@@ -75,9 +50,7 @@ class CategoriesEnGb
 	 */
 	public function __toString()
 	{
-
 		return $this->getCategoryName();
-
 	}
 
 	/**
@@ -113,60 +86,10 @@ class CategoriesEnGb
 	}
 
 	/**
-	 * @return string
-	 */
-	public function getMetaDesc(): string
-	{
-		return $this->metaDesc;
-	}
-
-	/**
-	 * @param string $metaDesc
-	 */
-	public function setMetaDesc(string $metaDesc): void
-	{
-		$this->metaDesc = $metaDesc;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getMetaKey(): string
-	{
-		return $this->metaKey;
-	}
-
-	/**
-	 * @param string $metaKey
-	 */
-	public function setMetaKey(string $metaKey): void
-	{
-		$this->metaKey = $metaKey;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getCustomTitle(): string
-	{
-		return $this->customTitle;
-	}
-
-	/**
-	 * @param string $customTitle
-	 */
-	public function setCustomTitle(string $customTitle): void
-	{
-		$this->customTitle = $customTitle;
-	}
-
-	/**
 	 * @return mixed
 	 */
 	public function getCategoryEnGb()
 	{
 		return $this->categoryEnGb;
 	}
-
-
 }

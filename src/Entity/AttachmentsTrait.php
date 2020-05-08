@@ -3,19 +3,20 @@
 
 	namespace App\Entity;
 
-	use Doctrine\ORM\Mapping as ORM;
-	use Symfony\Component\Validator\Constraints as Assert;
+    use Doctrine\ORM\Mapping as ORM;
+    use Symfony\Component\Validator\Constraints as Assert;
 
 	trait AttachmentsTrait
 	{
-		/**
-		 * @var string
-		 *
-		 * @ORM\Column(name="file_name", type="string", nullable=false, options={"default"="noimage"})
-		 * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
-		 * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"}, mimeTypesMessage="Please, upload the jpeg/jpg files
-		 *                                       only")
-		 */
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="file_name", type="string", nullable=false, options={"default"="noimage"})
+         * @Assert\NotBlank(message="Please, upload the project's pictures as a jpeg/jpg file.")
+         * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"},
+         *     mimeTypesMessage="Please, upload the jpeg/jpg files only")
+         */
 		private $fileName = 'no image';
 
 		/**
@@ -109,13 +110,6 @@
 		 * @ORM\Column(name="file_shared", type="boolean", nullable=false)
 		 */
 		private $fileShared = false;
-
-		/**
-		 * @var boolean|true
-		 *
-		 * @ORM\Column(name="published", type="boolean", nullable=false, options={"default" : 1})
-		 */
-		private $published = true;
 
 		/**
 		 * @return string
@@ -330,30 +324,14 @@
 		 */
 		public function getFileShared()
 		{
-			return $this->fileShared;
-		}
+            return $this->fileShared;
+        }
 
-		/**
-		 * @param bool|false $fileShared
-		 */
-		public function setFileShared($fileShared): void
-		{
-			$this->fileShared = $fileShared;
-		}
-
-		/**
-		 * @return bool|true
-		 */
-		public function getPublished()
-		{
-			return $this->published;
-		}
-
-		/**
-		 * @param bool|true $published
-		 */
-		public function setPublished($published): void
-		{
-			$this->published = $published;
-		}
-	}
+        /**
+         * @param bool|false $fileShared
+         */
+        public function setFileShared($fileShared): void
+        {
+            $this->fileShared = $fileShared;
+        }
+    }

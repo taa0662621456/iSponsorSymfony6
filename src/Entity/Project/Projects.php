@@ -34,13 +34,6 @@
 		private $projectType;
 
 		/**
-		 * @var int
-		 *
-		 * @ORM\Column(name="published", type="integer", nullable=false, options={"default" : 1})
-		 */
-		private $published = 1;
-
-		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
 		 *      inversedBy="categoryProjects",
 		 *      fetch="EXTRA_LAZY")
@@ -138,24 +131,6 @@
 		{
 			$this->projectType = $projectType;
 		}
-
-
-		/**
-		 * @return int
-		 */
-		public function getPublished(): int
-		{
-			return $this->published;
-		}
-
-		/**
-		 * @param int $published
-		 */
-		public function setPublished(int $published): void
-		{
-			$this->published = $published;
-		}
-
 
 		/**
 		 * @param ProjectsTags $tags

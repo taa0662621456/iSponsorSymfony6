@@ -15,18 +15,26 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CategoriesAttachments
 {
-	use BaseTrait;
-	use AttachmentsTrait;
+    use BaseTrait;
+    use AttachmentsTrait;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
-	 *     inversedBy="categoryAttachments")
-	 * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
-	 */
-	private $categoryAttachments;
+    //TODO: переход на общий attachments
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
+     *     inversedBy="attachment")
+     * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $attachments;
 
-	/**
-	 * @return mixed
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
+     *     inversedBy="categoryAttachments")
+     * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $categoryAttachments;
+
+    /**
+     * @return mixed
 	 */
 	public function getCategoryAttachments()
 	{

@@ -93,13 +93,6 @@
 		private $publishDown = '';
 
 		/**
-		 * @var boolean
-		 *
-		 * @ORM\Column(name="published", type="boolean", nullable=false)
-		 */
-		private $published = false;
-
-		/**
 		 * @var string|null
 		 *
 		 * @ORM\Column(name="module", type="string", nullable=true, options={"default":0})

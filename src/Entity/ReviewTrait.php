@@ -1,8 +1,14 @@
 <?php
 
 namespace App\Entity;
+
 trait ReviewTrait
 {
+    /**
+     * @var string|null
+     * @ORM\Column(name="review", type="string", nullable=true)
+     */
+    private $review;
     /**
      * @var string|null
      * @ORM\Column(name="review_lang", type="string", nullable=true)
@@ -18,16 +24,26 @@ trait ReviewTrait
     /**
      * @var int
      *
-     * @ORM\Column(name="published", type="integer", nullable=false, options={"default" : 0})
-     */
-    private $published = 0;
-
-    /**
-     * @var int
-     *
      * @ORM\Column(name="favorite", type="integer", nullable=false, options={"default" : 0})
      */
     private $favourite = 0;
+
+    /**
+     * @return string|null
+     */
+    public function getReview(): ?string
+    {
+        return $this->review;
+    }
+
+    /**
+     * @param string|null $review
+     */
+    public function setReview(?string $review): void
+    {
+        $this->review = $review;
+    }
+
 
     /**
      * @return string|null

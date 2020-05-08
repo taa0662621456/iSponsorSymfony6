@@ -11,7 +11,6 @@ use App\Entity\Order\Orders;
 use Exception;
 use \DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 /**
@@ -172,12 +171,13 @@ class Vendors
      */
 	public function __construct()
 	{
-		$this->lastResetTime = new DateTime();
-		$this->lastVisitDate = new DateTime();
-		$this->vendorOrders = new ArrayCollection();
-		$this->vendorDocumentAttachments = new ArrayCollection();
-		$this->vendorMediaAttachments = new ArrayCollection();
-	}
+        $this->lastResetTime = new DateTime();
+        $this->lastVisitDate = new DateTime();
+        $this->vendorOrders = new ArrayCollection();
+        $this->vendorDocumentAttachments = new ArrayCollection();
+        $this->vendorMediaAttachments = new ArrayCollection();
+        $this->active = false;
+    }
 
 	/**
 	 * @return bool|false

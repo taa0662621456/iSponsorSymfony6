@@ -3,41 +3,54 @@
 	namespace App\Entity;
 
 	use App\Doctrine\UuidEncoder;
-	use App\Entity\Vendor\Vendors;
-	use \DateTime;
-	use Doctrine\ORM\Mapping as ORM;
-	use Exception;
-	use Ramsey\Uuid\Uuid;
-	use Ramsey\Uuid\UuidInterface;
-	use Symfony\Component\Validator\Constraints as Assert;
+    use App\Entity\Vendor\Vendors;
+    use App\Service\RequestDispatcher;
+    use \DateTime;
+    use Doctrine\ORM\Mapping as ORM;
+    use Exception;
+    use Ramsey\Uuid\Uuid;
+    use Ramsey\Uuid\UuidInterface;
+    use Symfony\Component\Validator\Constraints as Assert;
 
-	trait BaseTrait
-	{
-		/**
-		 * @var integer
+    trait BaseTrait
+    {
+        /**
+         * @var integer
 		 *
 		 * @ORM\Id
 		 * @ORM\Column(type="integer")
 		 * @ORM\GeneratedValue
-		 */
-		private $id;
+         */
+        private $id;
 
-		/**
-		 * @var UuidInterface
-		 *
-		 * @ORM\Column(type="uuid", unique=true, nullable=false)
-		 */
-		protected $uuid;
+        /**
+         * @var UuidInterface
+         *
+         * @ORM\Column(type="uuid", unique=true, nullable=false)
+         */
+        protected $uuid;
 
-		/**
-		 * @var string
-		 *
-		 * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
-		 */
-		protected $slug = 'slug';
+        /**
+         * @var boolean
+         *
+         * @ORM\Column(name="published", type="boolean", nullable=false)
+         */
+        private $published = true;
 
-		/**
-		 * @var DateTime
+        /**
+         *
+         */
+        private $attachments;
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
+         */
+        protected $slug = 'slug';
+
+        /**
+         * @var DateTime
 		 *
 		 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 		 * @Assert\DateTime
@@ -76,30 +89,35 @@
 
 		/**
 		 * @var int
-		 *
-		 * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
-		 */
-		private $lockedBy = 1;
+         *
+         * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
+         */
+        private $lockedBy = 1;
 
-		/**
-		 * @ORM\Column(type="integer")
-		 * @ORM\Version
-		 */
-		protected $version;
+        /**
+         * @ORM\Column(type="integer")
+         * @ORM\Version
+         */
+        protected $version;
+        /**
+         * @var RequestDispatcher
+         */
+        private $requestDispatcher;
 
-		public function __construct()
-		{
-			try {
-				$this->uuid = Uuid::uuid4();
-				$slugEncode = new UuidEncoder();
-				$this->slug = $slugEncode->encode($this->uuid);
-			} catch (Exception $e) {
-			}
+        public function __construct(RequestDispatcher $requestDispatcher)
+        {
+            try {
+                $this->uuid = Uuid::uuid4();
+                $slugEncode = new UuidEncoder();
+                $this->slug = $slugEncode->encode($this->uuid);
+            } catch (Exception $e) {
+            }
 
-			$this->createdOn = new DateTime();
-			$this->modifiedOn = new DateTime();
-			$this->lockedOn = new DateTime();
-		}
+            $this->createdOn = new DateTime();
+            $this->modifiedOn = new DateTime();
+            $this->lockedOn = new DateTime();
+            $this->requestDispatcher = $requestDispatcher;
+        }
 
 		/**
 		 * @return int
@@ -115,26 +133,56 @@
 		public function getUuid(): ?UuidInterface
 		{
 			return $this->uuid;
-		}
+        }
 
-		/**
-		 * @param UuidInterface $uuid
-		 */
-		public function setUuid(UuidInterface $uuid): void
-		{
-			$this->uuid = $uuid;
-		}
+        /**
+         * @param UuidInterface $uuid
+         */
+        public function setUuid(UuidInterface $uuid): void
+        {
+            $this->uuid = $uuid;
+        }
 
+        /**
+         * @return bool|false
+         */
+        public function isPublished(): bool
+        {
+            return $this->published;
+        }
 
-		/**
-		 * @return string
-		 */
-		public function getSlug(): string
-		{
-			return $this->slug;
-		}
+        /**
+         * @param bool $published
+         */
+        public function setPublished(bool $published): void
+        {
+            $this->published = $published;
+        }
 
-		/**
+        /**
+         * @return mixed
+         */
+        public function getAttachments()
+        {
+            return $this->attachments;
+        }
+
+        public function setAttachments(): void
+        {
+            $object = $this->requestDispatcher->object();
+            $object = new $object;
+            $this->attachments = $object;
+        }
+
+        /**
+         * @return string
+         */
+        public function getSlug(): string
+        {
+            return $this->slug;
+        }
+
+        /**
 		 * @param string $slug
 		 */
 		public function setSlug(string $slug): void

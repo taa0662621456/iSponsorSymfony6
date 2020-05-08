@@ -32,27 +32,27 @@ class VendorsSecurity implements UserInterface, Serializable
 {
 	use BaseTrait;
 
-	public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_USER = 'ROLE_USER';
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="email", type="string", length=255, nullable=false)
-	 * @Assert\NotBlank(message="vendors_security.blank_content")
-	 * @Assert\Length(min=3)
-	 * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
-	 */
-	private $email = 'taa0662621456@gmail.com';
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Assert\NotBlank(message="vendors_security.blank_content")
+     * @Assert\Length(min=3)
+     * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
+     */
+    private $email = '';
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="phone", type="string", nullable=true)
-	 * @Assert\NotBlank(message="vendors.message.error.phone")
-	 * @Length(min=10, minMessage="vendors_security.too_short_content")
-	 * @Length(max=12, maxMessage="vendors_security.too_long_content")
-	 */
-	private $phone = '';
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="phone", type="string", nullable=true)
+     * @Assert\NotBlank(message="vendors.message.error.phone")
+     * @Length(min=10, minMessage="vendors_security.too_short_content")
+     * @Length(max=12, maxMessage="vendors_security.too_long_content")
+     */
+    private $phone = '';
 
 	/**
 	 * @var string
