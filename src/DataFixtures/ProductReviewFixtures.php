@@ -5,10 +5,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Review\ProductReviews\ProductReviews;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
+class ProductReviewFixtures extends Fixture
 {
 
     /**
@@ -42,18 +41,17 @@ class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
+
     /**
-     * @inheritDoc
+     * @return int
      */
-    public function getDependencies()
+    public function getOrder()
     {
-        return array(
-            ProductsFixtures::class,
-        );
+        return 100;
     }
 
     public static function getGroups(): array
     {
-        return ['products'];
+        return ['reviews'];
     }
 }

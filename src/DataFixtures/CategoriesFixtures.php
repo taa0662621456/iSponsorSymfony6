@@ -8,7 +8,7 @@ use App\Entity\Category\CategoriesAttachments;
 use App\Entity\Category\CategoriesEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Ramsey\Uuid\Uuid;
 

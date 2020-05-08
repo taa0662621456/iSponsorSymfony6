@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\DataFixtures;
 
-
 use App\Entity\Review\ProjectReviews\ProjectReviews;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class ProjectReviewFixtures
+class ProjectReviewFixtures extends Fixture
 {
 
     /**
@@ -41,19 +40,18 @@ class ProjectReviewFixtures
         $manager->flush();
     }
 
+
     /**
-     * @inheritDoc
+     * @return int
      */
-    public function getDependencies()
+    public function getOrder()
     {
-        return array(
-            ProjectsFixtures::class,
-        );
+        return 101;
     }
 
     public static function getGroups(): array
     {
-        return ['projects'];
+        return ['reviews'];
     }
 
 
