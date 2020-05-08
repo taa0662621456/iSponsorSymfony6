@@ -1,10 +1,23 @@
 {% use "bootstrap_4_layout.html.twig" %}
 
 {% block button_row -%}
-        {{- form_widget(form) -}}
+    {{- form_widget(form) -}}
 {%- endblock button_row %}
 
 {% block button_widget -%}
     {%- set attr = attr|merge({class: (attr.class|default('btn-secondary') ~ ' btn')|trim}) -%}
     {{- parent() -}}
 {%- endblock button_widget %}
+
+{% block form_row -%}
+    {%- if compound is defined and compound -%}
+        {%- set element = 'fieldset' -%}
+    {%- endif -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    {{- form_label(form) -}}
+    {{- form_widget(form, widget_attr) -}}
+    {{- form_help(form) -}}
+{%- endblock form_row %}

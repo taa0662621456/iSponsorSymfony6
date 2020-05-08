@@ -2,18 +2,18 @@
 {% block title %}New Project{% endblock %}
 {% block header %}{% endblock %}
 {% block little_panel %}
-    {{ include('tools0.html.twig') }}
+    {{ include('tools.html.twig') }}
 {% endblock %}
 {% block article_header %}{% endblock %}
 {% block article_content %}
     <div class="row">
-        <div class="col-3">
+        <div class="col- {{ c1 }}">
         </div>
-        <div class="col-6">
+        <div class="col- {{ c2 }}">
             <h3>Create new Projects</h3>
             {{ include('project/projects/_form.html.twig') }}
         </div>
-        <div class="col-3">
+        <div class="col- {{ c3 }}">
         </div>
     </div>
 {% endblock %}

@@ -6,6 +6,11 @@
 {% endblock %}
 {% block body %}
     <body class="text-center">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     {{ form(form) }}
     {{ form_errors (form) }}
     </body>
