@@ -1,8 +1,9 @@
 // Creates links to the TinyMCE
 // https://www.youtube.com/watch?v=fOCw15bpbSw
 //
-let tinymce = require('tinymce');
 
+let tinymce = require('tinymce');
+require('tinymce/skins/ui/oxide/skin.css');
 require('tinymce/themes/silver/index');
 require('tinymce/plugins/image');
 let form = document.querySelector('#object');

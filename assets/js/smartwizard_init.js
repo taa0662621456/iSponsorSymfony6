@@ -1,20 +1,18 @@
 import jQuery from 'jquery';
 //http://techlaboratory.net/smartwizard
 
-//let smartwizard = document.querySelector('#smartwizard');
-
-//if (smartwizard != undefined) {
+let smart = document.querySelector('#object000');
+if (smart != null) {
     (function ($, undefined) {
         //$(document).on('load', function(){
-        $(document).ready(function(){
-            $('#smartwizard, #object').smartWizard({
+        $(document).ready(function () {
+            $('#object').smartWizard({
                 keyNavigation: true,
                 autoAdjustHeight: true,
                 cycleSteps: false,
-                toolbarSettings: {
-                    toolbarPosition: 'button'
-                }
+                showPreviousButton: false,
+                showNextButton: false,
             })
         });
     })(jQuery);
-//}
+}
