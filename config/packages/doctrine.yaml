@@ -6,7 +6,6 @@ parameters:
     env(PLATFORM_DATES_DATABASE): ''
     env(OBJECT_REVIEWS_DATABASE): ''
     env(PLATFORM_SYSTEM_DATABASE): ''
-
 doctrine:
     dbal:
         default_connection: postgres
