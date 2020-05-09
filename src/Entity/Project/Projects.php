@@ -1,16 +1,14 @@
 <?php
 	declare(strict_types=1);
-
 	namespace App\Entity\Project;
 
     use App\Entity\BaseTrait;
+    use App\Entity\Product\Products;
     use Doctrine\ORM\Mapping as ORM;
     use App\Entity\Category\Categories;
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\Common\Collections\Collection;
     use Symfony\Component\Validator\Constraints as Assert;
-
-
 
     /**
 	 * @ORM\Table(name="projects", indexes={
@@ -79,26 +77,39 @@
 		 */
 		private $projectFeatured;
 
-		/**
-		 * @var ProjectsTags[]|ArrayCollection
-		 *
-		 * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectsTags", cascade={"persist"})
-		 * @ORM\JoinTable(name="project_tags")
-		 * @ORM\OrderBy({"name": "ASC"})
-		 * @Assert\Count(max="4", maxMessage="projects.too_many_tags")
-		 *
-		 */
-		private $projectTags;
+        /**
+         * @var ProjectsTags[]|ArrayCollection
+         *
+         * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectsTags", cascade={"persist"})
+         * @ORM\JoinTable(name="project_tags")
+         * @ORM\OrderBy({"name": "ASC"})
+         * @Assert\Count(max="4", maxMessage="projects.too_many_tags")
+         *
+         */
+        private $projectTags;
+
+        /**
+         * @var Products[]|ArrayCollection
+         *
+         * @ORM\OneToMany(targetEntity="App\Entity\Product\Products",
+         *      cascade={"persist"},
+         *      mappedBy="products",
+         *      orphanRemoval=true)
+         * @ORM\JoinTable(name="project_products")
+         * @Assert\Count(max="100", maxMessage="projects.too_many_files")
+         */
+        private $projectProducts;
 
 
-		/**
-		 * Projects constructor.
-		 */
-		public function __construct()
-		{
-			$this->projectAttachments = new ArrayCollection();
-			$this->projectTags = new ArrayCollection();
-		}
+        /**
+         * Projects constructor.
+         */
+        public function __construct()
+        {
+            $this->projectAttachments = new ArrayCollection();
+            $this->projectTags = new ArrayCollection();
+            $this->projectProducts = new ArrayCollection();
+        }
 
 		/**
 		 * @return mixed
@@ -144,7 +155,6 @@
 			}
 		}
 
-
 		/**
 		 * @param ProjectsTags $tag
 		 */
@@ -173,32 +183,59 @@
 			}
 		}
 
-
 		/**
 		 * @param ProjectsAttachments $attachment
 		 */
 		public function removeProjectAttachment(ProjectsAttachments $attachment): void
 		{
-			$this->projectAttachments->removeElement($attachment);
-		}
+            $this->projectAttachments->removeElement($attachment);
+        }
 
-		/**
-		 * @return Collection|ProjectsAttachments[]
-		 */
-		public function getProjectAttachments(): Collection
-		{
-			return $this->projectAttachments;
-		}
+        /**
+         * @return Collection|ProjectsAttachments[]
+         */
+        public function getProjectAttachments(): Collection
+        {
+            return $this->projectAttachments;
+        }
 
-		/**
-		 * @return mixed
-		 */
-		public function getProjectEnGb()
-		{
-			return $this->projectEnGb;
-		}
+        /**
+         * @param Products $products
+         */
+        public function addProjectProducts(Products $products): void
+        {
+            foreach ($products as $product) {
+                if (!$this->projectProducts->contains($product)) {
+                    $this->projectProducts->add($product);
+                }
+            }
+        }
 
-		/**
+        /**
+         * @param Products $product
+         */
+        public function removeProjectProducts(Products $product): void
+        {
+            $this->projectProducts->removeElement($product);
+        }
+
+        /**
+         * @return Collection|Products[]
+         */
+        public function getProjectProducts(): Collection
+        {
+            return $this->projectProducts;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getProjectEnGb()
+        {
+            return $this->projectEnGb;
+        }
+
+        /**
 		 * @param ProjectsEnGb $projectEnGb
 		 */
 		public function setProjectEnGb(ProjectsEnGb $projectEnGb): void
@@ -237,6 +274,4 @@
 		{
 			$this->projectFeatured = $projectFeatured;
 		}
-
-
 	}
