@@ -3,6 +3,7 @@
 	namespace App\Entity\Project;
 
     use App\Entity\BaseTrait;
+    use App\Entity\Commission\Commission;
     use App\Entity\Product\Products;
     use Doctrine\ORM\Mapping as ORM;
     use App\Entity\Category\Categories;
@@ -99,6 +100,18 @@
          * @Assert\Count(max="100", maxMessage="projects.too_many_files")
          */
         private $projectProducts;
+
+        /**
+         * @var Commission[]|ArrayCollection
+         *
+         * @ORM\OneToMany(targetEntity="App\Entity\Commission\Commission",
+         *     cascade={"persist", "delete"},
+         *     mappedBy="commission",
+         *     orphanRemoval=true)
+         * @ORM\JoinTable(name="commission")
+         * @Assert\Count(max="100", maxMessage="project.too_many_commissions")
+         */
+        private $projectCommissions;
 
 
         /**
@@ -225,6 +238,34 @@
         public function getProjectProducts(): Collection
         {
             return $this->projectProducts;
+        }
+
+        /**
+         * @param Commission $commissions
+         */
+        public function addProjectCommissions(Commission $commissions): void
+        {
+            foreach ($commissions as $commission) {
+                if (!$this->projectCommissions->contains($commission)) {
+                    $this->projectCommissions->add($commission);
+                }
+            }
+        }
+
+        /**
+         * @param Commission $commission
+         */
+        public function removeProjectCommissions(Commission $commission): void
+        {
+            $this->projectCommissions->removeElement($commission);
+        }
+
+        /**
+         * @return Collection|Commission[]
+         */
+        public function getProjectCommissions(): Collection
+        {
+            return $this->projectCommissions;
         }
 
         /**
