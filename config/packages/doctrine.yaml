@@ -78,6 +78,25 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Order'
                         prefix: 'App\Entity\Order'
                         alias: Order
+                    Folder:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Folder'
+                        prefix: 'App\Entity\Folder'
+                        alias: Folder
+                    Commission:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Commission'
+                        prefix: 'App\Entity\Commission'
+                        alias: Commission
+                    Event:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Event'
+                        prefix: 'App\Entity\Event'
+                        alias: Event
+
             review:
                 connection: review
                 mappings:
