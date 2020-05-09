@@ -24,9 +24,12 @@ class ObjectCRUDsController extends AbstractController
 
     /**
      * @Route("vendors/", name="vendor_index", methods={"GET"})
-     * @Route("vendor/folders", name="vendor_folders_index", methods={"GET"})
+     * @Route("vendor/folders", name="vendor_folder_index", methods={"GET"}) //TODO: этот роут может быть только для Вендоров
+     * @Route("folders/", name="folder_index", methods={"GET"}) //TODO: этот роут может быть только для Админов
      * @Route("products/", name="product_index", methods={"GET"})
      * @Route("projects/", name="project_index", methods={"GET"})
+     * @Route("commissions/", name="commission_index", methods={"GET"})
+     * @Route("vendor/commissions/", name="vendor_commissions_index", methods={"GET"}) //TODO: для юзеров
      * @Route("categories/", name="category_index", methods={"GET"})
      * @Route("attachments/", name="attachment_index", methods={"GET"})
      * @Route("reviews/product/", name="review_product_index", methods={"GET"})
@@ -45,8 +48,10 @@ class ObjectCRUDsController extends AbstractController
 
     /**
      * @Route("vendor/new", name="vendor_new", methods={"GET","POST"})
+     * @Route("vendor/commissions", name="vendor_commission_new", methods={"GET","POST"})
      * @Route("folder/new", name="folder_new", methods={"GET","POST"})
      * @Route("project/new", name="project_new", methods={"GET","POST"})
+     * @Route("commission/new", name="commission_new", methods={"GET","POST"}) //TODO: для суперАдминов и только для теста
      * @Route("product/new", name="product_new", methods={"GET","POST"})
      * @Route("category/new", name="category_new", methods={"GET","POST"})
      * @Route("attachment/new", name="attachment_new", methods={"GET","POST"})
@@ -93,6 +98,7 @@ class ObjectCRUDsController extends AbstractController
      * WARNING! Routes by 'id' for Back-end only
      * @Route("vendor/{id<\d+>}", name="vendor_id_show", methods={"GET"})
      * @Route("folder/{id<\d+>}", name="folder_id_show", methods={"GET"})
+     * @Route("commission/{id<\d+>}", name="commission_id_show", methods={"GET"})
      * @Route("project/{id<\d+>}", name="project_id_show", methods={"GET"})
      * @Route("product/{id<\d+>}", name="product_id_show", methods={"GET"})
      * @Route("category/{id<\d+>}", name="category_id_show", methods={"GET"})
@@ -103,6 +109,7 @@ class ObjectCRUDsController extends AbstractController
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/{slug}", name="vendor_slug_show", methods={"GET"})
      * @Route("folder/{slug}", name="folder_slug_show", methods={"GET"})
+     * @Route("commission/{slug}", name="commission_slug_show", methods={"GET"})
      * @Route("project/{slug}", name="project_slug_show", methods={"GET"})
      * @Route("product/{slug}", name="product_slug_show", methods={"GET"})
      * @Route("category/{slug}", name="category_slug_show", methods={"GET"})
@@ -124,6 +131,7 @@ class ObjectCRUDsController extends AbstractController
      * WARNING! Routes by 'id' for Back-end only
      * @Route("vendor/edit/{id<\d+>}", name="vendor_id_edit", methods={"GET","POST"})
      * @Route("folder/edit/{id<\d+>}", name="folder_id_edit", methods={"GET","POST"})
+     * @Route("commission/edit/{id<\d+>}", name="commission_id_edit", methods={"GET","POST"})
      * @Route("project/edit/{id<\d+>}", name="project_id_edit", methods={"GET","POST"})
      * @Route("product/edit/{id<\d+>}", name="product_id_edit", methods={"GET","POST"})
      * @Route("category/edit/{id<\d+>}", name="category_id_edit", methods={"GET","POST"})
@@ -134,6 +142,7 @@ class ObjectCRUDsController extends AbstractController
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/edit/{slug}", name="vendor_slug_edit", methods={"GET","POST"})
      * @Route("folder/edit/{slug}", name="folder_slug_edit", methods={"GET","POST"})
+     * @Route("commission/edit/{slug}", name="commission_slug_edit", methods={"GET","POST"})
      * @Route("project/edit/{slug}", name="project_slug_edit", methods={"GET","POST"})
      * @Route("product/edit/{slug}", name="product_slug_edit", methods={"GET","POST"})
      * @Route("category/edit/{slug}", name="category_slug_edit", methods={"GET","POST"})
@@ -166,6 +175,7 @@ class ObjectCRUDsController extends AbstractController
      * WARNING! Routes by 'id' for Back-end only
      * @Route("vendor/delete/{id<\d+>}", name="vendor_id_delete", methods={"DELETE"})
      * @Route("folder/delete/{id<\d+>}", name="folder_id_delete", methods={"DELETE"})
+     * @Route("commission/delete/{id<\d+>}", name="commission_id_delete", methods={"DELETE"})
      * @Route("project/delete/{id<\d+>}", name="project_id_delete", methods={"DELETE"})
      * @Route("product/delete/{id<\d+>}", name="product_id_delete", methods={"DELETE"})
      * @Route("category/delete/{id<\d+>}", name="category_id_delete", methods={"DELETE"})
@@ -176,6 +186,7 @@ class ObjectCRUDsController extends AbstractController
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/delete/{slug}", name="vendor_slug_delete", methods={"DELETE"})
      * @Route("folder/delete/{slug}", name="folder_slug_delete", methods={"DELETE"})
+     * @Route("commission/delete/{slug}", name="commission_slug_delete", methods={"DELETE"})
      * @Route("project/delete/{slug}", name="project_slug_delete", methods={"DELETE"})
      * @Route("product/delete/{slug}", name="product_slug_delete", methods={"DELETE"})
      * @Route("category/delete/{slug}", name="category_slug_delete", methods={"DELETE"})
