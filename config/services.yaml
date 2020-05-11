@@ -8,12 +8,14 @@ parameters:
     app.notifications.email_sender: taa0662621456@gmail.com
     locale: 'en'
     homepage.number_of_items: 10
-    categories_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
+    category_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
     menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
-    projects_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
-    products_images_directory: '%kernel.project_dir%/public/uploads/products/images'
-    vendors_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
+    project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
+    product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
+    vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
     # kernel.secret: '63f52df98ad426a42bc971b2ee6300f0'
+    google_recaptcha_site_key: '6LdTYBcTAAAAAGnliWW_cfTyPkRpBacfUFzhDbon'
+    mercure_secret_key: '%env(  MERCURE_SECRET_KEY)%'
 
 services:
     # default configuration for services in *this* file
