@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Message;
 
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Conversation
- * @package App\Entity
+ * @package App\Entity\Message
  * @ORM\Table(name="conversation", indexes={
  * @ORM\Index(name="last_message_id_idx", columns={"last_message_id"})})
  *
