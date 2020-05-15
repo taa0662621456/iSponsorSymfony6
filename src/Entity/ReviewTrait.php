@@ -80,22 +80,6 @@ trait ReviewTrait
     /**
      * @return int
      */
-    public function getPublished(): int
-    {
-        return $this->published;
-    }
-
-    /**
-     * @param int $published
-     */
-    public function setPublished(int $published): void
-    {
-        $this->published = $published;
-    }
-
-    /**
-     * @return int
-     */
     public function getFavourite(): int
     {
         return $this->favourite;
