@@ -34,22 +34,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Twig_Environment;
 
-/**
- * @Route("/vendor")
- * @Route("/sponsor")
- * @Route("/user")
- *
- * @package App\Controller
- */
-class SecurityController
-	extends AbstractController
+class SecurityController extends AbstractController
 {
-	use TargetPathTrait;
+    use TargetPathTrait;
 
-	/**
-	 * @var Twig_Environment $twig
-	 */
-	private $twig;
+    /**
+     * @var Twig_Environment $twig
+     */
+    private $twig;
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -202,16 +194,16 @@ class SecurityController
      * @return Response
      */
 	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
-	{
+    {
         /*
          * аутентификация
          * https://symfonycasts.com/screencast/symfony-security/login-form-authenticator
          * https://symfonycasts.com/screencast/symfony-security/csrf-token
          * аутентификация с токеном
          */
-        //if ($security->isGranted('ROLE_USER')) {
-        //return $this->redirectToRoute('homepage');
-        //}
+        if ($security->isGranted('ROLE_USER')) {
+            return $this->redirectToRoute('homepage');
+        }
 
 
         $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));

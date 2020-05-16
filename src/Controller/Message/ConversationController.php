@@ -3,7 +3,7 @@
 namespace App\Controller\Message;
 
 use App\Entity\Conversation;
-use App\Entity\Message\Participant;
+use App\Entity\Message\MessageParticipant;
 use App\Repository\Message\ConversationRepository;
 use App\Repository\Vendor\VendorsRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -80,11 +80,11 @@ class ConversationController extends AbstractController
 
         $conversation = new Conversation();
 
-        $participant = new Participant();
+        $participant = new MessageParticipant();
         $participant->setUser($this->getUser());
         $participant->setConvarsation($conversation);
 
-        $otherParticipant = new Participant();
+        $otherParticipant = new MessageParticipant();
         $otherParticipant->setUser($otherUser);
         $otherParticipant->setConvarsation($conversation);
 

@@ -25,6 +25,9 @@ class ObjectCRUDsController extends AbstractController
     /**
      * @Route("vendors/", name="vendor_index", methods={"GET"})
      * @Route("vendor/folders", name="vendor_folder_index", methods={"GET"}) //TODO: этот роут может быть только для Вендоров
+     * @Route("events/", name="event_index", methods={"GET"})
+     * @Route("event/categories/", name="event_categories_index", methods={"GET"})
+     * @Route("event/members/", name="event_members_index", methods={"GET"})
      * @Route("folders/", name="folder_index", methods={"GET"}) //TODO: этот роут может быть только для Админов
      * @Route("products/", name="product_index", methods={"GET"})
      * @Route("projects/", name="project_index", methods={"GET"})
@@ -47,16 +50,20 @@ class ObjectCRUDsController extends AbstractController
     }
 
     /**
-     * @Route("vendor/new", name="vendor_new", methods={"GET","POST"})
-     * @Route("vendor/commissions", name="vendor_commission_new", methods={"GET","POST"})
-     * @Route("folder/new", name="folder_new", methods={"GET","POST"})
-     * @Route("project/new", name="project_new", methods={"GET","POST"})
-     * @Route("commission/new", name="commission_new", methods={"GET","POST"}) //TODO: для суперАдминов и только для теста
+     * @Route("vendor/new/", name="vendor_new", methods={"GET","POST"})
+     * @Route("vendor/commissions/", name="vendor_commission_new", methods={"GET","POST"})
+     *
+     * @Route("event/new/", name="event_new", methods={"GET","POST"})
+     * @Route("event/category/new/", name="event_category_new", methods={"GET","POST"})
+     *
+     * @Route("folder/new/", name="folder_new", methods={"GET","POST"})
+     * @Route("project/new/", name="project_new", methods={"GET","POST"})
+     * @Route("commission/new/", name="commission_new", methods={"GET","POST"}) //TODO: для суперАдминов и только для теста
      * @Route("product/new", name="product_new", methods={"GET","POST"})
      * @Route("category/new", name="category_new", methods={"GET","POST"})
-     * @Route("attachment/new", name="attachment_new", methods={"GET","POST"})
-     * @Route("reviews/product/new", name="review_product_new", methods={"GET", "POST"})
-     * @Route("reviews/project/new", name="review_project_new", methods={"GET", "POST"})
+     * @Route("attachment/new/", name="attachment_new", methods={"GET","POST"})
+     * @Route("reviews/product/new/", name="review_product_new", methods={"GET", "POST"})
+     * @Route("reviews/project/new/", name="review_project_new", methods={"GET", "POST"})
      *
      * @param Request $request
      * @return Response
@@ -95,7 +102,7 @@ class ObjectCRUDsController extends AbstractController
     }
 
     /**
-     * WARNING! Routes by 'id' for Back-end only
+     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
      * @Route("vendor/{id<\d+>}", name="vendor_id_show", methods={"GET"})
      * @Route("folder/{id<\d+>}", name="folder_id_show", methods={"GET"})
      * @Route("commission/{id<\d+>}", name="commission_id_show", methods={"GET"})
@@ -105,6 +112,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("attachment/{id<\d+>}", name="attachment_id_show", methods={"GET"})
      * @Route("review/product/{id<\d+>}", name="review_product_id_show", methods={"GET"})
      * @Route("review/project/{id<\d+>}", name="review_project_id_show", methods={"GET"})
+     * @Route("event/{id<\d+>}", name="event_id_show", methods={"GET"})
+     * @Route("event/category/{id<\d+>}", name="event_category_id_show", methods={"GET"})
      *
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/{slug}", name="vendor_slug_show", methods={"GET"})
@@ -116,6 +125,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("attachment/{slug}", name="attachment_slug_show", methods={"GET"})
      * @Route("review/product/{slug}", name="review_product_slug_show", methods={"GET"})
      * @Route("review/project/{slug}", name="review_project_slug_show", methods={"GET"})
+     * @Route("event/{slug}", name="event_slug_show", methods={"GET"})
+     * @Route("event/category/{slug}", name="event_category_slug_show", methods={"GET"})
      *
      * @return Response
      */
@@ -128,7 +139,7 @@ class ObjectCRUDsController extends AbstractController
     }
 
     /**
-     * WARNING! Routes by 'id' for Back-end only
+     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
      * @Route("vendor/edit/{id<\d+>}", name="vendor_id_edit", methods={"GET","POST"})
      * @Route("folder/edit/{id<\d+>}", name="folder_id_edit", methods={"GET","POST"})
      * @Route("commission/edit/{id<\d+>}", name="commission_id_edit", methods={"GET","POST"})
@@ -138,6 +149,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("attachment/edit/{id<\d+>}", name="attachment_id_edit", methods={"GET","POST"})
      * @Route("review/product/edit/{id<\d+>}", name="review_product_id_edit", methods={"GET", "POST"})
      * @Route("review/project/edit/{id<\d+>}", name="review_project_id_edit", methods={"GET", "POST"})
+     * @Route("event/edit/{id<\d+>}", name="event_id_edit", methods={"GET", "POST"})
+     * @Route("event/category/edit/{id<\d+>}", name="event_category_id_edit", methods={"GET", "POST"})
      *
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/edit/{slug}", name="vendor_slug_edit", methods={"GET","POST"})
@@ -149,6 +162,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("attachment/edit/{slug}", name="attachment_slug_edit", methods={"GET","POST"})
      * @Route("review/product/edit/{slug}", name="review_product_slug_edit", methods={"GET", "POST"})
      * @Route("review/project/edit/{slug}", name="review_project_slug_edit", methods={"GET", "POST"})
+     * @Route("event/edit/{slug}", name="event_slug_edit", methods={"GET", "POST"})
+     * @Route("event/category/edit/{slug}", name="event_category_slug_edit", methods={"GET", "POST"})
      *
      * @return Response
      */
@@ -172,7 +187,7 @@ class ObjectCRUDsController extends AbstractController
 
 
     /**
-     * WARNING! Routes by 'id' for Back-end only
+     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
      * @Route("vendor/delete/{id<\d+>}", name="vendor_id_delete", methods={"DELETE"})
      * @Route("folder/delete/{id<\d+>}", name="folder_id_delete", methods={"DELETE"})
      * @Route("commission/delete/{id<\d+>}", name="commission_id_delete", methods={"DELETE"})
@@ -182,6 +197,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("attachment/delete/{id<\d+>}", name="attachment_id_delete", methods={"DELETE"})
      * @Route("review/product/delete/{id<\d+>}", name="review_product_id_delete", methods={"DELETE"})
      * @Route("review/project/delete/{id<\d+>}", name="review_project_id_delete", methods={"DELETE"})
+     * @Route("event/edit/{id<\d+>}", name="event_id_edit", methods={"DELETE"})
+     * @Route("event/category/edit/{id<\d+>}", name="event_category_id_edit", methods={"DELETE"})
      *
      * Routes by 'slug' for Front-end and Back-end
      * @Route("vendor/delete/{slug}", name="vendor_slug_delete", methods={"DELETE"})
@@ -193,6 +210,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("attachment/delete/{slug}", name="attachment_slug_delete", methods={"DELETE"})
      * @Route("review/product/delete/{slug}", name="review_product_slug_delete", methods={"DELETE"})
      * @Route("review/project/delete/{slug}", name="review_project_slug_delete", methods={"DELETE"})
+     * @Route("event/delete/{slug}", name="event_slug_delete", methods={"DELETE"})
+     * @Route("event/category/delete/{slug}", name="event_category_slug_delete", methods={"DELETE"})
      *
      * @param Request $request
      * @return Response

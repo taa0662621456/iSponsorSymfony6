@@ -2,7 +2,7 @@
 
 namespace App\Controller\Message;
 
-use App\Entity\Message\Conversation;
+use App\Entity\Message\MessageConversation;
 use App\Entity\Message\Message;
 use App\Repository\Message\ParticipantRepository;
 use App\Repository\Vendor\VendorsRepository;
@@ -73,10 +73,10 @@ class MessageController extends AbstractController
     /**
      * @Route("/{id}", name="getMessage")
      * @param Request $request
-     * @param Conversation $conversation
+     * @param MessageConversation $conversation
      * @return Response
      */
-    public function index(Request $request, Conversation $conversation)
+    public function index(Request $request, MessageConversation $conversation)
     {
         $this->denyAccessUnlessGranted('view', $conversation);
         $messages = $this->massageRepository->findMessageByConversationId(
@@ -98,12 +98,12 @@ class MessageController extends AbstractController
     /**
      * @Route("/{id}", name="newMessage", methods={"POST"})
      * @param Request $request
-     * @param Conversation $conversation
+     * @param MessageConversation $conversation
      * @param SerializerInterface $serializer
      * @return JsonResponse
      * @throws Exception
      */
-    public function newMessage(Request $request, Conversation $conversation, SerializerInterface $serializer)
+    public function newMessage(Request $request, MessageConversation $conversation, SerializerInterface $serializer)
     {
         $user = $this->getUser();
 
