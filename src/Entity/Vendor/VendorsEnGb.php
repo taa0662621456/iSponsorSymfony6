@@ -17,16 +17,23 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class VendorsEnGb
 {
-	use BaseTrait;
+    use BaseTrait;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
-	 * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-	 * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
-	 */
-	private $vendorFirstName = 'vendor_first_name';
+    /**
+     * TODO: добавить свойства: Обложка профиля и аватар c отношением к МедиаАттачментам
+     * $vendorCover
+     * $vendorAvatar
+     * возможно определить данные свойста в BaseTrait
+     */
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
+     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
+     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+     */
+    private $vendorFirstName = 'vendor_first_name';
 
 	/**
 	 * @var string|null

@@ -155,22 +155,32 @@ class Vendors
 	private $vendorItems;
 
 	/**
-	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", mappedBy="vendorFavourites")
-	 * @ORM\JoinTable(name="vendors_favourites")
-	 */
-	private $vendorFavourites;
+     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", mappedBy="vendorFavourites")
+     * @ORM\JoinTable(name="vendors_favourites")
+     */
+    private $vendorFavourites;
 
-	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="vendorFeatured")
-	 */
-	private $vendorFeatured;
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="vendorFeatured")
+     */
+    private $vendorFeatured;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message\Message", mappedBy="vendor")
+     */
+    private $vendorMessage;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MessageParticipant", mappedBy="vendor")
+     */
+    private $participant;
 
 
     /**
      * @throws Exception
      */
-	public function __construct()
-	{
+    public function __construct()
+    {
         $this->lastResetTime = new DateTime();
         $this->lastVisitDate = new DateTime();
         $this->vendorOrders = new ArrayCollection();
@@ -545,15 +555,49 @@ class Vendors
 
 	/**
 	 * @param mixed $vendorItems
-	 */
-	public function setVendorItems($vendorItems): void
-	{
-		$this->vendorItems = $vendorItems;
-	}
+     */
+    public function setVendorItems($vendorItems): void
+    {
+        $this->vendorItems = $vendorItems;
+    }
 
 
-	public function setRoles()
-	{
-	}
+    public function setRoles()
+    {
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVendorMessage()
+    {
+        return $this->vendorMessage;
+    }
+
+    /**
+     * @param mixed $vendorMessage
+     */
+    public function setVendorMessage($vendorMessage): void
+    {
+        $this->vendorMessage = $vendorMessage;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParticipant()
+    {
+        return $this->participant;
+    }
+
+    /**
+     * @param mixed $participant
+     */
+    public function setParticipant($participant): void
+    {
+        $this->participant = $participant;
+    }
+
+
 }
 

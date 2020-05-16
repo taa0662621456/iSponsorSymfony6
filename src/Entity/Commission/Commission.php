@@ -43,5 +43,53 @@ class Commission
      */
     private $commissionEndTime;
 
+    /**
+     * @return int
+     */
+    public function getProjectId(): int
+    {
+        return $this->projectId;
+    }
+
+    /**
+     * @param int $projectId
+     */
+    public function setProjectId(int $projectId): void
+    {
+        $this->projectId = $projectId;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCommissionStartTime(): DateTime
+    {
+        return $this->commissionStartTime;
+    }
+
+    /**
+     * @param DateTime $commissionStartTime
+     */
+    public function setCommissionStartTime(DateTime $commissionStartTime): void
+    {
+        $this->commissionStartTime = $commissionStartTime;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCommissionEndTime(): DateTime
+    {
+        return $this->commissionEndTime;
+    }
+
+    /**
+     * @param DateTime $commissionEndTime
+     */
+    public function setCommissionEndTime(DateTime $commissionEndTime): void
+    {
+        $this->commissionEndTime = $commissionEndTime;
+    }
+
 
 }

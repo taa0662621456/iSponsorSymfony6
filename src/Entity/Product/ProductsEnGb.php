@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
-use App\Entity\ObjectEnGbTrait;
+use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ProductsEnGb
 {
     use BaseTrait;
-    use ObjectEnGbTrait;
+    use ObjectTrait;
 
     /**
      * @var string

@@ -4,7 +4,7 @@
 namespace App\Entity\Message;
 
 
-class Participant
+class MessageParticipant
 {
 
 }

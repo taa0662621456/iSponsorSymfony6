@@ -8,7 +8,6 @@
 
 	trait AttachmentsTrait
 	{
-
         /**
          * @var string
          *

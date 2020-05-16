@@ -5,7 +5,7 @@ namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
 
-use App\Entity\ObjectEnGbTrait;
+use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class ProjectsEnGb
 {
     use BaseTrait;
-    use ObjectEnGbTrait;
+    use ObjectTrait;
 
     /**
      * @var string

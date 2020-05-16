@@ -105,8 +105,8 @@
          * @var Commission[]|ArrayCollection
          *
          * @ORM\OneToMany(targetEntity="App\Entity\Commission\Commission",
-         *     cascade={"persist", "delete"},
-         *     mappedBy="commission",
+         *     cascade={"persist", "remove"},
+         *     mappedBy="id",
          *     orphanRemoval=true)
          * @ORM\JoinTable(name="commission")
          * @Assert\Count(max="100", maxMessage="project.too_many_commissions")
@@ -122,6 +122,7 @@
             $this->projectAttachments = new ArrayCollection();
             $this->projectTags = new ArrayCollection();
             $this->projectProducts = new ArrayCollection();
+            $this->projectCommissions = new ArrayCollection();
         }
 
 		/**
