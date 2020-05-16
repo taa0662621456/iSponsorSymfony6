@@ -88,38 +88,32 @@
                             'class' => 'btn btn-link btn-sm back',
                             'onclick' => 'window.history.back()'
                         )
-                    ))
-                ->add('registration', ButtonType::class, array(
-                    'label' => 'button.label.registration',
-                    'attr'  => array(
-                        'class' => 'btn btn-link btn-sm signup',
-                        'onclick' => 'window.history.back()' //TODO: заменить на маршрут к форме регистрации
-                    )
                 ))
-                )
-				->add('token', HiddenType::class, array(
-					'mapped' => false,
-					'attr' => array(
-						'name' => '_csrf_token',
-					),
-				));
+                    ->add('registration', ButtonType::class, array(
+                        'label' => 'button.label.registration',
+                        'attr' => array(
+                            'class' => 'btn btn-link btn-sm signup',
+                            'onclick' => 'window.history.back()' //TODO: заменить на маршрут к форме регистрации
+                        )
+                    ))
+                );
 		}
 
 
 		public function configureOptions(OptionsResolver $resolver): void
 		{
 			$resolver->setDefaults(
-				array(
-					'csrf_protection'    => true,
-					'csrf_field_name'    => '_csrf_token',
-					'csrf_token_id'      => '6cb546b7fb9e056773030920402e4172',
-					'translation_domain' => 'vendor',
-					'method'             => 'POST',
-					'attr'               => array(
-						'id'   => 'login',
-						'name' => 'login'
-					)
-				)
+                array(
+                    'csrf_protection' => true,
+                    'csrf_field_name' => '_csrf_token',
+                    'csrf_token_id' => 'authenticate',
+                    'translation_domain' => 'vendor',
+                    'method' => 'POST',
+                    'attr' => array(
+                        'id' => 'login',
+                        'name' => 'login'
+                    )
+                )
 			);
 		}
 

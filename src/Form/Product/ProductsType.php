@@ -15,24 +15,22 @@ class ProductsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
 		$builder
-			->add(
-				'productSku', HiddenType::class, array(
-					'required' => false
-				)
-			)
-			->add('productEnGb', ProductsEnGbType::class)
-			->add(
-				'productAttachments', CollectionType::class, array(
-					'entry_type'         => ProductsAttachmentsType::class,
-					'label'              => 'product.attachment.label',
-					'translation_domain' => 'product',
-					'entry_options'      => array('label' => false),
-					'required'           => false,
-					//'empty_data' => true,
-					'allow_add'          => true,
-					'allow_delete'       => true,
-					'prototype'          => true,
-				)
+            ->add('productSku', HiddenType::class, array(
+                    'required' => false
+                )
+            )
+            ->add('productEnGb', ProductsEnGbType::class)
+            ->add('productAttachments', CollectionType::class, array(
+                    'entry_type' => ProductsAttachmentsType::class,
+                    'label' => 'product.attachment.label',
+                    'translation_domain' => 'product',
+                    'entry_options' => array('label' => false),
+                    'required' => false,
+                    //'empty_data' => true,
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
+                )
 			)
             ->add('productTags', ProductsTagsType::class, array(
                 'required' => false

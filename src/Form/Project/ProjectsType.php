@@ -20,61 +20,87 @@ class ProjectsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
 		$builder
-			->add('id', HiddenType::class)
-			/*->add('projectCategory', EntityType::class, array(
-					'class'        => Categories::class,
-					'required'     => true,
-					'multiple'     => false,
-					'choice_label' => 'id'
-				)
-			)*/
-			->add(
-				'projectEnGb', ProjectsEnGbType::class, array(
-				'label' => 'project.add.project',
-			)
-			)
-			->add(
-				'projectAttachments', CollectionType::class, array(
-					'entry_type'         => ProjectsAttachmentsType::class,
-					'label'              => 'project.attachment.label',
-					'translation_domain' => 'project',
-					'entry_options'      => array('label' => false),
-					'required'           => false,
-					//'empty_data' => true,
-					'allow_add'          => true,
-					'allow_delete'       => true,
-					'prototype'          => true,
-				)
-			)
-			->add(
-				'projectTags', ProjectsTagsType::class, array(
-					'required' => false,
-				)
-			)
+            ->add(
+                $builder
+                    ->create('step-1', FormType::class, array(
+                        'inherit_data' => true,
+                        'label' => false,
+                        'row_attr' => array(
+                            'id' => 'step-1'
+                        ),
+                    ))
+                    ->add('id', HiddenType::class)
+                    ->add('projectCategory', EntityType::class, array(
+                        'class' => Categories::class,
+                        'required' => true,
+                        'multiple' => false,
+                        'choice_label' => 'id'
+                    ))
+            )
+            ->add('projectEnGb', ProjectsEnGbType::class, array(
+                    'label' => false,
+                    'row_attr' => array(
+                        'id' => 'project')
+                )
+            )
+            ->add(
+                $builder
+                    ->create('step-4', FormType::class, array(
+                        'inherit_data' => true,
+                        'label' => false,
+                        'row_attr' => array(
+                            'id' => 'step-5'
+                        ),
+                    ))
+                    ->add('projectAttachments', CollectionType::class, array(
+                            'entry_type' => ProjectsAttachmentsType::class,
+                            'label' => 'project.attachment.label',
+                            'translation_domain' => 'project',
+                            'entry_options' => array('label' => false),
+                            'required' => false,
+                            //'empty_data' => true,
+                            'allow_add' => true,
+                            'allow_delete' => true,
+                            'prototype' => true,
+                        )
+                    )
+            )
+            ->add(
+                $builder
+                    ->create('step-6', FormType::class, array(
+                        'inherit_data' => true,
+                        'label' => false,
+                        'row_attr' => array(
+                            'id' => 'step-6'
+                        ),
+                    ))
+                    ->add('projectTags', ProjectsTagsType::class, array(
+                            'required' => false,
+                        )
+                    )
+            )
             ->add(
                 $builder
                     ->create('step', FormType::class, array(
                         'inherit_data' => true,
                         'label' => false,
-                        'attr'=> array(
+                        'attr' => array(
                             'class' => 'btn-group'
                         )
                     ))
-                    ->add(
-                        'previous', ButtonType::class, array(
+                    ->add('previous', ButtonType::class, array(
                             'label' => 'label.previous',
-                            'attr'  => array(
-                                'id'    => 'next',
-                                'class' => 'btn btn-primary previous'
+                            'attr' => array(
+                                'id' => 'next',
+                                'class' => 'btn btn-primary sw-btn-prev'
                             )
                         )
                     )
-                    ->add(
-                        'next', ButtonType::class, array(
+                    ->add('next', ButtonType::class, array(
                             'label' => 'label.next',
-                            'attr'  => array(
-                                'id'    => 'next',
-                                'class' => 'btn btn-primary next'
+                            'attr' => array(
+                                'id' => 'next',
+                                'class' => 'btn btn-primary sw-btn-next'
                             )
                         )
                     )
@@ -108,9 +134,11 @@ class ProjectsType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Projects::class,
-			'attr' => array(
-				'id' => 'msform'
-			)
+            'translation_domain' => 'project',
+            'method' => 'POST',
+            'attr' => array(
+                'id' => 'object'
+            )
         ]);
     }
 }
