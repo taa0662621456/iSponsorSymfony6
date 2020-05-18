@@ -22,21 +22,26 @@
 	 * @ORM\HasLifecycleCallbacks()
 	 */
 	class Products
-	{
-		use BaseTrait;
+    {
+        use BaseTrait;
 
-		public const NUM_ITEMS = 10;
+        public const NUM_ITEMS = 10;
 
+        /**
+         * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectProducts")
+         * @ORM\JoinTable(name="products")
+         */
+        private $products;
 
-		/**
-		 * @var int
-		 *
-		 * @ORM\Column(name="product_sku", type="integer", nullable=false, options={"default" : 0})
-		 */
-		private $productSku = 0;
+        /**
+         * @var int
+         *
+         * @ORM\Column(name="product_sku", type="integer", nullable=false, options={"default" : 0})
+         */
+        private $productSku = 0;
 
-		/**
-		 * @var int
+        /**
+         * @var int
 		 *
 		 * @ORM\Column(name="product_gtin", type="integer", nullable=false, options={"default" : 0})
 		 */

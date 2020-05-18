@@ -26,10 +26,9 @@ class Commission
 {
     use BaseTrait;
 
-    /** //TODO: свойство может быть отношением (подумать)
-     * @var int
-     *
-     * @ORM\Column(name="project_id", type="integer", nullable=false, options={"default" : 0})
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectCommissions")
+     * @ORM\JoinTable(name="project")
      */
     private $projectId;
 
@@ -49,21 +48,23 @@ class Commission
      */
     private $commissionEndTime;
 
+
     /**
-     * @return int
+     * @return mixed
      */
-    public function getProjectId(): int
+    public function getProjectId()
     {
         return $this->projectId;
     }
 
     /**
-     * @param int $projectId
+     * @param mixed $projectId
      */
-    public function setProjectId(int $projectId): void
+    public function setProjectId($projectId): void
     {
         $this->projectId = $projectId;
     }
+
 
     /**
      * @return DateTime

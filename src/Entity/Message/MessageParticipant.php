@@ -23,7 +23,7 @@ class MessageParticipant
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="participant")
      */
-    private $user;
+    private $vendor;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="participants")
@@ -35,14 +35,14 @@ class MessageParticipant
         return $this->id;
     }
 
-    public function getUser(): ?Vendors
+    public function getVendor(): ?Vendors
     {
-        return $this->user;
+        return $this->vendor;
     }
 
-    public function setUser(?Vendors $user): self
+    public function setVendor(?Vendors $vendor): self
     {
-        $this->user = $user;
+        $this->vendor = $vendor;
 
         return $this;
     }

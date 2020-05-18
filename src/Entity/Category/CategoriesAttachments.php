@@ -18,14 +18,6 @@ class CategoriesAttachments
     use BaseTrait;
     use AttachmentsTrait;
 
-    //TODO: переход на общий attachments
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
-     *     inversedBy="attachment")
-     * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
-     */
-    private $attachments;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
      *     inversedBy="categoryAttachments")

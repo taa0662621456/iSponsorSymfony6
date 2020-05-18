@@ -106,7 +106,7 @@
          *
          * @ORM\OneToMany(targetEntity="App\Entity\Commission\Commission",
          *     cascade={"persist", "remove"},
-         *     mappedBy="id",
+         *     mappedBy="projectId",
          *     orphanRemoval=true)
          * @ORM\JoinTable(name="commission")
          * @Assert\Count(max="100", maxMessage="project.too_many_commissions")

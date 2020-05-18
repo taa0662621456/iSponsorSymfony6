@@ -23,7 +23,13 @@ class Message
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="messages")
+     * @var
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorMessage")
+     */
+    private $vendor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="message")
      */
     private $conversation;
 
