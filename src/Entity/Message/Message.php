@@ -1,21 +1,17 @@
 <?php
-/**
- * урок по созданию чата на Сокетах
- * https://www.youtube.com/watch?v=wnr2A4aKnPU
- */
 
 namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Message
- * @package App\Entity\Messenger
+ * @package App\Entity\Message
  * @ORM\Table(name="message", indexes={
- * @ORM\Index(name="created_by_idx", columns={"created_by"})})
- * @ORM\Entity(repositoryClass="App\Repository\Conversation\MesssageRepository")
+ * @ORM\Index(name="message_idx", columns={"slug"})})
+ * @ORM\Entity(repositoryClass="App\Repository\Message\MessageRepository")
  * @ORM\HasLifecycleCallbacks()
- *
  */
 class Message
 {
@@ -27,14 +23,61 @@ class Message
     private $content;
 
     /**
-     * тут должно быть свойство Юзер с отношением к Вендор и Инверсием messages,
-     * которая встречается ниже
-     */
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Messenger\Conversation", inversedBy="messages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="messages")
      */
     private $conversation;
+
+    private $mine;
+
+    /**
+     * @return mixed
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param mixed $content
+     * @return Message
+     */
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getConversation(): ?MessageConversation
+    {
+        return $this->conversation;
+    }
+
+    /**
+     * @param mixed $conversation
+     * @return Message
+     */
+    public function setConversation(?MessageConversation $conversation): self
+    {
+        $this->conversation = $conversation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMine()
+    {
+        return $this->mine;
+    }
+
+    /**
+     * @param mixed $mine
+     */
+    public function setMine($mine): void
+    {
+        $this->mine = $mine;
+    }
 
 
 }

@@ -12,10 +12,16 @@
 
 namespace App\Entity\Commission;
 
-
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\BaseTrait;
 use Symfony\Component\Validator\Constraints\DateTime;
 
+/**
+ * @ORM\Table(name="commission", indexes={
+ * @ORM\Index(name="commission_idx", columns={"slug"})})
+ * @ORM\Entity(repositoryClass="App\Repository\Commission\CommissionRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
 class Commission
 {
     use BaseTrait;

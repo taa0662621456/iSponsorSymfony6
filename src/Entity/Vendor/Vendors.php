@@ -171,7 +171,7 @@ class Vendors
     private $vendorMessage;
 
     /**
-     * @ORM\OneToMany(targetEntity="MessageParticipant", mappedBy="vendor")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="vendor")
      */
     private $participant;
 

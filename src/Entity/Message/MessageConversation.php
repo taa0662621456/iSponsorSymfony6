@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="conversation", indexes={
  * @ORM\Index(name="last_message_id_idx", columns={"last_message_id"})})
  *
- * @ORM\Entity(repositoryClass="App\Repository\Message\ConversationRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Message\MessageConversationRepository")
  *
  */
 class MessageConversation
@@ -20,18 +20,18 @@ class MessageConversation
     use BaseTrait;
 
     /**
-     * @ORM\OnyToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="conversation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="conversation")
      */
     private $participants;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Message\Message"
+     * @ORM\OneToOne(targetEntity="App\Entity\Message\Message")
      * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
      */
     private $lastMessage;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Message\Message", mappedBy="conversation")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message\Message", mappedBy="conversation")
      */
     private $message;
 
