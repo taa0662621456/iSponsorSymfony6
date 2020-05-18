@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Conversation
  * @package App\Entity\Message
- * @ORM\Table(name="conversation", indexes={
+ * @ORM\Table(name="message_conversation", indexes={
  * @ORM\Index(name="conversation_idx", columns={"slug"})})
  *
  * @ORM\Entity(repositoryClass="App\Repository\Message\MessageConversationRepository")

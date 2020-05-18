@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="product_reviews", indexes={
- * @ORM\Index(name="product_idx", columns={"slug"})})
+ * @ORM\Index(name="product_reviews_idx", columns={"slug"})})
  * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Review\ProductReviewsRepository")
  * @ORM\HasLifecycleCallbacks()
