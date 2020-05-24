@@ -1,4 +1,3 @@
-
 framework:
     messenger:
         transports:
@@ -7,6 +6,17 @@ framework:
                 dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
                 options:
                     queue_name: normal_priority
+                      # предварительные параметры шины и RabbitMQ
+                      #asyn_low:
+                      #    async:
+                      #+ dsn: '%env(RABBITMQ_DSN)%'
+                    #+ retry_strategy:
+                    #+ max_retries: 3
+                    #+ multiplier: 2
+                #failed: 'doctrine://default?queue_name=failed'
+                #failure_transport: failed
+            #routing:
+            #App\Message\ReviewMessage: async
         buses:
             command_bus:
                 middleware:

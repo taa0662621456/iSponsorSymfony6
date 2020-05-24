@@ -102,7 +102,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Message'
                         prefix: 'App\Entity\Message'
                         alias: Message
-
+                    Tag:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Tag'
+                        prefix: 'App\Entity\Tag'
+                        alias: Tag
             review:
                 connection: review
                 mappings:

@@ -4,12 +4,12 @@ framework:
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
     #http_method_override: true
-    default_locale: '%locale%'
+    default_locale: '%app_locale%'
     translator:
         default_path: '%kernel.project_dir%/translations'
         #fallbacks: { fallbacks: [en] }
         fallbacks:
-        - '%locale%'
+          - '%app_locale%'
         paths:
         - '%kernel.project_dir%/translations/en-GB'
         - '%kernel.project_dir%/translations/ru-RU'
@@ -23,6 +23,7 @@ framework:
     # Remove or comment this section to explicitly disable session support.
     session:
         handler_id: ~
+      #handler_id: '%env(REDIS_URL)%'
         cookie_secure: auto
         cookie_samesite: lax
 
@@ -37,7 +38,7 @@ framework:
     # into clickable links that open the given file using your favorite IDE.
     # When 'ide' is set to null the file is opened in your web browser.
     # See https://symfony.com/doc/current/reference/configuration/framework.html#ide
-    ide: phpstorm
+    ide: 'phpstorm://open?file=%%f&line=%%l'
     validation:
         email_validation_mode: 'html5'
         enable_annotations: true
