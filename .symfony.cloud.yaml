@@ -1,0 +1,49 @@
+name: app
+
+type: php:7.4
+
+runtime:
+    extensions:
+        - xsl
+        - apcu
+        - mbstring
+        - sodium
+        - ctype
+        - gmp
+        - iconv
+        - json
+        - pdo_pgsql
+        - pdo_sqlite
+
+
+build:
+    flavor: none
+
+web:
+    locations:
+        "/":
+            root: "public"
+            expires: 1h
+            passthru: "/index.php"
+
+disk: 512
+
+mounts:
+    "/var": { source: local, source_path: var }
+    "/public/uploads": { source: service, service: files, source_path: uploads
+    }
+
+hooks:
+    build: |
+        set -x -e
+
+        curl -s https://get.symfony.com/cloud/configurator | (>&2 bash)
+crons:
+    reviews_cleanup:
+        # Cleanup old rejected Project and Product Reviews
+        spec: '50 23 * * *'
+        cmd: |
+            if ["$SYMFONY_BRANCH" = "master"];
+            then croncape symfony console app:review:rejected:cleanup
+            fi
+
