@@ -26,7 +26,7 @@
         /**
          * @var UuidInterface
          *
-         * @ORM\Column(type="uuid", unique=true, nullable=false)
+         * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
          */
         protected $uuid;
 
@@ -51,44 +51,44 @@
 
         /**
          * @var DateTime
-		 *
-		 * @ORM\Column(name="created_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-		 * @Assert\DateTime
-		 */
-		private $createdOn;
+         *
+         * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+         * @Assert\DateTime
+         */
+        private $createdAt;
 
-		/**
-		 * @var integer
-		 *
-		 * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
-		 */
-		private $createdBy = 1;
+        /**
+         * @var integer
+         *
+         * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
+         */
+        private $createdBy = 1;
 
-		/**
-		 * @var DateTime
-		 *
-		 * @ORM\Column(name="modified_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-		 * @Assert\DateTime
-		 */
-		private $modifiedOn;
+        /**
+         * @var DateTime
+         *
+         * @ORM\Column(name="modified_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+         * @Assert\DateTime
+         */
+        private $modifiedAt;
 
-		/**
-		 * @var integer
-		 *
-		 * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
-		 */
-		private $modifiedBy = 1;
+        /**
+         * @var integer
+         *
+         * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
+         */
+        private $modifiedBy = 1;
 
-		/**
-		 * @var DateTime
-		 *
-		 * @ORM\Column(name="locked_on", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-		 * @Assert\DateTime
-		 */
-		private $lockedOn;
+        /**
+         * @var DateTime
+         *
+         * @ORM\Column(name="locked_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+         * @Assert\DateTime
+         */
+        private $lockedAt;
 
-		/**
-		 * @var int
+        /**
+         * @var int
          *
          * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
          */
@@ -104,19 +104,19 @@
          */
         private $requestDispatcher;
 
-        public function __construct(RequestDispatcher $requestDispatcher)
+        public function __construct()
         {
             try {
                 $this->uuid = Uuid::uuid4();
                 $slugEncode = new UuidEncoder();
                 $this->slug = $slugEncode->encode($this->uuid);
+                $this->requestDispatcher = new RequestDispatcher();
             } catch (Exception $e) {
             }
 
-            $this->createdOn = new DateTime();
-            $this->modifiedOn = new DateTime();
-            $this->lockedOn = new DateTime();
-            $this->requestDispatcher = $requestDispatcher;
+            $this->createdAt = new DateTime();
+            $this->modifiedAt = new DateTime();
+            $this->lockedAt = new DateTime();
         }
 
 		/**
@@ -183,116 +183,116 @@
         }
 
         /**
-		 * @param string $slug
-		 */
-		public function setSlug(string $slug): void
-		{
-			$this->slug = $slug;
-		}
+         * @param string $slug
+         */
+        public function setSlug(string $slug): void
+        {
+            $this->slug = $slug;
+        }
 
 
-		/**
-		 * @return DateTime
-		 */
-		public function getCreatedOn(): DateTime
-		{
-			return $this->createdOn;
-		}
+        /**
+         * @return DateTime
+         */
+        public function getCreatedAt(): DateTime
+        {
+            return $this->createdAt;
+        }
 
-		/**
-		 * @ORM\PrePersist
-		 * @throws Exception
-		 */
-		public function setCreatedOn(): void
-		{
-			$this->createdOn = new DateTime();
-		}
+        /**
+         * @ORM\PrePersist
+         * @throws Exception
+         */
+        public function setCreatedAt(): void
+        {
+            $this->createdAt = new DateTime();
+        }
 
-		/**
-		 * @return integer
-		 */
-		public function getCreatedBy(): int
-		{
-			return $this->createdBy;
-		}
+        /**
+         * @return integer
+         */
+        public function getCreatedBy(): int
+        {
+            return $this->createdBy;
+        }
 
-		/**
-		 * @param integer $createdBy
-		 */
-		public function setCreatedBy(int $createdBy): void
-		{
-			$this->createdBy = $createdBy;
-		}
+        /**
+         * @param integer $createdBy
+         */
+        public function setCreatedBy(int $createdBy): void
+        {
+            $this->createdBy = $createdBy;
+        }
 
-		/**
-		 * @return DateTime
-		 */
-		public function getModifiedOn(): DateTime
-		{
-			return $this->modifiedOn;
-		}
+        /**
+         * @return DateTime
+         */
+        public function getModifiedAt(): DateTime
+        {
+            return $this->modifiedAt;
+        }
 
-		/**
-		 * @ORM\PreFlush
-		 * @ORM\PreUpdate
-		 * @throws Exception
-		 */
-		public function setModifiedOn(): void
-		{
-			$this->modifiedOn = new DateTime();
-		}
+        /**
+         * @ORM\PreFlush
+         * @ORM\PreUpdate
+         * @throws Exception
+         */
+        public function setModifiedAt(): void
+        {
+            $this->modifiedAt = new DateTime();
+        }
 
-		/**
-		 * @return integer
-		 */
-		public function getModifiedBy(): int
-		{
-			return $this->modifiedBy;
-		}
+        /**
+         * @return integer
+         */
+        public function getModifiedBy(): int
+        {
+            return $this->modifiedBy;
+        }
 
-		/**
-		 * @param integer $modifiedBy
-		 */
-		public function setModifiedBy(int $modifiedBy): void
-		{
-			$this->modifiedBy = $modifiedBy;
-		}
+        /**
+         * @param integer $modifiedBy
+         */
+        public function setModifiedBy(int $modifiedBy): void
+        {
+            $this->modifiedBy = $modifiedBy;
+        }
 
-		/**
-		 * @return DateTime
-		 */
-		public function getLockedOn(): DateTime
-		{
-			return $this->lockedOn;
-		}
+        /**
+         * @return DateTime
+         */
+        public function getLockedAt(): DateTime
+        {
+            return $this->lockedAt;
+        }
 
-		/**
-		 * @ORM\PrePersist
-		 * @ORM\PreFlush
-		 * @ORM\PreUpdate
-		 * @throws Exception
-		 */
-		public function setLockedOn(): void
-		{
-			$this->lockedOn = new DateTime();
-		}
+        /**
+         * @ORM\PrePersist
+         * @ORM\PreFlush
+         * @ORM\PreUpdate
+         * @throws Exception
+         */
+        public function setLockedAt(): void
+        {
+            $this->lockedAt = new DateTime();
+        }
 
 
-		/**
-		 * @return integer
-		 */
-		public function getLockedBy(): int
-		{
-			return $this->lockedBy;
-		}
+        /**
+         * @return integer
+         */
+        public function getLockedBy(): int
+        {
+            return $this->lockedBy;
+        }
 
-		/**
-		 * @param integer $lockedBy
-		 */
-		public function setLockedBy(int $lockedBy): void
-		{
-			$this->lockedBy = $lockedBy;
-		}
+        /**
+         * @param integer $lockedBy
+         */
+        public function setLockedBy(int $lockedBy): void
+        {
+            $this->lockedBy = $lockedBy;
+        }
 
 		/**
 		 * @return mixed

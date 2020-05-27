@@ -10,7 +10,8 @@ trait ObjectTrait
     /**
      * @var string
      *
-     * @ORM\Column(name="first_title", type="string", nullable=false, options={"default"="first_title"})
+     * @ORM\Column(name="first_title", type="string", nullable=false,
+     *     options={"default"="first_title"})
      * @Assert\NotBlank(message="object_en_gb.blank_content")
      * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
      */
