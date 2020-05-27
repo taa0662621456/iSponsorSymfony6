@@ -26,13 +26,12 @@ framework:
       #handler_id: '%env(REDIS_URL)%'
         cookie_secure: auto
         cookie_samesite: lax
-
-    #esi: true
-    #fragments: { path: /_fragment }
-    #templating:
-    #    hinclude_default_template: '%kernel.project_dir%/templates/hinclude.html.twig'
-    php_errors:
-        log: true
+        esi: true
+      #fragments: { path: /_fragment }
+      #templating:
+      #    hinclude_default_template: '%kernel.project_dir%/templates/hinclude.html.twig'
+        php_errors:
+          log: true
 
     # The 'ide' option turns all of the file paths in an exception page
     # into clickable links that open the given file using your favorite IDE.

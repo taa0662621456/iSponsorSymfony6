@@ -6,17 +6,35 @@ framework:
                 dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
                 options:
                     queue_name: normal_priority
-                      # предварительные параметры шины и RabbitMQ
-                      #asyn_low:
-                      #    async:
-                      #+ dsn: '%env(RABBITMQ_DSN)%'
-                    #+ retry_strategy:
-                    #+ max_retries: 3
-                    #+ multiplier: 2
-                #failed: 'doctrine://default?queue_name=failed'
-                #failure_transport: failed
-            #routing:
-            #App\Message\ReviewMessage: async
+
+            asyn_project:
+                #async: '%env(RABBITMQ_DSN)%'
+                dsn: "%env(RABBITMQ_DSN)%"
+                options:
+                    queue_name: normal_priority
+                    retry_strategy:
+                        max_retries: 3
+                        multiplier: 2
+                failed: 'doctrine://default?queue_name=failed'
+
+            asyn_product:
+                #async: '%env(RABBITMQ_DSN)%'
+                dsn: "%env(RABBITMQ_DSN)%"
+                options:
+                    queue_name: normal_priority
+                    retry_strategy:
+                        max_retries: 3
+                        multiplier: 2
+
+                failed: 'doctrine://default?queue_name=failed'
+
+            failure_transport: failed
+            routing:
+                App\Message\ProjectReviewMessage: async
+                App\Message\ProductReviewMessage: async
+                Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+                Symfony\Component\Notifier\Message\ChatMessage: async
+                Symfony\Component\Notifier\Message\SmsMessage: async
         buses:
             command_bus:
                 middleware:
