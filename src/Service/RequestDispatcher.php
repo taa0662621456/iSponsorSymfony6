@@ -59,7 +59,7 @@ class RequestDispatcher
         $this->objectRepository = '\\App\\Repository\\' . $object . '\\' . $object . 'sRepository';
         //$this->objectRepository = $object . 'Repository'; //TODO: не продумано для Entity
         $this->objectEnGb = '\\App\\Entity\\' . $object . '\\' . $object . 'sEnGb'; //TODO: не продумано для Entity
-        $crud = explode('_', $requestStack->getMasterRequest()->attributes->get('_route'), 2);
+        $crud = explode('_', $this->requestStack->getMasterRequest()->attributes->get('_route'), 2);
         $this->crud = $crud[1];
         $this->route = mb_strtolower($object);
         $this->type = '\\App\\Form\\' . $object . '\\' . $object . 'Type';
