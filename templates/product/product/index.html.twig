@@ -40,11 +40,11 @@
                 <th>Layout</th>
                 <th>Published</th>
                 <th>Ordering</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 <th>actions</th>
             </tr>
@@ -84,11 +84,11 @@
                 <td>{{ product.layout }}</td>
                 <td>{{ product.published ? 'Yes' : 'No' }}</td>
                 <td>{{ product.ordering }}</td>
-                <td>{{ product.createdOn ? product.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ product.createdBy }}</td>
-                <td>{{ product.modifiedOn ? product.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.modifiedAt ? product.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ product.modifiedBy }}</td>
-                <td>{{ product.lockedOn ? product.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ product.lockedAt ? product.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ product.lockedBy }}</td>
                 <td>
                     <a href="{{ path('products_show', {'id': product.id}) }}">show</a>

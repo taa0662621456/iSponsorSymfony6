@@ -21,11 +21,11 @@
                 <th>VendorParams</th>
                 <th>MetaRobot</th>
                 <th>MetaAuthor</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 #}
                 <th>actions</th>
@@ -56,11 +56,11 @@
                     <td>{{ vendor.vendorParams }}</td>
                     <td>{{ vendor.metaRobot }}</td>
                     <td>{{ vendor.metaAuthor }}</td>
-                    <td>{{ vendor.createdOn ? vendor.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vendor.createdAt ? vendor.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ vendor.createdBy }}</td>
-                    <td>{{ vendor.modifiedOn ? vendor.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vendor.modifiedAt ? vendor.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ vendor.modifiedBy }}</td>
-                    <td>{{ vendor.lockedOn ? vendor.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ vendor.lockedAt ? vendor.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ vendor.lockedBy }}</td>
                     #}
                 <td>

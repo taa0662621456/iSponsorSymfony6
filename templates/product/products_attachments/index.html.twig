@@ -24,11 +24,11 @@
                 <th>FileLang</th>
                 <th>IsShared</th>
                 <th>Published</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 <th>actions</th>
             </tr>
@@ -52,11 +52,11 @@
                 <td>{{ products_attachment.fileLang }}</td>
                 <td>{{ products_attachment.isShared ? 'Yes' : 'No' }}</td>
                 <td>{{ products_attachment.published ? 'Yes' : 'No' }}</td>
-                <td>{{ products_attachment.createdOn ? products_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ products_attachment.createdAt ? products_attachment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ products_attachment.createdBy }}</td>
-                <td>{{ products_attachment.modifiedOn ? products_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ products_attachment.modifiedAt ? products_attachment.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ products_attachment.modifiedBy }}</td>
-                <td>{{ products_attachment.lockedOn ? products_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ products_attachment.lockedAt ? products_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ products_attachment.lockedBy }}</td>
                 <td>
                     <a href="{{ path('product_products_attachments_show', {'id': products_attachment.id}) }}">show</a>

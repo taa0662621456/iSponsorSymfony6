@@ -1,0 +1,36 @@
+<li class="nav-item dropdown">
+    <a class="btn btn-info btn-block dropdown-toggle rounded-0" href="#" id="navbarDropdown" role="button"
+       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Yet</a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <a class="dropdown-item" href="#">My Projects</a>
+            <a class="dropdown-item" href="#">My Products</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+            <a class="dropdown-item" href="{{ path('projects_new') }}">Add Project</a>
+            <a class="dropdown-item" href="{{ path('products_new') }}">Add Product</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsors</a>
+            <a class="dropdown-item" href="{{ path('author') }}">Authors</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ path('orders_index') }}">Orders</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" href="{{ path('logout') }}">{{ 'logout'|trans }}</a>
+        {% else %}
+            <a class="dropdown-item" href="{{ path('login') }}">{{ 'button.navbar.signin'|trans }}</a>
+            <a class="dropdown-item" href="{{ path('registration') }}">{{ 'button.navbar.signup'|trans }}</a>
+        {% endif %}
+
+        {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
+            <a class="dropdown-item" href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} ">Exit
+                impersonation</a>
+        {% endif %}
+
+    </div>
+</li>

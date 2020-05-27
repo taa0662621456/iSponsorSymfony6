@@ -44,11 +44,11 @@
                 <th>IpAddress</th>
                 <th>STSameAsBT</th>
                 <th>OHash</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 <th>actions</th>
             </tr>
@@ -92,11 +92,11 @@
                 <td>{{ order.ipAddress }}</td>
                 <td>{{ order.STSameAsBT ? 'Yes' : 'No' }}</td>
                 <td>{{ order.oHash }}</td>
-                <td>{{ order.createdOn ? order.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ order.createdBy }}</td>
-                <td>{{ order.modifiedOn ? order.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.modifiedAt ? order.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ order.modifiedBy }}</td>
-                <td>{{ order.lockedOn ? order.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.lockedAt ? order.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ order.lockedBy }}</td>
                 <td>
                     <a href="{{ path('orders_show', {'id': order.id}) }}">show</a>

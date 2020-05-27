@@ -24,11 +24,11 @@
                 <th>FileLang</th>
                 <th>IsShared</th>
                 <th>Published</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 <th>actions</th>
             </tr>
@@ -52,11 +52,11 @@
                 <td>{{ projects_attachment.fileLang }}</td>
                 <td>{{ projects_attachment.isShared ? 'Yes' : 'No' }}</td>
                 <td>{{ projects_attachment.published ? 'Yes' : 'No' }}</td>
-                <td>{{ projects_attachment.createdOn ? projects_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projects_attachment.createdAt ? projects_attachment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ projects_attachment.createdBy }}</td>
-                <td>{{ projects_attachment.modifiedOn ? projects_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projects_attachment.modifiedAt ? projects_attachment.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ projects_attachment.modifiedBy }}</td>
-                <td>{{ projects_attachment.lockedOn ? projects_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ projects_attachment.lockedAt ? projects_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ projects_attachment.lockedBy }}</td>
                 <td>
                     <a href="{{ path('project_projects_attachments_show', {'id': projects_attachment.id}) }}">show</a>

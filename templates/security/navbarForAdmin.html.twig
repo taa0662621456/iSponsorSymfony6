@@ -1,0 +1,74 @@
+{% if is_granted('ROLE_ADMIN') %}
+    <nav class="row navbar navbar-expand-sm navbar-light bg-secondary navbar-fixed-top pt-0 pb-0">
+        <menu class="{{ b1 }}">
+            <a class="navbar-brand float-right" href="#"><span class="text-break">Home</span></a>
+
+        </menu>
+        <menu class="{{ b2 }} left">
+            Something else
+        </menu>
+        <menu class="{{ b3 }}">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item btn-warning">
+                        <a class="nav-link" href="{{ path('projects_new') }}"><i class="fal fa-plus-circle"></i></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('homepage') }}">Home <span
+                                    class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+                            <a class="dropdown-item" href="{{ path('projects_new') }}">Add Project</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsor</a>
+                            <a class="dropdown-item" href="{{ path('author') }}">Author</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('orders_index') }}">Orders</a>
+                            <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+                            <a class="dropdown-item" href="{{ path('products_index') }}">Products</a>
+                            {#
+                            <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
+                            <a class="dropdown-item" href="{{path('projects_new')}}">Add Project</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            #}
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sign..</a>
+                    </li>
+                    {{ render(controller( 'App\\Controller\\SecurityController::login' , {'layout' : 'navbarAuthBlock'})) }}
+                </ul>
+            </div>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                Username: {{ app.user.username }}
+            {% endif %}
+
+            {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
+                <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} "> Exit
+                    impersonation </a>
+            {% endif %}
+        </menu>
+        <menu class="{{ b4 }}">
+
+        </menu>
+
+    </nav>
+{% endif %}

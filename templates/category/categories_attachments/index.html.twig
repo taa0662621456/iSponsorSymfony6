@@ -24,11 +24,11 @@
                 <th>FileLang</th>
                 <th>IsShared</th>
                 <th>Published</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 <th>actions</th>
             </tr>
@@ -52,11 +52,11 @@
                 <td>{{ categories_attachment.fileLang }}</td>
                 <td>{{ categories_attachment.isShared ? 'Yes' : 'No' }}</td>
                 <td>{{ categories_attachment.published ? 'Yes' : 'No' }}</td>
-                <td>{{ categories_attachment.createdOn ? categories_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ categories_attachment.createdAt ? categories_attachment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ categories_attachment.createdBy }}</td>
-                <td>{{ categories_attachment.modifiedOn ? categories_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ categories_attachment.modifiedAt ? categories_attachment.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ categories_attachment.modifiedBy }}</td>
-                <td>{{ categories_attachment.lockedOn ? categories_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ categories_attachment.lockedAt ? categories_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ categories_attachment.lockedBy }}</td>
                 <td>
                     <a href="{{ path('category_categories_attachments_show', {'id': categories_attachment.id}) }}">show</a>

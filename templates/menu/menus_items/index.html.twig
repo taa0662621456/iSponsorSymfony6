@@ -18,11 +18,11 @@
             <th>Id</th>
             <th>Uuid</th>
             <th>Slug</th>
-            <th>CreatedOn</th>
+            <th>createdAt</th>
             <th>CreatedBy</th>
-            <th>ModifiedOn</th>
+            <th>modifiedAt</th>
             <th>ModifiedBy</th>
-            <th>LockedOn</th>
+            <th>lockedAt</th>
             <th>LockedBy</th>
             <th>Version</th>
             <th>actions</th>
@@ -41,11 +41,11 @@
                 <td>{{ menus_item.id }}</td>
                 <td>{{ menus_item.uuid }}</td>
                 <td>{{ menus_item.slug }}</td>
-                <td>{{ menus_item.createdOn ? menus_item.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menus_item.createdAt ? menus_item.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ menus_item.createdBy }}</td>
-                <td>{{ menus_item.modifiedOn ? menus_item.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menus_item.modifiedAt ? menus_item.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ menus_item.modifiedBy }}</td>
-                <td>{{ menus_item.lockedOn ? menus_item.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ menus_item.lockedAt ? menus_item.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ menus_item.lockedBy }}</td>
                 <td>{{ menus_item.version }}</td>
                 <td>

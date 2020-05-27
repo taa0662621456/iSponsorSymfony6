@@ -24,11 +24,11 @@
                 <th>FileLang</th>
                 <th>IsShared</th>
                 <th>Published</th>
-                <th>CreatedOn</th>
+                <th>createdAt</th>
                 <th>CreatedBy</th>
-                <th>ModifiedOn</th>
+                <th>modifiedAt</th>
                 <th>ModifiedBy</th>
-                <th>LockedOn</th>
+                <th>lockedAt</th>
                 <th>LockedBy</th>
                 <th>actions</th>
             </tr>
@@ -52,11 +52,11 @@
                 <td>{{ vendors_attachment.fileLang }}</td>
                 <td>{{ vendors_attachment.isShared ? 'Yes' : 'No' }}</td>
                 <td>{{ vendors_attachment.published ? 'Yes' : 'No' }}</td>
-                <td>{{ vendors_attachment.createdOn ? vendors_attachment.createdOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendors_attachment.createdAt ? vendors_attachment.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ vendors_attachment.createdBy }}</td>
-                <td>{{ vendors_attachment.modifiedOn ? vendors_attachment.modifiedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendors_attachment.modifiedAt ? vendors_attachment.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ vendors_attachment.modifiedBy }}</td>
-                <td>{{ vendors_attachment.lockedOn ? vendors_attachment.lockedOn|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ vendors_attachment.lockedAt ? vendors_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ vendors_attachment.lockedBy }}</td>
                 <td>
                     <a href="{{ path('vendor_vendors_attachments_show', {'id': vendors_attachment.id}) }}">show</a>

@@ -46,7 +46,7 @@ $(function () {
   QUnit.test('should activate element by tab id', function (assert) {
     assert.expect(2)
     var tabsHTML = '<ul class="nav">' +
-        '<li><a href="#home">Home</a></li>' +
+        '<li><a href="#home">Home0</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
         '</ul>'
 
@@ -62,7 +62,7 @@ $(function () {
   QUnit.test('should activate element by tab id', function (assert) {
     assert.expect(2)
     var pillsHTML = '<ul class="nav nav-pills">' +
-        '<li><a href="#home">Home</a></li>' +
+        '<li><a href="#home">Home0</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
         '</ul>'
 
@@ -78,7 +78,7 @@ $(function () {
   QUnit.test('should activate element by tab id in ordered list', function (assert) {
     assert.expect(2)
     var pillsHTML = '<ol class="nav nav-pills">' +
-        '<li><a href="#home">Home</a></li>' +
+        '<li><a href="#home">Home0</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
         '</ol>'
 
@@ -94,7 +94,7 @@ $(function () {
   QUnit.test('should activate element by tab id in nav list', function (assert) {
     assert.expect(2)
     var tabsHTML =  '<nav class="nav">' +
-                      '<a href="#home">Home</a>' +
+                      '<a href="#home">Home0</a>' +
                       '<a href="#profile">Profile</a>' +
                     '</nav>'
 
@@ -110,7 +110,7 @@ $(function () {
   QUnit.test('should activate element by tab id in list group', function (assert) {
     assert.expect(2)
     var tabsHTML =  '<div class="list-group">' +
-                      '<a href="#home">Home</a>' +
+                      '<a href="#home">Home0</a>' +
                       '<a href="#profile">Profile</a>' +
                     '</div>'
 
@@ -142,7 +142,7 @@ $(function () {
   QUnit.test('should not fire shown when tab is already active', function (assert) {
     assert.expect(0)
     var tabsHTML = '<ul class="nav nav-tabs" role="tablist">' +
-      '<li class="nav-item"><a href="#home" class="nav-link active" role="tab">Home</a></li>' +
+      '<li class="nav-item"><a href="#home" class="nav-link active" role="tab">Home0</a></li>' +
       '<li class="nav-item"><a href="#profile" class="nav-link" role="tab">Profile</a></li>' +
       '</ul>' +
       '<div class="tab-content">' +
@@ -161,7 +161,7 @@ $(function () {
   QUnit.test('should not fire shown when tab is disabled', function (assert) {
     assert.expect(0)
     var tabsHTML = '<ul class="nav nav-tabs" role="tablist">' +
-      '<li class="nav-item"><a href="#home" class="nav-link active" role="tab">Home</a></li>' +
+      '<li class="nav-item"><a href="#home" class="nav-link active" role="tab">Home0</a></li>' +
       '<li class="nav-item"><a href="#profile" class="nav-link disabled" role="tab">Profile</a></li>' +
       '</ul>' +
       '<div class="tab-content">' +
@@ -211,7 +211,7 @@ $(function () {
     var done = assert.async()
 
     var tabsHTML = '<ul class="nav">' +
-        '<li><a href="#home">Home</a></li>' +
+        '<li><a href="#home">Home0</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
         '</ul>'
 
@@ -242,7 +242,7 @@ $(function () {
     var done = assert.async()
 
     var tabsHTML = '<ul class="nav">' +
-        '<li><a href="#home">Home</a></li>' +
+        '<li><a href="#home">Home0</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
         '</ul>'
 
@@ -267,7 +267,7 @@ $(function () {
     var done = assert.async()
 
     var tabsHTML = '<ul class="nav">' +
-        '<li><a href="#home">Home</a></li>' +
+        '<li><a href="#home">Home0</a></li>' +
         '<li><a href="#profile">Profile</a></li>' +
         '</ul>'
 
@@ -289,7 +289,7 @@ $(function () {
   QUnit.test('selected tab should have aria-selected', function (assert) {
     assert.expect(8)
     var tabsHTML = '<ul class="nav nav-tabs">' +
-        '<li><a class="nav-item active" href="#home" toggle="tab" aria-selected="true">Home</a></li>' +
+        '<li><a class="nav-item active" href="#home" toggle="tab" aria-selected="true">Home0</a></li>' +
         '<li><a class="nav-item" href="#profile" toggle="tab" aria-selected="false">Profile</a></li>' +
         '</ul>'
     var $tabs = $(tabsHTML).appendTo('#qunit-fixture')
@@ -314,7 +314,7 @@ $(function () {
   QUnit.test('selected tab should deactivate previous selected tab', function (assert) {
     assert.expect(2)
     var tabsHTML = '<ul class="nav nav-tabs">' +
-        '<li class="nav-item"><a class="nav-link active" href="#home" data-toggle="tab">Home</a></li>' +
+        '<li class="nav-item"><a class="nav-link active" href="#home" data-toggle="tab">Home0</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="#profile" data-toggle="tab">Profile</a></li>' +
         '</ul>'
     var $tabs = $(tabsHTML).appendTo('#qunit-fixture')
@@ -327,7 +327,7 @@ $(function () {
   QUnit.test('selected tab should deactivate previous selected link in dropdown', function (assert) {
     assert.expect(3)
     var tabsHTML = '<ul class="nav nav-tabs">' +
-        '<li class="nav-item"><a class="nav-link" href="#home" data-toggle="tab">Home</a></li>' +
+        '<li class="nav-item"><a class="nav-link" href="#home" data-toggle="tab">Home0</a></li>' +
         '<li class="nav-item"><a class="nav-link" href="#profile" data-toggle="tab">Profile</a></li>' +
         '<li class="nav-item dropdown"><a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#">Dropdown</a>' +
         '<div class="dropdown-menu">' +
@@ -386,7 +386,7 @@ $(function () {
     assert.expect(6)
     var done = assert.async()
     var tabsHTML = '<ul class="nav nav-tabs" role="tablist">' +
-      '<li class="nav-item"><a id="tab-home" href="#home" class="nav-link" data-toggle="tab" role="tab">Home</a></li>' +
+      '<li class="nav-item"><a id="tab-home" href="#home" class="nav-link" data-toggle="tab" role="tab">Home0</a></li>' +
       '<li class="nav-item"><a id="tab-profile" href="#profile" class="nav-link" data-toggle="tab" role="tab">Profile</a></li>' +
       '</ul>' +
       '<div class="tab-content">' +
