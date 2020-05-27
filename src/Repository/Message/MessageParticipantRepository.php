@@ -3,21 +3,21 @@
 namespace App\Repository\Message;
 
 
-use App\Entity\Message\Participant;
+use App\Entity\Message\MessageParticipant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Participant|null find($id, $lockMode = null, $lockVersion = null)
- * @method Participant|null findOneBy(array $criteria, array $orderBy = null)
- * @method Participant[]    findAll()
- * @method Participant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MessageParticipant|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MessageParticipant|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MessageParticipant[]    findAll()
+ * @method MessageParticipant[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ParticipantRepository extends ServiceEntityRepository
+class MessageParticipantRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Participant::class);
+        parent::__construct($registry, MessageParticipant::class);
     }
 
     public function findParticipantByConversationIdAndUserId(int $conversationId, int $userId)

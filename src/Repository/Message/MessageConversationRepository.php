@@ -15,7 +15,7 @@ use function Doctrine\ORM\QueryBuilder;
  * @method Conversation[]    findAll()
  * @method Conversation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ConversationRepository extends ServiceEntityRepository
+class MessageConversationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

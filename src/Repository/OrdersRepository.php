@@ -3,11 +3,13 @@
 namespace App\Repository;
 
 use App\Entity\Order\Orders;
-use App\Entity\Tag;
+use App\Entity\Project\Projects;
+use App\Entity\Tag\Tag;
 use App\Pagination\Paginator;
 
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use phpDocumentor\Reflection\Project;
+use Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,7 +22,7 @@ class OrdersRepository extends ServiceEntityRepository
 {
     /**
      * ProjectsRepository constructor.
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -29,19 +31,19 @@ class OrdersRepository extends ServiceEntityRepository
 
     /**
      * @param int $page
-     * @param Tag|null $tag
+     * @param Tag $tag
      * @return Paginator
      * @throws Exception
      */
     public function findLatest(int $page = 1, Tag $tag = null): Paginator
     {
-        
+
         $qb = $this->createQueryBuilder('p')
             ->addSelect('a', 't')
             ->innerJoin('p.vendorId', 'a')
             ->leftJoin('p.tags', 't')
-            ->where('p.createdOn <= :now')
-            ->orderBy('p.createdOn', 'DESC')
+            ->where('p.createdAt <= :now')
+            ->orderBy('p.createdAt', 'DESC')
             ->setParameter('now', new DateTime())
         ;
 
@@ -50,7 +52,7 @@ class OrdersRepository extends ServiceEntityRepository
                 ->setParameter('tag', $tag);
         }
         return (new Paginator($qb))->paginate($page);
-        
+
     }
 
     /**
@@ -74,7 +76,7 @@ class OrdersRepository extends ServiceEntityRepository
             ;
         }
         return $queryBuilder
-            ->orderBy('p.createdOn', 'DESC')
+            ->orderBy('p.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
