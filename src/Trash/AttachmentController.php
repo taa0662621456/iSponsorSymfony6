@@ -5,7 +5,7 @@ namespace App;
 
 
 use App\Form\Category\CategoriesAttachmentsType;
-use App\Service\AttachmentsManager;
+use App\Service\AttachmentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 class AttachmentController extends AbstractController
 {
     /**
-     * @var AttachmentsManager
+     * @var AttachmentManager
      */
     private $attachmentsManager;
     /**
@@ -37,7 +37,7 @@ class AttachmentController extends AbstractController
      */
     private $request;
 
-    public function __construct(AttachmentsManager $attachmentsManager,
+    public function __construct(AttachmentManager $attachmentsManager,
                                 AuthorizationCheckerInterface $authChecker,
                                 EntityManagerInterface $entity,
                                 RequestStack $requestStack,
