@@ -27,26 +27,29 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			$slug = new UuidEncoder();
 
 			try {
-				$uuid = Uuid::uuid4();
-				$categories->setUuid($uuid);
-				$categories->setSlug($slug->encode($uuid));
-			} catch (Exception $e) {
-			}
+                $uuid = Uuid::uuid4();
+                $categories->setUuid($uuid);
+                $categories->setSlug($slug->encode($uuid));
+            } catch (Exception $e) {
+            }
 
-			$categories->setOrdering($p);
-			$categories->setCategoryEnGb($categoryEnGb);
+            $categories->setOrdering($p);
+            $categories->setCategoryEnGb($categoryEnGb);
 
-			$categoryEnGb->setCategoryName('Category #' . $p);
+            $categoryEnGb->setCategoryName('Category #' . $p);
+            $categoryEnGb->setFirstTitle('Category #' . $p);
+            $categoryEnGb->setMiddleTitle('Category #' . $p);
+            $categoryEnGb->setLastTitle('Category #' . $p);
 
-			$categoryAttachments->setFileName('cover.jpg');
-			$categoryAttachments->setFilePath('/');
-			$categoryAttachments->setFileLayoutPosition('homepage');
-			$categoryAttachments->setCategoryAttachments($categories);
+            $categoryAttachments->setFileName('cover.jpg');
+            $categoryAttachments->setFilePath('/');
+            $categoryAttachments->setFileLayoutPosition('homepage');
+            $categoryAttachments->setCategoryAttachments($categories);
 
-			$manager->persist($categoryAttachments);
-			$manager->persist($categoryEnGb);
-			$manager->persist($categories);
-			$manager->flush();
+            $manager->persist($categoryAttachments);
+            $manager->persist($categoryEnGb);
+            $manager->persist($categories);
+            $manager->flush();
 		}
 	}
 

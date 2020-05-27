@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 
-use App\Entity\Review\ProductReviews\ProductReviews;
+use App\Entity\Review\ProductReviews;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -35,6 +35,7 @@ class ProductReviewFixtures extends Fixture
 
 
         $productReview->setProductId($p);
+        $productReview->setState('published');
         $productReview->setReview($review);
 
         $manager->persist($productReview);

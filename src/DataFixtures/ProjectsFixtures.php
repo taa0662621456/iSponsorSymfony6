@@ -33,25 +33,29 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 				$uuid = Uuid::uuid4();
 				$projects->setUuid($uuid);
 				$projects->setSlug($slug->encode($uuid));
-			} catch (Exception $e) {
-			}
+            } catch (Exception $e) {
+            }
 
 
-			$projects->setProjectCategory($categories[array_rand($categories)]);
-			$projects->setProjectType(rand(1, 4));
-			$projects->setProjectEnGb($projectEnGb);
+            $projects->setProjectCategory($categories[array_rand($categories)]);
+            $projects->setProjectType(rand(1, 4));
 
-			$projectEnGb->setProjectTitle('Project #' . $p);
+            $projects->setProjectEnGb($projectEnGb);
 
-			$projectAttachments->setFileName('cover.jpg');
-			$projectAttachments->setFilePath('/');
+            $projectEnGb->setProjectTitle('Project #' . $p);
+            $projectEnGb->setFirstTitle('ProjectFT #' . $p);
+            $projectEnGb->setMiddleTitle('ProjectMT #' . $p);
+            $projectEnGb->setLastTitle('ProjectLT #' . $p);
 
-			$projectAttachments->setProjectAttachments($projects);
+            $projectAttachments->setFileName('cover.jpg');
+            $projectAttachments->setFilePath('/');
 
-			$manager->persist($projectAttachments);
-			$manager->persist($projectEnGb);
-			$manager->persist($projects);
-			$manager->flush();
+            $projectAttachments->setProjectAttachments($projects);
+
+            $manager->persist($projectAttachments);
+            $manager->persist($projectEnGb);
+            $manager->persist($projects);
+            $manager->flush();
 
 		}
 	}

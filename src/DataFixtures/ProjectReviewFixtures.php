@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Review\ProjectReviews\ProjectReviews;
+use App\Entity\Review\ProjectReviews;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -34,6 +34,7 @@ class ProjectReviewFixtures extends Fixture
 
 
         $projectReview->setProjectId($p);
+        $projectReview->setState('published');
         $projectReview->setReview($review);
 
         $manager->persist($projectReview);

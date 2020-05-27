@@ -23,26 +23,29 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 			$products = new Products();
 			$productEnGb = new ProductsEnGb();
 			$productAttachments = new ProductsAttachments();
-			$slug = new UuidEncoder();
+            $slug = new UuidEncoder();
 
-			try {
-				$uuid = Uuid::uuid4();
-				$products->setUuid($uuid);
-				$products->setSlug($slug->encode($uuid));
-			} catch (Exception $e) {
-			}
+            try {
+                $uuid = Uuid::uuid4();
+                $products->setUuid($uuid);
+                $products->setSlug($slug->encode($uuid));
+            } catch (Exception $e) {
+            }
 
-			$productEnGb->setProductName('Product # ' . $p);
+            $productEnGb->setProductName('Product # ' . $p);
+            $productEnGb->setFirstTitle('ProductFT # ' . $p);
+            $productEnGb->setMiddleTitle('ProductMT # ' . $p);
+            $productEnGb->setLastTitle('ProductLT # ' . $p);
 
-			$productAttachments->setFileName('cover.jpg');
-			$productAttachments->setFilePath('/');
-			$productAttachments->setProductAttachments($products);
+            $productAttachments->setFileName('cover.jpg');
+            $productAttachments->setFilePath('/');
+            $productAttachments->setProductAttachments($products);
 
 
-			$products->setProductEnGb($productEnGb);
+            $products->setProductEnGb($productEnGb);
 
-			$manager->persist($productAttachments);
-			$manager->persist($productEnGb);
+            $manager->persist($productAttachments);
+            $manager->persist($productEnGb);
 			$manager->persist($products);
 			$manager->flush();
 
