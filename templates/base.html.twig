@@ -55,7 +55,7 @@
                                 <a class="btn btn-warning btn-block rounded-0" role="button"
                                    href="{{ path('projects_new') }}"><i class="fal fa-plus-circle"></i></a>
                             </li>
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                 <li class="nav-item">
                                     <a class=""><img src="{{ asset('cover.jpg') }}" class="avaterka" alt="Avatar"></a>
                                 </li>
@@ -66,8 +66,7 @@
                                     <a class="btn btn-link btn-block" role="button">{{ app.user.username }}</a>
                                 </li>
                             {% endif %}
-
-                            {{ include('security/yetMenuDropdown.html.twig') }}
+                            {{ include('security/_yetMenuDropdown.html.twig') }}
                         </ul>
                     </div>
                 </menu>
@@ -91,7 +90,7 @@
                         <div id="tools" class="{{ c1 }} btn-group btn-group-toggle pl-0" role="group"
                              data-toggle="buttons">
                             {% block little_panel %}
-                                {{ include('tools.html.twig') }}
+                                {{ include('_tools.html.twig') }}
                             {% endblock %}
                         </div>
                         <div class="{{ c2 }} input-group">
@@ -146,7 +145,9 @@
             </section>
         {% endblock %}
         <hgroup>
-            {% block header %}{% endblock %}
+            {% block header %}
+                {{ include('_flashes.html.twig') }}
+            {% endblock %}
         </hgroup>
     </header>
     {% block blocks %}
@@ -186,7 +187,7 @@
         </main>
     {% endblock %}
 
-    {{ include('fullscreen.html.twig') }}
+    {{ include('_fullscreen.html.twig') }}
 
     </body>
 {% endblock %}
