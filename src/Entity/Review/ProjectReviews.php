@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity\Review\ProjectReviews;
+namespace App\Entity\Review;
 
+use App\Entity\AkismetTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ReviewTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,8 @@ class ProjectReviews
 {
     use BaseTrait;
     use ReviewTrait;
+    use AkismetTrait;
+
     public const NUM_ROWS = 10;
 
     /**
@@ -39,6 +42,8 @@ class ProjectReviews
      * @ORM\Column(name="project_slug", type="string", nullable=true)
      */
     private $projectSlug;
+
+    //TODO: проверить методы, возмозно необходимы отношения
 
     /**
      * @return string|null
