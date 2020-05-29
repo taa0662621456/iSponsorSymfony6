@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Review;
 
-use App\Entity\AkismetTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ReviewTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,7 +19,6 @@ class ProductReviews
 {
     use BaseTrait;
     use ReviewTrait;
-    use AkismetTrait;
 
     public const NUM_ROWS = 10;
 

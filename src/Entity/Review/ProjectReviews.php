@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 namespace App\Entity\Review;
 
-use App\Entity\AkismetTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\ReviewTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,12 +17,17 @@ use Doctrine\ORM\Mapping as ORM;
  *        message="This slug is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Review\ProjectReviewsRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(collectionOperations={"get"={"normalization_context"={"groups"="project:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="project:item"}}},
+ *     order={"createdAt"="DESC"},
+ *     paginationEnabled=true
+ *     )
+ * @ApiFilter(SearchFilter::class, properties={"review": "exact"})
  */
 class ProjectReviews
 {
     use BaseTrait;
     use ReviewTrait;
-    use AkismetTrait;
 
     public const NUM_ROWS = 10;
 
