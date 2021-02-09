@@ -1,0 +1,51 @@
+framework:
+    workflows:
+        review:
+            type: 'workflow'
+            audit_trail:
+                enabled: "%kernel.debug%"
+            marking_store:
+                type: 'method'
+                property: 'state'
+            supports:
+                - App\Entity\Project\Projects
+                - App\Entity\Product\Products
+                - App\Entity\Vendor\Vendors
+                - App\Entity\Vendor\Vendors
+                - App\Entity\Category\Categories
+                - App\Entity\Event\Events
+                - App\Entity\Order\Orders
+            initial_marking: submitted
+            places:
+                - submitted
+                - ham
+                - potential_spam
+                - spam
+                - rejected
+                - ready
+                - published
+            transitions:
+                accept:
+                    from: submitted
+                    to:   ham
+                might_be_spam:
+                    from: submitted
+                    to:   potential_spam
+                reject_spam:
+                    from: submitted
+                    to:   spam
+                publish:
+                    from: potential_spam
+                    to:   ready
+                reject:
+                    from: potential_spam
+                    to:   rejected
+                publish_ham:
+                    from: ham
+                    to:   ready
+                reject_ham:
+                    from: ham
+                    to:   rejected
+                optimize:
+                    from: ready
+                    to:   published

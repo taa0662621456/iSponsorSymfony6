@@ -15,7 +15,7 @@ framework:
                     retry_strategy:
                         max_retries: 3
                         multiplier: 2
-                failed: 'doctrine://default?queue_name=failed'
+                    failed: 'doctrine://default?queue_name=failed'
 
             asyn_product:
                 #async: '%env(RABBITMQ_DSN)%'
@@ -25,16 +25,15 @@ framework:
                     retry_strategy:
                         max_retries: 3
                         multiplier: 2
-
-                failed: 'doctrine://default?queue_name=failed'
+                    failed: 'doctrine://default?queue_name=failed'
 
             failure_transport: failed
-            routing:
-                App\Message\ProjectReviewMessage: async
-                App\Message\ProductReviewMessage: async
-                Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-                Symfony\Component\Notifier\Message\ChatMessage: async
-                Symfony\Component\Notifier\Message\SmsMessage: async
+        routing:
+            #App\Message\ReviewMessage: async # TODO: возникает исключение
+
+            #Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+            #Symfony\Component\Notifier\Message\ChatMessage: async
+            #Symfony\Component\Notifier\Message\SmsMessage: async
         buses:
             command_bus:
                 middleware:
