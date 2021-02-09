@@ -1,6 +1,6 @@
 <?php
 
-namespace AppEntity;
+namespace App\Entity\Event;
 
 use App\Entity\BaseTrait;
 use DateTime;
@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Events
  *
- * @ORM\Table(name="event", indexes={
+ * @ORM\Table(name="events", indexes={
  *     @ORM\Index(name="event_idx_period", columns={"startdate", "enddate"}),
  *     @ORM\Index(name="event_idx_type", columns={"type"}),
  *     @ORM\Index(name="event_idx_published", columns={"published"}),
@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(name="event_idx_cat_id", columns={"cat_id"})})
  * @ORM\Entity
  */
-class Event
+class Events
 {
     use BaseTrait;
 
