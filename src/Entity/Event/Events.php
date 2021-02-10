@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * Events
  *
  * @ORM\Table(name="events", indexes={
- *     @ORM\Index(name="event_idx_period", columns={"startdate", "enddate"}),
+ *     @ORM\Index(name="event_idx_period", columns={"start_date", "end_date"}),
  *     @ORM\Index(name="event_idx_type", columns={"type"}),
  *     @ORM\Index(name="event_idx_published", columns={"published"}),
- *     @ORM\Index(name="event_idx_creator", columns={"creator"}),
+ *     @ORM\Index(name="event_idx_creator", columns={"creator_by"}),
  *     @ORM\Index(name="event_idx_cat_id", columns={"cat_id"})})
  * @ORM\Entity
  */
