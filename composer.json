@@ -24,12 +24,14 @@
     "symfony/event-dispatcher": "5.0.*",
     "symfony/expression-language": "5.0.*",
     "symfony/flex": "*",
+    "symfony/filesystem": "^4.1",
     "symfony/form": "5.0.*",
     "symfony/framework-bundle": "5.0.x-dev",
     "symfony/http-client": "5.0.*",
     "symfony/intl": "5.0.*",
     "symfony/messenger": "5.0.*",
     "symfony/monolog-bundle": "^3.1",
+    "symfony/mercure-bundle": "*",
     "symfony/notifier": "*",
     "symfony/orm-pack": "*",
     "symfony/process": "5.0.*",
@@ -46,8 +48,7 @@
     "symfony/web-server-bundle": "4.4.x-dev",
     "symfony/webpack-encore-bundle": "*",
     "symfony/yaml": "5.0.*",
-    "tgalopin/html-sanitizer-bundle": "dev-master",
-    "twig/extensions": "^1.5"
+    "tgalopin/html-sanitizer-bundle": "dev-master"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.3@dev",

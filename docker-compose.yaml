@@ -1,6 +1,6 @@
 redis:
   image: redis:5-alpine
-    ports: [6379]
+  ports: [6379]
 
 rabbitmq:
   image: rabbitmq:3.7-management
@@ -9,3 +9,11 @@ rabbitmq:
 mailcatcher:
   image: schickling/mailcatcher
   ports: [1025, 1080]
+
+database:
+  image: postgres:11-alpine
+  environment:
+    POSTGRES_USER: main
+    POSTGRES_PASSWORD: main
+    POSTGRES_DB: main
+  ports: [5432]
