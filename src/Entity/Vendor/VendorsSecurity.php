@@ -54,21 +54,37 @@ class VendorsSecurity implements UserInterface, Serializable
      */
     private $phone = '';
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=255, nullable=true, options={"default"="isponsor"})
+     * @Assert\Length(min=3)
+     * @Assert\Length(max=16)
+     */
+    private $username = 'isponsor';
+
 	/**
 	 * @var string
-	 *
-	 * @ORM\Column(name="password", type="string", unique=true, nullable=false, options={"default" : 0})
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(min=8)
+     * @Assert\Length(max=16)
+     * Assert\NotCompromisedPassword
+     *
+	 * @ORM\Column(name="password", type="string", unique=false, nullable=false, options={"default" : 00000000})
+     * Assert\NotCompromisedPassword
 	 */
-	private $password = '0';
+	protected $password = '00000000';
 
 	/**
 	 * @var string
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=8)
 	 * @Assert\Length(max=16)
+     * Assert\NotCompromisedPassword
 	 *
 	 */
-	private $plainPassword = '0';
+	private $plainPassword = '00000000';
 
 	/**
 	 * @var array
@@ -86,9 +102,9 @@ class VendorsSecurity implements UserInterface, Serializable
 	private $sendEmail = null;
 
 	/**
-	 * @var DateTime
+	 * @var string
 	 *
-	 * @ORM\Column(name="last_visit_date", type="datetime", nullable=false)
+	 * @ORM\Column(name="last_visit_date", type="string", nullable=false)
 	 * @Assert\DateTime()
 	 */
 	private $lastVisitDate;
@@ -117,16 +133,16 @@ class VendorsSecurity implements UserInterface, Serializable
 	/**
 	 * @var DateTime
 	 *
-	 * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"comment"="Date of last password
+	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"comment"="Date of last password
      *                                     reset"})
      * @Assert\DateTime()
 	 */
 	private $lastResetTime;
 
 	/**
-	 * @var int
+	 * @var string
 	 *
-	 * @ORM\Column(name="reset_count", type="integer", options={"comment"="Count of password resets
+	 * @ORM\Column(name="reset_count", type="string", options={"comment"="Count of password resets
      * since lastResetTime"})
      *
 	 */
@@ -183,7 +199,10 @@ class VendorsSecurity implements UserInterface, Serializable
 	{
 		$this->roles = [self::ROLE_USER];
 		$this->lastResetTime = new DateTime();
+		$this->lastResetTime = $this->lastResetTime->format('Y-m-d H:i:s');
 		$this->lastVisitDate = new DateTime();
+		$this->lastVisitDate = $this->lastVisitDate->format('Y-m-d H:i:s');
+
 	}
 
 	/**
@@ -267,9 +286,9 @@ class VendorsSecurity implements UserInterface, Serializable
 	}
 
 	/**
-	 * @return DateTime
+	 * @return string
 	 */
-	public function getLastVisitDate(): DateTime
+	public function getLastVisitDate(): string
 	{
 		return $this->lastVisitDate;
 	}
@@ -281,7 +300,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	 */
 	public function setLastVisitDate(DateTime $lastVisitDate): self
 	{
-		$this->lastVisitDate = $lastVisitDate;
+		$this->lastVisitDate = $lastVisitDate->format('Y-m-d H:i:s');
 		return $this;
 	}
 
@@ -340,9 +359,9 @@ class VendorsSecurity implements UserInterface, Serializable
 	}
 
 	/**
-	 * @return DateTime
+	 * @return string
 	 */
-	public function getLastResetTime(): DateTime
+	public function getLastResetTime(): string
 	{
 		return $this->lastResetTime;
 	}
@@ -354,7 +373,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	 */
 	public function setLastResetTime(DateTime $lastResetTime): self
 	{
-		$this->lastResetTime = $lastResetTime;
+		$this->lastResetTime = $lastResetTime->format('Y-m-d H:i:s');
 		return $this;
 	}
 
@@ -464,6 +483,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	}
 
 
+
 	/**
 	 * Returns the password used to authenticate the user.
 	 *
@@ -497,14 +517,13 @@ class VendorsSecurity implements UserInterface, Serializable
 		return $this->plainPassword;
 	}
 
-	/**
-	 * @param string $plainPassword
-	 *
-	 * @return VendorsSecurity
-	 */
-	public function setPlainPassword(string $plainPassword): self
+    /**
+     * @param string $password
+     * @return VendorsSecurity
+     */
+	public function setPlainPassword(string $password): self
 	{
-		$this->plainPassword = $plainPassword;
+		$this->plainPassword = $password;
 
 		return $this;
 	}

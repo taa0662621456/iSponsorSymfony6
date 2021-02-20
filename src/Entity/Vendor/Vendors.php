@@ -39,10 +39,10 @@ class Vendors
 	private $roles = [];
 
 	/**
-	 * @var DateTime
-	 *
-	 * @Assert\DateTime()
-	 * @ORM\Column(name="last_visit_date", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     * @var string
+     * @Assert\DateTime()
+     *
+	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 	 */
 	private $lastVisitDate;
 
@@ -61,10 +61,10 @@ class Vendors
 	private $locale = 'en';
 
 	/**
-	 * @var datetime
+	 * @var string
 	 *
 	 * @Assert\DateTime()
-	 * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP",
+	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
 	 *                                     "comment"="Date of last password reset"})
 	 */
 	private $lastResetTime;
@@ -182,11 +182,14 @@ class Vendors
     public function __construct()
     {
         $this->lastResetTime = new DateTime();
+        $this->lastResetTime = $this->lastResetTime->format('Y-m-d H:i:s');
         $this->lastVisitDate = new DateTime();
+        $this->lastVisitDate = $this->lastVisitDate->format('Y-m-d H:i:s');
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocumentAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
         $this->active = false;
+
     }
 
 	/**
@@ -197,20 +200,20 @@ class Vendors
 		return $this->active;
 	}
 
-	/**
-	 * @param bool|false $active
-	 */
-	public function setActive($active): void
+    /**
+     * @param bool|false $active
+     */
+	public function setActive(bool $active): void
 	{
 		$this->active = $active;
 	}
 
 	/**
-	 * @return DateTime
-	 */
-	public function getLastVisitDate(): DateTime
-	{
-		return $this->lastVisitDate;
+	 * @return string
+     */
+	public function getLastVisitDate(): string
+    {
+        return $this->lastVisitDate;
 	}
 
 	/**
@@ -220,7 +223,7 @@ class Vendors
 	 */
 	public function setLastVisitDate(DateTime $lastVisitDate): self
 	{
-		$this->lastVisitDate = $lastVisitDate;
+		$this->lastVisitDate = $lastVisitDate->format('Y-m-d H:i:s');
 		return $this;
 	}
 
@@ -274,7 +277,7 @@ class Vendors
 	 */
 	public function setLastResetTime(DateTime $lastResetTime): self
 	{
-		$this->lastResetTime = $lastResetTime;
+		$this->lastResetTime = $lastResetTime->format('Y-m-d H:i:s');
 		return $this;
 	}
 
