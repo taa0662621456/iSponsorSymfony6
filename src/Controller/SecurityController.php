@@ -32,14 +32,15 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Twig_Environment;
+use Twig\Environment;
+
 
 class SecurityController extends AbstractController
 {
     use TargetPathTrait;
 
     /**
-     * @var Twig_Environment $twig
+     * @var Environment $twig
      */
     private $twig;
     /**
@@ -56,7 +57,7 @@ class SecurityController extends AbstractController
     private $router;
 
     public function __construct(
-		Twig_Environment $twig,
+        Environment $twig,
         UserPasswordEncoderInterface $passwordEncoder,
         FormFactoryInterface $formFactory,
         RouterInterface $router
@@ -69,17 +70,19 @@ class SecurityController extends AbstractController
 	}
 
     /**
-     * @Route("/registration", name="registration")
+     * @Route("/registration", name="registration", defaults={"layout" : "registration"}, options={"layout" : "registration"}, methods={"GET", "POST"})
+     * @Route("/signup", name="signup", defaults={"layout" : "signup"}, options={"layout" : "signup"}, methods={"GET", "POST"})
      * @param Request $request
      * @param ConfirmationCodeGenerator $codeGenerator
      * @param EventDispatcherInterface $eventDispatcher
      *
+     * @param $layout
      * @return Response
      * @throws Exception
      */
 	public function registration(Request $request,
 								 ConfirmationCodeGenerator $codeGenerator,
-								 EventDispatcherInterface $eventDispatcher): Response
+								 EventDispatcherInterface $eventDispatcher, $layout): Response
 	{
 		//$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
 		//$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
@@ -90,7 +93,7 @@ class SecurityController extends AbstractController
 		$form = $this->createForm(VendorsRegistrationType::class, $vendor);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted()) {
 /*
 			if (!$resp->isSuccess()) {
 				foreach ($resp->getErrorCodes() as $errorCode) {
@@ -99,10 +102,12 @@ class SecurityController extends AbstractController
 			} else {
 */
 				$formData = $form->getData();
+				//dd($formData->ve);
 				$password = $this->passwordEncoder->encodePassword(
 				    $vendorSecurity,
 					$formData->getVendorSecurity()->getPlainPassword()
 				);
+
 
 				$slug = new UuidEncoder();
 
@@ -111,23 +116,26 @@ class SecurityController extends AbstractController
 					$slug = $slug->encode($uuid);
 
 					$vendor->setUuid($uuid);
-					$vendor->setSlug($slug);
+					$vendor->setSlug((string)$slug);
+                    $vendor->setWorkFlow('submitted');
 
 					$vendorSecurity->setUuid($uuid);
-					$vendorSecurity->setSlug($slug);
-					$vendorSecurity->setEmail($formData->getVendorSecurity()->getEmail());
-					$vendorSecurity->setPhone($formData->getVendorSecurity()->getPhone());
+					$vendorSecurity->setSlug((string)$slug);
+
+					$vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
+					$vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
 
 
 					$vendorEnGb->setUuid($uuid);
-					$vendorEnGb->setSlug($slug);
-					$vendorEnGb->setVendorPhone($formData->getVendorSecurity()->getPhone());
+					$vendorEnGb->setSlug((string)$slug);
+					$vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
 
 				} catch (Exception $e) {
 				}
 				$vendor->setVendorSecurity($vendorSecurity);
-				$vendorSecurity->setPassword($password);
-				$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
+				$vendor->setWorkFlow('submitted');
+				$vendorSecurity->setPassword((string)$password);
+				$vendorSecurity->setActivationCode((string)$codeGenerator->getConfirmationCode());
 				$vendor->setVendorEnGb($vendorEnGb);
 				$vendorEnGb->setVendorZip(000000);
 				$em = $this->getDoctrine()->getManager();
@@ -146,7 +154,7 @@ class SecurityController extends AbstractController
 			}
 //		}
 
-		return $this->render('security/registration.html.twig', [
+		return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),
 		]);
 
@@ -201,10 +209,10 @@ class SecurityController extends AbstractController
          * https://symfonycasts.com/screencast/symfony-security/csrf-token
          * аутентификация с токеном
          */
-        if ($security->isGranted('ROLE_USER')) {
-            return $this->redirectToRoute('homepage');
-        }
 
+/*        if ($security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
+            return $this->redirectToRoute('homepage');
+        }*/
 
         $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
@@ -301,6 +309,7 @@ class SecurityController extends AbstractController
 	}
 
 	/**
+     * TODO: for testing any knowledge
 	 * @Route("/admin")
 	 * @Route("/administrator")
 	 */
@@ -394,7 +403,7 @@ class SecurityController extends AbstractController
 		}
 
 		// Проверка, не просрочен ли код
-		$createCodeTime = $codeFromDataBase->getCreatedOn();
+		$createCodeTime = $codeFromDataBase->getcreatedAt();
 		$checkTime = (new DateTime())->modify('-5 minutes'); // время действия кода - 5 минут
 
 		if ($checkTime > $createCodeTime) {
@@ -404,7 +413,7 @@ class SecurityController extends AbstractController
 		}
 
 		// Если же ошибок не обнаружено
-		$codeFromDataBase->setIsLogin(1);
+		$codeFromDataBase->setIsLogin((bool)1);
 
 		$em = $this->getDoctrine()
 				   ->getManager()

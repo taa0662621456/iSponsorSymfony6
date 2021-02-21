@@ -10,6 +10,7 @@
     use Exception;
     use Ramsey\Uuid\Uuid;
     use Ramsey\Uuid\UuidInterface;
+    use Symfony\Component\Serializer\Annotation\Groups;
     use Symfony\Component\Validator\Constraints as Assert;
 
     trait BaseTrait
@@ -20,6 +21,7 @@
 		 * @ORM\Id
 		 * @ORM\Column(type="integer")
 		 * @ORM\GeneratedValue
+         * Groups({"object:list", "object:item"})
          */
         private $id;
 
@@ -95,6 +97,13 @@
         private $lockedBy = 1;
 
         /**
+         * @var string
+         * @ORM\Column(name="work_flow", type="string", nullable=false,
+         *     options={"default"="submitted", "comment"="Submitted, Spam and Published stats"})
+         */
+        private $workFlow = 'submitted';
+
+        /**
          * @ORM\Column(type="integer")
          * @ORM\Version
          */
@@ -110,7 +119,7 @@
                 $this->uuid = Uuid::uuid4();
                 $slugEncode = new UuidEncoder();
                 $this->slug = $slugEncode->encode($this->uuid);
-                $this->requestDispatcher = new RequestDispatcher();
+                //$this->requestDispatcher = new RequestDispatcher();
             } catch (Exception $e) {
             }
 
@@ -167,9 +176,9 @@
             return $this->attachments;
         }
 
-        public function setAttachments(): void
+        public function setAttachments(RequestDispatcher $requestDispatcher): void
         {
-            $object = $this->requestDispatcher->object();
+            $object = $requestDispatcher->objectNamespace();
             $object = new $object;
             $this->attachments = $object;
         }
@@ -293,6 +302,23 @@
         {
             $this->lockedBy = $lockedBy;
         }
+
+        /**
+         * @return string
+         */
+        public function getWorkFlow(): string
+        {
+            return $this->workFlow;
+        }
+
+        /**
+         * @param string $workFlow
+         */
+        public function setWorkFlow(string $workFlow): void
+        {
+            $this->workFlow = $workFlow;
+        }
+
 
 		/**
 		 * @return mixed

@@ -10,7 +10,6 @@ security:
             memory:
                 users:
                     admin:
-                        # kitten
                         password: kitten
                         roles: 'ROLE_ADMIN'
         database_users:
@@ -35,7 +34,7 @@ security:
                 authenticators:
                 - App\Security\TokenAuthenticator
         admin:
-            pattern: ^/admin*
+            pattern: ^/admin
             provider: in_memory
             anonymous: ~
             security: false # отключает контент безопасности
@@ -48,21 +47,22 @@ security:
             #path: /admin
             #name: AdminRememberCookie
             #always_remember_me: true
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            # pattern: ^/
+            #pattern: ^/login
             switch_user: { role: ROLE_ADMIN }
             provider: database_users
-            http_basic: ~
-            anonymous: ~
+            #http_basic: ~
+            anonymous: true
             guard:
                 authenticators:
                     - App\Security\LoginAuthenticator
-            security: false # отключает контент безопасности
+            #security: false # отключает контент безопасности
             form_login:
-                check_path: login_check
+                #check_path: login_check
                 login_path: login
                 csrf_token_generator: security.csrf.token_manager
                 default_target_path: '%app_logged_in_target_routename%'
@@ -70,7 +70,7 @@ security:
                 target_path_parameter: redirect
                 failure_path_parameter: forgot
                 #failure_path: login
-                username_parameter: _username
+                username_parameter: _email
                 password_parameter: _password
             logout:
                 path: logout
@@ -89,12 +89,12 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-    - { path: ^/(%app_locales%)/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/(%app_locales%)/registration, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: ^/(%app_locales%)/admin*, roles: ROLE_ADMIN }
-    # - { path: ^/admin, roles: ROLE_ADMIN }
-    #- { path: ^/(%app_locales%)/profile, roles: ROLE_USER }
-    - { path: ^/api, roles: ROLE_API_USER }
-    # the 'path' value can be any valid regular expression
-    # (this one will match URLs like /api/post/7298 and /api/comment/528491)
-    #- { path: ^/api/(post|comment)/\d+$, roles: ROLE_USER }
+        #- { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/(%app_locales%)/registration, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #- { path: ^/(%app_locales%)/dashboard, role: ROLE_ADMIN, requires_channel: https }
+        #- { path: ^/(%app_locales%)/admin, roles: ROLE_ADMIN, requires_channel: https }
+        #- { path: ^/(%app_locales%)/profile, roles: ROLE_USER }
+        - { path: ^/api, roles: ROLE_API_USER, requires_channel: https }
+        # the 'path' value can be any valid regular expression
+        # (this one will match URLs like /api/post/7298 and /api/comment/528491)
+        #- { path: ^/api/(post|comment)/\d+$, roles: ROLE_USER }
