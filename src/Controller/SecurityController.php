@@ -57,13 +57,13 @@ class SecurityController extends AbstractController
 
     public function __construct(
         Environment                 $twig,
-        UserPasswordHasherInterface $passwordHasher,
+        UserPasswordHasherInterface $passwordHashes,
         FormFactoryInterface        $formFactory,
         RouterInterface             $router
 	)
 	{
 		$this->twig = $twig;
-		$this->passwordEncoder = $passwordHasher;
+		$this->passwordEncoder = $passwordHashes;
 		$this->formFactory = $formFactory;
 		$this->router = $router;
 	}
