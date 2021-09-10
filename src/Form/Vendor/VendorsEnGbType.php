@@ -6,12 +6,11 @@
 	use App\Entity\Vendor\VendorsEnGb;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-    use Symfony\Component\Form\Extension\Core\Type\FormType;
     use Symfony\Component\Form\Extension\Core\Type\TelType;
 	use Symfony\Component\Form\Extension\Core\Type\TextType;
 	use Symfony\Component\Form\FormBuilderInterface;
-	use Symfony\Component\Intl\Intl;
-    use Symfony\Component\Intl\ResourceBundle\ResourceBundleInterface;
+    use Symfony\Component\Intl\Countries;
+    use Symfony\Component\Intl\Currencies;
     use Symfony\Component\OptionsResolver\OptionsResolver;
 
 	class VendorsEnGbType extends AbstractType
@@ -19,8 +18,8 @@
 		public function buildForm(FormBuilderInterface $builder, array $options):void
 		{
 
-			$countries = Intl::getRegionBundle()->getCountryNames(); //TODO: устаревшие методы. Заменить
-			$currencies = Intl::getCurrencyBundle()->getCurrencyNames(); //TODO: устаревшие методы. Заменить
+			$countries = Countries::getNames();
+			$currencies = Currencies::getNames();
 			$builder
 				->add('vendorFirstName', TextType::class, array(
 					'label' => 'label.first.name',
@@ -151,7 +150,7 @@
 				//->add('stateId')
 				->add('vendorCountryId', ChoiceType::class, array(
 					//'choices' => array_flip($countries),
-					'choices' => Intl::getRegionBundle()->getCountryNames(),
+					'choices' => $countries,
 					'label'=>'Country',
 					'label_attr' => array(
 						'class' => ''
@@ -181,7 +180,7 @@
 				))
 				->add('vendorCurrency', ChoiceType::class, array(
 					//'choices' => array_flip($currencies),
-					'choices' => Intl::getRegionBundle()->getCountryNames(),
+					'choices' => $countries,
 					'label'=>'label.currency',
 					'label_attr' => array(
 						'class' => ''
@@ -197,7 +196,7 @@
 				))
 				->add('vendorAcceptedCurrencies', ChoiceType::class, array(
 					//'choices' => array_flip($currencies),
-					'choices' => Intl::getCurrencyBundle()->getCurrencyNames(),
+					'choices' => $currencies,
 					'label'=>'label.currency',
 					'label_attr' => array(
 						'class' => ''

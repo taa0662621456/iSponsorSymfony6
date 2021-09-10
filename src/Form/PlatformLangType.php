@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-use App\Entity\PlatformLang;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,7 +30,7 @@ class PlatformLangType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => PlatformLang::class,
+            //'data_class' => PlatformLang::class,//TODO: сущность еще не создана. Необховдима для хранения в базе поддерживаемых локализаций
         ]);
     }
 }

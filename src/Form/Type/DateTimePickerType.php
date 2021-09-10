@@ -11,7 +11,7 @@
 
 namespace App\Form\Type;
 
-use App\Tool\MomentFormatConverter;
+use App\Utils\MomentFormatConverter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormInterface;
@@ -28,7 +28,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DateTimePickerType extends AbstractType
 {
-    private $formatConverter;
+    private MomentFormatConverter $formatConverter;
 
     public function __construct(MomentFormatConverter $converter)
     {
