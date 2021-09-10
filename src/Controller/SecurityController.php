@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Doctrine\UuidEncoder;
 use App\Entity\SmsCodeSendStorage;
 use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsEnGb;
@@ -16,7 +15,6 @@ use App\Repository\Vendor\VendorsSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
 use Exception;
-use Ramsey\Uuid\Uuid;
 use ReCaptcha\ReCaptcha;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,12 +24,13 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Uid\Uuid;
 use Twig\Environment;
 
 
@@ -42,29 +41,29 @@ class SecurityController extends AbstractController
     /**
      * @var Environment $twig
      */
-    private $twig;
+    private Environment $twig;
     /**
-     * @var UserPasswordEncoderInterface
+     * @var UserPasswordHasherInterface
      */
-    private $passwordEncoder;
+    private UserPasswordHasherInterface $passwordEncoder;
     /**
      * @var FormFactory
      */
-    private $formFactory;
+    private FormFactory $formFactory;
     /**
      * @var RouterInterface
      */
-    private $router;
+    private RouterInterface $router;
 
     public function __construct(
-        Environment $twig,
-        UserPasswordEncoderInterface $passwordEncoder,
-        FormFactoryInterface $formFactory,
-        RouterInterface $router
+        Environment                 $twig,
+        UserPasswordHasherInterface $passwordHasher,
+        FormFactoryInterface        $formFactory,
+        RouterInterface             $router
 	)
 	{
 		$this->twig = $twig;
-		$this->passwordEncoder = $passwordEncoder;
+		$this->passwordEncoder = $passwordHasher;
 		$this->formFactory = $formFactory;
 		$this->router = $router;
 	}
@@ -103,17 +102,16 @@ class SecurityController extends AbstractController
 */
 				$formData = $form->getData();
 				//dd($formData->ve);
-				$password = $this->passwordEncoder->encodePassword(
+				$password = $this->passwordEncoder->hashPassword(
 				    $vendorSecurity,
 					$formData->getVendorSecurity()->getPlainPassword()
 				);
 
 
-				$slug = new UuidEncoder();
 
 				try {
-					$uuid = Uuid::uuid4();
-					$slug = $slug->encode($uuid);
+                    $slug = $uuid = Uuid::v4();
+					//$slug = $slug->encode($uuid);
 
 					$vendor->setUuid($uuid);
 					$vendor->setSlug((string)$slug);
@@ -207,7 +205,7 @@ class SecurityController extends AbstractController
          * аутентификация
          * https://symfonycasts.com/screencast/symfony-security/login-form-authenticator
          * https://symfonycasts.com/screencast/symfony-security/csrf-token
-         * аутентификация с токеном
+         * аутентификация токеном
          */
 
 /*        if ($security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
@@ -253,7 +251,7 @@ class SecurityController extends AbstractController
 	{
 		/**
 		 * TODO:
-		 * логика маршрута изменения параметров безопастности практически
+		 * логика маршрута изменения параметров безопасности практически
 		 * идентична маршруту регистрации.
 		 * Необходимо коды этих маршрутов вынести в один метод...
 		 */
@@ -277,11 +275,11 @@ class SecurityController extends AbstractController
 
 			$formData = $form->getData();
 			//dd($formData);
-			$password = $this->passwordEncoder->encodePassword(
+			$password = $this->passwordEncoder->hashPassword(
 				$vendorSecurity,
 				$formData->getVendorSecurity()->getPlainPassword()
 			);
-			//$vendor->setEmail();  Хочу добавить в область безопастности смену Емаил
+			//$vendor->setEmail();  Хочу добавить в область безопасности смену Емаил
 
 			$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
 
@@ -322,10 +320,10 @@ class SecurityController extends AbstractController
 	 * @Route("/login/json", name="login_json", methods={"POST"})
 	 * @param Request $request
 	 *
-	 * @return mixed|JsonResponse
+	 * @return JsonResponse
 	 */
-	public function jsonLogin(Request $request)
-	{
+	public function jsonLogin(Request $request): JsonResponse
+    {
 		$user = $this->getUser();
 
 		return $this->json(
@@ -340,17 +338,17 @@ class SecurityController extends AbstractController
 	 * @Route("/forgot", name="forgot")
 	 * @return Response
 	 */
-	public function forgot()
-	{
+	public function forgot(): Response
+    {
 		return new Response('<html lang="en"><body>Are You forgot any auth parameters?</body></html>');
 	}
 
-	/**
-	 * @Route("/smscodegenerator", name="smscodegenerator")
-	 * @param $request
-	 *
-	 * @return JsonResponse
-	 */
+    /**
+     * @Route("/smscodegenerator", name="smscodegenerator")
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
 	public function smsCodeGenerator(Request $request): Response
 	{
 		$phone = $request->get('phone');

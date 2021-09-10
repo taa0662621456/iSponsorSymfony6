@@ -28,7 +28,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class VendorsSecurity implements UserInterface, Serializable
+class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
 {
 	use BaseTrait;
 
