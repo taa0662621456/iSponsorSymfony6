@@ -16,42 +16,42 @@
          * @Assert\File(mimeTypes={"image/jpeg", "image/jpg"},
          *     mimeTypesMessage="Please, upload the jpeg/jpg files only")
          */
-		private $fileName = 'no image';
+		private string $fileName = 'no image';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_title", type="string", nullable=false, options={"default"="file_title"})
 		 */
-		private $fileTitle = 'file_title';
+		private string $fileTitle = 'file_title';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_description", type="string", nullable=false, options={"default"="file_description"})
 		 */
-		private $fileDescription = 'file_description';
+		private string $fileDescription = 'file_description';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_meta", type="string", nullable=false, options={"default"="file_meta"})
 		 */
-		private $fileMeta = 'file_meta';
+		private string $fileMeta = 'file_meta';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_class", type="string", nullable=false, options={"default"="file_class"})
 		 */
-		private $fileClass = 'file_class';
+		private string $fileClass = 'file_class';
 
 		/**
 		 * @var string
 		 * @Assert\NotBlank(message="Please, upload a file.")
 		 * @ORM\Column(name="file_mime_type", type="string", nullable=false, options={"default"="file_mime_type"})
 		 */
-		private $fileMimeType = '';
+		private string $fileMimeType = '';
 
 		/**
 		 * @var string
@@ -59,56 +59,56 @@
 		 * @ORM\Column(name="file_layout_position", type="string", nullable=true,
 		 *                                          options={"default"="file_layout_position"})
 		 */
-		private $fileLayoutPosition = 'file_layout_position';
+		private string $fileLayoutPosition = 'file_layout_position';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_path", type="string", nullable=false, options={"default"=""})
 		 */
-		private $filePath = '';
+		private string $filePath = '';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_path_thumb", type="string", nullable=false, options={"default"=""})
 		 */
-		private $filePathThumb = '';
+		private string $filePathThumb = '';
 
 		/**
 		 * @var boolean|false
 		 *
 		 * @ORM\Column(name="file_is_downloadable", type="boolean", nullable=false)
 		 */
-		private $fileIsDownloadable = false;
+		private bool $fileIsDownloadable = false;
 
 		/**
 		 * @var boolean|false
 		 *
 		 * @ORM\Column(name="file_is_for_sale", type="boolean", nullable=false)
 		 */
-		private $fileIsForSale = false;
+		private bool $fileIsForSale = false;
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_params", type="string", nullable=false, options={"default"="file_params"})
 		 */
-		private $fileParams = 'file_params';
+		private string $fileParams = 'file_params';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="file_lang", type="string", nullable=false, options={"default"="file_lang"})
 		 */
-		private $fileLang = 'file_lang';
+		private string $fileLang = 'file_lang';
 
 		/**
 		 * @var boolean|false
 		 *
 		 * @ORM\Column(name="file_shared", type="boolean", nullable=false)
 		 */
-		private $fileShared = false;
+		private bool $fileShared = false;
 
 		/**
 		 * @return string
@@ -257,15 +257,15 @@
 		/**
 		 * @return bool|false
 		 */
-		public function getFileIsDownloadable()
-		{
+		public function getFileIsDownloadable(): bool
+        {
 			return $this->fileIsDownloadable;
 		}
 
 		/**
 		 * @param bool|false $fileIsDownloadable
 		 */
-		public function setFileIsDownloadable($fileIsDownloadable): void
+		public function setFileIsDownloadable(bool $fileIsDownloadable): void
 		{
 			$this->fileIsDownloadable = $fileIsDownloadable;
 		}
@@ -273,15 +273,15 @@
 		/**
 		 * @return bool|false
 		 */
-		public function getFileIsForSale()
-		{
+		public function getFileIsForSale(): bool
+        {
 			return $this->fileIsForSale;
 		}
 
 		/**
 		 * @param bool|false $fileIsForSale
 		 */
-		public function setFileIsForSale($fileIsForSale): void
+		public function setFileIsForSale(bool $fileIsForSale): void
 		{
 			$this->fileIsForSale = $fileIsForSale;
 		}

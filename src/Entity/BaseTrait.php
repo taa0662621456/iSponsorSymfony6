@@ -2,152 +2,148 @@
 
 	namespace App\Entity;
 
-	use App\Doctrine\UuidEncoder;
     use App\Entity\Vendor\Vendors;
     use App\Service\RequestDispatcher;
-    use \DateTime;
+    use DateTimeImmutable;
+    use DateTimeInterface;
     use Doctrine\ORM\Mapping as ORM;
+    use Symfony\Component\Uid\Uuid;
     use Exception;
-    use Ramsey\Uuid\Uuid;
-    use Ramsey\Uuid\UuidInterface;
-    use Symfony\Component\Serializer\Annotation\Groups;
     use Symfony\Component\Validator\Constraints as Assert;
 
     trait BaseTrait
     {
         /**
          * @var integer
-		 *
-		 * @ORM\Id
+         * @ORM\Id
 		 * @ORM\Column(type="integer")
 		 * @ORM\GeneratedValue
          * Groups({"object:list", "object:item"})
+         * @ORM\GeneratedValue(strategy="AUTO")
          */
-        private $id;
+        private int $id;
 
         /**
-         * @var UuidInterface
-         *
          * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
          */
-        protected $uuid;
+        protected Uuid $uuid;
 
         /**
          * @var boolean
          *
          * @ORM\Column(name="published", type="boolean", nullable=false)
          */
-        private $published = true;
+        private bool $published = true;
 
-        /**
-         *
-         */
-        private $attachments;
+//        /**
+//         *
+//         */
+//        private mixed $attachments;
 
         /**
          * @var string
          *
          * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
          */
-        protected $slug = 'slug';
+        protected string $slug = 'slug';
 
         /**
-         * @var DateTime
+         * @var DateTimeInterface
          *
          * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
          * @Assert\DateTime
          */
-        private $createdAt;
+        private DateTimeInterface $createdAt;
 
         /**
          * @var integer
          *
          * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
          */
-        private $createdBy = 1;
+        private int $createdBy = 1;
 
         /**
-         * @var DateTime
+         * @var DateTimeInterface
          *
          * @ORM\Column(name="modified_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
          * @Assert\DateTime
          */
-        private $modifiedAt;
+        private DateTimeInterface $modifiedAt;
 
         /**
          * @var integer
          *
          * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
          */
-        private $modifiedBy = 1;
+        private int $modifiedBy = 1;
 
         /**
-         * @var DateTime
+         * @var DateTimeInterface
          *
          * @ORM\Column(name="locked_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
          * @Assert\DateTime
          */
-        private $lockedAt;
+        private DateTimeInterface $lockedAt;
 
         /**
          * @var int
          *
          * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
          */
-        private $lockedBy = 1;
+        private int $lockedBy = 1;
 
         /**
          * @var string
          * @ORM\Column(name="work_flow", type="string", nullable=false,
          *     options={"default"="submitted", "comment"="Submitted, Spam and Published stats"})
          */
-        private $workFlow = 'submitted';
+        private string $workFlow = 'submitted';
 
         /**
          * @ORM\Column(type="integer")
          * @ORM\Version
          */
-        protected $version;
+        protected int $version;
         /**
          * @var RequestDispatcher
          */
-        private $requestDispatcher;
+        private RequestDispatcher $requestDispatcher;
 
         public function __construct()
         {
             try {
-                $this->uuid = Uuid::uuid4();
-                $slugEncode = new UuidEncoder();
-                $this->slug = $slugEncode->encode($this->uuid);
+                $this->slug = $this->uuid = Uuid::v4();
+//                $slugEncode = new Uuid($this->uuid);
+//                $this->slug = $slugEncode->toBase32($this->uuid);
                 //$this->requestDispatcher = new RequestDispatcher();
             } catch (Exception $e) {
             }
 
-            $this->createdAt = new DateTime();
-            $this->modifiedAt = new DateTime();
-            $this->lockedAt = new DateTime();
+            $this->createdAt = new DateTimeImmutable();
+            $this->modifiedAt = new DateTimeImmutable();
+            $this->lockedAt = new DateTimeImmutable();
         }
 
-		/**
-		 * @return int
-		 */
+        /**
+         * @return int|null
+         */
 		public function getId(): ?int
 		{
 			return $this->id;
 		}
 
-		/**
-		 * @return UuidInterface|null
-		 */
-		public function getUuid(): ?UuidInterface
+        /**
+         * @return Uuid
+         */
+		public function getUuid(): Uuid
 		{
 			return $this->uuid;
         }
 
         /**
-         * @param UuidInterface $uuid
+         * @param $uuid
          */
-        public function setUuid(UuidInterface $uuid): void
+        public function setUuid($uuid): void
         {
             $this->uuid = $uuid;
         }
@@ -171,14 +167,14 @@
         /**
          * @return mixed
          */
-        public function getAttachments()
+        public function getAttachments(): mixed
         {
             return $this->attachments;
         }
 
         public function setAttachments(RequestDispatcher $requestDispatcher): void
         {
-            $object = $requestDispatcher->objectNamespace();
+            $object = $requestDispatcher->object();
             $object = new $object;
             $this->attachments = $object;
         }
@@ -201,9 +197,9 @@
 
 
         /**
-         * @return DateTime
+         * @return DateTimeImmutable
          */
-        public function getCreatedAt(): DateTime
+        public function getCreatedAt(): DateTimeImmutable
         {
             return $this->createdAt;
         }
@@ -214,7 +210,7 @@
          */
         public function setCreatedAt(): void
         {
-            $this->createdAt = new DateTime();
+            $this->createdAt = new DateTimeImmutable();
         }
 
         /**
@@ -234,9 +230,9 @@
         }
 
         /**
-         * @return DateTime
+         * @return DateTimeInterface
          */
-        public function getModifiedAt(): DateTime
+        public function getModifiedAt(): DateTimeInterface
         {
             return $this->modifiedAt;
         }
@@ -248,7 +244,7 @@
          */
         public function setModifiedAt(): void
         {
-            $this->modifiedAt = new DateTime();
+            $this->modifiedAt = new DateTimeImmutable();
         }
 
         /**
@@ -268,9 +264,9 @@
         }
 
         /**
-         * @return DateTime
+         * @return DateTimeInterface
          */
-        public function getLockedAt(): DateTime
+        public function getLockedAt(): DateTimeInterface
         {
             return $this->lockedAt;
         }
@@ -283,7 +279,7 @@
          */
         public function setLockedAt(): void
         {
-            $this->lockedAt = new DateTime();
+            $this->lockedAt = new DateTimeImmutable();
         }
 
 
@@ -321,23 +317,23 @@
 
 
 		/**
-		 * @return mixed
+		 * @return int
 		 */
-		public function getVersion()
+		public function getVersion(): int
 		{
 			return $this->version;
 		}
 
 		/**
-		 * @param mixed $version
+		 * @param int $version
 		 */
-		public function setVersion($version): void
+		public function setVersion(int $version): void
 		{
 			$this->version = $version;
 		}
 
-		public function isAuthor(Vendors $vendor = null)
-		{
+		public function isAuthor(Vendors $vendor = null): bool
+        {
 			return $vendor && $vendor->getId() == $this->getCreatedBy();
 		}
 	}

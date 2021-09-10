@@ -42,7 +42,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * @Assert\Length(min=3)
      * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
      */
-    private $email = '';
+    private string $email = '';
 
     /**
      * @var string
@@ -52,7 +52,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * @Length(min=10, minMessage="vendors_security.too_short_content")
      * @Length(max=12, maxMessage="vendors_security.too_long_content")
      */
-    private $phone = '';
+    private string $phone = '';
 
     /**
      * @var string
@@ -61,7 +61,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * @Assert\Length(min=3)
      * @Assert\Length(max=16)
      */
-    private $username = 'isponsor';
+    private string $username = 'isponsor';
 
 	/**
 	 * @var string
@@ -74,7 +74,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	 * @ORM\Column(name="password", type="string", unique=false, nullable=false, options={"default" : 00000000})
      * Assert\NotCompromisedPassword
 	 */
-	protected $password = '00000000';
+	protected string $password = '00000000';
 
 	/**
 	 * @var string
@@ -99,7 +99,7 @@ class VendorsSecurity implements UserInterface, Serializable
 	 *
 	 * @ORM\Column(name="send_email", type="boolean", nullable=true)
 	 */
-	private $sendEmail = null;
+	private ?bool $sendEmail = null;
 
 	/**
 	 * @var string
@@ -114,21 +114,21 @@ class VendorsSecurity implements UserInterface, Serializable
 	 *
 	 * @ORM\Column(name="activation_code", type="string", nullable=false, options={"default"="0"})
 	 */
-	private $activationCode = '0';
+	private string $activationCode = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="locale", type="text", nullable=false, options={"default"="en"})
 	 */
-	private $locale = 'en';
+	private string $locale = 'en';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="params", type="text", nullable=false, options={"default"="params"})
 	 */
-	private $params = 'params';
+	private string $params = 'params';
 
 	/**
 	 * @var DateTime
@@ -137,7 +137,7 @@ class VendorsSecurity implements UserInterface, Serializable
      *                                     reset"})
      * @Assert\DateTime()
 	 */
-	private $lastResetTime;
+	private string|DateTime $lastResetTime;
 
 	/**
 	 * @var string
@@ -155,7 +155,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * authentication encrypted keys"})
      *
 	 */
-	private $otpKey = '';
+	private string $otpKey = '';
 
 	/**
 	 * @var string
@@ -164,7 +164,7 @@ class VendorsSecurity implements UserInterface, Serializable
      * passwords"})
      *
 	 */
-	private $otep = '';
+	private string $otep = '';
 
 	/**
 	 * @var boolean
@@ -173,14 +173,14 @@ class VendorsSecurity implements UserInterface, Serializable
      * password on next login"})
      *
 	 */
-	private $requireReset = 0;
+	private int|bool $requireReset = 0;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="api_key", type="string", nullable=false, options={"comment"="API key"})
 	 */
-	private $apiKey = 'api_key';
+	private string $apiKey = 'api_key';
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors",

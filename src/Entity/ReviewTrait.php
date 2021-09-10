@@ -2,31 +2,33 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait ReviewTrait
 {
     /**
      * @var string|null
      * @ORM\Column(name="review", type="string", nullable=true)
      */
-    private $review;
+    private ?string $review;
     /**
      * @var string|null
      * @ORM\Column(name="review_lang", type="string", nullable=true)
      */
-    private $reviewLang;
+    private ?string $reviewLang;
 
     /**
      * @var string|null
      * @ORM\Column(name="review_type", type="string", nullable=true)
      */
-    private $reviewType;
+    private ?string $reviewType;
 
     /**
      * @var int
      *
      * @ORM\Column(name="favorite", type="integer", nullable=false, options={"default" : 0})
      */
-    private $favourite = 0;
+    private int $favourite = 0;
 
     /**
      * @return string|null

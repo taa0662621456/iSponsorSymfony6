@@ -30,7 +30,7 @@
 		 * @var string|null
 		 * @ORM\Column(name="project_type", type="string", nullable=true)
 		 */
-		private $projectType;
+		private ?string $projectType;
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",

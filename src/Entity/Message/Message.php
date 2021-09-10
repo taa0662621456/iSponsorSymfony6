@@ -53,7 +53,7 @@ class Message
     }
 
     /**
-     * @return mixed
+     * @return MessageConversation|null
      */
     public function getConversation(): ?MessageConversation
     {

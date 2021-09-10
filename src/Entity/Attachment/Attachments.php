@@ -2,9 +2,10 @@
 
 namespace App\Entity\Attachment;
 
-use App\Entity\AttachmentTrait;
+use App\Entity\AttachmentsTrait;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="attachments", indexes={
@@ -16,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Attachments
 {
     use BaseTrait;
-    use AttachmentTrait;
+    use AttachmentsTrait;
 
     /**
      * @var string
@@ -25,13 +26,12 @@ class Attachments
     private $object;
 
     /**
-     * @var string
      *
      * @ORM\Column(name="attachments", type="string", nullable=false)
      * @Assert\NotBlank(message="attachments_en_gb.blank_content")
      * @Assert\Length(min=10, minMessage="attachments_en_gb.too_short_content")
      */
-    private $attachments;
+    private mixed $attachments;
 
     /**
      * @return string

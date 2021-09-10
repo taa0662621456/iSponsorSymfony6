@@ -5,7 +5,8 @@ namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
 
-use \DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -28,133 +29,133 @@ class Orders
 	 *
 	 * @ORM\Column(name="order_number", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderNumber = '0';
+	private ?string $orderNumber = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_customer_number", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderCustomerNumber = '0';
+	private ?string $orderCustomerNumber = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_pass", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderPass = '0';
+	private ?string $orderPass = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_create_invoice_pass", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderCreateInvoicePass = '0';
+	private ?string $orderCreateInvoicePass = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_total", type="decimal", nullable=false, options={"default"="0.00000"})
 	 */
-	private $orderTotal = '0.00000';
+	private string $orderTotal = '0.00000';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_sales_price", type="decimal", nullable=false, options={"default"="0.00000"})
 	 */
-	private $orderSalesPrice = '0.00000';
+	private string $orderSalesPrice = '0.00000';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_bill_tax_amount", type="decimal", nullable=false, options={"default"="0.00000"})
 	 */
-	private $orderBillTaxAmount = '0.00000';
+	private string $orderBillTaxAmount = '0.00000';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_bill_tax", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderBillTax = '0';
+	private ?string $orderBillTax = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_bill_discount_amount", type="decimal", nullable=false, options={"default"="0.00000"})
 	 */
-	private $orderBillDiscountAmount = '0.00000';
+	private string $orderBillDiscountAmount = '0.00000';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_discount_amount", type="decimal", nullable=false, options={"default"="0.00000"})
 	 */
-	private $orderBillDiscount = '0.00000';
+	private string $orderBillDiscount = '0.00000';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_subtotal", type="decimal", nullable=true, options={"default" : 0})
 	 */
-	private $orderSubtotal = '0';
+	private ?string $orderSubtotal = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_tax", type="decimal", nullable=true, options={"default" : 0})
 	 */
-	private $orderTax = '0';
+	private ?string $orderTax = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_shipment", type="decimal", nullable=true, options={"default" : 0})
 	 */
-	private $orderShipment = '0';
+	private ?string $orderShipment = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_shipment_tax", type="decimal", nullable=true, options={"default" : 0})
 	 */
-	private $orderShipmentTax = '0';
+	private ?string $orderShipmentTax = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_payment", type="decimal", nullable=true, options={"default" : 0})
 	 */
-	private $orderPayment = '0';
+	private ?string $orderPayment = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_payment_tax", type="decimal", nullable=true, options={"default" : 0})
 	 */
-	private $orderPaymentTax = '0';
+	private ?string $orderPaymentTax = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_coupon_discount", type="decimal", nullable=false, options={"default"="0.00"})
 	 */
-	private $orderCouponDiscount = '0.00';
+	private string $orderCouponDiscount = '0.00';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_coupon_code", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderCouponCode = '0';
+	private ?string $orderCouponCode = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_discount", type="decimal", nullable=false, options={"default"="0.00"})
 	 */
-	private $orderDiscount = '0.00';
+	private string $orderDiscount = '0.00';
 
 	/**
 	 * @var int|null
@@ -168,14 +169,14 @@ class Orders
 	 *
 	 * @ORM\Column(name="order_currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
 	 */
-	private $orderCurrencyRate = '1.000000';
+	private string $orderCurrencyRate = '1.000000';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_shopper_groups", type="string", nullable=true, options={"default"="0"})
 	 */
-	private $orderShopperGroups = '0';
+	private string $orderShopperGroups = '0';
 
 	/**
 	 * @var int|null
@@ -206,7 +207,7 @@ class Orders
 	private $orderShipmentMethodId = '0';
 
 	/**
-	 * @var DateTime
+	 * @var DateTimeInterface
 	 *
 	 * @ORM\Column(name="order_delivery_date", type="datetime", nullable=true)
 	 */
@@ -217,7 +218,7 @@ class Orders
 	 *
 	 * @ORM\Column(name="order_language", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderLanguage = '0';
+	private ?string $orderLanguage = '0';
 
 	/**
 	 * @var string
@@ -229,9 +230,9 @@ class Orders
 	/**
 	 * @var boolean
 	 *
-	 * @ORM\Column(name="orderSTSameAsBT", type="boolean", nullable=false)
+	 * @ORM\Column(name="order_st_same_as_bt", type="boolean", nullable=false)
 	 */
-	private $orderSTSameAsBT = false;
+	private bool $orderStSameAsBt = false;
 
 	/**
 	 * @var string|null
@@ -261,14 +262,15 @@ class Orders
 	private $orderStatus;
 
 	/**
+     * @var DateTimeInterface
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors",
 	 *     inversedBy="vendorOrders")
 	 */
-	private $orderCreatedAt;
+	private DateTimeInterface $orderCreatedAt;
 
 	public function __construct()
 	{
-		$this->orderDeliveryDate = new DateTime();
+		$this->orderDeliveryDate = new DateTimeImmutable();
 		$this->orderItems = new ArrayCollection();
 	}
 
@@ -697,17 +699,17 @@ class Orders
 	}
 
 	/**
-	 * @return DateTime
+	 * @return DateTimeInterface
 	 */
-	public function getOrderDeliveryDate(): DateTime
+	public function getOrderDeliveryDate(): DateTimeInterface
 	{
 		return $this->orderDeliveryDate;
 	}
 
 	/**
-	 * @param DateTime $orderDeliveryDate
+	 * @param DateTimeInterface $orderDeliveryDate
 	 */
-	public function setOrderDeliveryDate(DateTime $orderDeliveryDate): void
+	public function setOrderDeliveryDate(DateTimeInterface $orderDeliveryDate): void
 	{
 		$this->orderDeliveryDate = $orderDeliveryDate;
 	}
@@ -749,15 +751,15 @@ class Orders
 	 */
 	public function isOrderSTSameAsBT(): bool
 	{
-		return $this->orderSTSameAsBT;
+		return $this->orderStSameAsBt;
 	}
 
 	/**
-	 * @param bool $orderSTSameAsBT
+	 * @param bool $orderStSameAsBt
 	 */
-	public function setOrderSTSameAsBT(bool $orderSTSameAsBT): void
+	public function setOrderSTSameAsBT(bool $orderStSameAsBt): void
 	{
-		$this->orderSTSameAsBT = $orderSTSameAsBT;
+		$this->orderStSameAsBt = $orderStSameAsBt;
 	}
 
 	/**

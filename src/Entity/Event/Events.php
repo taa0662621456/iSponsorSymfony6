@@ -13,7 +13,6 @@ use Doctrine\ORM\Mapping as ORM;
  *     @ORM\Index(name="event_idx_period", columns={"start_date", "end_date"}),
  *     @ORM\Index(name="event_idx_type", columns={"type"}),
  *     @ORM\Index(name="event_idx_published", columns={"published"}),
- *     @ORM\Index(name="event_idx_creator", columns={"creator_by"}),
  *     @ORM\Index(name="event_idx_cat_id", columns={"cat_id"})})
  * @ORM\Entity
  */
@@ -26,28 +25,28 @@ class Events
      *
      * @ORM\Column(name="parent", type="integer", nullable=false, options={"comment"="parent for recurring event"})
      */
-    private $parent;
+    private int $parent;
 
     /**
      * @var int
      *
      * @ORM\Column(name="cat_id", type="integer", nullable=false, options={"unsigned"=true})
      */
-    private $catId;
+    private int $catId;
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="content_id", type="integer", nullable=true, options={"unsigned"=true,"comment"="0 - if type == profile, else it hold the group id"})
      */
-    private $contentId = '0';
+    private string|int|null $contentId = '0';
 
     /**
      * @var string
      *
      * @ORM\Column(name="type", type="string", length=255, nullable=false, options={"default"="profile","comment"="profile, group"})
      */
-    private $type = 'profile';
+    private string $type = 'profile';
 
 
     /**
@@ -55,42 +54,42 @@ class Events
      *
      * @ORM\Column(name="location", type="text", length=65535, nullable=false)
      */
-    private $location;
+    private string $location;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="unlisted", type="boolean", nullable=false)
      */
-    private $unlisted;
+    private bool $unlisted;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="start_date", type="datetime", nullable=false)
      */
-    private $startDate;
+    private DateTime $startDate;
 
     /**
      * @var DateTime
      *
      * @ORM\Column(name="end_date", type="datetime", nullable=false)
      */
-    private $endDate;
+    private DateTime $endDate;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="permission", type="boolean", nullable=false, options={"comment"="0 - Open (Anyone can mark attendence), 1 - Private (Only invited can mark attendence)"})
      */
-    private $permission = '0';
+    private int|bool $permission = 0;
 
     /**
      * @var string
      *
      * @ORM\Column(name="cover", type="text", length=65535, nullable=false)
      */
-    private $cover;
+    private string $cover;
 
     /**
      * @var int|null

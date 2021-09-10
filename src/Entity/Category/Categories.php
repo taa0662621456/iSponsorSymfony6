@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -28,7 +29,7 @@ class Categories
 	 * @ORM\GeneratedValue()
 	 * @ORM\Column(name="ordering", type="integer", nullable=false, unique=false, options={"default" : 1})
 	 */
-	private $ordering = 1;
+	private int $ordering = 1;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories",
@@ -42,7 +43,7 @@ class Categories
 	 *     cascade={"persist"},
 	 *     inversedBy="children")
 	 */
-    private $parent;
+    private Categories $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects",
@@ -59,7 +60,7 @@ class Categories
 	 * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
 	 * @Assert\Valid()
 	 */
-	private $categoryEnGb;
+	private mixed $categoryEnGb;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments",
@@ -72,13 +73,13 @@ class Categories
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="categoryFeatured")
 	 */
-	private $categoryFeatured;
+	private mixed $categoryFeatured;
 
 
 	/**
 	 * @throws Exception
 	 */
-	public function __construct()
+	#[Pure] public function __construct()
 	{
 		$this->children = new ArrayCollection();
 		$this->categoryProjects = new ArrayCollection();
@@ -105,7 +106,7 @@ class Categories
     /**
      * @return mixed
      */
-    public function getCategoryEnGb()
+    public function getCategoryEnGb(): mixed
     {
         return $this->categoryEnGb;
     }
@@ -135,14 +136,12 @@ class Categories
 	}
 
 
-
-
     /**
      * @param Categories $children
      * @return Categories
      */
-	public function addChildren(Categories $children): Categories
-	{
+	public function addChildren(Categories $children):Categories
+    {
 		$this->children = $children;
 
 		return $this;
@@ -157,9 +156,9 @@ class Categories
 	}
 
     /**
-	 * @return Collection
+     * @return ArrayCollection|Collection
      */
-    public function getChildren()
+    public function getChildren(): ArrayCollection|Collection
     {
         return $this->children;
     }
@@ -167,8 +166,8 @@ class Categories
 	/**
 	 * @return Categories
 	 */
-	public function getParent()
-	{
+	public function getParent(): Categories
+    {
 		return $this->parent;
 	}
 
@@ -206,9 +205,9 @@ class Categories
 		$this->categoryAttachments->removeElement($attachment);
 	}
 
-	/**
-	 * @return Collection|CategoriesAttachments[]
-	 */
+    /**
+     * @return Collection
+     */
 	public function getCategoryAttachments(): Collection
 	{
 		return $this->categoryAttachments;
@@ -217,15 +216,15 @@ class Categories
 	/**
 	 * @return mixed
 	 */
-	public function getCategoryFeatured()
-	{
+	public function getCategoryFeatured(): mixed
+    {
 		return $this->categoryFeatured;
 	}
 
 	/**
 	 * @param mixed $categoryFeatured
 	 */
-	public function setCategoryFeatured($categoryFeatured): void
+	public function setCategoryFeatured(mixed $categoryFeatured): void
 	{
 		$this->categoryFeatured = $categoryFeatured;
 	}
