@@ -23,13 +23,13 @@ class VendorsDocumentAttachments
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorDocumentAttachments")
 	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
-	private $attachments;
+	private mixed $attachments;
 
 	/**
 	 * @return mixed
 	 */
-	public function getAttachments()
-	{
+	public function getAttachments(): mixed
+    {
 		return $this->attachments;
 	}
 
