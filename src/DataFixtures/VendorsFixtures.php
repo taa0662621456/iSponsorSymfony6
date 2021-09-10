@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Doctrine\UuidEncoder;
 use App\Entity\Vendor\Vendors;
 use App\Entity\Vendor\VendorsDocumentAttachments;
 use App\Entity\Vendor\VendorsEnGb;
@@ -12,7 +11,7 @@ use App\Entity\Vendor\VendorsSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 class VendorsFixtures extends Fixture
 {
@@ -29,12 +28,11 @@ class VendorsFixtures extends Fixture
         $vendorEnGb = new VendorsEnGb();
         $vendorDocumentAttachments = new VendorsDocumentAttachments();
         $vendorMediaAttachments = new VendorsMediaAttachments();
-        $slug = new UuidEncoder();
+        $uuid = $slug = Uuid::v4();
 
         try {
-			$uuid = Uuid::uuid4();
 			$vendor->setUuid($uuid);
-			$vendor->setSlug($slug->encode($uuid));
+			$vendor->setSlug($slug);
 
             $vendorSecurity->setUuid($uuid);
             $vendorSecurity->setSlug($uuid);
@@ -46,9 +44,11 @@ class VendorsFixtures extends Fixture
         $vendorSecurity->setPassword($password);
 
         $vendorEnGb->setVendorZip($rand);
-        $vendorEnGb->setFirstTitle('VendorFT' . $rand);
-        $vendorEnGb->setFirstTitle('VendorMT' . $rand);
-        $vendorEnGb->setFirstTitle('VendorLT' . $rand);
+//        $vendorEnGb->setFirstTitle('VendorFT' . $rand);
+//        $vendorEnGb->setFirstTitle('VendorMT' . $rand);
+//        $vendorEnGb->setFirstTitle('VendorLT' . $rand);
+//        //TODO: тут я хочу унифицировать три Titles и перенести их в BaseTrait, т.к. эти три поля так или иначе
+// присущий всем типам объектов
 
         $vendorIban->setIban('0000000000000000');
 

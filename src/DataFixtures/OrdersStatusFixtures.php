@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -18,12 +18,11 @@ class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
         for ($p = 1; $p <= 5; $p++) {
 
             $ordersStatus = new OrdersStatus();
-            $slug = new UuidEncoder();
+            $slug = $uuid = Uuid::v4();
 
             try {
-                $uuid = Uuid::uuid4();
                 $ordersStatus->setUuid($uuid);
-                $ordersStatus->setSlug($slug->encode($uuid));
+                $ordersStatus->setSlug($slug);
             } catch (Exception $e) {
             }
 

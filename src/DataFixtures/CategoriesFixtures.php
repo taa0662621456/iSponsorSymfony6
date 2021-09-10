@@ -10,7 +10,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
 
 class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -24,12 +24,11 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 			$categoryAttachments = new CategoriesAttachments();
 
 
-			$slug = new UuidEncoder();
+            $uuid = $slug = Uuid::v4();
 
 			try {
-                $uuid = Uuid::uuid4();
                 $categories->setUuid($uuid);
-                $categories->setSlug($slug->encode($uuid));
+                $categories->setSlug(($slug));
             } catch (Exception $e) {
             }
 

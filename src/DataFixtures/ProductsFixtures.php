@@ -10,7 +10,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Ramsey\Uuid\Uuid;
+use Symfony\Component\Uid\Uuid;
+
 
 class ProductsFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -23,12 +24,11 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 			$products = new Products();
 			$productEnGb = new ProductsEnGb();
 			$productAttachments = new ProductsAttachments();
-            $slug = new UuidEncoder();
+            $slug = $uuid = Uuid::v4();
 
             try {
-                $uuid = Uuid::uuid4();
                 $products->setUuid($uuid);
-                $products->setSlug($slug->encode($uuid));
+                $products->setSlug($slug);
             } catch (Exception $e) {
             }
 
