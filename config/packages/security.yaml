@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     password_hashers:
         App\Entity\Vendor\VendorsSecurity:
             algorithm: auto
@@ -21,10 +22,10 @@ security:
         ROLE_ADMIN: [ROLE_USER]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN]
     firewalls:
-        #wsse:
-        #   pattern:   ^/wsse/
-        #  stateless: true
-        # wsse:      { lifetime: 30 }
+        wsse:
+            pattern:   ^/wsse/
+            stateless: true
+            wsse:      { lifetime: 30 }
         api:
             pattern: ^/api*
             provider: database_users
@@ -55,12 +56,12 @@ security:
             #pattern: ^/login
             switch_user: { role: ROLE_ADMIN }
             provider: database_users
-            #http_basic: ~
+            http_basic: ~
             anonymous: true
             guard:
                 authenticators:
                     - App\Security\LoginAuthenticator
-            #security: false # отключает контент безопасности
+            #security: false # отключает контекст безопасности
             form_login:
                 #check_path: login_check
                 login_path: login
@@ -89,8 +90,8 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        #- { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
-        - { path: ^/(%app_locales%)/registration, role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: ^/login, role: PUBLIC_ACCESS, requires_channel: https }
+        - { path: ^/(%app_locales%)/registration, role: PUBLIC_ACCESS, requires_channel: https }
         #- { path: ^/(%app_locales%)/dashboard, role: ROLE_ADMIN, requires_channel: https }
         #- { path: ^/(%app_locales%)/admin, roles: ROLE_ADMIN, requires_channel: https }
         #- { path: ^/(%app_locales%)/profile, roles: ROLE_USER }

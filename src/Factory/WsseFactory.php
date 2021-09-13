@@ -8,44 +8,46 @@
 
 	namespace App\Factory;
 
-	use App\Listener\WsseListener;
-	use App\Service\WsseProvider;
-	use Symfony\Component\DependencyInjection\ChildDefinition;
-	use Symfony\Component\DependencyInjection\ContainerBuilder;
-	use Symfony\Component\DependencyInjection\Reference;
-	use Symfony\Component\Config\Definition\Builder\NodeDefinition;
-	use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
+    use App\Listener\WsseListener;
+    use App\Service\WsseProvider;
+    use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
+    use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+    use Symfony\Component\DependencyInjection\ChildDefinition;
+    use Symfony\Component\DependencyInjection\ContainerBuilder;
+    use Symfony\Component\DependencyInjection\Reference;
 
-	class WsseFactory implements SecurityFactoryInterface
-	{
-		public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
-		{
-			$providerId = 'security.authentication.provider.wsse.' . $id;
-			$container
-				->setDefinition($providerId, new ChildDefinition(WsseProvider::class))
-				->replaceArgument(0, new Reference($userProvider));
+    class WsseFactory implements SecurityFactoryInterface
+    {
+        public function create(ContainerBuilder $container, string $id, array $config, string $userProvider, ?string $defaultEntryPoint): array
+        {
+            $providerId = 'security.authentication.provider.wsse.'.$id;
+            $container
+                ->setDefinition($providerId, new ChildDefinition(WsseProvider::class))
+                ->setArgument(0, new Reference($userProvider))
+                ->setArgument(2, $config['lifetime'])
+            ;
 
-			$listenerId = 'security.authentication.listener.wsse.' . $id;
-			$listener = $container->setDefinition($listenerId, new ChildDefinition(WsseListener::class));
+            $listenerId = 'security.authentication.listener.wsse.'.$id;
+            $container->setDefinition($listenerId, new ChildDefinition(WsseListener::class));
 
-			return array($providerId, $listenerId, $defaultEntryPoint);
-		}
+            return [$providerId, $listenerId, $defaultEntryPoint];
+        }
 
-		public function getPosition()
-		{
-			return 'pre_auth';
-		}
+        public function getPosition(): string
+        {
+            return 'pre_auth';
+        }
 
-		public function getKey()
-		{
-			return 'wsse';
-		}
+        public function getKey(): string
+        {
+            return 'wsse';
+        }
 
-		public function addConfiguration(NodeDefinition $node)
-		{
-			$node
-				->children()
-				->scalarNode('lifetime')->defaultValue(300)
-				->end();
-		}
-	}
+        public function addConfiguration(NodeDefinition $node): void
+        {
+            $node
+                ->children()
+                ->scalarNode('lifetime')->defaultValue(300)
+                ->end();
+        }
+    }

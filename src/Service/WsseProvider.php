@@ -1,89 +1,83 @@
 <?php
+namespace App\Service;
 
-	namespace App\Service;
+use App\Security\WsseUserToken;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-	use App\Security\WsseUserToken;
-	use Psr\Cache\CacheItemPoolInterface;
-	use Psr\Cache\InvalidArgumentException;
-	use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
-	use Symfony\Component\Security\Core\User\UserProviderInterface;
-	use Symfony\Component\Security\Core\Exception\AuthenticationException;
-	use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
-	class WsseProvider implements AuthenticationProviderInterface
-	{
-		private $userProvider;
-		private $cachePool;
+class WsseProvider implements AuthenticationProviderInterface
+{
+    private UserProviderInterface $userProvider;
+    private CacheItemPoolInterface $cachePool;
 
-		public function __construct(UserProviderInterface $userProvider, CacheItemPoolInterface $cachePool)
-		{
-			$this->userProvider = $userProvider;
-			$this->cachePool = $cachePool;
-		}
+    public function __construct(UserProviderInterface $userProvider, CacheItemPoolInterface $cachePool)
+    {
+        $this->userProvider = $userProvider;
+        $this->cachePool = $cachePool;
+    }
 
-		public function authenticate(TokenInterface $token)
-		{
-			$user = $this->userProvider->loadUserByUsername($token->getUsername());
+    public function authenticate(TokenInterface $token): WsseUserToken
+    {
+        // The loadUserByIdentifier() and getUserIdentifier() methods were
+        // introduced in Symfony 5.3. In previous versions they were called
+        // loadUserByUsername() and getUsername() respectively
+        $user = $this->userProvider->loadUserByIdentifier($token->getUserIdentifier());
 
-			try {
-				if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
-					$authenticatedToken = new WsseUserToken($user->getRoles());
-					$authenticatedToken->setUser($user);
+        if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
+            $authenticatedToken = new WsseUserToken($user->getRoles());
+            $authenticatedToken->setUser($user);
 
-					return $authenticatedToken;
-				}
-			} catch (InvalidArgumentException $e) {
-			}
+            return $authenticatedToken;
+        }
 
-			throw new AuthenticationException('The WSSE authentication failed.');
-		}
+        throw new AuthenticationException('The WSSE authentication failed.');
+    }
 
-		/**
-		 * Эта функция характерна исключительно для аутентификации WSSE и используется только для помощи в этом примере
-		 * Чтобы узнать больше информации об особенной логике здесь, см.
-		 * https://github.com/symfony/symfony-docs/pull/3134#issuecomment-27699129
-		 *
-		 * @param $digest
-		 * @param $nonce
-		 * @param $created
-		 * @param $secret
-		 *
-		 * @return bool
-		 * @throws InvalidArgumentException
-		 */
-		protected function validateDigest($digest, $nonce, $created, $secret)
-		{
-			// Проверить, чтобы созданное время не было в будущем
-			if (strtotime($created) > time()) {
-				return false;
-			}
+    /**
+     * This function is specific to Wsse authentication and is only used to help this example
+     *
+     * For more information specific to the logic here, see
+     * https://github.com/symfony/symfony-docs/pull/3134#issuecomment-27699129
+     */
+    protected function validateDigest($digest, $nonce, $created, $secret): bool
+    {
+        // Check created time is not in the future
+        if (strtotime($created) > time()) {
+            return false;
+        }
 
-			// Временная метка истекает через 5 минут
-			if (time() - strtotime($created) > 300) {
-				return false;
-			}
+        // Expire timestamp after 5 minutes
+        if (time() - strtotime($created) > 300) {
+            return false;
+        }
 
-			// Попробовать извлечь объкт кеша из пула
-			$cacheItem = $this->cachePool->getItem(md5($nonce));
+        // Try to fetch the cache item from pool
+        $cacheItem = $this->cachePool->getItem(md5($nonce));
 
-			// Валидировать, что nonce *не* в кеше
-			// если он там, это может быть повторной атакой
-			if ($cacheItem->isHit()) {
-				//throw new NonceExpiredException('Previously used nonce detected');
-			}
+        // Validate that the nonce is *not* in cache
+        // if it is, this could be a replay attack
+        if ($cacheItem->isHit()) {
+            // In a real world application you should throw a custom
+            // exception extending the AuthenticationException
+            throw new AuthenticationException('Previously used nonce detected');
+        }
 
-			// Сохранить объект в кеше на 5 минут
-			$cacheItem->set(null)->expiresAfter(300);
-			$this->cachePool->save($cacheItem);
+        // Store the item in cache for 5 minutes
+        $cacheItem->set(null)->expiresAfter(300);
+        $this->cachePool->save($cacheItem);
 
-			// Валидировать секрет
-			$expected = base64_encode(sha1(base64_decode($nonce) . $created . $secret, true));
+        // Validate Secret
+        $expected = base64_encode(sha1(base64_decode($nonce).$created.$secret, true));
 
-			return hash_equals($expected, $digest);
-		}
+        return hash_equals($expected, $digest);
+    }
 
-		public function supports(TokenInterface $token)
-		{
-			return $token instanceof WsseUserToken;
-		}
-	}
+    public function supports(TokenInterface $token): bool
+    {
+        return $token instanceof WsseUserToken;
+    }
+}
