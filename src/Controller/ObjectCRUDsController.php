@@ -14,7 +14,7 @@ class ObjectCRUDsController extends AbstractController
     /**
      * @var RequestDispatcher
      */
-    private $requestDispatcher;
+    private RequestDispatcher $requestDispatcher;
 
 
     public function __construct(RequestDispatcher $requestDispatcher)
@@ -68,7 +68,7 @@ class ObjectCRUDsController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    public function new(Request $request)
+    public function new(Request $request): Response
     {
         //TODO: need VendorTypeAttach for difference Docs and Media
         $slug = new Slugify();

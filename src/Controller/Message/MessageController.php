@@ -4,7 +4,7 @@ namespace App\Controller\Message;
 
 use App\Entity\Message\MessageConversation;
 use App\Entity\Message\Message;
-use App\Repository\Message\ParticipantRepository;
+use App\Repository\Message\MessageParticipantRepository;
 use App\Repository\Vendor\VendorsRepository;
 use App\Repository\Message\MessageRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -30,38 +30,38 @@ class MessageController extends AbstractController
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     /**
      * @var MessageRepository
      */
-    private $massageRepository;
+    private MessageRepository $massageRepository;
     /**
      * @var VendorsRepository
      */
-    private $vendorsRepository;
+    private VendorsRepository $vendorsRepository;
     /**
-     * @var ParticipantRepository
+     * @var MessageParticipantRepository
      */
-    private $participantRepository;
+    private MessageParticipantRepository $participantRepository;
     /**
-     * @var PublisherInterface
+     * @var HubInterface
      */
-    private $publisher;
+    private HubInterface $publisher;
 
     /**
      * MessageController constructor.
      * @param EntityManagerInterface $entityManager
      * @param MessageRepository $massageRepository
      * @param VendorsRepository $vendorsRepository
-     * @param ParticipantRepository $participantRepository
-     * @param PublisherInterface $publisher
+     * @param MessageParticipantRepository $participantRepository
+     * @param HubInterface $publisher
      */
     public function __construct(EntityManagerInterface $entityManager,
                                 MessageRepository $massageRepository,
                                 VendorsRepository $vendorsRepository,
-                                ParticipantRepository $participantRepository,
-                                PublisherInterface $publisher)
+                                MessageParticipantRepository $participantRepository,
+                                HubInterface $publisher)
     {
         $this->entityManager = $entityManager;
         $this->massageRepository = $massageRepository;
@@ -76,7 +76,7 @@ class MessageController extends AbstractController
      * @param MessageConversation $conversation
      * @return Response
      */
-    public function index(Request $request, MessageConversation $conversation)
+    public function index(Request $request, MessageConversation $conversation): Response
     {
         $this->denyAccessUnlessGranted('view', $conversation);
         $messages = $this->massageRepository->findMessageByConversationId(
@@ -86,7 +86,6 @@ class MessageController extends AbstractController
         array_map(function ($message) {
             $message->setMine(
                 $message->getUser()->getId() === $this->getUser()->getId()
-                    ? true : false
             );
         }, $messages);
 
@@ -103,7 +102,7 @@ class MessageController extends AbstractController
      * @return JsonResponse
      * @throws Exception
      */
-    public function newMessage(Request $request, MessageConversation $conversation, SerializerInterface $serializer)
+    public function newMessage(Request $request, MessageConversation $conversation, SerializerInterface $serializer): JsonResponse
     {
         $user = $this->getUser();
 
@@ -117,7 +116,7 @@ class MessageController extends AbstractController
 
         $message = new Message();
         $message->setContent($content);
-        $message->setCreatedBy($user);
+        $message->setCreatedBy((int)$user);
 
         $conversation->addMessage($message);
         $conversation->setLastMessage($message);

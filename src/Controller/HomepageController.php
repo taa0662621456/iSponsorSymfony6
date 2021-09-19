@@ -8,9 +8,6 @@
     use App\Repository\Product\ProductsRepository;
     use App\Repository\Project\ProjectsRepository;
     use Exception;
-    use Lcobucci\JWT\Builder;
-    use Lcobucci\JWT\Signer\Key;
-    use Lcobucci\JWT\Signer\Hmac\Sha256;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Cookie;
     use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +15,7 @@
 
     class HomepageController extends AbstractController
     {
+
 
         /**
          * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="homepage")
@@ -33,13 +31,11 @@
         public function index(CategoriesRepository $categoriesRepository, ProjectsRepository $projectsRepository,
                               ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
         {
+            $token = 'fgdfgFGDFGDFGdfdfdfgDFDFGDFG';
             $userName = $this->getUser()->getUsername();
-            $token = (new Builder())
-                ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $userName)]])
-                ->getToken(
-                    new Sha256(),
-                    new Key($this->getParameter('mercure_secret_key'))
-                );
+            $key = $this->getParameter('mercure_secret_key');
+
+
 
             $response = $this->render(
                 'homepage/homepage.html.twig', array(
