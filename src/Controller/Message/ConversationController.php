@@ -2,9 +2,8 @@
 
 namespace App\Controller\Message;
 
-use App\Entity\Conversation;
 use App\Entity\Message\MessageParticipant;
-use App\Repository\Message\ConversationRepository;
+use App\Repository\Message\MessageConversationRepository;
 use App\Repository\Vendor\VendorsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -25,23 +24,25 @@ class ConversationController extends AbstractController
     /**
      * @var VendorsRepository
      */
-    private $vendorsRepository;
+    private VendorsRepository $vendorsRepository;
     /**
      * @var EntityManagerInterface
      */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
     /**
-     * @var ConversationRepository
+     * @var MessageConversationRepository
      */
-    private $conversationRepository;
+    private MessageConversationRepository $conversationRepository;
 
     /**
      * ConversationController constructor.
      * @param VendorsRepository $vendorsRepository
      * @param EntityManagerInterface $entityManager
-     * @param ConversationRepository $conversationRepository
+     * @param MessageConversationRepository $conversationRepository
      */
-    public function __construct(VendorsRepository $vendorsRepository, EntityManagerInterface $entityManager, ConversationRepository $conversationRepository)
+    public function __construct(VendorsRepository $vendorsRepository,
+                                EntityManagerInterface $entityManager,
+                                MessageConversationRepository $conversationRepository)
     {
         $this->vendorsRepository = $vendorsRepository;
         $this->entityManager = $entityManager;
@@ -54,7 +55,7 @@ class ConversationController extends AbstractController
      * @return JsonResponse
      * @throws Exception
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $otherUser = $request->get('otherUser', 0);
         $otherUser = $this->vendorsRepository->find($otherUser);
@@ -113,7 +114,7 @@ class ConversationController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getConversations(Request $request)
+    public function getConversations(Request $request): JsonResponse
     {
         $conversations = $this->conversationRepository->findConversationByUser($this->getUser()->getId());
 

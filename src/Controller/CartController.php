@@ -112,7 +112,7 @@ class CartController extends AbstractController
             $eventDispatcher->dispatch($orderSubmitedEvent);
 
             /*
-            $this->get(Mailer::class)->handleNotification([
+            $this->get(SwiftMailer::class)->handleNotification([
                 'event' => 'new_order',
                 'order_id' => $order->getId(),
                 'admin_email' => $this->getParameter('app.notifications.email_sender')
