@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Entity\Review;
 
+
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ReviewTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,21 +37,21 @@ class ProjectReviews
      * @var string|null
      * @ORM\Column(name="project_id", type="string", nullable=true)
      */
-    private $projectId;
+    private ?string $projectId;
 
     /**
      * @var string|null
      * @ORM\Column(name="project_uuid", type="string", nullable=true)
      */
-    private $projectUuid;
+    private ?string $projectUuid;
 
     /**
      * @var string|null
      * @ORM\Column(name="project_slug", type="string", nullable=true)
      */
-    private $projectSlug;
+    private ?string $projectSlug;
 
-    //TODO: проверить методы, возмозно необходимы отношения
+    //TODO: проверить методы, возможно необходимы отношения
 
     /**
      * @return string|null

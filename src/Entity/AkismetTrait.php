@@ -4,6 +4,9 @@
 namespace App\Entity;
 
 
+use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
+
 trait AkismetTrait
 {
     //TODO: скорее всего эти свойства перенести в ReviewTrait
@@ -15,7 +18,7 @@ trait AkismetTrait
      */
     private $state;
 
-    public function __toString(): string
+    #[Pure] public function __toString(): string
     {
         return $this->getState();
     }

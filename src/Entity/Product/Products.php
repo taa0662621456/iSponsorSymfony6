@@ -6,7 +6,7 @@
 	use App\Entity\BaseTrait;
 	use App\Entity\Order\OrdersItems;
 
-	use \DateTime;
+	use DateTime;
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
@@ -28,63 +28,65 @@
         public const NUM_ITEMS = 10;
 
         /**
+         * @var mixed
+         *
          * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectProducts")
          * @ORM\JoinTable(name="products")
          */
-        private $products;
+        private mixed $products;
 
         /**
          * @var int
          *
          * @ORM\Column(name="product_sku", type="integer", nullable=false, options={"default" : 0})
          */
-        private $productSku = 0;
+        private int $productSku = 0;
 
         /**
          * @var int
 		 *
 		 * @ORM\Column(name="product_gtin", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productGtin = 0;
+		private int $productGtin = 0;
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(name="product_mpn", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productMpn = 0;
+		private int $productMpn = 0;
 
 		/**
 		 * @var NumberType|null
 		 *
 		 * @ORM\Column(name="product_weight", type="decimal", nullable=true, options={"default" : 0})
 		 */
-		private $productWeight = 0;
+		private ?NumberType $productWeight;
 
 		/**
 		 * @var NumberType|null
 		 *
-		 * @ORM\Column(name="product_weight_uom", type="string", nullable=true, options={"default" : 0})
+		 * @ORM\Column(name="product_weight_uom", type="integer", nullable=true, options={"default" : 0})
 		 */
-		private $productWeightUom = 0;
+		private ?NumberType $productWeightUom;
 
 		/**
 		 * @ORM\Column(name="product_length", type="decimal", precision=7, scale=2, nullable=false, options={"default"
 		 *                                    : 0})
 		 */
-		private $productLength = 0;
+		private int $productLength = 0;
 
 		/**
 		 * @ORM\Column(name="product_width", type="decimal", precision=7, scale=2, nullable=false, options={"default" :
 		 *                                   0})
 		 */
-		private $productWidth = 0;
+		private int $productWidth = 0;
 
 		/**
 		 * @ORM\Column(name="product_height", type="decimal", precision=7, scale=2, nullable=false, options={"default"
 		 *                                    : 0})
 		 */
-		private $productHeight = 0;
+		private int $productHeight = 0;
 
 		/**
 		 * @var int
@@ -92,21 +94,21 @@
 		 * @ORM\Column(name="product_lwh_uom", type="integer", precision=7, scale=2, nullable=false, options={"default"
 		 *                                     : 0})
 		 */
-		private $productLwhUom = 0;
+		private int $productLwhUom = 0;
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(name="product_in_stock", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productInStock = 0;
+		private int $productInStock = 0;
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
 		 *     mappedBy="productOrdered")
 		 * @ORM\JoinTable(name="ordersItems")
 		 */
-		private $productOrdered;
+		private ArrayCollection $productOrdered;
 
 		/**
 		 * @var string
@@ -114,14 +116,14 @@
 		 * @ORM\Column(name="product_stock_handle", type="string", nullable=false,
 		 *                                          options={"default"="product_stock_handle"})
 		 */
-		private $productStockHandle = 'product_stock_handle';
+		private string $productStockHandle = 'product_stock_handle';
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(name="low_stock_notification", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $lowStockNotification = 0;
+		private int $lowStockNotification = 0;
 
 		/**
 		 * @var DateTime
@@ -129,105 +131,105 @@
 		 * @ORM\Column(name="product_available_date", type="datetime", nullable=false,
 		 *                                            options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $productAvailableDate;
+		private DateTime $productAvailableDate;
 
 		/**
 		 * @var bool|false
 		 *
 		 * @ORM\Column(name="product_availability", type="boolean", nullable=false, options={"default":false})
 		 */
-		private $productAvailability = false;
+		private bool $productAvailability = false;
 
 		/**
 		 * @var bool|false
 		 *
 		 * @ORM\Column(name="product_special", type="boolean", nullable=false, options={"default":false})
 		 */
-		private $productSpecial = false;
+		private bool $productSpecial = false;
 
 		/**
 		 * @var bool|false
 		 *
 		 * @ORM\Column(name="product_discontinued", type="boolean", nullable=false, options={"default":false})
 		 */
-		private $productDiscontinued = false;
+		private bool $productDiscontinued = false;
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(name="product_sales", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productSales = 0;
+		private int $productSales = 0;
 
 		/**
-		 * @var string
+		 * @var int
 		 *
-		 * @ORM\Column(name="product_unit", type="string", nullable=false, options={"default" : 0})
+		 * @ORM\Column(name="product_unit", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productUnit = 0;
+		private int $productUnit = 0;
 
 		/**
-		 * @var NumberType|null
+		 * @var int
 		 *
 		 * @ORM\Column(name="product_packaging", type="integer", nullable=true, options={"default" : 0})
 		 */
-		private $productPackaging = 0;
+		private int $productPackaging = 0;
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="product_params", type="string", nullable=false, options={"default"="product_params"})
 		 */
-		private $productParams = 'product_params';
+		private string $productParams = 'product_params';
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(name="product_canon_category_id", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productCanonCategoryId = 0;
+		private int $productCanonCategoryId = 0;
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(name="product_hits", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $productHits = 0;
+		private int $productHits = 0;
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="product_notes", type="text", nullable=false, options={"default"="product_notes"})
 		 */
-		private $productNotes = 'product_notes';
+		private string $productNotes = 'product_notes';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="meta_robot", type="string", nullable=false, options={"default"="meta_robot"})
 		 */
-		private $metaRobot = 'meta_robot';
+		private string $metaRobot = 'meta_robot';
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="meta_author", type="string", nullable=false, options={"default"="meta_author"})
 		 */
-		private $metaAuthor = 'meta_author';
+		private string $metaAuthor = 'meta_author';
 
 		/**
 		 * @var int|null
 		 *
 		 * @ORM\Column(name="layout", type="integer", nullable=false, options={"default" : 0})
 		 */
-		private $layout = 0;
+		private ?int $layout = 0;
 
 		/**
 		 * @var boolean
 		 *
 		 * @ORM\Column(name="product_published", type="boolean", nullable=false, options={"default":true})
 		 */
-		private $productPublished = true;
+		private bool $productPublished = true;
 
 		/**
 		 * @var string
@@ -235,7 +237,7 @@
 		 * @ORM\Column(name="product_country_origin", type="string", nullable=false,
 		 *                                            options={"default"="product_country_origin"})
 		 */
-		private $productCountryOrigin = 'product_country_origin';
+		private string $productCountryOrigin = 'product_country_origin';
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsEnGb",
@@ -245,7 +247,7 @@
 		 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
 		 * @Assert\Valid()
 		 */
-		private $productEnGb;
+		private mixed $productEnGb;
 
 		/**
 		 * @var ProductsTags[]|ArrayCollection
@@ -255,7 +257,7 @@
 		 * @ORM\OrderBy({"name": "ASC"})
 		 * @Assert\Count(max="4", maxMessage="products.too_many_tags")
 		 */
-		private $productTags;
+		private array|ArrayCollection $productTags;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice",
@@ -266,7 +268,7 @@
 		 * @Assert\Type(type="App\Entity\Product\ProductsPrice")
 		 * @Assert\Valid()
 		 */
-		private $productPrice;
+		private mixed $productPrice;
 
 		/**
 		 * @var int
@@ -274,12 +276,12 @@
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductsFavourites", mappedBy="productFavourites")
 		 * @ORM\JoinTable(name="product_favourites")
 		 **/
-		private $productFavourites;
+		private int $productFavourites;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="productFeatured")
 		 **/
-		private $productFeatured;
+		private mixed $productFeatured;
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductsAttachments",
@@ -289,7 +291,7 @@
 		 *     fetch="EXTRA_LAZY"
 		 * )
 		 */
-		private $productAttachments;
+		private ArrayCollection $productAttachments;
 
 
 		/**
@@ -304,9 +306,9 @@
 
 		}
 
-		/**
-		 * @return int|null
-		 */
+        /**
+         * @return int
+         */
 		public function getProductSku(): int
 		{
 			return $this->productSku;
@@ -368,66 +370,66 @@
 			$this->productWeight = $productWeight;
 		}
 
-		/**
-		 * @return string|null
-		 */
-		public function getProductWeightUom(): ?string
-		{
+        /**
+         * @return NumberType|null
+         */
+		public function getProductWeightUom(): ?NumberType
+        {
 			return $this->productWeightUom;
 		}
 
-		/**
-		 * @param string|null $productWeightUom
-		 */
-		public function setProductWeightUom(?string $productWeightUom): void
+        /**
+         * @param int|null $productWeightUom
+         */
+		public function setProductWeightUom(?int $productWeightUom): void
 		{
 			$this->productWeightUom = $productWeightUom;
 		}
 
 		/**
-		 * @return mixed
-		 */
-		public function getProductLength()
-		{
+		 * @return int
+         */
+		public function getProductLength(): int
+        {
 			return $this->productLength;
 		}
 
 		/**
 		 * @param mixed $productLength
 		 */
-		public function setProductLength($productLength): void
+		public function setProductLength(mixed $productLength): void
 		{
 			$this->productLength = $productLength;
 		}
 
 		/**
-		 * @return mixed
-		 */
-		public function getProductWidth()
-		{
+		 * @return int
+         */
+		public function getProductWidth(): int
+        {
 			return $this->productWidth;
 		}
 
 		/**
 		 * @param mixed $productWidth
 		 */
-		public function setProductWidth($productWidth): void
+		public function setProductWidth(mixed $productWidth): void
 		{
 			$this->productWidth = $productWidth;
 		}
 
 		/**
-		 * @return mixed
-		 */
-		public function getProductHeight()
-		{
+		 * @return int
+         */
+		public function getProductHeight(): int
+        {
 			return $this->productHeight;
 		}
 
 		/**
 		 * @param mixed $productHeight
 		 */
-		public function setProductHeight($productHeight): void
+		public function setProductHeight(mixed $productHeight): void
 		{
 			$this->productHeight = $productHeight;
 		}
@@ -441,9 +443,9 @@
 		}
 
 		/**
-		 * @param string|null $productLwhUom
+		 * @param int|null $productLwhUom
 		 */
-		public function setProductLwhUom(?string $productLwhUom): void
+		public function setProductLwhUom(?int $productLwhUom): void
 		{
 			$this->productLwhUom = $productLwhUom;
 		}
@@ -590,10 +592,10 @@
 			$this->productDiscontinued = $productDiscontinued;
 		}
 
-		/**
-		 * @return int|null
-		 */
-		public function getProductSales(): int
+        /**
+         * @return int|null
+         */
+		public function getProductSales(): ?int
 		{
 			return $this->productSales;
 		}
@@ -606,18 +608,18 @@
 			$this->productSales = $productSales;
 		}
 
-		/**
-		 * @return string|null
-		 */
-		public function getProductUnit(): ?string
+        /**
+         * @return int|null
+         */
+		public function getProductUnit(): ?int
 		{
 			return $this->productUnit;
 		}
 
-		/**
-		 * @param string|null $productUnit
-		 */
-		public function setProductUnit(?string $productUnit): void
+        /**
+         * @param int|null $productUnit
+         */
+		public function setProductUnit(?int $productUnit): void
 		{
 			$this->productUnit = $productUnit;
 		}
@@ -702,33 +704,33 @@
 			$this->productNotes = $productNotes;
 		}
 
-		/**
-		 * @return string
-		 */
+        /**
+         * @return string|null
+         */
 		public function getMetaRobot(): ?string
 		{
 			return $this->metaRobot;
 		}
 
-		/**
-		 * @param string $metaRobot
-		 */
+        /**
+         * @param string|null $metaRobot
+         */
 		public function setMetaRobot(?string $metaRobot): void
 		{
 			$this->metaRobot = $metaRobot;
 		}
 
-		/**
-		 * @return string
-		 */
+        /**
+         * @return string|null
+         */
 		public function getMetaAuthor(): ?string
 		{
 			return $this->metaAuthor;
 		}
 
-		/**
-		 * @param string $metaAuthor
-		 */
+        /**
+         * @param string|null $metaAuthor
+         */
 		public function setMetaAuthor(?string $metaAuthor): void
 		{
 			$this->metaAuthor = $metaAuthor;
@@ -785,15 +787,15 @@
 		/**
 		 * @return ProductsTags[]|ArrayCollection
 		 */
-		public function getProductTags()
-		{
+		public function getProductTags(): ArrayCollection|array
+        {
 			return $this->productTags;
 		}
 
 		/**
-		 * @param ProductsTags[]|ArrayCollection $productTags
+		 * @param ArrayCollection|ProductsTags[] $productTags
 		 */
-		public function setProductTags($productTags): void
+		public function setProductTags(ArrayCollection|array $productTags): void
 		{
 			$this->productTags = $productTags;
 		}
@@ -818,15 +820,15 @@
 		/**
 		 * @return mixed
 		 */
-		public function getProductFeatured()
-		{
+		public function getProductFeatured(): mixed
+        {
 			return $this->productFeatured;
 		}
 
 		/**
 		 * @param mixed $productFeatured
 		 */
-		public function setProductFeatured($productFeatured): void
+		public function setProductFeatured(mixed $productFeatured): void
 		{
 			$this->productFeatured = $productFeatured;
 		}
@@ -834,8 +836,8 @@
 		/**
 		 * @return mixed
 		 */
-		public function getProductEnGb()
-		{
+		public function getProductEnGb(): mixed
+        {
 			return $this->productEnGb;
 		}
 
@@ -868,9 +870,9 @@
 			$this->productTags->removeElement($tag);
 		}
 
-		/**
-		 * @return Collection|ProductsTags[]
-		 */
+        /**
+         * @return Collection
+         */
 		public function getTags(): Collection
 		{
 			return $this->productTags;
@@ -879,15 +881,15 @@
 		/**
 		 * @return mixed
 		 */
-		public function getProductPrice()
-		{
+		public function getProductPrice(): mixed
+        {
 			return $this->productPrice;
 		}
 
 		/**
 		 * @param mixed $productPrice
 		 */
-		public function setProductPrice($productPrice): void
+		public function setProductPrice(mixed $productPrice): void
 		{
 			$this->productPrice = $productPrice;
 		}
@@ -913,9 +915,9 @@
 			$this->productAttachments->removeElement($attachment);
 		}
 
-		/**
-		 * @return Collection|ProductsAttachments[]
-		 */
+        /**
+         * @return Collection
+         */
 		public function getProductAttachments(): Collection
 		{
 			return $this->productAttachments;
