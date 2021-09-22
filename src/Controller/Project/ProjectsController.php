@@ -25,7 +25,7 @@ class ProjectsController extends AbstractController
 	/**
 	 * @var AttachmentsManager
 	 */
-	private $attachmentManager;
+	private AttachmentsManager $attachmentManager;
 
 	public function __construct(AttachmentsManager $attachmentManager)
 	{
@@ -126,7 +126,7 @@ class ProjectsController extends AbstractController
      * @Route("/search", methods={"GET"}, name="project_search")
      * @param Request $request
      * @param ProjectsRepository $projects
-     * @return Response
+     * @return Response|null
      */
     public function search(Request $request, ProjectsRepository $projects): ?Response
     {
@@ -186,7 +186,7 @@ class ProjectsController extends AbstractController
      * @param ProjectsAttachments $projectsAttachments
      * @return Response
      */
-    public function attachment(Request $request, Projects $projects, ProjectsAttachments $projectsAttachments)
+    public function attachment(Request $request, Projects $projects, ProjectsAttachments $projectsAttachments): Response
     {
         $file = $request->get('file');
 

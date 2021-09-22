@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Security\Wsse;
 use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class WsseUserToken extends AbstractToken
@@ -8,15 +8,15 @@ class WsseUserToken extends AbstractToken
     public $digest;
     public $nonce;
 
-    public function __construct(array $roles = [])
+    public function __construct(array $roles = array())
     {
         parent::__construct($roles);
 
-// If the user has roles, consider it authenticated
+        // Если пользователь имеет роли, считайте его аутентифицированным
         $this->setAuthenticated(count($roles) > 0);
     }
 
-    public function getCredentials(): string
+    public function getCredentials()
     {
         return '';
     }

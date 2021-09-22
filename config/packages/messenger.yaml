@@ -1,57 +1,14 @@
 framework:
     messenger:
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        # failure_transport: failed
+
         transports:
-            async_priority_high: "%env(MESSENGER_TRANSPORT_DSN)%?queue_name=high_priority"
-            async_normal:
-                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
-                options:
-                    queue_name: normal_priority
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            # async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            # failed: 'doctrine://default?queue_name=failed'
+            # sync: 'sync://'
 
-            asyn_project:
-                #async: '%env(RABBITMQ_DSN)%'
-                dsn: "%env(RABBITMQ_DSN)%"
-                options:
-                    queue_name: normal_priority
-                    retry_strategy:
-                        max_retries: 3
-                        multiplier: 2
-                    failed: 'doctrine://default?queue_name=failed'
-
-            asyn_product:
-                #async: '%env(RABBITMQ_DSN)%'
-                dsn: "%env(RABBITMQ_DSN)%"
-                options:
-                    queue_name: normal_priority
-                    retry_strategy:
-                        max_retries: 3
-                        multiplier: 2
-                    failed: 'doctrine://default?queue_name=failed'
-
-            failure_transport: failed
         routing:
-            #App\Message\ReviewMessage: async # TODO: возникает исключение
-
-            #Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            #Symfony\Component\Notifier\Message\ChatMessage: async
-            #Symfony\Component\Notifier\Message\SmsMessage: async
-        buses:
-            command_bus:
-                middleware:
-                    # wraps all handlers in a single Doctrine transaction
-                    # handlers do not need to call flush() and an error
-                    # in any handler will cause a rollback
-                    - doctrine_transaction
-
-                    # each time a message is handled, the Doctrine connection
-                    # is "pinged" and reconnected if it's closed. Useful
-                    # if your workers run for a long time and the database
-                    # connection is sometimes lost
-                    - doctrine_ping_connection
-
-                    # After handling, the Doctrine connection is closed,
-                    # which can free up database connections in a worker,
-                    # instead of keeping them open forever
-                    - doctrine_close_connection
-
-                    # or pass a different entity manager to any
-                    #- doctrine_transaction: ['custom']
+            # Route your messages to the transports
+            # 'App\Message\YourMessage': async

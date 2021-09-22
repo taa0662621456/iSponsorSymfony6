@@ -4,22 +4,20 @@ declare(strict_types=1);
 	namespace App\EventSubscriber;
 
 	use App\Event\OrderSubmitedEvent;
-	use App\Service\Mailer;
-	use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-	use Twig\Error\Error;
+    use JetBrains\PhpStorm\ArrayShape;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+    use Symfony\Component\Mailer\MailerInterface;
+    use Twig\Error\Error;
 
 	class OrderSubscriber
 		implements EventSubscriberInterface
 	{
-		/**
-		 * @var Mailer
-		 */
-		private $mailer;
+        private MailerInterface $mailer;
 
-		/**
-		 * @param Mailer $mailer
-		 */
-		public function __construct(Mailer $mailer)
+        /**
+         * @param MailerInterface $mailer
+         */
+		public function __construct(MailerInterface $mailer)
 		{
 			$this->mailer = $mailer;
 		}
@@ -27,7 +25,7 @@ declare(strict_types=1);
 		/**
 		 * @return array
 		 */
-		public static function getSubscribedEvents(): array
+		#[ArrayShape([OrderSubmitedEvent::NAME => "string"])] public static function getSubscribedEvents(): array
 		{
 			return array(
 				OrderSubmitedEvent::NAME => 'onOrdersOrder'
@@ -35,12 +33,11 @@ declare(strict_types=1);
 		}
 
 		/**
-		 * @param OrderSubmitedEvent $orderSubmitedEvent
+		 * @param OrderSubmitedEvent $orderSubmittedEvent
 		 *
-		 * @throws Error
-		 */
-		public function onOrdersOrder(OrderSubmitedEvent $orderSubmitedEvent): void
+         */
+		public function onOrdersOrder(OrderSubmitedEvent $orderSubmittedEvent): void
 		{
-			$this->mailer->sendNewOrderNotification((array)$orderSubmitedEvent->getOrderSubmited());
+			$this->mailer->sendNewOrderNotification((array)$orderSubmittedEvent->getOrderSubmited());
 		}
 	}

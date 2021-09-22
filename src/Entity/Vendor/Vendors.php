@@ -29,73 +29,73 @@ class Vendors
 	 *
 	 * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 0})
 	 */
-	private $active = false;
+	private bool $active = false;
 
 	/**
 	 * @var array
 	 *
 	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
-	private $roles = [];
+	private array $roles = [];
 
 	/**
-     * @var string
+     * @var DateTime
      * @Assert\DateTime()
      *
-	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 * @ORM\Column(name="last_visit_date", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 	 */
-	private $lastVisitDate;
+	private DateTime $lastVisitDate;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="activation_code", type="string", nullable=false, options={"default"="0"})
 	 */
-	private $activationCode = '0';
+	private string $activationCode = '0';
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="locale", type="text", nullable=false, options={"default"="en"})
+	 * @ORM\Column(name="locale", type="string", nullable=false, options={"default"="en"})
 	 */
-	private $locale = 'en';
+	private string $locale = 'en';
 
 	/**
-	 * @var string
+	 * @var DateTime
 	 *
 	 * @Assert\DateTime()
-	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
+	 * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP",
 	 *                                     "comment"="Date of last password reset"})
 	 */
-	private $lastResetTime;
+	private DateTime $lastResetTime;
 
 	/**
 	 * @var integer
 	 *
 	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"default" : 0, "comment"="Count of password resets since lastResetTime"})
      */
-	private $resetCount = 0;
+	private int $resetCount = 0;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="","comment"="Two factor authentication encrypted keys"})
      */
-	private $otpKey = '';
+	private string $otpKey = '';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency passwords"})
      */
-	private $otep = '';
+	private string $otep = '';
 
 	/**
 	 * @var boolean/false
 	 *
 	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require user to reset password on next login"})
      */
-	private $requireReset = 0;
+	private int|bool $requireReset = 0;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsSecurity",
@@ -105,7 +105,7 @@ class Vendors
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
 	 * @Assert\Valid()
 	 */
-	private $vendorSecurity;
+	private mixed $vendorSecurity;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsIban",
@@ -114,7 +114,7 @@ class Vendors
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
 	 * @Assert\Valid()
 	 */
-	private $vendorIban;
+	private mixed $vendorIban;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorsEnGb",
@@ -131,49 +131,49 @@ class Vendors
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
 	 */
-	private $vendorDocumentAttachments;
+	private ArrayCollection $vendorDocumentAttachments;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
 	 */
-	private $vendorMediaAttachments;
+	private ArrayCollection $vendorMediaAttachments;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders",
 	 *     mappedBy="orderCreatedAt")
 	 * @ORM\JoinTable(name="orders")
 	 */
-	private $vendorOrders;
+	private ArrayCollection $vendorOrders;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
 	 *     mappedBy="itemVendors")
 	 * @ORM\JoinTable(name="ordersItems")
 	 */
-	private $vendorItems;
+	private mixed $vendorItems;
 
 	/**
      * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorsFavourites", mappedBy="vendorFavourites")
      * @ORM\JoinTable(name="vendors_favourites")
      */
-    private $vendorFavourites;
+    private int $vendorFavourites;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="vendorFeatured")
      */
-    private $vendorFeatured;
+    private mixed $vendorFeatured;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message\Message", mappedBy="vendor")
      */
-    private $vendorMessage;
+    private mixed $vendorMessage;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="vendor")
      */
-    private $participant;
+    private mixed $participant;
 
 
     /**
@@ -195,8 +195,8 @@ class Vendors
 	/**
 	 * @return bool|false
 	 */
-	public function getActive()
-	{
+	public function getActive(): bool
+    {
 		return $this->active;
 	}
 
@@ -370,8 +370,8 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorSecurity()
-	{
+	public function getVendorSecurity(): mixed
+    {
 		return $this->vendorSecurity;
 	}
 
@@ -451,8 +451,8 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorDocumentAttachments()
-	{
+	public function getVendorDocumentAttachments(): mixed
+    {
 		return $this->vendorDocumentAttachments;
 	}
 
@@ -479,39 +479,39 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorMediaAttachments()
-	{
+	public function getVendorMediaAttachments(): mixed
+    {
 		return $this->vendorMediaAttachments;
 	}
 
 	/**
 	 * @return mixed
 	 */
-	public function getVendorIban()
-	{
+	public function getVendorIban(): mixed
+    {
 		return $this->vendorIban;
 	}
 
 	/**
 	 * @param mixed $vendorIban
 	 */
-	public function setVendorIban($vendorIban): void
+	public function setVendorIban(mixed $vendorIban): void
 	{
 		$this->vendorIban = $vendorIban;
 	}
 
 	/**
-	 * @return mixed
+	 * @return ArrayCollection
 	 */
-	public function getVendorOrders()
-	{
+	public function getVendorOrders(): ArrayCollection
+    {
 		return $this->vendorOrders;
 	}
 
 	/**
 	 * @param mixed $vendorOrders
 	 */
-	public function setVendorOrders($vendorOrders): void
+	public function setVendorOrders(mixed $vendorOrders): void
 	{
 		$this->vendorOrders = $vendorOrders;
 	}
@@ -535,15 +535,15 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorFeatured()
-	{
+	public function getVendorFeatured(): mixed
+    {
 		return $this->vendorFeatured;
 	}
 
 	/**
 	 * @param mixed $vendorFeatured
 	 */
-	public function setVendorFeatured($vendorFeatured): void
+	public function setVendorFeatured(mixed $vendorFeatured): void
 	{
 		$this->vendorFeatured = $vendorFeatured;
 	}
@@ -551,15 +551,15 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorItems()
-	{
+	public function getVendorItems(): mixed
+    {
 		return $this->vendorItems;
 	}
 
 	/**
 	 * @param mixed $vendorItems
      */
-    public function setVendorItems($vendorItems): void
+    public function setVendorItems(mixed $vendorItems): void
     {
         $this->vendorItems = $vendorItems;
     }
@@ -572,7 +572,7 @@ class Vendors
     /**
      * @return mixed
      */
-    public function getVendorMessage()
+    public function getVendorMessage(): mixed
     {
         return $this->vendorMessage;
     }
@@ -580,7 +580,7 @@ class Vendors
     /**
      * @param mixed $vendorMessage
      */
-    public function setVendorMessage($vendorMessage): void
+    public function setVendorMessage(mixed $vendorMessage): void
     {
         $this->vendorMessage = $vendorMessage;
     }
@@ -588,7 +588,7 @@ class Vendors
     /**
      * @return mixed
      */
-    public function getParticipant()
+    public function getParticipant(): mixed
     {
         return $this->participant;
     }
@@ -596,7 +596,7 @@ class Vendors
     /**
      * @param mixed $participant
      */
-    public function setParticipant($participant): void
+    public function setParticipant(mixed $participant): void
     {
         $this->participant = $participant;
     }

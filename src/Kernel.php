@@ -2,12 +2,13 @@
 
 namespace App;
 
+use App\Factory\WsseFactory;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
@@ -33,7 +34,7 @@ class Kernel extends BaseKernel
 	public function build(ContainerBuilder $container)
 	{
 		$extension = $container->getExtension('security');
-		//$extension->addSecurityListenerFactory(new WsseFactory());
+		$extension->addSecurityListenerFactory(new WsseFactory());
 	}
 
 	protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
@@ -50,7 +51,7 @@ class Kernel extends BaseKernel
 
 	}
 
-	protected function configureRoutes(RouteCollectionBuilder $routes): void
+	protected function configureRoutes(RoutingConfigurator $routes): void
 	{
 		$confDir = $this->getProjectDir() . '/config';
 

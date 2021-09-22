@@ -27,14 +27,14 @@ class Featured
      *
      * @ORM\Column(name="ordering", type="integer")
      */
-    private $ordering;
+    private int $ordering;
 
     /**
      * @var string
      *
      * @ORM\Column(name="featured_type", type="string")
      */
-    private $featuredType;
+    private string $featuredType;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectFeatured")
@@ -64,7 +64,7 @@ class Featured
     /**
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -83,7 +83,7 @@ class Featured
     /**
      * @return integer
      */
-    public function getOrdering()
+    public function getOrdering(): int
     {
         return $this->ordering;
     }

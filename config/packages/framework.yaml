@@ -1,43 +1,20 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    assets:
-        json_manifest_path: '%kernel.project_dir%/public/build/manifest.json'
-    secret: '%env(APP_SECRET)%'
-    csrf_protection: true
-    #http_method_override: true
-    default_locale: '%app_locale%'
-    translator:
-        default_path: '%kernel.project_dir%/translations'
-        #fallbacks: { fallbacks: [en] }
-        fallbacks:
-          - '%app_locale%'
-        paths:
-        - '%kernel.project_dir%/translations/en-GB'
-        - '%kernel.project_dir%/translations/ru-RU'
-        - '%kernel.project_dir%/translations/uk-UA'
+    ide: 'phpstorm://open?file=file://%%f&line=%%l'
+#    ide: 'phpstorm://open?url=file://%%f&line=%%l'
 
-    router:
-        strict_requirements: ~
-        utf8: true
+    secret: '%env(APP_SECRET)%'
+    #csrf_protection: true
+    #http_method_override: true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
-        #handler_id: ~
-        handler_id: '%env(REDIS_URL)%'
+        handler_id: null
         cookie_secure: auto
         cookie_samesite: lax
-    esi: true
-      #fragments: { path: /_fragment }
-      #templating:
-      #    hinclude_default_template: '%kernel.project_dir%/templates/hinclude.html.twig'
+
+    #esi: true
+    #fragments: true
     php_errors:
         log: true
-
-    # The 'ide' option turns all of the file paths in an exception page
-    # into clickable links that open the given file using your favorite IDE.
-    # When 'ide' is set to null the file is opened in your web browser.
-    # See https://symfony.com/doc/current/reference/configuration/framework.html#ide
-    ide: 'phpstorm://open?file=%%f&line=%%l'
-    validation:
-        email_validation_mode: 'html5'
-        enable_annotations: true

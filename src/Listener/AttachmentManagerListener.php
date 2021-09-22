@@ -13,15 +13,15 @@
 		/**
 		 * @var AttachmentsManager
 		 */
-		private $attachmentsManager;
+		private AttachmentsManager $attachmentsManager;
 		/**
 		 * @var EntityManagerInterface
 		 */
-		private $entityManager;
+		private EntityManagerInterface $entityManager;
 		/**
 		 * @var AttachmentRepository
 		 */
-		private $attachmentRepository;
+		private AttachmentRepository $attachmentRepository;
 
 		public function __construct(EntityManagerInterface $entityManager, AttachmentRepository $attachmentRepository,
 									AttachmentsManager $attachmentsManager)

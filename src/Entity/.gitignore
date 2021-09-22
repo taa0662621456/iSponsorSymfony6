@@ -1,0 +1,10 @@
+.env
+.idea
+.gitignore
+
+/var
+/ver/*
+
+/vendor
+/verdor/*
+/bootstrap-4.0.0/*
