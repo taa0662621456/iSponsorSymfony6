@@ -22,23 +22,30 @@ security:
         ROLE_ADMIN: [ROLE_USER]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN]
     firewalls:
+        csrf_protection: ~
         wsse:
             pattern:   ^/wsse/
             stateless: true
             wsse:      { lifetime: 30 }
+            security: false
         api:
-            pattern: ^/api*
+            pattern: ^/api
+            stateless: true
+#            jwt: ~
             provider: database_users
             anonymous: ~
+            security: false
             logout: ~
             guard:
                 authenticators:
                 - App\Security\TokenAuthenticator
+#                - lexik_jwt_authentication.jwt_token_authenticator
+
         admin:
             pattern: ^/admin
             provider: in_memory
             anonymous: ~
-            security: false # отключает контент безопасности
+            security: false # отключает контекст безопасности
             guard:
                 authenticators:
                     - App\Security\LoginBackAuthenticator
@@ -57,15 +64,15 @@ security:
             switch_user: { role: ROLE_ADMIN }
             provider: database_users
             http_basic: ~
-            anonymous: true
             guard:
                 authenticators:
-                    - App\Security\LoginAuthenticator
-            #security: false # отключает контекст безопасности
+                    - App\Security\LoginFormAuthenticator
+            entry_point: App\Security\LoginFormAuthenticator
+#            security: false # отключает контекст безопасности
             form_login:
                 #check_path: login_check
                 login_path: login
-                csrf_token_generator: security.csrf.token_manager
+#                csrf_token_generator: security.csrf.token_manager
                 default_target_path: '%app_logged_in_target_routename%'
                 use_referer: true
                 target_path_parameter: redirect
@@ -76,8 +83,14 @@ security:
             logout:
                 path: logout
                 target: '%app_logged_out_target_routename%'
-            json_login:
-                check_path: jsonLogin
+
+#            json_login:
+#                check_path: jsonLogin
+#                check_path: /api/login_check
+#                success_handler: lexik_jwt_authentication.handler.authentication_success
+#                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+
             # token_provider : 'Symfony\Bridge\Doctrine\Security\RememberMe\DoctrineTokenProvider'
             #
             # https://symfony.com.ua/doc/current/security/guard_authentication.html
@@ -92,10 +105,11 @@ security:
     access_control:
         - { path: ^/login, role: PUBLIC_ACCESS, requires_channel: https }
         - { path: ^/(%app_locales%)/registration, role: PUBLIC_ACCESS, requires_channel: https }
-        #- { path: ^/(%app_locales%)/dashboard, role: ROLE_ADMIN, requires_channel: https }
-        #- { path: ^/(%app_locales%)/admin, roles: ROLE_ADMIN, requires_channel: https }
-        #- { path: ^/(%app_locales%)/profile, roles: ROLE_USER }
+        - { path: ^/(%app_locales%)/dashboard, role: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/(%app_locales%)/admin, roles: ROLE_ADMIN, requires_channel: https }
+        - { path: ^/(%app_locales%)/profile, roles: ROLE_USER }
         - { path: ^/api, roles: ROLE_API_USER, requires_channel: https }
-        # the 'path' value can be any valid regular expression
-        # (this one will match URLs like /api/post/7298 and /api/comment/528491)
-        #- { path: ^/api/(post|comment)/\d+$, roles: ROLE_USER }
+#         the 'path' value can be any valid regular expression
+#         (this one will match URLs like /api/post/7298 and /api/comment/528491)
+#        - { path: ^/api/(post|comment)/\d+$, roles: ROLE_USER }
+        - { path: ^/api$, roles: ROLE_USER }

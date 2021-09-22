@@ -1,9 +1,2 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
-    form_themes: ['bootstrap_4_layout.html.twig']
-  # exception_controller : App\Controller\ExceptionController::showAction
-  #_errors:
-  #    resource: '@TwigBundle/Resources/config/routing/errors.xml'
-  #    prefix: /_error

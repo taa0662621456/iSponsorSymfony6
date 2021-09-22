@@ -1,18 +1,13 @@
-parameters:
-    # Adds a fallback DATABASE_URL if the env var is not set.
-    # This allows you to run cache:warmup even if your
-    # environment variables are not available yet.
-    # You should not need to change this value.
-    env(PLATFORM_DATES_DATABASE): ''
-    env(OBJECT_REVIEWS_DATABASE): ''
-    env(PLATFORM_SYSTEM_DATABASE): ''
 doctrine:
     dbal:
+        types:
+            uuid: Symfony\Bridge\Doctrine\Types\UuidType
+#        url: '%env(resolve:PLATFORM_DATES_DATABASE)%'
         default_connection: postgres
         connections:
             postgres:
                 # configure these for your database server
-                # this connectors for all project's information
+                # these connectors for all project's information
                 url: '%env(PLATFORM_DATES_DATABASE)%'
                 driver: 'pdo_pgsql'
                 server_version: '11.2'
@@ -33,10 +28,21 @@ doctrine:
                 driver: 'pdo_sqlite'
                 server_version: '3.21'
                 charset: utf8mb4
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '13'
     orm:
-        # auto_generate_proxy_classes: '%kernel.debug%'
-        # naming_strategy: doctrine.orm.naming_strategy.underscore
-        # auto_mapping: true
+#        auto_generate_proxy_classes: true
+#        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#        auto_mapping: true
+
+#        mappings:
+#            App:
+#                is_bundle: false
+#                type: annotation
+#                dir: '%kernel.project_dir%/src/Entity'
+#                prefix: 'App\Entity'
+#                alias: App
         default_entity_manager: postgres
         entity_managers:
             postgres:
@@ -116,13 +122,13 @@ doctrine:
                         type: annotation
                         dir: '%kernel.project_dir%/src/Entity/Review'
                         prefix: 'App\Entity\Review'
-                        alias: ProductReviews
+                        alias: ReviewProduct
                     Project:
                         is_bundle: false
                         type: annotation
                         dir: '%kernel.project_dir%/src/Entity/Review'
                         prefix: 'App\Entity\Review'
-                        alias: ProjectReviews
+                        alias: ReviewProject
             sqllite:
                 connection: sqllite
                 mappings:

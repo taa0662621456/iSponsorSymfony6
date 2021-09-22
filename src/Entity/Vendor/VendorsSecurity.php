@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
@@ -28,7 +29,7 @@ use Symfony\Component\Validator\Constraints\Length;
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface
+class VendorsSecurity implements UserInterface, Serializable, PasswordAuthenticatedUserInterface
 {
 	use BaseTrait;
 
@@ -91,7 +92,7 @@ class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component
 	 *
 	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
-	private $roles = [];
+	private array $roles = [];
 
 
 	/**
@@ -102,12 +103,12 @@ class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component
 	private ?bool $sendEmail = null;
 
 	/**
-	 * @var string
+	 * @var DateTime
 	 *
 	 * @ORM\Column(name="last_visit_date", type="string", nullable=false)
 	 * @Assert\DateTime()
 	 */
-	private $lastVisitDate;
+	private DateTime $lastVisitDate;
 
 	/**
 	 * @var string
@@ -137,16 +138,16 @@ class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component
      *                                     reset"})
      * @Assert\DateTime()
 	 */
-	private string|DateTime $lastResetTime;
+	private DateTime $lastResetTime;
 
 	/**
-	 * @var string
+	 * @var integer|null
 	 *
-	 * @ORM\Column(name="reset_count", type="string", options={"comment"="Count of password resets
+	 * @ORM\Column(name="reset_count", type="integer", options={"comment"="Count of password resets
      * since lastResetTime"})
      *
 	 */
-	private $resetCount = 0;
+	private ?int $resetCount = 0;
 
 	/**
 	 * @var string
@@ -208,7 +209,7 @@ class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component
 	/**
 	 * @ORM\Column(name="salt", type="string")
 	 */
-	private $salt = '0';
+	private string $salt = '0';
 
 	/**
 	 * @return string
@@ -574,18 +575,18 @@ class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component
 	 *
 	 * @link  https://php.net/manual/en/serializable.unserialize.php
 	 *
-	 * @param string $serialized <p>
+	 * @param string $data <p>
 	 *
 	 * @return void
 	 * @since 5.1.0
 	 */
-	public function unserialize($serialized): void
+	public function unserialize($data): void
 	{
 		[
 			$this->id,
 			$this->email,
 			$this->password
-		] = unserialize($serialized, ['allowed_class' => false]);
+		] = unserialize($data, ['allowed_class' => false]);
 	}
 
 	/**
@@ -601,8 +602,8 @@ class VendorsSecurity implements UserInterface, Serializable, \Symfony\Component
 	/**
 	 * @return mixed
 	 */
-	public function getVendorSecurity()
-	{
+	public function getVendorSecurity(): mixed
+    {
 		return $this->vendorSecurity;
 	}
 

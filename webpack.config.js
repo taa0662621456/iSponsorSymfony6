@@ -1,4 +1,4 @@
-var Encore = require('@symfony/webpack-encore');
+const Encore = require('@symfony/webpack-encore');
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -65,15 +65,14 @@ Encore
 
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
-/*
-    .autoProvideVariables({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        'jQuery.tagsinput': 'bootstrap-tagsinput',
-        'jQueryBridget': 'jquery-bridget'
-    })
- */
+
+    // .autoProvideVariables({
+    //     $: 'jquery',
+    //     jQuery: 'jquery',
+    //     'window.jQuery': 'jquery',
+    //     'jQuery.tagsinput': 'bootstrap-tagsinput',
+    //     'jQueryBridget': 'jquery-bridget'
+    // })
 
 // uncomment if you use API Platform Admin (composer req api-admin)
 //.enableReactPreset()
