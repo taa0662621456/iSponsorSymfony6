@@ -3,8 +3,9 @@
 	namespace App\Entity\Module;
 
 	use Doctrine\ORM\Mapping as ORM;
+    use Symfony\Component\Validator\Constraints as Assert;
 
-	/**
+    /**
 	 * Modules
 	 *
 	 * @ORM\Table(name="modules")
@@ -71,68 +72,67 @@
 		private $checkedOut = 0;
 
 		/**
-		 * @var datetime
-		 *
-		 * @ORM\Column(name="checked_out_time", type="datetime", nullable=false,
+		 * @var string
+		 * @ORM\Column(name="checked_out_time", type="string", nullable=false,
 		 *                                      options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $checkedOutTime = '';
+		private string $checkedOutTime = '';
 
 		/**
-		 * @var datetime
+		 * @var string
 		 *
-		 * @ORM\Column(name="publish_up", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+		 * @ORM\Column(name="publish_up", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $publishUp = '';
+		private string $publishUp = '';
 
 		/**
-		 * @var datetime
+		 * @var string
 		 *
-		 * @ORM\Column(name="publish_down", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+		 * @ORM\Column(name="publish_down", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private $publishDown = '';
+		private string $publishDown = '';
 
 		/**
 		 * @var string|null
 		 *
 		 * @ORM\Column(name="module", type="string", nullable=true, options={"default":0})
 		 */
-		private $module = '0';
+		private ?string $module = '0';
 
 		/**
 		 * @var integer
 		 *
 		 * @ORM\Column(name="access", type="integer", nullable=false)
 		 */
-		private $access = 0;
+		private int $access = 0;
 
 		/**
 		 * @var boolean
 		 *
 		 * @ORM\Column(name="show_title", type="boolean", nullable=false, options={"default"="1"})
 		 */
-		private $showTitle = true;
+		private bool $showTitle = true;
 
 		/**
-		 * @var text
+		 * @var string
 		 *
-		 * @ORM\Column(name="params", type="text", nullable=false)
+		 * @ORM\Column(name="params", type="string", nullable=false)
 		 */
-		private $params;
+		private string $params;
 
 		/**
 		 * @var boolean
 		 *
 		 * @ORM\Column(name="client_id", type="boolean", nullable=false)
 		 */
-		private $clientId = '0';
+		private int|bool $clientId = 0;
 
 		/**
 		 * @var string
 		 *
 		 * @ORM\Column(name="language", type="string", nullable=false)
 		 */
-		private $language;
+		private string $language;
 
 
 	}

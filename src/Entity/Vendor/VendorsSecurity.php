@@ -85,7 +85,7 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
      * Assert\NotCompromisedPassword
 	 *
 	 */
-	private $plainPassword = '00000000';
+	private string $plainPassword = '00000000';
 
 	/**
 	 * @var array
@@ -103,12 +103,11 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	private ?bool $sendEmail = null;
 
 	/**
-	 * @var DateTime
+	 * @var string
 	 *
-	 * @ORM\Column(name="last_visit_date", type="string", nullable=false)
-	 * @Assert\DateTime()
+	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 	 */
-	private DateTime $lastVisitDate;
+	private string $lastVisitDate;
 
 	/**
 	 * @var string
@@ -120,25 +119,24 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="locale", type="text", nullable=false, options={"default"="en"})
+	 * @ORM\Column(name="locale", type="string", nullable=false, options={"default"="en"})
 	 */
 	private string $locale = 'en';
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="params", type="text", nullable=false, options={"default"="params"})
+	 * @ORM\Column(name="params", type="string", nullable=false, options={"default"="params"})
 	 */
 	private string $params = 'params';
 
 	/**
-	 * @var DateTime
+	 * @var string
 	 *
-	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"comment"="Date of last password
-     *                                     reset"})
-     * @Assert\DateTime()
+	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
+     *     "comment"="Date of last password reset"})
 	 */
-	private DateTime $lastResetTime;
+	private string $lastResetTime;
 
 	/**
 	 * @var integer|null
@@ -188,7 +186,7 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	 *     cascade={"persist", "remove"},
 	 *     inversedBy="vendorSecurity")
 	 */
-	private $vendorSecurity;
+	private mixed $vendorSecurity;
 
 
 	/**
@@ -199,10 +197,9 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	public function __construct()
 	{
 		$this->roles = [self::ROLE_USER];
-		$this->lastResetTime = new DateTime();
-		$this->lastResetTime = $this->lastResetTime->format('Y-m-d H:i:s');
-		$this->lastVisitDate = new DateTime();
-		$this->lastVisitDate = $this->lastVisitDate->format('Y-m-d H:i:s');
+        $t = new DateTime();
+		$this->lastResetTime = $t->format('Y-m-d H:i:s');
+		$this->lastVisitDate = $t->format('Y-m-d H:i:s');
 
 	}
 
@@ -288,20 +285,20 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 
 	/**
 	 * @return string
-	 */
+     */
 	public function getLastVisitDate(): string
-	{
+    {
 		return $this->lastVisitDate;
 	}
 
 	/**
-	 * @param DateTime $lastVisitDate
+	 * @param string $lastVisitDate
 	 *
 	 * @return VendorsSecurity
 	 */
-	public function setLastVisitDate(DateTime $lastVisitDate): self
+	public function setLastVisitDate(string $lastVisitDate): self
 	{
-		$this->lastVisitDate = $lastVisitDate->format('Y-m-d H:i:s');
+		$this->lastVisitDate = $lastVisitDate;
 		return $this;
 	}
 
@@ -361,20 +358,20 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 
 	/**
 	 * @return string
-	 */
+     */
 	public function getLastResetTime(): string
-	{
+    {
 		return $this->lastResetTime;
 	}
 
 	/**
-	 * @param DateTime $lastResetTime
+	 * @param string $lastResetTime
 	 *
 	 * @return VendorsSecurity
 	 */
-	public function setLastResetTime(DateTime $lastResetTime): self
+	public function setLastResetTime(string $lastResetTime): self
 	{
-		$this->lastResetTime = $lastResetTime->format('Y-m-d H:i:s');
+		$this->lastResetTime = $lastResetTime;
 		return $this;
 	}
 
@@ -549,7 +546,7 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	 */
 	public function eraseCredentials(): string
 	{
-		$this->plainPassword = null;
+		$this->plainPassword = '';
 		return '';
 	}
 

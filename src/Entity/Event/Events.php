@@ -64,18 +64,18 @@ class Events
     private bool $unlisted;
 
     /**
-     * @var DateTime
+     * @var string
      *
-     * @ORM\Column(name="start_date", type="datetime", nullable=false)
+     * @ORM\Column(name="start_date", type="string", nullable=false)
      */
-    private DateTime $startDate;
+    private string $startDate;
 
     /**
-     * @var DateTime
+     * @var string
      *
-     * @ORM\Column(name="end_date", type="datetime", nullable=false)
+     * @ORM\Column(name="end_date", type="string", nullable=false)
      */
-    private DateTime $endDate;
+    private string $endDate;
 
     /**
      * @var bool
@@ -155,25 +155,25 @@ class Events
     private $latitude = '255.000000';
 
     /**
-     * @var float
+     * @var integer
      *
-     * @ORM\Column(name="longitude", type="float", precision=10, scale=6, nullable=false, options={"default"="255.000000"})
+     * @ORM\Column(name="longitude", type="integer", precision=10, scale=6, nullable=false, options={"default"="255.000000"})
      */
-    private $longitude = '255.000000';
+    private int $longitude = 255;
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="offset", type="string", length=5, nullable=true)
      */
-    private $offset;
+    private ?string $offset;
 
     /**
      * @var bool
      *
      * @ORM\Column(name="all_day", type="boolean", nullable=false)
      */
-    private $allDay = '0';
+    private int|bool $allDay = 0;
 
     /**
      * @var string|null
@@ -183,10 +183,10 @@ class Events
     private $repeat;
 
     /**
-     * @var DateTime
+     * @var string
      *
-     * @ORM\Column(name="repeat_end", type="date", nullable=false)
+     * @ORM\Column(name="repeat_end", type="string", nullable=false)
      */
-    private $repeatEnd;
+    private string $repeatEnd;
 
 }

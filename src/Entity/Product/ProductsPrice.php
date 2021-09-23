@@ -74,18 +74,18 @@ class ProductsPrice
 	private $productCurrency = 0;
 
 	/**
-	 * @var DateTime
+	 * @var string
 	 *
-	 * @ORM\Column(name="product_price_publish_up", type="datetime", nullable=false)
+	 * @ORM\Column(name="product_price_publish_up", type="string", nullable=false)
 	 */
-	private $productPricePublishUp;
+	private string $productPricePublishUp;
 
 	/**
-	 * @var DateTime
+	 * @var string
 	 *
-	 * @ORM\Column(name="product_price_publish_down", type="datetime", nullable=false)
+	 * @ORM\Column(name="product_price_publish_down", type="string", nullable=false)
 	 */
-	private $productPricePublishDown;
+	private string $productPricePublishDown;
 
 	/**
 	 * @var int
@@ -216,9 +216,9 @@ class ProductsPrice
 	}
 
 	/**
-	 * @return DateTime
+	 * @return string
 	 */
-	public function getProductPricePublishUp(): DateTime
+	public function getProductPricePublishUp(): string
 	{
 		return $this->productPricePublishUp;
 	}
@@ -232,9 +232,9 @@ class ProductsPrice
 	}
 
 	/**
-	 * @return DateTime
+	 * @return string
 	 */
-	public function getProductPricePublishDown(): DateTime
+	public function getProductPricePublishDown(): string
 	{
 		return $this->productPricePublishDown;
 	}
