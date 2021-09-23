@@ -3,7 +3,7 @@
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@symfony/webpack-encore": "^1.6.1",
         "core-js": "^3.17.3",
-        "jquery": "^3.5.1",
+        "jquery": "^3.5.0",
         "regenerator-runtime": "^0.13.9",
         "sass-loader": "^12.1.0",
         "webpack-notifier": "^1.13.0"
