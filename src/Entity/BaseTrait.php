@@ -4,8 +4,7 @@
 
     use App\Entity\Vendor\Vendors;
     use App\Service\RequestDispatcher;
-    use DateTimeImmutable;
-    use DateTimeInterface;
+    use DateTime;
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Uid\Uuid;
     use Exception;
@@ -48,12 +47,11 @@
         protected string $slug = 'slug';
 
         /**
-         * @var DateTimeInterface
+         * @var string
          *
-         * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-         * @Assert\DateTime
+         * @ORM\Column(name="created_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
          */
-        private DateTimeInterface $createdAt;
+        private string $createdAt;
 
         /**
          * @var integer
@@ -63,12 +61,11 @@
         private int $createdBy = 1;
 
         /**
-         * @var DateTimeInterface
+         * @var string
          *
-         * @ORM\Column(name="modified_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-         * @Assert\DateTime
+         * @ORM\Column(name="modified_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
          */
-        private DateTimeInterface $modifiedAt;
+        private string $modifiedAt;
 
         /**
          * @var integer
@@ -78,12 +75,11 @@
         private int $modifiedBy = 1;
 
         /**
-         * @var DateTimeInterface
+         * @var string
          *
-         * @ORM\Column(name="locked_at", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-         * @Assert\DateTime
+         * @ORM\Column(name="locked_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
          */
-        private DateTimeInterface $lockedAt;
+        private string $lockedAt;
 
         /**
          * @var int
@@ -109,19 +105,21 @@
          */
         private RequestDispatcher $requestDispatcher;
 
+        /**
+         * @throws Exception
+         */
         public function __construct()
         {
             try {
                 $this->slug = $this->uuid = Uuid::v4();
-//                $slugEncode = new Uuid($this->uuid);
-//                $this->slug = $slugEncode->toBase32($this->uuid);
-                //$this->requestDispatcher = new RequestDispatcher();
             } catch (Exception $e) {
+                throw($e);
             }
 
-            $this->createdAt = new DateTimeImmutable();
-            $this->modifiedAt = new DateTimeImmutable();
-            $this->lockedAt = new DateTimeImmutable();
+            $t = new DateTime();
+            $this->createdAt = $t->format('Y-m-d H:i:s');
+            $this->modifiedAt = $t->format('Y-m-d H:i:s');
+            $this->lockedAt = $t->format('Y-m-d H:i:s');
         }
 
         /**
@@ -197,9 +195,9 @@
 
 
         /**
-         * @return DateTimeImmutable
+         * @return string
          */
-        public function getCreatedAt(): DateTimeImmutable
+        public function getCreatedAt(): string
         {
             return $this->createdAt;
         }
@@ -210,7 +208,8 @@
          */
         public function setCreatedAt(): void
         {
-            $this->createdAt = new DateTimeImmutable();
+            $t = new DateTime();
+            $this->createdAt = $t->format('Y-m-d H:i:s');
         }
 
         /**
@@ -230,9 +229,9 @@
         }
 
         /**
-         * @return DateTimeInterface
+         * @return string
          */
-        public function getModifiedAt(): DateTimeInterface
+        public function getModifiedAt(): string
         {
             return $this->modifiedAt;
         }
@@ -244,7 +243,8 @@
          */
         public function setModifiedAt(): void
         {
-            $this->modifiedAt = new DateTimeImmutable();
+            $t = new DateTime();
+            $this->modifiedAt = $t->format('Y-m-d H:i:s');
         }
 
         /**
@@ -264,9 +264,9 @@
         }
 
         /**
-         * @return DateTimeInterface
+         * @return string
          */
-        public function getLockedAt(): DateTimeInterface
+        public function getLockedAt(): string
         {
             return $this->lockedAt;
         }
@@ -279,7 +279,8 @@
          */
         public function setLockedAt(): void
         {
-            $this->lockedAt = new DateTimeImmutable();
+            $t = new DateTime();
+            $this->lockedAt = $t->format('Y-m-d H:i:s');
         }
 
 

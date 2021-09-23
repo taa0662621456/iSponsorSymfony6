@@ -6,10 +6,9 @@ namespace App\Entity\Vendor;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Entity\Order\Orders;
 use Exception;
-use \DateTime;
+use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -39,12 +38,11 @@ class Vendors
 	private array $roles = [];
 
 	/**
-     * @var DateTime
-     * @Assert\DateTime()
+     * @var string
      *
-	 * @ORM\Column(name="last_visit_date", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 	 */
-	private DateTime $lastVisitDate;
+	private string $lastVisitDate;
 
 	/**
 	 * @var string
@@ -61,13 +59,12 @@ class Vendors
 	private string $locale = 'en';
 
 	/**
-	 * @var DateTime
-	 *
-	 * @Assert\DateTime()
-	 * @ORM\Column(name="last_reset_time", type="datetime", nullable=false, options={"default":"CURRENT_TIMESTAMP",
+	 * @var string
+     *
+	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
 	 *                                     "comment"="Date of last password reset"})
 	 */
-	private DateTime $lastResetTime;
+	private string $lastResetTime;
 
 	/**
 	 * @var integer
@@ -124,28 +121,30 @@ class Vendors
 	 * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb")
 	 * @Assert\Valid()
 	 */
-	private $vendorEnGb;
+	private mixed $vendorEnGb;
 
 	/**
+     *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsDocumentAttachments",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
 	 */
-	private ArrayCollection $vendorDocumentAttachments;
+	private $vendorDocumentAttachments;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorsMediaAttachments",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
 	 */
-	private ArrayCollection $vendorMediaAttachments;
+	private $vendorMediaAttachments;
 
 	/**
+     *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Orders",
 	 *     mappedBy="orderCreatedAt")
 	 * @ORM\JoinTable(name="orders")
 	 */
-	private ArrayCollection $vendorOrders;
+	private $vendorOrders;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
@@ -181,10 +180,9 @@ class Vendors
      */
     public function __construct()
     {
-        $this->lastResetTime = new DateTime();
-        $this->lastResetTime = $this->lastResetTime->format('Y-m-d H:i:s');
-        $this->lastVisitDate = new DateTime();
-        $this->lastVisitDate = $this->lastVisitDate->format('Y-m-d H:i:s');
+        $t = new DateTime();
+        $this->lastResetTime = $t->format('Y-m-d H:i:s');
+        $this->lastVisitDate = $t->format('Y-m-d H:i:s');
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocumentAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
@@ -216,14 +214,13 @@ class Vendors
         return $this->lastVisitDate;
 	}
 
-	/**
-	 * @param DateTime $lastVisitDate
-	 *
-	 * @return Vendors
-	 */
-	public function setLastVisitDate(DateTime $lastVisitDate): self
+    /**
+     * @param $lastVisitDate
+     * @return Vendors
+     */
+	public function setLastVisitDate ($lastVisitDate): Vendors
 	{
-		$this->lastVisitDate = $lastVisitDate->format('Y-m-d H:i:s');
+		$this->lastVisitDate = $lastVisitDate;
 		return $this;
 	}
 
@@ -263,22 +260,22 @@ class Vendors
 	}
 
 	/**
-	 * @return DateTime
+	 * @return string
 	 */
-	public function getLastResetTime(): DateTime
+	public function getLastResetTime(): string
 	{
 		return $this->lastResetTime;
 	}
 
-	/**
-	 * @param DateTime $lastResetTime
-	 *
-	 * @return Vendors
-	 */
-	public function setLastResetTime(DateTime $lastResetTime): self
-	{
-		$this->lastResetTime = $lastResetTime->format('Y-m-d H:i:s');
-		return $this;
+    /**
+     * @param string $lastResetTime
+     *
+     * @return Vendors
+     */
+	public function setLastResetTime(string $lastResetTime): Vendors
+    {
+		$this->lastResetTime = $lastResetTime;
+        return $this;
 	}
 
 	/**
@@ -387,8 +384,8 @@ class Vendors
 	/**
 	 * @return mixed
 	 */
-	public function getVendorEnGb()
-	{
+	public function getVendorEnGb(): mixed
+    {
 		return $this->vendorEnGb;
 	}
 
@@ -407,7 +404,7 @@ class Vendors
 	 */
 	public function addOrder(Orders $order): Vendors
 	{
-		$this->vendorOrders[] = $order;
+		$this->vendorOrders = $order;
 
 		return $this;
 	}
@@ -421,9 +418,9 @@ class Vendors
 	}
 
 	/**
-	 * @return Collection
+	 * @return ArrayCollection
 	 */
-	public function getOrders(): Collection
+	public function getOrders(): ArrayCollection
 	{
 		return $this->vendorOrders;
 	}

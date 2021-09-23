@@ -5,8 +5,7 @@ namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
 
-use DateTimeImmutable;
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -162,7 +161,7 @@ class Orders
 	 *
 	 * @ORM\Column(name="order_currency", type="smallint", nullable=true, options={"default" : 0})
 	 */
-	private $orderCurrency = 0;
+	private ?int $orderCurrency = 0;
 
 	/**
 	 * @var string
@@ -172,46 +171,46 @@ class Orders
 	private string $orderCurrencyRate = '1.000000';
 
 	/**
-	 * @var string
+	 * @var int
 	 *
-	 * @ORM\Column(name="order_shopper_groups", type="string", nullable=true, options={"default"="0"})
+	 * @ORM\Column(name="order_shopper_groups", type="integer", nullable=true, options={"default"="0"})
 	 */
-	private string $orderShopperGroups = '0';
+	private int $orderShopperGroups = 0;
 
 	/**
 	 * @var int|null
 	 *
 	 * @ORM\Column(name="order_payment_currency_id", type="smallint", nullable=true, options={"default" : 0})
 	 */
-	private $orderPaymentCurrencyId = '0';
+	private ?int $orderPaymentCurrencyId = 0;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_payment_currency_rate", type="decimal", nullable=false, options={"default"="1.000000"})
 	 */
-	private $orderPaymentCurrencyRate = '1.000000';
+	private string $orderPaymentCurrencyRate = '1.000000';
 
 	/**
 	 * @var integer|null
 	 *
 	 * @ORM\Column(name="order_payment_method_id", type="integer", nullable=true, options={"default" : 0})
 	 */
-	private $orderPaymentMethodId = 0;
+	private ?int $orderPaymentMethodId = 0;
 
 	/**
 	 * @var integer|null
 	 *
 	 * @ORM\Column(name="order_shipment_method_id", type="integer", nullable=true, options={"default" : 0})
 	 */
-	private $orderShipmentMethodId = '0';
+	private ?int $orderShipmentMethodId = 0;
 
 	/**
-	 * @var DateTimeInterface
+	 * @var string
 	 *
-	 * @ORM\Column(name="order_delivery_date", type="datetime", nullable=true)
+	 * @ORM\Column(name="order_delivery_date", type="string", nullable=true)
 	 */
-	private $orderDeliveryDate;
+	private string $orderDeliveryDate;
 
 	/**
 	 * @var string|null
@@ -225,7 +224,7 @@ class Orders
 	 *
 	 * @ORM\Column(name="order_ip_address", type="string", nullable=false, options={"default"="''"})
 	 */
-	private $orderIpAddress = '';
+	private string $orderIpAddress = '';
 
 	/**
 	 * @var boolean
@@ -239,7 +238,7 @@ class Orders
 	 *
 	 * @ORM\Column(name="order_hash", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $orderHash = '0';
+	private ?string $orderHash = '0';
 
 	/**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrdersItems",
@@ -262,15 +261,15 @@ class Orders
 	private $orderStatus;
 
 	/**
-     * @var DateTimeInterface
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors",
 	 *     inversedBy="vendorOrders")
 	 */
-	private DateTimeInterface $orderCreatedAt;
+	private $orderCreatedAt;
 
 	public function __construct()
 	{
-		$this->orderDeliveryDate = new DateTimeImmutable();
+        $t = new DateTime();
+		$this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
 		$this->orderItems = new ArrayCollection();
 	}
 
@@ -618,18 +617,18 @@ class Orders
 		$this->orderCurrencyRate = $orderCurrencyRate;
 	}
 
-	/**
-	 * @return string|null
-	 */
-	public function getOrderShopperGroups(): ?string
+    /**
+     * @return int|null
+     */
+	public function getOrderShopperGroups(): ?int
 	{
 		return $this->orderShopperGroups;
 	}
 
-	/**
-	 * @param string|null $orderShopperGroups
-	 */
-	public function setOrderShopperGroups(?string $orderShopperGroups): void
+    /**
+     * @param int|null $orderShopperGroups
+     */
+	public function setOrderShopperGroups(?int $orderShopperGroups): void
 	{
 		$this->orderShopperGroups = $orderShopperGroups;
 	}
@@ -699,17 +698,17 @@ class Orders
 	}
 
 	/**
-	 * @return DateTimeInterface
+	 * @return string
 	 */
-	public function getOrderDeliveryDate(): DateTimeInterface
+	public function getOrderDeliveryDate(): string
 	{
 		return $this->orderDeliveryDate;
 	}
 
 	/**
-	 * @param DateTimeInterface $orderDeliveryDate
+	 * @param string $orderDeliveryDate
 	 */
-	public function setOrderDeliveryDate(DateTimeInterface $orderDeliveryDate): void
+	public function setOrderDeliveryDate(string $orderDeliveryDate): void
 	{
 		$this->orderDeliveryDate = $orderDeliveryDate;
 	}

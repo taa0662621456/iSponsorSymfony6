@@ -33,26 +33,26 @@ class Commission
     private $projectId;
 
     /**
-     * @var DateTime
+     * @var string
      *
-     * @ORM\Column(name="commission_start_time", type="datetime", nullable=false,
+     * @ORM\Column(name="commission_start_time", type="string", nullable=false,
      *                                            options={"default":"CURRENT_TIMESTAMP"})
      */
-    private $commissionStartTime;
+    private string $commissionStartTime;
 
     /**
-     * @var DateTime
+     * @var string
      *
-     * @ORM\Column(name="commission_end_time", type="datetime", nullable=false,
+     * @ORM\Column(name="commission_end_time", type="string", nullable=false,
      *                                            options={"default":"CURRENT_TIMESTAMP"})
      */
-    private $commissionEndTime;
+    private string $commissionEndTime;
 
 
     /**
      * @return mixed
      */
-    public function getProjectId()
+    public function getProjectId(): mixed
     {
         return $this->projectId;
     }
@@ -60,40 +60,40 @@ class Commission
     /**
      * @param mixed $projectId
      */
-    public function setProjectId($projectId): void
+    public function setProjectId(mixed $projectId): void
     {
         $this->projectId = $projectId;
     }
 
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getCommissionStartTime(): DateTime
+    public function getCommissionStartTime(): string
     {
         return $this->commissionStartTime;
     }
 
     /**
-     * @param DateTime $commissionStartTime
+     * @param string $commissionStartTime
      */
-    public function setCommissionStartTime(DateTime $commissionStartTime): void
+    public function setCommissionStartTime(string $commissionStartTime): void
     {
         $this->commissionStartTime = $commissionStartTime;
     }
 
     /**
-     * @return DateTime
+     * @return string
      */
-    public function getCommissionEndTime(): DateTime
+    public function getCommissionEndTime(): string
     {
         return $this->commissionEndTime;
     }
 
     /**
-     * @param DateTime $commissionEndTime
+     * @param string $commissionEndTime
      */
-    public function setCommissionEndTime(DateTime $commissionEndTime): void
+    public function setCommissionEndTime(string $commissionEndTime): void
     {
         $this->commissionEndTime = $commissionEndTime;
     }

@@ -14,7 +14,7 @@
 	namespace App\Entity;
 
 
-	use \DateTime;
+	use DateTime;
 	use Doctrine\ORM\Mapping as ORM;
 
 
@@ -41,10 +41,10 @@
 		private $value;
 
 		/**
-		 * @var DateTime
-		 * @ORM\Column(type="datetime")
+		 * @var string
+		 * @ORM\Column(type="string")
 		 */
-		private $lastUsed;
+		private string $lastUsed;
 
 		/**
 		 * @var string
@@ -61,7 +61,8 @@
 
 		public function __construct()
 		{
-			$this->lastUsed = new DateTime();
+            $t = new DateTime();
+			$this->lastUsed = $t->format('Y-m-d H:i:s');
 		}
 
 		/**
@@ -97,19 +98,20 @@
 		}
 
 		/**
-		 * @return DateTime
+		 * @return string
 		 */
-		public function getLastUsed(): DateTime
+		public function getLastUsed(): string
 		{
 			return $this->lastUsed;
 		}
 
 		/**
-		 * @param DateTime $lastUsed
+		 * @param string $lastUsed
 		 */
-		public function setLastUsed(DateTime $lastUsed): void
+		public function setLastUsed(string $lastUsed): void
 		{
-			$this->lastUsed = $lastUsed;
+            $t = new DateTime();
+			$this->lastUsed = $t->format('Y-m-d H:i:s');
 		}
 
 		/**

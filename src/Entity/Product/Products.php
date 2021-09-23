@@ -108,7 +108,7 @@
 		 *     mappedBy="productOrdered")
 		 * @ORM\JoinTable(name="ordersItems")
 		 */
-		private ArrayCollection $productOrdered;
+		private $productOrdered;
 
 		/**
 		 * @var string
@@ -126,12 +126,12 @@
 		private int $lowStockNotification = 0;
 
 		/**
-		 * @var DateTime
+		 * @var string
 		 *
-		 * @ORM\Column(name="product_available_date", type="datetime", nullable=false,
+		 * @ORM\Column(name="product_available_date", type="string", nullable=false,
 		 *                                            options={"default":"CURRENT_TIMESTAMP"})
 		 */
-		private DateTime $productAvailableDate;
+		private string $productAvailableDate;
 
 		/**
 		 * @var bool|false
@@ -257,7 +257,7 @@
 		 * @ORM\OrderBy({"name": "ASC"})
 		 * @Assert\Count(max="4", maxMessage="products.too_many_tags")
 		 */
-		private array|ArrayCollection $productTags;
+		private $productTags;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductsPrice",
@@ -271,12 +271,11 @@
 		private mixed $productPrice;
 
 		/**
-		 * @var int
 		 *
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductsFavourites", mappedBy="productFavourites")
 		 * @ORM\JoinTable(name="product_favourites")
 		 **/
-		private int $productFavourites;
+		private $productFavourites;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="productFeatured")
@@ -291,7 +290,7 @@
 		 *     fetch="EXTRA_LAZY"
 		 * )
 		 */
-		private ArrayCollection $productAttachments;
+		private $productAttachments;
 
 
 		/**
@@ -299,7 +298,8 @@
 		 */
 		public function __construct()
 		{
-			$this->productAvailableDate = new DateTime();
+            $t = new DateTime();
+			$this->productAvailableDate = $t->format('Y-m-d H:i:s');
 			$this->productAttachments = new ArrayCollection();
 			$this->productOrdered = new ArrayCollection();
 			$this->productTags = new ArrayCollection();
@@ -529,9 +529,9 @@
 		}
 
 		/**
-		 * @return DateTime
+		 * @return string
 		 */
-		public function getProductAvailableDate(): DateTime
+		public function getProductAvailableDate(): string
 		{
 			return $this->productAvailableDate;
 		}
@@ -541,7 +541,8 @@
 		 */
 		public function setProductAvailableDate(): void
 		{
-			$this->productAvailableDate = new DateTime();
+            $t = new DateTime();
+			$this->productAvailableDate = $t->format('Y-m-d H:i:s');
 		}
 
 		/**

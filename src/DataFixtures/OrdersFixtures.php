@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Doctrine\UuidEncoder;
 use App\Entity\Order\Orders;
 use App\Entity\Order\OrdersItems;
 use App\Entity\Order\OrdersStatus;
@@ -16,7 +15,10 @@ use Symfony\Component\Uid\Uuid;
 class OrdersFixtures extends Fixture implements DependentFixtureInterface
 {
 
-	public function load(ObjectManager $manager)
+    /**
+     * @throws Exception
+     */
+    public function load(ObjectManager $manager)
 	{
 		$productsEnGbRepository = $manager->getRepository(ProductsEnGb::class);
 		$productsCount = count($productsEnGbRepository->findAll());
@@ -55,8 +57,8 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 		}
 	}
 
-	public function getDependencies ()
-	{
+	public function getDependencies (): array
+    {
 		return array(
 			OrdersStatusFixtures::class,
 			ProductsFixtures::class,
@@ -66,8 +68,8 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 	/**
 	 * @return int
 	 */
-	public function getOrder()
-	{
+	public function getOrder(): int
+    {
 		return 6;
 	}
 

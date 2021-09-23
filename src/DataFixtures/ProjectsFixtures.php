@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use App\Doctrine\UuidEncoder;
 use App\Entity\Category\Categories;
 use App\Entity\Project\Projects;
 use App\Entity\Project\ProjectsAttachments;
@@ -16,7 +15,10 @@ use Symfony\Component\Uid\Uuid;
 class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 {
 
-	public function load(ObjectManager $manager)
+    /**
+     * @throws Exception
+     */
+    public function load(ObjectManager $manager)
 	{
 		$categoriesRepository = $manager->getRepository(Categories::class);
 
@@ -33,6 +35,7 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 				$projects->setUuid($uuid);
 				$projects->setSlug($slug);
             } catch (Exception $e) {
+                throw ($e);
             }
 
 
@@ -59,8 +62,8 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 		}
 	}
 
-	public function getDependencies ()
-	{
+	public function getDependencies (): array
+    {
 		return array (
 			CategoriesFixtures::class,
 		);
@@ -69,8 +72,8 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 	/**
 	 * @return int
 	 */
-	public function getOrder()
-	{
+	public function getOrder(): int
+    {
 		return 3;
 	}
 
