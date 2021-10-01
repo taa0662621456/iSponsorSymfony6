@@ -13,11 +13,11 @@ class RequestDispatcher
     public string $object;
 
 
-    public string $crudAction;
+    public string $crud;
     /**
-     * @var string
+     * @var false|string|string[]|null
      */
-    public string $route;
+    public string|array|null|false $route;
     /**
      * @var string
      */
@@ -25,7 +25,7 @@ class RequestDispatcher
     /**
      * @var string
      */
-    public string $templatePath;
+    public $path;
     /**
      * @var RequestStack
      */
@@ -45,69 +45,47 @@ class RequestDispatcher
     /**
      * @var string
      */
-    private string $objectAttachment;
-    /**
-     * @var string
-     */
-    private string $localeFilter;
-    /**
-     * @var string
-     */
-    private string $locale;
-    /**
-     * @var string
-     */
-    public string $objectLanguageLayer;
+    private string $objectAttach;
 
-
-    public function __construct(RequestStack $requestStack,
-                                string $pathToEntity,
-                                string $pathToRepository,
-                                string $pathToType)
+    public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        #
-        $object = $crudAction = explode('_', $this->requestStack->getMainRequest()->attributes->get('_route', 3));
-        $object = (string)current($object);
-        $object = ucfirst($object) ?? 'Object';
-        #
-        $crudAction = $crudAction[1];
-        $crudAction = (string)mb_strtolower($crudAction);
-        #
-        $route = (string)mb_strtolower($object);
-        #
-        $locale = (string)$this->requestStack->getMainRequest()->attributes->get('_locale');
-        $localeFilter = (string)$this->requestStack->getMainRequest()->attributes->get('_locale_filter');
-        #
-        $templatePath = (string)mb_strtolower($object . '/' . $object . '/' . $crudAction . '.html.twig');
+        $object = (string)ucfirst(current(explode('_', $this->requestStack->getMainRequest()->attributes->get('_route'), 2))) ?? 'Object';
 
-        ## this ##
-        $this->locale = $locale;
-        $this->localeFilter = $localeFilter;
-        #
-        $this->object = $pathToEntity . $object . '\\' . $object;
-        $this->objectAttachment = $pathToEntity . $object . '\\'. $object . 'Attachment';
-        $this->objectRepository = $pathToRepository . $object . '\\' . $object . 'Repository';
-        $this->objectLanguageLayer = $object . '_' . $localeFilter;
-        #
-        $this->route = $route;
-        #
-        $this->crudAction = $crudAction;
-        #
-        $this->type = $pathToType . $object . '\\' . $object . 'Type';
-        #
-        $this->templatePath = $templatePath;
+        //$this->object = $object::createObject();
+        $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's';
+        $this->objectAttach = $object . 'Attachment';
 
-        #
-        $this->typeEnGb = $pathToType . $object . '\\' . $object . 'EnGbType';
-        $this->objectEnGb = $pathToEntity . $object . '\\' . $object . 'EnGb';
-        #
+        //$objectRepository = $object . 'sRepository';
+        //$this->objectRepository = $objectRepository::createRepository();
+        $this->objectRepository = '\\App\\Repository\\' . $object . '\\' . $object . 'sRepository';
+        //$this->objectRepository = $object . 'Repository'; //TODO: не продумано для Entity
+
+        //$objectEnGb = $object . 'sEnGb';
+        //$this->objectEnGb = $objectEnGb::createEnGb();
+        $this->objectEnGb = '\\App\\Entity\\' . $object . '\\' . $object . 'sEnGb';
+
+
+        $crud = explode('_', $this->requestStack->getMainRequest()->attributes->get('_route'), 2);
+        $this->crud = $crud[1];
+
+        $this->route = mb_strtolower($object);
+
+        //$objectType = $object . 'Type';
+        //$objectEnGbType = $object . 'EnGbType';
+        //$this->type = $objectType::createType();
+        //$this->typeEnGb = $objectType::createEnGbType();
+        $this->type = '\\App\\Form\\' . $object . '\\' . $object . 'Type';
+        $this->typeEnGb = '\\App\\Form\\' . $object . '\\' . $object . 'EnGbType';
+
+        $this->path = mb_strtolower($object . '/' . $object . 's/' . $crud[1] . '.html.twig');
+        //TODO: не продумана структура папок, в частности не клеится с Categories (окончание не "y")
     }
 
     /**
      * @return string
      */
-    public function route(): string
+    public function route()
     {
         return $this->route;
 
@@ -160,7 +138,7 @@ class RequestDispatcher
      */
     public function crudAction(): string
     {
-        return $this->crudAction;
+        return $this->crud;
 
     }
 
@@ -169,7 +147,7 @@ class RequestDispatcher
      */
     public function layOutPath(): string
     {
-        return $this->templatePath;
+        return $this->path;
     }
 
     /**
@@ -177,30 +155,7 @@ class RequestDispatcher
      */
     public function objectAttachment(): string
     {
-        return $this->objectAttachment;
-    }
-
-    /**
-     * @return string
-     */
-    public function objectLanguageLayer(): string
-    {
-        return $this->objectLanguageLayer;
-    }
-
-    /**
-     * @return string
-     */
-    public function locale(): string
-    {
-        return $this->locale;
-    }
-    /**
-     * @return string
-     */
-    public function localeFilter(): string
-    {
-        return $this->localeFilter;
+        return $this->objectAttach;
     }
 
 }
