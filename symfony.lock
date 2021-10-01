@@ -88,12 +88,6 @@
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
-    "lcobucci/clock": {
-        "version": "2.0.0"
-    },
-    "lcobucci/jwt": {
-        "version": "4.1.5"
-    },
     "monolog/monolog": {
         "version": "2.3.4"
     },
@@ -108,9 +102,6 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
-    },
-    "psr/link": {
-        "version": "1.1.1"
     },
     "psr/log": {
         "version": "2.0.0"
@@ -206,9 +197,6 @@
             "./src/Kernel.php"
         ]
     },
-    "symfony/http-client": {
-        "version": "v5.3.8"
-    },
     "symfony/http-client-contracts": {
         "version": "v2.4.0"
     },
@@ -226,21 +214,6 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
-    },
-    "symfony/mercure": {
-        "version": "v0.5.3"
-    },
-    "symfony/mercure-bundle": {
-        "version": "0.3",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "0.3",
-            "ref": "d1cdff3ae53bf6a5cbfb088c82f26032bdc14cc3"
-        },
-        "files": [
-            "./config/packages/mercure.yaml"
-        ]
     },
     "symfony/monolog-bridge": {
         "version": "v5.3.7"
@@ -260,6 +233,9 @@
             "./config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/password-hasher": {
+        "version": "v5.3.8"
+    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.1"
     },
@@ -277,6 +253,12 @@
     },
     "symfony/polyfill-php81": {
         "version": "v1.23.0"
+    },
+    "symfony/property-access": {
+        "version": "v5.3.8"
+    },
+    "symfony/property-info": {
+        "version": "v5.3.8"
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.3.4"
@@ -296,6 +278,12 @@
     },
     "symfony/runtime": {
         "version": "v5.3.4"
+    },
+    "symfony/security-core": {
+        "version": "v5.3.8"
+    },
+    "symfony/security-http": {
+        "version": "v5.3.8"
     },
     "symfony/service-contracts": {
         "version": "v2.4.0"
@@ -330,9 +318,6 @@
     },
     "symfony/var-exporter": {
         "version": "v5.3.8"
-    },
-    "symfony/web-link": {
-        "version": "v5.3.4"
     },
     "symfony/web-profiler-bundle": {
         "version": "3.3",
