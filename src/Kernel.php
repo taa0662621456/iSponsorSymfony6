@@ -2,62 +2,37 @@
 
 namespace App;
 
-use App\Factory\WsseFactory;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
-	use MicroKernelTrait;
+    use MicroKernelTrait;
 
-	private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+    protected function configureContainer(ContainerConfigurator $container): void
+    {
+        $container->import('../config/{packages}/*.yaml');
+        $container->import('../config/{packages}/'.$this->environment.'/*.yaml');
 
-	public function registerBundles(): iterable
-	{
-		$contents = require $this->getProjectDir() . '/config/bundles.php';
-		foreach ($contents as $class => $envs) {
-			if ($envs[$this->environment] ?? $envs['all'] ?? false) {
-				yield new $class();
-			}
-		}
-	}
+        if (is_file(\dirname(__DIR__).'/config/services.yaml')) {
+            $container->import('../config/services.yaml');
+            $container->import('../config/{services}_'.$this->environment.'.yaml');
+        } else {
+            $container->import('../config/{services}.php');
+        }
+    }
 
-	public function getProjectDir(): string
-	{
-		return \dirname(__DIR__);
-	}
+    protected function configureRoutes(RoutingConfigurator $routes): void
+    {
+        $routes->import('../config/{routes}/'.$this->environment.'/*.yaml');
+        $routes->import('../config/{routes}/*.yaml');
 
-	public function build(ContainerBuilder $container)
-	{
-		$extension = $container->getExtension('security');
-		//TODO: WsseFactory! $extension->addSecurityListenerFactory(new WsseFactory());
-	}
-
-	protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
-	{
-		$container->addResource(new FileResource($this->getProjectDir() . '/config/bundles.php'));
-		$container->setParameter('container.dumper.inline_class_loader', true);
-		$confDir = $this->getProjectDir() . '/config';
-
-
-		$loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
-		$loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
-		$loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
-		$loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
-
-	}
-
-	protected function configureRoutes(RoutingConfigurator $routes): void
-	{
-		$confDir = $this->getProjectDir() . '/config';
-
-		$routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
-		$routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
-		$routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
-	}
-
+        if (is_file(\dirname(__DIR__).'/config/routes.yaml')) {
+            $routes->import('../config/routes.yaml');
+        } else {
+            $routes->import('../config/{routes}.php');
+        }
+    }
 }
