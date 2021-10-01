@@ -2,12 +2,13 @@
 
 namespace App\Entity;
 
+use JetBrains\PhpStorm\Pure;
 
 abstract class AbstractObject
 {
-    use BaseTrait;
+    //use BaseTrait;
 
-    public static function createObject(): static
+    #[Pure] public static function createObject(): static
     {
         return new static ();
     }
