@@ -4,7 +4,6 @@
 	namespace App\Service;
 
 	use Doctrine\ORM\EntityManagerInterface;
-	use Psr\Container\ContainerInterface;
     use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
     use Symfony\Component\Filesystem\Filesystem;
     use Symfony\Component\HttpFoundation\RequestStack;
@@ -15,19 +14,19 @@
 		/**
 		 * @var EntityManagerInterface
 		 */
-		private $entityManager;
+		private EntityManagerInterface $entityManager;
         /**
          * @var RequestStack
          */
-        private $requestStack;
+        private RequestStack $requestStack;
         /**
          * @var AuthorizationCheckerInterface
          */
-        private $authChecker;
+        private AuthorizationCheckerInterface $authChecker;
         /**
          * @var ParameterBagInterface
          */
-        private $parameterBag;
+        private ParameterBagInterface $parameterBag;
 
         public function __construct(EntityManagerInterface $entityManager,
                                     RequestStack $requestStack,
@@ -42,7 +41,7 @@
 
 		public function getUploadsDirectory()
 		{
-            $route = $this->requestStack->getMasterRequest()->attributes->get('_route');
+            $route = $this->requestStack->getMainRequest()->attributes->get('_route');
 			return $this->parameterBag->get( $route . '_images_directory');
 
 		}
@@ -69,7 +68,7 @@
 									   string $fileLang = null)
 		{
 
-            $route = $this->requestStack->getMasterRequest()->attributes->get('_route');
+            $route = $this->requestStack->getMainRequest()->attributes->get('_route');
             if ($route == 'category' || // TODO: временно условие, чтобы на главной стр. не вытаскивались аттачменты
                 $route == 'project' ||
                 $route == 'product' ||
