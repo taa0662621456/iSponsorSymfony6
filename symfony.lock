@@ -85,18 +85,6 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
-    "google/recaptcha": {
-        "version": "1.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.1",
-            "ref": "e5a4aa21f2e98d7440ae9aab6b56e307f99dd084"
-        },
-        "files": [
-            "./config/packages/google_recaptcha.yaml"
-        ]
-    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
@@ -245,6 +233,9 @@
             "./config/packages/test/monolog.yaml"
         ]
     },
+    "symfony/password-hasher": {
+        "version": "v5.3.8"
+    },
     "symfony/polyfill-intl-grapheme": {
         "version": "v1.23.1"
     },
@@ -262,6 +253,12 @@
     },
     "symfony/polyfill-php81": {
         "version": "v1.23.0"
+    },
+    "symfony/property-access": {
+        "version": "v5.3.8"
+    },
+    "symfony/property-info": {
+        "version": "v5.3.8"
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.3.4"
@@ -281,6 +278,12 @@
     },
     "symfony/runtime": {
         "version": "v5.3.4"
+    },
+    "symfony/security-core": {
+        "version": "v5.3.8"
+    },
+    "symfony/security-http": {
+        "version": "v5.3.8"
     },
     "symfony/service-contracts": {
         "version": "v2.4.0"
