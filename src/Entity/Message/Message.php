@@ -24,7 +24,7 @@ class Message
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorMessage")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="vendorMessage")
      */
     private $vendor;
 
