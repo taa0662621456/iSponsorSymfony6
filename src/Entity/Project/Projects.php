@@ -11,6 +11,8 @@
     use Doctrine\Common\Collections\Collection;
     use Symfony\Component\Validator\Constraints as Assert;
 
+
+
     /**
 	 * @ORM\Table(name="projects", indexes={
 	 * @ORM\Index(name="project_idx", columns={"slug"})})
