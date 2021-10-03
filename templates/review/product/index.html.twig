@@ -24,8 +24,8 @@
                 <td>{{ product.slug }}</td>
                 <td>{{ product.slug }}</td>
                 <td>
-                    <a href="{{ path('reviewProduct_show_slug', {'slug': product.slug}) }}">show</a>
-                    <a href="{{ path('reviewProduct_edit_slug', {'slug': product.slug}) }}">edit</a>
+                    <a href="{{ path('review_product_slug_show', {'id': product.slug}) }}">show</a>
+                    <a href="{{ path('review_product_slug_edit', {'id': product.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

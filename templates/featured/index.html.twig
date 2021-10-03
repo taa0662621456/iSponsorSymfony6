@@ -21,8 +21,8 @@
                 <td>{{ featured.ordering }}</td>
                 <td>{{ featured.featuredType }}</td>
                 <td>
-                    <a href="{{ path('featured_show_id', {'id': featured.id}) }}">show</a>
-                    <a href="{{ path('featured_edit_id', {'id': featured.id}) }}">edit</a>
+                    <a href="{{ path('featured_show', {'id': featured.id}) }}">show</a>
+                    <a href="{{ path('featured_edit', {'id': featured.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
