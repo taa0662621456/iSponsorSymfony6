@@ -69,8 +69,16 @@ class VoterManager extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool|int
     {
+
+        if ($token instanceof NullToken) {
+            // https://symfony.com/doc/current/security/authenticator_manager.html
+            // the user is not authenticated, e.g. only allow them to
+            // see public posts
+            return $subject->isPublic();
+        }
+
         $user = $token->getUser();
 
         if (!$user instanceof VendorsSecurity) {

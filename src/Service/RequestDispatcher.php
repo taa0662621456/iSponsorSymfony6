@@ -1,9 +1,4 @@
 <?php
-/*
- * TODO: ссюда я перенесу обработку запроса на предмет выделения Роута, объекта и т.д.
- *
- */
-
 
 namespace App\Service;
 
@@ -15,61 +10,80 @@ class RequestDispatcher
     /**
      * @var string
      */
-    public $object;
-    public $crud;
+    public string $object;
+
+
+    public string $crud;
     /**
      * @var false|string|string[]|null
      */
-    public $route;
+    public string|array|null|false $route;
     /**
      * @var string
      */
-    public $type;
+    public string $type;
     /**
-     * @var false|string|string[]|null
+     * @var string
      */
     public $path;
     /**
      * @var RequestStack
      */
-    public $requestStack;
+    public RequestStack $requestStack;
     /**
      * @var string
      */
-    public $typeEnGb;
+    public string $typeEnGb;
     /**
      * @var string
      */
-    public $objectEnGb;
+    public string $objectEnGb;
     /**
      * @var string
      */
-    public $objectRepository;
+    public string $objectRepository;
     /**
      * @var string
      */
-    private $objectAttach;
+    private string $objectAttach;
 
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $object = (string)ucfirst(current(explode('_', $this->requestStack->getMasterRequest()->attributes->get('_route'), 2)));
-        $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's'; //TODO: не продумано для Entity
+        $object = (string)ucfirst(current(explode('_', $this->requestStack->getMainRequest()->attributes->get('_route'), 2))) ?? 'Object';
+
+        //$this->object = $object::createObject();
+        $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's';
         $this->objectAttach = $object . 'Attachment';
+
+        //$objectRepository = $object . 'sRepository';
+        //$this->objectRepository = $objectRepository::createRepository();
         $this->objectRepository = '\\App\\Repository\\' . $object . '\\' . $object . 'sRepository';
         //$this->objectRepository = $object . 'Repository'; //TODO: не продумано для Entity
-        $this->objectEnGb = '\\App\\Entity\\' . $object . '\\' . $object . 'sEnGb'; //TODO: не продумано для Entity
-        $crud = explode('_', $this->requestStack->getMasterRequest()->attributes->get('_route'), 2);
+
+        //$objectEnGb = $object . 'sEnGb';
+        //$this->objectEnGb = $objectEnGb::createEnGb();
+        $this->objectEnGb = '\\App\\Entity\\' . $object . '\\' . $object . 'sEnGb';
+
+
+        $crud = explode('_', $this->requestStack->getMainRequest()->attributes->get('_route'), 2);
         $this->crud = $crud[1];
+
         $this->route = mb_strtolower($object);
+
+        //$objectType = $object . 'Type';
+        //$objectEnGbType = $object . 'EnGbType';
+        //$this->type = $objectType::createType();
+        //$this->typeEnGb = $objectType::createEnGbType();
         $this->type = '\\App\\Form\\' . $object . '\\' . $object . 'Type';
         $this->typeEnGb = '\\App\\Form\\' . $object . '\\' . $object . 'EnGbType';
+
         $this->path = mb_strtolower($object . '/' . $object . 's/' . $crud[1] . '.html.twig');
         //TODO: не продумана структура папок, в частности не клеится с Categories (окончание не "y")
     }
 
     /**
-     * @return false|string|string[]|null
+     * @return string
      */
     public function route()
     {
@@ -80,7 +94,7 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function object()
+    public function object(): string
     {
         return $this->object;
 
@@ -89,7 +103,7 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function objectRepository()
+    public function objectRepository(): string
     {
         return $this->objectRepository;
     }
@@ -97,7 +111,7 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function objectEnGb()
+    public function objectEnGb(): string
     {
         return $this->objectEnGb;
     }
@@ -105,7 +119,7 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function objectType()
+    public function objectType(): string
     {
         return $this->type;
 
@@ -114,24 +128,24 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function objectEnGbType()
+    public function objectEnGbType(): string
     {
         return $this->typeEnGb;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function crudAction()
+    public function crudAction(): string
     {
         return $this->crud;
 
     }
 
     /**
-     * @return false|string|string[]|null
+     * @return string
      */
-    public function layOutPath()
+    public function layOutPath(): string
     {
         return $this->path;
     }
@@ -139,7 +153,7 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function objectAttachment()
+    public function objectAttachment(): string
     {
         return $this->objectAttach;
     }

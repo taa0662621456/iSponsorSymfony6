@@ -5,9 +5,10 @@
 
 	use App\Entity\Vendor\VendorsSecurity;
     use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-    use Doctrine\Common\Persistence\ManagerRegistry;
+    use Doctrine\ORM\NonUniqueResultException;
     use Doctrine\ORM\OptimisticLockException;
     use Doctrine\ORM\ORMException;
+    use Doctrine\Persistence\ManagerRegistry;
     use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
     use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -17,8 +18,7 @@
      * @method VendorsSecurity[]    findAll()
      * @method VendorsSecurity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
      */
-    class VendorsSecurityRepository
-        extends ServiceEntityRepository
+    class VendorsSecurityRepository extends ServiceEntityRepository
     {
         public function __construct(ManagerRegistry $registry)
         {
@@ -61,8 +61,11 @@
         }
         */
 
-		/*
-		public function findOneBySomeField($value): ?VendorsSecurity
+
+        /**
+         * @throws NonUniqueResultException
+         */
+        public function findOneBySomeField($value): ?VendorsSecurity
 		{
 			return $this->createQueryBuilder('p')
 				->andWhere('p.exampleField = :val')
@@ -71,5 +74,5 @@
 				->getOneOrNullResult()
 			;
 		}
-		*/
+
 	}

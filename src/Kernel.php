@@ -34,7 +34,7 @@ class Kernel extends BaseKernel
 	public function build(ContainerBuilder $container)
 	{
 		$extension = $container->getExtension('security');
-		$extension->addSecurityListenerFactory(new WsseFactory());
+		//TODO: WsseFactory! $extension->addSecurityListenerFactory(new WsseFactory());
 	}
 
 	protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
@@ -58,7 +58,6 @@ class Kernel extends BaseKernel
 		$routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
 		$routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
 		$routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
-
 	}
 
 }

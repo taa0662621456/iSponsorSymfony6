@@ -2,29 +2,33 @@
 
 namespace App\Repository\Review;
 
-use App\Entity\Review\ProductReviews;
+use App\Entity\Review\ReviewProduct;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 
 /**
- * @method ProductReviews|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductReviews|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductReviews[]    findAll()
- * @method ProductReviews[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ReviewProduct|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ReviewProduct|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ReviewProduct[]    findAll()
+ * @method ReviewProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ProductReviewsRepository extends ServiceEntityRepository
 {
     public const REVIEWS_PER_PAGE = 10;
+    const DAYS_BEFORE_REJECTED_REMOVAL = '';
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ProductReviews::class);
+        parent::__construct($registry, ReviewProduct::class);
     }
 
-    public function getReviewsPerPage(ProductReviews $productReviews, int $offset): Paginator
+    public function getReviewsPerPage(ReviewProduct $productReviews, int $offset): Paginator
     {
         $qb = $this->createQueryBuilder('r')
             ->andWhere('r.slug = :product')
@@ -40,16 +44,27 @@ class ProductReviewsRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * @throws Exception
+     */
     public function deleteOldRejectedReviews()
     {
         return $this->getOldRejectedReviewsQueryBuilder()->delete()->getQuery()->execute();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     * @throws Exception
+     */
     public function countOldRejected(): int
     {
         return $this->getOldRejectedReviewsQueryBuilder()->select('COUNT(r.id)')->getQuery()->getSingleScalarResult();
     }
 
+    /**
+     * @throws Exception
+     */
     public function getOldRejectedReviewsQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('r')

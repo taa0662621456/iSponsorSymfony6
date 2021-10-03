@@ -1,3 +1,8 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+#homepage:
+#  path: /
+#  controller: App\Controller\HomepageController::index
+#  type: annotation
+
+# TODO: varnish:http
+"https://{all}/": { type: upstream, upstream: "varnish:http", cache: { enabled: false } }
+"http://{all}/": { type: redirect, to: "https://{all}/" }
