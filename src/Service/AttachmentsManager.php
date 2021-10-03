@@ -39,8 +39,11 @@
 			$this->parameterBag = $parameterBag;
 		}
 
-		public function getUploadsDirectory()
-		{
+        /**
+         * @return string|null
+         */
+        public function getUploadsDirectory(): ?string
+        {
             $route = $this->requestStack->getMainRequest()->attributes->get('_route');
 			return $this->parameterBag->get( $route . '_images_directory');
 
@@ -65,8 +68,8 @@
 									   bool $published = true,
 									   string $fileLayoutPosition = null,
 									   string $fileClass = null,
-									   string $fileLang = null)
-		{
+									   string $fileLang = null): array
+        {
 
             $route = $this->requestStack->getMainRequest()->attributes->get('_route');
             if ($route == 'category' || // TODO: временно условие, чтобы на главной стр. не вытаскивались аттачменты
