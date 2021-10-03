@@ -27,8 +27,8 @@
 	 */
 	class AppExtension extends AbstractExtension
 	{
-		private $localeCodes;
-		private $locales;
+		private array $localeCodes;
+		private array $locales;
 
 		public function __construct(string $locales)
 		{
