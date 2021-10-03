@@ -43,8 +43,8 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-#            $locales: '%app_locales%'
-#            $defaultLocale: '%app_locale%'
+            $locales: '%app_locales%'
+            $defaultLocale: '%app_locale%'
 #            $emailSender: '%app_email_sender%'
 #            $akismetKey: "%env(AKISMET_KEY)%"
 #            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
