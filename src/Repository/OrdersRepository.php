@@ -4,13 +4,12 @@ namespace App\Repository;
 
 use App\Entity\Order\Orders;
 use App\Entity\Project\Projects;
-use App\Entity\Tag\Tag;
-use App\Pagination\Paginator;
 
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Exception;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Laminas\Code\Generator\DocBlock\Tag;
 
 /**
  * @method Orders|null find($id, $lockMode = null, $lockVersion = null)
@@ -31,11 +30,10 @@ class OrdersRepository extends ServiceEntityRepository
 
     /**
      * @param int $page
-     * @param Tag $tag
+     * @param Tag|null $tag
      * @return Paginator
-     * @throws Exception
      */
-    public function findLatest(int $page = 1, Tag $tag = null): Paginator
+    public function findLatest(int $page = 1, $tag = null): Paginator
     {
 
         $qb = $this->createQueryBuilder('p')
