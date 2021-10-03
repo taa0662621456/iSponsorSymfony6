@@ -7,6 +7,7 @@
         "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "api-platform/core": "2.6.x-dev",
         "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/annotations": "1.14.x-dev",
         "doctrine/doctrine-bundle": "^2.4",
@@ -23,7 +24,8 @@
         "symfony/security-core": "5.4.x-dev",
         "symfony/security-http": "5.4.x-dev",
         "symfony/security-bundle": "5.4.x-dev",
-        "symfony/validator": "5.4.x-dev"
+        "symfony/validator": "5.4.x-dev",
+        "symfony/translation": "5.4.x-dev"
     },
     "require-dev": {
         "symfony/debug-bundle": "5.3.*",
