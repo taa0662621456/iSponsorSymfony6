@@ -1,19 +1,251 @@
+{#
+    Navbar, headbar and main blocks must have same parameters for 'col' vertical oriented
+    use var b1 = '';
+    use var b2 = '';
+    use var b3 = '';
+    use var b4 = '';
+#}
+{% set b1 = 'col-sm-1 col-md-1 col-lg-1 d-none d-sm-block hidden-phone m-0 p-0 d-xs-none' %}
+{% set b2 = 'col-hidden-xs col-sm-1 col-md-1 col-lg-1 d-none d-sm-block' %}
+{% set b3 = 'col-xs-12 col-sm-6 col-md-8 col-lg-8 m-0 p-0 ml-1' %}
+{% set b4 = 'col-xs-12 col-sm-3 col-md-2 col-lg-1 d-none d-sm-block' %}
+{% set c1 = 'col- col-md-3 pl-0 pr-1' %}
+{% set c2 = 'col- col-md-6 pl-1 pr-1' %}
+{% set c3 = 'col- col-md-3 pl-1 pr-1' %}
+{% set block = 'col-md-3 p-1 masonry-brick' %}
+{% set brick = 'brick' %}
 <!DOCTYPE html>
-<html>
+<html lang="{{ app.request.locale }}">
+{% block head %}
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="{% block meta_description %}{% endblock %}">
+        <meta name="author" content="Smartresponsor, Llc">
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+        <link rel="icon" href="/favicon.ico">
+
+        <title>{% block title %}{% endblock %}</title>
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
+{% endblock %}
+{% block body %}
     <body>
-        {% block body %}{% endblock %}
+    <header class="section-header">
+
+        {% block navbar %}
+            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">
+                <menu class="{{ b1 }}">
+                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"
+                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"
+                       href="#"><span class="text-break">...iSponsor!</span><span
+                                class="navbar-toggler-icon"></span></a>
+                </menu>
+                <menu class="{{ b2 }} left">
+
+                </menu>
+                <menu class="{{ b3 }}">
+                    <div class="collapse navbar-collapse" id="isponsor">
+                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="btn btn-warning btn-block rounded-0" role="button"
+                                   href="{{ path('projects_new') }}"><i class="fal fa-plus-circle"></i></a>
+                            </li>
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li class="nav-item">
+                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="avaterka" alt="Avatar"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-link btn-block" role="button">Main</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-link btn-block" role="button">{{ app.user.username }}</a>
+                                </li>
+                            {% endif %}
+                            {{ include('security/_yetMenuDropdown.html.twig') }}
+                        </ul>
+                    </div>
+                </menu>
+                <menu class="{{ b4 }}">
+
+                </menu>
+
+            </nav>
+            {#
+                        {{ include('security/navbarForAdmin.html.twig') }}
+            #}
+        {% endblock %}
+        {% block section %}
+            <section class="row header-main bg m-1">
+                <div id="p1" class="{{ b1 }}">
+                </div>
+                <div id="p2" class="{{ b2 }}">
+                </div>
+                <div id="panel" class="{{ b3 }}">
+                    <div class="row btn-toolbar justify-content-between m-0" role="toolbar" aria-label="View settings">
+                        <div id="tools" class="{{ c1 }} btn-group btn-group-toggle pl-0" role="group"
+                             data-toggle="buttons">
+                            {% block little_panel %}
+                                {{ include('_tools.html.twig') }}
+                            {% endblock %}
+                        </div>
+                        <div class="{{ c2 }} input-group">
+                            {{ include('search/search.html.twig') }}
+
+                            {#{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
+                                    <div class="btn-group mr-1" role="group" aria-label="Favourites">
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'projects'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            J</a>
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'products'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            D</a>
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'vendors'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            V</a>
+                                    </div>
+                                    <div class="btn-group mr-1">
+                                        <a class="btn btn-secondary"
+                                           href="{{ path('favourites', {'favourites' : 'index'}) }}">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                            A</a>
+                                    </div>
+                                </div>
+                            {% endif %}#}
+                            {#
+                                                        <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
+
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-primary" type="submit">
+                                                                <i class="fad fa-search"></i>
+                                                            </button>
+                                                        </div>
+                            #}
+                        </div>
+                        <div class="{{ c3 }} input-group">
+                            <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
+                                <i class="fad fa-abacus"></i>
+                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
+                                {{ render(controller('App\\Controller\\CartController::navbarCart')) }}
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="{{ b4 }}">
+                </div>
+            </section>
+        {% endblock %}
+        <hgroup>
+            {% block header %}
+                {{ include('_flashes.html.twig') }}
+            {% endblock %}
+        </hgroup>
+    </header>
+    {% block blocks %}
+
+        <main role="main" class="row m-0 h-100">
+            <aside id="b1" class="{{ b1 }}">
+                <div class="sticky-top text-center pt-5">
+                    <a id="move_up" href="#"><span style="font-size: 2em"><i
+                                    class="fal fa-chevron-circle-up"></i></span></a>
+                </div>
+                {% block ontop %}{% endblock %}
+            </aside>
+            <aside id="b2" class="{{ b2 }} h-100">
+                {% block sidebar %}{% endblock %}
+            </aside>
+            <article id="b3" class="{{ b3 }}">
+                <header>
+                    {% block article_header %}{% endblock %}
+                </header>
+                <section>
+                    {% block article_content %}{% endblock %}
+                </section>
+                <section>
+                    <details>
+                        <summary>
+                            {% block article_summery %}{% endblock %}
+                        </summary>
+                    </details>
+                </section>
+                <footer>
+                    {% block article_footer %}{% endblock %}
+                </footer>
+            </article>
+            <aside id="b4" class="{{ b4 }}">
+                {% block aside %}{% endblock %}
+            </aside>
+        </main>
+    {% endblock %}
+
+    {{ include('_fullscreen.html.twig') }}
+
     </body>
+{% endblock %}
+
+{% block footer %}
+    <footer id="footer" class="footer section-footer bg-dark white">
+        <section class="container-fluid footer-bottom">
+            <div class="row m-0 foot">
+                <div class="col-xs-12 col-lg-12 col-sm-12 center">
+                    <ul class="list-group list-group-horizontal-sm locales" role="menu" aria-labelledby="locales">
+                        {% for locale in locales() %}
+                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="list-unstyled font-weight-bold"
+                                {% else %}aria-checked="false" class="list-unstyled font-weight-bold" {% endif %} role="menuitem">
+                                <a href="{{ path(app.request.get('_route', 'blog_index'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}"><small>{{ locale.name|capitalize }}({{ locale.code[0:2] }})</small></a>
+                            </li>
+                            <li class="list-unstyled"> | </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="row m-0 foot">
+
+                <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">
+                    <ul class="list-unstyled">
+                        <li class=""><a href="{{ path('career') }}">Карьера</a></li>
+                        <li class=""><a href="{{ path('teame') }}">Команда</a></li>
+                        <li class=""><a href="{{ path('general') }}">Пользовательское соглашение</a></li>
+                        <li class=""><a href="{{ path('licensesearch') }}">Лицензия на использование поисковой системы</a></li>
+                        <li class=""><a href="{{ path('confidenctial') }}">Политика конфиденциальности</a></li>
+                        <li class=""><a href="{{ path('companydetails') }}">Реквизиты ООО "СМАРТРЕСПОНСОР"</a></li>
+                        <li class=""><a href="{{ path('agreement') }}">Соглашение</a></li>
+                        <li class=""><a href="{{ path('forsale') }}">Договор купли-продажи</a></li>
+                        <li class=""><a href="{{ path('forsupply') }}">Договор поставки</a></li>
+                    </ul>
+
+
+                    4-5</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
+            </div>
+            <div class="row foot">
+
+                <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
+                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+                <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+        </div>
+    </section>
+</footer>
+{% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
 </html>
+
