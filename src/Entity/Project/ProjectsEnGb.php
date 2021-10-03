@@ -7,7 +7,9 @@ use App\Entity\BaseTrait;
 
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
@@ -28,7 +30,7 @@ class ProjectsEnGb
      * @Assert\NotBlank(message="projects_en_gb.blank_content")
      * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
      */
-    private $projectTitle = 'project_title';
+    private string $projectTitle = 'project_title';
 
 	/**
 	 * @var string
@@ -37,7 +39,7 @@ class ProjectsEnGb
 	 * @Assert\NotBlank(message="projects_en_gb.blank_content")
 	 * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
 	 */
-	private $projectSDesc = 'project_s_desc';
+	private string $projectSDesc = 'project_s_desc';
 
 	/**
 	 * @var string
@@ -46,7 +48,7 @@ class ProjectsEnGb
 	 * @Assert\NotBlank(message="projects_en_gb.blank_content")
 	 * @Assert\Length(min=100, minMessage="projects_en_gb.too_short_content")
 	 */
-	private $projectDesc = 'project_desc';
+	private string $projectDesc = 'project_desc';
 
 	/**
 	 * @var string
@@ -55,7 +57,7 @@ class ProjectsEnGb
 	 * @Assert\NotBlank(message="projects_en_gb.blank_content")
 	 * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
 	 */
-	private $projectProductName = 'project_product_name';
+	private string $projectProductName = 'project_product_name';
 
 	/**
 	 * @var string
@@ -65,7 +67,7 @@ class ProjectsEnGb
 	 * @Assert\NotBlank(message="projects_en_gb.blank_content")
 	 * @Assert\Length(min=10, minMessage="projects_en_gb.too_short_content")
 	 */
-	private $projectProductSDesc = 'project_product_s_desc';
+	private string $projectProductSDesc = 'project_product_s_desc';
 
 	/**
 	 * @var string
@@ -74,17 +76,17 @@ class ProjectsEnGb
 	 * @Assert\NotBlank(message="projects_en_gb.blank_content")
 	 * @Assert\Length(min=100, minMessage="projects_en_gb.too_short_content")
 	 */
-	private $projectProductDesc = 'project_product_desc';
+	private string $projectProductDesc = 'project_product_desc';
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Project\Projects",
 	 *     inversedBy="projectEnGb"
 	 *     )
 	 */
-	private $projectEnGb;
+	private mixed $projectEnGb;
 
 
-	public function __toString()
+	#[Pure] public function __toString()
 	{
 		return $this->getProjectTitle();
 	}
@@ -206,15 +208,15 @@ class ProjectsEnGb
 	/**
 	 * @return mixed
 	 */
-	public function getProjectEnGb()
-	{
+	public function getProjectEnGb(): mixed
+    {
 		return $this->projectEnGb;
 	}
 
 	/**
 	 * @param mixed $projectEnGb
 	 */
-	public function setProjectEnGb($projectEnGb): void
+	public function setProjectEnGb(mixed $projectEnGb): void
 	{
 		$this->projectEnGb = $projectEnGb;
 	}

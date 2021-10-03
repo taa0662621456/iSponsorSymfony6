@@ -10,9 +10,10 @@
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
-	use Exception;
+    use Symfony\Component\Validator\Constraints as Assert;
+    use Exception;
 	use Symfony\Component\Form\Extension\Core\Type\NumberType;
-	use Symfony\Component\Validator\Constraints as Assert;
+	
 
 
 	/**

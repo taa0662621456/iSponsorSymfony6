@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
+
 /**
  * @ORM\Table(name="categories_en_gb", indexes={
  * @ORM\Index(name="category_en_gb_idx", columns={"slug"})})

@@ -8,7 +8,7 @@
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Uid\Uuid;
     use Exception;
-    use Symfony\Component\Validator\Constraints as Assert;
+    
 
     trait BaseTrait
     {

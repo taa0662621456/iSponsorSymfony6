@@ -7,6 +7,7 @@ use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Table(name="attachments", indexes={
  * @ORM\Index(name="attachments_idx", columns={"slug"})})
@@ -23,7 +24,7 @@ class Attachments
      * @var string
      * @ORM\Column(name="object", type="text", nullable=false)
      */
-    private $object;
+    private string $object;
 
     /**
      *
