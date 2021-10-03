@@ -27,12 +27,17 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
+use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class LoginFormAuthenticator extends AbstractAuthenticator
+class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface, AuthenticatorInterface
 {
+    // Если вы хотите настроить форму входа в систему, вы также можете расширить
+    // Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator класс.
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'login';
@@ -84,7 +89,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         if ($this->security->getUser()){
             return false;
         }
-
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
@@ -107,6 +111,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
 
     public function getUser($credentials, UserProviderInterface $user)
     {
+        //$passport = new Passport(new UserBadge($email), $credentials);
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
@@ -200,4 +205,13 @@ class LoginFormAuthenticator extends AbstractAuthenticator
         return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
     }
 
+    /**
+     * @param Request $request
+     * @param AuthenticationException|null $authException
+     * @return void
+     */
+    public function start(Request $request, AuthenticationException $authException = null)
+    {
+        // TODO: Implement start() method.
+    }
 }

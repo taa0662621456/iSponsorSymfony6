@@ -2,6 +2,8 @@
 framework:
     ide: 'phpstorm://open?file=file://%%f&line=%%l'
 #    ide: 'phpstorm://open?url=file://%%f&line=%%l'
+    trusted_hosts:  '%env(TRUSTED_HOSTS)%'
+    default_locale: en
 
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true

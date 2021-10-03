@@ -11,10 +11,13 @@ use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorsLoginType;
 use App\Form\Vendor\VendorsRegistrationType;
+use App\Repository\Vendor\VendorsRepository;
 use App\Repository\Vendor\VendorsSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
+use LogicException;
 use ReCaptcha\ReCaptcha;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,11 +27,15 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Uid\Uuid;
 use Twig\Environment;
@@ -311,8 +318,8 @@ class SecurityController extends AbstractController
 	 * @Route("/admin")
 	 * @Route("/administrator")
 	 */
-	public function admin()
-	{
+	public function admin(): Response
+    {
 		return new Response('<html lang="en"><body>Admin page!</body></html>');
 	}
 

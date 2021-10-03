@@ -4,14 +4,14 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsSecurity;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Twig\Error\Error;
-use Twig_Environment;
 
-class Mailer
+class SwiftMailer
 {
     /**
      * @var Router
@@ -22,7 +22,7 @@ class Mailer
     public const FROM_ADDRESS = 'taa0662621456@gmail.com';
 
     /**
-     * Mailer constructor.
+     * SwiftMailer constructor.
      *
      * @param Swift_Mailer $mailer
      * @param RouterInterface $router
@@ -37,9 +37,8 @@ class Mailer
 
     /**
      * @param Vendors $vendor
-     * @throws Error
      */
-    public function sendConfirmationMessage(Vendors $vendor): void
+    public function sendConfirmationMessage(Vendors $vendor, VendorsSecurity $security): void
     {
         $messageBody = $this->twig->render('security/confirmation.html.twig', [
             'vendor' => $vendor
@@ -49,7 +48,7 @@ class Mailer
         $message
             ->setSubject('You\'r registration is done!')
             ->setFrom(self::FROM_ADDRESS)
-            ->setTo($vendor->getEmail())
+            ->setTo($security->getEmail())
             ->setBody($messageBody, 'text/html');
 
         $this->mailer->send($message);

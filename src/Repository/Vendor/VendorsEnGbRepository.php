@@ -4,6 +4,7 @@ namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorsEnGb;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +18,12 @@ class VendorsEnGbRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, VendorsEnGb::class);
+    }
+
+    public function getMail()
+    {
+        // TODO: get Vendor by email
+
     }
 
     // /**
@@ -36,7 +43,10 @@ class VendorsEnGbRepository extends ServiceEntityRepository
     }
     */
 
-    /*
+
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneBySomeField($value): ?VendorsEnGb
     {
         return $this->createQueryBuilder('p')
@@ -46,5 +56,5 @@ class VendorsEnGbRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
+
 }
