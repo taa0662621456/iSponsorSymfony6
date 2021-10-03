@@ -25,7 +25,9 @@
         "symfony/security-http": "5.4.x-dev",
         "symfony/security-bundle": "5.4.x-dev",
         "symfony/validator": "5.4.x-dev",
-        "symfony/translation": "5.4.x-dev"
+        "symfony/translation": "5.4.x-dev",
+        "symfony/twig-bridge": "5.3.*",
+        "symfony/twig-bundle": "5.0.*"
     },
     "require-dev": {
         "symfony/debug-bundle": "5.3.*",
