@@ -216,10 +216,10 @@ class SecurityController extends AbstractController
          */
 
 /*        if ($security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('home');
         }*/
 
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
+        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('home'));
 
         $loginForm = $this->get('form.factory')->createNamed('', VendorsLoginType::class, array(
             '_username' => $authenticationUtils->getLastUsername()), array(
