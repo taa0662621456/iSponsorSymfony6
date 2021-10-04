@@ -17,14 +17,13 @@ Encore
     /*
      * ENTRY CONFIG
      *
-     * Add 1 entry for each "page" of your app
-     * (including one that's included on every page - e.g. "app")
-     *
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')
-    .addEntry('sign', './assets/js/sign.js')
+    .addEntry('app', './assets/app.js')
+
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge('./assets/controllers.json')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -41,41 +40,36 @@ Encore
      * https://symfony.com/doc/current/frontend.html#adding-more-features
      */
     .cleanupOutputBeforeBuild()
-    //.enableBuildNotifications()
+    .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
 
+    .configureBabel((config) => {
+        config.plugins.push('@babel/plugin-proposal-class-properties');
+    })
+
     // enables @babel/preset-env polyfills
-    .configureBabel(() => {
-    }, {
-        useBuiltIns: 'usage',
-        corejs: 3
+    .configureBabelPresetEnv((config) => {
+        config.useBuiltIns = 'usage';
+        config.corejs = 3;
     })
 
     // enables Sass/SCSS support
-    .enableSassLoader()
+    //.enableSassLoader()
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
+
+    // uncomment if you use React
+    //.enableReactPreset()
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    .autoProvidejQuery()
-
-    // .autoProvideVariables({
-    //     $: 'jquery',
-    //     jQuery: 'jquery',
-    //     'window.jQuery': 'jquery',
-    //     'jQuery.tagsinput': 'bootstrap-tagsinput',
-    //     'jQueryBridget': 'jquery-bridget'
-    // })
-
-// uncomment if you use API Platform Admin (composer req api-admin)
-//.enableReactPreset()
+    //.autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();
