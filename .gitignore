@@ -1,6 +1,6 @@
 .env
 .idea
-.gitignore
+/.idea/
 yarn.lock
 package-lock.json
 symfony.lock
