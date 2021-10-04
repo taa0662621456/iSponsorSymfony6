@@ -1,3 +1,17 @@
+.env
+.idea
+.gitignore
+yarn.lock
+package-lock.json
+symfony.lock
+
+/migrations
+/migrations/*
+/bootstrap-4.0.0/*
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -5,7 +19,10 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
+/ver/*
+/vendor
 /vendor/
+/verdor/*
 ###< symfony/framework-bundle ###
 
 ###> symfony/webpack-encore-bundle ###
