@@ -27,7 +27,9 @@
         "symfony/validator": "5.4.x-dev",
         "symfony/translation": "5.4.x-dev",
         "symfony/twig-bridge": "5.3.*",
-        "symfony/twig-bundle": "5.0.*"
+        "symfony/twig-bundle": "5.0.*",
+        "symfony/mailer": "5.4.x-dev"
+
     },
     "require-dev": {
         "symfony/debug-bundle": "5.3.*",
