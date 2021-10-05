@@ -219,7 +219,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }*/
 
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('home'));
+        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
         $loginForm = $this->get('form.factory')->createNamed('', VendorsLoginType::class, array(
             '_username' => $authenticationUtils->getLastUsername()), array(
