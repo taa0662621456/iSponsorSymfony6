@@ -40,11 +40,11 @@
 					// findBy() must have first parameter: 'createdBy' => $this->getUser()
 					// for all next row
 					'categories' => $categoriesFavouritesRepository->findBy(
-						['published' => 't'], ['createdOn' => 'ASC'], 12, null
+						['published' => 't'], ['createdAt' => 'ASC'], 12, null
 					),
-					'projects'   => $projectsFavouritesRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-					'products'   => $productsFavouritesRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-					'vendors'    => $vendorsFavouritesRepository->findBy([], ['createdOn' => 'ASC'], 12, null)
+					'projects'   => $projectsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
+					'products'   => $productsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
+					'vendors'    => $vendorsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12, null)
 				)
 			);
 		}

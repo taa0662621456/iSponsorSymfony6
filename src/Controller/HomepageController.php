@@ -32,7 +32,8 @@
                               ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
         {
             $token = 'fgdfgFGDFGDFGdfdfdfgDFDFGDFG';
-            $userName = $this->getUser()->getUserIdentifier();
+            //$userName = $this->getUser()->getUserIdentifier(); //TODO: getUserIdentifier()
+            $userName = '$this->getUser()->getUserIdentifier()';
             $key = $this->getParameter('mercure_secret_key');
 
 
@@ -41,8 +42,8 @@
                 'homepage/homepage.html.twig', array(
                     'categories' => $categoriesRepository->findAll(),
                     //'categories' => $categoriesRepository->findOneBy(['published' => 't'], ['id' => 'ASC']),
-                    'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-                    'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
+                    'latest_projects' => $projectsRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
+                    'latest_products' => $productsRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
                     'featured_projects' => $featuredRepository->findBy(
                         ['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null
                     ),

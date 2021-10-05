@@ -43,7 +43,7 @@ class ProjectsAttachmentsType extends AbstractType
 			->add('isShared')
 			->add('published')
 			/*
-			->add('createdOn')
+			->add('createdAt')
 			->add('createdBy')
 			->add('modifiedOn')
 			->add('modifiedBy')
