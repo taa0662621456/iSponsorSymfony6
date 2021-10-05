@@ -1,6 +1,7 @@
 .env
-.idea
+.idea\
 /.idea/
+/.idea/book.iml
 yarn.lock
 package-lock.json
 symfony.lock

@@ -7,7 +7,6 @@ declare(strict_types=1);
     use JetBrains\PhpStorm\ArrayShape;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
     use Symfony\Component\Mailer\MailerInterface;
-    use Twig\Error\Error;
 
 	class OrderSubscriber
 		implements EventSubscriberInterface
@@ -20,6 +19,7 @@ declare(strict_types=1);
 		public function __construct(MailerInterface $mailer)
 		{
 			$this->mailer = $mailer;
+			dd('OrderSubscriber');
 		}
 
 		/**
