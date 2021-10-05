@@ -53,11 +53,11 @@ class Vendors
 	private string $activationCode = '0';
 
 	/**
-	 * @var string
+	 * @var string|null
 	 *
-	 * @ORM\Column(name="locale", type="string", nullable=false, options={"default"="en"})
+	 * @ORM\Column(name="locale", type="string", nullable=true, options={"default"="en"})
 	 */
-	private string $locale = 'en';
+	private ?string $locale = null;
 
 	/**
 	 * @var string
@@ -191,9 +191,9 @@ class Vendors
 
     }
 
-	/**
-	 * @return bool|false
-	 */
+    /**
+     * @return bool
+     */
 	public function getActive(): bool
     {
 		return $this->active;
@@ -244,10 +244,10 @@ class Vendors
 		return $this;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function getLocale(): string
+    /**
+     * @return string|null
+     */
+	public function getLocale(): ?string
 	{
 		return $this->locale;
 	}

@@ -1,7 +1,7 @@
 {% if attachments %}
     <figure id="carouselExampleSlidesOnly" class="carousel slide m-0" data-ride="carousel">
         <div class="carousel-inner">
-            {% for attachment in attachments if attachments %}
+            {% for attachment in attachments %}
                 <div class="carousel-item {% if loop.first %} active {% endif %}">
                     <img src="{{ file.filePath }}{{ file.fileName }}" class="d-block w-100" alt="...">
                 </div>

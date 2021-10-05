@@ -26,7 +26,7 @@
 		/**
 		 * @var AttachmentsManager
 		 */
-		private $attachmentsManager;
+		private AttachmentsManager $attachmentsManager;
 		/**
 		 * @var EntityManagerInterface
 		 */
@@ -34,7 +34,7 @@
         /**
          * @var RequestStack
          */
-        private $requestStack;
+        private RequestStack $requestStack;
 
         public function __construct(AttachmentsManager $attachmentsManager,
 									EntityManagerInterface $entity,
