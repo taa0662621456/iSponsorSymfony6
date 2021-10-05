@@ -6,7 +6,7 @@ namespace App\Repository;
 use App\Entity\Project\ProjectsTags;
 use App\Entity\Product\ProductsTags;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * Class TagsRepository
