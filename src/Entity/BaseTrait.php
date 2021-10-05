@@ -13,14 +13,14 @@
     trait BaseTrait
     {
         /**
-         * @var integer
+         * @var integer|null
          * @ORM\Id
 		 * @ORM\Column(type="integer")
 		 * @ORM\GeneratedValue
          * Groups({"object:list", "object:item"})
          * @ORM\GeneratedValue(strategy="AUTO")
          */
-        private int $id;
+        private ?int $id = 0;
 
         /**
          * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
