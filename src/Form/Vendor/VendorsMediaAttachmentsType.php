@@ -15,7 +15,7 @@ class VendorsMediaAttachmentsType extends AbstractType
 		$builder
 			->add('uuid')
 			->add('slug')
-			->add('createdOn')
+			->add('createdAt')
 			->add('createdBy')
 			->add('modifiedOn')
 			->add('modifiedBy')

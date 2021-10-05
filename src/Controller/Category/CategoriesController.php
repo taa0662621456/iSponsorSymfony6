@@ -62,8 +62,8 @@
 				array(
 					'category' => $categoriesRepository->findOneBy(array('parent' => $id), array('id' => 'ASC')),
 					/*
-					'latest_projects' => $projectsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
-					'latest_products' => $productsRepository->findBy([], ['createdOn' => 'ASC'], 12, null),
+					'latest_projects' => $projectsRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
+					'latest_products' => $productsRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
 					'featured_projects' => $featuredRepository->findBy(['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null),
 					'featured_products' => $featuredRepository->findBy(['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null),
 					'featured_categories' => $featuredRepository->findBy(['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null),

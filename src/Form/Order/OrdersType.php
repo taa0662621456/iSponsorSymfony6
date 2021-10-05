@@ -48,7 +48,7 @@ class OrdersType extends AbstractType
             ->add('ipAddress')
             ->add('STSameAsBT')
             ->add('oHash')
-            ->add('createdOn')
+            ->add('createdAt')
             ->add('createdBy')
             ->add('modifiedOn')
             ->add('modifiedBy')

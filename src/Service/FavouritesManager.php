@@ -50,7 +50,7 @@
 			return $repository->findBy(array(
 				'createdBy' => $createdBy
 			), array(
-				'createdOn' => 'ASC'
+				'createdAt' => 'ASC'
 			), 12, null);
 		}
 
