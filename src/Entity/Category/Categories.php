@@ -44,7 +44,7 @@ class Categories
 	 *     cascade={"persist"},
 	 *     inversedBy="children")
 	 */
-    private Categories $parent;
+    private ?Categories $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects",
@@ -164,10 +164,10 @@ class Categories
         return $this->children;
     }
 
-	/**
-	 * @return Categories
-	 */
-	public function getParent(): Categories
+    /**
+     * @return Categories|null
+     */
+	public function getParent(): ?Categories
     {
 		return $this->parent;
 	}

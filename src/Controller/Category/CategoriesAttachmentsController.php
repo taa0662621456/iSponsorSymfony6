@@ -47,7 +47,6 @@
 
         /**
          * @Route("/", name="categories_attachments_get", methods={"GET"})
-         * @param RequestStack $requestStack
          * @param AuthorizationCheckerInterface $authChecker
          * @param null $name
          * @param int|null $id
@@ -66,7 +65,7 @@
 									   bool $published = true,
 									   string $fileLang = null): Response
 		{
-			$route = $this->requestStack->getMasterRequest()->attributes->get('_route');
+			$route = $this->requestStack->getMainRequest()->attributes->get('_route');
 
 			if (false === $authChecker->isGranted('ROLE_ADMIN')){
                 $id = null;
