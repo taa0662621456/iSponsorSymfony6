@@ -31,7 +31,7 @@
             {% else %}
                 <div class="{{ block }}">
                     <div class="card p-1 shadow-sm">
-                        {{ render(controller( 'App\\Controller\\Category\\AttachmentCRUDsController::getAttachments')) }}
+                        {{ render(controller( 'App\\Controller\\Category\\CategoriesAttachmentsController::getAttachments')) }}
                         <menu class="list-group list-group-flush pt-0 mt-0" role="menu">
                             <li class="list-group-item active">
                                 <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
