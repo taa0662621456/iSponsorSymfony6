@@ -2,6 +2,7 @@
 	declare(strict_types=1);
 	namespace App\Entity\Project;
 
+    use App\Entity\AbstractObject;
     use App\Entity\BaseTrait;
     use App\Entity\Commission\Commission;
     use App\Entity\Product\Products;
@@ -22,7 +23,7 @@
 	 * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
-	class Projects
+	class Projects extends AbstractObject
 	{
 		use BaseTrait;
 
