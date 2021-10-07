@@ -1,8 +1,7 @@
 //import 'jquery';
 //require('jquery-bridget'); // для использования Masonry
 require('bootstrap');
-require('bootstrap-confirmation2'); // предстоит заменить на jquery-comfirm
-//require('bootstrap-confirmation2');
+require('jquery-confirm');
 require('bootstrap-autohide-navbar');
 
 require('smartwizard');

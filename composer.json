@@ -31,6 +31,7 @@
         "symfony/twig-bridge": "5.3.*",
         "symfony/twig-bundle": "5.0.*",
         "symfony/validator": "5.4.x-dev",
+        "symfony/webpack-encore-bundle": "^1.12",
         "symfony/yaml": "5.3.*",
         "twig/extra-bundle": "^3.3.0",
         "twig/twig": "^3.3.0"
@@ -40,8 +41,7 @@
         "symfony/maker-bundle": "^1.34",
         "symfony/monolog-bundle": "^3.0",
         "symfony/stopwatch": "5.3.*",
-        "symfony/web-profiler-bundle": "5.3.*",
-        "symfony/webpack-encore-bundle": "^v1.12.0"
+        "symfony/web-profiler-bundle": "5.3.*"
     },
     "config": {
         "optimize-autoloader": true,
