@@ -173,11 +173,12 @@ class Orders
 	private string $orderCurrencyRate = '1.000000';
 
 	/**
-	 * @var int
+	 * @var int|null
 	 *
-	 * @ORM\Column(name="order_shopper_groups", type="integer", nullable=true, options={"default"="0"})
+	 * @ORM\Column(name="order_shopper_groups", type="integer", nullable=true, options={"unsigned": true, "default": 0})
 	 */
-	private int $orderShopperGroups = 0;
+
+	private ?int $orderShopperGroups = 0;
 
 	/**
 	 * @var int|null
@@ -802,16 +803,16 @@ class Orders
 	/**
 	 * @return ArrayCollection
 	 */
-	public function getOrderItems()
-	{
+	public function getOrderItems(): ArrayCollection
+    {
 		return $this->orderItems;
 	}
 
 	/**
 	 * @return Orders
 	 */
-	public function getOrderStatus()
-	{
+	public function getOrderStatus(): Orders
+    {
 		return $this->orderStatus;
 	}
 
