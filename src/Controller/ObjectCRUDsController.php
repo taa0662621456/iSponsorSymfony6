@@ -44,7 +44,8 @@ class ObjectCRUDsController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         return $this->render($this->requestDispatcher->layOutPath(), array(
-                $this->requestDispatcher->route() => $em->getRepository($this->requestDispatcher->object())->findAll(),
+                $this->requestDispatcher->route() =>
+                    $em->getRepository($this->requestDispatcher->object())->findAll(),
             )
         );
     }

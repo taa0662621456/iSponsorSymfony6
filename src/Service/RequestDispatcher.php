@@ -25,7 +25,7 @@ class RequestDispatcher
     /**
      * @var string
      */
-    public $path;
+    public string $path;
     /**
      * @var RequestStack
      */
@@ -52,7 +52,8 @@ class RequestDispatcher
         $this->requestStack = $requestStack;
         $object = (string)ucfirst(current(explode('_', $this->requestStack->getMainRequest()->attributes->get('_route'), 2))) ?? 'Object';
 
-        //$this->object = $object::createObject();
+        //$object = $object . 's';
+        //$this->object = $object;
         $this->object = '\\App\\Entity\\' . $object . '\\' . $object . 's';
         $this->objectAttach = $object . 'Attachment';
 
@@ -62,7 +63,7 @@ class RequestDispatcher
         //$this->objectRepository = $object . 'Repository'; //TODO: не продумано для Entity
 
         //$objectEnGb = $object . 'sEnGb';
-        //$this->objectEnGb = $objectEnGb::createEnGb();
+        //$this->objectEnGb = $objectEnGb::createObject();
         $this->objectEnGb = '\\App\\Entity\\' . $object . '\\' . $object . 'sEnGb';
 
 
@@ -85,7 +86,7 @@ class RequestDispatcher
     /**
      * @return string
      */
-    public function route()
+    public function route(): string
     {
         return $this->route;
 
