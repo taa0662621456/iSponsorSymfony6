@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -28,7 +29,9 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
@@ -40,6 +43,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     // Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator класс.
     use TargetPathTrait;
 
+    public const LOGIN_ROUTE_LOCALIZED = 'app_login_localized';
     public const LOGIN_ROUTE = 'login';
     public const HOMEPAGE = 'homepage';
 
@@ -47,18 +51,16 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     private RouterInterface $router;
     private CsrfTokenManagerInterface $csrfTokenManager;
     private UserPasswordHasherInterface $passwordEncoder;
-    /**
-     * @var FlashBagInterface
-     */
     private FlashBagInterface $flashBag;
-    /**
-     * @var Security
-     */
     private Security $security;
+    private Request $request;
+    private UrlGeneratorInterface $urlGenerator;
 
     /**
      * LoginAuthenticator constructor.
      * @param EntityManagerInterface $entityManager
+     * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param RouterInterface $router
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param UserPasswordHasherInterface $passwordHasher
@@ -66,6 +68,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
      * @param Security $security
      */
     public function __construct(EntityManagerInterface      $entityManager,
+                                UrlGeneratorInterface       $urlGenerator,
+                                Request                     $request,
                                 RouterInterface             $router,
                                 CsrfTokenManagerInterface   $csrfTokenManager,
                                 UserPasswordHasherInterface $passwordHasher,
@@ -93,7 +97,8 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             && $request->isMethod('POST');
     }
 
-    #[ArrayShape(['email' => "mixed", 'password' => "mixed", 'csrf_token' => "mixed"])] public function getCredentials(Request $request): array
+    #[ArrayShape(['email' => "mixed", 'password' => "mixed", 'csrf_token' => "mixed"])]
+    public function getCredentials(Request $request): array
     {
         $credentials = [
             'email'      => $request->request->get('email'),
@@ -109,7 +114,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         return $credentials;
     }
 
-    public function getUser($credentials, UserProviderInterface $user)
+    public function getUser($credentials, UserProviderInterface $user): object
     {
         //$passport = new Passport(new UserBadge($email), $credentials);
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
@@ -168,23 +173,36 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     protected function getLoginUrl(): string
     {
+//        выполняется проверка на локаль
+//        $locale = $request->getLocale();
+//        if (str_starts_with($request->getPathInfo(), "/{$locale}/")) {
+//            return $this->urlGenerator->generate(self::LOGIN_ROUTE_LOCALIZED);
+//        }
         return $this->router->generate(self::LOGIN_ROUTE);
     }
 
     /**
      * @param Request $request
-     * @return SelfValidatingPassport
+     * @return \Symfony\Component\Security\Http\Authenticator\Passport\Passport
      */
-    public function authenticate(Request $request): SelfValidatingPassport
+    public function authenticate(Request $request): Passport
     {
-        $apiToken = $request->headers->get('X-AUTH-TOKEN');
-        if (null === $apiToken) {
-            // The token header was empty, authentication fails with HTTP Status
-            // Code 401 "Unauthorized"
-            throw new CustomUserMessageAuthenticationException('No API token provided');
+        $email = $request->request->get('email');
+        if (null === $email) {
+            throw new CustomUserMessageAuthenticationException('No username provided');
         }
 
-        return new SelfValidatingPassport(new UserBadge($apiToken));
+        $request->getSession()->set(Security::LAST_USERNAME, $email);
+
+        return new Passport(
+            new UserBadge($email, function ($userIdentifier) {
+                // return $this->vendorRepository->findOneBy($vendorId); //TOTO: дописать запрос в базу
+            }),
+            new PasswordCredentials($request->request->get('password', '')),
+            [
+                new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
+            ]
+        );
     }
 
     /**
