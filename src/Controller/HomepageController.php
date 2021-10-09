@@ -18,6 +18,7 @@
 
 
         /**
+         * @Route ("/{_local}", name="homepage_localized", requirements={"_locale": "^[a-z]{2}$"}, defaults={"_locale": "en"})
          * @Route("/", defaults={"page": "1", "_format"="html"}, methods={"GET"}, name="homepage")
          * @Route("/page/{page<[1-9]\d*>}", defaults={"_format"="html"}, methods={"GET"}, name="homepage_paginated")
          * @param CategoriesRepository $categoriesRepository
