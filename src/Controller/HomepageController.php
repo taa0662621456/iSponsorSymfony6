@@ -32,7 +32,7 @@
                               ProductsRepository $productsRepository, FeaturedRepository $featuredRepository): Response
         {
             $token = 'fgdfgFGDFGDFGdfdfdfgDFDFGDFG';
-            $userName = $this->getUser()->getUsername();
+            $userName = $this->getUser()->getUserIdentifier();
             $key = $this->getParameter('mercure_secret_key');
 
 

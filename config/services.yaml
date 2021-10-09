@@ -63,7 +63,7 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
             - '../src/Trash/'
-            - '../Migrations/'
+            - '../migrations/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -75,8 +75,6 @@ services:
         class: App\Service\ProductsUtilities
         arguments: ["@doctrine.orm.entity_manager"]
 
-    Cocur\Slugify\Slugify:
-        autowire: true
 
     App\Service\CategoriesUploader:
         arguments:

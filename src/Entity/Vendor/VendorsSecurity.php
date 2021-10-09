@@ -28,6 +28,7 @@ use Symfony\Component\Validator\Constraints\Length;
  *        message="You have an account already or this phone already in use!")
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorsSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @method string getUserIdentifier()
  */
 class VendorsSecurity implements UserInterface, Serializable, PasswordAuthenticatedUserInterface
 {
@@ -177,9 +178,9 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="api_key", type="string", nullable=false, options={"comment"="API key"})
+	 * @ORM\Column(name="api_token", type="string", nullable=false, options={"comment"="API token"})
 	 */
-	private string $apiKey = 'api_key';
+	private string $apiToken = 'api_token';
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendors",
@@ -211,19 +212,19 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	/**
 	 * @return string
 	 */
-	public function getApiKey(): string
+	public function getApiToken(): string
 	{
-		return $this->apiKey;
+		return $this->ApiToken;
 	}
 
 	/**
-	 * @param string $apiKey
+	 * @param string $apiToken
 	 *
 	 * @return VendorsSecurity
 	 */
-	public function setApiKey(string $apiKey): self
+	public function setApiKey(string $apiToken): self
 	{
-		$this->apiKey = $apiKey;
+		$this->apiToken = $apiToken;
 		return $this;
 	}
 
@@ -614,5 +615,9 @@ class VendorsSecurity implements UserInterface, Serializable, PasswordAuthentica
 	}
 
 
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
 }
 

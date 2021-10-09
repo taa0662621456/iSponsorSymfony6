@@ -7,7 +7,8 @@
 
     use App\Repository\Vendor\VendorsRepository;
 
-	use Symfony\Component\HttpFoundation\Request;
+    use App\Repository\Vendor\VendorsSecurityRepository;
+    use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
     use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -20,11 +21,11 @@
 
     class PassportAuthenticator extends AbstractAuthenticator
 	{
-        private VendorsRepository $vendorsRepository;
+        private VendorsSecurityRepository $vendorsSecurityRepository;
 
-        public function __construct(VendorsRepository $vendorsRepository)
+        public function __construct(VendorsSecurityRepository $vendorsSecurityRepository)
         {
-            $this->vendorsRepository = $vendorsRepository;
+            $this->vendorsSecurityRepository = $vendorsSecurityRepository;
         }
 
         public function authenticate(Request $request): PassportInterface
