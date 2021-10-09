@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 
-abstract class AbstractObject
+abstract class Object
 {
+    use BaseTrait;
+
     public static function createObject(): static
     {
         return new static ();
