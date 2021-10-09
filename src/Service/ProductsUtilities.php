@@ -11,11 +11,11 @@ class ProductsUtilities
     /**
      * @var EntityManager $em
      */
-    private $em;
+    private $entityManager;
 
     public function __construct(EntityManager $entityManager)
     {
-        $this->em = $entityManager;
+        $this->entityManager = $entityManager;
     }
 
     /**
