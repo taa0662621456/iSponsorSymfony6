@@ -132,8 +132,24 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "imagine/imagine": {
+        "version": "1.2.4"
+    },
     "laminas/laminas-code": {
         "version": "4.4.3"
+    },
+    "liip/imagine-bundle": {
+        "version": "1.8",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.8",
+            "ref": "ffbb72e74598f04cc7f79f9fc736c77eeb98f569"
+        },
+        "files": [
+            "./config/packages/liip_imagine.yaml",
+            "./config/routes/liip_imagine.yaml"
+        ]
     },
     "monolog/monolog": {
         "version": "2.3.4"
@@ -265,6 +281,18 @@
     "symfony/intl": {
         "version": "v5.3.8"
     },
+    "symfony/lock": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "a1c8800e40ae735206bb14586fdd6c4630a51b8d"
+        },
+        "files": [
+            "./config/packages/lock.yaml"
+        ]
+    },
     "symfony/mailer": {
         "version": "4.3",
         "recipe": {
@@ -339,6 +367,9 @@
     },
     "symfony/polyfill-uuid": {
         "version": "v1.23.0"
+    },
+    "symfony/process": {
+        "version": "v5.3.7"
     },
     "symfony/property-access": {
         "version": "v5.3.8"
