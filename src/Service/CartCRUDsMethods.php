@@ -13,7 +13,7 @@
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 
-	class CartTools
+	class CartCRUDsMethods
 	{
 		/**
 		 * @var EntityManager $em
