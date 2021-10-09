@@ -1,5 +1,14 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+#    form_themes: ['bootstrap_5_layout.html.twig']
+    exception_controller: ~
+    globals:
+        app_name: '%app.name%'
+        app_logo_url: '%app.logo_url%'
+        app_version: '%app.version%'
+#        activeCategoriesIds: []
 
 when@test:
     twig:
