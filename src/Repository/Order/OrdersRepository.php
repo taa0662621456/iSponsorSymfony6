@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Order;
 
 use App\Entity\Order\Orders;
 use App\Entity\Project\Projects;
@@ -135,5 +135,9 @@ class OrdersRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    #MustBe:
+    #TODO: findByVendorId
+    #TODO: findBySessionId
 
 }

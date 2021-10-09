@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\VendorsFavourites;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -18,6 +19,28 @@ class VendorsRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Vendors::class);
+    }
+
+    //TODO: непойму, зачем писать дополнительные методы, если есть аналогичные встроенные в фреймворк
+
+    /**
+     * @param $vendorId
+     * @param string $id
+     */
+    public function findActiveVendorById($vendorId)
+    {
+        return $this->findOneBy([
+            'id' => (int) $vendorId,
+            'iaActive' => true
+        ]);
+    }
+
+    public function findActiveVendorByApiToken($vendorId)
+    {
+        return $this->findOneBy([
+            'apiToken' => $vendorId,
+            'isActive' => true
+        ]);
     }
 
 
