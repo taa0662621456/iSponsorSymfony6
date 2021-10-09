@@ -11,6 +11,7 @@ use App\Repository\Product\ProductsRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class ProductsController extends AbstractController
 	/**
 	 * @var AttachmentsManager
 	 */
-	private $attachmentManager;
+	private AttachmentsManager $attachmentManager;
 
 	public function __construct(AttachmentsManager $attachmentManager)
 	{
@@ -105,7 +106,7 @@ class ProductsController extends AbstractController
      * @param ProductsAttachments $projectsAttachments
      * @return Response
      */
-    public function attachment(Request $request, Products $projects, ProductsAttachments $projectsAttachments)
+    public function attachment(Request $request, Products $projects, ProductsAttachments $projectsAttachments): Response
     {
         $file = $request->get('file');
 
