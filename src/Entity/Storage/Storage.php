@@ -4,10 +4,10 @@
 namespace App\Entity\Storage;
 
 
-use App\Entity\ObjectEntity;
+use App\Entity\Object;
 use App\Entity\BaseTrait;
 
-class Storage extends ObjectEntity
+class Storage extends Object
 {
-    //TODO: склад товаров
+
 }
