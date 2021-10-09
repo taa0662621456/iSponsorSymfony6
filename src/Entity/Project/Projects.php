@@ -2,8 +2,7 @@
 	declare(strict_types=1);
 	namespace App\Entity\Project;
 
-    use App\Entity\AbstractObject;
-    use App\Entity\BaseTrait;
+    use App\Entity\Object;
     use App\Entity\Commission\Commission;
     use App\Entity\Product\Products;
     use Doctrine\ORM\Mapping as ORM;
@@ -23,9 +22,8 @@
 	 * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
-	class Projects extends AbstractObject
+	class Projects extends Object
 	{
-		use BaseTrait;
 
 		public const NUM_ITEMS = 10;
 
