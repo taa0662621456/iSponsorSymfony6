@@ -22,42 +22,42 @@ class OrdersStatus
 	 *
 	 * @ORM\Column(name="order_status_code", type="string", nullable=false, options={"default"=""})
 	 */
-	private $orderStatusCode = '';
+	private string $orderStatusCode = '';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_status_name", type="string", nullable=true, options={"default"="0"})
 	 */
-	private $orderStatusName = '0';
+	private ?string $orderStatusName = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_status_color", type="string", nullable=true, options={"default"="0"})
 	 */
-	private $orderStatusColor = '0';
+	private ?string $orderStatusColor = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="order_status_description", type="string", nullable=true, options={"default"="0"})
 	 */
-	private $orderStatusDescription = '0';
+	private ?string $orderStatusDescription = '0';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="order_stock_handle", type="string", nullable=false, options={"default"="A"})
 	 */
-	private $orderStockHandle = 'A';
+	private string $orderStockHandle = 'A';
 
 	/**
 	 * @var int
 	 *
 	 * @ORM\Column(name="ordering", type="integer", nullable=false)
 	 */
-	private $ordering = 0;
+	private int $ordering = 0;
 
 	/**
 	 * @var ArrayCollection
