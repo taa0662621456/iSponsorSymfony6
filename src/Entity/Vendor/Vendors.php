@@ -27,9 +27,9 @@ class Vendors
 	/**
 	 * @var bool|false
 	 *
-	 * @ORM\Column(name="active", type="boolean", nullable=false, options={"default" : 0})
+	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 0})
 	 */
-	private bool $active = false;
+	private bool $iaActive = false;
 
 	/**
 	 * @var array
@@ -187,24 +187,24 @@ class Vendors
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocumentAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
-        $this->active = false;
+        $this->iaActive = false;
 
     }
 
     /**
      * @return bool
      */
-	public function getActive(): bool
+	public function getIsActive(): bool
     {
-		return $this->active;
+		return $this->iaActive;
 	}
 
     /**
-     * @param bool|false $active
+     * @param bool|false $isActive
      */
-	public function setActive(bool $active): void
+	public function setisActive(bool $isActive): void
 	{
-		$this->active = $active;
+		$this->isActive = $isActive;
 	}
 
 	/**
