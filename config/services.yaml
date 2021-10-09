@@ -5,7 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     # выработать контракт написания параметров приложения app_
-    app_sitename: '...iSponsor!'
+    app_name: '...iSponsor!'
+    app_version: '0.0.0'
     app_domain: 'smartresponsor.com'
     app_schema: 'https'
     app_homepage_routename: 'homepage'
@@ -20,6 +21,7 @@ parameters:
     app_property: 'email'
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
     app_homepage_number_of_items: 10
+    app_logo_image_url: /favicon.ico
     app_category_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
     app_menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
     app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
