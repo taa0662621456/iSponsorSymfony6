@@ -12,11 +12,11 @@
 		/**
 		 * @var ContainerInterface
 		 */
-		private $container;
+		private ContainerInterface $container;
 		/**
 		 * @var EntityManagerInterface
 		 */
-		private $entityManager;
+		private EntityManagerInterface $entityManager;
 
 		public function __construct(ContainerInterface $container, EntityManagerInterface $entityManager)
 		{
@@ -30,7 +30,7 @@
 		 *
 		 * @return void
 		 */
-		public function setFavourite(string $entity, $createdBy)
+		public function setFavourite(string $entity, object $createdBy)
 		{
 			//TODO
 		}
@@ -42,8 +42,8 @@
 		 *
 		 * @return array
 		 */
-		public function getFavourites(string $entity, $createdBy)
-		{
+		public function getFavourites(string $entity, object $createdBy): array
+        {
 
 			$repository = $this->entityManager->getRepository($entity);
 
