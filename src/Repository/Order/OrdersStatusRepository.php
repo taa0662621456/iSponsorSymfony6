@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Repository;
+	namespace App\Repository\Order;
 
 	use App\Entity\Order\OrdersStatus;
 
@@ -15,9 +15,9 @@
 	 */
 	class OrdersStatusRepository extends ServiceEntityRepository
 	{
-		/**
-		 * @param RegistryInterface $registry
-		 */
+        /**
+         * @param ManagerRegistry $registry
+         */
 		public function __construct(ManagerRegistry $registry)
 		{
 			parent::__construct($registry, OrdersStatus::class);

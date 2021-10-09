@@ -19,7 +19,7 @@ class ProductsRepository extends ServiceEntityRepository
 {
     /**
      * ProductsRepository constructor.
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -30,7 +30,7 @@ class ProductsRepository extends ServiceEntityRepository
      * @return mixed
      * @throws NonUniqueResultException
      */
-    public function findBySlug($slug)
+    public function findBySlug(string $slug): mixed
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 
