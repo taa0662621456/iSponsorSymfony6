@@ -6,6 +6,11 @@ yarn.lock
 package-lock.json
 symfony.lock
 
+**/log
+**/logs
+**/log/
+**/logs/
+
 /migrations
 /migrations/*
 /bootstrap-4.0.0/*
