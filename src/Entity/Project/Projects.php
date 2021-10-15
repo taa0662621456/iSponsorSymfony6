@@ -2,8 +2,8 @@
 	declare(strict_types=1);
 	namespace App\Entity\Project;
 
-    use App\Entity\Object;
-    use App\Entity\Commission\Commission;
+    use App\Entity\ObjectEntity;
+    use App\Entity\Commission\ProjectsPlatformReward;
     use App\Entity\Product\Products;
     use Doctrine\ORM\Mapping as ORM;
     use App\Entity\Category\Categories;
@@ -22,7 +22,7 @@
 	 * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
-	class Projects extends Object
+	class Projects extends ObjectEntity
 	{
 
 		public const NUM_ITEMS = 10;
@@ -31,7 +31,7 @@
 		 * @var string|null
 		 * @ORM\Column(name="project_type", type="string", nullable=true)
 		 */
-		private ?string $projectType;
+		private ?string $projectType; //TODO: поменять на связь с таблицей типов проектов
 
 		/**
 		 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
@@ -103,9 +103,9 @@
         private $projectProducts;
 
         /**
-         * @var Commission[]|ArrayCollection
+         * @var ProjectsPlatformReward[]|ArrayCollection
          *
-         * @ORM\OneToMany(targetEntity="App\Entity\Commission\Commission",
+         * @ORM\OneToMany(targetEntity="ProjectsCommissions.php",
          *     cascade={"persist", "remove"},
          *     mappedBy="projectId",
          *     orphanRemoval=true)
@@ -243,9 +243,9 @@
         }
 
         /**
-         * @param Commission $commissions
+         * @param ProjectsPlatformReward $commissions
          */
-        public function addProjectCommissions(Commission $commissions): void
+        public function addProjectCommissions(ProjectsPlatformReward $commissions): void
         {
             foreach ($commissions as $commission) {
                 if (!$this->projectCommissions->contains($commission)) {
@@ -255,15 +255,15 @@
         }
 
         /**
-         * @param Commission $commission
+         * @param ProjectsPlatformReward $commission
          */
-        public function removeProjectCommissions(Commission $commission): void
+        public function removeProjectCommissions(ProjectsPlatformReward $commission): void
         {
             $this->projectCommissions->removeElement($commission);
         }
 
         /**
-         * @return Collection|Commission[]
+         * @return Collection|ProjectsPlatformReward[]
          */
         public function getProjectCommissions(): Collection
         {
@@ -273,7 +273,7 @@
         /**
          * @return mixed
          */
-        public function getProjectEnGb()
+        public function getProjectEnGb(): mixed
         {
             return $this->projectEnGb;
         }
@@ -305,8 +305,8 @@
 		/**
 		 * @return mixed
 		 */
-		public function getProjectFeatured()
-		{
+		public function getProjectFeatured(): mixed
+        {
 			return $this->projectFeatured;
 		}
 

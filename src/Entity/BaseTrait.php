@@ -8,7 +8,7 @@
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Uid\Uuid;
     use Exception;
-    
+
 
     trait BaseTrait
     {
@@ -33,6 +33,28 @@
          * @ORM\Column(name="published", type="boolean", nullable=false)
          */
         private bool $published = true;
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="first_title", type="string", nullable=true)
+         */
+        private string $firstTitle;
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="last_title", type="string", nullable=true)
+         */
+        private string $lastTitle;
+
+        /**
+         * @var string
+         *
+         * @ORM\Column(name="middle_title", type="string", nullable=true)
+         */
+        private string $middleTitle;
+
 
 //        /**
 //         *
@@ -147,7 +169,7 @@
         }
 
         /**
-         * @return bool|false
+         * @return bool
          */
         public function isPublished(): bool
         {
@@ -337,4 +359,55 @@
         {
 			return $vendor && $vendor->getId() == $this->getCreatedBy();
 		}
+
+        /**
+         * @return string
+         */
+        public function getFirstTitle(): string
+        {
+            return $this->firstTitle;
+        }
+
+        /**
+         * @param string $firstTitle
+         */
+        public function setFirstTitle(string $firstTitle): void
+        {
+            $this->firstTitle = $firstTitle;
+        }
+
+        /**
+         * @return string
+         */
+        public function getLastTitle(): string
+        {
+            return $this->lastTitle;
+        }
+
+        /**
+         * @param string $lastTitle
+         */
+        public function setLastTitle(string $lastTitle): void
+        {
+            $this->lastTitle = $lastTitle;
+        }
+
+        /**
+         * @return string
+         */
+        public function getMiddleTitle(): string
+        {
+            return $this->middleTitle;
+        }
+
+        /**
+         * @param string $middleTitle
+         */
+        public function setMiddleTitle(string $middleTitle): void
+        {
+            $this->middleTitle = $middleTitle;
+        }
+
+
+
 	}

@@ -5,7 +5,6 @@ namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,27 +21,27 @@ class ProductsPrice
 	 *
 	 * @ORM\Column(name="product_id", type="integer", nullable=false, options={"default" : 0})
 	 */
-	private $productId = 0;
+	private int $productId = 0;
 
 	/**
 	 * @var int
 	 *
 	 * @ORM\Column(name="shopper_group_id", type="integer", nullable=false, options={"default" : 0})
 	 */
-	private $shopperGroupId = 0;
+	private int $shopperGroupId = 0;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Product\Products", inversedBy="productPrice")
 	 * @ORM\JoinColumn(name="productPrice_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
-	private $productPrice = 0;
+	private int $productPrice = 0;
 
 	/**
 	 * @var boolean|null
 	 *
 	 * @ORM\Column(name="override", type="boolean", nullable=true, options={"default" : 0})
 	 */
-	private $override = false;
+	private ?bool $override = false;
 
 	/**
 	 * @var
@@ -50,28 +49,28 @@ class ProductsPrice
 	 * @ORM\Column(name="product_override_price", type="decimal", precision=7, scale=2, nullable=true,
 	 *                                            options={"default" : 0})
 	 */
-	private $productOverridePrice = 0;
+	private int $productOverridePrice = 0;
 
 	/**
 	 * @var int|null
 	 *
 	 * @ORM\Column(name="product_tax_id", type="integer", nullable=true, options={"default" : 0})
 	 */
-	private $productTaxId = 0;
+	private ?int $productTaxId = 0;
 
 	/**
 	 * @var int|null
 	 *
 	 * @ORM\Column(name="product_discount_id", type="integer", nullable=true, options={"default" : 0})
 	 */
-	private $productDiscountId = 0;
+	private ?int $productDiscountId = 0;
 
 	/**
 	 * @var int|null
 	 *
 	 * @ORM\Column(name="product_currency", type="integer", nullable=true, options={"default" : 0})
 	 */
-	private $productCurrency = 0;
+	private ?int $productCurrency = 0;
 
 	/**
 	 * @var string
@@ -92,14 +91,14 @@ class ProductsPrice
 	 *
 	 * @ORM\Column(name="price_quantity_start", type="integer", nullable=false, options={"default" : 0})
 	 */
-	private $priceQuantityStart = 0;
+	private int $priceQuantityStart = 0;
 
 	/**
 	 * @var int
 	 *
 	 * @ORM\Column(name="price_quantity_end", type="integer", nullable=false, options={"default" : 0})
 	 */
-	private $priceQuantityEnd = 0;
+	private int $priceQuantityEnd = 0;
 
 
 	/**
@@ -119,17 +118,17 @@ class ProductsPrice
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function getProductPrice()
-	{
+	 * @return int
+     */
+	public function getProductPrice(): int
+    {
 		return $this->productPrice;
 	}
 
 	/**
 	 * @param mixed $productPrice
 	 */
-	public function setProductPrice($productPrice): void
+	public function setProductPrice(mixed $productPrice): void
 	{
 		$this->productPrice = $productPrice;
 	}
@@ -151,16 +150,16 @@ class ProductsPrice
 		$this->override = $override;
 	}
 
-	/**
-	 * @return null
-	 */
-	public function getProductOverridePrice()
-	{
+    /**
+     * @return int|null
+     */
+	public function getProductOverridePrice(): ?int
+    {
 		return $this->productOverridePrice;
 	}
 
 	/**
-	 * @param null $productOverridePrice
+	 * @param $productOverridePrice
 	 */
 	public function setProductOverridePrice($productOverridePrice): void
 	{
@@ -224,9 +223,9 @@ class ProductsPrice
 	}
 
 	/**
-	 * @param DateTime $productPricePublishUp
+	 * @param $productPricePublishUp
 	 */
-	public function setProductPricePublishUp(DateTime $productPricePublishUp): void
+	public function setProductPricePublishUp($productPricePublishUp): void
 	{
 		$this->productPricePublishUp = $productPricePublishUp;
 	}
@@ -240,9 +239,9 @@ class ProductsPrice
 	}
 
 	/**
-	 * @param DateTime $productPricePublishDown
+	 * @param $productPricePublishDown
 	 */
-	public function setProductPricePublishDown(DateTime $productPricePublishDown): void
+	public function setProductPricePublishDown($productPricePublishDown): void
 	{
 		$this->productPricePublishDown = $productPricePublishDown;
 	}

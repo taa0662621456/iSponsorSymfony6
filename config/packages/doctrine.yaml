@@ -96,6 +96,24 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Commission'
                         prefix: 'App\Entity\Commission'
                         alias: Commission
+                    Payment:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Payment'
+                        prefix: 'App\Entity\Payment'
+                        alias: Payment
+                    Shipment:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Shipment'
+                        prefix: 'App\Entity\Shipment'
+                        alias: Shipment
+                    Storage:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Storage'
+                        prefix: 'App\Entity\Storage'
+                        alias: Storage
                     Event:
                         is_bundle: false
                         type: annotation
