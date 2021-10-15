@@ -4,17 +4,16 @@
  * комиссия начинает действие в момент ее создания (например, в момент добавления проекта)
  * комиссия может быть создана отдельно и иметь дату старта действия и окончания действия
  * комиссий может быть несколько (могут быть запланированы)
- * slug строки комиссии необходимо переодределить, чтобы таков не был в данной табличке уникальным, например
- * добавить префикс - порядковых номер комессии
- * при удалении проекта удаляются комиссии, соответственно необходимо отношение проектов к коммиссиям
+ * slug строки комиссии необходимо переопределить, чтобы таков не был в данной табличке уникальным, например
+ * добавить префикс - порядковых номер комиссии
+ * при удалении проекта удаляются комиссии, соответственно необходимо отношение проектов к комиссиям
  *
  */
 
 namespace App\Entity\Commission;
 
+use App\Entity\ObjectEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\BaseTrait;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Table(name="commission", indexes={
@@ -22,10 +21,8 @@ use Symfony\Component\Validator\Constraints\DateTime;
  * @ORM\Entity(repositoryClass="App\Repository\Commission\CommissionRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Commission
+class ProjectsPlatformReward extends ObjectEntity
 {
-    use BaseTrait;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectCommissions")
      * @ORM\JoinTable(name="project")
@@ -35,16 +32,14 @@ class Commission
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_start_time", type="string", nullable=false,
-     *                                            options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="commission_start_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private string $commissionStartTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="commission_end_time", type="string", nullable=false,
-     *                                            options={"default":"CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="commission_end_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
      */
     private string $commissionEndTime;
 
