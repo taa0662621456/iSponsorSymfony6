@@ -39,7 +39,7 @@
         "propel": "^3.3.1",
         "query": "^0.2.0",
         "smartwizard": "^5.1.1",
-        "tinymce": "^5.9.2"
+        "tinymce": "^5.9.0"
     },
     "name": "isponsor",
     "description": "**Привет.**",
