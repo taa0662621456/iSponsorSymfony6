@@ -48,9 +48,9 @@
     </table>
 {% endblock %}
 {% block article_summery %}
-    <a href="{{ path('categories_index') }}">back to list</a>
+    <a href="{{ path('category_index') }}">back to list</a>
 
-    <a href="{{ path('categories_edit', {'id': category.id}) }}">edit</a>
+    <a href="{{ path('category_id_edit', {'id': category.id}) }}">edit</a>
 
-    {{ include('category/categories/_delete_form.html.twig') }}
+    {{ include('category/category/_delete_form.html.twig') }}
 {% endblock %}

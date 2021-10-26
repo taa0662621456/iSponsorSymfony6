@@ -20,8 +20,8 @@
                 <td>{{ vendors_iban.id }}</td>
                 <td>{{ vendors_iban.vendorIban }}</td>
                 <td>
-                    <a href="{{ path('vendor_vendors_iban_show', {'id': vendors_iban.id}) }}">show</a>
-                    <a href="{{ path('vendor_vendors_iban_edit', {'id': vendors_iban.id}) }}">edit</a>
+                    <a href="{{ path('vendorIban_show_id', {'id': vendors_iban.id}) }}">show</a>
+                    <a href="{{ path('vendorIban_edit_id', {'id': vendors_iban.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -32,5 +32,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('vendor_vendors_iban_new') }}">Create new</a>
+    <a href="{{ path('vendorIban_new') }}">Create new</a>
 {% endblock %}

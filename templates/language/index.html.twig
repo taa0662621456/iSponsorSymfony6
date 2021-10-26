@@ -43,8 +43,8 @@
                 <td>{{ language.access }}</td>
                 <td>{{ language.ordering }}</td>
                 <td>
-                    <a href="{{ path('languages_show', {'langId': language.langId}) }}">show</a>
-                    <a href="{{ path('languages_edit', {'langId': language.langId}) }}">edit</a>
+                    <a href="{{ path('languages_show_id', {'id': language.langId}) }}">show</a>
+                    <a href="{{ path('languages_edit_id', {'id': language.langId}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

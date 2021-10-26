@@ -59,8 +59,8 @@
                 <td>{{ products_attachment.lockedAt ? products_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ products_attachment.lockedBy }}</td>
                 <td>
-                    <a href="{{ path('product_products_attachments_show', {'id': products_attachment.id}) }}">show</a>
-                    <a href="{{ path('product_products_attachments_edit', {'id': products_attachment.id}) }}">edit</a>
+                    <a href="{{ path('productAttachment_show_id', {'id': products_attachment.id}) }}">show</a>
+                    <a href="{{ path('productAttachment_edit_id', {'id': products_attachment.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

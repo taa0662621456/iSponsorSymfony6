@@ -14,7 +14,7 @@
                 <div class="example-wrapper">
                     {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-                    {{ form_start(form, {'attr': {'id':'categoriesEnGb', 'class':'form',}}) }}
+                    {{ form_start(form, {'attr': {'id':'categoryEnGb', 'class':'form',}}) }}
                     {{ form(form) }}
                     {{ form_errors (form) }}
                     {{ form_end(form) }}
@@ -23,7 +23,7 @@
             </div>
 
 
-            {{ include('category/categories/_form.html.twig') }}
+            {{ include('category/category/_form.html.twig') }}
         </div>
         <div class="{{ c3 }}">
         </div>

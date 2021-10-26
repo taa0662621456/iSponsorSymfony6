@@ -26,8 +26,8 @@
                 <td>{{ project.id }}</td>
                 <td>{{ project.id }}</td>
                 <td>
-                    <a href="{{ path('projects_show', {'id': project.id}) }}">show</a>
-                    <a href="{{ path('projects_edit', {'id': project.id}) }}">edit</a>
+                    <a href="{{ path('project_show_id', {'id': project.id}) }}">show</a>
+                    <a href="{{ path('project_edit_id', {'id': project.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -38,5 +38,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('projects_new') }}">Create new</a>
+    <a href="{{ path('project_new') }}">Create new</a>
 {% endblock %}

@@ -24,8 +24,8 @@
                 <td>{{ project.slug }}</td>
                 <td>{{ project.slug }}</td>
                 <td>
-                    <a href="{{ path('project_slug_show', {'id': project.slug}) }}">show</a>
-                    <a href="{{ path('project_slug_edit', {'id': project.slug}) }}">edit</a>
+                    <a href="{{ path('project_show_slug', {'id': project.slug}) }}">show</a>
+                    <a href="{{ path('project_edit_slug', {'id': project.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

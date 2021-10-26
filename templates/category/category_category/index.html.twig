@@ -11,7 +11,7 @@
                 </header>
                 {% for category in category.getChildren() %}
                     <li class="list-group-item">
-                        <a href="{{ path('category_slug', {'categorySlug': category.getCategorySlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+{#                        <a href="{{ path('category_slug', {'categorySlug': category.getCategorySlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>#}
                     </li>
                 {% endfor %}
             </aside>

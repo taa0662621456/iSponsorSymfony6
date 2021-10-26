@@ -49,8 +49,8 @@
                 <td>{{ menus_item.lockedBy }}</td>
                 <td>{{ menus_item.version }}</td>
                 <td>
-                    <a href="{{ path('menus_items_show', {'id': menus_item.id}) }}">show</a>
-                    <a href="{{ path('menus_items_edit', {'id': menus_item.id}) }}">edit</a>
+                    <a href="{{ path('menuItem_show_id', {'id': menus_item.id}) }}">show</a>
+                    <a href="{{ path('menuItem_edit_id', {'id': menus_item.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
