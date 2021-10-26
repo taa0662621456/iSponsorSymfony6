@@ -2,13 +2,14 @@
 	declare(strict_types=1);
 	namespace App\Entity\Project;
 
+    use App\Entity\BaseTrait;
     use App\Entity\ObjectEntity;
-    use App\Entity\Commission\ProjectsPlatformReward;
     use App\Entity\Product\Products;
     use Doctrine\ORM\Mapping as ORM;
     use App\Entity\Category\Categories;
     use Doctrine\Common\Collections\ArrayCollection;
     use Doctrine\Common\Collections\Collection;
+    use JetBrains\PhpStorm\Pure;
     use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -22,10 +23,10 @@
 	 * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectsRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
-	class Projects extends ObjectEntity
+	class Projects
 	{
-
-		public const NUM_ITEMS = 10;
+        use BaseTrait;
+        public const NUM_ITEMS = 10;
 
 		/**
 		 * @var string|null
@@ -105,25 +106,27 @@
         /**
          * @var ProjectsPlatformReward[]|ArrayCollection
          *
-         * @ORM\OneToMany(targetEntity="ProjectsCommissions.php",
+         * @ORM\OneToMany(targetEntity="ProjectsPlatformReward",
          *     cascade={"persist", "remove"},
          *     mappedBy="projectId",
          *     orphanRemoval=true)
-         * @ORM\JoinTable(name="commission")
-         * @Assert\Count(max="100", maxMessage="project.too_many_commissions")
+         * @ORM\JoinTable(name="rewards")
+         * @Assert\Count(max="100", maxMessage="project.too_many_rewards")
          */
-        private $projectCommissions;
+        private $projectsPlatformReward;
 
 
         /**
          * Projects constructor.
+         * @throws \Exception
          */
+        #[Pure]
         public function __construct()
         {
             $this->projectAttachments = new ArrayCollection();
             $this->projectTags = new ArrayCollection();
             $this->projectProducts = new ArrayCollection();
-            $this->projectCommissions = new ArrayCollection();
+            $this->projectsPlatformReward = new ArrayCollection();
         }
 
 		/**
@@ -243,31 +246,31 @@
         }
 
         /**
-         * @param ProjectsPlatformReward $commissions
+         * @param ProjectsPlatformReward $rewards
          */
-        public function addProjectCommissions(ProjectsPlatformReward $commissions): void
+        public function addProjectPlatformReward(ProjectsPlatformReward $rewards): void
         {
-            foreach ($commissions as $commission) {
-                if (!$this->projectCommissions->contains($commission)) {
-                    $this->projectCommissions->add($commission);
+            foreach ($rewards as $reward) {
+                if (!$this->projectsPlatformReward->contains($reward)) {
+                    $this->projectsPlatformReward->add($reward);
                 }
             }
         }
 
         /**
-         * @param ProjectsPlatformReward $commission
+         * @param ProjectsPlatformReward $reward
          */
-        public function removeProjectCommissions(ProjectsPlatformReward $commission): void
+        public function removeProjectPlatformReward(ProjectsPlatformReward $reward): void
         {
-            $this->projectCommissions->removeElement($commission);
+            $this->projectsPlatformReward->removeElement($reward);
         }
 
         /**
          * @return Collection|ProjectsPlatformReward[]
          */
-        public function getProjectCommissions(): Collection
+        public function getProjectPlatformRewards(): Collection
         {
-            return $this->projectCommissions;
+            return $this->projectsPlatformReward;
         }
 
         /**

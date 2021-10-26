@@ -8,7 +8,7 @@ use App\Entity\ObjectEntity;
 
 class Commissions extends ObjectEntity
 {
-    //TODO: комиссии, налагаемые на способы доставки, оплаты и пр
+    //TODO: комиссии, налагаемые на способы доставки, оплаты и пр.
     /**
      * incrementCommission
      * decrementCommission
