@@ -1,0 +1,30 @@
+2021/10/15 20:45:07 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/var/www/vendor/autoload_runtime.php): Failed to open stream: No such file or directory in /var/www/book/index.php on line 5PHP message: PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/vendor/autoload_runtime.php' (include_path='.:/usr/local/lib/php') in /var/www/book/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /var/www/book/index.php on line 5" while reading response header from upstream, client: 192.168.32.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.32.2:9000", host: "book.localhost"
+2021/10/15 20:45:30 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/var/www/vendor/autoload_runtime.php): Failed to open stream: No such file or directory in /var/www/book/index.php on line 5PHP message: PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/vendor/autoload_runtime.php' (include_path='.:/usr/local/lib/php') in /var/www/book/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /var/www/book/index.php on line 5" while reading response header from upstream, client: 192.168.32.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.32.2:9000", host: "book.localhost"
+2021/10/15 20:45:33 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/var/www/vendor/autoload_runtime.php): Failed to open stream: No such file or directory in /var/www/book/index.php on line 5PHP message: PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/vendor/autoload_runtime.php' (include_path='.:/usr/local/lib/php') in /var/www/book/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /var/www/book/index.php on line 5" while reading response header from upstream, client: 192.168.32.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.32.2:9000", host: "book.localhost"
+2021/10/15 20:45:42 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/var/www/vendor/autoload_runtime.php): Failed to open stream: No such file or directory in /var/www/book/index.php on line 5PHP message: PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/vendor/autoload_runtime.php' (include_path='.:/usr/local/lib/php') in /var/www/book/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /var/www/book/index.php on line 5" while reading response header from upstream, client: 192.168.32.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.32.2:9000", host: "book.localhost"
+2021/10/15 20:45:51 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/var/www/vendor/autoload_runtime.php): Failed to open stream: No such file or directory in /var/www/book/index.php on line 5PHP message: PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/vendor/autoload_runtime.php' (include_path='.:/usr/local/lib/php') in /var/www/book/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /var/www/book/index.php on line 5" while reading response header from upstream, client: 192.168.32.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.32.2:9000", host: "book.localhost"
+2021/10/15 22:25:28 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: PHP Warning:  require_once(/var/www/vendor/autoload_runtime.php): Failed to open stream: No such file or directory in /var/www/book/index.php on line 5PHP message: PHP Fatal error:  Uncaught Error: Failed opening required '/var/www/vendor/autoload_runtime.php' (include_path='.:/usr/local/lib/php') in /var/www/book/index.php:5
+Stack trace:
+#0 {main}
+  thrown in /var/www/book/index.php on line 5" while reading response header from upstream, client: 192.168.112.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.112.3:9000", host: "book.localhost"
+2021/10/16 21:48:18 [error] 32#32: *3 directory index of "/var/www/book/dev/" is forbidden, client: 192.168.16.1, server: book.loc, request: "HEAD / HTTP/1.1", host: "book.loc"
+2021/10/16 21:48:42 [error] 32#32: *3 directory index of "/var/www/book/dev/" is forbidden, client: 192.168.16.1, server: book.loc, request: "HEAD / HTTP/1.1", host: "book.loc"
+2021/10/17 14:29:25 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: host.docker.internal:9003 (through xdebug.client_host/xdebug.client_port) :-(" while reading response header from upstream, client: 192.168.48.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.48.4:9000", host: "book.localhost"
+2021/10/17 14:30:58 [error] 32#32: *1 FastCGI sent in stderr: "PHP message: Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: host.docker.internal:9003 (through xdebug.client_host/xdebug.client_port) :-(" while reading response header from upstream, client: 192.168.80.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.80.4:9000", host: "book.localhost"
+2021/10/17 14:31:08 [error] 32#32: *3 FastCGI sent in stderr: "PHP message: Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: host.docker.internal:9003 (through xdebug.client_host/xdebug.client_port) :-(" while reading response header from upstream, client: 192.168.80.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.80.4:9000", host: "localhost"
+2021/10/17 14:31:31 [error] 32#32: *3 FastCGI sent in stderr: "PHP message: Xdebug: [Step Debug] Time-out connecting to debugging client, waited: 200 ms. Tried: host.docker.internal:9003 (through xdebug.client_host/xdebug.client_port) :-(" while reading response header from upstream, client: 192.168.80.1, server: book.localhost, request: "GET / HTTP/1.1", upstream: "fastcgi://192.168.80.4:9000", host: "localhost"
