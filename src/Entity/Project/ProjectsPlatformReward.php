@@ -10,21 +10,24 @@
  *
  */
 
-namespace App\Entity\Commission;
+namespace App\Entity\Project;
 
+use App\Entity\BaseTrait;
 use App\Entity\ObjectEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="commission", indexes={
+ * @ORM\Table(name="rewards", indexes={
  * @ORM\Index(name="commission_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Commission\CommissionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectsPlatformReward")
  * @ORM\HasLifecycleCallbacks()
  */
 class ProjectsPlatformReward extends ObjectEntity
 {
+    use BaseTrait;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectCommissions")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Projects", inversedBy="projectsPlatformRewards")
      * @ORM\JoinTable(name="project")
      */
     private $projectId;
