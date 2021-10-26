@@ -56,11 +56,11 @@
                 <td>{{ categories_attachment.createdBy }}</td>
                 <td>{{ categories_attachment.modifiedAt ? categories_attachment.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ categories_attachment.modifiedBy }}</td>
-                <td>{{ categories_attachment.lockedAt ? categories_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ categories_attachment.lockedAt ? category_attachment.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ categories_attachment.lockedBy }}</td>
                 <td>
-                    <a href="{{ path('category_categories_attachments_show', {'id': categories_attachment.id}) }}">show</a>
-                    <a href="{{ path('category_categories_attachments_edit', {'id': categories_attachment.id}) }}">edit</a>
+                    <a href="{{ path('categoryAttachment_show_id', {'id': category_attachment.id}) }}">show</a>
+                    <a href="{{ path('categoryAttachment_edit_id', {'id': category_attachment.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

@@ -64,8 +64,8 @@
                     <td>{{ vendor.lockedBy }}</td>
                     #}
                 <td>
-                    <a href="{{ path('vendors_show', {'id': vendor.id}) }}">show</a>
-                    <a href="{{ path('vendors_edit', {'id': vendor.id}) }}">edit</a>
+                    <a href="{{ path('vendor_show_id', {'id': vendor.id}) }}">show</a>
+                    <a href="{{ path('vendor_edit_id', {'id': vendor.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

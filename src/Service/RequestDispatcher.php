@@ -64,7 +64,7 @@ class RequestDispatcher
     {
         $this->requestStack = $requestStack;
         #
-        $object = $crudAction = explode('_', $this->requestStack->getMainRequest()->attributes->get('_route', 2));
+        $object = $crudAction = explode('_', $this->requestStack->getMainRequest()->attributes->get('_route', 3));
         $object = (string)current($object);
         $object = ucfirst($object) ?? 'Object';
         #
