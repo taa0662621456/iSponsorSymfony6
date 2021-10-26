@@ -4,7 +4,7 @@
 namespace App\Form;
 
 
-use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\Vendor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +24,7 @@ class SecurityChangePasswordType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Vendors::class,
+            'data_class' => Vendor::class,
         ]);
     }
 }

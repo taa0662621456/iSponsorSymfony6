@@ -2,7 +2,7 @@
 
 	namespace App\Entity;
 
-    use App\Entity\Vendor\Vendors;
+    use App\Entity\Vendor\Vendor;
     use App\Service\RequestDispatcher;
     use DateTime;
     use Doctrine\ORM\Mapping as ORM;
@@ -333,7 +333,7 @@
 			$this->version = $version;
 		}
 
-		public function isAuthor(Vendors $vendor = null): bool
+		public function isAuthor(Vendor $vendor = null): bool
         {
 			return $vendor && $vendor->getId() == $this->getCreatedBy();
 		}

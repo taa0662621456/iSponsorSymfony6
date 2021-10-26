@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\Product;
 
-use App\Entity\Product\Products;
+use App\Entity\Product\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -19,9 +19,9 @@ class ProductsType extends AbstractType
                     'required' => false
                 )
             )
-            ->add('productEnGb', ProductsEnGbType::class)
+            ->add('productEnGb', ProductEnGbType::class)
             ->add('productAttachments', CollectionType::class, array(
-                    'entry_type' => ProductsAttachmentsType::class,
+                    'entry_type' => ProductAttachmentType::class,
                     'label' => 'product.attachment.label',
                     'translation_domain' => 'product',
                     'entry_options' => array('label' => false),
@@ -32,7 +32,7 @@ class ProductsType extends AbstractType
                     'prototype' => true,
                 )
 			)
-            ->add('productTags', ProductsTagsType::class, array(
+            ->add('productTags', ProductTagType::class, array(
                 'required' => false
             ))
 
@@ -42,7 +42,7 @@ class ProductsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver):void
     {
         $resolver->setDefaults(array(
-			'data_class'         => Products::class,
+			'data_class'         => Product::class,
 			'translation_domain' => 'product',
 			'attr'               => array(
 				'id' => 'msform'

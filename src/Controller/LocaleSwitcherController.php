@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LocaleSwitcherController extends AbstractController
 {
     /**
-     * @Route("/locale/{_locale}", name="locale")
+     * @Route("/locale/{app_locale}", name="locale")
      * @param Request $request
      * @param string $locale
      * @return Response
@@ -20,7 +20,7 @@ class LocaleSwitcherController extends AbstractController
     public function localeSwitchAction(Request $request, string $locale): Response
     {
         $referer = $request->headers->get('referer');
-        $request->getSession()->set('_locale', $locale);
+        $request->getSession()->set('app_locale', $locale);
         return $this->redirect($referer);
     }
 

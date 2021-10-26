@@ -2,7 +2,7 @@
 
 namespace App\Controller\Vendor;
 
-use App\Repository\Vendor\VendorsSecurityRepository;
+use App\Repository\Vendor\VendorSecurityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +28,7 @@ class VendorLinkAuthenticatorController extends AbstractController
      * @Route("/link_authenticator_page", name="link_authenticator_page")
      * @throws NonUniqueResultException
      */
-    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorsSecurityRepository $vendorsSecurityRepository, Request $request): Response
+    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $vendorsSecurityRepository, Request $request): Response
     {
         // Helper https://symfony.com.ua/doc/current/security/login_link.html
         // check if login form is submitted

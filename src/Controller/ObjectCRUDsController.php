@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Project\Project;
+use App\Service\Factory\ObjectLanguageLayerFactory;
 use App\Service\RequestDispatcher;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +19,7 @@ class ObjectCRUDsController extends AbstractController
     private RequestDispatcher $requestDispatcher;
 
 
+
     public function __construct(RequestDispatcher $requestDispatcher)
     {
         $this->requestDispatcher = $requestDispatcher;
@@ -30,10 +33,10 @@ class ObjectCRUDsController extends AbstractController
      * @Route("event/members/", name="event_members_index", methods={"GET"})
      * @Route("folders/", name="folder_index", methods={"GET"}) //TODO: этот роут может быть только для Админов
      * @Route("products/", name="product_index", methods={"GET"})
-     * @Route("projects/", name="project_index", methods={"GET"})
+     * @Route("project/", name="project_index", methods={"GET"})
      * @Route("commissions/", name="commission_index", methods={"GET"})
      * @Route("vendor/commissions/", name="vendor_commissions_index", methods={"GET"}) //TODO: для юзеров
-     * @Route("categories/", name="category_index", methods={"GET"})
+     * @Route("category/", name="category_index", methods={"GET"})
      * @Route("attachments/", name="attachment_index", methods={"GET"})
      * @Route("reviews/product/", name="review_product_index", methods={"GET"})
      * @Route("reviews/project/", name="review_project_index", methods={"GET"})
@@ -42,11 +45,15 @@ class ObjectCRUDsController extends AbstractController
      */
     public function index(): Response
     {
+        $localeFilter = $this->requestDispatcher->localeFilter();
+//        ($localeFilter) ? $object = $this->requestDispatcher->localeFilter(): $object = $this->requestDispatcher->objectLanguageLayer();
+        ($localeFilter) ? $object = $this->requestDispatcher->object(): $object = $this->requestDispatcher->objectEnGb();
+
         $em = $this->getDoctrine()->getManager();
-        return $this->render($this->requestDispatcher->layOutPath(), array(
-                $this->requestDispatcher->route() =>
-                    $em->getRepository($this->requestDispatcher->object())->findAll(),
-            )
+        return $this->render($this->requestDispatcher->layOutPath(), [
+//                $this->requestDispatcher->route() =>
+                $object => $em->getRepository($object)->findAll(),
+            ]
         );
     }
 
@@ -80,10 +87,10 @@ class ObjectCRUDsController extends AbstractController
         $objectEnGb = $this->requestDispatcher->objectEnGb();
         $objectEnGb = new $objectEnGb;
 
-        $objectAttachment = $this->requestDispatcher->objectAttachment();
-        $objectAttachment = new $objectAttachment;
+//        $objectAttachment = $this->requestDispatcher->objectAttachment();
+//        $objectAttachment = new $objectAttachment;
 
-        $form = $this->createForm($this->requestDispatcher->objectType(), $this->requestDispatcher->object());
+        $form = $this->createForm($this->requestDispatcher->objectType(), $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -96,14 +103,16 @@ class ObjectCRUDsController extends AbstractController
             return $this->redirect($object);
         }
 
-        return $this->render($this->requestDispatcher->layOutPath(), array(
-            'object' => $this->requestDispatcher->object(), //TODO: вместо статического 'object' установить $ - имя класса объекта
+        return $this->render($this->requestDispatcher->layOutPath(), [
+            $this->requestDispatcher->object() => $this->requestDispatcher->object(),
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
+     * ********************************************
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
+     * ********************************************
      * @Route("vendor/{id<\d+>}", name="vendor_id_show", methods={"GET"})
      * @Route("folder/{id<\d+>}", name="folder_id_show", methods={"GET"})
      * @Route("commission/{id<\d+>}", name="commission_id_show", methods={"GET"})
@@ -116,7 +125,9 @@ class ObjectCRUDsController extends AbstractController
      * @Route("event/{id<\d+>}", name="event_id_show", methods={"GET"})
      * @Route("event/category/{id<\d+>}", name="event_category_id_show", methods={"GET"})
      *
+     * ********************************************
      * Routes by 'slug' for Front-end and Back-end
+     * ********************************************
      * @Route("vendor/{slug}", name="vendor_slug_show", methods={"GET"})
      * @Route("folder/{slug}", name="folder_slug_show", methods={"GET"})
      * @Route("commission/{slug}", name="commission_slug_show", methods={"GET"})
@@ -133,14 +144,17 @@ class ObjectCRUDsController extends AbstractController
      */
     public function show(): Response
     {
+
         $object = $this->requestDispatcher->object();
-        return $this->render($this->requestDispatcher->layOutPath(), array(
-            $this->requestDispatcher->route() => new $object,
-        ));
+        return $this->render($this->requestDispatcher->layOutPath(), [
+            $object => new $object,
+        ]);
     }
 
     /**
+     * ********************************************
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
+     * ********************************************
      * @Route("vendor/edit/{id<\d+>}", name="vendor_id_edit", methods={"GET","POST"})
      * @Route("folder/edit/{id<\d+>}", name="folder_id_edit", methods={"GET","POST"})
      * @Route("commission/edit/{id<\d+>}", name="commission_id_edit", methods={"GET","POST"})
@@ -153,7 +167,9 @@ class ObjectCRUDsController extends AbstractController
      * @Route("event/edit/{id<\d+>}", name="event_id_edit", methods={"GET", "POST"})
      * @Route("event/category/edit/{id<\d+>}", name="event_category_id_edit", methods={"GET", "POST"})
      *
+     * ********************************************
      * Routes by 'slug' for Front-end and Back-end
+     * ********************************************
      * @Route("vendor/edit/{slug}", name="vendor_slug_edit", methods={"GET","POST"})
      * @Route("folder/edit/{slug}", name="folder_slug_edit", methods={"GET","POST"})
      * @Route("commission/edit/{slug}", name="commission_slug_edit", methods={"GET","POST"})
@@ -171,24 +187,26 @@ class ObjectCRUDsController extends AbstractController
     public function edit(): Response
     {
         $object = $this->requestDispatcher->object();
-        $form = $this->createForm($this->requestDispatcher->objectType(), $this->requestDispatcher->object());
-        $form->handleRequest($this->requestDispatcher->object());
+        $form = $this->createForm($this->requestDispatcher->objectType(), $object);
+        $form->handleRequest($object);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute($this->requestDispatcher->object());
+            return $this->redirectToRoute($object);
         }
 
-        return $this->render($this->requestDispatcher->layOutPath(), array(
+        return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => new $object,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
 
     /**
+     * ********************************************
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
+     * ********************************************
      * @Route("vendor/delete/{id<\d+>}", name="vendor_id_delete", methods={"DELETE"})
      * @Route("folder/delete/{id<\d+>}", name="folder_id_delete", methods={"DELETE"})
      * @Route("commission/delete/{id<\d+>}", name="commission_id_delete", methods={"DELETE"})
@@ -201,7 +219,9 @@ class ObjectCRUDsController extends AbstractController
      * @Route("event/edit/{id<\d+>}", name="event_id_edit", methods={"DELETE"})
      * @Route("event/category/edit/{id<\d+>}", name="event_category_id_edit", methods={"DELETE"})
      *
+     * ********************************************
      * Routes by 'slug' for Front-end and Back-end
+     * ********************************************
      * @Route("vendor/delete/{slug}", name="vendor_slug_delete", methods={"DELETE"})
      * @Route("folder/delete/{slug}", name="folder_slug_delete", methods={"DELETE"})
      * @Route("commission/delete/{slug}", name="commission_slug_delete", methods={"DELETE"})

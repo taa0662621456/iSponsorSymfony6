@@ -2,12 +2,12 @@
 declare(strict_types=1);
 namespace App\Controller\Product;
 
-use App\Entity\Product\Products;
-use App\Entity\Product\ProductsAttachments;
-use App\Entity\Product\ProductsEnGb;
+use App\Entity\Product\Product;
+use App\Entity\Product\ProductAttachment;
+use App\Entity\Product\ProductEnGb;
 use App\Form\Product\ProductsType;
-use App\Repository\Category\CategoriesRepository;
-use App\Repository\Product\ProductsRepository;
+use App\Repository\Category\CategoryRepository;
+use App\Repository\Product\ProductRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,12 +33,12 @@ class ProductsController extends AbstractController
 
 	/**
 	 * @Route("/", name="products_index", methods={"GET"})
-	 * @param CategoriesRepository $categoriesRepository
-	 * @param ProductsRepository   $projectsRepository
+	 * @param CategoryRepository $categoriesRepository
+	 * @param ProductRepository   $projectsRepository
 	 *
 	 * @return Response
 	 */
-	public function index(CategoriesRepository $categoriesRepository, ProductsRepository $projectsRepository): Response
+	public function index(CategoryRepository $categoriesRepository, ProductRepository $projectsRepository): Response
 	{
 		return $this->render('product/products/index.html.twig', [
             'categories' => $categoriesRepository->findAll(),
@@ -55,9 +55,9 @@ class ProductsController extends AbstractController
     public function new(Request $request): Response
     {
 		$slug = new Slugify();
-		$product = new Products();
-		$productEnGb = new ProductsEnGb();
-		$productAttachment = new ProductsAttachments();
+		$product = new Product();
+		$productEnGb = new ProductEnGb();
+		$productAttachment = new ProductAttachment();
 		$productAttachment->setFileClass('');
 		$product->getProductAttachments()->add($productAttachment);
 
@@ -88,10 +88,10 @@ class ProductsController extends AbstractController
 
     /**
      * @Route("/{id}", name="products_show", methods={"GET"})
-     * @param Products $product
+     * @param Product $product
      * @return Response
      */
-    public function show(Products $product): Response
+    public function show(Product $product): Response
     {
         return $this->render('product/products/show.html.twig', [
             'product' => $product,
@@ -102,11 +102,11 @@ class ProductsController extends AbstractController
     /**
      * @Route("/attachment/{id}", name="attachment")
      * @param Request $request
-     * @param Products $projects
-     * @param ProductsAttachments $projectsAttachments
+     * @param Product $projects
+     * @param ProductAttachment $projectsAttachments
      * @return Response
      */
-    public function attachment(Request $request, Products $projects, ProductsAttachments $projectsAttachments): Response
+    public function attachment(Request $request, Product $projects, ProductAttachment $projectsAttachments): Response
     {
         $file = $request->get('file');
 
