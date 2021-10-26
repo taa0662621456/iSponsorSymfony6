@@ -21,7 +21,7 @@ parameters:
     app_property: 'email'
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
     app_homepage_number_of_items: 10
-    app_logo_image_url: /favicon.ico
+    app_logo_url: /favicon.ico
     app_category_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
     app_menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
     app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
@@ -45,20 +45,25 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            $locales: '%app_locales%'
-            $defaultLocale: '%app_locale%'
+#            string $app: '%kernel.project_dir%'
+            string $locales: '%app_locales%'
+            string $locale: '%app_locale%'
+            string $pathToEntity: 'App\Entity\'
+            string $pathToRepository: 'App\Repository\'
+            string $pathToType: 'App\Form\'
 #            $emailSender: '%app_email_sender%'
 #            $akismetKey: "%env(AKISMET_KEY)%"
 #            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
-#            $projectImageAttachmentsPath: "%app_project_images_directory%"
-#            $productImageAttachmentsPath: "%app_product_images_directory%"
-#            $categoryImageAttachmentsPath: "%app_category_images_directory%"
-#            $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
-#            $daysBeforeRemoveRejectedReview: ""
+#            string $projectImageAttachmentsPath: "%app_project_images_directory%"
+#            string $productImageAttachmentsPath: "%app_product_images_directory%"
+#            string $categoryImageAttachmentsPath: "%app_category_images_directory%"
+#            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
+#            string $daysBeforeRemoveRejectedReview: ""
 
-    # помечено на удаление, т.к. конфигурация дефолтная
-#    App\EventSubscriber\LocaleSubscriber:
-#        arguments: [ '%kernel.default_locale%' ]
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: [ '%kernel.default_locale%' ]
+        # uncomment the next line if you are not using autoconfigure
+        # tags: [kernel.event_subscriber]
 
     # Make classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

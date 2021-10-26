@@ -60,7 +60,10 @@ class RequestDispatcher
     public string $objectLanguageLayer;
 
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack,
+                                string $pathToEntity,
+                                string $pathToRepository,
+                                string $pathToType)
     {
         $this->requestStack = $requestStack;
         #
@@ -82,24 +85,23 @@ class RequestDispatcher
         $this->locale = $locale;
         $this->localeFilter = $localeFilter;
         #
-        $this->object = 'App\\Entity\\' . $object . '\\' . $object;
-        $this->objectAttachment = 'App\\Entity\\' . $object . '\\'. $object . 'Attachment';
-        $this->objectRepository = 'App\\Repository\\' . $object . '\\' . $object . 'Repository';
+        $this->object = $pathToEntity . $object . '\\' . $object;
+        $this->objectAttachment = $pathToEntity . $object . '\\'. $object . 'Attachment';
+        $this->objectRepository = $pathToRepository . $object . '\\' . $object . 'Repository';
         $this->objectLanguageLayer = $object . '_' . $localeFilter;
         #
         $this->route = $route;
         #
         $this->crudAction = $crudAction;
         #
-        $this->type = 'App\\Form\\' . $object . '\\' . $object . 'Type';
+        $this->type = $pathToType . $object . '\\' . $object . 'Type';
         #
         $this->templatePath = $templatePath;
 
         #
-        $this->typeEnGb = 'App\\Form\\' . $object . '\\' . $object . 'EnGbType';
-        $this->objectEnGb = 'App\\Entity\\' . $object . '\\' . $object . 'EnGb';
+        $this->typeEnGb = $pathToType . $object . '\\' . $object . 'EnGbType';
+        $this->objectEnGb = $pathToEntity . $object . '\\' . $object . 'EnGb';
         #
-        //TODO: заменить пути на $ ProjectDir
     }
 
     /**
