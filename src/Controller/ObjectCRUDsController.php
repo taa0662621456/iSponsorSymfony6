@@ -142,7 +142,7 @@ class ObjectCRUDsController extends AbstractController
 
         $object = $this->requestDispatcher->object();
         return $this->render($this->requestDispatcher->layOutPath(), [
-            $object => new $object,
+            $this->requestDispatcher->route() => new $object,
         ]);
     }
 
