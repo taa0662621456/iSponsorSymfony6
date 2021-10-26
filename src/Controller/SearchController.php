@@ -3,7 +3,7 @@
 
 	namespace App\Controller;
 
-	use App\Repository\Product\ProductsRepository;
+	use App\Repository\Product\ProductRepository;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +15,11 @@
 		 * @Route("/search", methods={"GET"}, name="search")
 		 * @param Request            $request
 		 *
-		 * @param ProductsRepository $projects
+		 * @param ProductRepository $projects
 		 *
 		 * @return Response
 		 */
-		public function search(Request $request, ProductsRepository $projects): Response
+		public function search(Request $request, ProductRepository $projects): Response
 		{
 			if (!$request->isXmlHttpRequest()) {
 				return $this->render('search/search.html.twig');

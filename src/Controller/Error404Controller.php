@@ -1,4 +1,7 @@
 <?php
+/**
+ * https://symfony.com/doc/current/controller/error_pages.html
+ */
 
 
 namespace App\Controller;

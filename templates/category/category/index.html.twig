@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block article_header %}
+    <h1>Categories index</h1>
+{% endblock %}
+{% block article_content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Published</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in category %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.published ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('category_id_edit', {'id': category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="22">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block article_summery %}
+    <a href="{{ path('category_new') }}">Create new</a>
+{% endblock %}

@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Vendor;
 
-use App\Entity\Vendor\Vendors;
-use App\Entity\Vendor\VendorsDocumentAttachments;
-use App\Entity\Vendor\VendorsEnGb;
-use App\Entity\Vendor\VendorsMediaAttachments;
-use App\Form\Vendor\VendorsAddType;
-use App\Form\Vendor\VendorsEditType;
-use App\Repository\Project\ProjectsRepository;
-use App\Repository\Vendor\VendorsRepository;
+use App\Entity\Vendor\Vendor;
+use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorMedia;
+use App\Form\Vendor\VendorAddType;
+use App\Form\Vendor\VendorEditType;
+use App\Repository\Project\ProjectRepository;
+use App\Repository\Vendor\VendorRepository;
 use App\Service\AttachmentsManager;
 use Cocur\Slugify\Slugify;
 use Exception;
@@ -37,11 +37,11 @@ class VendorsController extends AbstractController
 
     /**
      * @Route("/", name="vendors", methods={"GET"})
-     * @param VendorsRepository $vendorsRepository
+     * @param VendorRepository $vendorsRepository
      *
      * @return Response
      */
-    public function vendors(VendorsRepository $vendorsRepository): Response
+    public function vendors(VendorRepository $vendorsRepository): Response
     {
         return $this->render('vendor/vendors/index.html.twig', [
             'vendors' => $vendorsRepository->findAll(),
@@ -57,18 +57,18 @@ class VendorsController extends AbstractController
     public function new(Request $request): Response
 	{
 		$slug = new Slugify();
-		$vendor = new Vendors();
-		$vendorEnGb = new VendorsEnGb();
+		$vendor = new Vendor();
+		$vendorEnGb = new VendorEnGb();
 		// костыль, чтобы вывести пустую форму коллекции
-		$vendorMediaAttachment = new VendorsMediaAttachments();
+		$vendorMediaAttachment = new VendorMedia();
 		$vendorMediaAttachment->setFileClass('');
 		$vendor->getVendorMediaAttachments()->add($vendorMediaAttachment);
 		// костыль, чтобы вывести пустую форму коллекции
-		$vendorDocAttachment = new VendorsDocumentAttachments();
+		$vendorDocAttachment = new VendorDocument();
 		$vendorDocAttachment->setFileClass('');
 		$vendor->getVendorDocumentAttachments()->add($vendorDocAttachment);
 
-		$form = $this->createForm(VendorsAddType::class, $vendor);
+		$form = $this->createForm(VendorAddType::class, $vendor);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -95,11 +95,11 @@ class VendorsController extends AbstractController
 
     /**
 	 * @Route("/{id<\d+>}", name="vendors_show", methods={"GET"})
-	 * @param Vendors $vendor
+	 * @param Vendor $vendor
 	 *
 	 * @return Response
 	 */
-    public function show(Vendors $vendor): Response
+    public function show(Vendor $vendor): Response
     {
         return $this->render('vendor/vendors/show.html.twig', [
             'vendors' => $vendor,
@@ -109,12 +109,12 @@ class VendorsController extends AbstractController
 	/**
 	 * @Route("/{id<\d+>}/edit", name="vendors_edit", methods={"GET","POST"})
 	 * @param Request $request
-	 * @param Vendors $vendor
+	 * @param Vendor $vendor
 	 * @return Response
 	 */
-    public function edit(Request $request, Vendors $vendor): Response
+    public function edit(Request $request, Vendor $vendor): Response
     {
-        $form = $this->createForm(VendorsEditType::class, $vendor);
+        $form = $this->createForm(VendorEditType::class, $vendor);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -132,11 +132,11 @@ class VendorsController extends AbstractController
 
     /**
      * @Route("/{id<\d+>}/projects", name="vendor_projects", methods={"GET","POST"})
-     * @param ProjectsRepository $projects
+     * @param ProjectRepository $projects
      * @param $user
      * @return Response
      */
-    public function projects(ProjectsRepository $projects, $user): Response
+    public function projects(ProjectRepository $projects, $user): Response
     {
         return $this->render('vendor/vendors/index.html.twig', array(
             'projects' => $projects->findBy(
@@ -149,10 +149,10 @@ class VendorsController extends AbstractController
 	/**
 	 * @Route("/{id<\d+>}", name="vendors_delete", methods={"DELETE"})
 	 * @param Request $request
-	 * @param Vendors $vendor
+	 * @param Vendor $vendor
 	 * @return Response
 	 */
-    public function delete(Request $request, Vendors $vendor): Response
+    public function delete(Request $request, Vendor $vendor): Response
     {
         if ($this->isCsrfTokenValid('delete'.$vendor->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

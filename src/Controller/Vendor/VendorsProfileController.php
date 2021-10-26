@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Vendor;
 
-use App\Repository\Vendor\VendorsRepository;
+use App\Repository\Vendor\VendorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +18,11 @@ class VendorsProfileController
 	/**
 	 * @Route( "/{slug}", name="profile", methods={"GET","POST"})
 	 * @Route( "/{id<\d+>}", name="profile", methods={"GET","POST"})
-	 * @param VendorsRepository $vendorsRepository
+	 * @param VendorRepository $vendorsRepository
 	 *
 	 * @return Response
 	 */
-	public function index(VendorsRepository $vendorsRepository): Response
+	public function index(VendorRepository $vendorsRepository): Response
 	{
 		/**
 		 * TODO: проверка "на админа" (только админ и выше может с фронта запрашивать по ИД)

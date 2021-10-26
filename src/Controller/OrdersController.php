@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Order\Orders;
-use App\Form\Order\OrdersType;
+use App\Entity\Order\Order;
+use App\Form\Order\OrderType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +21,7 @@ class OrdersController extends AbstractController
     public function index(): Response
     {
         $orders = $this->getDoctrine()
-            ->getRepository(Orders::class)
+            ->getRepository(Order::class)
             ->findAll();
 
         return $this->render('orders/index.html.twig', [
@@ -36,8 +36,8 @@ class OrdersController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $order = new Orders();
-        $form = $this->createForm(OrdersType::class, $order);
+        $order = new Order();
+        $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -56,10 +56,10 @@ class OrdersController extends AbstractController
 
     /**
      * @Route("/{id</d+>}", name="order_show", methods={"GET"})
-     * @param Orders $order
+     * @param Order $order
      * @return Response
      */
-    public function show(Orders $order): Response
+    public function show(Order $order): Response
     {
         return $this->render('orders/show.html.twig', [
             'order' => $order,
@@ -69,12 +69,12 @@ class OrdersController extends AbstractController
     /**
      * @Route("/{id</d+>}/edit", name="orders_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param Orders $order
+     * @param Order $order
      * @return Response
      */
-    public function edit(Request $request, Orders $order): Response
+    public function edit(Request $request, Order $order): Response
     {
-        $form = $this->createForm(OrdersType::class, $order);
+        $form = $this->createForm(OrderType::class, $order);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,10 +92,10 @@ class OrdersController extends AbstractController
     /**
      * @Route("/{id}", name="orders_delete", methods={"DELETE"})
      * @param Request $request
-     * @param Orders $order
+     * @param Order $order
      * @return Response
      */
-    public function delete(Request $request, Orders $order): Response
+    public function delete(Request $request, Order $order): Response
     {
         if ($this->isCsrfTokenValid('delete'.$order->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

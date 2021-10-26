@@ -3,8 +3,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Project\ProjectsTags;
-use App\Form\TagsType;
+use App\Entity\Project\ProjectTag;
+use App\Form\TagType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +36,8 @@ class TagsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $tag = new ProjectsTags();
-        $form = $this->createForm(TagsType::class, $tag);
+        $tag = new ProjectTag();
+        $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -56,10 +56,10 @@ class TagsController extends AbstractController
 
     /**
      * @Route("/{id}", name="tag_show", methods={"GET"})
-     * @param ProjectsTags $tags
+     * @param ProjectTag $tags
      * @return Response
      */
-    public function show(ProjectsTags $tags): Response
+    public function show(ProjectTag $tags): Response
     {
         return $this->render('tag/show.html.twig', [
             'tag' => $tags,
@@ -69,12 +69,12 @@ class TagsController extends AbstractController
     /**
      * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
      * @param Request $request
-     * @param ProjectsTags $tags
+     * @param ProjectTag $tags
      * @return Response
      */
-    public function edit(Request $request, ProjectsTags $tags): Response
+    public function edit(Request $request, ProjectTag $tags): Response
     {
-        $form = $this->createForm(TagsType::class, $tag);
+        $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -92,10 +92,10 @@ class TagsController extends AbstractController
     /**
      * @Route("/{id}", name="tag_delete", methods={"DELETE"})
      * @param Request $request
-     * @param ProjectsTags $tags
+     * @param ProjectTag $tags
      * @return Response
      */
-    public function delete(Request $request, ProjectsTags $tags): Response
+    public function delete(Request $request, ProjectTag $tags): Response
     {
         if ($this->isCsrfTokenValid('delete'.$tags->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

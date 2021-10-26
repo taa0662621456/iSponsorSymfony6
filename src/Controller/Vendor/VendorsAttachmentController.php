@@ -3,11 +3,11 @@
 	namespace App\Controller\Vendor;
 
 
-	use App\Entity\Vendor\Vendors;
-	use App\Entity\Vendor\VendorsDocumentAttachments;
-	use App\Entity\Vendor\VendorsMediaAttachments;
-	use App\Form\Vendor\VendorsDocumentAttachmentsType;
-	use App\Form\Vendor\VendorsMediaAttachmentsType;
+	use App\Entity\Vendor\Vendor;
+	use App\Entity\Vendor\VendorDocument;
+	use App\Entity\Vendor\VendorMedia;
+	use App\Form\Vendor\VendorDocumentType;
+	use App\Form\Vendor\VendorMediaType;
 	use App\Service\AttachmentsManager;
     use Exception;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -38,7 +38,7 @@
 		 * @return Response
 		 */
 		public function getAttachments(Request $request,
-									   string $entity = 'App\Entity\Vendor\VendorsMediaAttachments',
+									   string $entity = 'App\Entity\Vendor\VendorMedia',
 									   string $layout = 'index'): Response
 		{
 			/**
@@ -51,11 +51,11 @@
 				$createdBy = null;                                 // Vendor is null for template Security
 				$published = true;                                 // ...for marketing security
 				$fileLayoutPosition = $request->get('_route');     // ... for filtering
-				$fileLang = $request->get('_locale') ?: '*';       // ... for different
+				$fileLang = $request->get('app_locale') ?: '*';       // ... for different
 			}
 
 			$attachments = $this->attachmentsManager->getAttachments(
-				$entity = 'App\Entity\Vendor\VendorsMediaAttachments',
+				$entity = 'App\Entity\Vendor\VendorMedia',
 				$id = null,
 				$slug = null,
 				$createdBy = null, //Important! Must by User object
@@ -84,11 +84,11 @@
 		 */
 		public function setAttachment(Request $request): Response
 		{
-			$vendor = new Vendors();
-			$form = $this->createForm(VendorsMediaAttachmentsType::class, $vendor);
+			$vendor = new Vendor();
+			$form = $this->createForm(VendorMediaType::class, $vendor);
 
 			if ($request->request->get('_route') !== 'media')
-				$form = $this->createForm(VendorsDocumentAttachmentsType::class, $vendor);
+				$form = $this->createForm(VendorDocumentType::class, $vendor);
 
 			$form->handleRequest($request);
 
@@ -114,16 +114,16 @@
 		/**
 		 * @Route("/{id<\d+>}", name="vendor_attachment_show_id", methods={"GET"})
 		 * @ Route("/{slug}", name="vendor_attachment_show_slug", methods={"GET"})
-		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
-		 * @param VendorsDocumentAttachments $vendorsDocumentAttachments
+		 * @param VendorMedia    $vendorsMediaAttachments
+		 * @param VendorDocument $vendorsDocumentAttachments
 		 *
 		 * @return Response
 		 *
 		 * добавить ограничите по тем ИД, которые пренадлежать вендору (его собственные медиа, его собственные медия
 		 * документов)
 		 */
-		public function show(VendorsMediaAttachments $vendorsMediaAttachments,
-							 VendorsDocumentAttachments $vendorsDocumentAttachments): Response
+		public function show(VendorMedia $vendorsMediaAttachments,
+                             VendorDocument $vendorsDocumentAttachments): Response
 		{
 			//TODO: необходимо ветвление
 			return $this->render(
@@ -138,20 +138,20 @@
 		 * @Route("/{slug}/edit", name="doc_edit", methods={"GET","POST"})
 		 * @Route("/{id<\d+>}/edit", name="doc_edit", methods={"GET","POST"})
 		 * @param Request                    $request
-		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
-		 * @param VendorsDocumentAttachments $vendorsDocumentAttachments
+		 * @param VendorMedia    $vendorsMediaAttachments
+		 * @param VendorDocument $vendorsDocumentAttachments
 		 *
 		 * @return Response
 		 */
 		public function edit(Request $request,
-							 VendorsMediaAttachments $vendorsMediaAttachments,
-							 VendorsDocumentAttachments $vendorsDocumentAttachments): Response
+                             VendorMedia $vendorsMediaAttachments,
+                             VendorDocument $vendorsDocumentAttachments): Response
 		{
 
-			$form = $this->createForm(VendorsMediaAttachmentsType::class, $vendorsMediaAttachments);
+			$form = $this->createForm(VendorMediaType::class, $vendorsMediaAttachments);
 
 			if ($request->request->get('_route') !== 'media')
-				$form = $this->createForm(VendorsDocumentAttachmentsType::class, $vendorsDocumentAttachments);
+				$form = $this->createForm(VendorDocumentType::class, $vendorsDocumentAttachments);
 			$form->handleRequest($request);
 
 			if ($form->isSubmitted() && $form->isValid()) {
@@ -177,14 +177,14 @@
 		 * @Route("/{slug}", name="vendors_delete_slug", methods={"DELETE"})
 		 * @Route("/{id<\d+>}", name="vendors_delete_id", methods={"DELETE"})
 		 * @param Request                    $request
-		 * @param VendorsMediaAttachments    $vendorsMediaAttachments
-		 * @param VendorsDocumentAttachments $VendorsDocumentAttachmentsType
+		 * @param VendorMedia    $vendorsMediaAttachments
+		 * @param VendorDocument $VendorsDocumentAttachmentsType
 		 *
 		 * @return Response
 		 */
 		public function delete(Request $request,
-							   VendorsMediaAttachments $vendorsMediaAttachments,
-							   VendorsDocumentAttachments $VendorsDocumentAttachmentsType): Response
+                               VendorMedia $vendorsMediaAttachments,
+                               VendorDocument $VendorsDocumentAttachmentsType): Response
 		{
 			//TODO: необходимо ветвление между документами и обычным медиа
 			if ($this->isCsrfTokenValid(

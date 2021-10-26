@@ -4,15 +4,15 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\SmsCodeSendStorage;
-use App\Entity\Vendor\Vendors;
-use App\Entity\Vendor\VendorsEnGb;
-use App\Entity\Vendor\VendorsSecurity;
+use App\Entity\Vendor\Vendor;
+use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
-use App\Form\Vendor\VendorsLoginType;
-use App\Form\Vendor\VendorsRegistrationType;
-use App\Repository\Vendor\VendorsRepository;
-use App\Repository\Vendor\VendorsSecurityRepository;
+use App\Form\Vendor\VendorLoginType;
+use App\Form\Vendor\VendorRegistrationType;
+use App\Repository\Vendor\VendorRepository;
+use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
 use Doctrine\ORM\NonUniqueResultException;
@@ -92,11 +92,11 @@ class SecurityController extends AbstractController
 	{
 		//$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
 		//$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-		$vendor = new Vendors();
-		$vendorSecurity = new VendorsSecurity();
-		$vendorEnGb = new VendorsEnGb();
+		$vendor = new Vendor();
+		$vendorSecurity = new VendorSecurity();
+		$vendorEnGb = new VendorEnGb();
 
-		$form = $this->createForm(VendorsRegistrationType::class, $vendor);
+		$form = $this->createForm(VendorRegistrationType::class, $vendor);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted()) {
@@ -167,12 +167,12 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/confirm/{code}", name="email_confirmation")
-     * @param VendorsSecurityRepository $vendorsSecurity
+     * @param VendorSecurityRepository $vendorsSecurity
      * @param string $code
      * @return Response
      * @throws Exception
      */
-	public function confirmation(VendorsSecurityRepository $vendorsSecurity, string $code): Response
+	public function confirmation(VendorSecurityRepository $vendorsSecurity, string $code): Response
 	{
 
         $vendorsSecurity = $vendorsSecurity->findOneBy(['activationCode' => $code]);
@@ -221,7 +221,7 @@ class SecurityController extends AbstractController
 
         $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
-        $loginForm = $this->get('form.factory')->createNamed('', VendorsLoginType::class, array(
+        $loginForm = $this->get('form.factory')->createNamed('', VendorLoginType::class, array(
             '_username' => $authenticationUtils->getLastUsername()), array(
             'action' => $this->router->generate('login')));
 
@@ -266,8 +266,8 @@ class SecurityController extends AbstractController
 		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
 
 
-		$vendor = new Vendors();
-		$vendorSecurity = new VendorsSecurity();
+		$vendor = new Vendor();
+		$vendorSecurity = new VendorSecurity();
 
 		$vendorCurrent = $this->getUser();
 

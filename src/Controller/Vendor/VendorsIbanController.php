@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Vendor;
 
-use App\Entity\Vendor\VendorsIban;
-use App\Form\Vendor\VendorsIbanType;
+use App\Entity\Vendor\VendorIban;
+use App\Form\Vendor\VendorIbanType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,7 @@ class VendorsIbanController extends AbstractController
     public function index(): Response
 	{
 		$vendorsIbans = $this->getDoctrine()
-							 ->getRepository(VendorsIban::class)
+							 ->getRepository(VendorIban::class)
 							 ->findAll()
 		;
 
@@ -41,8 +41,8 @@ class VendorsIbanController extends AbstractController
 	 */
 	public function new(Request $request): Response
 	{
-		$vendorsIban = new VendorsIban();
-		$form = $this->createForm(VendorsIbanType::class, $vendorsIban);
+		$vendorsIban = new VendorIban();
+		$form = $this->createForm(VendorIbanType::class, $vendorsIban);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -63,11 +63,11 @@ class VendorsIbanController extends AbstractController
 
 	/**
 	 * @Route("/{id}", name="vendor_vendors_iban_show", methods={"GET"})
-	 * @param VendorsIban $vendorsIban
+	 * @param VendorIban $vendorsIban
 	 *
 	 * @return Response
 	 */
-	public function show(VendorsIban $vendorsIban): Response
+	public function show(VendorIban $vendorsIban): Response
 	{
 		return $this->render(
 			'vendor/vendors_iban/show.html.twig', [
@@ -79,13 +79,13 @@ class VendorsIbanController extends AbstractController
 	/**
 	 * @Route("/{id}/edit", name="vendor_vendors_iban_edit", methods={"GET","POST"})
 	 * @param Request     $request
-	 * @param VendorsIban $vendorsIban
+	 * @param VendorIban $vendorsIban
 	 *
 	 * @return Response
 	 */
-	public function edit(Request $request, VendorsIban $vendorsIban): Response
+	public function edit(Request $request, VendorIban $vendorsIban): Response
 	{
-		$form = $this->createForm(VendorsIbanType::class, $vendorsIban);
+		$form = $this->createForm(VendorIbanType::class, $vendorsIban);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -105,11 +105,11 @@ class VendorsIbanController extends AbstractController
 	/**
 	 * @Route("/{id}", name="vendor_vendors_iban_delete", methods={"DELETE"})
 	 * @param Request     $request
-	 * @param VendorsIban $vendorsIban
+	 * @param VendorIban $vendorsIban
 	 *
 	 * @return Response
 	 */
-	public function delete(Request $request, VendorsIban $vendorsIban): Response
+	public function delete(Request $request, VendorIban $vendorsIban): Response
 	{
 		if ($this->isCsrfTokenValid('delete' . $vendorsIban->getId(), $request->request->get('_token'))) {
 			$entityManager = $this->getDoctrine()->getManager();

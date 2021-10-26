@@ -67,7 +67,7 @@ class MenuController extends AbstractController
      */
     public function companydetails()
     {
-        return $this->render('menu/companydetails.html.twig', array(
+        return $this->render('company-detail.html.twig', array(
             'controller_name' => 'MenuController'
         )
         );

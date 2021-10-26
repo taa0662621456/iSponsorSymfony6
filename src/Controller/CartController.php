@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 
-use App\Entity\Order\Orders;
-use App\Entity\Product\Products;
-use App\Entity\Product\ProductsPrice;
-use App\Entity\Vendor\Vendors;
+use App\Entity\Order\Order;
+use App\Entity\Product\Product;
+use App\Entity\Product\ProductPrice;
+use App\Entity\Vendor\Vendor;
 use App\Event\OrderSubmitedEvent;
-use App\Form\Order\OrdersType;
+use App\Form\Order\OrderType;
 use App\Service\ProductsUtilities;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -36,7 +36,7 @@ class CartController extends AbstractController
 	public function show(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
-		$productsRepository = $em->getRepository(Products::class);
+		$productsRepository = $em->getRepository(Product::class);
         $products = [];
         $cart = [];
         $totalSum = 0;
@@ -48,7 +48,7 @@ class CartController extends AbstractController
         }
 
         /**
-         * @var ProductsPrice $productPrice
+         * @var ProductPrice $productPrice
          */
         foreach ($cart as $productId => $productQuantity) {
 
@@ -87,8 +87,8 @@ class CartController extends AbstractController
 	 */
     public function order(Request $request, EventDispatcherInterface $eventDispatcher)
     {
-        $order = new Orders();
-        $form = $this->createForm(OrdersType::class, $order);
+        $order = new Order();
+        $form = $this->createForm(OrderType::class, $order);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -166,10 +166,10 @@ class CartController extends AbstractController
 			return $this->render('cart/cartIsEmpty.html.twig');
 		}
 
-		$productRepository = $em->getRepository(Products::class);
+		$productRepository = $em->getRepository(Product::class);
 
 		/**
-		 * @var Products $product
+		 * @var Product $product
 		 */
 		foreach ($cart as $productId => $productQuantity) {
 
@@ -186,7 +186,7 @@ class CartController extends AbstractController
 	}
 
     /**
-     * @param Vendors $user
+     * @param Vendor $user
      * @param Form $form
      * @return void
      */
