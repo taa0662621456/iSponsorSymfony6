@@ -1,0 +1,28 @@
+GET https://{{host}}/
+Accept: application/json
+###
+GET https://{{host}}/login
+Accept: application/json
+Authorization: Basic {{username}} {{password}}
+
+###
+GET https://{{host}}/en
+Accept: application/json
+###
+GET https://{{host}}/projects
+Accept: application/json
+###
+GET https://{{host}}/en/projects
+Accept: application/json
+###
+GET https://{{host}}/projects/new
+Accept: application/json
+###
+GET https://{{host}}/products
+Accept: application/json
+###
+GET https://{{host}}/products/new
+Accept: application/json
+###
+
+
