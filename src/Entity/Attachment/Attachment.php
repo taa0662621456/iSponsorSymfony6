@@ -2,28 +2,29 @@
 
 namespace App\Entity\Attachment;
 
-use App\Entity\AttachmentsTrait;
+use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Table(name="attachments", indexes={
  * @ORM\Index(name="attachments_idx", columns={"slug"})})
  * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\Attachment\AttachmentsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Attachment\AttachmentRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Attachments
+class Attachment
 {
     use BaseTrait;
-    use AttachmentsTrait;
+    use AttachmentTrait;
 
     /**
      * @var string
      * @ORM\Column(name="object", type="text", nullable=false)
      */
-    private $object;
+    private string $object;
 
     /**
      *

@@ -6,12 +6,12 @@
     <div class="row m-0">
         <div class="col-md-3 p-1">
             <div class="p-1 card shadow-sm">
-                Rand block (Fatured, Vendors ....)
+                Rand block (Featured, Vendors ....)
             </div>
         </div>
         <div class="col-md-3 p-1">
             <div class="p-1 card shadow-sm">
-                Some Other (Advertysment)
+                Some Other (Advertisement)
             </div>
         </div>
         <div class="col-md-3 p-1">
@@ -31,14 +31,14 @@
             {% else %}
                 <div class="{{ block }}">
                     <div class="card p-1 shadow-sm">
-                        {{ render(controller( 'App\\Controller\\Category\\AttachmentCRUDsController::getAttachments')) }}
+                        {{ render(controller( 'App\\Controller\\Category\\CategoryAttachmentController::getAttachments')) }}
                         <menu class="list-group list-group-flush pt-0 mt-0" role="menu">
                             <li class="list-group-item active">
-                                <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+                                <a href="{{ path('category_index', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
                             </li>
                             {% for category in category.getChildren() %}
                                 <li class="list-group-item">
-                                    <a href="{{ path('category_slug', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
+                                    <a href="{{ path('category_index', {'categorySlug': category.getSlug}) }}">{{ category.getCategoryEnGb.categoryName }}</a>
                                 </li>
                             {% endfor %}
                         </menu>
@@ -55,15 +55,15 @@
                               'entity' => 'App\Entity\Category\CategoriesAttachments',
                           })) }}#}
                     <div class="card-body ">
-                        <p class="card-text">{{ project.getProjectEnGb.projectSDesc }}</p>
+{#                        <p class="card-text">{{ project.getProjectEnGb.projectSDesc }}</p>#}
 
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Cras justo odio</li>
-                            <li class="list-group-item">Dapibus ac facilisis in</li>
+                            <li class="list-group-item">Crass justo odious</li>
+                            <li class="list-group-item">Darius ac facilities in</li>
                             <li class="list-group-item">Vestibulum at eros</li>
                         </ul>
 
-                        <a href="{{ path('projects_slug', {'slug' :project.slug }) }}" class="card-link">Переход
+                        <a href="{{ path('project_show_slug', {'slug' :project.slug }) }}" class="card-link">Переход
                             куда-нибудь</a>
                         <a href="#" class="card-link">Переход куда-нибудь</a>
                         <a href="#" class="btn btn-primary">Переход куда-нибудь</a>

@@ -2,25 +2,25 @@
 
 	namespace App\Entity;
 
-    use App\Entity\Vendor\Vendors;
+    use App\Entity\Vendor\Vendor;
     use App\Service\RequestDispatcher;
     use DateTime;
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Uid\Uuid;
     use Exception;
-    use Symfony\Component\Validator\Constraints as Assert;
+
 
     trait BaseTrait
     {
         /**
-         * @var integer
+         * @var integer|null
          * @ORM\Id
 		 * @ORM\Column(type="integer")
 		 * @ORM\GeneratedValue
          * Groups({"object:list", "object:item"})
          * @ORM\GeneratedValue(strategy="AUTO")
          */
-        private int $id;
+        private ?int $id = 0;
 
         /**
          * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
@@ -147,7 +147,7 @@
         }
 
         /**
-         * @return bool|false
+         * @return bool
          */
         public function isPublished(): bool
         {
@@ -333,8 +333,11 @@
 			$this->version = $version;
 		}
 
-		public function isAuthor(Vendors $vendor = null): bool
+		public function isAuthor(Vendor $vendor = null): bool
         {
 			return $vendor && $vendor->getId() == $this->getCreatedBy();
 		}
+
+
+
 	}

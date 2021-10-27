@@ -2,7 +2,10 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
+
 
 
 trait ObjectTrait
@@ -15,7 +18,7 @@ trait ObjectTrait
      * @Assert\NotBlank(message="object_en_gb.blank_content")
      * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
      */
-    private $firstTitle = 'first_title';
+    private string $firstTitle = 'first_title';
 
     /**
      * @var string
@@ -24,7 +27,7 @@ trait ObjectTrait
      * @Assert\NotBlank(message="object_en_gb.blank_content")
      * @Assert\Length(min=10, minMessage="object_en_gb.too_short_content")
      */
-    private $middleTitle = 'middle_title';
+    private string $middleTitle = 'middle_title';
 
     /**
      * @var string
@@ -33,7 +36,7 @@ trait ObjectTrait
      * @Assert\NotBlank(message="object_en_gb.blank_content")
      * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
      */
-    private $lastTitle = 'last_title';
+    private string $lastTitle = 'last_title';
 
 
     /**
@@ -43,7 +46,7 @@ trait ObjectTrait
      * @Assert\NotBlank(message="object_en_gb.blank_content")
      * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
      */
-    private $metaDesc = 'meta_desc';
+    private string $metaDesc = 'meta_desc';
 
     /**
      * @var string
@@ -52,7 +55,7 @@ trait ObjectTrait
      * @Assert\NotBlank(message="object_en_gb.blank_content")
      * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
      */
-    private $metaKey = 'meta_keywords';
+    private string $metaKey = 'meta_keywords';
 
     /**
      * @return string

@@ -19,8 +19,8 @@
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.name }}</td>
                 <td>
-                    <a href="{{ path('tag_show', {'id': tag.id}) }}">show</a>
-                    <a href="{{ path('tag_edit', {'id': tag.id}) }}">edit</a>
+                    <a href="{{ path('tag_show_id', {'id': tag.id}) }}">show</a>
+                    <a href="{{ path('tag_edit_id', {'id': tag.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
