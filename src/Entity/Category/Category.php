@@ -5,21 +5,22 @@ namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
 use JetBrains\PhpStorm\Pure;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 /**
  * @ORM\Table(name="categories", indexes={
  * @ORM\Index(name="category_idx", columns={"slug"})})
  * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\Category\CategoriesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Category\CategoryRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Categories
+class Category
 {
 	use BaseTrait;
 
@@ -32,38 +33,38 @@ class Categories
 	private int $ordering = 1;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Category\Categories",
+	 * @ORM\OneToMany(targetEntity="App\Entity\Category\Category",
 	 *     mappedBy="parent",
 	 *     fetch="EXTRA_LAZY")
 	 */
 	private $children;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Categories",
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
 	 *     cascade={"persist"},
 	 *     inversedBy="children")
 	 */
-    private Categories $parent;
+    private ?Category $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Projects",
+     * @ORM\OneToMany(targetEntity="App\Entity\Project\Project",
 	 *      mappedBy="projectCategory")
      */
     private $categoryProjects;
 
     /**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoriesEnGb",
+	 * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoryEnGb",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="categoryEnGb",
 	 *     orphanRemoval=true)
 	 * @ORM\JoinColumn(name="categoryEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-	 * @Assert\Type(type="App\Entity\Category\CategoriesEnGb")
+	 * @Assert\Type(type="App\Entity\Category\CategoryEnGb")
 	 * @Assert\Valid()
 	 */
 	private mixed $categoryEnGb;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoriesAttachments",
+	 * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoryAttachment",
 	 *     mappedBy="categoryAttachments",
 	 *     cascade={"persist", "remove"},
 	 *     orphanRemoval=true)
@@ -112,9 +113,9 @@ class Categories
     }
 
 	/**
-	 * @param CategoriesEnGb $categoryEnGb
+	 * @param CategoryEnGb $categoryEnGb
 	 */
-	public function setCategoryEnGb(CategoriesEnGb $categoryEnGb): void
+	public function setCategoryEnGb(CategoryEnGb $categoryEnGb): void
 	{
 		$this->categoryEnGb = $categoryEnGb;
 	}
@@ -137,10 +138,10 @@ class Categories
 
 
     /**
-     * @param Categories $children
-     * @return Categories
+     * @param Category $children
+     * @return Category
      */
-	public function addChildren(Categories $children):Categories
+	public function addChildren(Category $children):Category
     {
 		$this->children = $children;
 
@@ -148,9 +149,9 @@ class Categories
 	}
 
     /**
-     * @param Categories $children
+     * @param Category $children
      */
-	public function removeChildren(Categories $children): void
+	public function removeChildren(Category $children): void
 	{
 		$this->children->removeElement($children);
 	}
@@ -163,20 +164,20 @@ class Categories
         return $this->children;
     }
 
-	/**
-	 * @return Categories
-	 */
-	public function getParent(): Categories
+    /**
+     * @return Category|null
+     */
+	public function getParent(): ?Category
     {
 		return $this->parent;
 	}
 
 	/**
-	 * @param Categories $parent
+	 * @param Category $parent
 	 *
-	 * @return Categories
+	 * @return Category
 	 */
-	public function setParent(Categories $parent): Categories
+	public function setParent(Category $parent): Category
 	{
 		$this->parent = $parent;
 
@@ -185,9 +186,9 @@ class Categories
 
 
 	/**
-	 * @param CategoriesAttachments $attachments
+	 * @param CategoryAttachment $attachments
 	 */
-	public function addCategoryAttachment(CategoriesAttachments $attachments): void
+	public function addCategoryAttachment(CategoryAttachment $attachments): void
 	{
 		foreach ($attachments as $attachment) {
 			if (!$this->categoryAttachments->contains($attachment)) {
@@ -198,9 +199,9 @@ class Categories
 
 
 	/**
-	 * @param CategoriesAttachments $attachment
+	 * @param CategoryAttachment $attachment
 	 */
-	public function removeCategoryAttachment(CategoriesAttachments $attachment): void
+	public function removeCategoryAttachment(CategoryAttachment $attachment): void
 	{
 		$this->categoryAttachments->removeElement($attachment);
 	}

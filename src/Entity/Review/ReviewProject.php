@@ -6,6 +6,7 @@ namespace App\Entity\Review;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 
+
 use App\Entity\BaseTrait;
 use App\Entity\ReviewTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * UniqueEntity("slug"),
  *        errorPath="slug",
  *        message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\Review\ProjectReviewsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Review\ProjectReviewRepository")
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(collectionOperations={"get"={"normalization_context"={"groups"="project:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="project:item"}}},

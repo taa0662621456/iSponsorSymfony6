@@ -2,10 +2,11 @@
 # Files in the packages/ subdirectory configure your dependencies.
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     # выработать контракт написания параметров приложения app_
-    app_sitename: '...iSponsor!'
+    app_name: '...iSponsor!'
+    app_version: '0.0.0'
     app_domain: 'smartresponsor.com'
     app_schema: 'https'
     app_homepage_routename: 'homepage'
@@ -20,13 +21,14 @@ parameters:
     app_property: 'email'
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
     app_homepage_number_of_items: 10
+    app_logo_url: /favicon.ico
     app_category_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
     app_menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
     app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
     app_product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
     app_vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
-
-    app.notifications.email_sender: taa0662621456@gmail.com
+#
+#    app.notifications.email_sender: taa0662621456@gmail.com
     # router.request_context.host: '%env(default:default_domain:SYMFONY_DEFAULT_ROUTE_HOST)%'
     # router.request_context.scheme: '%env(default:default_scheme:SYMFONY_DEFAULT_ROUTE_SCHEME)%'
 
@@ -43,16 +45,31 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
-            $locales: '%app_locales%'
-            $defaultLocale: '%app_locale%'
-            $emailSender: '%app_email_sender%'
-            $akismetKey: "%env(AKISMET_KEY)%"
-            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
-            $projectImageAttachmentsPath: "%app_project_images_directory%"
-            $productImageAttachmentsPath: "%app_product_images_directory%"
-            $categoryImageAttachmentsPath: "%app_category_images_directory%"
-            $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
-            $daysBeforeRemoveRejectedReview: ""
+#            string $app: '%kernel.project_dir%'
+            ######
+            string $locales: '%app_locales%'
+            string $locale: '%app_locale%'
+            ######
+            string $pathToEntity: 'App\Entity\'
+            string $pathToRepository: 'App\Repository\'
+            string $pathToType: 'App\Form\'
+            ######
+#            $emailSender: '%app_email_sender%'
+#            $akismetKey: "%env(AKISMET_KEY)%"
+#            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
+            ######
+#            string $projectImageAttachmentsPath: "%app_project_images_directory%"
+#            string $productImageAttachmentsPath: "%app_product_images_directory%"
+#            string $categoryImageAttachmentsPath: "%app_category_images_directory%"
+#            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
+            ######
+#            string $daysBeforeRemoveRejectedReview: ""
+
+    App\EventSubscriber\LocaleSubscriber:
+        arguments: [ '%kernel.default_locale%' ]
+        # uncomment the next line if you are not using autoconfigure
+        # tags: [kernel.event_subscriber]
+
     # Make classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -64,33 +81,6 @@ services:
             - '../src/Tests/'
             - '../src/Trash/'
             - '../migrations/'
-
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
-
-    App\Service\ProductsUtilities:
-        class: App\Service\ProductsUtilities
-        arguments: ["@doctrine.orm.entity_manager"]
-
-
-    App\Service\CategoriesUploader:
-        arguments:
-            $targetDir: '%app_category_images_directory%'
-
-    App\Service\JWTConfiguration:
-        class: App\Service\JWTConfiguration
-
-    App\Service\WsseProvider:
-        arguments:
-            $cachePool: '@cache.app'
-        public: false
-
-    App\Listener\WsseListener:
-        arguments: [ '@security.token_storage', '@security.authentication.manager' ]
-        public: false
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

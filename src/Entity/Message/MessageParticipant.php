@@ -6,7 +6,7 @@ namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Vendor\Vendors;
+use App\Entity\Vendor\Vendor;
 
 /**
  * Class MessageParticipant
@@ -21,7 +21,7 @@ class MessageParticipant
     use BaseTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendors", inversedBy="participant")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="participant")
      */
     private $vendor;
 
@@ -35,12 +35,12 @@ class MessageParticipant
         return $this->id;
     }
 
-    public function getVendor(): ?Vendors
+    public function getVendor(): ?Vendor
     {
         return $this->vendor;
     }
 
-    public function setVendor(?Vendors $vendor): self
+    public function setVendor(?Vendor $vendor): self
     {
         $this->vendor = $vendor;
 

@@ -9,13 +9,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
+
 /**
  * @ORM\Table(name="categories_en_gb", indexes={
  * @ORM\Index(name="category_en_gb_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Category\CategoriesRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Category\CategoryRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class CategoriesEnGb
+class CategoryEnGb
 {
     use BaseTrait;
     use ObjectTrait;
@@ -39,7 +41,7 @@ class CategoriesEnGb
 	private $categoryDesc = 'category_desc';
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Category\Categories",
+	 * @ORM\OneToOne(targetEntity="App\Entity\Category\Category",
 	 *     inversedBy="categoryEnGb")
 	 */
 	private $categoryEnGb;
