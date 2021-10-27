@@ -1,0 +1,22 @@
+### Authorization by token, part 1. Retrieve and save token.
+POST https://{{host}}/login
+Content-Type: application/json
+
+{
+  "token": "my-secret-token"
+}
+
+> {% client.global.set("auth_token", response.body.json.token); %}
+###
+POST https://{{host}}/en/login
+Content-Type: application/json
+
+{
+  "token": "my-secret-token"
+}
+
+> {% client.global.set("auth_token", response.body.json.token); %}
+### Authorization by token, part 2. - Use token to authorize.
+GET https://{{host}}/
+Authorization: Bearer {{auth_token}}
+###
