@@ -1,4 +1,5 @@
-FROM ubuntu:latest AS ubuntu
+ARG DOCKER_IMAGE
+FROM ${DOCKER_IMAGE} AS ubuntu
 # Ubuntu
 # FROM php:8.0.0rc1-fpm
 # https://github.com/jtreminio/php-docker

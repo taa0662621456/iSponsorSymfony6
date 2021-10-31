@@ -1,13 +1,14 @@
 version: '3.5'
-networks:
-  backend:
+# https://gitlab.com/dev-coach/myapp/-/blob/master/back/Dockerfile
+
 services:
   ######################################
   nginx:
+    image: nginx:latest
 #    image: nginx:stable-alpine
-    build:
-      context: .
-      dockerfile: docker/nginx/ngnix.Dockerfile
+#    build:
+#      context: .
+#      dockerfile: docker/nginx/ngnix.Dockerfile
     container_name: nginx
     ports:
       - "${NGINX_PORT}:80"
@@ -25,69 +26,76 @@ services:
       - redis
       - mongo
       - postgres
-      - php-8.0fpm
+#      - php-8.0fpm
       - rabbitmq
     environment:
       TZ: ${WORKSPACE_TIMEZONE}
+      APP_ENV: 'dev'
+      APP_DEBUG: 'true'
+
+    networks:
+      - dev
   ######################################
-  php-8.0fpm:
-    build:
-      context: .
-      dockerfile: docker/php/8.0/php-fpm.Dockerfile
-      args:
-        DOCKER_PHP_VERSION: '8.0.0'
-        DOCKER_PHP_ENABLE_XDEBUG: 'on'
-        TZ: ${WORKSPACE_TIMEZONE}
-    links:
-      - postgres
-      - redis
-      - elasticsearch
-      - rabbitmq
-    environment:
-      - "ELASTICSEARCH_HOSTS=elasticsearch:9200"
-    working_dir: /var/www
-    container_name: php-8.0
-    volumes:
-#      - ./.ssh:/home/www-data/.ssh
-      - ./docker/www:/var/www/
-      - ./public:/var/www/book/
-      - ./src:/var/www/book/src/
-      - ./:/var/www/book/dev/
-      - ./docker/php/8.0/php.ini:/usr/local/etc/php/php.ini
-#      - ./php-workers/8.0/supervisor.d:/etc/supervisor.d
-#      - ./docker/php/8.0/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ./docker/php/8.0/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-#      - ./docker/php/8.0/conf.d/opcache.ini://usr/local/etc/php/conf.d/opcache.ini
-#        entrypoint: "php -S 0.0.0.0:8000"
-    depends_on:
-      - postgres
-      - redis
-      - redis-queue
-      - storage
-      - rabbitmq
-    ports:
-      - "127.0.0.1:8000:8000"
-#      - "${PHP_8_0_PORT}:8000"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "1024k"
-        max-file: "2"
-#    extra_hosts:
-#      - 'book.localhost:93.73.44.251'
+#  php-8.0fpm:
+#    build:
+#      context: .
+#      dockerfile: docker/php/8.0/php-fpm.Dockerfile
+#      args:
+#        DOCKER_PHP_VERSION: '8.0.0'
+#        DOCKER_PHP_ENABLE_XDEBUG: 'on'
+#        TZ: ${WORKSPACE_TIMEZONE}
+#    links:
+#      - postgres
+#      - redis
+#      - elasticsearch
+#      - rabbitmq
+#    environment:
+#      ELASTICSEARCH_HOST: 'elasticsearch:9200'
+#      APP_ENV: 'dev'
+#      APP_DEBUG: 'true'
+#    working_dir: /var/www
+#    container_name: php-8.0
+#    volumes:
+##      - ./.ssh:/home/www-data/.ssh
+#      - ./docker/www:/var/www/
+#      - ./public:/var/www/book/
+#      - ./src:/var/www/book/src/
+#      - ./:/var/www/book/dev/
+#      - ./docker/php/8.0/php.ini:/usr/local/etc/php/php.ini
+##      - ./php-workers/8.0/supervisor.d:/etc/supervisor.d
+##      - ./docker/php/8.0/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+#      - ./docker/php/8.0/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+##      - ./docker/php/8.0/conf.d/opcache.ini://usr/local/etc/php/conf.d/opcache.ini
+##        entrypoint: "php -S 0.0.0.0:8000"
+#    depends_on:
+#      - postgres
+#      - redis
+#      - redis-queue
+#      - storage
+#      - rabbitmq
+#    ports:
+#      - "127.0.0.1:8000:8000"
+##      - "${PHP_8_0_PORT}:8000"
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "1024k"
+#        max-file: "2"
+##    extra_hosts:
+##      - 'book.localhost:93.73.44.251'
+#    networks:
+#      - dev
   ######################################
   php-8.0cli:
     build:
       context: .
-      dockerfile: docker/php/8.0/php-cli.Dockerfile
+      dockerfile: docker/development/php/8.0/php-cli.Dockerfile
       args:
-        DOCKER_PHP_VERSION: '8.0.0'
-        DOCKER_PHP_ENABLE_XDEBUG: 'on'
-        TZ: ${WORKSPACE_TIMEZONE}
+        DOCKER_IMAGE: ${DOCKER_IMAGE}
     links:
       - postgres
-        - redis
-        - elasticsearch
+      - redis
+      - elasticsearch
     environment:
       - "ELASTICSEARCH_HOSTS=elasticsearch:9200"
     tty: true
@@ -110,7 +118,7 @@ services:
       - postgres
       - redis
       - redis-queue
-      - storage
+#      - storage
     ports:
       - "127.0.0.1:8000:8000"
 #      - "${PHP_8_0_PORT}:8000"
@@ -121,6 +129,8 @@ services:
         max-file: "2"
 #      extra_hosts:
 #        - 'book.localhost:93.73.44.251'
+    networks:
+      - dev
   ######################################
   redis:
 #    build:
@@ -142,6 +152,8 @@ services:
       - '--requirepass secret'
     environment:
       TZ: ${WORKSPACE_TIMEZONE}
+    networks:
+      - dev
   ######################################
   redis-queue:
     #    build:
@@ -150,6 +162,8 @@ services:
     image: redis:latest
     volumes:
       - ./docker/redis/queue:/var/www/queue
+    networks:
+      - dev
   ######################################
   postgres:
     image: postgres:alpine
@@ -164,28 +178,34 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: ${WORKSPACE_TIMEZONE}
     container_name: postgres
+    networks:
+      - dev
   ######################################
-  node:
-    build:
-      context: .
-      dockerfile: docker/node/node.Dockerfile
-    volumes:
-      - ./docker/www:/var/www/
-      - ./public:/var/www/book/
-      - ./src:/var/www/book/src/
-      - ./:/var/www/book/dev/
-    tty: true
+#  node:
+#    build:
+#      context: .
+#      dockerfile: docker/node/node.Dockerfile
+#    volumes:
+#      - ./docker/www:/var/www/
+#      - ./public:/var/www/book/
+#      - ./src:/var/www/book/src/
+#      - ./:/var/www/book/dev/
+#    tty: true
+#    networks:
+#      - dev
   ######################################
-  node-watch:
-    build:
-      context: .
-      dockerfile: docker/node/node.Dockerfile
-    volumes:
-      - ./docker/www:/var/www/
-      - ./public:/var/www/book/
-      - ./src:/var/www/book/src/
-      - ./:/var/www/book/dev/
-    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
+#  node-watch:
+#    build:
+#      context: .
+#      dockerfile: docker/node/node.Dockerfile
+#    volumes:
+#      - ./docker/www:/var/www/
+#      - ./public:/var/www/book/
+#      - ./src:/var/www/book/src/
+#      - ./:/var/www/book/dev/
+#    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
+#    networks:
+#      - dev
   ######################################
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
@@ -199,16 +219,20 @@ services:
     volumes:
       - ./docker/storage/elasticsearch:/usr/share/elasticsearch/data
     ports:
-    - "9201:9200"
+      - "9201:9200"
+    networks:
+      - dev
   ######################################
-  storage:
-    build:
-      context: ./docker/storage/development
-      dockerfile: nginx.docker
-    volumes:
-      - ./storage:/app
-    ports:
-      - "8081:80"
+#  storage:
+#    build:
+#      context: ./docker/storage/development
+#      dockerfile: nginx.docker
+#    volumes:
+#      - ./storage:/app
+#    ports:
+#      - "8081:80"
+#    networks:
+#      - dev
   ######################################
   ftp:
 #    build:
@@ -221,6 +245,8 @@ services:
       FTP_USER_HOME: /app
     volumes:
       - ./docker/ftp/public:/var
+    networks:
+      - dev
   ######################################
   rabbitmq:
 #    build:
@@ -236,10 +262,18 @@ services:
       - "5672:5672"
     volumes:
       - ./docker/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+    networks:
+      - dev
   ######################################
+
+
+
 volumes:
   postgres:
   redis:
   redis-queue:
   composer:
 
+networks:
+  dev:
+    driver: bridge
