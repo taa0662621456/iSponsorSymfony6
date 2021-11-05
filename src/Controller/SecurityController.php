@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\SmsCodeSendStorage;
+use App\Entity\VendorCodeStorage;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnGb;
 use App\Entity\Vendor\VendorSecurity;
@@ -362,7 +362,7 @@ class SecurityController extends AbstractController
 
 		$rand = rand(1000, 9999);
 
-		$code = new SmsCodeSendStorage();
+		$code = new VendorCodeStorage();
 		$code->setPhone($phone);
 		$code->setCode($rand);
 
@@ -390,7 +390,7 @@ class SecurityController extends AbstractController
 		// Достаём код из БД по известному нам мобильному номеру
 		$codeFromDataBase = $this->getDoctrine()
 								 ->getManager()
-								 ->getRepository(SmsCodeSendStorage::class)
+								 ->getRepository(VendorCodeStorage::class)
 								 ->findOneBy(
 									 [
 										 'phone'   => $formData['phone'],

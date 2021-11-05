@@ -9,7 +9,7 @@
     use Symfony\Component\HttpFoundation\RequestStack;
     use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-    class AttachmentsManager
+    class AttachmentManager
 	{
 		/**
 		 * @var EntityManagerInterface

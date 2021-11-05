@@ -16,7 +16,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  * @author Jonathan Boyer <contact@grafikart.fr>
  */
-class ProjectsTagsTransformer implements DataTransformerInterface
+class ProjectTagTransformer implements DataTransformerInterface
 {
     private $tags;
 

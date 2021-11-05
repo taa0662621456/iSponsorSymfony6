@@ -8,7 +8,7 @@ use App\Entity\Product\ProductEnGb;
 use App\Form\Product\ProductsType;
 use App\Repository\Category\CategoryRepository;
 use App\Repository\Product\ProductRepository;
-use App\Service\AttachmentsManager;
+use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -22,11 +22,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductsController extends AbstractController
 {
 	/**
-	 * @var AttachmentsManager
+	 * @var AttachmentManager
 	 */
-	private AttachmentsManager $attachmentManager;
+	private AttachmentManager $attachmentManager;
 
-	public function __construct(AttachmentsManager $attachmentManager)
+	public function __construct(AttachmentManager $attachmentManager)
 	{
 		$this->attachmentManager = $attachmentManager;
 	}

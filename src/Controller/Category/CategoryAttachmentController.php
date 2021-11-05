@@ -5,7 +5,7 @@
 
 	use App\Entity\Category\CategoryAttachment;
 	use App\Form\Category\CategoryAttachmentType;
-	use App\Service\AttachmentsManager;
+	use App\Service\AttachmentManager;
 	use Doctrine\ORM\EntityManagerInterface;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +24,9 @@
 		extends AbstractController
 	{
 		/**
-		 * @var AttachmentsManager
+		 * @var AttachmentManager
 		 */
-		private AttachmentsManager $attachmentsManager;
+		private AttachmentManager $attachmentsManager;
 		/**
 		 * @var EntityManagerInterface
 		 */
@@ -36,8 +36,8 @@
          */
         private RequestStack $requestStack;
 
-        public function __construct(AttachmentsManager $attachmentsManager,
-									EntityManagerInterface $entity,
+        public function __construct(AttachmentManager $attachmentsManager,
+                                    EntityManagerInterface $entity,
                                     RequestStack $requestStack)
 		{
 			$this->attachmentsManager = $attachmentsManager;

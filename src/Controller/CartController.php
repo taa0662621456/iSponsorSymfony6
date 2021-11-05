@@ -11,7 +11,7 @@ use App\Entity\Product\ProductPrice;
 use App\Entity\Vendor\Vendor;
 use App\Event\OrderSubmitedEvent;
 use App\Form\Order\OrderType;
-use App\Service\ProductsUtilities;
+use App\Service\ProductUtilite;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -93,7 +93,7 @@ class CartController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $orderSuccess = $this->get(ProductsUtilities::class)->createOrderDBRecord($request, $order, $this->getUser());
+                $orderSuccess = $this->get(ProductUtilite::class)->createOrderDBRecord($request, $order, $this->getUser());
             } catch (OptimisticLockException $e) {
             } catch (ORMException $e) {
             }

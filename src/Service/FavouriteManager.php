@@ -7,7 +7,7 @@
 	use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
-	class FavouritesManager
+	class FavouriteManager
 	{
 		/**
 		 * @var ContainerInterface
