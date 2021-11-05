@@ -23,7 +23,7 @@
 	 * @ORM\Entity()
 	 * @ORM\HasLifecycleCallbacks()
 	 */
-	class RememberMeToken
+	class VendorRememberMeToken
 	{
 		/**
 		 * @var int

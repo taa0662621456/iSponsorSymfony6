@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\Project;
 
-use App\Tool\ProjectsTagsTransformer;
+use App\Tool\ProjectTagTransformer;
 use App\Repository\TagRepository;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -32,7 +32,7 @@ class ProjectTagType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new ProjectsTagsTransformer($this->tags), true)
+            ->addModelTransformer(new ProjectTagTransformer($this->tags), true)
         ;
     }
 

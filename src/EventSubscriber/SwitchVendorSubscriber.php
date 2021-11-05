@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Event;
+	namespace App\EventSubscriber;
 
 	use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 	use Symfony\Component\Security\Http\Event\SwitchUserEvent;

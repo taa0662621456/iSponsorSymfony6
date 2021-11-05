@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Tag;
 
 use App\Entity\Project\ProjectTag;
 use App\Entity\Product\ProductTag;

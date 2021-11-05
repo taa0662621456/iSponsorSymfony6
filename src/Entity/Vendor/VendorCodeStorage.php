@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Entity;
+	namespace App\Entity\Vendor;
 
 	use Doctrine\ORM\Mapping as ORM;
 
@@ -8,10 +8,10 @@
 	/**
 	 * @ORM\Table(name="sms_code_send_storage", indexes={
 	 * @ORM\Index(name="sms_code_send_storage_idx", columns={"phone"})}))
-	 * @ORM\Entity(repositoryClass="App\Repository\SmsCodeStorageRepository")
+	 * @ORM\Entity(repositoryClass="VendorCodeStorageRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
-	class SmsCodeSendStorage
+	class VendorCodeStorage
 	{
 		/**
 		 * @var integer

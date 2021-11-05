@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Form;
 
-use App\Tool\ProjectsTagsTransformer;
-use App\Tool\ProductsTagsTransformer;
+use App\Tool\ProjectTagTransformer;
+use App\Tool\ProductTagTransformer;
 use App\Repository\TagRepository;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;

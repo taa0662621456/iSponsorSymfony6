@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Form\Product;
 
-use App\Tool\ProductsTagsTransformer;
+use App\Tool\ProductTagTransformer;
 use App\Repository\TagRepository;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
@@ -32,7 +32,7 @@ class ProductTagType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new ProductsTagsTransformer($this->tags), true)
+            ->addModelTransformer(new ProductTagTransformer($this->tags), true)
         ;
     }
 

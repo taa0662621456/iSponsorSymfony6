@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Repository\Featured;
 
-use App\Entity\Featured;
+use App\Entity\Featured\Featured;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,7 +17,7 @@ class FeaturedRepository extends ServiceEntityRepository
 {
     /**
      * ProjectsRepository constructor.
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

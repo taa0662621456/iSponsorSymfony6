@@ -11,7 +11,7 @@ use App\Form\Vendor\VendorAddType;
 use App\Form\Vendor\VendorEditType;
 use App\Repository\Project\ProjectRepository;
 use App\Repository\Vendor\VendorRepository;
-use App\Service\AttachmentsManager;
+use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,11 +26,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class VendorsController extends AbstractController
 {
     /**
-     * @var AttachmentsManager
+     * @var AttachmentManager
      */
     private $attachmentManager;
 
-    public function __construct(AttachmentsManager $attachmentManager)
+    public function __construct(AttachmentManager $attachmentManager)
     {
         $this->attachmentManager = $attachmentManager;
     }

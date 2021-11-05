@@ -16,7 +16,7 @@ trait AkismetTrait
      * @ORM\Column(name="state", type="string",
      *     options={"default"="submitted", "comment"="Submitted, Spam and Published stats"})
      */
-    private $state;
+    private string $state;
 
     #[Pure] public function __toString(): string
     {

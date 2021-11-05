@@ -5,7 +5,7 @@ namespace App\Service;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ProjectsCoverUploader
+class ProjectCoverUploader
 {
     private $targetDir;
 

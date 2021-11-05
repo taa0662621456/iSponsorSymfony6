@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Featured;
 
 use Doctrine\ORM\Mapping as ORM;
 
 
  /**
   * @ORM\Table(name="featured")
-  * @ORM\Entity(repositoryClass="App\Repository\FeaturedRepository")
+  * @ORM\Entity(repositoryClass="App\Repository\Featured\FeaturedRepository")
   * @ORM\HasLifecycleCallbacks()
   */
 class Featured
@@ -20,7 +20,7 @@ class Featured
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @var int

@@ -8,7 +8,7 @@
 	use App\Entity\Vendor\VendorMedia;
 	use App\Form\Vendor\VendorDocumentType;
 	use App\Form\Vendor\VendorMediaType;
-	use App\Service\AttachmentsManager;
+	use App\Service\AttachmentManager;
     use Exception;
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +19,11 @@
 		extends AbstractController
 	{
 		/**
-		 * @var AttachmentsManager
+		 * @var AttachmentManager
 		 */
 		private $attachmentsManager;
 
-		public function __construct(AttachmentsManager $attachmentsManager)
+		public function __construct(AttachmentManager $attachmentsManager)
 		{
 			$this->attachmentsManager = $attachmentsManager;
 		}

@@ -6,7 +6,7 @@ namespace App\Service;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductsUtilities
+class ProductUtilite
 {
     /**
      * @var EntityManager $em
