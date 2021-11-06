@@ -11,7 +11,7 @@
 	 * );
 	 */
 
-	namespace App\Entity;
+	namespace App\Entity\Vendor;
 
 
 	use DateTime;
