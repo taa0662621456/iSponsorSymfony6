@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\Tool;
 
-use App\Entity\Project\ProjectsTags;
-use App\Repository\TagsRepository;
+use App\Entity\Project\ProjectTag;
+use App\Repository\Tag\TagRepository;
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**
@@ -20,7 +20,7 @@ class ProductTagTransformer implements DataTransformerInterface
 {
     private $tags;
 
-    public function __construct(TagsRepository $tags)
+    public function __construct(TagRepository $tags)
     {
         $this->tags = $tags;
     }
@@ -34,7 +34,7 @@ class ProductTagTransformer implements DataTransformerInterface
         // Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer::transform()
         // The value returned is a string that concatenates the string representation of those objects
 
-        /* @var ProjectsTags[] $tags */
+        /* @var ProjectTag[] $tags */
         return implode(',', $tags);
     }
 
@@ -55,7 +55,7 @@ class ProductTagTransformer implements DataTransformerInterface
         ]);
         $newNames = array_diff($names, $tags);
         foreach ($newNames as $name) {
-            $tag = new ProjectsTags();
+            $tag = new ProjectTag();
             $tag->setName($name);
             $tags[] = $tag;
 
