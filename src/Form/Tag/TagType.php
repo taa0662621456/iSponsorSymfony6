@@ -5,7 +5,7 @@ namespace App\Form\Tag;
 
 use App\Tool\ProjectTagTransformer;
 use App\Tool\ProductTagTransformer;
-use App\Repository\TagRepository;
+use App\Repository\Tag\TagRepository;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

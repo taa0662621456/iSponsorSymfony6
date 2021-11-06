@@ -71,7 +71,7 @@
 		private $projectFavourites;
 
 		/**
-		 * @ORM\OneToOne(targetEntity="App\Entity\Featured",
+		 * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured",
 		 *     cascade={"persist", "remove"},
 		 *     mappedBy="projectFeatured"
 		 * )

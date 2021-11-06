@@ -161,7 +161,7 @@ class Vendor
     private int $vendorFavourites;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="vendorFeatured")
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="vendorFeatured")
      */
     private mixed $vendorFeatured;
 
