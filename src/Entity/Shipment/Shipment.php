@@ -4,7 +4,7 @@
 namespace App\Entity\Shipment;
 
 
-use App\Entity\ObjectEntity;
+use App\Factory\ObjectEntity;
 
 class Shipment extends ObjectEntity
 {
