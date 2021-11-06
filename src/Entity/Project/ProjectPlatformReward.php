@@ -13,7 +13,6 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
-use App\Factory\ObjectEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="ProjectPlatformReward")
  * @ORM\HasLifecycleCallbacks()
  */
-class ProjectPlatformReward extends ObjectEntity
+class ProjectPlatformReward
 {
     use BaseTrait;
 

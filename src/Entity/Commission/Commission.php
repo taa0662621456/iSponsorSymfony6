@@ -4,7 +4,7 @@
 namespace App\Entity\Commission;
 
 
-use App\Entity\ObjectEntity;
+use App\Factory\ObjectEntity;
 
 class Commission extends ObjectEntity
 {
