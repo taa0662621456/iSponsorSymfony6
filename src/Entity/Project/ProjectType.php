@@ -4,7 +4,7 @@
 namespace App\Entity\Project;
 
 
-use App\Entity\ObjectEntity;
+use App\Factory\ObjectEntity;
 
 class ProjectType extends ObjectEntity
 {
