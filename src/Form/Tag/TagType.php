@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Form;
+namespace App\Form\Tag;
 
 use App\Tool\ProjectTagTransformer;
 use App\Tool\ProductTagTransformer;

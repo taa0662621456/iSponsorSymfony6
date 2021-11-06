@@ -5,9 +5,9 @@ twig:
 #    form_themes: ['bootstrap_5_layout.html.twig']
     exception_controller: ~
     globals:
-        app_name: '%app.name%'
-        app_logo_url: '%app.logo_url%'
-        app_version: '%app.version%'
+        app_name: '%app_name%'
+        app_logo_url: '%app_logo_url%'
+        app_version: '%app_version%'
 #        activeCategoriesIds: []
 
 when@test:
