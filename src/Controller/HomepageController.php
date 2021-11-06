@@ -4,7 +4,7 @@
 	namespace App\Controller;
 
 	use App\Repository\Category\CategoryRepository;
-    use App\Repository\FeaturedRepository;
+    use App\Repository\Featured\FeaturedRepository;
     use App\Repository\Product\ProductRepository;
     use App\Repository\Project\ProjectRepository;
     use Exception;
