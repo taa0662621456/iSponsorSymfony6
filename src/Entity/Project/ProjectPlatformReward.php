@@ -13,7 +13,7 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
-use App\Entity\ObjectEntity;
+use App\Factory\ObjectEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

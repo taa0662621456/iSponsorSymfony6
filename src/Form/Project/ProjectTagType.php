@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Form\Project;
 
 use App\Tool\ProjectTagTransformer;
-use App\Repository\TagRepository;
+use App\Repository\Tag\TagRepository;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

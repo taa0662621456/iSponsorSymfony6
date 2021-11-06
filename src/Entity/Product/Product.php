@@ -279,7 +279,7 @@
 		private $productFavourites;
 
 		/**
-		 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="productFeatured")
+		 * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="productFeatured")
 		 **/
 		private mixed $productFeatured;
 

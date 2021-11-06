@@ -72,7 +72,7 @@ class Category
 	private $categoryAttachments;
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Featured", mappedBy="categoryFeatured")
+	 * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="categoryFeatured")
 	 */
 	private mixed $categoryFeatured;
 
