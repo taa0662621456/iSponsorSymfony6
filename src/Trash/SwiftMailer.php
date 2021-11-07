@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Vendor\Vendors;
-use App\Entity\Vendor\VendorsSecurity;
+use App\Entity\Vendor\VendorSecurity;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Component\Routing\Router;
@@ -38,7 +38,7 @@ class SwiftMailer
     /**
      * @param Vendors $vendor
      */
-    public function sendConfirmationMessage(Vendors $vendor, VendorsSecurity $security): void
+    public function sendConfirmationMessage(Vendors $vendor, VendorSecurity $security): void
     {
         $messageBody = $this->twig->render('security/confirmation.html.twig', [
             'vendor' => $vendor

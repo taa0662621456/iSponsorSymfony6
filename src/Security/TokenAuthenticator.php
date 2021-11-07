@@ -5,9 +5,9 @@
 
 	namespace App\Security;
 
-	use App\Entity\Vendor\VendorsSecurity;
+	use App\Entity\Vendor\VendorSecurity;
     use App\Repository\Vendor\VendorsRepository;
-    use App\Repository\Vendor\VendorsSecurityRepository;
+    use App\Repository\Vendor\VendorSecurityRepository;
     use Doctrine\ORM\EntityManagerInterface;
     use Symfony\Component\HttpFoundation\JsonResponse;
 	use Symfony\Component\HttpFoundation\Request;
@@ -27,13 +27,13 @@
 	{
 		private EntityManagerInterface $em;
 
-        private VendorsSecurityRepository $vendorsSecurityRepository;
+        private VendorSecurityRepository $VendorSecurityRepository;
 
         public function __construct(EntityManagerInterface $em,
-                                    VendorsSecurityRepository $vendorsSecurityRepository)
+                                    VendorSecurityRepository $VendorSecurityRepository)
 		{
 			$this->em = $em;
-			$this->vendorsSecurityRepository = $vendorsSecurityRepository;
+			$this->VendorSecurityRepository = $VendorSecurityRepository;
 		}
 
         /**
@@ -60,7 +60,7 @@
             }
             return new Passport(
                 new UserBadge($apiToken, function ($userId) {
-                    return $this->vendorsSecurityRepository->findBy([], ['Id' => $userId], 1, null);
+                    return $this->VendorSecurityRepository->findBy([], ['Id' => $userId], 1, null);
                     //return $this->vendorRepository->loadUserByApiToken($userIdentifier);
                 }),
                 new CustomCredentials(
@@ -82,7 +82,7 @@
 			}
 
 			// if a User object, checkCredentials() is called
-			return $this->em->getRepository(VendorsSecurity :: class)
+			return $this->em->getRepository(VendorSecurity :: class)
 				->findOneBy(['apiKey' => $apiToken]);
 		}
 

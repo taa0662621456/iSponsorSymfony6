@@ -12,11 +12,9 @@ use App\Entity\Review\ReviewProject;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorDocument;
 use App\Entity\Vendor\VendorMedia;
-use App\Repository\Project\ProjectPlatformReward;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use Proxies\__CG__\App\Entity\Product\ProductPrice;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 

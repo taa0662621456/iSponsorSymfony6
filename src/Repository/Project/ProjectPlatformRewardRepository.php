@@ -6,6 +6,7 @@
 
 	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
     use Doctrine\Persistence\ManagerRegistry;
+    use App\Entity\Project\ProjectPlatformReward;
 
     /**
 	 * @method ProjectPlatformReward|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,7 +14,7 @@
 	 * @method ProjectPlatformReward[]    findAll()
 	 * @method ProjectPlatformReward[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
 	 */
-	class ProjectPlatformReward extends ServiceEntityRepository
+	class ProjectPlatformRewardRepository extends ServiceEntityRepository
 	{
 		public function __construct(ManagerRegistry $registry)
 		{

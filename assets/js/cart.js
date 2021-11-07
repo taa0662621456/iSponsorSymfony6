@@ -1,8 +1,16 @@
 import jQuery from 'jquery';
 import Cookies from 'js-cookie';
 
-(function ($, undefined) {
+// $(document).ready(function (e) {
+//     $('#showModal').on('click', function (e) {
+//         e.preventDefault();
+//         $('#authSuggest').modal('show');
+//     });
+// });
 
+
+(function ($, undefined) {
+    let $showModal = $('#showModal');
     let $clearCart = $('.clear').filter('input');
     let $removeItem = $('.remove').filter('input');
     let $addToCart = $('.add').filter('input');
@@ -12,6 +20,11 @@ import Cookies from 'js-cookie';
     // мне больше по душе jquery-confirm plugin
     // всё установлено, нужно доделать
     //$('[data-toggle="confirmation"]').confirmation();
+
+    $showModal.focus(function (e){
+        e.preventDefault();
+        $('#authSuggest').modal('show');
+    })
 
     $addToCart.click(function () {
 

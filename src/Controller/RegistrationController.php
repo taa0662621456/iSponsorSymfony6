@@ -2,8 +2,8 @@
 
 	namespace App\Controller;
 
-	use App\Entity\Vendor\VendorsSign;
-	use App\Form\RegistrationFormType;
+	use App\Entity\Vendor\Vendor;
+    use App\Form\RegistrationFormType;
 	use Exception;
 	use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 	use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@
 		 */
 		public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
 		{
-			$user = new VendorsSign();
+			$user = new Vendor();
 			$form = $this->createForm(RegistrationFormType::class, $user);
 			$form->handleRequest($request);
 

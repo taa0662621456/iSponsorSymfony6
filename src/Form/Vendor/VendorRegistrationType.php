@@ -17,32 +17,33 @@ class VendorRegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-			->add('vendorSecurity', VendorSecurityType::class, array(
-			    'label' => 'form.label.registration'
-            ))
-			->add('submit', SubmitType::class, array(
-					'label' => 'button.label.registration',
-					'attr'  => array(
-						'class' => 'btn btn-primary btn-block'
-					)
-				)
+			->add('vendorSecurity', VendorSecurityType::class, [
+			    'label' => 'vendor.registration'
+            ])
+			->add('submit', SubmitType::class, [
+                'translation_domain' => 'button',
+                'label' => 'button.label.registration',
+                'attr'  => [
+                    'class' => 'btn btn-primary btn-block'
+                ]
+                ]
 			)
-            ->add('token', HiddenType::class, array(
+            ->add('token', HiddenType::class, [
                 'mapped' => false,
-                'attr' => array(
+                'attr' => [
                     'name' => '_csrf_token',
-                )
-            ))
+                ]
+            ])
         ;
     }
     public function configureOptions(OptionsResolver $resolver):void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
 			'data_class'         => Vendor::class,
 			'csrf_protection'    => true,
 			'csrf_field_name'    => '_csrf_token',
 			'csrf_token_id'      => 'ZGZnZGZnZGZnIGdkZmcgZGZnIGRmZyBkZyA=',
 			'translation_domain' => 'vendor'
-		));
+        ]);
     }
 }

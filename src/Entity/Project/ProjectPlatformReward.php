@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="rewards", indexes={
  * @ORM\Index(name="commission_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="ProjectPlatformReward")
+ * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectPlatformRewardRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class ProjectPlatformReward

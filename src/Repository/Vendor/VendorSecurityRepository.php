@@ -5,9 +5,9 @@
 
 	use App\Entity\Vendor\VendorSecurity;
     use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+    use Doctrine\ORM\Exception\ORMException;
     use Doctrine\ORM\NonUniqueResultException;
     use Doctrine\ORM\OptimisticLockException;
-    use Doctrine\ORM\ORMException;
     use Doctrine\Persistence\ManagerRegistry;
     use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
     use Symfony\Component\Security\Core\User\UserInterface;
@@ -30,7 +30,7 @@
          * @param UserInterface $user
          * @param string $newEncodedPassword
          * @throws ORMException
-         * @throws OptimisticLockException
+         * @throws OptimisticLockException|\Doctrine\ORM\ORMException
          */
         public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
         {
@@ -45,7 +45,7 @@
 
 
         // /**
-        //  * @return Vendors[] Returns an array of VendorsSecurity objects
+        //  * @return Vendors[] Returns an array of VendorSecurity objects
         //  */
         /*
         public function findByExampleField($value)

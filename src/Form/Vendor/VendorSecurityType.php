@@ -18,66 +18,67 @@ class VendorSecurityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
-            ->add('email', EmailType::class, array(
+            ->add('email', EmailType::class, [
 				'invalid_message' => 'The email address is invalid.',
 				'label'           => 'vendor.label.email',
-				'label_attr'      => array(
+				'label_attr'      => [
 					'class' => 'sr-only',
 					'value' => 'last_username'
-				),
+                ],
 				'required'        => true,
-				'attr'            => array(
+				'attr'            => [
 					'id'          => 'email',
 					'name'        => '_email',
-					'class'       => 'form-control',
+					'class'       => 'form-control m-1',
 					'placeholder' => 'vendor.placeholder.email',
 					'tabindex'    => '101',
 					//'autofocus' => true
-				),
-            ))
-            ->add('plainPassword', RepeatedType::class, array(
+                ],
+            ])
+            ->add('plainPassword', RepeatedType::class, [
 				'invalid_message' => 'The password is invalid.',
 				'type'            => PasswordType::class,
-				'first_options'   => array(
+				'first_options'   => [
 					'label'      => 'vendor.label.password',
-					'label_attr' => array(
+					'label_attr' => [
 						'class' => 'sr-only',
-					),
-					'attr'       => array(
-						'class'       => '',
+                    ],
+					'attr'       => [
+						'class'       => 'form-control m-1',
 						'placeholder' => 'vendor.placeholder.password',
 						'tabindex'    => '201'
-					)
-				),
-                'second_options' => array(
+                    ]
+                ],
+                'second_options' => [
 					'label'      => 'vendor.label.password.confirm',
-					'label_attr' => array(
+					'label_attr' => [
 						'class' => 'sr-only'
-					),
-					'attr'       => array(
-						'class'       => '',
+                    ],
+					'attr'       => [
+						'class'       => 'form-control m-1',
 						'placeholder' => 'vendor.placeholder.password.confirm',
 						'tabindex'    => '202'
-					)
-				),
+                    ]
+                ],
                 'required' => true,
-                'attr' => array(
+                'attr' => [
                     'id' => 'password',
                     'name' => '_password',
-                    'class' =>'form-control',
+                    'class' =>'form-control m-1',
                     'placeholder' => 'Password',
 					'tabindex' => '203'
-                )
-            ))
-            ->add('phone', TelType::class, array(
+                ]
+            ])
+            ->add('phone', TelType::class, [
                 'label' => 'vendor.label.phone',
-                'label_attr' => array(
+                'label_attr' => [
                     'class' => 'sr-only'
-                ),
-                'attr' => array(
+                ],
+                'attr' => [
+                    'class' =>'form-control m-1',
                     'placeholder' => 'vendor.placeholder.phone'
-                )
-            ))
+                ]
+            ])
         ;
     }
 

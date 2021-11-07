@@ -12,7 +12,6 @@ use Exception;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -29,9 +28,8 @@ use Symfony\Component\Validator\Constraints\Length;
  *        message="You have an account already or this phone already in use!")
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
- * @method string getUserIdentifier()
  */
-class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticatedUserInterface
+class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 {
 	use BaseTrait;
 
@@ -192,7 +190,7 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 
 
 	/**
-	 * VendorsSecurity constructor.
+	 * VendorSecurity constructor.
 	 *
 	 * @throws Exception
 	 */
@@ -482,21 +480,6 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 		$this->role = $role;
 	}
 
-
-
-	/**
-	 * Returns the password used to authenticate the user.
-	 *
-	 * This should be the encoded password. On authentication, a plain-text
-	 * password will be salted, encoded, and then compared to this value.
-	 *
-	 * @return string
-	 */
-	public function getPassword(): string
-	{
-		return $this->password;
-	}
-
 	/**
 	 * @param string $password
 	 *
@@ -528,17 +511,6 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 		return $this;
 	}
 
-	/**
-	 * Returns the salt that was originally used to encode the password.
-	 *
-	 * This can return null if the password was not encoded using a salt.
-	 *
-	 */
-	public function getSalt()
-	{
-		// TODO: Implement getSalt() method.
-		return null;
-	}
 
 	/**
 	 * Removes sensitive data from the user.
@@ -615,10 +587,9 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 		$this->vendorSecurity = $vendorSecurity;
 	}
 
-
-    public function __call(string $name, array $arguments)
+    public function getPassword(): ?string
     {
-        // TODO: Implement @method string getUserIdentifier()
+        // TODO: Implement getPassword() method.
     }
 }
 
