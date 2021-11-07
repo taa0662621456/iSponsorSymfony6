@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\VendorCodeStorage;
+use App\Entity\Vendor\VendorCodeStorage;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnGb;
 use App\Entity\Vendor\VendorSecurity;
@@ -11,14 +11,11 @@ use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorLoginType;
 use App\Form\Vendor\VendorRegistrationType;
-use App\Repository\Vendor\VendorRepository;
 use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
-use Doctrine\ORM\NonUniqueResultException;
 use Exception;
-use LogicException;
-use ReCaptcha\ReCaptcha;
+
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -27,15 +24,12 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\Recipient;
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
-use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Uid\Uuid;
 use Twig\Environment;
@@ -167,29 +161,29 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/confirm/{code}", name="email_confirmation")
-     * @param VendorSecurityRepository $vendorsSecurity
+     * @param VendorSecurityRepository $vendorSecurityRepository
      * @param string $code
      * @return Response
      * @throws Exception
      */
-	public function confirmation(VendorSecurityRepository $vendorsSecurity, string $code): Response
+	public function confirmation(VendorSecurityRepository $vendorSecurityRepository, string $code): Response
 	{
 
-        $vendorsSecurity = $vendorsSecurity->findOneBy(['activationCode' => $code]);
+        $vendorSecurityRepository = $vendorSecurityRepository->findOneBy(['activationCode' => $code]);
 
-		if ($vendorsSecurity === null) {
+		if ($vendorSecurityRepository === null) {
 			return new Response('404');
 		}
         //$vendor = new Vendors();
 		//$vendor->setActive(true);
-        $vendorsSecurity->setActivationCode('');
+        $vendorSecurityRepository->setActivationCode('');
 
 		$em = $this->getDoctrine()->getManager();
         //$em->persist($vendor);
 		$em->flush();
 
 		return $this->render('security/confirmed.html.twig', [
-			'vendor' => $vendorsSecurity,
+			'vendor' => $vendorSecurityRepository,
 		]);
 	}
 
@@ -335,7 +329,7 @@ class SecurityController extends AbstractController
 
 		return $this->json(
 			array(
-				'username' => $user->getUsername(),
+				'username' => $user->getUserIdentifier(),
 				'roles'    => $user->getRole(),
 			)
 		);

@@ -100,7 +100,7 @@ class Vendor
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="vendorSecurity")
 	 * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE")
-	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
+	 * @Assert\Type(type="App\Entity\Vendor\VendorSecurity")
 	 * @Assert\Valid()
 	 */
 	private mixed $vendorSecurity;
@@ -109,7 +109,7 @@ class Vendor
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorIban",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="vendorIban")
-	 * @Assert\Type(type="App\Entity\Vendor\VendorsSecurity")
+	 * @Assert\Type(type="App\Entity\Vendor\VendorSecurity")
 	 * @Assert\Valid()
 	 */
 	private mixed $vendorIban;

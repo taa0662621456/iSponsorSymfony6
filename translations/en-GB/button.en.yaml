@@ -1,4 +1,7 @@
 button.label.previous: 'Previous'
+button.label.remember: 'Remember me'
+button.label.registration: 'Зарегистрироваться'
+button.label.authorization: 'Авторизоваться'
 button.label.next: 'Next'
 button.label.back: 'Back'
 button.label.submit: 'Save'

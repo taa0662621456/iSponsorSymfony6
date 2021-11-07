@@ -3,13 +3,14 @@
 
 	namespace App\Service;
 
-	use App\Entity\Order\Orders;
-	use App\Entity\Order\OrdersItems;
-	use App\Entity\Product\Products;
-	use App\Entity\Vendor\Vendors;
+	use App\Entity\Order\Order;
+	use App\Entity\Order\OrderItem;
+	use App\Entity\Product\Product;
+	use App\Entity\Vendor\Vendor;
 	use Doctrine\ORM\EntityManager;
-	use Doctrine\ORM\OptimisticLockException;
-	use Doctrine\ORM\ORMException;
+    use Doctrine\ORM\Exception\ORMException;
+    use Doctrine\ORM\OptimisticLockException;
+
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\HttpFoundation\Response;
 
@@ -18,7 +19,7 @@
 		/**
 		 * @var EntityManager $em
 		 */
-		private $em;
+		private EntityManager $em;
 
 		public function __construct(EntityManager $entityManager)
 		{
@@ -29,16 +30,16 @@
 		 * Record cart to db orders.
 		 *
 		 * @param Request      $request
-		 * @param Orders       $order
-		 * @param Vendors|null $vendor
+		 * @param Order      $order
+		 * @param Vendor|null $vendor
 		 *
 		 * @return bool
 		 * @throws ORMException
-		 * @throws OptimisticLockException
-		 */
-		public function createOrderDBRecord(Request $request, Orders $order, Vendors $vendor = null): bool
+		 * @throws OptimisticLockException|\Doctrine\ORM\ORMException
+         */
+		public function createOrderDBRecord(Request $request, Order $order, Vendor $vendor = null): bool
 		{
-			$productRepository = $this->em->getRepository(Products::class);
+			$productRepository = $this->em->getRepository(Product::class);
 
 			$cart = $this->getCartFromCookies($request);
 			if ((!$cart) || !count($cart)) {
@@ -52,7 +53,7 @@
 					$quantity = abs((int)$productQuantity);
 					$sum += ($quantity * $product->getPrice());
 
-					$orderProduct = new OrdersItems();
+					$orderProduct = new OrderItem();
 					$orderProduct->setOrder($order);
 					$orderProduct->setProductId((int)$product);
 					$orderProduct->setProductItemPrice($product->getPrice());

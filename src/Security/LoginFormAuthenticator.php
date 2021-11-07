@@ -2,7 +2,7 @@
 
 namespace App\Security;
 
-use App\Entity\Vendor\VendorsSecurity;
+use App\Entity\Vendor\VendorSecurity;
 use Doctrine\ORM\EntityManagerInterface;
 
 use JetBrains\PhpStorm\ArrayShape;
@@ -121,7 +121,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
         }
-        $user = $this->entityManager->getRepository(VendorsSecurity::class)->findOneBy(
+        $user = $this->entityManager->getRepository(VendorSecurity::class)->findOneBy(
             ['email' => $credentials['email']] //TODO: можно установить вместо явного выражения '%app_property%'
         );
 

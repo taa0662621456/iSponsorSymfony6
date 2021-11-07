@@ -3,15 +3,8 @@
 
 	namespace App\Service;
 
-	use App\Entity\Order\Orders;
-	use App\Entity\Order\OrdersItems;
-	use App\Entity\Product\Products;
-	use App\Entity\Vendor\Vendors;
 	use Doctrine\ORM\EntityManager;
-	use Doctrine\ORM\OptimisticLockException;
-	use Doctrine\ORM\ORMException;
-	use Symfony\Component\HttpFoundation\Request;
-	use Symfony\Component\HttpFoundation\Response;
+
 
 	class StorageCRUDsMethods
 	{

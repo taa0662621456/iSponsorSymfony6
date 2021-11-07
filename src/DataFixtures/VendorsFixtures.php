@@ -7,7 +7,7 @@ use App\Entity\Vendor\VendorsDocumentAttachments;
 use App\Entity\Vendor\VendorsEnGb;
 use App\Entity\Vendor\VendorsIban;
 use App\Entity\Vendor\VendorsMediaAttachments;
-use App\Entity\Vendor\VendorsSecurity;
+use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
@@ -23,7 +23,7 @@ class VendorsFixtures extends Fixture
         //$password = md5($rand);
 
         $vendor = new Vendors();
-        $vendorSecurity = new VendorsSecurity();
+        $vendorSecurity = new VendorSecurity();
         $vendorIban = new VendorsIban();
         $vendorEnGb = new VendorsEnGb();
         $vendorDocumentAttachments = new VendorsDocumentAttachments();

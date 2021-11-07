@@ -1,3 +1,4 @@
+require('jquery');
 //import 'jquery';
 //require('jquery-bridget'); // для использования Masonry
 require('bootstrap');

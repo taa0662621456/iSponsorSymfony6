@@ -28,7 +28,7 @@ class VendorLinkAuthenticatorController extends AbstractController
      * @Route("/link_authenticator_page", name="link_authenticator_page")
      * @throws NonUniqueResultException
      */
-    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $vendorsSecurityRepository, Request $request): Response
+    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $VendorSecurityRepository, Request $request): Response
     {
         // Helper https://symfony.com.ua/doc/current/security/login_link.html
         // check if login form is submitted
@@ -38,7 +38,7 @@ class VendorLinkAuthenticatorController extends AbstractController
 
             // load the user in some way (e.g. using the form input)
             $email = $request->request->get('email');
-            $user = $vendorsSecurityRepository->findOneBySomeField($email);
+            $user = $VendorSecurityRepository->findOneBySomeField($email);
 
             // clone and customize Request
             $userRequest = clone $request;

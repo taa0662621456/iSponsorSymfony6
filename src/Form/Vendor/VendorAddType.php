@@ -19,95 +19,96 @@
 			$builder
                 ->add(
                     $builder
-                        ->create('step-1', FormType::class, array(
+                        ->create('step-1', FormType::class, [
                             'inherit_data' => true,
                             'label' => false,
-                            'row_attr' => array(
+                            'row_attr' => [
                                 'id' => 'step-1'
-                            ),
-                        ))
+                            ],
+                        ])
 				->add('vendorSecurity', VendorSecurityType::class)
                 )
                 ->add(
                     $builder
-                        ->create('step-2', FormType::class, array(
+                        ->create('step-2', FormType::class, [
                             'inherit_data' => true,
                             'label' => false,
-                            'row_attr' => array(
+                            'row_attr' => [
                                 'id' => 'step-2'
-                            ),
-                        ))
+                            ],
+                        ])
 				->add('vendorEnGb', VendorEnGbType::class)
-				->add('slug', TextType::class, array(
+				->add('slug', TextType::class, [
 						'label'      => 'label.slug',
-						'label_attr' => array(
+						'label_attr' => [
 							'class' => 'sr-only'
-						),
+                        ],
 						'required'   => false
-					))
+                ])
                 )
                 ->add( //TODO: повторяющийся код. Вынести в отдельную форму и добавлять, как дочернюю
                     $builder
-                        ->create('steps', FormType::class, array(
+                        ->create('steps', FormType::class, [
+                            'translation_domain' => 'button',
                             'inherit_data' => true,
                             'label' => false,
-                            'attr'=> array(
+                            'attr'=> [
                                 'class' => 'btn-group'
-                            )
-                        ))
-                    ->add('previous', SubmitType::class, array(
+                            ]
+                        ])
+                    ->add('previous', SubmitType::class, [
                         'label' => 'button.label.previous',
                         'translation_domain' => 'button',
-                        'attr' => array(
+                        'attr' => [
                             'id' => 'next',
                             'class' => 'btn btn-primary previous'
-                        )
-                    ))
-                    ->add('next', SubmitType::class, array(
+                        ]
+                    ])
+                    ->add('next', SubmitType::class, [
                         'translation_domain' => 'button',
                         'label' => 'button.label.next',
-                        'attr' => array(
+                        'attr' => [
                             'id' => 'next',
                             'class' => 'btn btn-primary next'
-                        )
-                    ))
+                        ]
+                    ])
                 )
                 ->add(
                     $builder //TODO: повторяющийся код. Вынести в отдельную форму и добавлять, как дочернюю
-                        ->create('submit', FormType::class, array(
+                        ->create('submit', FormType::class, [
                             'inherit_data' => true,
                             'label' => false,
-                            'attr'=> array(
+                            'attr'=> [
                                 'class' => 'btn-group'
-                            )
-                        ))
+                            ]
+                    ])
                         ->add(
-                            'back', ButtonType::class, array(
+                            'back', ButtonType::class, [
                                 'label' => 'button.label.back',
                                 'translation_domain' => 'button',
-                                'attr'  => array(
+                                'attr'  => [
                                     'class' => 'btn btn-primary back',
                                     'onclick' => 'window.history.back()'
-                                )
-                            )
+                                ]
+                            ]
                         )
                         ->add(
-                            'submitAndNew', SubmitType::class, array(
-                                'label' => 'button.label.submitAndNew',
+                            'submitAndNew', SubmitType::class, [
                                 'translation_domain' => 'button',
-                                'attr'  => array(
+                                'label' => 'button.label.submitAndNew',
+                                'attr'  => [
                                     'class' => 'btn btn-primary submitAndNew'
-                                )
-                            )
+                                ]
+                            ]
                         ) //TODO: добавить в контролер по этой доке https://symfony.com/doc/current/form/multiple_buttons.html
                         ->add(
-                            'submit', SubmitType::class, array(
-                                'label' => 'button.label.submit',
+                            'submit', SubmitType::class, [
                                 'translation_domain' => 'button',
-                                'attr'  => array(
+                                'label' => 'button.label.submit',
+                                'attr'  => [
                                     'class' => 'btn btn-primary submit'
-                                )
-                            )
+                                ]
+                            ]
                         )
                 )
 			;

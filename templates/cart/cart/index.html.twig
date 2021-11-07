@@ -84,7 +84,8 @@
                     <div>
                         <div class="pull-right">
                             <a href="{{ path('cart_checkout') }}" class="btn btn-success glyphicon glyphicon-ok"
-                               id="{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}showModal{% endif %}">
+{#                               id="{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}showModal{% endif %}">#}
+                               id="showModal">
                                 {{ 'cart.checkout'|trans({},'cart') }}
                             </a>
                             <a href="#" class="btn btn-danger glyphicon glyphicon-trash clear-cart"
@@ -131,15 +132,3 @@
         </div>
     </div>
 {% endblock article_content %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $(document).ready(function (e) {
-            $('#showModal').on('click', function (e) {
-                e.preventDefault();
-                $('#authSuggest').modal('show');
-            });
-        });
-    </script>
-{% endblock javascripts %}

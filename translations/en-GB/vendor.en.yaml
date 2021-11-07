@@ -1,0 +1,27 @@
+vendor: 'Продавец'
+vendor.ask.question: 'Вы можете использовать эту форму, чтобы связаться непосредственно с администрацией магазина'
+vendor.contact: 'Контакт'
+vendor.data.stored: 'Данные продавца сохранены'
+vendor.details: 'О'
+vendor.form.info.lbl: 'Информация о продавце'
+vendor.form.media: 'Изображение и миниатюра'
+vendor.id: 'ID'
+vendor.list: 'Все вендоры'
+vendor.mod: 'Автор'
+vendor.name: 'Имя'
+vendor.new.shopper.subject: '%s% зарегистрирован в сети %s%'
+vendor.registration.data: 'Регистрационные данные нового участника'
+vendor.tos: 'Условия обслуживания '
+
+vendor.registration: 'Регистрация'
+
+vendor.label.email: 'Ваш е-mail'
+vendor.label.password: 'Ваш пароль'
+vendor.label.password.confirm: 'Подтвердите пароль'
+vendor.label.phone: 'Ваш телефон'
+
+vendor.placeholder.email: 'Ваш е-mail'
+vendor.placeholder.password: 'Ваш пароль'
+vendor.placeholder.password.confirm: 'Введите пароль еще раз'
+vendor.placeholder.phone: 'Введите телефон'
+
