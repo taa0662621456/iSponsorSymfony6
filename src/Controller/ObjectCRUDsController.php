@@ -37,12 +37,14 @@ class ObjectCRUDsController extends AbstractController
      * @Route("folder/", name="folder_index", methods={"GET"}) //TODO: этот роут может быть только для Админов
      * @Route("product/", name="product_index", methods={"GET"})
      * @Route("project/", name="project_index", methods={"GET"})
+     *
      * @Route("commission/", name="commission_index", methods={"GET"})
-     * @Route("vendor/commission/", name="vendor_commission_index", methods={"GET"}) //TODO: для юзеров
+     *
      * @Route("category/", name="category_index", methods={"GET"})
      * @Route("attachment/", name="attachment_index", methods={"GET"})
-     * @Route("review/product/", name="review_product_index", methods={"GET"})
-     * @Route("review/project/", name="review_project_index", methods={"GET"})
+     *
+     * @Route("review/product/", name="review_index_product", methods={"GET"})
+     * @Route("review/project/", name="review_index_project", methods={"GET"})
      *
      * @return Response
      */
@@ -53,26 +55,40 @@ class ObjectCRUDsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $em->getRepository($object)->findAll(),
-            ]);
+        ]);
+    }
+
+
+
+    /**
+     * @var RequestDispatcher
+     */
+    private RequestDispatcher $requestDispatcher;
+
+    public function __construct(RequestDispatcher $requestDispatcher)
+    {
+        $this->requestDispatcher = $requestDispatcher;
     }
 
     /**
      * @Route("vendor/new/", name="vendor_new", methods={"GET","POST"})
-     * @Route("vendor/commissions/", name="vendor_commission_new", methods={"GET","POST"})
-     *
-     * @Route("order/new", name="order_new", methods={"GET","POST"})
+     * @Route("vendor/commission/", name="vendor_new_commission", methods={"GET","POST"})
      *
      * @Route("event/new/", name="event_new", methods={"GET","POST"})
-     * @Route("event/category/new/", name="event_category_new", methods={"GET","POST"})
+     * @Route("event/category/new/", name="event_new_category", methods={"GET","POST"})
      *
      * @Route("folder/new/", name="folder_new", methods={"GET","POST"})
      * @Route("project/new/", name="project_new", methods={"GET","POST"})
      * @Route("commission/new/", name="commission_new", methods={"GET","POST"}) //TODO: для суперАдминов и только для теста
      * @Route("product/new", name="product_new", methods={"GET","POST"})
      * @Route("category/new", name="category_new", methods={"GET","POST"})
+     *
+     * @Route("order/new/", name="order_new", methods={"GET","POST"})
+     *
      * @Route("attachment/new/", name="attachment_new", methods={"GET","POST"})
-     * @Route("reviews/product/new/", name="review_product_new", methods={"GET", "POST"})
-     * @Route("reviews/project/new/", name="review_project_new", methods={"GET", "POST"})
+     *
+     * @Route("review/product/new/", name="review_new_product", methods={"GET", "POST"})
+     * @Route("review/project/new/", name="review_new_project", methods={"GET", "POST"})
      *
      * @param Request $request
      * @return Response
@@ -106,6 +122,7 @@ class ObjectCRUDsController extends AbstractController
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $this->requestDispatcher->object(),
             'form' => $form->createView(),
+//            'slug' => (string)$slug->slugify('jhgjhgjghjghjhg')
         ]);
     }
 
@@ -120,11 +137,11 @@ class ObjectCRUDsController extends AbstractController
      * @Route("product/{id<\d+>}", name="product_show_id", methods={"GET"})
      * @Route("category/{id<\d+>}", name="category_show_id", methods={"GET"})
      * @Route("attachment/{id<\d+>}", name="attachment_show_id", methods={"GET"})
-     * @Route("review/product/{id<\d+>}", name="reviewProduct_show_id", methods={"GET"})
-     * @Route("review/project/{id<\d+>}", name="reviewProject_show_id", methods={"GET"})
+     * @Route("review/product/{id<\d+>}", name="review_show_id_product", methods={"GET"})
+     * @Route("review/project/{id<\d+>}", name="review_show_id_project", methods={"GET"})
      * @Route("order/{id<\d+>}", name="order_show_id", methods={"GET"})
      * @Route("event/{id<\d+>}", name="event_show_id", methods={"GET"})
-     * @Route("event/category/{id<\d+>}", name="eventCategory_show_id", methods={"GET"})
+     * @Route("event/category/{id<\d+>}", name="event_show_id_category", methods={"GET"})
      *
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -136,11 +153,13 @@ class ObjectCRUDsController extends AbstractController
      * @Route("product/{slug}", name="product_show_slug", methods={"GET"})
      * @Route("category/{slug}", name="category_show_slug", methods={"GET"})
      * @Route("attachment/{slug}", name="attachment_show_slug", methods={"GET"})
-     * @Route("review/product/{slug}", name="reviewProduct_show_slug", methods={"GET"})
-     * @Route("review/project/{slug}", name="reviewProject_show_slug", methods={"GET"})
+     *
+     * @Route("review/product/{slug}", name="review_show_slug_product", methods={"GET"})
+     * @Route("review/project/{slug}", name="review_show_slug_project", methods={"GET"})
+     *
      * @Route("order/{slug}", name="order_show_slug", methods={"GET"})
      * @Route("event/{slug}", name="event_show_slug", methods={"GET"})
-     * @Route("event/category/{slug}", name="eventCategory_show_slug", methods={"GET"})
+     * @Route("event/category/{slug}", name="event_show_slug_category", methods={"GET"})
      *
      * @return Response
      */
@@ -164,11 +183,11 @@ class ObjectCRUDsController extends AbstractController
      * @Route("product/edit/{id<\d+>}", name="product_edit_id", methods={"GET","POST"})
      * @Route("category/edit/{id<\d+>}", name="category_edit_id", methods={"GET","POST"})
      * @Route("attachment/edit/{id<\d+>}", name="attachment_edit_id", methods={"GET","POST"})
-     * @Route("review/product/edit/{id<\d+>}", name="review_product_edit_id", methods={"GET", "POST"})
-     * @Route("review/project/edit/{id<\d+>}", name="review_project_edit_id", methods={"GET", "POST"})
+     * @Route("review/product/edit/{id<\d+>}", name="review_edit_id_product", methods={"GET", "POST"})
+     * @Route("review/project/edit/{id<\d+>}", name="review_edit_id_project", methods={"GET", "POST"})
      * @Route("order/edit/{id<\d+>}", name="order_id_edit", methods={"GET", "POST"})
      * @Route("event/edit/{id<\d+>}", name="event_id_edit", methods={"GET", "POST"})
-     * @Route("event/category/edit/{id<\d+>}", name="event_category_edit_id", methods={"GET", "POST"})
+     * @Route("event/category/edit/{id<\d+>}", name="event_edit_id_category", methods={"GET", "POST"})
      *
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -180,11 +199,11 @@ class ObjectCRUDsController extends AbstractController
      * @Route("product/edit/{slug}", name="product_edit_slug", methods={"GET","POST"})
      * @Route("category/edit/{slug}", name="category_edit_slug", methods={"GET","POST"})
      * @Route("attachment/edit/{slug}", name="attachment_edit_slug", methods={"GET","POST"})
-     * @Route("review/product/edit/{slug}", name="reviewProduct_edit_slug", methods={"GET", "POST"})
-     * @Route("review/project/edit/{slug}", name="reviewProject_edit_slug", methods={"GET", "POST"})
+     * @Route("review/product/edit/{slug}", name="review_edit_slug_project", methods={"GET", "POST"})
+     * @Route("review/project/edit/{slug}", name="review_edit_slug_project", methods={"GET", "POST"})
      * @Route("order/edit/{slug}", name="order_edit_slug", methods={"GET", "POST"})
      * @Route("event/edit/{slug}", name="event_edit_slug", methods={"GET", "POST"})
-     * @Route("event/category/edit/{slug}", name="eventCategory_edit_slug", methods={"GET", "POST"})
+     * @Route("event/category/edit/{slug}", name="event_edit_slug_category", methods={"GET", "POST"})
      *
      * @return Response
      */
@@ -218,11 +237,11 @@ class ObjectCRUDsController extends AbstractController
      * @Route("product/delete/{id<\d+>}", name="product_delete_id", methods={"DELETE"})
      * @Route("category/delete/{id<\d+>}", name="category_delete_id", methods={"DELETE"})
      * @Route("attachment/delete/{id<\d+>}", name="attachment_delete_id", methods={"DELETE"})
-     * @Route("review/product/delete/{id<\d+>}", name="reviewProduct_delete_id", methods={"DELETE"})
-     * @Route("review/project/delete/{id<\d+>}", name="reviewProject_delete_id", methods={"DELETE"})
+     * @Route("review/product/delete/{id<\d+>}", name="review_delete_id_product", methods={"DELETE"})
+     * @Route("review/project/delete/{id<\d+>}", name="review_delete_id_project", methods={"DELETE"})
      * @Route("order/delete/{id<\d+>}", name="order_delete_id", methods={"DELETE"})
      * @Route("event/delete/{id<\d+>}", name="event_delete_id", methods={"DELETE"})
-     * @Route("event/category/delete/{id<\d+>}", name="eventCategory_delete_id", methods={"DELETE"})
+     * @Route("event/category/delete/{id<\d+>}", name="event_delete_id_category", methods={"DELETE"})
      *
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -234,11 +253,11 @@ class ObjectCRUDsController extends AbstractController
      * @Route("product/delete/{slug}", name="product_delete_slug", methods={"DELETE"})
      * @Route("category/delete/{slug}", name="category_delete_slug", methods={"DELETE"})
      * @Route("attachment/delete/{slug}", name="attachment_delete_slug", methods={"DELETE"})
-     * @Route("review/product/delete/{slug}", name="reviewProduct_delete_slug", methods={"DELETE"})
-     * @Route("review/project/delete/{slug}", name="reviewProject_delete_slug", methods={"DELETE"})
+     * @Route("review/product/delete/{slug}", name="review_delete_slug_product", methods={"DELETE"})
+     * @Route("review/project/delete/{slug}", name="review_delete_slug_project", methods={"DELETE"})
      * @Route("order/delete/{slug}", name="order_delete_slug", methods={"DELETE"})
      * @Route("event/delete/{slug}", name="event_delete_slug", methods={"DELETE"})
-     * @Route("event/category/delete/{slug}", name="eventCategory_delete_slug", methods={"DELETE"})
+     * @Route("event/category/delete/{slug}", name="event_delete_slug_category", methods={"DELETE"})
      *
      * @param Request $request
      * @return Response
@@ -254,4 +273,48 @@ class ObjectCRUDsController extends AbstractController
 
         return $this->redirectToRoute($this->requestDispatcher->object());
     }
+
+
+
+
+//    /**
+//     * TODO: метод перенесен в общий AttachmentController  и помечен на удаление
+//     * @Route("/", name="vendor_get_attachments", methods={"GET"})
+//     * @param Request     $request
+//     * @param string|null $entity
+//     * @param string|null $layout
+//     *
+//     * @return Response
+//     */
+//    public function getAttachments(Request $request,
+//                                   string $entity = 'App\Entity\Vendor\VendorMedia',
+//                                   string $layout = 'index'): Response
+//    {
+//        /**
+//         * если роль Админ и выше, параметр $createdBy принимается из запроса,
+//         * в противном случе = $this->getUser()
+//         *
+//         */
+//
+//        if ($request->get('_route') == 'profile') {            //TODO: need add role by ROLE_ADMIN; maybe PHP Switch
+//            $createdBy = null;                                 // Vendor is null for template Security
+//            $published = true;                                 // ...for marketing security
+//            $fileLayoutPosition = $request->get('_route');     // ... for filtering
+//            $fileLang = $request->get('app_locale') ?: '*';       // ... for different
+//        }
+//
+//        $attachments = $this->attachmentsManager->getAttachments(
+//            $entity = 'App\Entity\Vendor\VendorMedia',
+//            $id = null,
+//            $slug = null,
+//            $createdBy = null, //Important! Must by User object
+//            $published = true,
+//            $fileLayoutPosition = null,
+//            $fileClass = null,
+//            $fileLang = null
+//        );
+//
+//    }
+//
+//
 }
