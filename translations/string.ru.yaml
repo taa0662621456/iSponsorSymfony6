@@ -1,9 +1,7 @@
 # "регулярка для закрытия "%". Найти %([^,\s<.\\]*) и заменить на %(\1)%
 ##### Этот блок переводов не для регулярного использования. Исключительно для устранения ошибки и ускорения загрузки
 Id: Id
-Project tags: Project tags
 Submit: Submit
-Project category: Project category
 
 Project en gb: Project en gb
 Project attachments: Project attachments

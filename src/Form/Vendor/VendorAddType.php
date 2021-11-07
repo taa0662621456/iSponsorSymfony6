@@ -57,15 +57,15 @@
                         ))
                     ->add('previous', SubmitType::class, array(
                         'label' => 'button.label.previous',
-                        'translation_domain' => 'buttons',
+                        'translation_domain' => 'button',
                         'attr' => array(
                             'id' => 'next',
                             'class' => 'btn btn-primary previous'
                         )
                     ))
                     ->add('next', SubmitType::class, array(
+                        'translation_domain' => 'button',
                         'label' => 'button.label.next',
-                        'translation_domain' => 'buttons',
                         'attr' => array(
                             'id' => 'next',
                             'class' => 'btn btn-primary next'
@@ -84,7 +84,7 @@
                         ->add(
                             'back', ButtonType::class, array(
                                 'label' => 'button.label.back',
-                                'translation_domain' => 'buttons',
+                                'translation_domain' => 'button',
                                 'attr'  => array(
                                     'class' => 'btn btn-primary back',
                                     'onclick' => 'window.history.back()'
@@ -94,7 +94,7 @@
                         ->add(
                             'submitAndNew', SubmitType::class, array(
                                 'label' => 'button.label.submitAndNew',
-                                'translation_domain' => 'buttons',
+                                'translation_domain' => 'button',
                                 'attr'  => array(
                                     'class' => 'btn btn-primary submitAndNew'
                                 )
@@ -103,7 +103,7 @@
                         ->add(
                             'submit', SubmitType::class, array(
                                 'label' => 'button.label.submit',
-                                'translation_domain' => 'buttons',
+                                'translation_domain' => 'button',
                                 'attr'  => array(
                                     'class' => 'btn btn-primary submit'
                                 )

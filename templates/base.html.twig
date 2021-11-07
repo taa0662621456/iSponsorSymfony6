@@ -57,7 +57,7 @@
                             </li>
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                 <li class="nav-item">
-                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="avaterka" alt="Avatar"></a>
+                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="face" alt="Avatar"></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="btn btn-link btn-block" role="button">Main</a>
@@ -131,7 +131,7 @@
                             #}
                         </div>
                         <div class="{{ c3 }} input-group">
-                            <a class="btn btn-light mr-1" href="{{ path('showcart') }}">
+                            <a class="btn btn-light mr-1" href="{{ path('') }}">
                                 <i class="fad fa-abacus"></i>
                                 <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
                                 {{ render(controller('App\\Controller\\CartController::navbarCart')) }}

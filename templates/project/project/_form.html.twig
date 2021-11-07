@@ -1,4 +1,5 @@
 {% form_theme form 'form/btn-group.html.twig' %}
 {{ form_errors(form) }}
-{{ form(form, {attr: {'data-name': project.slug, 'data-object-id': project.id}}) }}
+{{ form(form, {attr: {}}) }}
+{#{{ form(form, {attr: {'data-name': project.slug, 'data-object-id': project.id}}) }}#}
 

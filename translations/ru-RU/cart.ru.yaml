@@ -85,3 +85,4 @@ cart.totalp: "Всего <strong>%s%</strong>"
 cart.total.payment: "Итого в валюте оплаты"
 cart.update: "Обновить количество в корзине"
 cart.x.products: "%s% товаров"
+cart: 'cart'
