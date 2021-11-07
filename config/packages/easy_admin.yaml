@@ -3,15 +3,22 @@ easy_admin:
   #list:
   entities:
     # List the entity class name you want to manage
-    - App\Entity\Project\Projects
-    - App\Entity\Product\Products
-    - App\Entity\Order\Orders
-    - App\Entity\Category\Categories
-    - App\Entity\Review\ProjectReviews
-    - App\Entity\Review\ProductReviews
-    - App\Entity\Vendor\Vendors
-    - App\Entity\Vendor\Vendors
-    - App\Entity\Event\Events
+    - App\Entity\Project\Project
+    - App\Entity\Product\Product
+    - App\Entity\Order\Order
+    - App\Entity\Category\Category
+    - App\Entity\Review\ReviewProject
+    - App\Entity\Review\ReviewProduct
+    - App\Entity\Vendor\Vendor
+    - App\Entity\Event\Event
+    - App\Entity\Price\Price
+    - App\Entity\Price\Price
+    - App\Entity\Tag\Tag
+    - App\Entity\Payment\Payment
+    - App\Entity\Commission\Commission
+    - App\Entity\Commission\Commission
+    - App\Entity\Attachment\Attachment
 
+# https://symfony.com/doc/current/the-fast-track/ru/9-backend.html
 
 
