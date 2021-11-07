@@ -29,6 +29,7 @@ use Symfony\Component\Validator\Constraints\Length;
  *        message="You have an account already or this phone already in use!")
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @method string getUserIdentifier()
  */
 class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticatedUserInterface
 {
@@ -93,7 +94,7 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 	 *
 	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
-	private array $roles = [];
+	private array $role = [];
 
 
 	/**
@@ -197,7 +198,7 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 	 */
 	public function __construct()
 	{
-		$this->roles = [self::ROLE_USER];
+		$this->role = [self::ROLE_USER];
         $t = new DateTime();
 		$this->lastResetTime = $t->format('Y-m-d H:i:s');
 		$this->lastVisitDate = $t->format('Y-m-d H:i:s');
@@ -466,7 +467,7 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 	 *
 	 * @return array
 	 */
-	public function getRoles(): array
+	public function getRole(): array
 	{
 		return [
 			'ROLE_USER'
@@ -474,11 +475,11 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 	}
 
 	/**
-	 * @param array $roles
+	 * @param array $role
 	 */
-	public function setRoles(array $roles): void
+	public function setRole(array $role): void
 	{
-		$this->roles = $roles;
+		$this->role = $role;
 	}
 
 
@@ -615,5 +616,9 @@ class VendorSecurity implements UserInterface, Serializable, PasswordAuthenticat
 	}
 
 
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
 }
 

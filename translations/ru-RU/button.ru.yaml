@@ -19,3 +19,6 @@ button.remember.label: 'Запомнить меня'
 
 button.submit.label: 'Авторизоваться'
 
+button.navbar.signin: 'Авторизоваться'
+button.navbar.signup: 'Зарегистрироваться'
+

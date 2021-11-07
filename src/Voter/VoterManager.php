@@ -2,7 +2,8 @@
 
 namespace App\Voter;
 
-use App\Entity\Vendor\VendorsSecurity;
+use App\Entity\Vendor\Vendor;
+use App\Service\RequestDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -54,7 +55,7 @@ class VoterManager extends Voter
         $this->blacklistedIp = $blacklistedIp;
         $this->requestStack = $requestStack;
         $this->object = '\\App\Voter\\' . (string)ucfirst(current(explode('_', $requestStack->getMainRequest()->attributes->get('_route'), 1)) . 'Voter');
-        $this->voter = (string)current(explode('_', $requestStack->getMainRequest()->attributes->get('_route'), 2));
+        $this->voter = (string)current(explode('_', $requestStack->getMainRequest()->attributes->get('_route', 2), 2));
         $this->security = $security;
     }
 
@@ -76,12 +77,13 @@ class VoterManager extends Voter
             // https://symfony.com/doc/current/security/authenticator_manager.html
             // the user is not authenticated, e.g. only allow them to
             // see public posts
-            return $subject->isPublic();
+//            return $subject->isActive(); //TODO: доработать метод
+            return true;
         }
 
         $user = $token->getUser();
 
-        if (!$user instanceof VendorsSecurity) {
+        if (!$user instanceof Vendor) {
             throw new CustomUserMessageAuthenticationException('Вы не можете просматривать список. Вы не авторизованы'
             );
             //return false;
@@ -116,7 +118,7 @@ class VoterManager extends Voter
 
     public final function canIndex($object, $user): bool
     {
-        if ($object->getActive() && $this->canEdit($object, $user)) {
+        if ($object->getIsActive() && $this->canEdit($object, $user)) {
             return true;
         }
 
@@ -129,7 +131,7 @@ class VoterManager extends Voter
 
     private function canView($object, $user): bool
     {
-        if ($object->getActive() && $this->canEdit($object, $user)) {
+        if ($object->getIsActive() && $this->canEdit($object, $user)) {
             return true;
         }
         return false;

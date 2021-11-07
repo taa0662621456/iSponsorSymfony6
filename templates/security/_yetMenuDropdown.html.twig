@@ -7,16 +7,15 @@
             <a class="dropdown-item" href="#">My Products</a>
             <div class="dropdown-divider"></div>
 
-            <a class="dropdown-item" href="{{ path('projects') }}">Projects</a>
-            <a class="dropdown-item" href="{{ path('projects_new') }}">Add Project</a>
-            <a class="dropdown-item" href="{{ path('products_new') }}">Add Product</a>
+            <a class="dropdown-item" href="{{ path('project_index') }}">Projects</a>
+            <a class="dropdown-item" href="{{ path('project_new') }}">Add Project</a>
+            <a class="dropdown-item" href="{{ path('product_new') }}">Add Product</a>
             <div class="dropdown-divider"></div>
 
-            <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsors</a>
-            <a class="dropdown-item" href="{{ path('author') }}">Authors</a>
+            <a class="dropdown-item" href="{{ path('vendor_index') }}">Vendors</a>
             <div class="dropdown-divider"></div>
 
-            <a class="dropdown-item" href="{{ path('orders_index') }}">Orders</a>
+            <a class="dropdown-item" href="{{ path('order_index') }}">Orders</a>
             <a class="dropdown-item" href="#">Something else here</a>
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
@@ -28,7 +27,7 @@
         {% endif %}
 
         {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
-            <a class="dropdown-item" href=" {{ path ( 'home' , { '_switch_user' : '_exit' }) }} ">Exit
+            <a class="dropdown-item" href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} ">Exit
                 impersonation</a>
         {% endif %}
 

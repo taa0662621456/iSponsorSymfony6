@@ -29,7 +29,7 @@ class Vendor
 	 *
 	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 0})
 	 */
-	private bool $iaActive = false;
+	private bool $isActive = false;
 
 	/**
 	 * @var array
@@ -187,22 +187,22 @@ class Vendor
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocumentAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
-        $this->iaActive = false;
+        $this->isActive = false;
 
     }
 
     /**
      * @return bool
      */
-	public function getIsActive(): bool
+	public function isActive(): bool
     {
-		return $this->iaActive;
+		return $this->isActive;
 	}
 
     /**
      * @param bool|false $isActive
      */
-	public function setisActive(bool $isActive): void
+	public function setIsActive(bool $isActive): void
 	{
 		$this->isActive = $isActive;
 	}

@@ -1,5 +1,5 @@
 easy_admin:
-  site_name: '%app_sitename%'
+  site_name: '%app_name%'
   #list:
   entities:
     # List the entity class name you want to manage
