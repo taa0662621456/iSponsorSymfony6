@@ -6,7 +6,7 @@
 {% block article_content %}
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            {% if products|length %}
+            {% if product|length %}
                 <div class="row">
                     <div>
                         <h2>{{ 'cart'|trans({},'cart') }}</h2>
@@ -130,7 +130,7 @@
             </div>
         </div>
     </div>
-{% endblock page_content %}
+{% endblock article_content %}
 
 {% block javascripts %}
     {{ parent() }}

@@ -30,8 +30,8 @@ class ObjectCRUDsController extends AbstractController
      * @Route("order/", name="order_index", methods={"GET"})
      *
      * @Route("event/", name="event_index", methods={"GET"})
-     * @Route("event/category/", name="event_category_index", methods={"GET"})
-     * @Route("event/member/", name="event_member_index", methods={"GET"})
+     * @Route("event/category/", name="event_index_category", methods={"GET"})
+     * @Route("event/member/", name="event_index_member", methods={"GET"})
      * @Route("folder/", name="folder_index", methods={"GET"}) //TODO: этот роут может быть только для Админов
      * @Route("product/", name="product_index", methods={"GET"})
      * @Route("project/", name="project_index", methods={"GET"})
