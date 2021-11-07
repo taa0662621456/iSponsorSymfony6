@@ -336,7 +336,7 @@ class SecurityController extends AbstractController
 		return $this->json(
 			array(
 				'username' => $user->getUsername(),
-				'roles'    => $user->getRoles(),
+				'roles'    => $user->getRole(),
 			)
 		);
 	}

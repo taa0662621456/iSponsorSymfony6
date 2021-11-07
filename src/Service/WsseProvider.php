@@ -28,7 +28,7 @@ class WsseProvider implements AuthenticationProviderInterface
         $user = $this->userProvider->loadUserByIdentifier($token->getUserIdentifier());
 
         if ($user && $this->validateDigest($token->digest, $token->nonce, $token->created, $user->getPassword())) {
-            $authenticatedToken = new WsseUserToken($user->getRoles());
+            $authenticatedToken = new WsseUserToken($user->getRole());
             $authenticatedToken->setUser($user);
 
             return $authenticatedToken;

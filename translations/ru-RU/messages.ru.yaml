@@ -18,6 +18,9 @@ label.next.step: 'Следующий шаг'
 
 label.previous: 'Предыдущий шаг'
 label.previous.step: 'Предыдущий шаг'
-
-
+button:
+  navbar:
+    signin: 'messages'
+    signup: 'messages'
+logout: 'messages'
 
