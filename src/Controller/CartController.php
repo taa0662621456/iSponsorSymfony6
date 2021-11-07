@@ -26,7 +26,7 @@ class CartController extends AbstractController
 {
 
 	/**
-	 * @Route("cart/index", name="cart_index", methods={"GET"})
+	 * @Route("cart/", name="cart_index", methods={"GET"})
 	 * @param Request $request
 	 *
 	 * @return Response
@@ -85,6 +85,7 @@ class CartController extends AbstractController
 	 */
     public function checkout(Request $request, EventDispatcherInterface $eventDispatcher): array|Response
     {
+        # TODO: Can't get a way to read the property "vendorId" in class "App\Entity\Order\Order".
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
 
@@ -123,9 +124,9 @@ class CartController extends AbstractController
 	/**
 	 * @Route("cart/empty", name="cart_empty", methods={"GET"})
 	 */
-	public function empty(): array
+	public function empty(): Response
 	{
-		return [];
+		return $this->render('cart/empty.html.twig');
 	}
 
 	/**
