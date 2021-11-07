@@ -12,6 +12,7 @@ require('../scss/app.scss');
 
 //import('./masonry_init.js');
 //import('../css/app.css');
+import('../css/navbar.css');
 
 
 //require('../css/likeMasonryCart.css');

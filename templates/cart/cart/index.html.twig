@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
 {% block meta_description %}This cart-page{% endblock %}
-{% block title %}{{ 'cart.title.cart'|trans }}{% endblock %}
-{% block header %}Some head{% endblock %}
-{% block article_header %}Some head{% endblock %}
+{% block title %}{{ 'cart'|trans({},'cart') }}{% endblock %}
+{% block header %}{{ 'cart'|trans({},'cart') }}{% endblock %}
+{% block article_header %}{{ 'cart'|trans({},'cart') }}{% endblock %}
 {% block article_content %}
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             {% if products|length %}
                 <div class="row">
                     <div>
-                        <h2>{{ 'cart.yourcart'|trans }}</h2>
+                        <h2>{{ 'cart'|trans({},'cart') }}</h2>
                     </div>
                 </div>
                 <table class="table">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>{{ 'cart.table.product'|trans }}</th>
-                        <th>{{ 'cart.table.quantity'|trans }}</th>
+                        <th>{{ 'cart.product'|trans({},'cart') }}</th>
+                        <th>{{ 'cart.quantity'|trans({},'cart') }}</th>
                         <th></th>
-                        <th>{{ 'cart.table.price'|trans }}</th>
-                        <th style="text-align: right;">{{ 'cart.table.sum'|trans }}</th>
+                        <th>{{ 'cart.price'|trans({},'cart') }}</th>
+                        <th style="text-align: right;">{{ 'cart.sum'|trans({},'cart') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -36,11 +36,11 @@
                                         {#
                                         <img src="{{ asset( ('uploads/gallery/no_image_available.png') | imagine_filter('some_thumb')) }}"
                                              alt="{{ product.product.name }}">
-                                             #}
+                                        #}
                                     {% endif %}
                                 </a>
                                 <div>
-                                    <a href="{{ path('show_product', {'slug' : product.product.slug}) }}">
+                                    <a href="{{ path('product_show_slug', {'slug' : product.product.slug}) }}">
                                         <strong>{{ product.product.name }}</strong>
                                     </a>
                                     <ul class="list-unstyled">
@@ -74,8 +74,8 @@
                     <tfoot>
                     <tr>
                         <td colspan="6" style="text-align: right;">
-                            <strong>{{ 'cart.table.totalsum'|trans }}:</strong>
-                            <span class="totalsum">{{ totalsum }} {{ 'currency'|trans }}</span>
+                            <strong>{{ 'cart.total'|trans({},'cart') }}:</strong>
+                            <span class="totalsum">{{ totalsum }} {{ 'cart.currency'|trans({},'cart') }}</span>
                         </td>
                     </tr>
                     </tfoot>
@@ -83,13 +83,13 @@
                 <div class="row">
                     <div>
                         <div class="pull-right">
-                            <a href="{{ path('orderform') }}" class="btn btn-success glyphicon glyphicon-ok"
+                            <a href="{{ path('cart_checkout') }}" class="btn btn-success glyphicon glyphicon-ok"
                                id="{% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}showModal{% endif %}">
-                                {{ 'cart.checkout'|trans }}
+                                {{ 'cart.checkout'|trans({},'cart') }}
                             </a>
                             <a href="#" class="btn btn-danger glyphicon glyphicon-trash clear-cart"
                                data-toggle="confirmation" data-popout="true" data-placement="left">
-                                {{ 'cart.clear'|trans }}
+                                {{ 'cart.clear'|trans({},'cart') }}
                             </a>
                         </div>
                     </div>
@@ -97,8 +97,8 @@
             {% else %}
                 <div class="row">
                     <div>
-                        <h2>{{ 'cart.isemptyyet'|trans }}</h2>
-                        <p><a href="{{ path('index_main') }}">{{ 'cart.continue'|trans }}</a></p>
+                        <h2>{{ 'cart.empty'|trans({},'cart') }}</h2>
+                        <p><a href="{{ path('cart_index') }}">{{ 'cart'|trans({},'cart') }}</a></p>
                     </div>
                 </div>
             {% endif %}
@@ -111,20 +111,20 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">{{ 'cart.pleasereg'|trans }}</h4>
+                    <h4 class="modal-title" id="myModalLabel">{{ 'cart.need.sign'|trans({},'cart') }}</h4>
                 </div>
                 <div class="modal-body">
-                    {{ 'cart.regadvadtages'|trans }}
+                    {{ 'cart.regadvadtages'|trans({},'cart') }}
                 </div>
                 <div class="modal-footer">
-                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-success">
-                        {{ 'cart.login'|trans }}
+                    <a href="{{ path('login') }}" class="btn btn-success">
+                        {{ 'cart.sigin'|trans({},'cart') }}
                     </a>
-                    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-success">
-                        {{ 'cart.register'|trans }}
+                    <a href="{{ path('registration') }}" class="btn btn-success">
+                        {{ 'cart.signup'|trans({},'cart') }}
                     </a>
-                    <a href="{{ path('orderform') }}" class="btn btn-primary">
-                        {{ 'cart.continuewithout'|trans }}
+                    <a href="{{ path('cart_checkout') }}" class="btn btn-primary">
+                        {{ 'cart.continue'|trans({},'cart') }}
                     </a>
                 </div>
             </div>

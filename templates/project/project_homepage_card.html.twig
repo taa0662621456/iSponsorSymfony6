@@ -50,7 +50,7 @@
         </h4>
     </a>
     <p class="lead price">
-        <span>{{ product.price }}</span> {{ 'currency'|trans }}
+        <span>{{ product.price }}</span> {{ 'currency'|trans({},'domain') }}
     </p>
-    <a class="btn btn-success addtocart-btn" href="#">{{ 'cart.addtocart'|trans }}</a>
+    <a class="btn btn-success addtocart-btn" href="#">{{ 'cart.addtocart'|trans({},'domain') }}</a>
 </div>#}

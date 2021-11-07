@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Project\Project;
-use App\Service\Factory\ObjectLanguageLayerFactory;
 use App\Service\RequestDispatcher;
 use Cocur\Slugify\Slugify;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,21 +51,15 @@ class ObjectCRUDsController extends AbstractController
         $localeFilter = $this->requestDispatcher->localeFilter();
         ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer(): $object = $this->requestDispatcher->object();
         $em = $this->getDoctrine()->getManager();
+//TODO: определяем уровень прав пользователя и если Юзер
+//        ($this->getUser()) ?
+//            $q = $em->getRepository($object)->findAll():
+//            $q = $em->getRepository($object)->findBy(
+//                ['createdBy' => $this->getUser()]
+//            );
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $em->getRepository($object)->findAll(),
         ]);
-    }
-
-
-
-    /**
-     * @var RequestDispatcher
-     */
-    private RequestDispatcher $requestDispatcher;
-
-    public function __construct(RequestDispatcher $requestDispatcher)
-    {
-        $this->requestDispatcher = $requestDispatcher;
     }
 
     /**
@@ -111,6 +103,12 @@ class ObjectCRUDsController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+//            $s = $form->get('productEnGb')->get('slug')->getData();
+//            if (!isset($s)) {
+//                //$form->set('productEnGb')->set('slug')->setSlug($slug->slugify($productEnGb->getProductName()))
+//                $product->setSlug($slug->slugify($productEnGb->getProductName()));
+//            }
             if (true == $form->getData()->objectEnGb->getSlug()) {
                 $object->setSlug($slug->slugify($objectEnGb->getFirstTitle()));
             }
@@ -119,10 +117,10 @@ class ObjectCRUDsController extends AbstractController
 
             return $this->redirect($object);
         }
+
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $this->requestDispatcher->object(),
             'form' => $form->createView(),
-//            'slug' => (string)$slug->slugify('jhgjhgjghjghjhg')
         ]);
     }
 
@@ -274,7 +272,39 @@ class ObjectCRUDsController extends AbstractController
         return $this->redirectToRoute($this->requestDispatcher->object());
     }
 
+    /**
+     * @Route("vendor/", name="vendor_own", methods={"GET"})
+     * @Route("vendor/folder", name="vendor_folder_own", methods={"GET"})
+     *
+     * @Route("order/", name="order_own", methods={"GET"})
+     *
+     * @Route("event/", name="event_own", methods={"GET"})
+     * @Route("event/category/", name="event_category_own", methods={"GET"})
+     * @Route("event/member/", name="event_member_own", methods={"GET"})
+     * @Route("folder/", name="folder_own", methods={"GET"})
+     * @Route("product/", name="product_own", methods={"GET"})
+     * @Route("project/", name="project_own", methods={"GET"})
+     *
+     * @Route("commission/", name="commission_own", methods={"GET"})
+     *
+     * @Route("category/", name="category_own", methods={"GET"})
+     * @Route("attachment/", name="attachment_own", methods={"GET"})
+     *
+     * @Route("review/product/", name="review_own_product", methods={"GET"})
+     * @Route("review/project/", name="review_own_project", methods={"GET"})
+     *
+     * @return Response
+     */
+    public function own(): Response
+    {
+        $localeFilter = $this->requestDispatcher->localeFilter();
+        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer(): $object = $this->requestDispatcher->object();
+        $em = $this->getDoctrine()->getManager();
 
+        return $this->render($this->requestDispatcher->layOutPath(), [
+            $this->requestDispatcher->route() => $em->getRepository($object)->findBy(['createdBy' => $this->getUser()]),
+        ]);
+    }
 
 
 //    /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 	use App\Entity\Order\Orders;
     use App\Event\Events;
-    use App\Event\OrderSubmitedEvent;
+    use App\Event\OrderSubmitEvent;
     use JetBrains\PhpStorm\ArrayShape;
     use JetBrains\PhpStorm\NoReturn;
     use JetBrains\PhpStorm\Pure;
@@ -47,11 +47,11 @@ declare(strict_types=1);
 		/**
 		 * @return array
 		 */
-		#[ArrayShape([OrderSubmitedEvent::NAME => "string"])]
+		#[ArrayShape([OrderSubmitEvent::NAME => "string"])]
         public static function getSubscribedEvents(): array
 		{
 			return array(
-				OrderSubmitedEvent::NAME => 'onOrdersOrder',
+				OrderSubmitEvent::NAME => 'onOrdersOrder',
                 Events::ORDER_BEFORE_CREATE => 'onOrderBeforeCreate', //onPrePersist
                 Events::ORDER_CREATED => 'onOrderCreated', //onPostPersist
                 Events::ORDER_STATUS_UPDATED => 'onOrderStatusUpdated' // onUpdate
@@ -80,10 +80,10 @@ declare(strict_types=1);
         }
 
 		/**
-		 * @param OrderSubmitedEvent $orderSubmittedEvent
+		 * @param OrderSubmitEvent $orderSubmittedEvent
 		 *
          */
-		public function onOrdersOrder(OrderSubmitedEvent $orderSubmittedEvent): void
+		public function onOrdersOrder(OrderSubmitEvent $orderSubmittedEvent): void
 		{
 			$this->mailer->sendNewOrderNotification((array)$orderSubmittedEvent->getOrderSubmited());
 		}

@@ -9,31 +9,29 @@ use App\Entity\Order\Order;
 use App\Entity\Product\Product;
 use App\Entity\Product\ProductPrice;
 use App\Entity\Vendor\Vendor;
-use App\Event\OrderSubmitedEvent;
+use App\Event\OrderSubmitEvent;
 use App\Form\Order\OrderType;
 use App\Service\ProductUtilite;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-/**
- * @Route("/cart")
- */
+
 class CartController extends AbstractController
 {
+
 	/**
-	 * @Route("/", name="showcart", methods={"GET"})
+	 * @Route("cart/index", name="cart_index", methods={"GET"})
 	 * @param Request $request
 	 *
 	 * @return Response
 	 */
-	public function show(Request $request): Response
+	public function index(Request $request): Response
     {
         $em = $this->getDoctrine()->getManager();
 		$productsRepository = $em->getRepository(Product::class);
@@ -69,8 +67,8 @@ class CartController extends AbstractController
             }
         }
 
-		return $this->render('cart/showCart.html.twig', array(
-            'products' => $products,
+		return $this->render('cart/cart/index.html.twig', array(
+            'product' => $products,
             'total' => $totalSum
 			)
         );
@@ -79,13 +77,13 @@ class CartController extends AbstractController
 	/**
 	 * Shows order form.
 	 *
-	 * @Route("/orderform", name="orderform", methods={"GET", "POST"})
+	 * @Route("cart/checkout", name="cart_checkout", methods={"GET", "POST"})
 	 * @param Request                  $request
 	 * @param EventDispatcherInterface $eventDispatcher
 	 *
-	 * @return array|RedirectResponse|Response
+	 * @return array|Response
 	 */
-    public function order(Request $request, EventDispatcherInterface $eventDispatcher)
+    public function checkout(Request $request, EventDispatcherInterface $eventDispatcher): array|Response
     {
         $order = new Order();
         $form = $this->createForm(OrderType::class, $order);
@@ -94,48 +92,36 @@ class CartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $orderSuccess = $this->get(ProductUtilite::class)->createOrderDBRecord($request, $order, $this->getUser());
-            } catch (OptimisticLockException $e) {
-            } catch (ORMException $e) {
             }
-            /*
+            catch (OptimisticLockException | ORMException $e) {
+                dd($e);
+            }
+
+
+
             if (!$orderSuccess) {
-                return $this->redirect($this->generateUrl('cartisempty');
+                return $this->redirect($this->generateUrl('cart_empty'));
             }
-            */
-
-            //send email notification
-
-
-
-
-            $orderSubmitedEvent = new OrderSubmitedEvent($order);
-            $eventDispatcher->dispatch($orderSubmitedEvent);
-
-            /*
-            $this->get(SwiftMailer::class)->handleNotification([
-                'event' => 'new_order',
-                'order_id' => $order->getId(),
-                'admin_email' => $this->getParameter('app.notifications.email_sender')
-            ]);
-            */
+            //TODO: do send email notification
+            $orderSubmitEvent = new OrderSubmitEvent($orderSuccess);
+            $eventDispatcher->dispatch($orderSubmitEvent);
 
             return $this->render('cart/thankYou.html.twig');
         }
 
-        if (is_object($user = $this->getUser())) {
-            $this->fillWithUserData($user, $form);
+        if (is_object($this->getUser())) {
+            $user = $this->getUser();
+            $this->fillWithUserData($user, $form); //TODO: непонятно, что за параметры
         }
 
-        return array(
+        return [
 			'order' => $order,
 			'form' => $form->createView()
-		);
+        ];
 	}
 
 	/**
-	 * If cart is empty.
-	 *
-	 * @Route("/cartisempty", name="cartisempty", methods={"GET"})
+	 * @Route("cart/empty", name="cart_empty", methods={"GET"})
 	 */
 	public function empty(): array
 	{
@@ -163,7 +149,7 @@ class CartController extends AbstractController
 				));
 			}
 		} else {
-			return $this->render('cart/cartIsEmpty.html.twig');
+			return $this->render('cart/empty.html.twig');
 		}
 
 		$productRepository = $em->getRepository(Product::class);
@@ -180,7 +166,7 @@ class CartController extends AbstractController
 			}
 		}
 
-		return $this->render('cart/showCart.html.twig', array(
+		return $this->render('cart/cart/index.html.twig', array(
 			'cart' => $cartArray
 		));
 	}
@@ -190,7 +176,7 @@ class CartController extends AbstractController
      * @param Form $form
      * @return void
      */
-    private function fillWithUserData($user, $form): void
+    private function fillWithUserData(Vendor $user, Form $form): void
     {
 
     }

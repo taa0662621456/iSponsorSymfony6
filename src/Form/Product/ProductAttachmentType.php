@@ -16,7 +16,7 @@ class ProductAttachmentType extends AbstractType
         $builder
             ->add('file', FileType::class, array(
                 'data_class' => null,
-                'label' => 'Product\'s files',
+                'label' => 'label.product.fileProduct\'s files',
                 'attr' => array(
                     'class' => 'file',
                     'multiple' => true,

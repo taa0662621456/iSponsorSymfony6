@@ -6,7 +6,7 @@ namespace App\Event;
 use App\Entity\Order\Orders;
 use Symfony\Contracts\EventDispatcher\Event;
 
-class OrderSubmitedEvent extends Event
+class OrderSubmitEvent extends Event
 {
     public const NAME = 'orders.order';
 
