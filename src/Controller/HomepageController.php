@@ -44,7 +44,7 @@
 
 
             $response = $this->render(
-                'homepage/homepage.html.twig', array(
+                'home/home.html.twig', array(
                     'categories' => $categoriesRepository->findAll(),
                     //'categories' => $categoriesRepository->findOneBy(
                     //  ['published' => 't'], ['id' => 'ASC']),
