@@ -32,165 +32,165 @@
         {% endblock %}
     </head>
 {% endblock %}
-{% block body %}
-    <body>
-    <header class="section-header">
+{#{% block body %}#}
+{#    <body>#}
+{#    <header class="section-header">#}
 
-        {% block navbar %}
-            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">
-                <menu class="{{ b1 }}">
-                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"
-                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"
-                       href="#"><span class="text-break">...iSponsor!</span><span
-                                class="navbar-toggler-icon"></span></a>
-                </menu>
-                <menu class="{{ b2 }} left">
+{#        {% block navbar %}#}
+{#            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">#}
+{#                <menu class="{{ b1 }}">#}
+{#                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"#}
+{#                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"#}
+{#                       href="#"><span class="text-break">...iSponsor!</span><span#}
+{#                                class="navbar-toggler-icon"></span></a>#}
+{#                </menu>#}
+{#                <menu class="{{ b2 }} left">#}
 
-                </menu>
-                <menu class="{{ b3 }}">
-                    <div class="collapse navbar-collapse" id="isponsor">
-                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="btn btn-warning btn-block rounded-0" role="button"
-                                   href="{{ path('project_new') }}"><i class="fal fa-plus-circle"></i></a>
-                            </li>
-                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <li class="nav-item">
-                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="face" alt="Avatar"></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-link btn-block" role="button">Main</a>
-                                </li>
-                                <li class="nav-item">
+{#                </menu>#}
+{#                <menu class="{{ b3 }}">#}
+{#                    <div class="collapse navbar-collapse" id="isponsor">#}
+{#                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>#}
+{#                        <ul class="navbar-nav mr-auto">#}
+{#                            <li class="nav-item">#}
+{#                                <a class="btn btn-warning btn-block rounded-0" role="button"#}
+{#                                   href="{{ path('project_new') }}"><i class="fal fa-plus-circle"></i></a>#}
+{#                            </li>#}
+{#                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}#}
+{#                                <li class="nav-item">#}
+{#                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="face" alt="Avatar"></a>#}
+{#                                </li>#}
+{#                                <li class="nav-item">#}
+{#                                    <a class="btn btn-link btn-block" role="button">Main</a>#}
+{#                                </li>#}
+{#                                <li class="nav-item">#}
 {#                                    <a class="btn btn-link btn-block" role="button">{{ app.user.username }}</a>#}
-                                </li>
-                            {% endif %}
-                            {{ include('security/_yetMenuDropdown.html.twig') }}
-                        </ul>
-                    </div>
-                </menu>
-                <menu class="{{ b4 }}">
+{#                                </li>#}
+{#                            {% endif %}#}
+{#                            {{ include('security/_yetMenuDropdown.html.twig') }}#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </menu>#}
+{#                <menu class="{{ b4 }}">#}
 
-                </menu>
+{#                </menu>#}
 
-            </nav>
-            {#
-                        {{ include('security/navbarForAdmin.html.twig') }}
-            #}
-        {% endblock %}
-        {% block section %}
-            <section class="row header-main bg m-1">
-                <div id="p1" class="{{ b1 }}">
-                </div>
-                <div id="p2" class="{{ b2 }}">
-                </div>
-                <div id="panel" class="{{ b3 }}">
-                    <div class="row btn-toolbar justify-content-between m-0" role="toolbar" aria-label="View settings">
-                        <div id="tools" class="{{ c1 }} btn-group btn-group-toggle pl-0" role="group"
-                             data-toggle="buttons">
-                            {% block little_panel %}
-                                {{ include('_tools.html.twig') }}
-                            {% endblock %}
-                        </div>
-                        <div class="{{ c2 }} input-group">
-                            {{ include('search/search.html.twig') }}
+{#            </nav>#}
+{#            #}{##}
+{#                        {{ include('security/navbarForAdmin.html.twig') }}#}
+{#            #}
+{#        {% endblock %}#}
+{#        {% block section %}#}
+{#            <section class="row header-main bg m-1">#}
+{#                <div id="p1" class="{{ b1 }}">#}
+{#                </div>#}
+{#                <div id="p2" class="{{ b2 }}">#}
+{#                </div>#}
+{#                <div id="panel" class="{{ b3 }}">#}
+{#                    <div class="row btn-toolbar justify-content-between m-0" role="toolbar" aria-label="View settings">#}
+{#                        <div id="tools" class="{{ c1 }} btn-group btn-group-toggle pl-0" role="group"#}
+{#                             data-toggle="buttons">#}
+{#                            {% block little_panel %}#}
+{#                                {{ include('_tools.html.twig') }}#}
+{#                            {% endblock %}#}
+{#                        </div>#}
+{#                        <div class="{{ c2 }} input-group">#}
+{#                            {{ include('search/search.html.twig') }}#}
 
-                            {#{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">
-                                    <div class="btn-group mr-1" role="group" aria-label="Favourites">
-                                        <a class="btn btn-secondary"
-                                           href="{{ path('favourites', {'favourites' : 'projects'}) }}">
-                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            J</a>
-                                        <a class="btn btn-secondary"
-                                           href="{{ path('favourites', {'favourites' : 'products'}) }}">
-                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            D</a>
-                                        <a class="btn btn-secondary"
-                                           href="{{ path('favourites', {'favourites' : 'vendors'}) }}">
-                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            V</a>
-                                    </div>
-                                    <div class="btn-group mr-1">
-                                        <a class="btn btn-secondary"
-                                           href="{{ path('favourites', {'favourites' : 'index'}) }}">
-                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                            A</a>
-                                    </div>
-                                </div>
-                            {% endif %}#}
-                            {#
-                                                        <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">
+{#                            #}{#{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}#}
+{#                                <div class="btn-toolbar" role="toolbar" aria-labelledby="navbarFavourites">#}
+{#                                    <div class="btn-group mr-1" role="group" aria-label="Favourites">#}
+{#                                        <a class="btn btn-secondary"#}
+{#                                           href="{{ path('favourites', {'favourites' : 'projects'}) }}">#}
+{#                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                                            J</a>#}
+{#                                        <a class="btn btn-secondary"#}
+{#                                           href="{{ path('favourites', {'favourites' : 'products'}) }}">#}
+{#                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                                            D</a>#}
+{#                                        <a class="btn btn-secondary"#}
+{#                                           href="{{ path('favourites', {'favourites' : 'vendors'}) }}">#}
+{#                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                                            V</a>#}
+{#                                    </div>#}
+{#                                    <div class="btn-group mr-1">#}
+{#                                        <a class="btn btn-secondary"#}
+{#                                           href="{{ path('favourites', {'favourites' : 'index'}) }}">#}
+{#                                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>#}
+{#                                            A</a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            {% endif %}#}
+{#                            #}{##}
+{#                                                        <input type="search" class="form-control" name="q" placeholder="Search" aria-label="Search">#}
 
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-primary" type="submit">
-                                                                <i class="fad fa-search"></i>
-                                                            </button>
-                                                        </div>
-                            #}
-                        </div>
-                        <div class="{{ c3 }} input-group">
-                            <a class="btn btn-light mr-1" href="{{ path('cart_index') }}">
-                                <i class="fad fa-abacus"></i>
-                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>
-                                {{ render(controller('App\\Controller\\CartController::navbarCart')) }}
+{#                                                        <div class="input-group-append">#}
+{#                                                            <button class="btn btn-primary" type="submit">#}
+{#                                                                <i class="fad fa-search"></i>#}
+{#                                                            </button>#}
+{#                                                        </div>#}
+{#                            #}
+{#                        </div>#}
+{#                        <div class="{{ c3 }} input-group">#}
+{#                            <a class="btn btn-light mr-1" href="{{ path('cart_index') }}">#}
+{#                                <i class="fad fa-abacus"></i>#}
+{#                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">Cart</span>#}
+{#                                {{ render(controller('App\\Controller\\CartController::navbarCart')) }}#}
 
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="{{ b4 }}">
-                </div>
-            </section>
-        {% endblock %}
-        <hgroup>
-            {% block header %}
-                {{ include('_flashes.html.twig') }}
-            {% endblock %}
-        </hgroup>
-    </header>
-    {% block blocks %}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="{{ b4 }}">#}
+{#                </div>#}
+{#            </section>#}
+{#        {% endblock %}#}
+{#        <hgroup>#}
+{#            {% block header %}#}
+{#                {{ include('_flashes.html.twig') }}#}
+{#            {% endblock %}#}
+{#        </hgroup>#}
+{#    </header>#}
+{#    {% block blocks %}#}
 
-        <main role="main" class="row m-0 h-100">
-            <aside id="b1" class="{{ b1 }}">
-                <div class="sticky-top text-center pt-5">
-                    <a id="move_up" href="#"><span style="font-size: 2em"><i
-                                    class="fal fa-chevron-circle-up"></i></span></a>
-                </div>
-                {% block ontop %}{% endblock %}
-            </aside>
-            <aside id="b2" class="{{ b2 }} h-100">
-                {% block sidebar %}{% endblock %}
-            </aside>
-            <article id="b3" class="{{ b3 }}">
-                <header>
-                    {% block article_header %}{% endblock %}
-                </header>
-                <section>
-                    {% block article_content %}{% endblock %}
-                </section>
-                <section>
-                    <details>
-                        <summary>
-                            {% block article_summery %}{% endblock %}
-                        </summary>
-                    </details>
-                </section>
-                <footer>
-                    {% block article_footer %}{% endblock %}
-                </footer>
-            </article>
-            <aside id="b4" class="{{ b4 }}">
-                {% block aside %}{% endblock %}
-            </aside>
-        </main>
-    {% endblock %}
+{#        <main role="main" class="row m-0 h-100">#}
+{#            <aside id="b1" class="{{ b1 }}">#}
+{#                <div class="sticky-top text-center pt-5">#}
+{#                    <a id="move_up" href="#"><span style="font-size: 2em"><i#}
+{#                                    class="fal fa-chevron-circle-up"></i></span></a>#}
+{#                </div>#}
+{#                {% block ontop %}{% endblock %}#}
+{#            </aside>#}
+{#            <aside id="b2" class="{{ b2 }} h-100">#}
+{#                {% block sidebar %}{% endblock %}#}
+{#            </aside>#}
+{#            <article id="b3" class="{{ b3 }}">#}
+{#                <header>#}
+{#                    {% block article_header %}{% endblock %}#}
+{#                </header>#}
+{#                <section>#}
+{#                    {% block article_content %}{% endblock %}#}
+{#                </section>#}
+{#                <section>#}
+{#                    <details>#}
+{#                        <summary>#}
+{#                            {% block article_summery %}{% endblock %}#}
+{#                        </summary>#}
+{#                    </details>#}
+{#                </section>#}
+{#                <footer>#}
+{#                    {% block article_footer %}{% endblock %}#}
+{#                </footer>#}
+{#            </article>#}
+{#            <aside id="b4" class="{{ b4 }}">#}
+{#                {% block aside %}{% endblock %}#}
+{#            </aside>#}
+{#        </main>#}
+{#    {% endblock %}#}
 
-    {{ include('_fullscreen.html.twig') }}
+{#    {{ include('_fullscreen.html.twig') }}#}
 
-    </body>
-{% endblock %}
+{#    </body>#}
+{#{% endblock %}#}
 
 {% block footer %}
     <footer id="footer" class="footer section-footer bg-dark white">
