@@ -3,8 +3,13 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Order\Order;
@@ -19,6 +24,14 @@ use DateTime;
  * UniqueEntity("slug"), errorPath="slug", message="This name is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorRepository")
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="vendor:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="vendor:item"}}},
+ *     order={"roles"="DESC", "last_reset_time"="ASC"},
+ *     paginationEnabled=false
+ *     )
+ * @ApiFilter(BooleanFilter::class, properties={"isActive"})
  */
 class Vendor
 {
@@ -29,13 +42,15 @@ class Vendor
 	 *
 	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 0})
 	 */
-	private bool $isActive = false;
+    #[Groups(['vendor:list', 'vendor:item'])]
+	private bool $iaActive = false;
 
 	/**
 	 * @var array
 	 *
 	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
+    #[Groups(['vendor:list', 'vendor:item'])]
 	private array $roles = [];
 
 	/**
@@ -43,6 +58,7 @@ class Vendor
      *
 	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
 	 */
+    #[Groups(['vendor:list', 'vendor:item'])]
 	private string $lastVisitDate;
 
 	/**
@@ -57,6 +73,7 @@ class Vendor
 	 *
 	 * @ORM\Column(name="locale", type="string", nullable=true, options={"default"="en"})
 	 */
+    #[Groups(['vendor:list', 'vendor:item'])]
 	private ?string $locale = null;
 
 	/**
@@ -65,6 +82,7 @@ class Vendor
 	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
 	 *                                     "comment"="Date of last password reset"})
 	 */
+    #[Groups(['vendor:list', 'vendor:item'])]
 	private string $lastResetTime;
 
 	/**

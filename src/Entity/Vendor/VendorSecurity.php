@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 
 use \DateTime;
@@ -12,6 +13,7 @@ use Exception;
 use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -28,6 +30,11 @@ use Symfony\Component\Validator\Constraints\Length;
  *        message="You have an account already or this phone already in use!")
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
+ *
+ * @ApiResource()
+ * TODO: https://symfonycasts.com/screencast/api-platform/user-resource#play
+ * TODO: не реализовал один из методов интерфейса
+ *
  */
 class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 {
