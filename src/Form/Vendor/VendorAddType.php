@@ -53,7 +53,7 @@
                             'inherit_data' => true,
                             'label' => false,
                             'attr'=> [
-                                'class' => 'btn-group'
+                                'class' => 'btn-group m-1'
                             ]
                         ])
                     ->add('previous', SubmitType::class, [
@@ -79,7 +79,7 @@
                             'inherit_data' => true,
                             'label' => false,
                             'attr'=> [
-                                'class' => 'btn-group'
+                                'class' => 'btn-group m-1'
                             ]
                     ])
                         ->add(
