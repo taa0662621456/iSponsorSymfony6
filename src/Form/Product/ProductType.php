@@ -15,38 +15,38 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
 		$builder
-            ->add('productSku', HiddenType::class, array(
+            ->add('productSku', HiddenType::class, [
                     'required' => false
-                )
+                ]
             )
             ->add('productEnGb', ProductEnGbType::class)
-            ->add('productAttachments', CollectionType::class, array(
+            ->add('productAttachments', CollectionType::class, [
                     'entry_type' => ProductAttachmentType::class,
-                    'label' => 'product.attachment.label',
                     'translation_domain' => 'product',
-                    'entry_options' => array('label' => false),
+                    'label' => 'product.attachment.label',
+                    'entry_options' => ['label' => false],
                     'required' => false,
                     //'empty_data' => true,
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
-                )
+                ]
 			)
-            ->add('productTags', ProductTagType::class, array(
+            ->add('productTags', ProductTagType::class, [
                 'required' => false
-            ))
+            ])
 
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver):void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
 			'data_class'         => Product::class,
 			'translation_domain' => 'product',
-			'attr'               => array(
+			'attr'               => [
 				'id' => 'msform'
-			)
-		));
+            ]
+        ]);
     }
 }
