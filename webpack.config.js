@@ -7,9 +7,9 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
-    //.setManifestKeyPrefix('build/')
-    .addEntry('app', './assets/js/app.js')
-    .addEntry('sign', './assets/js/sign.js')
+    // .setManifestKeyPrefix('isponsor')
+    .addEntry('app', './asset/js/app.js')
+    .addEntry('sign', './asset/js/sign.js')
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
 
