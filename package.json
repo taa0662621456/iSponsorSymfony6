@@ -19,9 +19,10 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "animate.css": "^4.1.1",
         "bloodhound-js": "^1.2.3",
         "bootstrap": "5.1.1",
-        "bootstrap-autohide-navbar": "^1.0.0",
+        "bootstrap-autohide-navbar": "^0.0.4",
         "css-loader": "^6.2.0",
         "font-awesome": "^4.7.0",
         "fs": "0.0.1-security",
