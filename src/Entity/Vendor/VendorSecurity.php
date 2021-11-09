@@ -35,8 +35,9 @@ use Symfony\Component\Validator\Constraints\Length;
  * TODO: https://symfonycasts.com/screencast/api-platform/user-resource#play
  * TODO: не реализовал один из методов интерфейса
  *
+ * @method string getUserIdentifier()
  */
-class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
+class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, PasswordAuthenticatedUserInterface, UserInterface
 {
 	use BaseTrait;
 
@@ -119,9 +120,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="activation_code", type="string", nullable=false, options={"default"="0"})
+	 * @ORM\Column(name="activation_code", type="string", nullable=false, options={"default"="activation_code"})
 	 */
-	private string $activationCode = '0';
+	private string $activationCode = 'activation_code';
 
 	/**
 	 * @var string
@@ -202,26 +203,31 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @throws Exception
 	 */
 	public function __construct()
-	{
-		$this->role = [self::ROLE_USER];
-        $t = new DateTime();
-		$this->lastResetTime = $t->format('Y-m-d H:i:s');
-		$this->lastVisitDate = $t->format('Y-m-d H:i:s');
+         	{
+         		$this->role = [self::ROLE_USER];
+                 $t = new DateTime();
+         		$this->lastResetTime = $t->format('Y-m-d H:i:s');
+         		$this->lastVisitDate = $t->format('Y-m-d H:i:s');
 
-	}
+         	}
 
 	/**
 	 * @ORM\Column(name="salt", type="string")
 	 */
 	private string $salt = '0';
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
 	/**
 	 * @return string
 	 */
 	public function getApiKey(): string
-	{
-		return $this->apiKey;
-	}
+         	{
+         		return $this->apiKey;
+         	}
 
 	/**
 	 * @param string $apiKey
@@ -229,19 +235,19 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setApiKey(string $apiKey): self
-	{
-		$this->apiKey = $apiKey;
-		return $this;
-	}
+         	{
+         		$this->apiKey = $apiKey;
+         		return $this;
+         	}
 
 
 	/**
 	 * @return string
 	 */
 	public function getEmail(): string
-	{
-		return $this->email;
-	}
+         	{
+         		return $this->email;
+         	}
 
 	/**
 	 * @param string $email
@@ -249,35 +255,35 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setEmail(string $email): self
-	{
-		$this->email = $email;
-		return $this;
-	}
+         	{
+         		$this->email = $email;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getPhone(): string
-	{
-		return $this->phone;
-	}
+         	{
+         		return $this->phone;
+         	}
 
 	/**
 	 * @param string $phone
 	 */
 	public function setPhone(string $phone): void
-	{
-		$this->phone = $phone;
-	}
+         	{
+         		$this->phone = $phone;
+         	}
 
 
 	/**
 	 * @return bool|null
 	 */
 	public function getSendEmail(): ?bool
-	{
-		return $this->sendEmail;
-	}
+         	{
+         		return $this->sendEmail;
+         	}
 
 	/**
 	 * @param bool|null $sendEmail
@@ -285,18 +291,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setSendEmail(?bool $sendEmail): self
-	{
-		$this->sendEmail = $sendEmail;
-		return $this;
-	}
+         	{
+         		$this->sendEmail = $sendEmail;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
      */
 	public function getLastVisitDate(): string
-    {
-		return $this->lastVisitDate;
-	}
+             {
+         		return $this->lastVisitDate;
+         	}
 
 	/**
 	 * @param string $lastVisitDate
@@ -304,18 +310,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setLastVisitDate(string $lastVisitDate): self
-	{
-		$this->lastVisitDate = $lastVisitDate;
-		return $this;
-	}
+         	{
+         		$this->lastVisitDate = $lastVisitDate;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getActivationCode(): string
-	{
-		return $this->activationCode;
-	}
+         	{
+         		return $this->activationCode;
+         	}
 
 	/**
 	 * @param string $activationCode
@@ -323,34 +329,34 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setActivationCode(string $activationCode): self
-	{
-		$this->activationCode = $activationCode;
-		return $this;
-	}
+         	{
+         		$this->activationCode = $activationCode;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getLocale(): string
-	{
-		return $this->locale;
-	}
+         	{
+         		return $this->locale;
+         	}
 
 	/**
 	 * @param string $locale
 	 */
 	public function setLocale(string $locale): void
-	{
-		$this->locale = $locale;
-	}
+         	{
+         		$this->locale = $locale;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getParams(): string
-	{
-		return $this->params;
-	}
+         	{
+         		return $this->params;
+         	}
 
 	/**
 	 * @param string $params
@@ -358,18 +364,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setParams(string $params): self
-	{
-		$this->params = $params;
-		return $this;
-	}
+         	{
+         		$this->params = $params;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
      */
 	public function getLastResetTime(): string
-    {
-		return $this->lastResetTime;
-	}
+             {
+         		return $this->lastResetTime;
+         	}
 
 	/**
 	 * @param string $lastResetTime
@@ -377,18 +383,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setLastResetTime(string $lastResetTime): self
-	{
-		$this->lastResetTime = $lastResetTime;
-		return $this;
-	}
+         	{
+         		$this->lastResetTime = $lastResetTime;
+         		return $this;
+         	}
 
 	/**
 	 * @return int
 	 */
 	public function getResetCount(): int
-	{
-		return $this->resetCount;
-	}
+         	{
+         		return $this->resetCount;
+         	}
 
 	/**
 	 * @param int $resetCount
@@ -396,18 +402,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setResetCount(int $resetCount): self
-	{
-		$this->resetCount = $resetCount;
-		return $this;
-	}
+         	{
+         		$this->resetCount = $resetCount;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getOtpKey(): string
-	{
-		return $this->otpKey;
-	}
+         	{
+         		return $this->otpKey;
+         	}
 
 	/**
 	 * @param string $otpKey
@@ -415,18 +421,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setOtpKey(string $otpKey): self
-	{
-		$this->otpKey = $otpKey;
-		return $this;
-	}
+         	{
+         		$this->otpKey = $otpKey;
+         		return $this;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getOtep(): string
-	{
-		return $this->otep;
-	}
+         	{
+         		return $this->otep;
+         	}
 
 	/**
 	 * @param string $otep
@@ -434,18 +440,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setOtep(string $otep): self
-	{
-		$this->otep = $otep;
-		return $this;
-	}
+         	{
+         		$this->otep = $otep;
+         		return $this;
+         	}
 
 	/**
 	 * @return bool
 	 */
 	public function isRequireReset(): bool
-	{
-		return $this->requireReset;
-	}
+         	{
+         		return $this->requireReset;
+         	}
 
 	/**
 	 * @param bool $requireReset
@@ -453,10 +459,10 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setRequireReset(bool $requireReset): self
-	{
-		$this->requireReset = $requireReset;
-		return $this;
-	}
+         	{
+         		$this->requireReset = $requireReset;
+         		return $this;
+         	}
 
 	/**
 	 * Returns the roles granted to the user.
@@ -473,19 +479,19 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return array
 	 */
 	public function getRole(): array
-	{
-		return [
-			'ROLE_USER'
-		];
-	}
+         	{
+         		return [
+         			'ROLE_USER'
+         		];
+         	}
 
 	/**
 	 * @param array $role
 	 */
 	public function setRole(array $role): void
-	{
-		$this->role = $role;
-	}
+         	{
+         		$this->role = $role;
+         	}
 
 	/**
 	 * @param string $password
@@ -493,30 +499,30 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return VendorSecurity
 	 */
 	public function setPassword(string $password): self
-	{
-		$this->password = $password;
+         	{
+         		$this->password = $password;
 
-		return $this;
-	}
+         		return $this;
+         	}
 
 	/**
 	 * @return string
 	 */
 	public function getPlainPassword(): string
-	{
-		return $this->plainPassword;
-	}
+         	{
+         		return $this->plainPassword;
+         	}
 
     /**
      * @param string $password
      * @return VendorSecurity
      */
 	public function setPlainPassword(string $password): self
-	{
-		$this->plainPassword = $password;
+         	{
+         		$this->plainPassword = $password;
 
-		return $this;
-	}
+         		return $this;
+         	}
 
 
 	/**
@@ -526,10 +532,10 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * the plain-text password is stored on this object.
 	 */
 	public function eraseCredentials(): string
-	{
-		$this->plainPassword = '';
-		return '';
-	}
+         	{
+         		$this->plainPassword = '';
+         		return '';
+         	}
 
 	/**
 	 * String representation of object
@@ -539,14 +545,14 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @since 5.1.0
 	 */
 	public function serialize(): string
-	{
-		return serialize([
-			$this->id,
-			$this->email,
-			$this->password
-		]);
+         	{
+         		return serialize([
+         			$this->id,
+         			$this->email,
+         			$this->password
+         		]);
 
-	}
+         	}
 
 	/**
 	 * Constructs the object
@@ -559,13 +565,13 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @since 5.1.0
 	 */
 	public function unserialize($data): void
-	{
-		[
-			$this->id,
-			$this->email,
-			$this->password
-		] = unserialize($data, ['allowed_class' => false]);
-	}
+         	{
+         		[
+         			$this->id,
+         			$this->email,
+         			$this->password
+         		] = unserialize($data, ['allowed_class' => false]);
+         	}
 
 	/**
 	 * Returns the username used to authenticate the user.
@@ -573,30 +579,57 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @return string The username
 	 */
 	public function getUsername(): string
-	{
-		return $this->email;
-	}
+         	{
+         		return $this->email;
+         	}
 
 	/**
 	 * @return mixed
 	 */
 	public function getVendorSecurity(): mixed
-    {
-		return $this->vendorSecurity;
-	}
+             {
+         		return $this->vendorSecurity;
+         	}
 
 
 	/**
 	 * @param Vendor $vendorSecurity
 	 */
 	public function setVendorSecurity(Vendor $vendorSecurity): void
-	{
-		$this->vendorSecurity = $vendorSecurity;
-	}
+         	{
+         		$this->vendorSecurity = $vendorSecurity;
+         	}
 
     public function getPassword(): ?string
     {
         // TODO: Implement getPassword() method.
+    }
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        // TODO: Implement @method string getUserIdentifier()
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
     }
 }
 

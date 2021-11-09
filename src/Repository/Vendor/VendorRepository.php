@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\Vendor;
-use App\Entity\Vendor\VendorFavourite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,9 +24,9 @@ class VendorRepository extends ServiceEntityRepository
 
     /**
      * @param $vendorId
-     * @param string $id
+     * @return \App\Entity\Vendor\Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|\App\Entity\Vendor\VendorIban|null
      */
-    public function findActiveVendorById($vendorId)
+    public function findActiveVendorById($vendorId): \App\Entity\Vendor\VendorIban|Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|null
     {
         return $this->findOneBy([
             'id' => (int) $vendorId,
@@ -35,7 +34,7 @@ class VendorRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function findActiveVendorByApiToken($vendorId)
+    public function findActiveVendorByApiToken($vendorId): \App\Entity\Vendor\VendorIban|Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|null
     {
         return $this->findOneBy([
             'apiToken' => $vendorId,

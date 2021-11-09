@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-class CheckRequirementsSubscriber
+class CheckRequirementSubscriber
 {
 
 }

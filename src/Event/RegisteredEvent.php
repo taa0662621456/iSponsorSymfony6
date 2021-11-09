@@ -8,7 +8,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class RegisteredEvent extends Event
 {
-    public const NAME = 'vendors.registration';
+    public const NAME = 'vendor.registration';
 
     /**
      * @var Vendor

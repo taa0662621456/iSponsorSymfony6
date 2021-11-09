@@ -1,14 +1,4 @@
 <?php
-/**
- * каждый проект имеет комиссию площадки
- * комиссия начинает действие в момент ее создания (например, в момент добавления проекта)
- * комиссия может быть создана отдельно и иметь дату старта действия и окончания действия
- * комиссий может быть несколько (могут быть запланированы)
- * slug строки комиссии необходимо переопределить, чтобы таков не был в данной табличке уникальным, например
- * добавить префикс - порядковых номер комиссии
- * при удалении проекта удаляются комиссии, соответственно необходимо отношение проектов к комиссиям
- *
- */
 
 namespace App\Entity\Project;
 
@@ -26,7 +16,7 @@ class ProjectPlatformReward
     use BaseTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Project", inversedBy="projectsPlatformRewards")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Project", inversedBy="projectPlatformReward")
      * @ORM\JoinTable(name="project")
      */
     private $projectId;

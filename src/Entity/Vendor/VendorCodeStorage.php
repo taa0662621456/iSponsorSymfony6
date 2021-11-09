@@ -8,7 +8,7 @@
 	/**
 	 * @ORM\Table(name="sms_code_send_storage", indexes={
 	 * @ORM\Index(name="sms_code_send_storage_idx", columns={"phone"})}))
-	 * @ORM\Entity(repositoryClass="VendorCodeStorageRepository")
+	 * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorCodeStorageRepository")
 	 * @ORM\HasLifecycleCallbacks()
 	 */
 	class VendorCodeStorage
@@ -20,28 +20,28 @@
 		 * @ORM\Column(type="integer")
 		 * @ORM\GeneratedValue
 		 */
-		private $id;
+		private int $id;
 
 		/**
-		 * @var srting
+		 * @var string
 		 *
 		 * @ORM\Column(type="string", name="phone")
 		 */
-		protected $phone;
+		protected string $phone;
 
 		/**
 		 * @var int
 		 *
 		 * @ORM\Column(type="smallint")
 		 */
-		private $code;
+		private int $code;
 
 		/**
 		 * @var bool
 		 *
 		 * @ORM\Column(type="boolean", name="is_login")
 		 */
-		protected $isLogin;
+		protected bool $isLogin;
 
 		/**
 		 * @return int
@@ -52,17 +52,17 @@
 		}
 
 		/**
-		 * @return srting
+		 * @return string
 		 */
-		public function getPhone()
-		{
+		public function getPhone(): string
+        {
 			return $this->phone;
 		}
 
 		/**
-		 * @param srting $phone
+		 * @param string $phone
 		 */
-		public function setPhone($phone): void
+		public function setPhone(string $phone): void
 		{
 			$this->phone = $phone;
 		}

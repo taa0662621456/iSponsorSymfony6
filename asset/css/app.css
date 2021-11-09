@@ -1,5 +1,4 @@
 body {
-    background-color: lightgray;
     background-image: url(/public/mandala.svg);
     -o-background-size: 10% 10%;
     -webkit-background-size: 10% 10%;
@@ -8,5 +7,4 @@ body {
     background-position: center;
     animation: bounce; /* referring directly to the animation's @keyframe declaration */
     animation-duration: 2s;
-
 }

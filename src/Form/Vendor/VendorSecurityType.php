@@ -5,6 +5,7 @@ namespace App\Form\Vendor;
 
 use App\Entity\Vendor\VendorSecurity;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -12,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VendorSecurityType extends AbstractType
 {
@@ -36,6 +40,7 @@ class VendorSecurityType extends AbstractType
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
+                'mapped' => false,
 				'invalid_message' => 'The password is invalid.',
 				'type'            => PasswordType::class,
 				'first_options'   => [
@@ -66,8 +71,20 @@ class VendorSecurityType extends AbstractType
                     'name' => '_password',
                     'class' =>'form-control m-1',
                     'placeholder' => 'Password',
-					'tabindex' => '203'
-                ]
+					'tabindex' => '203',
+                    'autocomplete' => 'new-password'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Пожалуйста введите пароль',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                     ]),
+                ],
             ])
             ->add('phone', TelType::class, [
                 'label' => 'vendor.label.phone',
@@ -78,6 +95,14 @@ class VendorSecurityType extends AbstractType
                     'class' =>'form-control m-1',
                     'placeholder' => 'vendor.placeholder.phone'
                 ]
+            ])
+            ->add('agreeTerms', CheckboxType::class, [
+                'mapped' => false,
+                'constraints' => [
+                    new IsTrue([
+                        'message' => 'Вы соглашаетесь с условиями.',
+                    ]),
+                ],
             ])
         ;
     }

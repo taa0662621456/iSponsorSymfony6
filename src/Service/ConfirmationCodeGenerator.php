@@ -19,7 +19,6 @@ class ConfirmationCodeGenerator
 		for ($i = 0; $i < $stringLength; $i++) {
 			$code .= self::RANDOM_STRING[random_int(0, $stringLength - 1)];
 		}
-
 		return $code;
 	}
 }
