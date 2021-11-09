@@ -18,51 +18,54 @@
 		{
 			$builder
 				->add(
-					'categoryName', TextType::class, array(
+					'categoryName', TextType::class, [
+                        'translation_domain' => 'category',
 						'label'      => 'category.name.label',
-						'label_attr' => array(
+						'label_attr' => [
 							'class' => 'sr-only',
-						),
+                        ],
 						'required'   => true,
-						'attr'       => array(
+						'attr'       => [
 							'id'          => 'categoryName',
-							'class'       => 'form-control',
+							'class'       => 'form-control m-1',
 							'placeholder' => 'category.name.placeholder',
 							'tabindex'    => '101',
 							'autofocus'   => true
-						)
-					)
+                        ]
+                    ]
 				)
                 ->add(
-                    'slug', TextType::class, array(
+                    'slug', TextType::class, [
+                        'translation_domain' => 'category',
                         'label'      => 'category.slug.label',
-                        'label_attr' => array(
+                        'label_attr' => [
                             'class' => 'sr-only',
-                        ),
+                        ],
                         'required'   => true,
-                        'attr'       => array(
+                        'attr'       => [
                             'id'          => 'categorySlug',
-                            'class'       => 'form-control ',
+                            'class'       => 'form-control m-1',
                             'placeholder' => 'category.slug.placeholder',
                             'tabindex'    => '103',
                             'autofocus'   => true
-                        )
-                    )
+                        ]
+                    ]
                 )
 				->add(
-					'categoryDesc', TextareaType::class, array(
+					'categoryDesc', TextareaType::class, [
+                        'translation_domain' => 'category',
 						'label'      => 'category.desc.label',
-						'label_attr' => array(
+						'label_attr' => [
 							'class' => 'sr-only',
-						),
-						'attr'       => array(
+                        ],
+						'attr'       => [
 							'id'          => 'categoryDesc',
-							'class'       => 'form-control reader',
+							'class'       => 'form-control m-1 reader',
 							'placeholder' => 'category.desc.placeholder',
 							'tabindex'    => '102',
 							'autofocus'   => false
-						)
-					)
+                        ]
+                    ]
                 )
 				//->add('metaDesc')
 				//->add('metaKey')

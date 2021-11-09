@@ -35,8 +35,8 @@
                     ))
 				->add(
 					'categoryEnGb', CategoryEnGbType::class, array(
-						'label'              => 'category.engb.label',
-						'translation_domain' => 'category',
+                        'translation_domain' => 'category',
+                        'label'              => 'category.engb.label',
 					)
 				)
                 )
@@ -52,8 +52,8 @@
 				->add(
 					'categoryAttachments', CollectionType::class, array(
 						'entry_type'         => CategoryAttachmentType::class,
-						'label'              => 'category.attachment.label',
-						'translation_domain' => 'category',
+                        'translation_domain' => 'category',
+                        'label'              => 'category.attachment.label',
 						'entry_options'      => array('label' => false),
 						'required'           => false,
 						//'empty_data' => true,
@@ -73,6 +73,7 @@
                     $builder
                         ->create('step-3', FormType::class, array(
                             'inherit_data' => true,
+                            'translation_domain' => 'category',
                             'label' => false,
                             'row_attr'=> array(
                                 'id' => 'step-3'
@@ -80,8 +81,8 @@
                         ))
                 ->add('id', HiddenType::class)
                 ->add('published', CheckboxType::class, array(
-                        'label'              => 'category.published.label',
                         'translation_domain' => 'category',
+                        'label'              => 'category.published.label',
                         'required'           => false
                     )
                 )
@@ -106,7 +107,7 @@
                     ->add(
                         'previous', ButtonType::class, array(
                             'label' => 'button.label.previous',
-                            'translation_domain' => 'button',
+                            'translation_domain' => 'button m-1',
                             'attr'  => array(
                                 'id'    => 'next',
                                 'class' => 'btn btn-primary previous'
@@ -130,7 +131,7 @@
                             'inherit_data' => true,
                             'label' => false,
                             'attr'=> array(
-                                'class' => 'btn-group'
+                                'class' => 'btn-group m-1'
                             )
                         ))
                     ->add(
