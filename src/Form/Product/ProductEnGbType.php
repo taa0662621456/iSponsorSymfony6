@@ -26,7 +26,7 @@ class ProductEnGbType extends AbstractType
 				'required' => true,
 				'attr' => array(
 					'id'          => 'productName',
-					'class'       => 'form-control',
+					'class'       => 'form-control m-1',
 					'placeholder' => 'product.name.placeholder',
 					'tabindex'    => '101',
 					'autofocus'   => true
@@ -40,7 +40,7 @@ class ProductEnGbType extends AbstractType
 				'required' => false,
 				'attr' => array(
 					'id'          => 'productSDesc',
-					'class'       => 'form-control',
+					'class'       => 'form-control m-1',
 					'placeholder' => 'product.sdesc.placeholder',
 					'tabindex'    => '102',
 					'autofocus'   => false
@@ -54,7 +54,7 @@ class ProductEnGbType extends AbstractType
 				'required' => false,
 				'attr' => array(
 					'id'          => 'productDesc',
-					'class'       => 'form-control',
+					'class'       => 'form-control m-1',
 					'placeholder' => 'product.desc.placeholder',
 					'tabindex'    => '103',
 					'autofocus'   => false
@@ -68,7 +68,7 @@ class ProductEnGbType extends AbstractType
 				'required' => false,
 				'attr' => array(
 					'id'          => 'slug',
-					'class'       => 'form-control',
+					'class'       => 'form-control m-1',
 					'placeholder' => 'product.tags.placeholder',
 					'tabindex'    => '104',
 					'autofocus'   => false

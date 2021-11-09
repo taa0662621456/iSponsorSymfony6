@@ -45,7 +45,8 @@ class ProductType extends AbstractType
 			'data_class'         => Product::class,
 			'translation_domain' => 'product',
 			'attr'               => [
-				'id' => 'msform'
+				'id' => 'msform',
+                'class' => 'form-control m-1'
             ]
         ]);
     }

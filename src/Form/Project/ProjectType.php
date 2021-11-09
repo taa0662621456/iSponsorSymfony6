@@ -139,7 +139,8 @@ class ProjectType extends AbstractType
             'translation_domain' => 'project',
             'method' => 'POST',
             'attr' => array(
-                'id' => 'object'
+                'id' => 'object',
+                'class'       => 'form-control m-1'
             )
         ]);
     }
