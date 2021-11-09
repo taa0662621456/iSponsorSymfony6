@@ -34,7 +34,10 @@ class ProjectType extends AbstractType
                         'class' => Category::class,
                         'required' => true,
                         'multiple' => false,
-                        'choice_label' => 'id'
+                        'choice_label' => 'id',
+                        'row_attr' => [
+                            'class' => 'form-control m-1'
+                        ],
                     ])
             )
             ->add('projectEnGb', ProjectEnGbType::class, [

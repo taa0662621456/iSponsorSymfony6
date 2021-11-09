@@ -18,36 +18,39 @@
 		{
 			$builder
 				->add(
-					'fileName', FileType::class, array(
+					'fileName', FileType::class, [
 						'required'   => true,
 						'data_class' => null,
+                        'translation_domain' => 'category',
 						'label'      => 'category.attach.label',
-						'attr'       => array(
-							'class'                  => 'file',
+						'attr'       => [
+							'class'                  => 'form-control m-1 file',
 							'multiple'               => true,
 							'data-preview-file-type' => 'any'
-						)
-					)
+                        ]
+                    ]
 				)
 				->add(
-					'fileTitle', TextType::class, array(
+					'fileTitle', TextType::class, [
 						'required' => false,
+                        'translation_domain' => 'category',
 						'label'    => 'category.attach.title',
-						'attr'     => array(
-							'class'       => 'form-control',
+						'attr'     => [
+							'class'       => 'form-control m-1',
 							'placeholder' => 'category.attach.title.placeholder',
-						)
-					)
+                        ]
+                    ]
 				)
 				->add(
-					'fileDescription', TextareaType::class, array(
+					'fileDescription', TextareaType::class, [
 						'required' => false,
+                        'translation_domain' => 'category',
 						'label'    => 'category.attach.desc',
-						'attr'     => array(
-							'class'       => 'form-control',
+						'attr'     => [
+							'class'       => 'form-control m-1',
 							'placeholder' => 'category.attach.desc.placeholder',
-						)
-					)
+                        ]
+                    ]
 				)
 				->add('fileMeta')
 				->add('fileClass')
