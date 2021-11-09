@@ -36,21 +36,21 @@
     <body>
     <header class="section-header">
 
-        {% block navbar %}
-            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">
-                <menu class="{{ b1 }}">
-                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"
-                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"
-                       href="#"><span class="text-break">...iSponsor!</span><span
-                                class="navbar-toggler-icon"></span></a>
-                </menu>
-                <menu class="{{ b2 }} left">
+{#        {% block navbar %}#}
+{#            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">#}
+{#                <menu class="{{ b1 }}">#}
+{#                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"#}
+{#                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"#}
+{#                       href="#"><span class="text-break">...iSponsor!</span><span#}
+{#                                class="navbar-toggler-icon"></span></a>#}
+{#                </menu>#}
+{#                <menu class="{{ b2 }} left">#}
 
-                </menu>
-                <menu class="{{ b3 }}">
-                    <div class="collapse navbar-collapse" id="isponsor">
-                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>
-                        <ul class="navbar-nav mr-auto">
+{#                </menu>#}
+{#                <menu class="{{ b3 }}">#}
+{#                    <div class="collapse navbar-collapse" id="isponsor">#}
+{#                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>#}
+{#                        <ul class="navbar-nav mr-auto">#}
 
 {#                            <li class="nav-item">#}
 {#                                <a class="btn btn-warning btn-block rounded-0" role="button"#}
@@ -70,18 +70,19 @@
 {#                            {% endif %}#}
 
 {#                            {{ include('security/_yetMenuDropdown.html.twig') }}#}
-                        </ul>
-                    </div>
-                </menu>
-                <menu class="{{ b4 }}">
+{#                        </ul>#}
+{#                    </div>#}
+{#                </menu>#}
+{#                <menu class="{{ b4 }}">#}
 
-                </menu>
+{#                </menu>#}
 
-            </nav>
+{#            </nav>#}
 
 {#                        {{ include('security/navbarForAdmin.html.twig') }}#}
 
-        {% endblock %}
+{#        {% endblock %}#}
+
         {% block section %}
             <section class="row header-main bg m-1">
                 <div id="p1" class="{{ b1 }}">
@@ -158,10 +159,10 @@
 
         <main role="main" class="row m-0 vh-100">
             <aside id="b1" class="{{ b1 }}">
-                <div class="sticky-top text-center pt-5">
-                    <a id="move_up" href="#"><span style="font-size: 2em"><i
-                                    class="fal fa-chevron-circle-up"></i></span></a>
-                </div>
+{#                <div class="sticky-top text-center pt-5">#}
+{#                    <a id="move_up" href="#"><span style="font-size: 2em"><i#}
+{#                                    class="fal fa-chevron-circle-up"></i></span></a>#}
+{#                </div>#}
                 {% block ontop %}{% endblock %}
             </aside>
             <aside id="b2" class="{{ b2 }} vh-100">
@@ -175,11 +176,11 @@
                     {% block article_content %}{% endblock %}
                 </section>
                 <section>
-                    <details>
-                        <summary>
-                            {% block article_summery %}{% endblock %}
-                        </summary>
-                    </details>
+{#                    <details>#}
+{#                        <summary>#}
+{#                            {% block article_summery %}{% endblock %}#}
+{#                        </summary>#}
+{#                    </details>#}
                 </section>
                 <footer>
                     {% block article_footer %}{% endblock %}
