@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Products index{% endblock %}
+{% block title %}Product index{% endblock %}
 
 {% block body %}
-    <h1>Products index</h1>
+    <h1>Product index</h1>
 
-    <table class="table">
+    <table class="table vh-100">
         <thead>
             <tr>
                 <th>Id</th>
@@ -50,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
+        {% for product in product %}
             <tr>
                 <td>{{ product.id }}</td>
                 <td>{{ product.vendorId }}</td>
@@ -103,5 +103,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('products_new') }}">Create new</a>
+    <a href="{{ path('product_new') }}">Create new</a>
 {% endblock %}
