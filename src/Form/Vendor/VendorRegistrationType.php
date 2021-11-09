@@ -5,12 +5,14 @@ namespace App\Form\Vendor;
 
 use App\Entity\Vendor\Vendor;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
 
 class VendorRegistrationType extends AbstractType
 {
@@ -26,8 +28,7 @@ class VendorRegistrationType extends AbstractType
                 'attr'  => [
                     'class' => 'btn btn-primary btn-block'
                 ]
-                ]
-			)
+            ])
             ->add('token', HiddenType::class, [
                 'mapped' => false,
                 'attr' => [

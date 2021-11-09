@@ -43,7 +43,7 @@ class Vendor
 	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 0})
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private bool $iaActive = false;
+	private bool $isActive = false;
 
 	/**
 	 * @var array
@@ -107,7 +107,7 @@ class Vendor
 	private string $otep = '';
 
 	/**
-	 * @var boolean/false
+	 * @var int|boolean
 	 *
 	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require user to reset password on next login"})
      */

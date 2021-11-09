@@ -1,25 +1,102 @@
 security:
+    access_denied_url: login
+    session_fixation_strategy: migrate # One of "none"; "migrate"; "invalidate"
     # https://symfony.com/doc/current/security/authenticator_manager.html
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#c-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    encoders:
+        App\Entity\Vendor\VendorSecurity:
+            algorithm: auto
+#        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        chain_provider:
+            chain:
+                providers: [in_memory, postgres_users]
+        in_memory:
+            memory:
+                users:
+                    admin: # It's login
+                        password: admin
+                        roles: 'ROLE_ADMIN'
+        postgres_users:
+            entity:
+                class: App\Entity\Vendor\VendorSecurity
+                property: email
+    role_hierarchy:
+        ROLE_USER: [ ROLE_ALLOWED_TO_SWITCH ]
+        ROLE_ADMIN: [ ROLE_USER ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
     firewalls:
+#        https://symfony.com.ua/doc/current/security/csrf.html
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+#        wsse:
+#            pattern:   ^/wsse/
+#            stateless: true
+#            wsse:      { lifetime: 30 }
+#            security: false
+
+#        api:
+#            pattern: ^/api
+#            stateless: true
+#            jwt: ~
+#            provider: database_users
+#            security: false
+#            logout: ~
+#            guard:
+#                authenticators:
+#                - App\Security\TokenAuthenticator
+#                - lexik_jwt_authentication.jwt_token_authenticator
+#                - FacebookConnectAuthenticator
+# аутентификаторов и комбинаций с точками входов может быть несколько. Например: FB, Google
+# https://symfony.com.ua/doc/current/security/multiple_guard_authenticators-ru.html
+
         main:
-            lazy: true
-            provider: users_in_memory
+            pattern: ^
+#            lazy: true
+#            switch_user: { role: ROLE_ADMIN }
+#            switch_user: true
+            provider: postgres_users
+#            remember_me:
+#                secret: '%kernel.secret%'
+#                lifetime: 604800 # 1 week in seconds # https://symfony.com/doc/current/security/remember_me.html
+#            login_throttling:
+#                max_attempts: 10
+#                interval: '15 minutes'
+                # по лимитеру больше на сайте https://symfony.com/doc/current/security.html#firewalls-authentication
+#            http_basic:
+#                realm: Secured Area
+#            json_login:
+#                check_path: api_login_check
+#            custom_authenticators:
+#                - App\Security\PassportAuthenticator
+#                - App\Security\LoginFormAuthenticator
+#                - App\Security\ApiKeyAuthenticator
+#            entry_point: App\Security\PassportAuthenticator
+#            form_login:
+##                enable_csrf: false
+#                check_path: login_check
+#                login_path: '%app_login_page_routename%'
+#                default_target_path: '%app_logged_in_target_routename%'
+##                use_referer: true
+#                target_path_parameter: redirect
+#                failure_path_parameter: forgot
+#                failure_path: login
+#                username_parameter: email
+#                password_parameter: password
+#                use_forward: false
+#            logout:
+#                path: '%app_logout_routename%'
+#                target: '%app_logged_out_target_routename%'
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+        # activate different ways to authenticate
+        # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+        # https://symfony.com/doc/current/security/impersonating_user.html
+        # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used

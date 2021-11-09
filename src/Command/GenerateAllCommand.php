@@ -31,10 +31,11 @@
 
 			}
 
-			if ($input->getOption('option1')) {
-				//TODO
-			}
+			// TODO: код по генерации таблицы в базе данных и в случае успеха return Command::SUCCESS;
+            // в случае неуспеха return Command::FAILURE;
+            // в случае неправильных параметров или аргументов return Command::INVALID
+            // хелп https://symfony.com/doc/current/console.html
 
-			$io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+            $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 		}
 	}

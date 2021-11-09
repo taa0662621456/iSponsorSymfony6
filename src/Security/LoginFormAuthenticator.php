@@ -3,13 +3,15 @@
 namespace App\Security;
 
 use App\Entity\Vendor\VendorSecurity;
+use App\Repository\Vendor\VendorRepository;
+use App\Repository\Vendor\VendorSecurityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -21,29 +23,27 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
+
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface, AuthenticatorInterface
+class LoginFormAuthenticator extends AbstractAuthenticator
 {
-    // Если вы хотите настроить форму входа в систему, вы также можете расширить
-    // Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator класс.
-    use TargetPathTrait;
+//    use TargetPathTrait;
 
-    public const LOGIN_ROUTE_LOCALIZED = 'app_login_localized';
     public const LOGIN_ROUTE = 'login';
     public const HOMEPAGE = 'homepage';
 
@@ -53,14 +53,14 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     private UserPasswordHasherInterface $passwordEncoder;
     private FlashBagInterface $flashBag;
     private Security $security;
-    private Request $request;
     private UrlGeneratorInterface $urlGenerator;
+    private VendorRepository $vendorRepository;
+    private VendorSecurityRepository $vendorSecurityRepository;
 
     /**
      * LoginAuthenticator constructor.
      * @param EntityManagerInterface $entityManager
-     * @param \Symfony\Component\Routing\Generator\UrlGeneratorInterface $urlGenerator
-     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param VendorSecurityRepository $vendorSecurityRepository
      * @param RouterInterface $router
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @param UserPasswordHasherInterface $passwordHasher
@@ -68,8 +68,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
      * @param Security $security
      */
     public function __construct(EntityManagerInterface      $entityManager,
-                                UrlGeneratorInterface       $urlGenerator,
-                                Request                     $request,
+                                VendorSecurityRepository    $vendorSecurityRepository,
                                 RouterInterface             $router,
                                 CsrfTokenManagerInterface   $csrfTokenManager,
                                 UserPasswordHasherInterface $passwordHasher,
@@ -77,6 +76,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
                                 Security                    $security)
     {
         $this->entityManager = $entityManager;
+        $this->vendorSecurityRepository = $vendorSecurityRepository;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordHasher;
@@ -90,66 +90,111 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
      */
     public function supports(Request $request): ?bool
     {
-        if ($this->security->getUser()){
-            return false;
-        }
+        var_dump();
         return self::LOGIN_ROUTE === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
-    #[ArrayShape(['email' => "mixed", 'password' => "mixed", 'csrf_token' => "mixed"])]
-    public function getCredentials(Request $request): array
-    {
-        $credentials = [
-            'email'      => $request->request->get('email'),
-            'password'   => $request->request->get('password'),
-            'csrf_token' => $request->request->get('_csrf_token'),
-        ];
+//    #[ArrayShape(['email' => "mixed", 'password' => "mixed", 'csrf_token' => "mixed"])]
+//    public function getCredentials(Request $request): array
+//    {
+//        $credentials = [
+//            'email'      => $request->request->get('email'),
+//            'password'   => $request->request->get('password'),
+//            'csrf_token' => $request->request->get('_csrf_token'),
+//        ];
+//        $request->getSession()->set(
+//            Security::LAST_USERNAME,
+//            $credentials['email']
+//        );
+//
+//        return $credentials;
+//    }
 
-        $request->getSession()->set(
-            Security::LAST_USERNAME,
-            $credentials['email']
-        );
+//    public function getUser(Request $request): object
+//    {
+//        $credentials = [
+//            'email'      => $request->request->get('email'),
+//            'password'   => $request->request->get('password'),
+//            'csrf_token' => $request->request->get('_csrf_token'),
+//        ];
+//
+//        $email = $credentials['email'];
+//        $passport = new Passport(new UserBadge($email), $credentials);
+//        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+//        if (!$this->csrfTokenManager->isTokenValid($token)) {
+//            throw new InvalidCsrfTokenException();
+//        }
+//        $user = $this->entityManager->getRepository(VendorSecurity::class)->findOneBy(
+//            ['email' => $credentials['email']] //TODO: можно установить вместо явного выражения '%app_property%'
+//        );
+//
+//        if (!$user) {
+//            // fail authentication with a custom error
+//            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+//        }
+//
+//        return $user;
+//    }
 
-        return $credentials;
-    }
+//    public function checkCredentials($credentials, UserInterface $user): UserInterface
+//    {
+//        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
+//            throw new BadCredentialsException('Login or User data not valid.');
+//        }
+//        return $user;
+//    }
 
-    public function getUser($credentials, UserProviderInterface $user): object
-    {
-        //$passport = new Passport(new UserBadge($email), $credentials);
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
-        }
-        $user = $this->entityManager->getRepository(VendorSecurity::class)->findOneBy(
-            ['email' => $credentials['email']] //TODO: можно установить вместо явного выражения '%app_property%'
-        );
-
-        if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
-        }
-
-        return $user;
-    }
-
-    public function checkCredentials($credentials, UserInterface $user): bool
-    {
-        if (!$this->passwordEncoder->isPasswordValid($user, $credentials['password'])) {
-            throw new BadCredentialsException('Login or User data not valid.');
-        }
-        return true;
-        //return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
-    }
+//    /**
+//     * Used to upgrade (rehash) the user's password automatically over time.
+//     * @param $credentials
+//     * @return string|null
+//     */
+//    public function getPassword($credentials): ?string
+//    {
+//        return $credentials['password'];
+//    }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     * @param $credentials
-     * @return string|null
+     * @param Request $request
+     * @return PassportInterface
      */
-    public function getPassword($credentials): ?string
+    public function authenticate(Request $request): PassportInterface
     {
-        return $credentials['password'];
+        $password = $request->request->get('password');
+        $username = $request->request->get('username');
+        $csrfToken = $request->request->get('csrf_token');
+        $email = $request->request->get('email');
+        $rememberMe = '';
+
+        // ... validate no parameter is empty
+//        if (null === $email) {
+//            throw new CustomUserMessageAuthenticationException('No username provided');
+//        }
+//        $request->getSession()->set(Security::LAST_USERNAME, $email);
+
+        return new Passport(
+            new UserBadge($email, function($userIdentifier){
+                $user = $this->vendorSecurityRepository->findOneBy(['email' => $userIdentifier]);
+
+                if (!$user) {
+                    throw new UserNotFoundException('Толи нет юзера толи еще что');
+                }
+                return $user;
+            }),
+            new PasswordCredentials($password)
+//            [new CsrfTokenBadge('login', $csrfToken)]
+        );
+
+
+
+// v2
+//        return new Passport(
+//            new UserBadge($email, function ($userIdentifier) {
+//                return $this->vendorRepository->findOneBy(['email' => $userIdentifier]);
+//            }), $credentials);
+
+// v3        return new Passport(new UserBadge($email), new PasswordCredentials($plaintextPassword));
     }
 
     /**
@@ -160,9 +205,9 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
+//        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+//            return new RedirectResponse($targetPath);
+//        }
 
         // For example : return new RedirectResponse($this->router->generate('some_route'));
         //throw new Exception('TODO: provide a valid redirect inside '.__FILE__);
@@ -170,66 +215,35 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         // redirect to some "app_homepage" route - of wherever you want
         return new RedirectResponse($this->router->generate(self::HOMEPAGE));
     }
+//    protected function getLoginUrl(Request $request): string
+//    {
+////        выполняется проверка на локаль
+////        $locale = $request->getLocale();
+////        if (str_starts_with($request->getPathInfo(), "/{$locale}/")) {
+////            return $this->urlGenerator->generate(self::LOGIN_ROUTE_LOCALIZED);
+////        }
+//        return $this->router->generate(self::LOGIN_ROUTE);
 
-    protected function getLoginUrl(): string
-    {
-//        выполняется проверка на локаль
-//        $locale = $request->getLocale();
-//        if (str_starts_with($request->getPathInfo(), "/{$locale}/")) {
-//            return $this->urlGenerator->generate(self::LOGIN_ROUTE_LOCALIZED);
-//        }
-        return $this->router->generate(self::LOGIN_ROUTE);
-    }
-
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\Security\Http\Authenticator\Passport\Passport
-     */
-    public function authenticate(Request $request): Passport
-    {
-        $email = $request->request->get('email');
-        if (null === $email) {
-            throw new CustomUserMessageAuthenticationException('No username provided');
-        }
-
-        $request->getSession()->set(Security::LAST_USERNAME, $email);
-
-        return new Passport(
-            new UserBadge($email, function ($userIdentifier) {
-                // return $this->vendorRepository->findOneBy($vendorId); //TOTO: дописать запрос в базу
-            }),
-            new PasswordCredentials($request->request->get('password', '')),
-            [
-                new CsrfTokenBadge('authenticate', $request->get('_csrf_token')),
-            ]
-        );
-    }
+//    }
 
     /**
      * @param Request $request
      * @param AuthenticationException $exception
-     * @return JsonResponse
+     * @return Response
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): JsonResponse
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
     {
-        $data = [
-            // you may want to customize or obfuscate the message first
-            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+//        $data = [
+//            // you may want to customize or obfuscate the message first
+//            'message' => strtr($exception->getMessageKey(), $exception->getMessageData())
+//
+//            // or to translate this message
+//            // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
+//        ];
 
-            // or to translate this message
-            // $this->translator->trans($exception->getMessageKey(), $exception->getMessageData())
-        ];
-
-        return new JsonResponse($data, Response::HTTP_UNAUTHORIZED);
-    }
-
-    /**
-     * @param Request $request
-     * @param AuthenticationException|null $authException
-     * @return void
-     */
-    public function start(Request $request, AuthenticationException $authException = null)
-    {
-        // TODO: Implement start() method.
+        return new RedirectResponse(
+            $this->router->generate('login')
+        );
     }
 }

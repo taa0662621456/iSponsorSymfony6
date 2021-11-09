@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 namespace App\Controller;
 
 use App\Entity\Vendor\VendorCodeStorage;
@@ -13,6 +11,7 @@ use App\Form\Vendor\VendorLoginType;
 use App\Form\Vendor\VendorRegistrationType;
 use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
+use App\Service\EmailVerifier;
 use DateTime;
 use Exception;
 
@@ -25,6 +24,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -32,6 +32,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\Uid\Uuid;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Twig\Environment;
 
 
@@ -55,18 +56,24 @@ class SecurityController extends AbstractController
      * @var RouterInterface
      */
     private RouterInterface $router;
+    /**
+     * @var EmailVerifier $emailVerifier
+     */
+    private EmailVerifier $emailVerifier;
 
     public function __construct(
         Environment                 $twig,
         UserPasswordHasherInterface $passwordHashes,
         FormFactoryInterface        $formFactory,
-        RouterInterface             $router
+        RouterInterface             $router,
+        EmailVerifier               $emailVerifier
 	)
 	{
 		$this->twig = $twig;
 		$this->passwordEncoder = $passwordHashes;
 		$this->formFactory = $formFactory;
 		$this->router = $router;
+        $this->emailVerifier = $emailVerifier;
 	}
 
     /**
@@ -82,85 +89,137 @@ class SecurityController extends AbstractController
      */
 	public function registration(Request $request,
 								 ConfirmationCodeGenerator $codeGenerator,
-								 EventDispatcherInterface $eventDispatcher, $layout): Response
+								 EventDispatcherInterface $eventDispatcher,
+                                 UserPasswordHasherInterface $passwordHasherInterface,
+                                 $layout): Response
 	{
-		//$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
-		//$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-		$vendor = new Vendor();
-		$vendorSecurity = new VendorSecurity();
-		$vendorEnGb = new VendorEnGb();
+        //$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
+        //$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
+        $vendor = new Vendor();
+        $vendorSecurity = new VendorSecurity();
+        $vendorEnGb = new VendorEnGb();
 
-		$form = $this->createForm(VendorRegistrationType::class, $vendor);
-		$form->handleRequest($request);
+        $form = $this->createForm(VendorRegistrationType::class, $vendor);
+        $form->handleRequest($request);
 
-		if ($form->isSubmitted()) {
-/*
-			if (!$resp->isSuccess()) {
-				foreach ($resp->getErrorCodes() as $errorCode) {
-					$this->addFlash('danger', 'Error captcha: ' . $errorCode);
-				}
-			} else {
-*/
-				$formData = $form->getData();
-				//dd($formData->ve);
-				$password = $this->passwordEncoder->hashPassword(
-				    $vendorSecurity,
-					$formData->getVendorSecurity()->getPlainPassword()
-				);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /*
+                        if (!$resp->isSuccess()) {
+                            foreach ($resp->getErrorCodes() as $errorCode) {
+                                $this->addFlash('danger', 'Error captcha: ' . $errorCode);
+                            }
+                        } else {
+            */
 
 
-
-				try {
-                    $slug = $uuid = Uuid::v4();
-					//$slug = $slug->encode($uuid);
-
-					$vendor->setUuid($uuid);
-					$vendor->setSlug((string)$slug);
-                    $vendor->setWorkFlow('submitted');
-
-					$vendorSecurity->setUuid($uuid);
-					$vendorSecurity->setSlug((string)$slug);
-
-					$vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
-					$vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
-
-
-					$vendorEnGb->setUuid($uuid);
-					$vendorEnGb->setSlug((string)$slug);
-					$vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
-
-				} catch (Exception $e) {
-				}
-				$vendor->setVendorSecurity($vendorSecurity);
-				$vendor->setWorkFlow('submitted');
-				$vendorSecurity->setPassword((string)$password);
-				$vendorSecurity->setActivationCode((string)$codeGenerator->getConfirmationCode());
-				$vendor->setVendorEnGb($vendorEnGb);
-				$vendorEnGb->setVendorZip(000000);
-				$em = $this->getDoctrine()->getManager();
-				$em->persist($vendorEnGb);
-				$em->persist($vendorSecurity);
-				$em->persist($vendor);
-				$em->flush();
-				$vendorRegisteredEvent = new RegisteredEvent($vendor);
-				$eventDispatcher->dispatch($vendorRegisteredEvent);
-				$this->addFlash('success', 'Success');
+            try {
+                $formData = $form->getData();
+//              $password = $this->passwordEncoder->hashPassword($vendorSecurity, $formData->getVendorSecurity()->getPlainPassword());
+                $password = $passwordHasherInterface->hashPassword(
+                        $vendorSecurity,
+                        $form->get('plainPassword')->getData()
+                    );
+                #
+                $slug = $uuid = Uuid::v4();
+                $confirmationCode = $codeGenerator->getConfirmationCode();
+                #
+                $vendor->setUuid($uuid);
+                $vendor->setSlug((string)$slug);
+                $vendor->setWorkFlow('submitted');
+                $vendor->setActivationCode($confirmationCode);
+                $vendor->setVendorSecurity($vendorSecurity);
+                $vendor->setWorkFlow('submitted');
+                $vendor->setVendorEnGb($vendorEnGb);
+                #
+                $vendorSecurity->setUuid($uuid);
+                $vendorSecurity->setSlug((string)$slug);
+                $vendorSecurity->setEmail($formData->getVendorSecurity()->getEmail());
+                $vendorSecurity->setPhone($formData->getVendorSecurity()->getPhone());
+                $vendorSecurity->setPassword($password);
+                $vendorSecurity->setActivationCode($confirmationCode);
+                #
+                $vendorEnGb->setUuid($uuid);
+                $vendorEnGb->setSlug((string)$slug);
+                $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
+                $vendorEnGb->setVendorZip(000000);
+                #
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($vendorEnGb);
+                $em->persist($vendorSecurity);
+                $em->persist($vendor);
+                $em->flush();
+                #
+                $this->addFlash('success', 'Вы успешно зарегистрировались');
+                #
+//                $this->emailVerifier->sendEmailConfirmation('app_confirmation_email', $vendorSecurity,
+//                    (new TemplatedEmail())
+//                        ->from(new Address('taa0662621456@gmail.com', 'Alex Tish'))
+//                        ->to($vendorSecurity->getEmail())
+//                        ->subject('Please Confirm your Email')
+//                        ->htmlTemplate('registration/confirmation_email.html.twig')
+//                );
+                #
+                return $this->redirectToRoute('homepage');
+            } catch (Exception $e) {
+                $this->addFlash('success', 'Что-то идет не так');
+//                throw new \UnexpectedValueException(
+//                    'Что-то пошло не так "%s".'
+//                );
+            }
+            $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
+            $eventDispatcher->dispatch($vendorRegisteredEvent);
                 /*return $guardHandler->authenticateUserAndHandleSuccess(
                 $vendorSecurity,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml);*/
-			}
-//		}
-
+                //TODO: тайм-аут с переадресацией
+                //TODO: всплывающее окно сообщения
+//                return $this->redirectToRoute(...);
+//			}
+		}
 		return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),
 		]);
 
 	}
 
+    #[Route('/confirmation/email', name: 'email_confirmation')]
+    public function verifyUserEmail(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
+    {
+        $id = $request->get('id');
+
+        if (null === $id) {
+            return $this->redirectToRoute('registration');
+        }
+
+        $vendor = $vendorSecurityRepository->find($id);
+
+        if (null === $vendor) {
+            return $this->redirectToRoute('registration');
+        }
+
+        // validate email confirmation link, sets User::isVerified=true and persists
+        try {
+            $this->emailVerifier->handleEmailConfirmation($request, $vendor);
+        } catch (VerifyEmailExceptionInterface $exception) {
+            $this->addFlash('verify_email_error', $exception->getReason());
+
+            return $this->redirectToRoute('registration');
+        }
+
+        // @TODO Change the redirect on success and handle or remove the flash message in your templates
+        $this->addFlash('success', 'Your email address has been verified.');
+
+        return $this->redirectToRoute('registration');
+    }
+
+
+
+
+
     /**
-     * @Route("/confirm/{code}", name="email_confirmation")
+     * @Route("/confirmation/{code}", name="code_confirmation")
      * @param VendorSecurityRepository $vendorSecurityRepository
      * @param string $code
      * @return Response
@@ -202,29 +261,23 @@ class SecurityController extends AbstractController
      */
 	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
     {
-        /*
-         * аутентификация
-         * https://symfonycasts.com/screencast/symfony-security/login-form-authenticator
-         * https://symfonycasts.com/screencast/symfony-security/csrf-token
-         * аутентификация токеном
-         */
 
 /*        if ($security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
             return $this->redirectToRoute('home');
         }*/
 
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
+//        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
-        $loginForm = $this->get('form.factory')->createNamed('', VendorLoginType::class, array(
-            '_username' => $authenticationUtils->getLastUsername()), array(
-            'action' => $this->router->generate('login')));
+        $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class, [
+            '_username' => $authenticationUtils->getLastUsername()], [
+            'action' => $this->router->generate('login')]);
 
         return $this->render(
-            'security/' . $layout . '.html.twig', array(
+            'security/' . $layout . '.html.twig', [
 				'last_username' => $authenticationUtils->getLastUsername(),
-				'form'          => $loginForm->createView(),
+				'form'          => $loginType->createView(),
 				'error'         => $authenticationUtils->getLastAuthenticationError()
-			)
+            ]
 		);
 	}
 
@@ -234,6 +287,7 @@ class SecurityController extends AbstractController
 	public function logout(): void
 	{
 		throw new RuntimeException('This should never be reached!');
+//		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
 	}
 
     /**
@@ -275,7 +329,6 @@ class SecurityController extends AbstractController
 		} else {
 
 			$formData = $form->getData();
-			//dd($formData);
 			$password = $this->passwordEncoder->hashPassword(
 				$vendorSecurity,
 				$formData->getVendorSecurity()->getPlainPassword()

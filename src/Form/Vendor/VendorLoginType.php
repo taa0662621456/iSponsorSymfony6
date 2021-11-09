@@ -32,7 +32,7 @@
 					'attr'            => [
 						'id'          => 'email',
 						'name'        => '_email',
-						'class'       => 'form-control',
+						'class'       => 'form-control m-1',
 						'placeholder' => 'vendor.placeholder.email',
 						'tabindex'    => '101',
 						//'autofocus' => true
@@ -49,7 +49,7 @@
 					'attr'            => [
 						'id'          => 'password',
 						'name'        => '_password',
-						'class'       => 'form-control',
+						'class'       => 'form-control m-1',
 						'placeholder' => 'vendor.placeholder.password',
 						'tabindex'    => '203'
                     ]
