@@ -20,86 +20,86 @@ class ProjectEnGbType extends AbstractType
         $builder
             ->add(
                 $builder
-                    ->create('step-2', FormType::class, array(
+                    ->create('step-2', FormType::class, [
                         'inherit_data' => true,
                         'label' => false,
-                        'row_attr' => array(
+                        'row_attr' => [
                             'id' => 'step-2'
-                        ),
-                    ))
-                    ->add('projectTitle', TextType::class, array(
+                        ],
+                    ])
+                    ->add('projectTitle', TextType::class, [
                         'label' => 'project.title.label',
-                        'label_attr' => array(
+                        'label_attr' => [
                             'class' => 'sr-only',
-                        ),
+                        ],
                         'required' => true,
-                        'attr' => array(
+                        'attr' => [
                             'id' => 'projectTitle',
-                            'class' => 'form-control',
+                            'class' => 'form-control m-1',
                             'placeholder' => 'project.title.placeholder',
                             'tabindex' => '101',
                             'autofocus' => true
-                        )
-                    ))
-                    ->add('projectSDesc', TextareaType::class, array(
+                        ]
+                    ])
+                    ->add('projectSDesc', TextareaType::class, [
                         'label' => 'project.sdesc.label',
-                        'label_attr' => array(
+                        'label_attr' => [
                             'class' => 'sr-only',
-                        ),
-                        'attr' => array(
+                        ],
+                        'attr' => [
                             'id' => 'projectSDesc',
-                            'class' => 'form-control',
+                            'class' => 'form-control m-1',
                             'placeholder' => 'project.sdesc.placeholder',
                             'tabindex' => '102',
                             'autofocus' => false
-                        )
-                    ))
+                        ]
+                    ])
             )
             ->add(
                 $builder
-                    ->create('step-3', FormType::class, array(
+                    ->create('step-3', FormType::class, [
                         'inherit_data' => true,
                         'label' => false,
-                        'row_attr' => array(
+                        'row_attr' => [
                             'id' => 'step-3'
-                        ),
-                    ))
-                    ->add('projectDesc', TextareaType::class, array(
+                        ],
+                    ])
+                    ->add('projectDesc', TextareaType::class, [
                         'label' => 'project.desc.label',
-                        'label_attr' => array(
+                        'label_attr' => [
                             'class' => 'sr-only',
-                        ),
-                        'attr' => array(
+                        ],
+                        'attr' => [
                             'id' => 'projectDesc',
-                            'class' => 'form-control reader',
+                            'class' => 'form-control reader m-1',
                             'placeholder' => 'project.desc.placeholder',
                             'tabindex' => '103',
                             'autofocus' => false
-                        )
-                    ))
+                        ]
+                    ])
             )
             ->add(
                 $builder
-                    ->create('step-4', FormType::class, array(
+                    ->create('step-4', FormType::class, [
                         'inherit_data' => true,
                         'label' => false,
-                        'row_attr' => array(
+                        'row_attr' => [
                             'id' => 'step-4'
-                        ),
-                    ))
-                    ->add('slug', TextType::class, array(
+                        ],
+                    ])
+                    ->add('slug', TextType::class, [
                         'label' => 'project.slug.label',
-                        'label_attr' => array(
+                        'label_attr' => [
                             'class' => 'sr-only',
-                        ),
-                        'attr' => array(
+                        ],
+                        'attr' => [
                             'id' => 'slug',
-                            'class' => 'form-control',
+                            'class' => 'form-control m-1',
                             'placeholder' => 'project.slug.placeholder',
                             'tabindex' => '103',
                             'autofocus'   => false
-                        )
-                    ))
+                        ]
+                    ])
             )
         ;
     }
