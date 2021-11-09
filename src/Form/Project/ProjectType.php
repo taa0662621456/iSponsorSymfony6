@@ -89,7 +89,7 @@ class ProjectType extends AbstractType
                         'translation_domain' => 'label',
                         'label' => false,
                         'attr' => [
-                            'class' => 'btn-group'
+                            'class' => 'btn-group m-1'
                         ]
                     ])
                     ->add('previous', ButtonType::class, [

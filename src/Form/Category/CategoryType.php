@@ -101,7 +101,7 @@
                             'inherit_data' => true,
                             'label' => false,
                             'attr'=> array(
-                                'class' => 'btn-group'
+                                'class' => 'btn-group m-1'
                             )
                         ))
                     ->add(

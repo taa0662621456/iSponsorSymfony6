@@ -82,7 +82,7 @@
                         'inherit_data' => true,
                         'label' => false,
                         'attr'=> [
-                            'class' => 'btn-group'
+                            'class' => 'btn-group m-1'
                         ]
                     ])
                 ->add('back', ButtonType::class, [
