@@ -109,15 +109,17 @@ class Vendor
 	/**
 	 * @var int|boolean
 	 *
-	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"default" : 0, "comment"="Require user to reset password on next login"})
+	 * @ORM\Column(name="require_reset", type="boolean", nullable=false,
+     *     options={"default" : 0, "comment"="Require user to reset password on next login"})
      */
 	private int|bool $requireReset = 0;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorSecurity",
 	 *     cascade={"persist", "remove"},
-	 *     mappedBy="vendorSecurity")
-	 * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE")
+	 *     mappedBy="vendorSecurity", orphanRemoval=true)
+	 * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     *
 	 * @Assert\Type(type="App\Entity\Vendor\VendorSecurity")
 	 * @Assert\Valid()
 	 */
@@ -126,8 +128,10 @@ class Vendor
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorIban",
 	 *     cascade={"persist", "remove"},
-	 *     mappedBy="vendorIban")
-	 * @Assert\Type(type="App\Entity\Vendor\VendorSecurity")
+	 *     mappedBy="vendorIban", orphanRemoval=true)
+     * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     *
+     * @Assert\Type(type="App\Entity\Vendor\VendorIban")
 	 * @Assert\Valid()
 	 */
 	private mixed $vendorIban;
@@ -136,28 +140,42 @@ class Vendor
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorEnGb",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="vendorEnGb", orphanRemoval=true)
-	 * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-	 * @Assert\Type(type="App\Entity\Vendor\VendorsEnGb")
+	 * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     *
+	 * @Assert\Type(type="App\Entity\Vendor\VendorEnGb")
 	 * @Assert\Valid()
 	 */
 	private mixed $vendorEnGb;
 
-	/**
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured",
+     *     cascade={"persist", "remove"},
+     *     mappedBy="vendorFeatured", orphanRemoval=true)
+     * @ORM\JoinColumn(name="vendorFeatured_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     *
+     * @Assert\Type(type="App\Entity\Featured\Featured")
+     * @Assert\Valid()
+     */
+    private mixed $vendorFeatured;
+
+    /**
      *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorDocument",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
+     * @ORM\JoinTable(name="attachments")
 	 */
 	private $vendorDocumentAttachments;
 
-	/**
+    /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorMedia",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
+     * @ORM\JoinTable(name="attachments")
 	 */
 	private $vendorMediaAttachments;
 
-	/**
+    /**
      *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Order",
 	 *     mappedBy="orderCreatedAt")
@@ -165,33 +183,32 @@ class Vendor
 	 */
 	private $vendorOrders;
 
-	/**
+    /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrderItem",
 	 *     mappedBy="itemVendors")
 	 * @ORM\JoinTable(name="ordersItems")
 	 */
 	private mixed $vendorItems;
 
-	/**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorFavourite", mappedBy="vendorFavourites")
-     * @ORM\JoinTable(name="vendors_favourites")
-     */
-    private int $vendorFavourites;
-
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="vendorFeatured")
-     */
-    private mixed $vendorFeatured;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message\Message", mappedBy="vendor")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message\Message",
+     *     mappedBy="vendor")
+     * @ORM\JoinTable(name="vendorsMessage")
      */
     private mixed $vendorMessage;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="vendor")
+     * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant",
+     *     mappedBy="vendor")
+     * @ORM\JoinTable(name="participant")
      */
     private mixed $participant;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorFavourite", mappedBy="vendorFavourite")
+     * @ORM\JoinColumn(name="vendors_favourite_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     */
+    private int $vendorFavourite;
 
 
     /**
@@ -205,7 +222,7 @@ class Vendor
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocumentAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
-        $this->isActive = false;
+        $this->isActive = true;
 
     }
 
@@ -234,10 +251,10 @@ class Vendor
 	}
 
     /**
-     * @param $lastVisitDate
+     * @param string $lastVisitDate
      * @return Vendor
      */
-	public function setLastVisitDate ($lastVisitDate): Vendor
+	public function setLastVisitDate (string $lastVisitDate): self
 	{
 		$this->lastVisitDate = $lastVisitDate;
 		return $this;
@@ -500,9 +517,9 @@ class Vendor
 		return $this->vendorMediaAttachments;
 	}
 
-	/**
-	 * @return mixed
-	 */
+    /**
+     * @return mixed
+     */
 	public function getVendorIban(): mixed
     {
 		return $this->vendorIban;
@@ -511,7 +528,7 @@ class Vendor
 	/**
 	 * @param mixed $vendorIban
 	 */
-	public function setVendorIban(mixed $vendorIban): void
+	public function setVendorIban(string $vendorIban): void
 	{
 		$this->vendorIban = $vendorIban;
 	}
@@ -535,17 +552,17 @@ class Vendor
 	/**
 	 * @return int
 	 */
-	public function getVendorFavourites(): int
+	public function getVendorFavourite(): int
 	{
-		return $this->vendorFavourites;
+		return $this->vendorFavourite;
 	}
 
 	/**
-	 * @param int $vendorFavourites
+	 * @param int $vendorFavourite
 	 */
-	public function setVendorFavourites(int $vendorFavourites): void
+	public function setVendorFavourite(int $vendorFavourite): void
 	{
-		$this->vendorFavourites = $vendorFavourites;
+		$this->vendorFavourite = $vendorFavourite;
 	}
 
 	/**
@@ -578,11 +595,6 @@ class Vendor
     public function setVendorItems(mixed $vendorItems): void
     {
         $this->vendorItems = $vendorItems;
-    }
-
-
-    public function setRoles()
-    {
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Vendor\VendorCodeStorage;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorIban;
 use App\Entity\Vendor\VendorSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
@@ -112,40 +113,39 @@ class SecurityController extends AbstractController
             */
 
 
-            try {
+//            try {
                 $formData = $form->getData();
-//              $password = $this->passwordEncoder->hashPassword($vendorSecurity, $formData->getVendorSecurity()->getPlainPassword());
                 $password = $passwordHasherInterface->hashPassword(
                         $vendorSecurity,
-                        $form->get('plainPassword')->getData()
-                    );
+                        $formData->getVendorSecurity()->getPlainPassword());
                 #
                 $slug = $uuid = Uuid::v4();
                 $confirmationCode = $codeGenerator->getConfirmationCode();
                 #
-                $vendor->setUuid($uuid);
-                $vendor->setSlug((string)$slug);
-                $vendor->setWorkFlow('submitted');
-                $vendor->setActivationCode($confirmationCode);
-                $vendor->setVendorSecurity($vendorSecurity);
-                $vendor->setWorkFlow('submitted');
-                $vendor->setVendorEnGb($vendorEnGb);
-                #
                 $vendorSecurity->setUuid($uuid);
-                $vendorSecurity->setSlug((string)$slug);
+                $vendorSecurity->setSlug($slug);
+                $vendorSecurity->setUsername($slug);
                 $vendorSecurity->setEmail($formData->getVendorSecurity()->getEmail());
                 $vendorSecurity->setPhone($formData->getVendorSecurity()->getPhone());
                 $vendorSecurity->setPassword($password);
                 $vendorSecurity->setActivationCode($confirmationCode);
                 #
                 $vendorEnGb->setUuid($uuid);
-                $vendorEnGb->setSlug((string)$slug);
-                $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
+                $vendorEnGb->setSlug($slug);
+                $vendorEnGb->setVendorPhone($formData->getVendorSecurity()->getPhone());
                 $vendorEnGb->setVendorZip(000000);
                 #
+                $vendor->setUuid($uuid);
+                $vendor->setSlug($slug);
+                $vendor->setWorkFlow('submitted');
+                $vendor->setActivationCode($confirmationCode);
+                $vendor->setVendorSecurity($vendorSecurity);
+                $vendor->setWorkFlow('submitted');
+                $vendor->setVendorEnGb($vendorEnGb);
+                #
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($vendorEnGb);
                 $em->persist($vendorSecurity);
+                $em->persist($vendorEnGb);
                 $em->persist($vendor);
                 $em->flush();
                 #
@@ -159,22 +159,23 @@ class SecurityController extends AbstractController
 //                        ->htmlTemplate('registration/confirmation_email.html.twig')
 //                );
                 #
+                $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
+                $eventDispatcher->dispatch($vendorRegisteredEvent);
+                #
                 return $this->redirectToRoute('homepage');
-            } catch (Exception $e) {
-                $this->addFlash('success', 'Что-то идет не так');
+
+//            } catch (Exception $e) {
+//                $this->addFlash('success', 'Что-то идет не так');
 //                throw new \UnexpectedValueException(
 //                    'Что-то пошло не так "%s".'
 //                );
-            }
-            $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
-            $eventDispatcher->dispatch($vendorRegisteredEvent);
+//            }
+
                 /*return $guardHandler->authenticateUserAndHandleSuccess(
                 $vendorSecurity,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml);*/
-                //TODO: тайм-аут с переадресацией
-                //TODO: всплывающее окно сообщения
 //                return $this->redirectToRoute(...);
 //			}
 		}
