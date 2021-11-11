@@ -40,7 +40,7 @@ class VendorSecurityType extends AbstractType
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
-//                'mapped' => false,
+                'mapped' => false,
 				'invalid_message' => 'The password is invalid.',
 				'type'            => PasswordType::class,
 				'first_options'   => [

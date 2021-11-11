@@ -10,6 +10,7 @@ use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorLoginType;
 use App\Form\Vendor\VendorRegistrationType;
+use App\Repository\Vendor\VendorRepository;
 use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use App\Service\EmailVerifier;
@@ -113,7 +114,7 @@ class SecurityController extends AbstractController
             */
 
 
-//            try {
+            try {
                 $formData = $form->getData();
                 $password = $passwordHasherInterface->hashPassword(
                         $vendorSecurity,
@@ -164,12 +165,12 @@ class SecurityController extends AbstractController
                 #
                 return $this->redirectToRoute('homepage');
 
-//            } catch (Exception $e) {
-//                $this->addFlash('success', 'Что-то идет не так');
-//                throw new \UnexpectedValueException(
-//                    'Что-то пошло не так "%s".'
-//                );
-//            }
+            } catch (Exception $e) {
+                $this->addFlash('success', 'Что-то идет не так');
+                throw new \UnexpectedValueException(
+                    'Что-то пошло не так "%s".'
+                );
+            }
 
                 /*return $guardHandler->authenticateUserAndHandleSuccess(
                 $vendorSecurity,
@@ -234,12 +235,15 @@ class SecurityController extends AbstractController
 		if ($vendorSecurityRepository === null) {
 			return new Response('404');
 		}
-        //$vendor = new Vendors();
-		//$vendor->setActive(true);
-        $vendorSecurityRepository->setActivationCode('');
 
+        $vendor = new Vendor();
+
+        $vendor->setIsActive(true);
+        #
+        $vendorSecurityRepository->setActivationCode('');
+        #
 		$em = $this->getDoctrine()->getManager();
-        //$em->persist($vendor);
+        $em->persist($vendor);
 		$em->flush();
 
 		return $this->render('security/confirmed.html.twig', [
@@ -272,6 +276,11 @@ class SecurityController extends AbstractController
         $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class, [
             '_username' => $authenticationUtils->getLastUsername()], [
             'action' => $this->router->generate('login')]);
+
+//        $loginType->handleRequest($request);
+//        if ($loginType->isSubmitted()) {
+//            dd($loginType);
+//        }
 
         return $this->render(
             'security/' . $layout . '.html.twig', [

@@ -21,6 +21,7 @@ class PassportAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
+        dd($request);
         // TODO: Implement supports() method.
         return true;
     }
