@@ -37,7 +37,7 @@ use Symfony\Component\Validator\Constraints\Length;
  *
  * @method string getUserIdentifier()
  */
-class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, PasswordAuthenticatedUserInterface, UserInterface
+class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface
 {
 	use BaseTrait;
 
@@ -46,59 +46,62 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @ORM\Column(name="email", type="string", unique=true, nullable=false)
+     *
      * @Assert\NotBlank(message="vendors_security.blank_content")
      * @Assert\Length(min=3)
      * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
      */
-    private string $email = '';
+    private string $email = 'exemple@domail.com';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="phone", type="string", nullable=true)
+     * @ORM\Column(name="phone", type="string", unique=true, nullable=false)
+     *
      * @Assert\NotBlank(message="vendors.message.error.phone")
-     * @Length(min=10, minMessage="vendors_security.too_short_content")
-     * @Length(max=12, maxMessage="vendors_security.too_long_content")
+     * @Length(min=9, minMessage="vendors_security.too_short_content")
+     * @Length(max=13, maxMessage="vendors_security.too_long_content")
      */
-    private string $phone = '';
+    private string $phone = '380662621456';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255, nullable=true, options={"default"="isponsor"})
+     * @ORM\Column(name="username", type="string", length=255)
+     *
      * @Assert\Length(min=3)
-     * @Assert\Length(max=16)
+     * @Assert\Length(max=32)
      */
-    private string $username = 'isponsor';
+    private string $username = '380662621456';
 
 	/**
-	 * @var string
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", unique=false)
      *
      * @Assert\NotBlank()
      * @Assert\Length(min=8)
-     * @Assert\Length(max=16)
-     * Assert\NotCompromisedPassword
+     * @Assert\Length(max=32)
+     * TODO:Assert\NotCompromisedPassword
      *
-	 * @ORM\Column(name="password", type="string", unique=false, nullable=false, options={"default" : 00000000})
-     * Assert\NotCompromisedPassword
 	 */
-	protected string $password = '00000000';
+	protected string $password = '12345678';
 
 	/**
-	 * @var string
+     * @var string
+     *
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=8)
-	 * @Assert\Length(max=16)
+	 * @Assert\Length(max=32)
      * Assert\NotCompromisedPassword
 	 *
 	 */
-	private string $plainPassword = '00000000';
+	private string $plainPassword;
 
 	/**
-	 * @var array
-	 *
-	 * @ORM\Column(name="roles", type="json", nullable=false)
+     * @var array
+	 * @ORM\Column(name="role", type="json", nullable=false)
 	 */
 	private array $role = [];
 
@@ -164,7 +167,7 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
 	 */
 	private string $otpKey = '';
 
-	/**
+    /**
 	 * @var string
 	 *
 	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency
@@ -173,7 +176,7 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
 	 */
 	private string $otep = '';
 
-	/**
+    /**
 	 * @var boolean
 	 *
 	 * @ORM\Column(name="require_reset", type="boolean", nullable=false, options={"comment"="Require user to reset
@@ -182,362 +185,365 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
 	 */
 	private int|bool $requireReset = 0;
 
-	/**
+    /**
 	 * @var string
 	 *
 	 * @ORM\Column(name="api_key", type="string", nullable=false, options={"comment"="API key"})
 	 */
 	private string $apiKey = 'api_key';
 
-	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor",
-	 *     cascade={"persist", "remove"},
-	 *     inversedBy="vendorSecurity")
+    /**
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorSecurity")
+     * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
 	private mixed $vendorSecurity;
 
+    /**
+     * @ORM\Column(name="salt", type="string")
+     */
+    private string $salt = '0';
 
-	/**
-	 * VendorSecurity constructor.
-	 *
+    /**
 	 * @throws Exception
 	 */
 	public function __construct()
-         	{
-         		$this->role = [self::ROLE_USER];
-                 $t = new DateTime();
-         		$this->lastResetTime = $t->format('Y-m-d H:i:s');
-         		$this->lastVisitDate = $t->format('Y-m-d H:i:s');
+    {
+        $this->role = [self::ROLE_USER];
+         $t = new DateTime();
+        $this->lastResetTime = $t->format('Y-m-d H:i:s');
+        $this->lastVisitDate = $t->format('Y-m-d H:i:s');
 
-         	}
-
-	/**
-	 * @ORM\Column(name="salt", type="string")
-	 */
-	private string $salt = '0';
+    }
 
     /**
-     * @ORM\Column(type="boolean")
+     *
+     * @return string
      */
-    private $isVerified = false;
+    public function getUsername(): string
+    {
+        return $this->email;
+    }
 
-	/**
+    /**
+     * @param string $username
+     *
+     * @return VendorSecurity
+     */
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+        return $this;
+    }
+
+    /**
 	 * @return string
 	 */
 	public function getApiKey(): string
-         	{
-         		return $this->apiKey;
-         	}
+    {
+        return $this->apiKey;
+    }
 
-	/**
+    /**
 	 * @param string $apiKey
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setApiKey(string $apiKey): self
-         	{
-         		$this->apiKey = $apiKey;
-         		return $this;
-         	}
+    {
+        $this->apiKey = $apiKey;
+        return $this;
+    }
 
-
-	/**
-	 * @return string
+    /**
+	 * @return string|null
 	 */
-	public function getEmail(): string
-         	{
-         		return $this->email;
-         	}
+	public function getEmail(): ?string
+    {
+        return $this->email;
+    }
 
-	/**
+    /**
 	 * @param string $email
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setEmail(string $email): self
-         	{
-         		$this->email = $email;
-         		return $this;
-         	}
+    {
+        $this->email = $email;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
 	 */
 	public function getPhone(): string
-         	{
-         		return $this->phone;
-         	}
-
-	/**
-	 * @param string $phone
-	 */
-	public function setPhone(string $phone): void
-         	{
-         		$this->phone = $phone;
-         	}
+    {
+        return $this->phone;
+    }
 
 
-	/**
+    /**
+     * @param string $phone
+     * @return VendorSecurity
+     */
+	public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
 	 * @return bool|null
 	 */
-	public function getSendEmail(): ?bool
-         	{
-         		return $this->sendEmail;
-         	}
+    public function getSendEmail(): ?bool
+    {
+        return $this->sendEmail;
+    }
 
-	/**
+    /**
 	 * @param bool|null $sendEmail
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setSendEmail(?bool $sendEmail): self
-         	{
-         		$this->sendEmail = $sendEmail;
-         		return $this;
-         	}
+    {
+        $this->sendEmail = $sendEmail;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
      */
 	public function getLastVisitDate(): string
-             {
-         		return $this->lastVisitDate;
-         	}
+    {
+        return $this->lastVisitDate;
+    }
 
-	/**
+    /**
 	 * @param string $lastVisitDate
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setLastVisitDate(string $lastVisitDate): self
-         	{
-         		$this->lastVisitDate = $lastVisitDate;
-         		return $this;
-         	}
+    {
+        $this->lastVisitDate = $lastVisitDate;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
 	 */
 	public function getActivationCode(): string
-         	{
-         		return $this->activationCode;
-         	}
+    {
+        return $this->activationCode;
+    }
 
-	/**
+    /**
 	 * @param string $activationCode
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setActivationCode(string $activationCode): self
-         	{
-         		$this->activationCode = $activationCode;
-         		return $this;
-         	}
+{
+    $this->activationCode = $activationCode;
+    return $this;
+}
 
-	/**
+    /**
 	 * @return string
 	 */
 	public function getLocale(): string
-         	{
-         		return $this->locale;
-         	}
+    {
+        return $this->locale;
+    }
 
-	/**
-	 * @param string $locale
-	 */
-	public function setLocale(string $locale): void
-         	{
-         		$this->locale = $locale;
-         	}
+    /**
+     * @param string $locale
+     * @return VendorSecurity
+     */
+	public function setLocale(string $locale): self
+    {
+        $this->locale = $locale;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
 	 */
 	public function getParams(): string
-         	{
-         		return $this->params;
-         	}
+    {
+        return $this->params;
+    }
 
-	/**
+    /**
 	 * @param string $params
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setParams(string $params): self
-         	{
-         		$this->params = $params;
-         		return $this;
-         	}
+    {
+        $this->params = $params;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
      */
 	public function getLastResetTime(): string
-             {
-         		return $this->lastResetTime;
-         	}
+    {
+        return $this->lastResetTime;
+    }
 
-	/**
+    /**
 	 * @param string $lastResetTime
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setLastResetTime(string $lastResetTime): self
-         	{
-         		$this->lastResetTime = $lastResetTime;
-         		return $this;
-         	}
+    {
+        $this->lastResetTime = $lastResetTime;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return int
 	 */
 	public function getResetCount(): int
-         	{
-         		return $this->resetCount;
-         	}
+    {
+        return $this->resetCount;
+    }
 
-	/**
+    /**
 	 * @param int $resetCount
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setResetCount(int $resetCount): self
-         	{
-         		$this->resetCount = $resetCount;
-         		return $this;
-         	}
+    {
+        $this->resetCount = $resetCount;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
 	 */
 	public function getOtpKey(): string
-         	{
-         		return $this->otpKey;
-         	}
+    {
+        return $this->otpKey;
+    }
 
-	/**
+    /**
 	 * @param string $otpKey
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setOtpKey(string $otpKey): self
-         	{
-         		$this->otpKey = $otpKey;
-         		return $this;
-         	}
+    {
+        $this->otpKey = $otpKey;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return string
 	 */
 	public function getOtep(): string
-         	{
-         		return $this->otep;
-         	}
+    {
+        return $this->otep;
+    }
 
-	/**
+    /**
 	 * @param string $otep
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setOtep(string $otep): self
-         	{
-         		$this->otep = $otep;
-         		return $this;
-         	}
+    {
+        $this->otep = $otep;
+        return $this;
+    }
 
-	/**
+    /**
 	 * @return bool
 	 */
 	public function isRequireReset(): bool
-         	{
-         		return $this->requireReset;
-         	}
+    {
+        return $this->requireReset;
+    }
 
-	/**
+    /**
 	 * @param bool $requireReset
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setRequireReset(bool $requireReset): self
-         	{
-         		$this->requireReset = $requireReset;
-         		return $this;
-         	}
+    {
+        $this->requireReset = $requireReset;
+        return $this;
+    }
 
-	/**
-	 * Returns the roles granted to the user.
-	 *
-	 *     public function getRoles()
-	 *     {
-	 *         return ['ROLE_USER'];
-	 *     }
-	 *
-	 * Alternatively, the roles might be stored on a ``roles`` property,
-	 * and populated in any number of different ways when the user object
-	 * is created.
-	 *
+    /**
 	 * @return array
 	 */
-	public function getRole(): array
-         	{
-         		return [
-         			'ROLE_USER'
-         		];
-         	}
+	public function getRoles(): array
+    {
+        return $this->roles;
+    }
 
-	/**
-	 * @param array $role
-	 */
-	public function setRole(array $role): void
-         	{
-         		$this->role = $role;
-         	}
+    /**
+     * @param array $roles
+     * @return VendorSecurity
+     */
+	public function setRoles(array $roles): self
+    {
+        $this->role = $role;
+        return $this;
+    }
 
-	/**
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+
+    /**
 	 * @param string $password
 	 *
 	 * @return VendorSecurity
 	 */
 	public function setPassword(string $password): self
-         	{
-         		$this->password = $password;
+    {
+        $this->password = $password;
+        return $this;
+    }
 
-         		return $this;
-         	}
-
-	/**
+    /**
 	 * @return string
 	 */
 	public function getPlainPassword(): string
-         	{
-         		return $this->plainPassword;
-         	}
+    {
+        return $this->plainPassword;
+    }
 
     /**
      * @param string $password
      * @return VendorSecurity
      */
 	public function setPlainPassword(string $password): self
-         	{
-         		$this->plainPassword = $password;
+    {
+        $this->plainPassword = $password;
+        return $this;
+    }
 
-         		return $this;
-         	}
+    public function eraseCredentials(): self
+    {
+        $this->plainPassword = '';
+        return $this;
+    }
 
-
-	/**
-	 * Removes sensitive data from the user.
-	 *
-	 * This is important if, at any given point, sensitive information like
-	 * the plain-text password is stored on this object.
-	 */
-	public function eraseCredentials(): string
-         	{
-         		$this->plainPassword = '';
-         		return '';
-         	}
-
-	/**
+    /**
 	 * String representation of object
 	 *
 	 * @link  https://php.net/manual/en/serializable.serialize.php
@@ -545,16 +551,17 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
 	 * @since 5.1.0
 	 */
 	public function serialize(): string
-         	{
-         		return serialize([
-         			$this->id,
-         			$this->email,
-         			$this->password
-         		]);
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password
+        ]);
 
-         	}
+    }
 
-	/**
+
+    /**
 	 * Constructs the object
 	 *
 	 * @link  https://php.net/manual/en/serializable.unserialize.php
@@ -565,49 +572,28 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
 	 * @since 5.1.0
 	 */
 	public function unserialize($data): void
-         	{
-         		[
-         			$this->id,
-         			$this->email,
-         			$this->password
-         		] = unserialize($data, ['allowed_class' => false]);
-         	}
+    {
+        [
+            $this->id,
+            $this->email,
+            $this->password
+        ] = unserialize($data, ['allowed_class' => false]);
+    }
 
-	/**
-	 * Returns the username used to authenticate the user.
-	 *
-	 * @return string The username
-	 */
-	public function getUsername(): string
-         	{
-         		return $this->email;
-         	}
-
-	/**
+    /**
 	 * @return mixed
 	 */
 	public function getVendorSecurity(): mixed
-             {
-         		return $this->vendorSecurity;
-         	}
-
-
-	/**
-	 * @param Vendor $vendorSecurity
-	 */
-	public function setVendorSecurity(Vendor $vendorSecurity): void
-         	{
-         		$this->vendorSecurity = $vendorSecurity;
-         	}
-
-    public function getPassword(): ?string
     {
-        // TODO: Implement getPassword() method.
+        return $this->vendorSecurity;
     }
 
-    public function getRoles()
+    /**
+	 * @param mixed $vendorSecurity
+	 */
+	public function setVendorSecurity(mixed $vendorSecurity): void
     {
-        // TODO: Implement getRoles() method.
+        $this->vendorSecurity = $vendorSecurity;
     }
 
     public function getSalt()
@@ -615,21 +601,10 @@ class VendorSecurity extends \App\Entity\Vendor\Vendor implements Serializable, 
         // TODO: Implement getSalt() method.
     }
 
+
     public function __call(string $name, array $arguments)
     {
         // TODO: Implement @method string getUserIdentifier()
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
-
-        return $this;
     }
 }
 

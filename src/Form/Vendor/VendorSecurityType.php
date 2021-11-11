@@ -40,7 +40,7 @@ class VendorSecurityType extends AbstractType
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'mapped' => false,
+//                'mapped' => false,
 				'invalid_message' => 'The password is invalid.',
 				'type'            => PasswordType::class,
 				'first_options'   => [
@@ -55,6 +55,7 @@ class VendorSecurityType extends AbstractType
                     ]
                 ],
                 'second_options' => [
+                    'required' => true,
 					'label'      => 'vendor.label.password.confirm',
 					'label_attr' => [
 						'class' => 'sr-only'
@@ -65,7 +66,7 @@ class VendorSecurityType extends AbstractType
 						'tabindex'    => '202'
                     ]
                 ],
-                'required' => true,
+                'required' => false,
                 'attr' => [
                     'id' => 'password',
                     'name' => '_password',

@@ -3,30 +3,30 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Entity\Vendor\Vendor;
+use App\Entity\Vendor\VendorSecurity;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class RegisteredEvent extends Event
 {
-    public const NAME = 'vendor.registration';
+    public const NAME = 'vendor.registered';
 
     /**
-     * @var Vendor
+     * @var VendorSecurity
      */
-    private Vendor $vendorRegistered;
+    private VendorSecurity $vendorRegistered;
 
     /**
-     * @param Vendor $vendorRegistered
+     * @param VendorSecurity $vendorRegistered
      */
-    public function __construct(Vendor $vendorRegistered)
+    public function __construct(VendorSecurity $vendorRegistered)
     {
         $this->vendorRegistered = $vendorRegistered;
     }
 
     /**
-     * @return Vendor
+     * @return VendorSecurity
      */
-    public function getVendorRegistered(): Vendor
+    public function getVendorRegistered(): VendorSecurity
     {
         return $this->vendorRegistered;
     }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
  /**
-  * @ORM\Table(name="featured")
+  * @ORM\Table(name="features")
   * @ORM\Entity(repositoryClass="App\Repository\Featured\FeaturedRepository")
   * @ORM\HasLifecycleCallbacks()
   */
@@ -74,7 +74,7 @@ class Featured
 	 *
 	 * @return Featured
 	 */
-    public function setOrdering($ordering)
+    public function setOrdering($ordering): static
     {
         $this->ordering = $ordering;
         return $this;

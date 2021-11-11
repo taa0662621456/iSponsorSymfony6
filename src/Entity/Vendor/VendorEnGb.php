@@ -178,9 +178,9 @@ class VendorEnGb
 	private string $vendorMetaAuthor = 'meta_author';
 
 	/**
-	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor",
-	 *     inversedBy="vendorEnGb")
-	 */
+	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorEnGb")
+     * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
+     */
 	private mixed $vendorEnGb;
 
     /**
@@ -264,7 +264,7 @@ class VendorEnGb
     }
 
     /**
-     * @return string|null
+     * @return string
      */
     public function getVendorFax(): string
     {
