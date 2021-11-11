@@ -157,7 +157,7 @@
     </header>
     {% block blocks %}
 
-        <main role="main" class="row m-0 vh-100">
+        <main role="main" class="row m-0 min-vh-100">
             <aside id="b1" class="{{ b1 }}">
 {#                <div class="sticky-top text-center pt-5">#}
 {#                    <a id="move_up" href="#"><span style="font-size: 2em"><i#}
@@ -165,7 +165,7 @@
 {#                </div>#}
                 {% block ontop %}{% endblock %}
             </aside>
-            <aside id="b2" class="{{ b2 }} vh-100">
+            <aside id="b2" class="{{ b2 }}">
                 {% block sidebar %}{% endblock %}
             </aside>
             <article id="b3" class="{{ b3 }}">

@@ -83,10 +83,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank()
      * @Assert\Length(min=8)
      * @Assert\Length(max=32)
-     * TODO:Assert\NotCompromisedPassword
      *
 	 */
-	protected string $password = '12345678';
+	protected string $password = 'A7k0B9f8A7k0B9f8A7k0B9f8';
 
 	/**
      * @var string
@@ -94,16 +93,18 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @Assert\NotBlank()
 	 * @Assert\Length(min=8)
 	 * @Assert\Length(max=32)
-     * Assert\NotCompromisedPassword
-	 *
+     * @Assert\NotCompromisedPassword(
+     *     message="This password has been leaked in a data breach, it must not be used. Please use another password.",
+     *     skipOnError="true"
+     * )
 	 */
-	private string $plainPassword;
+	private string $plainPassword = 'A7k0B9f8A7k0B9f8A7k0B9f8';
 
 	/**
      * @var array
-	 * @ORM\Column(name="role", type="json", nullable=false)
+	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
-	private array $role = [];
+	private array $roles = ["ROLE_USER"];
 
 
 	/**
@@ -208,7 +209,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 */
 	public function __construct()
     {
-        $this->role = [self::ROLE_USER];
+        $this->roles = [self::ROLE_USER];
          $t = new DateTime();
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
         $this->lastVisitDate = $t->format('Y-m-d H:i:s');
@@ -495,7 +496,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      */
 	public function setRoles(array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
         return $this;
     }
 

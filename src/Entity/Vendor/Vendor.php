@@ -43,7 +43,7 @@ class Vendor
 	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 0})
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private bool $isActive = false;
+	private bool $isActive = true;
 
 	/**
 	 * @var array
@@ -51,7 +51,7 @@ class Vendor
 	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private array $roles = [];
+	private array $roles = ["ROLE_USER"];
 
 	/**
      * @var string

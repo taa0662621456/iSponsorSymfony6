@@ -52,6 +52,7 @@ services:
             string $pathToEntity: 'App\Entity\'
             string $pathToRepository: 'App\Repository\'
             string $pathToType: 'App\Form\'
+            string $pathToLogin: '%app_login_page_routename%'
 #            $emailSender: '%app_email_sender%'
 #            $akismetKey: "%env(AKISMET_KEY)%"
 #            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"

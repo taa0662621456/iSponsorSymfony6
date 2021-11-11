@@ -42,5 +42,9 @@ class VendorRepository extends ServiceEntityRepository
         ]);
     }
 
+    public function setIsActive(bool $true)
+    {
+    }
+
 
 }
