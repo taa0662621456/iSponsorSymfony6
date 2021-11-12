@@ -23,7 +23,9 @@ app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/imag
 app_product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
 app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
 app_vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
-mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
+app_mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
+app_secret: '%env(APP_SECRET)%'
+
 
 
 app.offline: '0'

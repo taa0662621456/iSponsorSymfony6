@@ -99,7 +99,7 @@ class SecurityController extends AbstractController
 								 EventDispatcherInterface $eventDispatcher,
                                  $layout): Response
 	{
-        $recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
+        $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_site'));
         //$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
@@ -160,7 +160,9 @@ class SecurityController extends AbstractController
                 #
                 $this->emailVerifier->sendEmailConfirmation('app_confirmation_email', $vendorSecurity,
                     (new TemplatedEmail())
-                        ->from(new Address('taa0662621456@gmail.com', 'Alex Tish'))
+                        ->from(new Address(
+                            $this->getParameter('app_notifications_email_sender'),
+                            $this->getParameter('app_sender_name')))
                         ->to($vendorSecurity->getEmail())
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('registration/confirmation_email.html.twig')
@@ -169,7 +171,7 @@ class SecurityController extends AbstractController
                 $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
                 $eventDispatcher->dispatch($vendorRegisteredEvent);
                 #
-                return $this->redirectToRoute('homepage');
+                return $this->redirectToRoute($this->getParameter('app_homepage_routename'));
 
             } catch (Exception $e) {
                 //TODO: в зависимости от ENV или Flash или throw
@@ -322,7 +324,7 @@ class SecurityController extends AbstractController
 		 * идентична маршруту регистрации.
 		 * Необходимо коды этих маршрутов вынести в один метод...
 		 */
-		$recaptcha = new ReCaptcha($this->getParameter('recaptcha_secret'));
+		$recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
 		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
 
 
