@@ -1,5 +1,6 @@
 parameters:
     app_name: '...iSponsor!'
+    app_sender_name: '...iSponsor! team'
     app_version: '0.0.0'
     app_domain: 'smartresponsor.com'
     app_schema: 'https'
@@ -15,7 +16,7 @@ parameters:
     app_email_sender: 'taa0662621456@gmail.com'
     app_notifications_email_sender: 'taa0662621456@gmail.com'
     app_property: 'email'
-    app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    app_akismet: 'weqweqweDFDFDFFDwqeqwewqewqe'
     app_csrf_token: 'weqweqweDFDFDFFDwqeqwewqewqe'
     app_homepage_number_of_items: 10
     app_logo_url: '/favicon.ico'
@@ -23,9 +24,10 @@ parameters:
     app_menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
     app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
     app_product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
+    app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
     app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     app_vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
-    app_mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
+    app_mercure_secret: '%env(MERCURE_SECRET_KEY)%'
     app_secret: '%env(APP_SECRET)%'
     # router.request_context.host: '%env(default:default_domain:SYMFONY_DEFAULT_ROUTE_HOST)%'
     # router.request_context.scheme: '%env(default:default_scheme:SYMFONY_DEFAULT_ROUTE_SCHEME)%'

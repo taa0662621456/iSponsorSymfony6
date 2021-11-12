@@ -2,9 +2,7 @@ security:
     hide_user_not_found: false
     access_denied_url: login
     session_fixation_strategy: migrate # One of "none"; "migrate"; "invalidate"
-    # https://symfony.com/doc/current/security/authenticator_manager.html
     enable_authenticator_manager: true
-    # https://symfony.com/doc/current/security.html#c-hashing-passwords
     encoders:
         App\Entity\Vendor\VendorSecurity:
             algorithm: auto
@@ -17,7 +15,7 @@ security:
         in_memory:
             memory:
                 users:
-                    admin@a.c: # It's login
+                    admin: # It's login
                         password: admin
                         roles: 'ROLE_ADMIN'
         postgres_users:
@@ -29,17 +27,14 @@ security:
         ROLE_ADMIN: [ ROLE_USER ]
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
     firewalls:
-#        https://symfony.com.ua/doc/current/security/csrf.html
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
 #        wsse:
 #            pattern:   ^/wsse/
 #            stateless: true
 #            wsse:      { lifetime: 30 }
 #            security: false
-
 #        api:
 #            pattern: ^/api
 #            stateless: true
@@ -52,22 +47,18 @@ security:
 #                - App\Security\TokenAuthenticator
 #                - lexik_jwt_authentication.jwt_token_authenticator
 #                - FacebookConnectAuthenticator
-# аутентификаторов и комбинаций с точками входов может быть несколько. Например: FB, Google
-# https://symfony.com.ua/doc/current/security/multiple_guard_authenticators-ru.html
-
         main:
             pattern: ^/
             lazy: true
             switch_user: { role: ROLE_ALLOWED_TO_SWITCH }
             provider: postgres_users
             remember_me:
-                secret: '%kernel.secret%'
+                secret: '%app_secret%' # or '%env(APP_SECRET)%'
                 lifetime: 604800 # 1 week in seconds # https://symfony.com/doc/current/security/remember_me.html
                 always_remember_me: true
             login_throttling:
                 max_attempts: 100
-                interval: '15 minutes'
-                 # по лимитеру больше на сайте https://symfony.com/doc/current/security.html#firewalls-authentication
+                interval: '15 minutes' # по лимитеру больше на сайте https://symfony.com/doc/current/security.html#firewalls-authentication
             http_basic:
                 realm: Secured Area
             json_login:
@@ -77,11 +68,11 @@ security:
                 - App\Security\LoginFormAuthenticator
                 - App\Security\ApiKeyAuthenticator
             entry_point: App\Security\LoginFormAuthenticator
-#            entry_point: form_login //TODO:проверить комбинацию
+#            entry_point: form_login #TODO:проверить комбинацию
             form_login:
                 enable_csrf: true # if true, to csrf_token_generator must be false
-#                csrf_parameter: '%app_csrf_token%'
-                csrf_token_id: 'weqweqweDFDFDFFDwqeqwewqewqe'
+                csrf_parameter: '%app_csrf_token%'
+                csrf_token_id: 'weqweqweDFDFDFFDwqeqwewqewqe' # Can be '%env(APP_SECRET)%'
 #                csrf_token_generator: security.csrf.token_manager # dont work with enable_authenticator_manager is true
                 check_path: login_check
                 login_path: '%app_login_page_routename%'
@@ -96,15 +87,6 @@ security:
             logout:
                 path: '%app_logout_routename%'
                 target: '%app_logged_out_target_routename%'
-
-        # activate different ways to authenticate
-        # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-        # https://symfony.com/doc/current/security/impersonating_user.html
-
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
