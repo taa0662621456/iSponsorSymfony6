@@ -15,7 +15,9 @@ use App\Service\EmailVerifier;
 use DateTime;
 use Exception;
 
+use Psr\Log\LoggerInterface;
 use RuntimeException;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactory;
@@ -25,6 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 
+use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -60,15 +63,18 @@ class SecurityController extends AbstractController
      * @var EmailVerifier $emailVerifier
      */
     private EmailVerifier $emailVerifier;
+    private LoggerInterface $logger;
 
     public function __construct(
         Environment                 $twig,
         UserPasswordHasherInterface $passwordHasher,
         FormFactoryInterface        $formFactory,
         RouterInterface             $router,
-        EmailVerifier               $emailVerifier
+        EmailVerifier               $emailVerifier,
+        LoggerInterface             $logger,
 	)
 	{
+		$this->logger = $logger;
 		$this->twig = $twig;
 		$this->passwordHasher = $passwordHasher;
 		$this->formFactory = $formFactory;
@@ -149,14 +155,15 @@ class SecurityController extends AbstractController
                 $em->flush();
                 #
                 $this->addFlash('success', 'Вы успешно зарегистрировались');
+                $this->logger->notice('Успешная регистрация');
                 #
-//                $this->emailVerifier->sendEmailConfirmation('app_confirmation_email', $vendorSecurity,
-//                    (new TemplatedEmail())
-//                        ->from(new Address('taa0662621456@gmail.com', 'Alex Tish'))
-//                        ->to($vendorSecurity->getEmail())
-//                        ->subject('Please Confirm your Email')
-//                        ->htmlTemplate('registration/confirmation_email.html.twig')
-//                );
+                $this->emailVerifier->sendEmailConfirmation('app_confirmation_email', $vendorSecurity,
+                    (new TemplatedEmail())
+                        ->from(new Address('taa0662621456@gmail.com', 'Alex Tish'))
+                        ->to($vendorSecurity->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
                 #
                 $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
                 $eventDispatcher->dispatch($vendorRegisteredEvent);
@@ -164,6 +171,7 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('homepage');
 
             } catch (Exception $e) {
+                //TODO: в зависимости от ENV или Flash или throw
                 $this->addFlash('error', 'Что-то идет не так');
                 throw new \UnexpectedValueException(
                     'Что-то пошло не так "%s".'
