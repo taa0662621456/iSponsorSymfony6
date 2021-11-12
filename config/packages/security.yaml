@@ -79,7 +79,8 @@ security:
 #            entry_point: form_login //TODO:проверить комбинацию
             form_login:
                 enable_csrf: true # if true, to csrf_token_generator must be false
-                csrf_parameter: _csrf_token
+#                csrf_parameter: '%app_csrf_token%'
+                csrf_token_id: 'weqweqweDFDFDFFDwqeqwewqewqe'
 #                csrf_token_generator: security.csrf.token_manager # dont work with enable_authenticator_manager is true
                 check_path: login_check
                 login_path: '%app_login_page_routename%'

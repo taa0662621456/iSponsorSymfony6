@@ -43,7 +43,7 @@ class VendorRegistrationType extends AbstractType
 			'data_class'         => Vendor::class,
 			'csrf_protection'    => true,
 			'csrf_field_name'    => '_csrf_token',
-			'csrf_token_id'      => 'ZGZnZGZnZGZnIGdkZmcgZGZnIGRmZyBkZyA=',
+			'csrf_token_id'      => 'weqweqweDFDFDFFDwqeqwewqewqe',
 			'translation_domain' => 'vendor'
         ]);
     }
