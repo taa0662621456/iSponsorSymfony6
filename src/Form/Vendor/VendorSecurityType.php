@@ -112,6 +112,11 @@ class VendorSecurityType extends AbstractType
     {
         $resolver->setDefaults([
 			'data_class'         => VendorSecurity::class,
+            # добавил в процесе дебага токена, сам
+//            'csrf_protection'    => true,
+//            'csrf_field_name'    => '_token',
+//            'csrf_token_id'      => 'ZGZnZGZnZGZnIGdkZmcgZGZnIGRmZyBkZyA=',
+			# возможно, тут не нужно
 			'translation_domain' => 'vendor'
 		]);
     }

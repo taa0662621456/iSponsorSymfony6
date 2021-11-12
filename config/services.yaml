@@ -21,6 +21,7 @@ parameters:
     app_email_sender: 'taa0662621456@gmail.com'
     app_property: 'email'
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    app_csrf_token: 'weqweqweDFDFDFFDwqeqwewqewqe'
     app_homepage_number_of_items: 10
     app_logo_url: '/favicon.ico'
     app_category_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
@@ -53,6 +54,7 @@ services:
             string $pathToRepository: 'App\Repository\'
             string $pathToType: 'App\Form\'
             string $pathToLogin: '%app_login_page_routename%'
+            string $token: '%app_csrf_token%'
 #            $emailSender: '%app_email_sender%'
 #            $akismetKey: "%env(AKISMET_KEY)%"
 #            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"

@@ -53,22 +53,29 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     private $passwordEncoder;
 
     private $request;
+    private string $token;
+    private string $pathToLogin;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 UrlGeneratorInterface $urlGenerator,
                                 CsrfTokenManagerInterface $csrfTokenManager,
-                                UserPasswordHasherInterface $passwordEncoder)
+                                UserPasswordHasherInterface $passwordEncoder,
+                                string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token',
+                                string $pathToLogin = 'No $token! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLogin')
     {
         $this->entityManager = $entityManager;
         $this->urlGenerator = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->token = $token;
+        $this->pathToLogin = $pathToLogin;
     }
 
     public function supports(Request $request): ?bool
     {
+        $pathToLogin = $this->pathToLogin;
         $this->request = $request;
-        return ('login' === $request->attributes->get('_route'))
+        return ($pathToLogin === $request->attributes->get('_route'))
             && $request->isMethod('POST');
     }
 
@@ -132,12 +139,11 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $mail = $request->request->get('email');
         $password = $request->request->get('password');
         $csrfToken = $request->request->get('_csrf_token');
-//        dd($csrfToken);
+        $token = $this->token;
         return new Passport(
             new UserBadge($mail),
             new PasswordCredentials($password),
-//            [new CsrfTokenBadge('_csrf_token', $csrfToken)]
-
+            [new CsrfTokenBadge($token, $csrfToken)]
         );
     }
 

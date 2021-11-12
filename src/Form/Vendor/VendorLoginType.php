@@ -110,7 +110,7 @@
 			$resolver->setDefaults([
                     'csrf_protection' => true,
                     'csrf_field_name' => '_csrf_token',
-                    'csrf_token_id' => 'authenticate',
+                    'csrf_token_id' => 'weqweqweDFDFDFFDwqeqwewqewqe',
                     'translation_domain' => 'vendor',
                     'method' => 'POST',
                     'attr' => [

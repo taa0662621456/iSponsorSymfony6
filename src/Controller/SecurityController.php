@@ -279,7 +279,7 @@ class SecurityController extends AbstractController
 
 //        $loginType->handleRequest($request);
 //        if ($loginType->isSubmitted()) {
-//            dd($loginType);
+//            dd($request);
 //        }
 
         return $this->render(
