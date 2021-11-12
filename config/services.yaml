@@ -54,6 +54,7 @@ services:
             string $pathToRepository: 'App\Repository\'
             string $pathToType: 'App\Form\'
             string $pathToLogin: '%app_login_page_routename%'
+            string $pathToLoginSuccess: '%app_login_page_routename%'
             string $token: '%app_csrf_token%'
 #            $emailSender: '%app_email_sender%'
 #            $akismetKey: "%env(AKISMET_KEY)%"

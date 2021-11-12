@@ -40,7 +40,7 @@ class VendorSecurityType extends AbstractType
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
-                'mapped' => false,
+                'mapped' => true,
 				'invalid_message' => 'The password is invalid.',
 				'type'            => PasswordType::class,
 				'first_options'   => [
@@ -66,7 +66,7 @@ class VendorSecurityType extends AbstractType
 						'tabindex'    => '202'
                     ]
                 ],
-                'required' => false,
+                'required' => true,
                 'attr' => [
                     'id' => 'password',
                     'name' => '_password',
@@ -82,7 +82,6 @@ class VendorSecurityType extends AbstractType
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
                         'max' => 4096,
                      ]),
                 ],
@@ -112,11 +111,6 @@ class VendorSecurityType extends AbstractType
     {
         $resolver->setDefaults([
 			'data_class'         => VendorSecurity::class,
-            # добавил в процесе дебага токена, сам
-//            'csrf_protection'    => true,
-//            'csrf_field_name'    => '_token',
-//            'csrf_token_id'      => 'ZGZnZGZnZGZnIGdkZmcgZGZnIGRmZyBkZyA=',
-			# возможно, тут не нужно
 			'translation_domain' => 'vendor'
 		]);
     }
