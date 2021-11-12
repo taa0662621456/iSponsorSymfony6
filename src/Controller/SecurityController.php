@@ -16,6 +16,7 @@ use DateTime;
 use Exception;
 
 use Psr\Log\LoggerInterface;
+use ReCaptcha\ReCaptcha;
 use RuntimeException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -266,11 +267,11 @@ class SecurityController extends AbstractController
      * @param Request $request
      * @param Security $security
      * @param AuthenticationUtils $authenticationUtils
-     * @param                     $layout
+     * @param string $layout
      *
      * @return Response
      */
-	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, $layout): Response
+	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
     {
 
 /*        if ($security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
@@ -282,11 +283,6 @@ class SecurityController extends AbstractController
         $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class, [
             '_username' => $authenticationUtils->getLastUsername()], [
             'action' => $this->router->generate('login')]);
-
-//        $loginType->handleRequest($request);
-//        if ($loginType->isSubmitted()) {
-//            dd($request);
-//        }
 
         return $this->render(
             'security/' . $layout . '.html.twig', [
@@ -359,10 +355,10 @@ class SecurityController extends AbstractController
 
 			$em->flush();
 
-			$vendorRegisteredEvent = new RegisteredEvent($vendor);
+			$vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
 			$eventDispatcher->dispatch($vendorRegisteredEvent);
 
-			$this->addFlash('success', 'Success');
+			$this->addFlash('success', 'Success. Успешно изменили параметры безопасности');
 
 
 			$this->getDoctrine()->getManager()->flush();
