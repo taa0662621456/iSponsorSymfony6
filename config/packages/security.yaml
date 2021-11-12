@@ -1,4 +1,5 @@
 security:
+    hide_user_not_found: false
     access_denied_url: login
     session_fixation_strategy: migrate # One of "none"; "migrate"; "invalidate"
     # https://symfony.com/doc/current/security/authenticator_manager.html

@@ -60,8 +60,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @ORM\Column(name="phone", type="string", unique=true, nullable=false)
      *
      * @Assert\NotBlank(message="vendors.message.error.phone")
-     * @Length(min=9, minMessage="vendors_security.too_short_content")
-     * @Length(max=13, maxMessage="vendors_security.too_long_content")
+     * @Length(min=9, minMessage="vendors_security.too_short_content_phone")
+     * @Length(max=13, maxMessage="vendors_security.too_long_content_phone")
      */
     private string $phone = '380662621456';
 
@@ -70,8 +70,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(name="username", type="string", length=255)
      *
-     * @Assert\Length(min=3)
-     * @Assert\Length(max=32)
+     * @Assert\Length(min=3, minMessage="vendors_security.too_short_content_username")
+     * @Assert\Length(max=32, maxMessage="vendors_security.too_long_content_username")
      */
     private string $username = '380662621456';
 
@@ -80,9 +80,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(name="password", type="string", unique=false)
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8)
-     * @Assert\Length(max=32)
+     * @Assert\NotBlank(message="vendors.message.error.password")
+     * @Assert\Length(min=8, minMessage="vendors_security.too_short_content_password")
+     * @Assert\Length(max=32, maxMessage="vendors_security.too_long_content_password")
      *
 	 */
 	protected string $password = 'A7k0B9f8A7k0B9f8A7k0B9f8';
@@ -91,8 +91,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @var string
      *
 	 * @Assert\NotBlank()
-	 * @Assert\Length(min=8)
-	 * @Assert\Length(max=32)
+	 * @Assert\Length(min=8, minMessage="vendors_security.too_short_content_plainPassword")
+	 * @Assert\Length(max=32, maxMessage="vendors_security.too_long_content_plainPassword")
      * @Assert\NotCompromisedPassword(
      *     message="This password has been leaked in a data breach, it must not be used. Please use another password.",
      *     skipOnError="true"
@@ -210,7 +210,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	public function __construct()
     {
         $this->roles = [self::ROLE_USER];
-         $t = new DateTime();
+        $t = new DateTime();
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
         $this->lastVisitDate = $t->format('Y-m-d H:i:s');
 

@@ -4,13 +4,11 @@ namespace App\Controller;
 use App\Entity\Vendor\VendorCodeStorage;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnGb;
-use App\Entity\Vendor\VendorIban;
 use App\Entity\Vendor\VendorSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\SecurityChangePasswordType;
 use App\Form\Vendor\VendorLoginType;
 use App\Form\Vendor\VendorRegistrationType;
-use App\Repository\Vendor\VendorRepository;
 use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use App\Service\EmailVerifier;
@@ -49,7 +47,7 @@ class SecurityController extends AbstractController
     /**
      * @var UserPasswordHasherInterface
      */
-    private UserPasswordHasherInterface $passwordEncoder;
+    private UserPasswordHasherInterface $passwordHasher;
     /**
      * @var FormFactory
      */
@@ -65,14 +63,14 @@ class SecurityController extends AbstractController
 
     public function __construct(
         Environment                 $twig,
-        UserPasswordHasherInterface $passwordHashes,
+        UserPasswordHasherInterface $passwordHasher,
         FormFactoryInterface        $formFactory,
         RouterInterface             $router,
         EmailVerifier               $emailVerifier
 	)
 	{
 		$this->twig = $twig;
-		$this->passwordEncoder = $passwordHashes;
+		$this->passwordHasher = $passwordHasher;
 		$this->formFactory = $formFactory;
 		$this->router = $router;
         $this->emailVerifier = $emailVerifier;
@@ -92,10 +90,9 @@ class SecurityController extends AbstractController
 	public function registration(Request $request,
 								 ConfirmationCodeGenerator $codeGenerator,
 								 EventDispatcherInterface $eventDispatcher,
-                                 UserPasswordHasherInterface $passwordHasherInterface,
                                  $layout): Response
 	{
-        //$recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
+        $recaptcha = new ReCaptcha($this->getParameter('google_recaptcha_site_key'));
         //$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
@@ -116,7 +113,8 @@ class SecurityController extends AbstractController
 
             try {
                 $formData = $form->getData();
-                $password = $passwordHasherInterface->hashPassword(
+
+                $password = $this->passwordHasher->hashPassword(
                         $vendorSecurity,
                         $formData->getVendorSecurity()->getPlainPassword());
                 #
@@ -166,7 +164,7 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('homepage');
 
             } catch (Exception $e) {
-                $this->addFlash('success', 'Что-то идет не так');
+                $this->addFlash('error', 'Что-то идет не так');
                 throw new \UnexpectedValueException(
                     'Что-то пошло не так "%s".'
                 );
@@ -339,7 +337,7 @@ class SecurityController extends AbstractController
 		} else {
 
 			$formData = $form->getData();
-			$password = $this->passwordEncoder->hashPassword(
+			$password = $this->passwordHasher->hashPassword(
 				$vendorSecurity,
 				$formData->getVendorSecurity()->getPlainPassword()
 			);

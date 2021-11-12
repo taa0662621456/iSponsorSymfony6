@@ -1,4 +1,29 @@
 {% if error %}
+    {% for message in app.flashes('success') %}
+        {#        помощь на этой странице https://bootstrap-4.ru/docs/5.1/components/toasts/#}
+        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+            <div class="toast-container position-absolute p-3 top-0 start-50 translate-middle-x" id="toastPlacement">
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        {#                <img src="..." class="rounded me-2" alt="...">#}
+                        <strong class="me-auto">Сообщение об успешной регистрации</strong>
+                        {#                <small class="text-muted">11 мин. назад</small>#}
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="toast-body">
+                        Вы успешно зарегистрировались. Теперь Вам необходимо подтвердить регистрацию. Проверьте свою почту
+                        {{ message }}
+                        {{ error.message }}
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                        <div class="mt-2 pt-2 border-top">
+                            {#                    <button type="button" class="btn btn-primary btn-sm">Ввести код подтверждения регистрации</button>#}
+                            <button type="button" class="btn btn-secondary btn-sm btn-close" data-bs-dismiss="toast">Закрыть</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
     <div class="alert alert-danger">
         {{ error.message }}
         {{ error.messageKey|trans(error.messageData, 'security') }}
