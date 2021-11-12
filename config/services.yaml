@@ -1,48 +1,6 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
-parameters:
-    # выработать контракт написания параметров приложения app_
-    app_name: '...iSponsor!'
-    app_version: '0.0.0'
-    app_domain: 'smartresponsor.com'
-    app_schema: 'https'
-    app_homepage_routename: 'homepage'
-    app_login_page_routename: 'login'
-    app_logout_routename: 'logout'
-    app_logged_in_target_routename: 'homepage'
-    app_logged_out_target_routename: 'homepage'
-    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
-    app_locale: 'en'
-    app_cache: 0
-    app_cache_time: 360
-    app_email_sender: 'taa0662621456@gmail.com'
-    app_property: 'email'
-    app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
-    app_csrf_token: 'weqweqweDFDFDFFDwqeqwewqewqe'
-    app_homepage_number_of_items: 10
-    app_logo_url: '/favicon.ico'
-    app_category_images_directory: '%kernel.project_dir%/public/uploads/categories/images'
-    app_menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
-    app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
-    app_product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
-    app_vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
-#
-#    app.notifications.email_sender: taa0662621456@gmail.com
     # router.request_context.host: '%env(default:default_domain:SYMFONY_DEFAULT_ROUTE_HOST)%'
     # router.request_context.scheme: '%env(default:default_scheme:SYMFONY_DEFAULT_ROUTE_SCHEME)%'
-
-    homepage.number_of_items: 10
-
-    # kernel.secret: '63f52df98ad426a42bc971b2ee6300f0'
-    google_recaptcha_site_key: '6LdTYBcTAAAAAGnliWW_cfTyPkRpBacfUFzhDbon'
-    mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
-    # google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
-
 services:
-    # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
@@ -67,11 +25,8 @@ services:
 
     App\EventSubscriber\LocaleSubscriber:
         arguments: [ '%kernel.default_locale%' ]
-        # uncomment the next line if you are not using autoconfigure
-        # tags: [kernel.event_subscriber]
+#         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
 
-    # Make classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
         exclude:
@@ -81,6 +36,3 @@ services:
             - '../src/Tests/'
             - '../src/Trash/'
             - '../migrations/'
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
