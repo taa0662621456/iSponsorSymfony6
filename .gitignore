@@ -45,3 +45,5 @@ yarn-error.log
 ###> baldinof/roadrunner-bundle ###
 /bin/rr
 ###< baldinof/roadrunner-bundle ###
+/config/secrets/prod/
+/config/secrets/prod/*

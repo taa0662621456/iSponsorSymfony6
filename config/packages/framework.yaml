@@ -5,6 +5,10 @@ framework:
     csrf_protection: true
     http_method_override: false
     default_locale: '%app_locale%'
+    secrets:
+        vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
+        local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
+        decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
 
 #    not_compromised_password: false # in prod must by of true
 
