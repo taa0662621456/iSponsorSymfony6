@@ -1,26 +1,20 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    ide: 'phpstorm://open?file=file://%%f&line=%%l'
+    trusted_hosts: '%env(TRUSTED_HOSTS)%'
+    disallow_search_engine_index: true
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
     http_method_override: false
-    default_locale: '%app_locale%'
-    translator:
-        enabled_locales: [ 'en', 'ru' ]
-        fallbacks: ['en']
-        cache_dir: null
-#        default_lifetime: 1
+    profiler: false
 
-    #    hinclude_default_template: # См. Как встраивать асинхронный контент с помощью hinclude.js для получения дополнительной информации о hinclude.
+
+    default_locale: '%app_locale%'
     secrets:
         vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
         local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
         decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
 
-    mailer:
-        dsn: 'smtp://localhost:25'
-        envelope:
-            recipients: [ 'taa0662621456@gmail.com' ]
+#    error_controller:
 
 #    not_compromised_password: false # in prod must by of true
 
@@ -36,11 +30,6 @@ framework:
     #fragments: true
     php_errors:
         log: true
-
-
-#    workflows:
-#        my_workflow:
-        # ...
 
 when@test:
     framework:
