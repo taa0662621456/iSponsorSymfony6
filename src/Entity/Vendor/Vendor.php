@@ -8,6 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,7 +23,7 @@ use DateTime;
 /**
  * @ORM\Table(name="vendors", indexes={
  * @ORM\Index(name="vendor_idx", columns={"slug"})})
- * UniqueEntity("slug"), errorPath="slug", message="This name is already in use!"
+ * UniqueEntity("slug"), errorPath="slug", message="This name | {Value} | is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorRepository")
  * @ORM\HasLifecycleCallbacks()
  *
@@ -33,9 +35,11 @@ use DateTime;
  *     )
  * @ApiFilter(BooleanFilter::class, properties={"isActive"})
  */
-class Vendor
+class Vendor implements TranslatableInterface
 {
 	use BaseTrait;
+    use TranslatableTrait;
+    # https://github.com/KnpLabs/DoctrineBehaviors/blob/master/docs/translatable.md
 
 	/**
 	 * @var bool|false

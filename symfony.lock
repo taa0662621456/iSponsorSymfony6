@@ -25,6 +25,9 @@
             "./config/packages/baldinof_road_runner.yaml"
         ]
     },
+    "brick/math": {
+        "version": "0.9.3"
+    },
     "cocur/slugify": {
         "version": "v4.0.0"
     },
@@ -174,6 +177,9 @@
             "./config/packages/karser_recaptcha3.yaml"
         ]
     },
+    "knplabs/doctrine-behaviors": {
+        "version": "2.4.0"
+    },
     "laminas/laminas-code": {
         "version": "4.4.3"
     },
@@ -192,6 +198,9 @@
     },
     "monolog/monolog": {
         "version": "2.3.4"
+    },
+    "nette/utils": {
+        "version": "v3.2.5"
     },
     "nikic/php-parser": {
         "version": "v4.13.0"
@@ -216,6 +225,12 @@
     },
     "psr/log": {
         "version": "2.0.0"
+    },
+    "ramsey/collection": {
+        "version": "1.2.2"
+    },
+    "ramsey/uuid": {
+        "version": "4.2.3"
     },
     "spiral/goridge": {
         "version": "v3.1.1"

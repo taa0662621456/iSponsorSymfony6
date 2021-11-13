@@ -8,6 +8,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class FooterLinkController extends AbstractController
 {
     /**
+     * @Route("/owner", name="owner", methods={"GET"})
+     */
+    public function owner(): \Symfony\Component\HttpFoundation\Response
+    {
+        return $this->render('footer/owner.html.twig', [
+            'controller_name' => 'MenuController'
+            ]
+        );
+    }
+
+        /**
      * @Route("/career", name="career", methods={"GET"})
      */
     public function career(): \Symfony\Component\HttpFoundation\Response

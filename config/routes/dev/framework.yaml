@@ -1,0 +1,5 @@
+_errors:
+  resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
+  prefix:   /_error
+  # http://localhost/_error/{statusCode} для HTML
+  # http://localhost/_error/{statusCode}.{format} для любого другого формата
