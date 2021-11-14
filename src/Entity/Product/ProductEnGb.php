@@ -26,21 +26,21 @@ class ProductEnGb
      *
      * @ORM\Column(name="product_name", type="string", nullable=false, options={"default"=""})
      */
-    private $productName = 'product_name';
+    private string $productName = 'product_name';
 
     /**
      * @var string
 	 *
 	 * @ORM\Column(name="product_s_desc", type="text", nullable=false, options={"default"="product_s_desc"})
 	 */
-	private $productSDesc = 'product_s_desc';
+	private string $productSDesc = 'product_s_desc';
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="product_desc", type="text", nullable=false, options={"default"="product_desc"})
 	 */
-    private $productDesc = 'product_desc';
+    private string $productDesc = 'product_desc';
 
 	/**
 	 * @return string

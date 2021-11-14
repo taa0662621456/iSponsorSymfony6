@@ -99,7 +99,7 @@ class SecurityController extends AbstractController
 								 EventDispatcherInterface $eventDispatcher,
                                  $layout): Response
 	{
-        $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_site'));
+        $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_key'));
         //$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
@@ -318,12 +318,6 @@ class SecurityController extends AbstractController
 						   ConfirmationCodeGenerator $codeGenerator,
 						   EventDispatcherInterface $eventDispatcher): Response
 	{
-		/**
-		 * TODO:
-		 * логика маршрута изменения параметров безопасности практически
-		 * идентична маршруту регистрации.
-		 * Необходимо коды этих маршрутов вынести в один метод...
-		 */
 		$recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
 		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
 

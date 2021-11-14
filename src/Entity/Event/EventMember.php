@@ -3,6 +3,7 @@
 namespace AppEntity;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

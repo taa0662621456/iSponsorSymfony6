@@ -39,7 +39,7 @@
             $token = 'fgdfgFGDFGDFGdfdfdfgDFDFGDFG';
             //$userName = $this->getUser()->getUserIdentifier(); //TODO: getUserIdentifier()
             $userName = '$this->getUser()->getUserIdentifier()';
-            $key = $this->getParameter('mercure_secret_key');
+            $key = $this->getParameter('app_mercure_secret_key');
 
 
 

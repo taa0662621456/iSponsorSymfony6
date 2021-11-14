@@ -66,6 +66,7 @@ security:
 #                - App\Security\PassportAuthenticator
                 - App\Security\LoginFormAuthenticator
                 - App\Security\ApiKeyAuthenticator
+#                - App\Security\OAuthAuthenticator
             entry_point: App\Security\LoginFormAuthenticator
 #            entry_point: form_login #TODO:проверить комбинацию
             form_login:
@@ -83,11 +84,25 @@ security:
                 username_parameter: _email
                 password_parameter: _password
                 use_forward: false
+            oauth:
+                resource_owners:
+#                    github: "/connect/check-github"
+#                    google: "/connect/check-google"
+                    facebook: "/connect/check-facebook"
+                    google: "/connect/check-google"
+                    github: "/connect/check-github"
+                login_path: /login
+                use_forward: false
+                failure_path: /login
+                oauth_user_provider:
+                    service: hwi_oauth.resource_owners
             logout:
                 path: '%app_logout_routename%'
                 target: '%app_logged_out_target_routename%'
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/login/*, roles: PUBLIC_ACCESS }
+        - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile/, roles: ROLE_USER }
         - { path: ^/api/, roles: ROLE_USER }

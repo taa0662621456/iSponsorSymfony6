@@ -19,7 +19,7 @@ class VendorFavourite
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorFavourites")
 	 * @ORM\JoinColumn(name="vendorFavourites_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	private $vendorFavourites;
+	private int $vendorFavourites;
 
 
 	/**

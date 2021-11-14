@@ -25,8 +25,8 @@
             "./config/packages/baldinof_road_runner.yaml"
         ]
     },
-    "brick/math": {
-        "version": "0.9.3"
+    "clue/stream-filter": {
+        "version": "v1.5.0"
     },
     "cocur/slugify": {
         "version": "v4.0.0"
@@ -162,6 +162,19 @@
             "./config/packages/google_recaptcha.yaml"
         ]
     },
+    "hwi/oauth-bundle": {
+        "version": "1.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.6",
+            "ref": "18ce21f16066cccfa0803c9e846a2e4f4bec92ab"
+        },
+        "files": [
+            "./config/routes/hwi_oauth_routing.yaml",
+            "./config/packages/hwi_oauth.yaml"
+        ]
+    },
     "imagine/imagine": {
         "version": "1.2.4"
     },
@@ -176,9 +189,6 @@
         "files": [
             "./config/packages/karser_recaptcha3.yaml"
         ]
-    },
-    "knplabs/doctrine-behaviors": {
-        "version": "2.4.0"
     },
     "laminas/laminas-code": {
         "version": "4.4.3"
@@ -199,11 +209,44 @@
     "monolog/monolog": {
         "version": "2.3.4"
     },
-    "nette/utils": {
-        "version": "v3.2.5"
-    },
     "nikic/php-parser": {
         "version": "v4.13.0"
+    },
+    "php-http/client-common": {
+        "version": "2.4.0"
+    },
+    "php-http/discovery": {
+        "version": "1.14.1"
+    },
+    "php-http/httplug": {
+        "version": "2.2.0"
+    },
+    "php-http/httplug-bundle": {
+        "version": "1.24",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.6",
+            "ref": "87b3d491d593d2c6e3b90bf0689ac69a188bfa5f"
+        },
+        "files": [
+            "./config/packages/httplug.yaml"
+        ]
+    },
+    "php-http/logger-plugin": {
+        "version": "1.2.2"
+    },
+    "php-http/message": {
+        "version": "1.12.0"
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
+    },
+    "php-http/promise": {
+        "version": "1.1.0"
+    },
+    "php-http/stopwatch-plugin": {
+        "version": "1.4.0"
     },
     "psr/cache": {
         "version": "2.0.0"
@@ -213,6 +256,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/http-client": {
+        "version": "1.0.1"
     },
     "psr/http-factory": {
         "version": "1.0.1"
@@ -225,12 +271,6 @@
     },
     "psr/log": {
         "version": "2.0.0"
-    },
-    "ramsey/collection": {
-        "version": "1.2.2"
-    },
-    "ramsey/uuid": {
-        "version": "4.2.3"
     },
     "spiral/goridge": {
         "version": "v3.1.1"
@@ -517,6 +557,9 @@
         "version": "v5.3.4"
     },
     "symfony/string": {
+        "version": "v5.3.7"
+    },
+    "symfony/templating": {
         "version": "v5.3.7"
     },
     "symfony/translation": {

@@ -3,7 +3,7 @@
 
 	namespace App\Entity\Menu;
 
-	use App\Entity\BaseTrait;
+	use App\Entity\OAuthTrait;
 	use Doctrine\ORM\Mapping as ORM;
 	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -15,7 +15,7 @@
 	 */
 	class MenusItems
 	{
-		use BaseTrait;
+		use OAuthTrait;
 
 		/**
 		 * @var string

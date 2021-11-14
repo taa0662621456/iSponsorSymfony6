@@ -1,5 +1,5 @@
 karser_recaptcha3:
-    site_key: '%env(RECAPTCHA3_KEY)%'
-    secret_key: '%env(RECAPTCHA3_SECRET)%'
+    site_key: '%app_google_recaptcha_key%'
+    secret_key: '%app_google_recaptcha_secret%'
     score_threshold: 0.5
     enabled: true

@@ -19,7 +19,7 @@ class ProjectFavourite
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Project\Project", inversedBy="projectFavourites")
 	 * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id")
 	 **/
-	private $projectFavourites;
+	private Project $projectFavourites;
 
 
 	/**
