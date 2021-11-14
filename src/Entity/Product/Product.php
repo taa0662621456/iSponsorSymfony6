@@ -109,7 +109,7 @@
 		 *     mappedBy="productOrdered")
 		 * @ORM\JoinTable(name="ordersItems")
 		 */
-		private $productOrdered;
+		private ArrayCollection $productOrdered;
 
 		/**
 		 * @var string
@@ -258,7 +258,7 @@
 		 * @ORM\OrderBy({"name": "ASC"})
 		 * @Assert\Count(max="4", maxMessage="products.too_many_tags")
 		 */
-		private $productTags;
+		private array|ArrayCollection $productTags;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductPrice",
@@ -276,7 +276,7 @@
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductFavourite", mappedBy="productFavourites")
 		 * @ORM\JoinTable(name="product_favourites")
 		 **/
-		private $productFavourites;
+		private int $productFavourites;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="productFeatured")
@@ -291,7 +291,7 @@
 		 *     fetch="EXTRA_LAZY"
 		 * )
 		 */
-		private $productAttachments;
+		private ArrayCollection $productAttachments;
 
 
 		/**
@@ -316,9 +316,9 @@
 		}
 
 		/**
-		 * @param int|null $productSku
+		 * @param int $productSku
 		 */
-		public function setProductSku(?int $productSku): void
+		public function setProductSku(int $productSku): void
 		{
 			$this->productSku = $productSku;
 		}
@@ -332,9 +332,9 @@
 		}
 
 		/**
-		 * @param int|null $productGtin
+		 * @param int $productGtin
 		 */
-		public function setProductGtin(?int $productGtin): void
+		public function setProductGtin(int $productGtin): void
 		{
 			$this->productGtin = $productGtin;
 		}
@@ -348,9 +348,9 @@
 		}
 
 		/**
-		 * @param int|null $productMpn
+		 * @param int $productMpn
 		 */
-		public function setProductMpn(?int $productMpn): void
+		public function setProductMpn(int $productMpn): void
 		{
 			$this->productMpn = $productMpn;
 		}
@@ -444,9 +444,9 @@
 		}
 
 		/**
-		 * @param int|null $productLwhUom
+		 * @param int $productLwhUom
 		 */
-		public function setProductLwhUom(?int $productLwhUom): void
+		public function setProductLwhUom(int $productLwhUom): void
 		{
 			$this->productLwhUom = $productLwhUom;
 		}
@@ -555,9 +555,9 @@
 		}
 
 		/**
-		 * @param bool|null $productAvailability
+		 * @param bool $productAvailability
 		 */
-		public function setProductAvailability(?bool $productAvailability): void
+		public function setProductAvailability(bool $productAvailability): void
 		{
 			$this->productAvailability = $productAvailability;
 		}
@@ -619,9 +619,9 @@
 		}
 
         /**
-         * @param int|null $productUnit
+         * @param int $productUnit
          */
-		public function setProductUnit(?int $productUnit): void
+		public function setProductUnit(int $productUnit): void
 		{
 			$this->productUnit = $productUnit;
 		}
@@ -635,9 +635,9 @@
 		}
 
 		/**
-		 * @param int|null $productPackaging
+		 * @param int $productPackaging
 		 */
-		public function setProductPackaging(?int $productPackaging): void
+		public function setProductPackaging(int $productPackaging): void
 		{
 			$this->productPackaging = $productPackaging;
 		}
@@ -667,9 +667,9 @@
 		}
 
 		/**
-		 * @param int|null $productCanonCategoryId
+		 * @param int $productCanonCategoryId
 		 */
-		public function setProductCanonCategoryId(?int $productCanonCategoryId): void
+		public function setProductCanonCategoryId(int $productCanonCategoryId): void
 		{
 			$this->productCanonCategoryId = $productCanonCategoryId;
 		}
@@ -683,9 +683,9 @@
 		}
 
 		/**
-		 * @param int|null $productHits
+		 * @param int $productHits
 		 */
-		public function setProductHits(?int $productHits): void
+		public function setProductHits(int $productHits): void
 		{
 			$this->productHits = $productHits;
 		}
@@ -699,9 +699,9 @@
 		}
 
 		/**
-		 * @param string|null $productNotes
+		 * @param string $productNotes
 		 */
-		public function setProductNotes(?string $productNotes): void
+		public function setProductNotes(string $productNotes): void
 		{
 			$this->productNotes = $productNotes;
 		}
@@ -715,9 +715,9 @@
 		}
 
         /**
-         * @param string|null $metaRobot
+         * @param string $metaRobot
          */
-		public function setMetaRobot(?string $metaRobot): void
+		public function setMetaRobot(string $metaRobot): void
 		{
 			$this->metaRobot = $metaRobot;
 		}
@@ -731,9 +731,9 @@
 		}
 
         /**
-         * @param string|null $metaAuthor
+         * @param string $metaAuthor
          */
-		public function setMetaAuthor(?string $metaAuthor): void
+		public function setMetaAuthor(string $metaAuthor): void
 		{
 			$this->metaAuthor = $metaAuthor;
 		}

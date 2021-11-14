@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Vendor;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\OAuthTrait;
 use App\Entity\BaseTrait;
 
 use \DateTime;
@@ -39,7 +40,8 @@ use Symfony\Component\Validator\Constraints\Length;
  */
 class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface
 {
-	use BaseTrait;
+    use BaseTrait;
+    use OAuthTrait;
 
     public const ROLE_USER = 'ROLE_USER';
 

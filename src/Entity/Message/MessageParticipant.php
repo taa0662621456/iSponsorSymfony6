@@ -5,6 +5,7 @@ namespace App\Entity\Message;
 
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Vendor\Vendor;
 
@@ -29,11 +30,6 @@ class MessageParticipant
      * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="participants")
      */
     private $conversation;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getVendor(): ?Vendor
     {

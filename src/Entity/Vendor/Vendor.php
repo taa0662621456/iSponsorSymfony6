@@ -8,9 +8,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -35,11 +32,9 @@ use DateTime;
  *     )
  * @ApiFilter(BooleanFilter::class, properties={"isActive"})
  */
-class Vendor implements TranslatableInterface
+class Vendor
 {
 	use BaseTrait;
-    use TranslatableTrait;
-    # https://github.com/KnpLabs/DoctrineBehaviors/blob/master/docs/translatable.md
 
 	/**
 	 * @var bool|false
@@ -169,7 +164,7 @@ class Vendor implements TranslatableInterface
 	 *     mappedBy="attachments")
      * @ORM\JoinTable(name="attachments")
 	 */
-	private $vendorDocumentAttachments;
+	private ArrayCollection $vendorDocumentAttachments;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorMedia",
@@ -177,7 +172,7 @@ class Vendor implements TranslatableInterface
 	 *     mappedBy="attachments")
      * @ORM\JoinTable(name="attachments")
 	 */
-	private $vendorMediaAttachments;
+	private ArrayCollection $vendorMediaAttachments;
 
     /**
      *
@@ -185,7 +180,7 @@ class Vendor implements TranslatableInterface
 	 *     mappedBy="orderCreatedAt")
 	 * @ORM\JoinTable(name="orders")
 	 */
-	private $vendorOrders;
+	private ArrayCollection $vendorOrders;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrderItem",

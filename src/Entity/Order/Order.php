@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="orders", indexes={
  * @ORM\Index(name="order_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Order\OrderRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class Order

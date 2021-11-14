@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Entity\Featured;
 
+use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -13,14 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
   */
 class Featured
 {
-    /**
-     * @var int
-     *
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
-    private int $id;
+    use BaseTrait;
 
     /**
      * @var int
@@ -59,15 +53,6 @@ class Featured
 	 * @ORM\JoinColumn(name="vendorFeatured_id", referencedColumnName="id", nullable=true)
      */
     private $vendorFeatured;
-
-
-    /**
-     * @return integer
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
 
 	/**
 	 * @param $ordering

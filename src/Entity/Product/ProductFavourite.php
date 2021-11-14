@@ -21,7 +21,7 @@ class ProductFavourite
 	 * @ORM\ManyToMany(targetEntity="App\Entity\Product\Product", inversedBy="productFavourites")
 	 * @ORM\JoinColumn(name="projectFavourites_id", referencedColumnName="id")
 	 **/
-	private $productFavourites;
+	private int $productFavourites;
 
 
 	/**

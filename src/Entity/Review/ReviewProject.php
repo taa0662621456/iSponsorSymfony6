@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Entity\Review;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 
 
@@ -24,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     order={"createdAt"="DESC"},
  *     paginationEnabled=true
  *     )
- * ApiFilter(properties={"review": "exact"}) // Чтобы работала аннотация, необходимо создать таблицы базы
+ * ApiFilter(properties={"review": "exact"}) //TODO: Чтобы работала аннотация, необходимо создать таблицы базы
  */
 class ReviewProject
 {
