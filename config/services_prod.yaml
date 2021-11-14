@@ -31,7 +31,7 @@ parameters:
     app_logo_url: '/favicon.ico'
     app_schema: 'https'
     app_secret: '%env(APP_SECRET)%'
-    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
     # Media folders parameters
     app_category_image_directory: '%env(APP_CATEGORY_IMAGE_DIRECTORY)%'
     app_menu_image_directory: '%env(APP_MENU_IMAGE_DIRECTORY)%'

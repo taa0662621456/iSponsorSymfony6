@@ -7,7 +7,6 @@ use App\Entity\BaseTrait;
 
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -86,7 +85,7 @@ class ProjectEnGb
 	private mixed $projectEnGb;
 
 
-	#[Pure] public function __toString()
+	public function __toString()
 	{
 		return $this->getProjectTitle();
 	}

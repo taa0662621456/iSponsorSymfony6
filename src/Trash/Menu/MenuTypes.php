@@ -2,7 +2,7 @@
     declare(strict_types=1);
 
 
-	use App\Entity\BaseTrait;
+	use App\Entity\OAuthTrait;
 	use Doctrine\ORM\Mapping as ORM;
 	use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -17,7 +17,7 @@
 	class MenuTypes
 	{
 
-		use BaseTrait;
+		use OAuthTrait;
 
 		/**
 		 * @var integer

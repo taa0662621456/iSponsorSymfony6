@@ -14,7 +14,7 @@
 	 */
 	class MenusItems
 	{
-		use BaseTrait;
+		use OAuthTrait;
 
 		/**
 		 * @var string

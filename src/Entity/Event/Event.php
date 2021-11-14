@@ -3,6 +3,7 @@
 namespace App\Entity\Event;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 

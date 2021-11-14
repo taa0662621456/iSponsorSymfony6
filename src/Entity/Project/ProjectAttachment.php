@@ -25,9 +25,9 @@ class ProjectAttachment
 	 */
 	private $projectAttachments;
 
-	/**
-	 * @return mixed
-	 */
+    /**
+     * @return mixed
+     */
 	public function getProjectAttachments()
 	{
 		return $this->projectAttachments;

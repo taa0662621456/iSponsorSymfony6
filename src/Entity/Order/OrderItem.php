@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,63 +23,63 @@ class OrderItem
 	 *
 	 * @ORM\Column(name="item_id", type="integer", nullable=false, options={"default" : 0})
 	 */
-	private $itemId = 0;
+	private int $itemId = 0;
 
 	/**
 	 * @var integer
 	 *
 	 * @ORM\Column(name="item_sku", type="integer", nullable=false, options={"default" : 1})
 	 */
-	private $itemSku = 1;
+	private int $itemSku = 1;
 
 	/**
 	 * @var string
 	 *
 	 * @ORM\Column(name="item_name", type="string", nullable=false, options={"default"=""})
 	 */
-    private $itemName = 'item_name';
+    private string $itemName = 'item_name';
 
     /**
      * @var int|null
      *
      * @ORM\Column(name="item_quantity", type="integer", nullable=true, options={"default" : 0})
      */
-    private $itemQuantity = 1;
+    private ?int $itemQuantity = 1;
 
     /**
-     * @var null
+     * @var int|null
      *
      * @ORM\Column(name="item_price", type="decimal", precision=7, scale=2, nullable=true, options={"default" : 0})
      */
-    private $itemPrice = 1;
+    private ?int $itemPrice = 1;
 
     /**
-     * @var null
+     * @var int|null
      *
      * @ORM\Column(name="item_price_without_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
-    private $itemPriceWithoutTax = 0;
+    private ?int $itemPriceWithoutTax = 0;
 
     /**
-     * @var null
+     * @var int|null
      *
      * @ORM\Column(name="item_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
-    private $itemTax = 0;
+    private ?int $itemTax = 0;
 
     /**
-     * @var null
+     * @var int|null
      *
      * @ORM\Column(name="item_base_price_with_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
-    private $itemBasePriceWithTax = 0;
+    private ?int $itemBasePriceWithTax = 0;
 
     /**
-     * @var null
+     * @var int|null
      *
      * @ORM\Column(name="item_discounted_price_without_tax", type="decimal", precision=7, scale=2, precision=7, scale=2, nullable=true, options={"default" : 0})
      */
-    private $itemDiscountedPriceWithoutTax = 0;
+    private ?int $itemDiscountedPriceWithoutTax = 0;
 
     /**
      * @var

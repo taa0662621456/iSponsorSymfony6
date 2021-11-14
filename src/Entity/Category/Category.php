@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -37,20 +38,20 @@ class Category
 	 *     mappedBy="parent",
 	 *     fetch="EXTRA_LAZY")
 	 */
-	private $children;
+	private ArrayCollection $children;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
 	 *     cascade={"persist"},
 	 *     inversedBy="children")
 	 */
-    private ?Category $parent;
+    private $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Project\Project",
 	 *      mappedBy="projectCategory")
      */
-    private $categoryProjects;
+    private ArrayCollection $categoryProjects;
 
     /**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Category\CategoryEnGb",
@@ -69,7 +70,7 @@ class Category
 	 *     cascade={"persist", "remove"},
 	 *     orphanRemoval=true)
 	 */
-	private $categoryAttachments;
+	private ArrayCollection $categoryAttachments;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="categoryFeatured")
@@ -80,7 +81,8 @@ class Category
 	/**
 	 * @throws Exception
 	 */
-	#[Pure] public function __construct()
+	#[Pure]
+    public function __construct()
 	{
 		$this->children = new ArrayCollection();
 		$this->categoryProjects = new ArrayCollection();

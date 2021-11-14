@@ -4,13 +4,14 @@ declare(strict_types=1);
 namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
 /**
  * @ORM\Table(name="orders_histories", indexes={
  * @ORM\Index(name="order_history_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Order\OrderRepository")
  * @ORM\HasLifecycleCallbacks()
  */
 class OrderHistory
@@ -23,28 +24,28 @@ class OrderHistory
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\OrderStatus")
 	 * @ORM\JoinColumn(name="order_status_id", referencedColumnName="id")
 	 */
-	private $orderStatusCode;
+	private string $orderStatusCode;
 
 	/**
 	 * @var boolean
 	 *
 	 * @ORM\Column(name="customer_notified", type="boolean", nullable=false)
 	 */
-	private $customerNotified = false;
+	private bool $customerNotified = false;
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="comments", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $comments = '0';
+	private ?string $comments = '0';
 
 	/**
 	 * @var string|null
 	 *
 	 * @ORM\Column(name="o_hash", type="string", nullable=true, options={"default" : 0})
 	 */
-	private $oHash = '0';
+	private ?string $oHash = '0';
 
 
 	/**
