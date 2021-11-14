@@ -44,10 +44,9 @@ class ProductPrice
 	private ?bool $override = false;
 
 	/**
-	 * @var
+	 * @var int
 	 *
-	 * @ORM\Column(name="product_override_price", type="decimal", precision=7, scale=2, nullable=true,
-	 *                                            options={"default" : 0})
+	 * @ORM\Column(name="product_override_price", type="decimal", precision=7, scale=2, nullable=true, options={"default" : 0})
 	 */
 	private int $productOverridePrice = 0;
 

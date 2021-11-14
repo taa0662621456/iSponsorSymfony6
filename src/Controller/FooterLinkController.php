@@ -18,7 +18,18 @@ class FooterLinkController extends AbstractController
         );
     }
 
-        /**
+    /**
+     * @Route("/instructions", name="instructions", methods={"GET"})
+     */
+    public function instructions(): \Symfony\Component\HttpFoundation\Response
+    {
+        return $this->render('footer/instructions.html.twig', [
+            'controller_name' => 'MenuController'
+            ]
+        );
+    }
+
+    /**
      * @Route("/career", name="career", methods={"GET"})
      */
     public function career(): \Symfony\Component\HttpFoundation\Response

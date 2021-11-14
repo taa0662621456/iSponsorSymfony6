@@ -22,7 +22,7 @@ class ProductTag implements JsonSerializable
 	 *
 	 * @ORM\Column(type="string", unique=true)
 	 */
-	private $name;
+	private string $name;
 
 	public function setName(string $name): void
 	{

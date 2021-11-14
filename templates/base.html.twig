@@ -217,35 +217,42 @@
 
                 <div class="col-xs-12 col-lg-2 col-sm-12 f2-3"></div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">
-                    <ul class="list-unstyled m-1">
-                        <li><a class="text-decoration-none" href="{{ path('career') }}">Карьера</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('team') }}">Команда</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('general') }}">Пользовательское соглашение</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('license') }}">Лицензия на использование поисковой системы</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('confidential') }}">Политика конфиденциальности</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('detail') }}">Реквизиты ООО "СМАРТРЕСПОНСОР"</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('agreement') }}">Соглашение</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('sale') }}">Договор купли-продажи</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('supply') }}">Договор поставки</a></li>
+                    <ul class="list-unstyled m-1 small">
+                        <li><a class="text-decoration-none small" href="{{ path('general') }}">Пользовательское соглашение</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('license') }}">Лицензия на использование поисковой системы</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('confidential') }}">Политика конфиденциальности</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('instructions') }}">Как удалить свои данные</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">
-                    <ul class="list-unstyled m-1">
-                        <li><a class="text-decoration-none" href="{{ path('project_index') }}">Проекты</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('product_index') }}">Продукты</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('project_new') }}">Добавить проект</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('product_new') }}">Добавить продукт</a></li>
-                        {#                        <li><a class="text-decoration-none" href="{{ path('vendor_index') }}">Пользователи</a></li>#}
-                        <li><a class="text-decoration-none" href="{{ path('login') }}">Войти</a></li>
-                        <li><a class="text-decoration-none" href="{{ path('registration') }}">Зарегистрироваться</a></li>
+                    <ul class="list-unstyled m-1 small">
+                        <li><a class="text-decoration-none small" href="{{ path('login') }}">Войти</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('registration') }}">Зарегистрироваться</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('project_new') }}">Добавить проект</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('product_new') }}">Добавить продукт</a></li>
                     </ul>
                 </div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">
-                    <li><a class="text-decoration-none" href="{{ path('owner') }}">Основатель</a></li>
-
+                    <ul class="list-unstyled m-1 small">
+                    <li><a class="text-decoration-none small" href="{{ path('career') }}">Карьера</a></li>
+                    <li><a class="text-decoration-none small" href="{{ path('team') }}">Команда</a></li>
+                    <li><a class="text-decoration-none small" href="{{ path('owner') }}">Основатель</a></li>
+                    </ul>
                 </div>
-{#                <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>#}
-{#                <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>#}
+                <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">
+                    <ul class="list-unstyled m-1 small">
+                    <li><a class="text-decoration-none small" href="{{ path('detail') }}">Реквизиты компании</a></li>
+                    <li><a class="text-decoration-none small" href="{{ path('agreement') }}">Публичное соглашение</a></li>
+                    <li><a class="text-decoration-none small" href="{{ path('sale') }}">Договор купли-продажи</a></li>
+                    <li><a class="text-decoration-none small" href="{{ path('supply') }}">Договор поставки</a></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f12">
+                    <ul class="list-unstyled m-1 small">
+                        <li><a class="text-decoration-none small" href="{{ path('project_index') }}">Проекты</a></li>
+                        <li><a class="text-decoration-none small" href="{{ path('product_index') }}">Продукты</a></li>
+                    </ul>
+                </div>
             </div>
             <div class="row foot">
 

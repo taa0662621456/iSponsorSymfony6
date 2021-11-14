@@ -3,6 +3,7 @@
 namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use App\Service\RequestDispatcher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

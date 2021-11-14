@@ -4,6 +4,7 @@ namespace App\Entity\Attachment;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
+use App\Entity\OAuthTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

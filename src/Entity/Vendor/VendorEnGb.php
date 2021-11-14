@@ -9,8 +9,6 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-
-
 /**
  * @ORM\Table(name="vendors_en_gb", indexes={
  * @ORM\Index(name="vendor_en_gb_idx", columns={"slug"})})
@@ -20,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VendorEnGb
 {
     use BaseTrait;
+
 
     /**
      * TODO: добавить свойства: Обложка профиля и аватар c отношением к МедиаАтачментам
@@ -466,7 +465,7 @@ class VendorEnGb
 	/**
 	 * @param mixed $vendorEnGb
 	 */
-	public function setVendorEnGb($vendorEnGb): void
+	public function setVendorEnGb(mixed $vendorEnGb): void
 	{
 		$this->vendorEnGb = $vendorEnGb;
 	}

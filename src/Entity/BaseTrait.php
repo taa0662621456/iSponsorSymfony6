@@ -1,343 +1,340 @@
 <?php
 
-	namespace App\Entity;
+namespace App\Entity;
 
-    use App\Entity\Vendor\Vendor;
-    use App\Service\RequestDispatcher;
-    use DateTime;
-    use Doctrine\ORM\Mapping as ORM;
-    use Symfony\Component\Uid\Uuid;
-    use Exception;
+use App\Entity\Vendor\Vendor;
+use App\Service\RequestDispatcher;
+use DateTime;
+use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Uid\Uuid;
+use Exception;
 
 
-    trait BaseTrait
+trait BaseTrait
+{
+    /**
+     * @var integer
+     * @ORM\Id()
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue()
+     * Groups({"object:list", "object:item"})
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private int $id = 0;
+
+    /**
+     * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
+     */
+    protected Uuid $uuid;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="published", type="boolean", nullable=false)
+     */
+    private bool $published = true;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
+     */
+    protected string $slug = 'slug';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="created_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     */
+    private string $createdAt;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
+     */
+    private int $createdBy = 1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="modified_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     */
+    private string $modifiedAt;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
+     */
+    private int $modifiedBy = 1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="locked_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     */
+    private string $lockedAt;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
+     */
+    private int $lockedBy = 1;
+
+    /**
+     * @var string
+     * @ORM\Column(name="work_flow", type="string", nullable=false,
+     *     options={"default"="submitted", "comment"="Submitted, Spam and Published stats"})
+     */
+    private string $workFlow = 'submitted';
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Version
+     */
+    protected int $version;
+    /**
+     * @var RequestDispatcher
+     */
+    private RequestDispatcher $requestDispatcher;
+
+    /**
+     * @throws Exception
+     */
+    public function __construct()
     {
-        /**
-         * @var integer
-         * @ORM\Id
-		 * @ORM\Column(type="integer")
-		 * @ORM\GeneratedValue
-         * Groups({"object:list", "object:item"})
-         * @ORM\GeneratedValue(strategy="AUTO")
-         */
-        private int $id = 0;
-
-        /**
-         * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
-         */
-        protected Uuid $uuid;
-
-        /**
-         * @var boolean
-         *
-         * @ORM\Column(name="published", type="boolean", nullable=false)
-         */
-        private bool $published = true;
-
-//        /**
-//         *
-//         */
-//        private mixed $attachments;
-
-        /**
-         * @var string
-         *
-         * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
-         */
-        protected string $slug = 'slug';
-
-        /**
-         * @var string
-         *
-         * @ORM\Column(name="created_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-         */
-        private string $createdAt;
-
-        /**
-         * @var integer
-         *
-         * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
-         */
-        private int $createdBy = 1;
-
-        /**
-         * @var string
-         *
-         * @ORM\Column(name="modified_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-         */
-        private string $modifiedAt;
-
-        /**
-         * @var integer
-         *
-         * @ORM\Column(name="modified_by", type="integer", nullable=false, options={"default" : 1})
-         */
-        private int $modifiedBy = 1;
-
-        /**
-         * @var string
-         *
-         * @ORM\Column(name="locked_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-         */
-        private string $lockedAt;
-
-        /**
-         * @var int
-         *
-         * @ORM\Column(name="locked_by", type="integer", nullable=false, options={"default" : 1})
-         */
-        private int $lockedBy = 1;
-
-        /**
-         * @var string
-         * @ORM\Column(name="work_flow", type="string", nullable=false,
-         *     options={"default"="submitted", "comment"="Submitted, Spam and Published stats"})
-         */
-        private string $workFlow = 'submitted';
-
-        /**
-         * @ORM\Column(type="integer")
-         * @ORM\Version
-         */
-        protected int $version;
-        /**
-         * @var RequestDispatcher
-         */
-        private RequestDispatcher $requestDispatcher;
-
-        /**
-         * @throws Exception
-         */
-        public function __construct()
-        {
-            try {
-                $this->slug = $this->uuid = Uuid::v4();
-            } catch (Exception $e) {
-                throw($e);
-            }
-
-            $t = new DateTime();
-            $this->createdAt = $t->format('Y-m-d H:i:s');
-            $this->modifiedAt = $t->format('Y-m-d H:i:s');
-            $this->lockedAt = $t->format('Y-m-d H:i:s');
+        try {
+            $this->slug = $this->uuid = Uuid::v4();
+        } catch (Exception $e) {
+            throw($e);
         }
 
-        /**
-         * @return int|null
-         */
-		public function getId(): ?int
-		{
-			return $this->id;
-		}
+        $t = new DateTime();
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+    }
 
-        /**
-         * @return Uuid
-         */
-		public function getUuid(): Uuid
-		{
-			return $this->uuid;
-        }
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
-        /**
-         * @param $uuid
-         */
-        public function setUuid($uuid): void
-        {
-            $this->uuid = $uuid;
-        }
+    /**
+     * @return Uuid
+     */
+    public function getUuid(): Uuid
+    {
+        return $this->uuid;
+    }
 
-        /**
-         * @return bool
-         */
-        public function isPublished(): bool
-        {
-            return $this->published;
-        }
+    /**
+     * @param $uuid
+     */
+    public function setUuid($uuid): void
+    {
+        $this->uuid = $uuid;
+    }
 
-        /**
-         * @param bool $published
-         */
-        public function setPublished(bool $published): void
-        {
-            $this->published = $published;
-        }
+    /**
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
 
-        /**
-         * @return mixed
-         */
-        public function getAttachments(): mixed
-        {
-            return $this->attachments;
-        }
+    /**
+     * @param bool $published
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
 
-        public function setAttachments(RequestDispatcher $requestDispatcher): void
-        {
-            $object = $requestDispatcher->object();
-            $object = new $object;
-            $this->attachments = $object;
-        }
+    /**
+     * @return mixed
+     */
+    public function getAttachments(): mixed
+    {
+        return $this->attachments;
+    }
 
-        /**
-         * @return string
-         */
-        public function getSlug(): string
-        {
-            return $this->slug;
-        }
+    public function setAttachments(RequestDispatcher $requestDispatcher): void
+    {
+        $object = $requestDispatcher->object();
+        $object = new $object;
+        $this->attachments = $object;
+    }
 
-        /**
-         * @param string $slug
-         */
-        public function setSlug(string $slug): void
-        {
-            $this->slug = $slug;
-        }
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
 
-
-        /**
-         * @return string
-         */
-        public function getCreatedAt(): string
-        {
-            return $this->createdAt;
-        }
-
-        /**
-         * @ORM\PrePersist
-         * @throws Exception
-         */
-        public function setCreatedAt(): void
-        {
-            $t = new DateTime();
-            $this->createdAt = $t->format('Y-m-d H:i:s');
-        }
-
-        /**
-         * @return integer
-         */
-        public function getCreatedBy(): int
-        {
-            return $this->createdBy;
-        }
-
-        /**
-         * @param integer $createdBy
-         */
-        public function setCreatedBy(int $createdBy): void
-        {
-            $this->createdBy = $createdBy;
-        }
-
-        /**
-         * @return string
-         */
-        public function getModifiedAt(): string
-        {
-            return $this->modifiedAt;
-        }
-
-        /**
-         * @ORM\PreFlush
-         * @ORM\PreUpdate
-         * @throws Exception
-         */
-        public function setModifiedAt(): void
-        {
-            $t = new DateTime();
-            $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        }
-
-        /**
-         * @return integer
-         */
-        public function getModifiedBy(): int
-        {
-            return $this->modifiedBy;
-        }
-
-        /**
-         * @param integer $modifiedBy
-         */
-        public function setModifiedBy(int $modifiedBy): void
-        {
-            $this->modifiedBy = $modifiedBy;
-        }
-
-        /**
-         * @return string
-         */
-        public function getLockedAt(): string
-        {
-            return $this->lockedAt;
-        }
-
-        /**
-         * @ORM\PrePersist
-         * @ORM\PreFlush
-         * @ORM\PreUpdate
-         * @throws Exception
-         */
-        public function setLockedAt(): void
-        {
-            $t = new DateTime();
-            $this->lockedAt = $t->format('Y-m-d H:i:s');
-        }
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
 
 
-        /**
-         * @return integer
-         */
-        public function getLockedBy(): int
-        {
-            return $this->lockedBy;
-        }
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
 
-        /**
-         * @param integer $lockedBy
-         */
-        public function setLockedBy(int $lockedBy): void
-        {
-            $this->lockedBy = $lockedBy;
-        }
+    /**
+     * @ORM\PrePersist
+     * @throws Exception
+     */
+    public function setCreatedAt(): void
+    {
+        $t = new DateTime();
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+    }
 
-        /**
-         * @return string
-         */
-        public function getWorkFlow(): string
-        {
-            return $this->workFlow;
-        }
+    /**
+     * @return integer
+     */
+    public function getCreatedBy(): int
+    {
+        return $this->createdBy;
+    }
 
-        /**
-         * @param string $workFlow
-         */
-        public function setWorkFlow(string $workFlow): void
-        {
-            $this->workFlow = $workFlow;
-        }
+    /**
+     * @param integer $createdBy
+     */
+    public function setCreatedBy(int $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModifiedAt(): string
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * @ORM\PreFlush
+     * @ORM\PreUpdate
+     * @throws Exception
+     */
+    public function setModifiedAt(): void
+    {
+        $t = new DateTime();
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @return integer
+     */
+    public function getModifiedBy(): int
+    {
+        return $this->modifiedBy;
+    }
+
+    /**
+     * @param integer $modifiedBy
+     */
+    public function setModifiedBy(int $modifiedBy): void
+    {
+        $this->modifiedBy = $modifiedBy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLockedAt(): string
+    {
+        return $this->lockedAt;
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreFlush
+     * @ORM\PreUpdate
+     * @throws Exception
+     */
+    public function setLockedAt(): void
+    {
+        $t = new DateTime();
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+    }
 
 
-		/**
-		 * @return int
-		 */
-		public function getVersion(): int
-		{
-			return $this->version;
-		}
+    /**
+     * @return integer
+     */
+    public function getLockedBy(): int
+    {
+        return $this->lockedBy;
+    }
 
-		/**
-		 * @param int $version
-		 */
-		public function setVersion(int $version): void
-		{
-			$this->version = $version;
-		}
+    /**
+     * @param integer $lockedBy
+     */
+    public function setLockedBy(int $lockedBy): void
+    {
+        $this->lockedBy = $lockedBy;
+    }
 
-		public function isAuthor(Vendor $vendor = null): bool
-        {
-			return $vendor && $vendor->getId() == $this->getCreatedBy();
-		}
+    /**
+     * @return string
+     */
+    public function getWorkFlow(): string
+    {
+        return $this->workFlow;
+    }
+
+    /**
+     * @param string $workFlow
+     */
+    public function setWorkFlow(string $workFlow): void
+    {
+        $this->workFlow = $workFlow;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getVersion(): int
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param int $version
+     */
+    public function setVersion(int $version): void
+    {
+        $this->version = $version;
+    }
+
+    #[Pure]
+    public function isAuthor(Vendor $vendor = null): bool
+    {
+        return $vendor && $vendor->getId() == $this->getCreatedBy();
+    }
 
 
 
-	}
+}

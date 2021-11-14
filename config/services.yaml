@@ -23,7 +23,8 @@ parameters:
     app_menu_images_directory: '%kernel.project_dir%/public/uploads/menus/images'
     app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
     app_product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
-    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
+    app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
     app_vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
     app_mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
     app_secret: '%env(APP_SECRET)%'
@@ -52,8 +53,14 @@ services:
 #            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
 #            string $daysBeforeRemoveRejectedReview: ""
 
+    hwi_oauth.resource_owners:
+        class: App\Security\OAuthAuthenticator
+        arguments:
+            - '@doctrine'
+            - 'App\Entity\Vendor\VendorSecurity'
+            - [facebook: facebookID, google: googleID, github: githubID]
     App\EventSubscriber\LocaleSubscriber:
-#        arguments: [ '%kernel.default_locale%' ]
+        #        arguments: [ '%kernel.default_locale%' ]
         arguments: [ '%app_locale%' ]
 #         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
 

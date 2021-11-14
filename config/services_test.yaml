@@ -25,7 +25,7 @@ parameters:
     app_project_images_directory: '%kernel.project_dir%/public/uploads/projects/images'
     app_product_images_directory: '%kernel.project_dir%/public/uploads/products/images'
     app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
-    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
     app_vendor_images_directory: '%kernel.project_dir%/public/uploads/vendors/images'
     app_mercure_secret: '%env(MERCURE_SECRET_KEY)%'
     app_secret: '%env(APP_SECRET)%'

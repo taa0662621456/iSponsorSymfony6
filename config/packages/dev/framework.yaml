@@ -1,6 +1,6 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    trusted_hosts: '%env(TRUSTED_HOSTS)%'
+    trusted_hosts: ['%env(TRUSTED_HOSTS)%', '127.0.0.1', 'localhost', 'smartresponsor.com']
     disallow_search_engine_index: true
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
