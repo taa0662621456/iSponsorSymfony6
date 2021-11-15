@@ -1,24 +1,24 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Entity\Vendor;
+
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
- * @ORM\Table(name="vendors_en_gb", indexes={
- * @ORM\Index(name="vendor_en_gb_idx", columns={"slug"})})
+ * @ORM\Table(name="vendors_ru_ru", indexes={
+ * @ORM\Index(name="vendor_ru_ru_idx", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class VendorEnGb
+class VendorRuRu
 {
     use BaseTrait;
     use ObjectTrait;
     use VendorLanguageTrait;
+
+
 }

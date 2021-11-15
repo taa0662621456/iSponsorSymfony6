@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity\Category;
 
@@ -13,12 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Table(name="categories_en_gb", indexes={
- * @ORM\Index(name="category_en_gb_idx", columns={"slug"})})
+ * @ORM\Table(name="categories_uk_ua", indexes={
+ * @ORM\Index(name="category_uk_ua_idx", columns={"slug"})})
  * @ORM\Entity(repositoryClass="App\Repository\Category\CategoryRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class CategoryEnGb
+class CategoryUkUa
 {
     use BaseTrait;
     use ObjectTrait;

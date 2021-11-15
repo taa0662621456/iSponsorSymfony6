@@ -7,6 +7,10 @@ framework:
   max_duration: 29000
   max_redirects: 3
   profiler: false
+  secrets:
+    vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
+    local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
+    decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
 
 #  assets:
 #    base_path: '/images'
@@ -25,11 +29,6 @@ framework:
 #    headers
   validation:
     email_validation_mode: html5 # Can be loose, html5, strict (for strict must be add: egulias/email-validator )
-
-  secrets:
-    vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
-#    local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
-    decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
 
   not_compromised_password: true # in dev must by of false
   session:

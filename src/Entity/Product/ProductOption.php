@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Entity\Project;
+namespace App\Entity\Product;
 
 
 use App\Entity\BaseTrait;

@@ -3,7 +3,7 @@
 
 	namespace App\Form\Category;
 
-	use App\Entity\Category\CategoryEnGb;
+	use App\Entity\Category\CategoryUkUa;
 	use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\Extension\Core\Type\FormType;
     use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -80,7 +80,7 @@
 		{
 			$resolver->setDefaults(
 				[
-					'data_class' => CategoryEnGb::class,
+					'data_class' => CategoryUkUa::class,
 				]
 			);
 		}
