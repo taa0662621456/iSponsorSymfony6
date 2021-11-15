@@ -6,8 +6,8 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           '%env(OAUTH_FACEBOOK_ID)%'
-            client_secret:       '%env(OAUTH_FACEBOOK_SECRET)%'
+            client_id:           '%env(FACEBOOK_OAUTH_ID)%'
+            client_secret:       '%env(FACEBOOK_OAUTH_SECRET)%'
 #            infos_url:     "https://graph.facebook.com/me?fields=id,name,email"
             scope:               "email"
             options:

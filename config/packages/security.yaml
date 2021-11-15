@@ -86,8 +86,6 @@ security:
                 use_forward: false
             oauth:
                 resource_owners:
-#                    github: "/connect/check-github"
-#                    google: "/connect/check-google"
                     facebook: "/connect/check-facebook"
                     google: "/connect/check-google"
                     github: "/connect/check-github"
@@ -101,7 +99,6 @@ security:
                 target: '%app_logged_out_target_routename%'
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/login/*, roles: PUBLIC_ACCESS }
         - { path: ^/connect, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profile/, roles: ROLE_USER }

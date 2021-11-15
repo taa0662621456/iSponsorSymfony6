@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\WebLink\Link;
 
 class VendorLoginType extends AbstractType
 {
@@ -46,8 +47,7 @@ class VendorLoginType extends AbstractType
                     'tabindex'    => '101',
                     //'autofocus' => true
                 ],
-                ]
-            )
+                ])
             ->add('password', PasswordType::class, [
                 'invalid_message' => 'The password is invalid.',
                 'label'           => 'vendor.label.password',
@@ -84,35 +84,6 @@ class VendorLoginType extends AbstractType
                     'class' => 'btn btn-primary btn-block'
                 ]
             ])
-            # Login by Social Network
-            ->add(
-                $builder
-                    ->create('group', FormType::class, [
-                        'translation_domain' => 'button',
-                        'inherit_data' => true,
-                        'label' => false,
-                        'attr'=> [
-                            'class' => 'btn-group m-1'
-                        ]
-                    ])
-                    ->add('facebook', UrlType::class, [
-                        'translation_domain' => 'button',
-                        'label' => 'button.label.facebook',
-                        'attr'  => [
-                            'class' => 'btn btn-link btn-sm back',
-                            'onclick' => 'window.history.back()'
-                        ]
-                    ])
-                    ->add('google', UrlType::class, [
-                        'translation_domain' => 'button',
-                        'label' => 'button.label.google',
-                        'attr' => [
-                            'class' => 'btn btn-link btn-sm signup',
-                            'onclick' => 'window.history.back()'
-                        ]
-                    ])
-            )
-            # Login by Social Network. End!
             ->add(
             $builder
                 ->create('group', FormType::class, [
@@ -139,7 +110,35 @@ class VendorLoginType extends AbstractType
                         'onclick' => 'window.history.back()' //TODO: заменить на маршрут к форме регистрации
                     ]
                 ])
+            )
+            ->add(
+                $builder
+                    ->create('network', FormType::class, [
+                        'translation_domain' => 'button',
+                        'inherit_data' => true,
+                        'label' => false,
+                        'attr'=> [
+                            'class' => 'btn-group m-1'
+                        ]
+                    ])
+                    ->add('facebook', ButtonType::class, [
+                        'translation_domain' => 'button',
+                        'label' => 'button.label.facebook',
+                        'attr'  => [
+                            'class' => 'btn btn-link btn-sm back facebook bi bi-facebook',
+                            'onclick' => 'window.location.href=\'/login/check-facebook\''
+                        ]
+                    ])
+                    ->add('google', ButtonType::class, [
+                        'translation_domain' => 'button',
+                        'label' => 'button.label.google',
+                        'attr' => [
+                            'class' => 'btn btn-link btn-sm signup google bi bi-google',
+                            'onclick' => 'window.location.href=\'/login/check-google\'',
+                        ]
+                    ])
             );
+
     }
 
 

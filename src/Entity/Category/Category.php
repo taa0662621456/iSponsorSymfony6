@@ -115,9 +115,9 @@ class Category
     }
 
 	/**
-	 * @param CategoryEnGb $categoryEnGb
+	 * @param CategoryUkUa $categoryEnGb
 	 */
-	public function setCategoryEnGb(CategoryEnGb $categoryEnGb): void
+	public function setCategoryEnGb(CategoryUkUa $categoryEnGb): void
 	{
 		$this->categoryEnGb = $categoryEnGb;
 	}
