@@ -6,7 +6,6 @@ namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Entity\Project\ProjectLanguageTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,5 +18,5 @@ class ProductRuRu
 {
     use BaseTrait;
     use ObjectTrait;
-    use ProjectLanguageTrait;
+    use ProductLanguageTrait;
 }
