@@ -23,7 +23,7 @@ parameters:
     app_notifications_email_sender: '%env(EMAIL_SENDER)%'
     app_property: 'email'
     # Akismet
-    app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    app_akismet_key: '%env(AKISMET_KEY)%'
     # CSRF
     app_csrf_token: 'weqweqweDFDFDFFDwqeqwewqewqe'
     # Oder parameters
@@ -61,13 +61,13 @@ services:
             string $pathToLoginSuccess: '%app_login_page_routename%'
             string $token: '%app_csrf_token%'
 #            $emailSender: '%app_email_sender%'
-#            $akismetKey: "%env(AKISMET_KEY)%"
+#            $akismetKey: '%app_akismet_key%'
 #            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
-#            string $projectImageAttachmentsPath: "%app_project_images_directory%"
-#            string $productImageAttachmentsPath: "%app_product_images_directory%"
-#            string $categoryImageAttachmentsPath: "%app_category_images_directory%"
-#            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
-#            string $daysBeforeRemoveRejectedReview: ""
+#            string $projectImageAttachmentsPath: '%app_project_images_directory%'
+#            string $productImageAttachmentsPath: '%app_product_images_directory%'
+#            string $categoryImageAttachmentsPath: '%app_category_images_directory%'
+#            string $vendorImageAttachmentsPath: '%app_vendor_images_directory%'
+#            string $daysBeforeRemoveRejectedReview: ''
 
     App\EventSubscriber\LocaleSubscriber:
 #        arguments: [ '%kernel.default_locale%' ]
