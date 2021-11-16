@@ -503,3 +503,7 @@ your.password: 'Ваш пароль: '
 vm.search.desc: 'Leave the search box empty to find all products, or enter a search term to find a specific product.'
 vm.search.keyword.for: 'Searched products with %1$s%'
 cart.tos.link.text: 'Показать мне термины и условия обслуживания'
+#
+http_error.name: '404'
+http_error_404.description: 'Такой странички не существует. Нам жаль'
+http_error_404.suggestion: 'Такой странички точно не существует. Нам жаль'
