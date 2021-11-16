@@ -4,6 +4,8 @@ symfony.lock
 package-lock.json
 composer.phar
 none
+/config/secrets/dev/dev.decrypt.private.php
+
 
 /.idea
 /.idea/*
@@ -54,4 +56,3 @@ yarn-error.log
 ###< baldinof/roadrunner-bundle ###
 /config/secrets/prod/
 /config/secrets/prod/*
-
