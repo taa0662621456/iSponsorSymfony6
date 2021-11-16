@@ -1,6 +1,9 @@
 node_modules
 .git
 .idea
+/.idea
+/.idea/*
+
 var
 vendor
 docker
