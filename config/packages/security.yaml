@@ -86,9 +86,9 @@ security:
                 use_forward: false
             oauth:
                 resource_owners:
-                    facebook: "/connect/check-facebook"
-                    google: "/connect/check-google"
-                    github: "/connect/check-github"
+                    facebook: "/login/check-facebook"
+                    google: "/login/check-google"
+                    github: "/login/check-github"
                 login_path: /login
                 use_forward: false
                 failure_path: /login
