@@ -18,9 +18,9 @@ label.next.step: 'Следующий шаг'
 
 label.previous: 'Предыдущий шаг'
 label.previous.step: 'Предыдущий шаг'
-button:
-  navbar:
-    signin: 'messages'
-    signup: 'messages'
-logout: 'messages'
-
+button.navbar.signin: 'Войти'
+button.navbar.signup: 'Зарегистрироваться'
+button.navbar.logout: 'Выйти'
+http_error.name: '404'
+http_error_404.description: 'Такой странички не существует. Нам жаль'
+http_error_404.suggestion: 'Такой странички точно не существует. Нам жаль'
