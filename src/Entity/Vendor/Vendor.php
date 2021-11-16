@@ -37,17 +37,17 @@ class Vendor
 	use BaseTrait;
 
 	/**
-	 * @var bool|false
+	 * @var bool|true
 	 *
-	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 0})
+	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 1})
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private bool $isActive = true;
+	private int|bool $isActive = 1;
 
 	/**
 	 * @var array
 	 *
-	 * @ORM\Column(name="roles", type="json", nullable=false)
+	 * @ORM\Column(name="roles", type="text", nullable=false)
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
 	private array $roles = ["ROLE_USER"];

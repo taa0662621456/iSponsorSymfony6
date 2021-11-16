@@ -104,7 +104,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 
 	/**
      * @var array
-	 * @ORM\Column(name="roles", type="json", nullable=false)
+	 * @ORM\Column(name="roles", type="text", nullable=false)
 	 */
 	private array $roles = ["ROLE_USER"];
 
