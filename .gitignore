@@ -1,10 +1,10 @@
-.env
-.idea
-**/.idea
-**/.idea/*
+composer.lock
 yarn.lock
-package-lock.json
 symfony.lock
+package-lock.json
+
+/.idea
+/.idea/*
 
 **/log
 **/logs
@@ -18,19 +18,24 @@ symfony.lock
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 
-###> symfony/framework-bundle ###
+#
+/.env.prod
+/.env.prod.php
+/.env.*.prod
+#
 /.env.local
 /.env.local.php
 /.env.*.local
+#
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /ver/*
+#
 /vendor
 /vendor/
 /verdor/*
-###< symfony/framework-bundle ###
-
+#
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
