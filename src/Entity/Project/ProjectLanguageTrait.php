@@ -67,9 +67,9 @@ trait ProjectLanguageTrait
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project\Project",
      *     inversedBy="projectEnGb"
-     *     )
+     *)
      */
-    private mixed $projectEnGb;
+    private Project $projectEnGb;
 
 
     public function __toString()
@@ -192,17 +192,17 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return mixed
+     * @return Project
      */
-    public function getProjectEnGb(): mixed
+    public function getProjectEnGb(): Project
     {
         return $this->projectEnGb;
     }
 
     /**
-     * @param mixed $projectEnGb
+     * @param $projectEnGb
      */
-    public function setProjectEnGb(mixed $projectEnGb): void
+    public function setProjectEnGb($projectEnGb): void
     {
         $this->projectEnGb = $projectEnGb;
     }

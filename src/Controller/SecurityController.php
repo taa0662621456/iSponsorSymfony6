@@ -129,20 +129,20 @@ class SecurityController extends AbstractController
                 $confirmationCode = $codeGenerator->getConfirmationCode();
                 #
                 $vendorSecurity->setUuid($uuid);
-                $vendorSecurity->setSlug($slug);
-                $vendorSecurity->setUsername($slug);
-                $vendorSecurity->setEmail($formData->getVendorSecurity()->getEmail());
-                $vendorSecurity->setPhone($formData->getVendorSecurity()->getPhone());
+                $vendorSecurity->setSlug((string)$slug);
+                $vendorSecurity->setUsername((string)$slug);
+                $vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
+                $vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
                 $vendorSecurity->setPassword($password);
                 $vendorSecurity->setActivationCode($confirmationCode);
                 #
                 $vendorEnGb->setUuid($uuid);
-                $vendorEnGb->setSlug($slug);
-                $vendorEnGb->setVendorPhone($formData->getVendorSecurity()->getPhone());
+                $vendorEnGb->setSlug((string)$slug);
+                $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
                 $vendorEnGb->setVendorZip(000000);
                 #
                 $vendor->setUuid($uuid);
-                $vendor->setSlug($slug);
+                $vendor->setSlug((string)$slug);
                 $vendor->setWorkFlow('submitted');
                 $vendor->setActivationCode($confirmationCode);
                 $vendor->setVendorSecurity($vendorSecurity);
@@ -174,7 +174,7 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute($this->getParameter('app_homepage_routename'));
 
             } catch (Exception $e) {
-                //TODO: в зависимости от ENV или Flash или throw
+//                TODO: в зависимости от ENV или Flash или throw
                 $this->addFlash('error', 'Что-то идет не так');
                 throw new \UnexpectedValueException(
                     'Что-то пошло не так "%s".'
@@ -391,7 +391,7 @@ class SecurityController extends AbstractController
 		return $this->json(
 			array(
 				'username' => $user->getUserIdentifier(),
-				'roles'    => $user->getRole(),
+				'roles'    => $user->getRoles(),
 			)
 		);
 	}

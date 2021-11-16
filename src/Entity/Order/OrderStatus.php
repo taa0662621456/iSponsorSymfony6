@@ -64,7 +64,7 @@ class OrderStatus
 	 *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Order", mappedBy="orderStatus")
 	 */
-	private $orders;
+	private ArrayCollection $orders;
 
 	public function __construct()
 	{

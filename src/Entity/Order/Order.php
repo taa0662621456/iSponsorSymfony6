@@ -6,6 +6,7 @@ namespace App\Entity\Order;
 use App\Entity\BaseTrait;
 use App\Entity\OAuthTrait;
 
+use App\Entity\Vendor\Vendor;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -254,7 +255,7 @@ class Order
 	 * @Assert\Type(type="App\Entity\Order\Orders")
 	 * @Assert\Valid()
 	 **/
-	private $orderItems;
+	private ArrayCollection $orderItems;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\OrderStatus",
@@ -262,13 +263,13 @@ class Order
 	 *     fetch="EXTRA_LAZY")
 	 * @ORM\JoinColumn(name="orderStatus_id", referencedColumnName="id")
 	 */
-	private $orderStatus;
+	private OrderStatus $orderStatus;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendor",
 	 *     inversedBy="vendorOrders")
 	 */
-	private $orderCreatedAt;
+	private Vendor $orderCreatedAt;
 
 	public function __construct()
 	{

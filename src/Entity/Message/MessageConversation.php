@@ -3,7 +3,6 @@
 namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
-use App\Entity\OAuthTrait;
 use App\Service\RequestDispatcher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -26,18 +25,18 @@ class MessageConversation
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="conversation")
      */
-    private $participants;
+    private ArrayCollection $participants;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Message\Message")
      * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
      */
-    private $lastMessage;
+    private Message $lastMessage;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message\Message", mappedBy="conversation")
      */
-    private $message;
+    private ArrayCollection $message;
 
     public function __construct(RequestDispatcher $requestDispatcher)
     {
@@ -48,15 +47,15 @@ class MessageConversation
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getParticipants()
+    public function getParticipants(): ArrayCollection
     {
         return $this->participants;
     }
 
     /**
-     * @param mixed $participants
+     * @param $participants
      */
     public function setParticipants($participants): void
     {
@@ -64,15 +63,15 @@ class MessageConversation
     }
 
     /**
-     * @return mixed
+     * @return Message
      */
-    public function getLastMessage()
+    public function getLastMessage(): Message
     {
         return $this->lastMessage;
     }
 
     /**
-     * @param mixed $lastMessage
+     * @param $lastMessage
      */
     public function setLastMessage($lastMessage): void
     {
@@ -80,7 +79,7 @@ class MessageConversation
     }
 
     /**
-     * @return Collection|Message[]
+     * @return ArrayCollection|Message[]
      */
     public function getMessage()
     {

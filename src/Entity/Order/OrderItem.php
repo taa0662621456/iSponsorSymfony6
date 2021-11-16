@@ -5,6 +5,8 @@ namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
 use App\Entity\OAuthTrait;
+use App\Entity\Product\Product;
+use App\Entity\Vendor\Vendor;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -129,19 +131,19 @@ class OrderItem
 	 * )
 	 * @ORM\JoinColumn(name="itemVendors_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	private $itemVendors;
+	private Vendor $itemVendors;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\Order",
 	 *     inversedBy="orderItems"
 	 * )
 	 */
-	private $items;
+	private Order $items;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Product\Product", inversedBy="productOrdered")
 	 */
-	private $productOrdered;
+	private Product $productOrdered;
 
 
 	/**
@@ -289,7 +291,7 @@ class OrderItem
     }
 
     /**
-     * @return mixed
+     * @return
      */
     public function getItemFinalPrice()
     {
@@ -297,7 +299,7 @@ class OrderItem
     }
 
     /**
-     * @param mixed $itemFinalPrice
+     * @param $itemFinalPrice
      */
     public function setItemFinalPrice($itemFinalPrice): void
     {
@@ -305,7 +307,7 @@ class OrderItem
     }
 
     /**
-     * @return mixed
+     * @return
      */
     public function getItemSubtotalDiscount()
     {
@@ -313,7 +315,7 @@ class OrderItem
     }
 
     /**
-     * @param mixed $itemSubtotalDiscount
+     * @param $itemSubtotalDiscount
      */
     public function setItemSubtotalDiscount($itemSubtotalDiscount): void
     {
@@ -321,7 +323,7 @@ class OrderItem
     }
 
     /**
-     * @return mixed
+     * @return
      */
     public function getItemSubtotalWithTax()
     {
@@ -329,7 +331,7 @@ class OrderItem
     }
 
     /**
-     * @param mixed $itemSubtotalWithTax
+     * @param $itemSubtotalWithTax
      */
     public function setItemSubtotalWithTax($itemSubtotalWithTax): void
     {
@@ -385,7 +387,7 @@ class OrderItem
 	}
 
 	/**
-	 * @return mixed
+	 * @return
 	 */
 	public function getItemVendors()
 	{
@@ -393,7 +395,7 @@ class OrderItem
 	}
 
 	/**
-	 * @param mixed $itemVendors
+	 * @param $itemVendors
 	 */
 	public function setItemVendors($itemVendors): void
 	{
@@ -402,7 +404,7 @@ class OrderItem
 
 
 	/**
-	 * @return mixed
+	 * @return
 	 */
 	public function getItems()
 	{
@@ -410,7 +412,7 @@ class OrderItem
 	}
 
 	/**
-	 * @param mixed $items
+	 * @param $items
 	 */
 	public function setItems($items): void
 	{
@@ -419,7 +421,7 @@ class OrderItem
 
 
 	/**
-	 * @return mixed
+	 * @return
 	 */
 	public function getProductOrdered()
 	{
@@ -427,7 +429,7 @@ class OrderItem
 	}
 
 	/**
-	 * @param mixed $productOrdered
+	 * @param $productOrdered
 	 */
 	public function setProductOrdered($productOrdered): void
 	{

@@ -43,8 +43,6 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     use BaseTrait;
     use OAuthTrait;
 
-    public const ROLE_USER = 'ROLE_USER';
-
     /**
      * @var string
      *
@@ -104,7 +102,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 
 	/**
      * @var array
-	 * @ORM\Column(name="roles", type="text", nullable=false)
+	 * @ORM\Column(name="roles", type="json")
 	 */
 	private array $roles = ["ROLE_USER"];
 
@@ -199,7 +197,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorSecurity")
      * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	private mixed $vendorSecurity;
+	private Vendor $vendorSecurity;
 
     /**
      * @ORM\Column(name="salt", type="string")
@@ -211,7 +209,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 */
 	public function __construct()
     {
-        $this->roles = [self::ROLE_USER];
+//        $this->roles = [self::ROLE_USER];
         $t = new DateTime();
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
         $this->lastVisitDate = $t->format('Y-m-d H:i:s');
@@ -489,7 +487,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 */
 	public function getRoles(): array
     {
-        return $this->roles;
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
     /**
@@ -584,17 +584,17 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     }
 
     /**
-	 * @return mixed
+	 * @return
 	 */
-	public function getVendorSecurity(): mixed
+	public function getVendorSecurity()
     {
         return $this->vendorSecurity;
     }
 
     /**
-	 * @param mixed $vendorSecurity
+	 * @param $vendorSecurity
 	 */
-	public function setVendorSecurity(mixed $vendorSecurity): void
+	public function setVendorSecurity($vendorSecurity): void
     {
         $this->vendorSecurity = $vendorSecurity;
     }

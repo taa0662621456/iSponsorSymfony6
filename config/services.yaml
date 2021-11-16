@@ -1,5 +1,6 @@
 parameters:
     app_name: '...iSponsor!'
+    app_sender_name: '...iSponsor! corp'
     app_version: '0.0.0'
     app_domain: 'smartresponsor.com'
     app_schema: 'https'

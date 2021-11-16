@@ -24,12 +24,12 @@ class MessageParticipant
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="participant")
      */
-    private $vendor;
+    private Vendor $vendor;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="participants")
      */
-    private $conversation;
+    private MessageConversation $conversation;
 
     public function getVendor(): ?Vendor
     {

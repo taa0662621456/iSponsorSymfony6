@@ -23,10 +23,10 @@ class ProductAttachment
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Product\Product", inversedBy="productAttachments")
 	 * @ORM\JoinColumn(name="productAttachments_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	private $productAttachments;
+	private Product $productAttachments;
 
 	/**
-	 * @return mixed
+	 * @return
 	 */
 	public function getProductAttachments()
 	{

@@ -6,8 +6,6 @@ namespace App\Entity\Vendor;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**

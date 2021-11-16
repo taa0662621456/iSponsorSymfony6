@@ -34,7 +34,7 @@ class ProductPrice
 	 * @ORM\OneToOne(targetEntity="App\Entity\Product\Product", inversedBy="productPrice")
 	 * @ORM\JoinColumn(name="productPrice_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
-	private int $productPrice = 0;
+	private Product|int $productPrice = 0;
 
 	/**
 	 * @var boolean|null
@@ -125,9 +125,9 @@ class ProductPrice
 	}
 
 	/**
-	 * @param mixed $productPrice
+	 * @param $productPrice
 	 */
-	public function setProductPrice(mixed $productPrice): void
+	public function setProductPrice($productPrice): void
 	{
 		$this->productPrice = $productPrice;
 	}
