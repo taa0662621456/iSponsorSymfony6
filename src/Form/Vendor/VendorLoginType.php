@@ -136,7 +136,7 @@ class VendorLoginType extends AbstractType
                     'label' => 'button.label.registration',
                     'attr' => [
                         'class' => 'btn btn-link btn-sm signup',
-                        'onclick' => 'window.history.back()' //TODO: заменить на маршрут к форме регистрации
+                        'onclick' => 'window.location.href=\'/registration\''
                     ]
                 ])
             )

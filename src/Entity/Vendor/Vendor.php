@@ -164,7 +164,7 @@ class Vendor
 	 *     mappedBy="attachments")
      * @ORM\JoinTable(name="attachments")
 	 */
-	private ArrayCollection $vendorDocumentAttachments;
+	private $vendorDocumentAttachments;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorMedia",
@@ -172,7 +172,7 @@ class Vendor
 	 *     mappedBy="attachments")
      * @ORM\JoinTable(name="attachments")
 	 */
-	private ArrayCollection $vendorMediaAttachments;
+	private $vendorMediaAttachments;
 
     /**
      *
@@ -180,7 +180,7 @@ class Vendor
 	 *     mappedBy="orderCreatedAt")
 	 * @ORM\JoinTable(name="orders")
 	 */
-	private ArrayCollection $vendorOrders;
+	private $vendorOrders;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrderItem",
