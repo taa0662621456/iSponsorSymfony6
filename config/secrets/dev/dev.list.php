@@ -11,7 +11,10 @@ return [
     'GOOGLE_RECAPTCHA_SECRET' => null,
     'OBJECT_REVIEW_DATABASE' => null,
     'PLATFORM_DATE_DATABASE' => null,
-    'SMS_GATWAY_ID' => null,
-    'SMS_GATWAY_PASSWORD' => null,
+    'SMS_GATEWAY_ID' => null,
+    'SMS_GATEWAY_PASSWORD' => null,
+    'SMS_GATEWAY_SECRET' => null,
+    'SMS_GATEWAY_ID' => null,
+    'SMS_GATEWAY_PASSWORD' => null,
     'SMS_STATUS_SECRET' => null,
 ];
