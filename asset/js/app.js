@@ -9,6 +9,7 @@ require('smartwizard');
 
 //require('masonry-layout');
 require('../scss/app.scss');
+require('../css/app.css');
 
 
 //import('./masonry_init.js');

@@ -5,6 +5,4 @@ body {
     background-size: 10%;
     background-repeat: no-repeat;
     background-position: center;
-    animation: bounce; /* referring directly to the animation's @keyframe declaration */
-    animation-duration: 2s;
 }
