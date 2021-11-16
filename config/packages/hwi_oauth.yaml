@@ -17,7 +17,6 @@ hwi_oauth:
             type: github
             client_id: '%env(GOOGLE_AUTH_ID)%'
             client_secret: '%env(GOOGLE_AUTH_SECRET)%'
-
         github:
             type: github
             client_id: '%env(GITHUB_ID)%'
