@@ -23,10 +23,10 @@ class ProjectAttachment
 	 *     inversedBy="projectAttachments")
 	 * @ORM\JoinColumn(name="projectAttachments_id", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	private $projectAttachments;
+	private Project $projectAttachments;
 
     /**
-     * @return mixed
+     * @return
      */
 	public function getProjectAttachments()
 	{

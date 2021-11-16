@@ -19,7 +19,7 @@ class ProjectPlatformReward
      * @ORM\ManyToOne(targetEntity="App\Entity\Project\Project", inversedBy="projectPlatformReward")
      * @ORM\JoinTable(name="project")
      */
-    private $projectId;
+    private Project $projectId;
 
     /**
      * @var string
@@ -37,17 +37,17 @@ class ProjectPlatformReward
 
 
     /**
-     * @return mixed
+     * @return
      */
-    public function getProjectId(): mixed
+    public function getProjectId()
     {
         return $this->projectId;
     }
 
     /**
-     * @param mixed $projectId
+     * @param $projectId
      */
-    public function setProjectId(mixed $projectId): void
+    public function setProjectId($projectId): void
     {
         $this->projectId = $projectId;
     }

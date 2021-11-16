@@ -23,12 +23,12 @@ class VendorMedia
      *      inversedBy="vendorMediaAttachments")
 	 * @ORM\JoinColumn(name="attachments_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
-	private mixed $attachments;
+	private Vendor $attachments;
 
-	/**
-	 * @return mixed
-	 */
-	public function getAttachments(): mixed
+    /**
+     * @return \App\Entity\Vendor\Vendor
+     */
+	public function getAttachments(): Vendor
     {
 		return $this->attachments;
 	}

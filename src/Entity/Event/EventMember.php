@@ -4,6 +4,7 @@ namespace AppEntity;
 
 use App\Entity\BaseTrait;
 use App\Entity\OAuthTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,7 +32,7 @@ class EventMember
      * @ORM\OneToMany(targetEntity="App\Entity\Vendor\Vendor",
      *      mappedBy="eventMemberId")
      */
-    private $eventMemberId;
+    private ArrayCollection $eventMemberId;
 
     /**
      * @var bool

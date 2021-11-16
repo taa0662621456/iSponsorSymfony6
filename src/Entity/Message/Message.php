@@ -3,6 +3,7 @@
 namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
+use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,28 +24,27 @@ class Message
     private $content;
 
     /**
-     * @var
      * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorMessage")
      */
-    private $vendor;
+    private Vendor $vendor;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="message")
      */
-    private $conversation;
+    private MessageConversation $conversation;
 
     private $mine;
 
     /**
-     * @return mixed
+     * @return
      */
-    public function getContent(): ?string
+    public function getContent()
     {
         return $this->content;
     }
 
     /**
-     * @param mixed $content
+     * @param string $content
      * @return Message
      */
     public function setContent(string $content): self
@@ -61,16 +61,16 @@ class Message
     }
 
     /**
-     * @param mixed $conversation
+     * @param MessageConversation $conversation
      * @return Message
      */
-    public function setConversation(?MessageConversation $conversation): self
+    public function setConversation(MessageConversation $conversation): self
     {
         $this->conversation = $conversation;
     }
 
     /**
-     * @return mixed
+     * @return
      */
     public function getMine()
     {
@@ -78,7 +78,7 @@ class Message
     }
 
     /**
-     * @param mixed $mine
+     * @param $mine
      */
     public function setMine($mine): void
     {

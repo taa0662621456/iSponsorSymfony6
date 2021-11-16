@@ -24,10 +24,10 @@ class CategoryAttachment
      *     inversedBy="categoryAttachment")
      * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private $categoryAttachments;
+    private Category $categoryAttachments;
 
     /**
-     * @return mixed
+     * @return
 	 */
 	public function getCategoryAttachments()
 	{

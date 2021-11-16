@@ -4,6 +4,10 @@ declare(strict_types=1);
 namespace App\Entity\Featured;
 
 use App\Entity\BaseTrait;
+use App\Entity\Category\Category;
+use App\Entity\Product\Product;
+use App\Entity\Project\Project;
+use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -34,25 +38,25 @@ class Featured
      * @ORM\OneToOne(targetEntity="App\Entity\Project\Project", inversedBy="projectFeatured")
 	 * @ORM\JoinColumn(name="projectFeatured_id", referencedColumnName="id", nullable=true)
      */
-    private $projectFeatured;
+    private Project $projectFeatured;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\Product", inversedBy="productFeatured")
 	 * @ORM\JoinColumn(name="productFeatured_id", referencedColumnName="id", nullable=true)
      */
-    private $productFeatured;
+    private Product $productFeatured;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Category\Category", inversedBy="categoryFeatured")
 	 * @ORM\JoinColumn(name="categoryFeatured_id", referencedColumnName="id", nullable=true)
      */
-    private $categoryFeatured;
+    private Category $categoryFeatured;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorFeatured")
 	 * @ORM\JoinColumn(name="vendorFeatured_id", referencedColumnName="id", nullable=true)
      */
-    private $vendorFeatured;
+    private Vendor $vendorFeatured;
 
 	/**
 	 * @param $ordering

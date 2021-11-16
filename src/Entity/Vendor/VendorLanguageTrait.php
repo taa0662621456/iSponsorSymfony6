@@ -170,7 +170,7 @@ trait VendorLanguageTrait
      * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorEnGb")
      * @ORM\JoinColumn(name="vendorEnGb_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
-    private mixed $vendorEnGb;
+    private Vendor $vendorEnGb;
 
     /**
      * @return string
@@ -445,17 +445,17 @@ trait VendorLanguageTrait
     }
 
     /**
-     * @return mixed
+     * @return Vendor
      */
-    public function getVendorEnGb()
+    public function getVendorEnGb(): Vendor
     {
         return $this->vendorEnGb;
     }
 
     /**
-     * @param mixed $vendorEnGb
+     * @param $vendorEnGb
      */
-    public function setVendorEnGb(mixed $vendorEnGb): void
+    public function setVendorEnGb($vendorEnGb): void
     {
         $this->vendorEnGb = $vendorEnGb;
     }

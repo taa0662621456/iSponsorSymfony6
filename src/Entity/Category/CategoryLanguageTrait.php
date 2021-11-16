@@ -32,7 +32,7 @@ trait CategoryLanguageTrait
      * @ORM\OneToOne(targetEntity="App\Entity\Category\Category",
      *     inversedBy="categoryEnGb")
      */
-    private $categoryEnGb;
+    private CategoryEnGb $categoryEnGb;
 
 
     /**
@@ -77,9 +77,9 @@ trait CategoryLanguageTrait
     }
 
     /**
-     * @return mixed
+     * @return CategoryEnGb
      */
-    public function getCategoryEnGb()
+    public function getCategoryEnGb(): CategoryEnGb
     {
         return $this->categoryEnGb;
     }

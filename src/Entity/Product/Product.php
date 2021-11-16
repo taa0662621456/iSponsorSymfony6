@@ -4,9 +4,11 @@
 	namespace App\Entity\Product;
 
 	use App\Entity\BaseTrait;
-	use App\Entity\Order\OrderItem;
+    use App\Entity\Featured\Featured;
+    use App\Entity\Order\OrderItem;
 
-	use DateTime;
+    use App\Entity\Project\Project;
+    use DateTime;
 	use Doctrine\Common\Collections\ArrayCollection;
 	use Doctrine\Common\Collections\Collection;
 	use Doctrine\ORM\Mapping as ORM;
@@ -29,12 +31,10 @@
         public const NUM_ITEMS = 10;
 
         /**
-         * @var mixed
-         *
          * @ORM\ManyToOne(targetEntity="App\Entity\Project\Project", inversedBy="projectProducts")
          * @ORM\JoinTable(name="products")
          */
-        private mixed $products;
+        private Project $products;
 
         /**
          * @var int
@@ -248,17 +248,17 @@
 		 * @Assert\Type(type="App\Entity\Product\ProductsEnGb")
 		 * @Assert\Valid()
 		 */
-		private mixed $productEnGb;
+		private ProductEnGb $productEnGb;
 
 		/**
-		 * @var ProductTag[]|ArrayCollection
+		 * @var ArrayCollection|ProductTag[]
 		 *
 		 * @ORM\ManyToMany(targetEntity="App\Entity\Product\ProductTag", cascade={"persist"})
 		 * @ORM\JoinTable(name="product_tags")
 		 * @ORM\OrderBy({"name": "ASC"})
 		 * @Assert\Count(max="4", maxMessage="products.too_many_tags")
 		 */
-		private array|ArrayCollection $productTags;
+		private ArrayCollection|array $productTags;
 
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductPrice",
@@ -269,7 +269,7 @@
 		 * @Assert\Type(type="App\Entity\Product\ProductsPrice")
 		 * @Assert\Valid()
 		 */
-		private mixed $productPrice;
+		private ProductPrice $productPrice;
 
 		/**
 		 *
@@ -281,7 +281,7 @@
 		/**
 		 * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="productFeatured")
 		 **/
-		private mixed $productFeatured;
+		private Featured $productFeatured;
 
 		/**
 		 * @ORM\OneToMany(targetEntity="App\Entity\Product\ProductAttachment",
@@ -396,9 +396,9 @@
 		}
 
 		/**
-		 * @param mixed $productLength
+		 * @param $productLength
 		 */
-		public function setProductLength(mixed $productLength): void
+		public function setProductLength($productLength): void
 		{
 			$this->productLength = $productLength;
 		}
@@ -412,9 +412,9 @@
 		}
 
 		/**
-		 * @param mixed $productWidth
+		 * @param $productWidth
 		 */
-		public function setProductWidth(mixed $productWidth): void
+		public function setProductWidth($productWidth): void
 		{
 			$this->productWidth = $productWidth;
 		}
@@ -428,9 +428,9 @@
 		}
 
 		/**
-		 * @param mixed $productHeight
+		 * @param $productHeight
 		 */
-		public function setProductHeight(mixed $productHeight): void
+		public function setProductHeight($productHeight): void
 		{
 			$this->productHeight = $productHeight;
 		}
@@ -819,26 +819,26 @@
 		}
 
 
-		/**
-		 * @return mixed
-		 */
-		public function getProductFeatured(): mixed
+        /**
+         * @return Featured
+         */
+		public function getProductFeatured(): Featured
         {
 			return $this->productFeatured;
 		}
 
 		/**
-		 * @param mixed $productFeatured
+		 * @param $productFeatured
 		 */
-		public function setProductFeatured(mixed $productFeatured): void
+		public function setProductFeatured($productFeatured): void
 		{
 			$this->productFeatured = $productFeatured;
 		}
 
-		/**
-		 * @return mixed
-		 */
-		public function getProductEnGb(): mixed
+        /**
+         * @return ProductEnGb
+         */
+		public function getProductEnGb(): ProductEnGb
         {
 			return $this->productEnGb;
 		}
@@ -873,25 +873,25 @@
 		}
 
         /**
-         * @return Collection
+         * @return ArrayCollection
          */
-		public function getTags(): Collection
+		public function getTags(): ArrayCollection
 		{
 			return $this->productTags;
 		}
 
-		/**
-		 * @return mixed
-		 */
-		public function getProductPrice(): mixed
+        /**
+         * @return ProductPrice
+         */
+		public function getProductPrice(): ProductPrice
         {
 			return $this->productPrice;
 		}
 
 		/**
-		 * @param mixed $productPrice
+		 * @param $productPrice
 		 */
-		public function setProductPrice(mixed $productPrice): void
+		public function setProductPrice($productPrice): void
 		{
 			$this->productPrice = $productPrice;
 		}
@@ -918,9 +918,9 @@
 		}
 
         /**
-         * @return Collection
+         * @return ArrayCollection
          */
-		public function getProductAttachments(): Collection
+		public function getProductAttachments(): ArrayCollection
 		{
 			return $this->productAttachments;
 		}

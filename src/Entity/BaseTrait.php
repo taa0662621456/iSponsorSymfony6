@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Entity\Vendor\Vendor;
 use App\Service\RequestDispatcher;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Uid\Uuid;
@@ -21,12 +22,7 @@ trait BaseTrait
      * Groups({"object:list", "object:item"})
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private int $id = 0;
-
-    /**
-     * @ORM\Column(name="uuid", type="uuid", unique=true, nullable=false)
-     */
-    protected Uuid $uuid;
+    protected int $id = 0;
 
     /**
      * @var boolean
@@ -107,7 +103,7 @@ trait BaseTrait
     public function __construct()
     {
         try {
-            $this->slug = $this->uuid = Uuid::v4();
+            $this->slug = Uuid::v4();
         } catch (Exception $e) {
             throw($e);
         }
@@ -127,22 +123,6 @@ trait BaseTrait
     }
 
     /**
-     * @return Uuid
-     */
-    public function getUuid(): Uuid
-    {
-        return $this->uuid;
-    }
-
-    /**
-     * @param $uuid
-     */
-    public function setUuid($uuid): void
-    {
-        $this->uuid = $uuid;
-    }
-
-    /**
      * @return bool
      */
     public function isPublished(): bool
@@ -159,9 +139,9 @@ trait BaseTrait
     }
 
     /**
-     * @return mixed
+     * @return Collection
      */
-    public function getAttachments(): mixed
+    public function getAttachments():Collection
     {
         return $this->attachments;
     }

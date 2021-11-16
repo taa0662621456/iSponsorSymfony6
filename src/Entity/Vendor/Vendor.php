@@ -7,6 +7,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
+use App\Entity\Featured\Featured;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -37,17 +39,17 @@ class Vendor
 	use BaseTrait;
 
 	/**
-	 * @var bool|true
+	 * @var true
 	 *
 	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 1})
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private int|bool $isActive = 1;
+	private bool $isActive;
 
 	/**
 	 * @var array
 	 *
-	 * @ORM\Column(name="roles", type="text", nullable=false)
+	 * @ORM\Column(name="roles", type="json", nullable=false)
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
 	private array $roles = ["ROLE_USER"];
@@ -122,7 +124,7 @@ class Vendor
 	 * @Assert\Type(type="App\Entity\Vendor\VendorSecurity")
 	 * @Assert\Valid()
 	 */
-	private mixed $vendorSecurity;
+	private VendorSecurity $vendorSecurity;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorIban",
@@ -133,7 +135,7 @@ class Vendor
      * @Assert\Type(type="App\Entity\Vendor\VendorIban")
 	 * @Assert\Valid()
 	 */
-	private mixed $vendorIban;
+	private VendorIban $vendorIban;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorEnGb",
@@ -144,7 +146,7 @@ class Vendor
 	 * @Assert\Type(type="App\Entity\Vendor\VendorEnGb")
 	 * @Assert\Valid()
 	 */
-	private mixed $vendorEnGb;
+	private VendorEnGb $vendorEnGb;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured",
@@ -155,16 +157,15 @@ class Vendor
      * @Assert\Type(type="App\Entity\Featured\Featured")
      * @Assert\Valid()
      */
-    private mixed $vendorFeatured;
+    private Featured $vendorFeatured;
 
     /**
-     *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorDocument",
 	 *     cascade={"persist", "remove"},
 	 *     mappedBy="attachments")
      * @ORM\JoinTable(name="attachments")
 	 */
-	private $vendorDocumentAttachments;
+	private Collection $vendorDocumentAttachments;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorMedia",
@@ -172,42 +173,41 @@ class Vendor
 	 *     mappedBy="attachments")
      * @ORM\JoinTable(name="attachments")
 	 */
-	private $vendorMediaAttachments;
+	private Collection $vendorMediaAttachments;
 
     /**
-     *
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\Order",
 	 *     mappedBy="orderCreatedAt")
 	 * @ORM\JoinTable(name="orders")
 	 */
-	private $vendorOrders;
+	private Collection $vendorOrders;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Order\OrderItem",
 	 *     mappedBy="itemVendors")
 	 * @ORM\JoinTable(name="ordersItems")
 	 */
-	private mixed $vendorItems;
+	private Collection $vendorItems;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message\Message",
      *     mappedBy="vendor")
      * @ORM\JoinTable(name="vendorsMessage")
      */
-    private mixed $vendorMessage;
+    private Collection $vendorMessage;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant",
      *     mappedBy="vendor")
      * @ORM\JoinTable(name="participant")
      */
-    private mixed $participant;
+    private Collection $participant;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorFavourite", mappedBy="vendorFavourite")
      * @ORM\JoinColumn(name="vendors_favourite_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
-    private int $vendorFavourite;
+    private Collection $vendorFavourite;
 
 
     /**
@@ -218,6 +218,9 @@ class Vendor
         $t = new DateTime();
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
         $this->lastVisitDate = $t->format('Y-m-d H:i:s');
+        $this->participant = new ArrayCollection();
+        $this->vendorMessage = new ArrayCollection();
+        $this->vendorItems = new ArrayCollection();
         $this->vendorOrders = new ArrayCollection();
         $this->vendorDocumentAttachments = new ArrayCollection();
         $this->vendorMediaAttachments = new ArrayCollection();
@@ -394,15 +397,15 @@ class Vendor
 	 */
 	public function getRoles(): array
 	{
-		return [
-			'ROLE_USER'
-		];
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorSecurity(): mixed
+    /**
+     * @return VendorSecurity
+     */
+	public function getVendorSecurity(): VendorSecurity
     {
 		return $this->vendorSecurity;
 	}
@@ -416,10 +419,10 @@ class Vendor
 	}
 
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorEnGb(): mixed
+    /**
+     * @return VendorEnGb
+     */
+	public function getVendorEnGb(): VendorEnGb
     {
 		return $this->vendorEnGb;
 	}
@@ -439,7 +442,7 @@ class Vendor
 	 */
 	public function addOrder(Order $order): Vendor
 	{
-		$this->vendorOrders = $order;
+		$this->vendorOrders[] = $order;
 
 		return $this;
 	}
@@ -480,13 +483,15 @@ class Vendor
 		$this->vendorDocumentAttachments->removeElement($vendorDocumentAttachment);
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorDocumentAttachments(): mixed
+    /**
+     * @return ArrayCollection
+     */
+	public function getVendorDocumentAttachments(): ArrayCollection
     {
 		return $this->vendorDocumentAttachments;
 	}
+
+
 
 	/**
 	 * @param VendorMedia $vendorMediaAttachment
@@ -508,26 +513,26 @@ class Vendor
 		$this->vendorMediaAttachments->removeElement($vendorMediaAttachment);
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorMediaAttachments(): mixed
+    /**
+     * @return ArrayCollection
+     */
+	public function getVendorMediaAttachments(): ArrayCollection
     {
 		return $this->vendorMediaAttachments;
 	}
 
     /**
-     * @return mixed
+     * @return VendorIban
      */
-	public function getVendorIban(): mixed
+	public function getVendorIban(): VendorIban
     {
 		return $this->vendorIban;
 	}
 
 	/**
-	 * @param mixed $vendorIban
+	 * @param $vendorIban
 	 */
-	public function setVendorIban(string $vendorIban): void
+	public function setVendorIban($vendorIban): void
 	{
 		$this->vendorIban = $vendorIban;
 	}
@@ -541,89 +546,89 @@ class Vendor
 	}
 
 	/**
-	 * @param mixed $vendorOrders
+	 * @param $vendorOrders
 	 */
-	public function setVendorOrders(mixed $vendorOrders): void
+	public function setVendorOrders($vendorOrders): void
 	{
 		$this->vendorOrders = $vendorOrders;
 	}
 
-	/**
-	 * @return int
-	 */
-	public function getVendorFavourite(): int
-	{
+    /**
+     * @return Collection
+     */
+	public function getVendorFavourite(): Collection
+    {
 		return $this->vendorFavourite;
 	}
 
 	/**
-	 * @param int $vendorFavourite
+	 * @param $vendorFavourite
 	 */
-	public function setVendorFavourite(int $vendorFavourite): void
+	public function setVendorFavourite($vendorFavourite): void
 	{
 		$this->vendorFavourite = $vendorFavourite;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorFeatured(): mixed
+    /**
+     * @return Featured
+     */
+	public function getVendorFeatured(): Featured
     {
 		return $this->vendorFeatured;
 	}
 
 	/**
-	 * @param mixed $vendorFeatured
+	 * @param $vendorFeatured
 	 */
-	public function setVendorFeatured(mixed $vendorFeatured): void
+	public function setVendorFeatured($vendorFeatured): void
 	{
 		$this->vendorFeatured = $vendorFeatured;
 	}
 
-	/**
-	 * @return mixed
-	 */
-	public function getVendorItems(): mixed
+    /**
+     * @return ArrayCollection
+     */
+	public function getVendorItems(): ArrayCollection
     {
 		return $this->vendorItems;
 	}
 
 	/**
-	 * @param mixed $vendorItems
+	 * @param $vendorItems
      */
-    public function setVendorItems(mixed $vendorItems): void
+    public function setVendorItems($vendorItems): void
     {
         $this->vendorItems = $vendorItems;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getVendorMessage(): mixed
+    public function getVendorMessage(): ArrayCollection
     {
         return $this->vendorMessage;
     }
 
     /**
-     * @param mixed $vendorMessage
+     * @param $vendorMessage
      */
-    public function setVendorMessage(mixed $vendorMessage): void
+    public function setVendorMessage($vendorMessage): void
     {
         $this->vendorMessage = $vendorMessage;
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection
      */
-    public function getParticipant(): mixed
+    public function getParticipant(): ArrayCollection
     {
         return $this->participant;
     }
 
     /**
-     * @param mixed $participant
+     * @param $participant
      */
-    public function setParticipant(mixed $participant): void
+    public function setParticipant($participant): void
     {
         $this->participant = $participant;
     }

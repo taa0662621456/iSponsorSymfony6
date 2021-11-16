@@ -42,7 +42,7 @@ class VendorIban
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorIban", orphanRemoval=true)
      * @ORM\JoinColumn(name="vendorIban_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
-	private mixed $vendorIban;
+	private Vendor $vendorIban;
 
 
     /**

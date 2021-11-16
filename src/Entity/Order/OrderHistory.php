@@ -19,12 +19,10 @@ class OrderHistory
 	use BaseTrait;
 
 	/**
-	 * @var string
-	 *
 	 * @ORM\ManyToOne(targetEntity="App\Entity\Order\OrderStatus")
 	 * @ORM\JoinColumn(name="order_status_id", referencedColumnName="id")
 	 */
-	private string $orderStatusCode;
+	private OrderStatus $orderStatusCode;
 
 	/**
 	 * @var boolean

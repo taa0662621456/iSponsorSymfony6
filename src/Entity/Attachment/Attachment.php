@@ -28,12 +28,11 @@ class Attachment
     private string $object;
 
     /**
-     *
      * @ORM\Column(name="attachments", type="string", nullable=false)
      * @Assert\NotBlank(message="attachments_en_gb.blank_content")
      * @Assert\Length(min=10, minMessage="attachments_en_gb.too_short_content")
      */
-    private mixed $attachments;
+    private string $attachments;
 
     /**
      * @return string

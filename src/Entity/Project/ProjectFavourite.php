@@ -22,11 +22,11 @@ class ProjectFavourite
 	private Project $projectFavourites;
 
 
-	/**
-	 * @param Project $projectFavourites
-	 *
-	 * @return ProjectFavourite
-	 */
+    /**
+     * @param Project|null $projectFavourites
+     *
+     * @return ProjectFavourite
+     */
 	public function setProjectFavourites(Project $projectFavourites = null): ProjectFavourite
 	{
 		$this->projectFavourites = $projectFavourites;

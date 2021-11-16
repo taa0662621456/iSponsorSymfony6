@@ -3,13 +3,13 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
+use App\Entity\Featured\Featured;
 use App\Entity\Product\Product;
+use App\Entity\Product\ProductEnGb;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Category\Category;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Pure;
-use App\Entity\Project\ProjectPlatformReward;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -29,10 +29,10 @@ class Project
     public const NUM_ITEMS = 10;
 
     /**
-     * @var string|null
+     * @var string
      * @ORM\Column(name="project_type", type="string", nullable=true)
      */
-    private ?string $projectType; //TODO: поменять на связь с таблицей типов проектов
+    private string $projectType; //TODO: поменять на связь с таблицей типов проектов
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
@@ -40,7 +40,7 @@ class Project
      *      fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="projectCategory_id", referencedColumnName="id")
      */
-    private $projectCategory;
+    private Category $projectCategory;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductEnGb",
@@ -51,11 +51,11 @@ class Project
      * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
      * @Assert\Valid()
      */
-    private $projectEnGb;
+    private ProductEnGb $projectEnGb;
 
 
     /**
-     * @var ProjectAttachment[]|ArrayCollection
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectAttachment",
      *      cascade={"persist", "remove"},
@@ -64,7 +64,7 @@ class Project
      * @ORM\JoinTable(name="project_attachments")
      * @Assert\Count(max="8", maxMessage="projects.too_many_files")
      */
-    private array|ArrayCollection $projectAttachments;
+    private ArrayCollection $projectAttachments;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectFavourite", mappedBy="projectFavourites")
@@ -78,10 +78,10 @@ class Project
      *     mappedBy="projectFeatured"
      * )
      */
-    private $projectFeatured;
+    private Featured $projectFeatured;
 
     /**
-     * @var ProjectTag[]|ArrayCollection
+     * @var ArrayCollection
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectTag", cascade={"persist"})
      * @ORM\JoinTable(name="project_tags")
@@ -89,10 +89,10 @@ class Project
      * @Assert\Count(max="4", maxMessage="projects.too_many_tags")
      *
      */
-    private array|ArrayCollection $projectTags;
+    private ArrayCollection $projectTags;
 
     /**
-     * @var Product[]|ArrayCollection
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="App\Entity\Product\Product",
      *      cascade={"persist"},
@@ -101,10 +101,10 @@ class Project
      * @ORM\JoinTable(name="project_products")
      * @Assert\Count(max="100", maxMessage="projects.too_many_files")
      */
-    private $projectProducts;
+    private ArrayCollection $projectProducts;
 
     /**
-     * @var ProjectPlatformReward[]|ArrayCollection
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="ProjectPlatformReward",
      *     cascade={"persist", "remove"},
@@ -113,7 +113,7 @@ class Project
      * @ORM\JoinTable(name="rewards")
      * @Assert\Count(max="100", maxMessage="project.too_many_rewards")
      */
-    private array|ArrayCollection $projectsPlatformReward;
+    private ArrayCollection $projectsPlatformReward;
 
 
     /**
@@ -130,9 +130,9 @@ class Project
     }
 
     /**
-     * @return
+     * @return Category
      */
-    public function getProjectCategory()
+    public function getProjectCategory(): Category
     {
         return $this->projectCategory;
     }
@@ -154,9 +154,9 @@ class Project
     }
 
     /**
-     * @param string|null $projectType
+     * @param string $projectType
      */
-    public function setProjectType(?string $projectType): void
+    public function setProjectType(string $projectType): void
     {
         $this->projectType = $projectType;
     }
@@ -182,9 +182,9 @@ class Project
     }
 
     /**
-     * @return Collection|ProjectTag[]
+     * @return ArrayCollection
      */
-    public function getProjectTags(): Collection
+    public function getProjectTags(): ArrayCollection
     {
         return $this->projectTags;
     }
@@ -210,9 +210,9 @@ class Project
     }
 
     /**
-     * @return Collection|ProjectAttachment[]
+     * @return ArrayCollection
      */
-    public function getProjectAttachments(): Collection
+    public function getProjectAttachments(): ArrayCollection
     {
         return $this->projectAttachments;
     }
@@ -238,9 +238,9 @@ class Project
     }
 
     /**
-     * @return Collection|Product[]
+     * @return ArrayCollection
      */
-    public function getProjectProducts(): Collection
+    public function getProjectProducts(): ArrayCollection
     {
         return $this->projectProducts;
     }
@@ -266,25 +266,25 @@ class Project
     }
 
     /**
-     * @return Collection|ProjectPlatformReward[]
+     * @return ArrayCollection
      */
-    public function getProjectPlatformRewards(): Collection
+    public function getProjectPlatformRewards(): ArrayCollection
     {
         return $this->projectsPlatformReward;
     }
 
     /**
-     * @return mixed
+     * @return ProductEnGb
      */
-    public function getProjectEnGb(): mixed
+    public function getProjectEnGb(): ProductEnGb
     {
         return $this->projectEnGb;
     }
 
     /**
-     * @param ProjectEnGb $projectEnGb
+     * @param $projectEnGb
      */
-    public function setProjectEnGb(ProjectEnGb $projectEnGb): void
+    public function setProjectEnGb($projectEnGb): void
     {
         $this->projectEnGb = $projectEnGb;
     }
@@ -306,15 +306,15 @@ class Project
     }
 
     /**
-     * @return mixed
+     * @return Featured
      */
-    public function getProjectFeatured(): mixed
+    public function getProjectFeatured(): Featured
     {
         return $this->projectFeatured;
     }
 
     /**
-     * @param mixed $projectFeatured
+     * @param $projectFeatured
      */
     public function setProjectFeatured($projectFeatured): void
     {
