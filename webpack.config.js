@@ -35,13 +35,13 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
     .cleanupOutputBeforeBuild()
     .autoProvidejQuery()
-// .autoProvideVariables({
-//     $: 'jquery',
-//     jQuery: 'jquery',
-//     'window.jQuery': 'jquery',
-//     'jQuery.tagsinput': 'bootstrap-tagsinput',
-//     'jQueryBridget': 'jquery-bridget'
-// })
+    .autoProvideVariables({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        'jQuery.tagsinput': 'bootstrap-tagsinput',
+        'jQueryBridget': 'jquery-bridget'
+    })
     //.enableReactPreset()
     .disableSingleRuntimeChunk()
 ;

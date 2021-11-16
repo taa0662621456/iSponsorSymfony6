@@ -1,11 +1,6 @@
 <?php
-/**
- * https://symfony.com/doc/current/controller/error_pages.html
- */
-
 
 namespace App\Controller;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +11,6 @@ class Error404Controller extends AbstractController
     /**
      * @Route("/404", name="404")
      * @return Response
-
      */
     public function pageNotFoundAction(): Response
     {
