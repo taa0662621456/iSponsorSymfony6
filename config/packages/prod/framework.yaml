@@ -1,19 +1,18 @@
-# https://symfony-com.translate.goog/doc/current/reference/configuration/framework.html?_x_tr_sl=en&_x_tr_tl=ru&_x_tr_hl=ru&_x_tr_pto=nui,sc
 framework:
+  secret: '%env(APP_SECRET)%'
+  secrets:
+    vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
+    local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
+    decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
+  csrf_protection: true
+  http_method_override: false
   http_client:
     default_options:
       retry_failed:
         jitter: 0.1
       max_duration: 29000
       max_redirects: 3
-  secret: '%env(APP_SECRET)%'
-  csrf_protection: true
-  http_method_override: false
   profiler: false
-  secrets:
-    vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
-    local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
-    decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
 
 #  assets:
 #    base_path: '/images'
@@ -21,9 +20,9 @@ framework:
 #      - 'http://cdn.example.com/'
   default_locale: '%app_locale%'
   translator:
-    enabled_locales: []
+    enabled_locales: [ 'en', 'ru' ]
+    fallbacks: ['en']
     cache_dir: null
-
 
   mailer:
     dsn: 'smtp://localhost:25'

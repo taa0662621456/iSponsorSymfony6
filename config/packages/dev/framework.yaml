@@ -1,21 +1,21 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
-    trusted_hosts: ['%env(TRUSTED_HOSTS)%', '127.0.0.1', 'localhost', 'smartresponsor.com']
-    disallow_search_engine_index: true
     secret: '%env(APP_SECRET)%'
-    csrf_protection: true
-    http_method_override: false
-    profiler: false
-
-
-    default_locale: '%app_locale%'
     secrets:
         vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
         local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
         decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
+    csrf_protection: true
+    #    http_method_override: true
+    disallow_search_engine_index: true
+    trusted_hosts: ['%env(TRUSTED_HOSTS)%', '127.0.0.1', 'localhost', 'smartresponsor.com']
+    profiler: true
+
+    default_locale: '%app_locale%'
 
 #    error_controller:
-#    not_compromised_password: false # in prod must by of true
+    validation:
+        not_compromised_password: false # in prod must by of true
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
