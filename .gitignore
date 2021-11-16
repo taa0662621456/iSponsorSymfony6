@@ -2,6 +2,7 @@ composer.lock
 yarn.lock
 symfony.lock
 package-lock.json
+none
 
 /.idea
 /.idea/*
