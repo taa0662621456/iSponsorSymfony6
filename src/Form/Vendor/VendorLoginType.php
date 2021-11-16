@@ -84,6 +84,35 @@ class VendorLoginType extends AbstractType
                     'class' => 'btn btn-primary btn-block'
                 ]
             ])
+            # Login by Social Network
+            ->add(
+                $builder
+                    ->create('group', FormType::class, [
+                        'translation_domain' => 'button',
+                        'inherit_data' => true,
+                        'label' => false,
+                        'attr'=> [
+                            'class' => 'btn-group m-1'
+                        ]
+                    ])
+                    ->add('facebook', UrlType::class, [
+                        'translation_domain' => 'button',
+                        'label' => 'button.label.facebook',
+                        'attr'  => [
+                            'class' => 'btn btn-link btn-sm back',
+                            'onclick' => 'window.history.back()'
+                        ]
+                    ])
+                    ->add('google', UrlType::class, [
+                        'translation_domain' => 'button',
+                        'label' => 'button.label.google',
+                        'attr' => [
+                            'class' => 'btn btn-link btn-sm signup',
+                            'onclick' => 'window.history.back()'
+                        ]
+                    ])
+            )
+            # Login by Social Network. End!
             ->add(
             $builder
                 ->create('group', FormType::class, [
