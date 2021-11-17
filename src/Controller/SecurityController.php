@@ -125,10 +125,9 @@ class SecurityController extends AbstractController
                         $vendorSecurity,
                         $formData->getVendorSecurity()->getPlainPassword());
                 #
-                $slug = $uuid = Uuid::v4();
+                $slug = Uuid::v4();
                 $confirmationCode = $codeGenerator->getConfirmationCode();
                 #
-                $vendorSecurity->setUuid($uuid);
                 $vendorSecurity->setSlug((string)$slug);
                 $vendorSecurity->setUsername((string)$slug);
                 $vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
@@ -136,17 +135,14 @@ class SecurityController extends AbstractController
                 $vendorSecurity->setPassword($password);
                 $vendorSecurity->setActivationCode($confirmationCode);
                 #
-                $vendorEnGb->setUuid($uuid);
                 $vendorEnGb->setSlug((string)$slug);
                 $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
                 $vendorEnGb->setVendorZip(000000);
                 #
-                $vendor->setUuid($uuid);
                 $vendor->setSlug((string)$slug);
                 $vendor->setWorkFlow('submitted');
                 $vendor->setActivationCode($confirmationCode);
                 $vendor->setVendorSecurity($vendorSecurity);
-                $vendor->setWorkFlow('submitted');
                 $vendor->setVendorEnGb($vendorEnGb);
                 #
                 $em = $this->getDoctrine()->getManager();
@@ -158,15 +154,15 @@ class SecurityController extends AbstractController
                 $this->addFlash('success', 'Вы успешно зарегистрировались');
                 $this->logger->notice('Успешная регистрация');
                 #
-                $this->emailVerifier->sendEmailConfirmation('app_confirmation_email', $vendorSecurity,
-                    (new TemplatedEmail())
-                        ->from(new Address(
-                            $this->getParameter('app_notifications_email_sender'),
-                            $this->getParameter('app_sender_name')))
-                        ->to($vendorSecurity->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
-                );
+//                $this->emailVerifier->sendEmailConfirmation('email_confirmation', $vendorSecurity,
+//                    (new TemplatedEmail())
+//                        ->from(new Address(
+//                            $this->getParameter('app_notifications_email_sender'),
+//                            $this->getParameter('app_sender_name')))
+//                        ->to($vendorSecurity->getEmail())
+//                        ->subject('Please Confirm your Email')
+//                        ->htmlTemplate('registration/confirmation_email.html.twig')
+//                );
                 #
                 $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
                 $eventDispatcher->dispatch($vendorRegisteredEvent);
