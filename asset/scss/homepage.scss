@@ -1,0 +1,33 @@
+// Bootstrap init
+// настройте некоторые переменные Bootstrap
+$brand-primary: darken(#428bca, 20%);
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+$fa-font-path: "~font-awesome/fonts";
+
+// the ~ allows you to reference things in node_modules
+
+@import '../fontawesome-pro/scss/fontawesome.scss';
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/carousel";
+
+//@import "../css/multistep_forms.css";
+
+// https://animate.style/
+@import "~animate.css";
+
+@include media-breakpoint-up(xs) {
+}
+
+@include media-breakpoint-up(sm) {
+}
+
+@include media-breakpoint-up(md) {
+}
+
+@include media-breakpoint-up(lg) {
+}
+
+@include media-breakpoint-up(xl) {
+}
+
+

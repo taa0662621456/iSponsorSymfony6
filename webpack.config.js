@@ -9,6 +9,7 @@ Encore
     .setPublicPath('/build')
     // .setManifestKeyPrefix('isponsor')
     .addEntry('app', './asset/js/app.js')
+    .addEntry('homepage', './asset/js/homepage.js')
     .addEntry('sign', './asset/js/sign.js')
     .addEntry('err404', './asset/js/err404.js')
     .splitEntryChunks()
