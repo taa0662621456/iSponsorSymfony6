@@ -1,0 +1,99 @@
+<?php
+
+
+namespace App\Controller\Security;
+
+
+use App\Entity\Vendor\Vendor;
+use App\Entity\Vendor\VendorSecurity;
+use App\Event\RegisteredEvent;
+use App\Form\SecurityChangePasswordType;
+use App\Service\ConfirmationCodeGenerator;
+use ReCaptcha\ReCaptcha;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+
+class CredentialController extends AbstractController
+{
+    /**
+     * @var UserPasswordHasherInterface
+     */
+    private UserPasswordHasherInterface $passwordHasher;
+
+    /**
+     * CredentialController constructor.
+     */
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
+
+    /**
+     * @Route("/change", methods={"GET", "POST"}, name="change_security")
+     * @param Request $request
+     * @param ConfirmationCodeGenerator $codeGenerator
+     *
+     * @param EventDispatcherInterface $eventDispatcher
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function change(Request $request,
+                           ConfirmationCodeGenerator $codeGenerator,
+                           EventDispatcherInterface $eventDispatcher): Response
+    {
+        $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
+        $resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
+
+
+        $vendor = new Vendor();
+        $vendorSecurity = new VendorSecurity();
+
+        $vendorCurrent = $this->getUser();
+
+        $form = $this->createForm(SecurityChangePasswordType::class);
+        $form->handleRequest($request);
+
+        if (!$resp->isSuccess()) {
+            foreach ($resp->getErrorCodes() as $errorCode) {
+                $this->addFlash('danger', 'Error captcha: ' . $errorCode);
+            }
+        } else {
+
+            $formData = $form->getData();
+            $password = $this->passwordHasher->hashPassword(
+                $vendorSecurity,
+                $formData->getVendorSecurity()->getPlainPassword()
+            );
+            //$vendor->setEmail();  Хочу добавить в область безопасности смену меил
+
+            $vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($vendorSecurity);
+            $em->persist($vendor);
+
+            $em->flush();
+
+            $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
+            $eventDispatcher->dispatch($vendorRegisteredEvent);
+
+            $this->addFlash('success', 'Success. Успешно изменили параметры безопасности');
+
+
+            $this->getDoctrine()->getManager()->flush();
+            return $this->redirectToRoute('change_security');
+        }
+
+        return $this->render(
+            'security/change.html.twig', array(
+                'form' => $form->createView(),
+            )
+        );
+    }
+
+}

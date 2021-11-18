@@ -57,10 +57,7 @@ class SecurityController extends AbstractController
      * @var FormFactory
      */
     private FormFactory $formFactory;
-    /**
-     * @var RouterInterface
-     */
-    private RouterInterface $router;
+
     /**
      * @var EmailVerifier $emailVerifier
      */
@@ -71,7 +68,6 @@ class SecurityController extends AbstractController
         Environment                 $twig,
         UserPasswordHasherInterface $passwordHasher,
         FormFactoryInterface        $formFactory,
-        RouterInterface             $router,
         EmailVerifier               $emailVerifier,
         LoggerInterface             $logger,
 	)
@@ -80,7 +76,6 @@ class SecurityController extends AbstractController
 		$this->twig = $twig;
 		$this->passwordHasher = $passwordHasher;
 		$this->formFactory = $formFactory;
-		$this->router = $router;
         $this->emailVerifier = $emailVerifier;
 	}
 
@@ -179,113 +174,6 @@ class SecurityController extends AbstractController
 			'form' => $form->createView(),
 //            'error' => $authenticationUtils->getLastAuthenticationError(),
 		]);
-	}
-
-    /**
-     * @Route("/signin", defaults={"layout" : "signin"}, name="signin", options={"layout" : "signinFormHomePage"},
-     *     methods={"GET", "POST"})
-     * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "loginFormHomePage"},
-     *     methods={"GET", "POST"})
-     *
-     * @param Request $request
-     * @param Security $security
-     * @param AuthenticationUtils $authenticationUtils
-     * @param string $layout
-     *
-     * @return Response
-     */
-	public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
-    {
-        if (!$security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            return $this->redirectToRoute('homepage');
-        }
-
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
-
-        $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class, [
-            '_username' => $authenticationUtils->getLastUsername()], [
-            'action' => $this->router->generate('login')]);
-
-        return $this->render(
-            'security/' . $layout . '.html.twig', [
-				'last_username' => $authenticationUtils->getLastUsername(),
-				'form'          => $loginType->createView(),
-				'error'         => $authenticationUtils->getLastAuthenticationError()
-            ]
-		);
-	}
-
-	/**
-	 * @Route("/logout", name="logout")
-	 */
-	public function logout(): void
-	{
-		throw new RuntimeException('This should never be reached!');
-//		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
-	}
-
-    /**
-     * @Route("/change", methods={"GET", "POST"}, name="change_security")
-     * @param Request $request
-     * @param ConfirmationCodeGenerator $codeGenerator
-     *
-     * @param EventDispatcherInterface $eventDispatcher
-     *
-     * @return Response
-     * @throws Exception
-     */
-	public function change(Request $request,
-						   ConfirmationCodeGenerator $codeGenerator,
-						   EventDispatcherInterface $eventDispatcher): Response
-	{
-		$recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
-		$resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-
-
-		$vendor = new Vendor();
-		$vendorSecurity = new VendorSecurity();
-
-		$vendorCurrent = $this->getUser();
-
-		$form = $this->createForm(SecurityChangePasswordType::class);
-		$form->handleRequest($request);
-
-		if (!$resp->isSuccess()) {
-			foreach ($resp->getErrorCodes() as $errorCode) {
-				$this->addFlash('danger', 'Error captcha: ' . $errorCode);
-			}
-		} else {
-
-			$formData = $form->getData();
-			$password = $this->passwordHasher->hashPassword(
-				$vendorSecurity,
-				$formData->getVendorSecurity()->getPlainPassword()
-			);
-			//$vendor->setEmail();  Хочу добавить в область безопасности смену Емаил
-
-			$vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
-
-			$em = $this->getDoctrine()->getManager();
-			$em->persist($vendorSecurity);
-			$em->persist($vendor);
-
-			$em->flush();
-
-			$vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
-			$eventDispatcher->dispatch($vendorRegisteredEvent);
-
-			$this->addFlash('success', 'Success. Успешно изменили параметры безопасности');
-
-
-			$this->getDoctrine()->getManager()->flush();
-			return $this->redirectToRoute('change_security');
-		}
-
-		return $this->render(
-			'security/change.html.twig', array(
-				'form' => $form->createView(),
-			)
-		);
 	}
 
 
