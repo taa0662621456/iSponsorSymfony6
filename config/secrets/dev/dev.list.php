@@ -14,7 +14,5 @@ return [
     'SMS_GATEWAY_ID' => null,
     'SMS_GATEWAY_PASSWORD' => null,
     'SMS_GATEWAY_SECRET' => null,
-    'SMS_GATEWAY_ID' => null,
-    'SMS_GATEWAY_PASSWORD' => null,
     'SMS_STATUS_SECRET' => null,
 ];

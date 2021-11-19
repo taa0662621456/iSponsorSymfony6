@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Form\Vendor;
 
 use App\Entity\Vendor\Vendor;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -28,6 +30,14 @@ class VendorRegistrationType extends AbstractType
                 'attr'  => [
                     'class' => 'btn btn-primary btn-block'
                 ]
+            ])
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3([
+                    'message' => 'There were problems with your captcha. Please try again or contact with support and provide following code(s): {{ errorCodes }}',
+                    'messageMissingValue' => 'karser_recaptcha3.message_missing_value',
+                    ]),
+                'action_name' => 'registration',
+                'script_nonce_csp' => 'sdfsdfsdf',
             ])
             ->add('token', HiddenType::class, [
                 'mapped' => false,

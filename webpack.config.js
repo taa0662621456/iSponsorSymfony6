@@ -35,14 +35,8 @@ Encore
     //.enableTypeScriptLoader()
     //.enableIntegrityHashes(Encore.isProduction())
     .cleanupOutputBeforeBuild()
-    .autoProvidejQuery()
-    .autoProvideVariables({
-        $: 'jquery',
-        jQuery: 'jquery',
-        'window.jQuery': 'jquery',
-        'jQuery.tagsinput': 'bootstrap-tagsinput',
-        'jQueryBridget': 'jquery-bridget'
-    })
+    // .autoProvidejQuery()
+    // .autoProvideVariables()
     //.enableReactPreset()
     .disableSingleRuntimeChunk()
 ;
