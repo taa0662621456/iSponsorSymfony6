@@ -60,6 +60,12 @@ services:
             - '@doctrine'
             - 'App\Entity\Vendor\VendorSecurity'
             - [facebook: facebookID, google: googleID, github: githubID]
+    App\Service\CloudflareIpResolver:
+        decorates: 'karser_recaptcha3.ip_resolver'
+        arguments:
+            $decorated: '@App\Service\CloudflareIpResolver.inner'
+            $requestStack: '@request_stack'
+
     App\EventSubscriber\LocaleSubscriber:
         #        arguments: [ '%kernel.default_locale%' ]
         arguments: [ '%app_locale%' ]

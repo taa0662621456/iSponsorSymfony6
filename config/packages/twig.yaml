@@ -4,7 +4,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
 #    form_themes: ['bootstrap_5_layout.html.twig']
-    exception_controller: App\Controller\ExceptionController::exception
+#    exception_controller: App\Controller\ExceptionController::exception
     globals:
         app_name: '%app_name%'
         app_logo_url: '%app_logo_url%'
