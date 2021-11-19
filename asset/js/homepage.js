@@ -1,8 +1,4 @@
-require('jquery');
-//import 'jquery';
-//require('jquery-bridget'); // для использования Masonry
 require('bootstrap');
-// require('jquery-confirm');
 // require('bootstrap-autohide-navbar');
 
 // require('smartwizard');

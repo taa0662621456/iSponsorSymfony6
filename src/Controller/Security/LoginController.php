@@ -6,6 +6,7 @@ namespace App\Controller\Security;
 
 use App\Form\Vendor\VendorLoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -73,6 +74,24 @@ class LoginController extends AbstractController
     {
         throw new \RuntimeException('This should never be reached!');
 //		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
+    }
+
+    /**
+     * @Route("/login/json", name="login_json", methods={"POST"})
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function jsonLogin(Request $request): JsonResponse
+    {
+        $user = $this->getUser();
+
+        return $this->json(
+            array(
+                'username' => $user->getUserIdentifier(),
+                'roles'    => $user->getRoles(),
+            )
+        );
     }
 
 }

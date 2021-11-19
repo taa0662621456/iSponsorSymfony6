@@ -13,7 +13,7 @@ framework:
 
     default_locale: '%app_locale%'
 
-    error_controller: App\Controller\ExceptionController::exception
+#    error_controller: App\Controller\ExceptionController::exception
     validation:
         not_compromised_password: false # in prod must by of true
 
