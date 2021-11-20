@@ -137,7 +137,7 @@ class VendorLoginType extends AbstractType
                         'label' => 'button.label.facebook',
                         'attr'  => [
                             'class' => 'btn btn-link btn-sm back facebook bi bi-facebook',
-                            'onclick' => 'window.location.href=\'/login/check-facebook\''
+                            'onclick' => 'window.location.href=\'/connect/facebook\''
                         ]
                     ])
                     ->add('google', ButtonType::class, [
@@ -145,7 +145,7 @@ class VendorLoginType extends AbstractType
                         'label' => 'button.label.google',
                         'attr' => [
                             'class' => 'btn btn-link btn-sm signup google bi bi-google',
-                            'onclick' => 'window.location.href=\'/login/check-google\'',
+                            'onclick' => 'window.location.href=\'/connect/google\'',
                         ]
                     ])
             # Login by Social Network. End!
