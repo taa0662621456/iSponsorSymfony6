@@ -2,18 +2,25 @@ hwi_oauth:
     firewall_names: [main]
     resource_owners:
         facebook:
-            type:                facebook
-            client_id:           '%env(FACEBOOK_OAUTH_ID)%'
-            client_secret:       '%env(FACEBOOK_OAUTH_SECRET)%'
-#            infos_url:     "https://graph.facebook.com/me?fields=id,name,email"
-            scope:               "email"
+            type: facebook
+            client_id: '%env(FACEBOOK_OAUTH_ID)%'
+            client_secret: '%env(FACEBOOK_OAUTH_SECRET)%'
+            infos_url: 'https://graph.facebook.com/me?fields=id,name,email,picture.type(square)'
+            paths:
+                email: email
+                profilepicture: picture.data.url
+            scope: 'email'
             options:
                 display: popup
+                auth_type: rerequest
                 csrf: true
         google:
-            type: github
+            type: google
             client_id: '%env(GOOGLE_AUTH_ID)%'
             client_secret: '%env(GOOGLE_AUTH_SECRET)%'
+            scope: 'email profile'
+            options:
+                access_type: offline
         github:
             type: github
             client_id: '%env(GITHUB_KEY)%'
