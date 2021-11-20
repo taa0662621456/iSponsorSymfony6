@@ -21,8 +21,8 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_first_name", type="string", nullable=false, options={"default"="vendor_first_name"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=6, minMessage="vendors.en.gb.too.short")
      */
     private string $vendorFirstName = 'vendor_first_name';
 
@@ -30,8 +30,8 @@ trait VendorLanguageTrait
      * @var string|null
      *
      * @ORM\Column(name="vendor_last_name", type="string", nullable=false, options={"default"="vendor_last_name"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=6, minMessage="vendors.en.gb.too.short")
      */
     private ?string $vendorLastName = 'vendor_last_name';
 
@@ -39,8 +39,8 @@ trait VendorLanguageTrait
      * @var string|null
      *
      * @ORM\Column(name="vendor_middle_name", type="string", nullable=false, options={"default"="vendor_middle_name"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=6, minMessage="vendors.en.gb.too.short")
      */
     private ?string $vendorMiddleName = 'vendor_middle_name';
 
@@ -49,9 +49,9 @@ trait VendorLanguageTrait
      *
      * @ORM\Column(name="vendor_phone", type="string", nullable=true, unique=true,
      *     options={"default"="000000000000"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
-     * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=10, minMessage="vendors.en.gb.too.short")
+     * @Length(max=12, maxMessage="vendors.en.gb.too.long")
      */
     private string $vendorPhone = '000000000000';
 
@@ -59,9 +59,9 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_second_phone", type="string", nullable=true, options={"default"="000000000000"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
-     * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=10, minMessage="vendors.en.gb.too.short")
+     * @Length(max=12, maxMessage="vendors.en.gb.too.long")
      */
     private string $vendorSecondPhone = '000000000000';
 
@@ -69,9 +69,9 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_fax", type="string", nullable=true, options={"default"="000000000000"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=10, minMessage="vendors_en_gb.too_short_content")
-     * @Length(max=12, maxMessage="vendors_en_gb.too_long_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=10, minMessage="vendors.en.gb.too.short")
+     * @Length(max=12, maxMessage="vendors.en.gb.too.long")
      */
     private string $vendorFax = '000000000000';
 
@@ -79,8 +79,8 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_address", type="string", nullable=false, options={"default"="address"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=6, minMessage="vendors.en.gb.too.short")
      */
     private string $vendorAddress = 'address';
 
@@ -88,8 +88,8 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_second_address", type="string", nullable=true, options={"default"="address_second"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=6, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=6, minMessage="vendors.en.gb.too.short")
      */
     private string $vendorSecondAddress = 'address_second';
 
@@ -97,8 +97,8 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_city", type="string", nullable=false, options={"default"="your_city"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=1, minMessage="vendors.en.gb.too.short")
      */
     private string $vendorCity = 'your_city';
 
@@ -106,8 +106,8 @@ trait VendorLanguageTrait
      * @var int
      *
      * @ORM\Column(name="vendor_state_id", type="integer", nullable=false, options={"default"="0"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=1, minMessage="vendors.en.gb.too.short")
      */
     private int $vendorStateId = 0;
 
@@ -115,8 +115,8 @@ trait VendorLanguageTrait
      * @var string
      *
      * @ORM\Column(name="vendor_country_id", type="string", nullable=false, options={"default"="country_id"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=1, minMessage="vendors_en_gb.too_short_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=1, minMessage="vendors.en.gb.too.short")
      */
     private string $vendorCountryId = 'country_id';
 
@@ -124,9 +124,9 @@ trait VendorLanguageTrait
      * @var int
      *
      * @ORM\Column(name="vendor_zip", type="integer", nullable=false, options={"default"="000000"})
-     * @Assert\NotBlank(message="vendors_en_gb.blank_content")
-     * @Length(min=4, minMessage="vendors_en_gb.too_short_content")
-     * @Length(max=7, maxMessage="vendors_en_gb.too_long_content")
+     * @Assert\NotBlank(message="vendors.en.gb.blank")
+     * @Length(min=4, minMessage="vendors.en.gb.too.short")
+     * @Length(max=7, maxMessage="vendors.en.gb.too.long")
      */
     private int $vendorZip = 0;
 

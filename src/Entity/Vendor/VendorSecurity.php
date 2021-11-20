@@ -49,7 +49,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(name="email", type="string", unique=true, nullable=false)
      *
-     * @Assert\NotBlank(message="vendors_security.blank_content")
+     * @Assert\NotBlank(message="vendors.security.blank_email")
      * @Assert\Length(min=3)
      * @Assert\Email(message="The email '{{ value }}' is not a valid.", mode="strict")
      */
@@ -61,8 +61,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @ORM\Column(name="phone", type="string", unique=true, nullable=false)
      *
      * @Assert\NotBlank(message="vendors.message.error.phone")
-     * @Length(min=9, minMessage="vendors_security.too_short_content_phone")
-     * @Length(max=13, maxMessage="vendors_security.too_long_content_phone")
+     * @Length(min=9, minMessage="vendor.security.too.short.phone")
+     * @Length(max=13, maxMessage="vendor.security.too.long.phone")
      */
     private string $phone = '380662621456';
 
@@ -71,8 +71,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(name="username", type="string", length=255)
      *
-     * @Assert\Length(min=3, minMessage="vendors_security.too_short_content_username")
-     * @Assert\Length(max=64, maxMessage="vendors_security.too_long_content_username")
+     * @Assert\Length(min=3, minMessage="vendor.security.too.short.username")
+     * @Assert\Length(max=64, maxMessage="vendor.security.too.long.username")
      */
     private string $username = '380662621456';
 
@@ -82,8 +82,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @ORM\Column(name="password", type="string", unique=false)
      *
      * @Assert\NotBlank(message="vendors.message.error.password")
-     * @Assert\Length(min=8, minMessage="vendors_security.too_short_content_password")
-     * @Assert\Length(max=32, maxMessage="vendors_security.too_long_content_password")
+     * @Assert\Length(min=8, minMessage="vendor.security.too.short.password")
+     * @Assert\Length(max=32, maxMessage="vendor.security.too.long.password")
      *
 	 */
 	protected string $password = 'A7k0B9f8A7k0B9f8A7k0B9f8';
@@ -92,8 +92,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @var string
      *
 	 * @Assert\NotBlank()
-	 * @Assert\Length(min=8, minMessage="vendors_security.too_short_content_plainPassword")
-	 * @Assert\Length(max=32, maxMessage="vendors_security.too_long_content_plainPassword")
+	 * @Assert\Length(min=8, minMessage="vendor.security.too.short.plainPassword")
+	 * @Assert\Length(max=32, maxMessage="vendor.security.too.long.plainPassword")
      * @Assert\NotCompromisedPassword(
      *     message="This password has been leaked in a data breach, it must not be used. Please use another password.",
      *     skipOnError="true"

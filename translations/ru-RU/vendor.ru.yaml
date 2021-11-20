@@ -16,3 +16,10 @@ vendor.phone.must.be.formatted: 'Телефонный номер должен б
 vendor.phone.invalid: 'Телефонный номер не корректный'
 vendor.password.not.compromised: 'Пароль считается ненадежным/скомпрометированным'
 vendor.term.agree: 'Соглашаюсь и принимаю условия'
+
+vendor.security.too.long.phone: 'Телефонный номер слишком длинный'
+vendor.security.too.short.phone: 'Телефонный номер слишком короткий'
+vendor.security.too.long.username: 'Имя пользователя слишком длинное'
+vendor.security.too.short.username: 'Имя пользователя слишком короткое'
+vendor.security.too.long.password: 'Пароль слишком длинный'
+vendor.security.too.short.password: 'Пароль слишком короткий'
