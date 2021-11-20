@@ -1,6 +1,5 @@
-var jQuery = require('jquery');
-jQuery(document).ready(function () {
-    jQuery('.add-another-collection-widget').click(function (e) {
+(document).ready(function () {
+    ('.add-another-collection-widget').click(function (e) {
         e.preventDefault();
         var list = jQuery(jQuery(this).attr('data-list'));
         // Попробуйте найти Try to find the счётчик списка

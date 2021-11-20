@@ -1,6 +1,6 @@
 import Masonry from 'masonry-layout';
 
-(function ($) {
+function () {
     let $masonryGrid = $('#masonry-grid:first').filter('div');
     if ($masonryGrid.length !== 0) {
         var $masonry = new Masonry('#masonry-grid', {
@@ -9,4 +9,4 @@ import Masonry from 'masonry-layout';
         });
         $masonry.layout();
     }
-})(jQuery);
+}
