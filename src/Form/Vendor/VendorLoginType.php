@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VendorLoginType extends AbstractType
 {
@@ -35,12 +37,23 @@ class VendorLoginType extends AbstractType
                     'value' => 'last_username'
                 ],
                 'required'        => true,
+                'constraints'     => [
+                    new NotBlank([
+                        'message' => 'Пожалуйста введите email',
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Your email should be at least {{ limit }} characters',
+                        'max' => 32,
+                    ]),
+                ],
                 'attr'            => [
                     'id'          => 'email',
                     'name'        => '_email',
                     'class'       => 'form-control m-1',
                     'placeholder' => 'vendor.placeholder.email',
                     'tabindex'    => '101',
+                    'required'    => null,
                     //'autofocus' => true
                 ],
                 ])
@@ -54,6 +67,7 @@ class VendorLoginType extends AbstractType
                 'attr'            => [
                     'id'          => 'password',
                     'name'        => '_password',
+                    'required'    => null,
                     'class'       => 'form-control m-1',
                     'placeholder' => 'vendor.placeholder.password',
                     'tabindex'    => '203'
@@ -65,12 +79,12 @@ class VendorLoginType extends AbstractType
                 'label'      => 'button.label.remember',
                 'required'   => false,
                 'label_attr' => [
-                    'class' => ''
+                    'class' => 'form-check-label'
                 ],
                 'attr'       => [
                     'id'    => 'remember_me',
                     'name'  => '_remember_me',
-                    'class' => ''
+//                    'class' => ''
                 ],
             ])
             ->add('submit', SubmitType::class, [

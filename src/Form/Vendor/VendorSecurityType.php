@@ -20,6 +20,16 @@ use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 
 class VendorSecurityType extends AbstractType
 {
+    private string $token;
+
+    /**
+     * VendorLoginType constructor.
+     */
+    public function __construct(string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
+    {
+        $this->token = $token;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
@@ -151,7 +161,14 @@ class VendorSecurityType extends AbstractType
     {
         $resolver->setDefaults([
 			'data_class'         => VendorSecurity::class,
-			'translation_domain' => 'vendor'
+            'csrf_protection' => true,
+            'csrf_field_name' => '_csrf_token',
+            'csrf_token_id' => $this->token,
+			'translation_domain' => 'vendor',
+            'attr' => [
+                'class' => 'needs-validation',
+                'novalidate' => null,
+            ]
 		]);
     }
 }
