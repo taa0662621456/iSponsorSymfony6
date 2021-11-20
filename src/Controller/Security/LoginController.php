@@ -5,6 +5,7 @@ namespace App\Controller\Security;
 
 
 use App\Form\Vendor\VendorLoginType;
+use App\Form\Vendor\VendorRegistrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +37,7 @@ class LoginController extends AbstractController
     /**
      * @Route("/signin", defaults={"layout" : "signin"}, name="signin", options={"layout" : "signinFormHomePage"},
      *     methods={"GET", "POST"})
-     * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "loginFormHomePage"},
+     * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "login"},
      *     methods={"GET", "POST"})
      *
      * @param Request $request
@@ -48,6 +49,7 @@ class LoginController extends AbstractController
      */
     public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
     {
+
         if (!$security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
             return $this->redirectToRoute('homepage');
         }
