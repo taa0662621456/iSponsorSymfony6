@@ -5,6 +5,8 @@ return [
     'DATABASE_URL' => null,
     'FACEBOOK_OAUTH_ID' => null,
     'FACEBOOK_OAUTH_SECRET' => null,
+    'GITHUB_KEY' => null,
+    'GITHUB_SECRET' => null,
     'GOOGLE_AUTH_ID' => null,
     'GOOGLE_AUTH_SECRET' => null,
     'GOOGLE_RECAPTCHA_KEY' => null,
