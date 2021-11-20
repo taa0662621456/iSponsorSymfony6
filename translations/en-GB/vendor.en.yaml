@@ -25,3 +25,9 @@ vendor.placeholder.password: 'Ваш пароль'
 vendor.placeholder.password.confirm: 'Введите пароль еще раз'
 vendor.placeholder.phone: 'Введите телефон'
 
+vendor.phone.must.be.formatted: 'Телефонный номер должен быть указан в международном формате без знаков "+", "(",")", а также без разделителей'
+vendor.phone.invalid: 'Телефонный номер не корректный'
+vendor.password.not.compromised: 'Пароль считается ненадежным/скомпрометированным'
+vendor.term.agree: 'Соглашаюсь и принимаю условия'
+
+

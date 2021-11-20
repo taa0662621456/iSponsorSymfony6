@@ -80,7 +80,7 @@ class RegistrationController extends AbstractController
                                  $layout): Response
 	{
         $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_key'));
-        $recaptchaResponse = $recaptcha->verify($request->request->get((string)$this->getParameter('app_google_recaptcha_key')), $request->getClientIp());
+        $recaptchaResponse = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
         $vendorEnGb = new VendorEnGb();
@@ -108,19 +108,14 @@ class RegistrationController extends AbstractController
                     $slug = Uuid::v4();
                     $confirmationCode = $codeGenerator->getConfirmationCode();
                     #
-                    $vendorSecurity->setSlug((string)$slug);
-                    $vendorSecurity->setUsername((string)$slug);
                     $vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
                     $vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
                     $vendorSecurity->setPassword($password);
                     $vendorSecurity->setActivationCode($confirmationCode);
                     #
-                    $vendorEnGb->setSlug((string)$slug);
                     $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
                     $vendorEnGb->setVendorZip(000000);
                     #
-                    $vendor->setSlug((string)$slug);
-                    $vendor->setWorkFlow('submitted');
                     $vendor->setActivationCode($confirmationCode);
                     $vendor->setVendorSecurity($vendorSecurity);
                     $vendor->setVendorEnGb($vendorEnGb);
@@ -147,7 +142,7 @@ class RegistrationController extends AbstractController
                     $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
                     $eventDispatcher->dispatch($vendorRegisteredEvent);
                     #
-                    # return $this->redirectToRoute($this->getParameter('app_homepage_routename'));
+                    return $this->redirectToRoute($this->getParameter('app_homepage_routename'));
             }
 		return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),

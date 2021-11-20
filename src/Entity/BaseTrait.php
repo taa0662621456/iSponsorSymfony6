@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Uid\Uuid;
 use Exception;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 trait BaseTrait
@@ -42,6 +43,8 @@ trait BaseTrait
      * @var string
      *
      * @ORM\Column(name="created_at", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
+     *
+     * @Assert\DateTime(format="Y-m-d H:i:s", message="Штамп должен соответствовать формату Y-m-d H:i:s")
      */
     private string $createdAt;
 
@@ -166,7 +169,8 @@ trait BaseTrait
      */
     public function setSlug(string $slug): void
     {
-        $this->slug = $slug;
+        $uuid = Uuid::v4();
+        $this->slug = $slug ?? $uuid;
     }
 
 
@@ -289,7 +293,7 @@ trait BaseTrait
      */
     public function setWorkFlow(string $workFlow): void
     {
-        $this->workFlow = $workFlow;
+        $this->workFlow = $workFlow ?? 'submitted';
     }
 
 

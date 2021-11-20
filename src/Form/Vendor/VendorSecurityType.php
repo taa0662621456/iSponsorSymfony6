@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 namespace App\Form\Vendor;
-
 use App\Entity\Vendor\VendorSecurity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -10,12 +9,14 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
+use Symfony\Component\Validator\Constraints\IsFalse;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 
 class VendorSecurityType extends AbstractType
 {
@@ -29,13 +30,24 @@ class VendorSecurityType extends AbstractType
 					'class' => 'sr-only',
 					'value' => 'last_username'
                 ],
-				'required'        => true,
+				'required'        => false,
+				'constraints'     => [
+                    new NotBlank([
+                        'message' => 'Пожалуйста введите email',
+                    ]),
+                    new Length([
+                        'min' => 3,
+                        'minMessage' => 'Your email should be at least {{ limit }} characters',
+                        'max' => 32,
+                    ]),
+                ],
 				'attr'            => [
 					'id'          => 'email',
 					'name'        => '_email',
 					'class'       => 'form-control m-1',
 					'placeholder' => 'vendor.placeholder.email',
 					'tabindex'    => '101',
+					'required'    => null,
 					//'autofocus' => true
                 ],
             ])
@@ -51,7 +63,8 @@ class VendorSecurityType extends AbstractType
 					'attr'       => [
 						'class'       => 'form-control m-1',
 						'placeholder' => 'vendor.placeholder.password',
-						'tabindex'    => '201'
+						'tabindex'    => '201',
+                        'required'    => null,
                     ]
                 ],
                 'second_options' => [
@@ -63,7 +76,8 @@ class VendorSecurityType extends AbstractType
 					'attr'       => [
 						'class'       => 'form-control m-1',
 						'placeholder' => 'vendor.placeholder.password.confirm',
-						'tabindex'    => '202'
+						'tabindex'    => '202',
+                        'required'    => null,
                     ]
                 ],
                 'required' => true,
@@ -73,6 +87,7 @@ class VendorSecurityType extends AbstractType
                     'class' =>'form-control m-1',
                     'placeholder' => 'Password',
 					'tabindex' => '203',
+                    'required'    => null,
                     'autocomplete' => 'new-password'
                 ],
                 'constraints' => [
@@ -84,25 +99,50 @@ class VendorSecurityType extends AbstractType
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
                         'max' => 4096,
                      ]),
+//                    new UserPassword([
+//                        'message' => 'Какое-то сообщение о пароле',
+//                    ]),
+                    new NotCompromisedPassword([
+                        'message' => 'vendor.password.not.compromised',
+                    ])
                 ],
             ])
             ->add('phone', TelType::class, [
+                'help' => 'vendor.phone.must.be.formatted',
+                'invalid_message' => 'vendor.phone.invalid',
+                'empty_data' => '000000000000',
                 'label' => 'vendor.label.phone',
                 'label_attr' => [
                     'class' => 'sr-only'
                 ],
                 'attr' => [
                     'class' =>'form-control m-1',
-                    'placeholder' => 'vendor.placeholder.phone'
+                    'placeholder' => 'vendor.placeholder.phone',
+                    'required'    => null,
+                ],
+                'constraints' => [
+                    # TODO: нужен валидатор телефона
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'required' => false,
+                'label' => 'vendor.term.agree',
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Вы соглашаетесь с условиями.',
                     ]),
+//                    new IsFalse([
+//                        'message' => 'Вы соглашаетесь с условиями?'
+//                    ])
                 ],
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+                'attr' => [
+                    'required'    => null,
+//                    'class'       => 'form-check-input',
+                ]
             ])
         ;
     }
