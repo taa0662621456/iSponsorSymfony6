@@ -29,8 +29,8 @@ class Attachment
 
     /**
      * @ORM\Column(name="attachments", type="string", nullable=false)
-     * @Assert\NotBlank(message="attachments_en_gb.blank_content")
-     * @Assert\Length(min=10, minMessage="attachments_en_gb.too_short_content")
+     * @Assert\NotBlank(message="attachments.en.gb.blank")
+     * @Assert\Length(min=10, minMessage="attachments.en.gb.too.short")
      */
     private string $attachments;
 

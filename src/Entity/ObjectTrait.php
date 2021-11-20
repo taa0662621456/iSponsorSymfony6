@@ -15,8 +15,8 @@ trait ObjectTrait
      *
      * @ORM\Column(name="first_title", type="string", nullable=false,
      *     options={"default"="first_title"})
-     * @Assert\NotBlank(message="object_en_gb.blank_content")
-     * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
+     * @Assert\NotBlank(message="object.en.gb.blank")
+     * @Assert\Length(min=6, minMessage="object.en.gb.too.short")
      */
     private string $firstTitle = 'first_title';
 
@@ -24,8 +24,8 @@ trait ObjectTrait
      * @var string
      *
      * @ORM\Column(name="middle_title", type="text", nullable=false, options={"default"="middle_title"})
-     * @Assert\NotBlank(message="object_en_gb.blank_content")
-     * @Assert\Length(min=10, minMessage="object_en_gb.too_short_content")
+     * @Assert\NotBlank(message="object.en.gb.blank")
+     * @Assert\Length(min=10, minMessage="object.en.gb.too.short")
      */
     private string $middleTitle = 'middle_title';
 
@@ -33,8 +33,8 @@ trait ObjectTrait
      * @var string
      *
      * @ORM\Column(name="last_title", type="text", nullable=false, options={"default"="last_title"})
-     * @Assert\NotBlank(message="object_en_gb.blank_content")
-     * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
+     * @Assert\NotBlank(message="object.en.gb.blank")
+     * @Assert\Length(min=6, minMessage="object.en.gb.too.short")
      */
     private string $lastTitle = 'last_title';
 
@@ -43,8 +43,8 @@ trait ObjectTrait
      * @var string
      *
      * @ORM\Column(name="meta_desc", type="text", nullable=false, options={"default"="meta_desc"})
-     * @Assert\NotBlank(message="object_en_gb.blank_content")
-     * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
+     * @Assert\NotBlank(message="object.en.gb.blank")
+     * @Assert\Length(min=6, minMessage="object.en.gb.too.short")
      */
     private string $metaDesc = 'meta_desc';
 
@@ -52,8 +52,8 @@ trait ObjectTrait
      * @var string
      *
      * @ORM\Column(name="meta_keywords", type="text", nullable=false, options={"default"="meta_key"})
-     * @Assert\NotBlank(message="object_en_gb.blank_content")
-     * @Assert\Length(min=6, minMessage="object_en_gb.too_short_content")
+     * @Assert\NotBlank(message="object.en.gb.blank")
+     * @Assert\Length(min=6, minMessage="object.en.gb.too.short")
      */
     private string $metaKey = 'meta_keywords';
 

@@ -13,8 +13,8 @@ trait ProjectLanguageTrait
      * @var string
      *
      * @ORM\Column(name="project_title", type="string", nullable=false, options={"default"="project_title"})
-     * @Assert\NotBlank(message="projects_en_gb.blank_content")
-     * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
+     * @Assert\NotBlank(message="projects.en.gb.blank")
+     * @Assert\Length(min=50, minMessage="projects.en.gb.too.short")
      */
     private string $projectTitle = 'project_title';
 
@@ -22,8 +22,8 @@ trait ProjectLanguageTrait
      * @var string
      *
      * @ORM\Column(name="project_s_desc", type="text", nullable=false, options={"default"="project_s_desc"})
-     * @Assert\NotBlank(message="projects_en_gb.blank_content")
-     * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
+     * @Assert\NotBlank(message="projects.en.gb.blank")
+     * @Assert\Length(min=50, minMessage="projects.en.gb.too.short")
      */
     private string $projectSDesc = 'project_s_desc';
 
@@ -31,8 +31,8 @@ trait ProjectLanguageTrait
      * @var string
      *
      * @ORM\Column(name="project_desc", type="text", nullable=false, options={"default"="project_desc"})
-     * @Assert\NotBlank(message="projects_en_gb.blank_content")
-     * @Assert\Length(min=100, minMessage="projects_en_gb.too_short_content")
+     * @Assert\NotBlank(message="projects.en.gb.blank")
+     * @Assert\Length(min=100, minMessage="projects.en.gb.too.short")
      */
     private string $projectDesc = 'project_desc';
 
@@ -40,8 +40,8 @@ trait ProjectLanguageTrait
      * @var string
      *
      * @ORM\Column(name="project_product_name", type="text", nullable=false, options={"default"="project_product_name"})
-     * @Assert\NotBlank(message="projects_en_gb.blank_content")
-     * @Assert\Length(min=50, minMessage="projects_en_gb.too_short_content")
+     * @Assert\NotBlank(message="projects.en.gb.blank")
+     * @Assert\Length(min=50, minMessage="projects.en.gb.too.short")
      */
     private string $projectProductName = 'project_product_name';
 
@@ -50,8 +50,8 @@ trait ProjectLanguageTrait
      *
      * @ORM\Column(name="project_product_s_desc", type="text", nullable=false,
      *                                            options={"default"="project_product_s_desc"})
-     * @Assert\NotBlank(message="projects_en_gb.blank_content")
-     * @Assert\Length(min=10, minMessage="projects_en_gb.too_short_content")
+     * @Assert\NotBlank(message="projects.en.gb.blank")
+     * @Assert\Length(min=10, minMessage="projects.en.gb.too.short")
      */
     private string $projectProductSDesc = 'project_product_s_desc';
 
@@ -59,8 +59,8 @@ trait ProjectLanguageTrait
      * @var string
      *
      * @ORM\Column(name="project_product_desc", type="text", nullable=false, options={"default"="project_product_desc"})
-     * @Assert\NotBlank(message="projects_en_gb.blank_content")
-     * @Assert\Length(min=100, minMessage="projects_en_gb.too_short_content")
+     * @Assert\NotBlank(message="projects.en.gb.blank")
+     * @Assert\Length(min=100, minMessage="projects.en.gb.too.short")
      */
     private string $projectProductDesc = 'project_product_desc';
 

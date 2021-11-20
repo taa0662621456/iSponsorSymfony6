@@ -14,8 +14,8 @@ trait CategoryLanguageTrait
      * @var string
      *
      * @ORM\Column(name="category_name", type="string", nullable=false, options={"default"="category_name"})
-     * @Assert\NotBlank(message="categories_en_gb.blank_content")
-     * @Assert\Length(min=6, minMessage="categories_en_gb.too_short_content")
+     * @Assert\NotBlank(message="categories.en.gb.blank")
+     * @Assert\Length(min=6, minMessage="categories.en.gb.too.short")
      */
     private string $categoryName = 'category_name';
 
@@ -23,8 +23,8 @@ trait CategoryLanguageTrait
      * @var string
      *
      * @ORM\Column(name="category_desc", type="text", nullable=false, options={"default"="category_desc"})
-     * @Assert\NotBlank(message="categories_en_gb.blank_content")
-     * @Assert\Length(min=10, minMessage="categories_en_gb.too_short_content")
+     * @Assert\NotBlank(message="categories.en.gb.blank")
+     * @Assert\Length(min=10, minMessage="categories.en.gb.too.short")
      */
     private string $categoryDesc = 'category_desc';
 
