@@ -1,11 +1,4 @@
 framework:
-  secret: '%env(APP_SECRET)%'
-  secrets:
-    vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
-    local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
-    decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
-  csrf_protection: true
-  http_method_override: false
   http_client:
     default_options:
       retry_failed:
@@ -18,34 +11,14 @@ framework:
 #    base_path: '/images'
 #    base_urls:
 #      - 'http://cdn.example.com/'
-  default_locale: '%app_locale%'
-  translator:
-    enabled_locales: [ 'en', 'ru' ]
-    fallbacks: ['en']
-    cache_dir: null
 
   mailer:
-    dsn: 'smtp://localhost:25'
+    dsn: sendmail://default
     envelope:
       recipients: [ 'taa0662621456@gmail.com' ]
 #    headers
   validation:
-    email_validation_mode: html5 # Can be loose, html5, strict (for strict must be add: egulias/email-validator )
+    email_validation_mode: strict # Can be loose, html5, strict (for strict must be add: egulias/email-validator )
     not_compromised_password: true # in dev must by of false
-  session:
-    handler_id: null
-    cookie_secure: auto
-    cookie_samesite: lax
-    storage_factory_id: session.storage.factory.native
 
-  esi: true
-  #fragments: true
-  php_errors:
-    log: true
   error_controller: App\Controller\ExceptionController::exception
-
-when@test:
-  framework:
-    test: true
-    session:
-      storage_factory_id: session.storage.factory.mock_file

@@ -1,26 +1,36 @@
 parameters:
+    # Meta Data
     app_name: '...iSponsor!'
-    app_sender_name: '...iSponsor! corp'
     app_version: '0.0.0'
     app_domain: 'smartresponsor.com'
+    #
+    # Redirect routs
     app_schema: 'https'
     app_homepage_routename: 'homepage'
     app_login_page_routename: 'login'
     app_logout_routename: 'logout'
     app_logged_in_target_routename: 'homepage'
     app_logged_out_target_routename: 'homepage'
+    # Localisation
     app_locales: en|ru|uk
 #    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
     app_locale: 'en'
+    # Cache
     app_cache: 0
     app_cache_time: 360
+    #
+    # Mailing
     app_email_sender: 'taa0662621456@gmail.com'
     app_notifications_email_sender: 'taa0662621456@gmail.com'
     app_property: 'email'
+    # Akismet
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    # CSRF
     app_csrf_token: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    # Other parameters
     app_homepage_number_of_items: 10
     app_logo_url: '/favicon.ico'
+    # Media folders parameters
     app_category_images_directory: '%env(APP_CATEGORY_IMAGE_DIRECTORY)%'
     app_menu_images_directory: '%env(APP_MENU_IMAGE_DIRECTORY)%'
     app_project_images_directory: '%env(APP_PROJECT_IMAGE_DIRECTORY)%'
@@ -28,6 +38,7 @@ parameters:
     app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
     app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
     app_vendor_images_directory: '%env(APP_VENDOR_IMAGES_DIRECTORY)%'
+    # Mercure
     app_mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
     app_secret: '%env(APP_SECRET)%'
     # router.request_context.host: '%env(default:default_domain:SYMFONY_DEFAULT_ROUTE_HOST)%'

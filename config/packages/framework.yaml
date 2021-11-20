@@ -1,6 +1,4 @@
 framework:
-    # see https://symfony.com/doc/current/reference/configuration/framework.html
-    ide: 'phpstorm://open?file=file://%%f&line=%%l'
     secret: '%env(APP_SECRET)%'
     csrf_protection: true
     http_method_override: false
