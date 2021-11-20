@@ -39,6 +39,12 @@ class Vendor
 {
     use BaseTrait;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="user", type="string", unique=true)
+     */
+    private string $user;
 	/**
 	 * @var true
 	 *
@@ -227,6 +233,23 @@ class Vendor
         $this->vendorMediaAttachments = new ArrayCollection();
         $this->isActive = true;
 
+    }
+
+    /**
+     * @return string
+     */
+    public function getUser(): string
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param string $user
+     */
+    public function setUser(string $user): void
+    {
+        $uuid = Uuid::v4();
+        $this->user = $user ?? $uuid;
     }
 
     /**
