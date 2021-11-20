@@ -196,7 +196,7 @@
 
     </body>
 {% endblock %}
-
+{% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
 {% block footer %}
     <footer id="footer" class="footer section-footer bg-dark white">
         <section class="container-fluid footer-bottom">
@@ -269,6 +269,12 @@
 {% endblock %}
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
+        <script>
+            (function(w,d,u){
+                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+            })(window,document,'https://cdn.bitrix24.ua/b16519075/crm/site_button/loader_8_prai3q.js');
+        </script>
     {% endblock %}
 </html>
 
