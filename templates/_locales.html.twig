@@ -12,7 +12,7 @@
                     {% else %}
                         class="dropdown-item"
                     {% endif %}
-                            href="{{ path(app.request.get('_route', 'app_index'), app.request.get('_route_params', [])|merge({_locale: locale})) }}">
+                            href="{{ path(app.request.get('_route', 'homepage'), app.request.get('_route_params', [])|merge({_locale: locale})) }}">
                         {{ locale|locale_name(locale)|u.title }}
                     </a>
                 </li>

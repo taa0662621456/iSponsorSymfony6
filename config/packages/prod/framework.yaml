@@ -6,17 +6,10 @@ framework:
       max_duration: 29000
       max_redirects: 3
   profiler: false
-
-#  assets:
-#    base_path: '/images'
-#    base_urls:
-#      - 'http://cdn.example.com/'
-
   mailer:
     dsn: sendmail://default
     envelope:
       recipients: [ 'taa0662621456@gmail.com' ]
-#    headers
   validation:
     email_validation_mode: strict # Can be loose, html5, strict (for strict must be add: egulias/email-validator )
     not_compromised_password: true # in dev must by of false
