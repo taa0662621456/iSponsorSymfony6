@@ -9,7 +9,8 @@ twig:
         app_name: '%app_name%'
         app_logo_url: '%app_logo_url%'
         app_version: '%app_version%'
-#        activeCategoriesIds: []
+        locales: '%app_locales%'
+        app_locale: '%app_locale%'
 
 when@test:
     twig:

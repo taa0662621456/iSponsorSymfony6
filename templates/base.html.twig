@@ -202,20 +202,13 @@
         <section class="container-fluid footer-bottom">
             <div class="row m-0 foot">
                 <div class="col-xs-12 col-lg-12 col-sm-12 center">
-                    <ul class="list-group list-group-horizontal-sm locales" role="menu" aria-labelledby="locales">
-                        {% for locale in locales() %}
-                            <li {% if app.request.locale == locale.code %}aria-checked="true" class="list-unstyled font-weight-bold"
-                                {% else %}aria-checked="false" class="list-unstyled font-weight-bold" {% endif %} role="menuitem">
-                                <a href="{{ path(app.request.get('_route', 'blog_index'), app.request.get('_route_params', [])|merge({_locale: locale.code})) }}"><small>{{ locale.name|capitalize }}({{ locale.code[0:2] }})</small></a>
-                            </li>
-                            <li class="list-unstyled"> | </li>
-                        {% endfor %}
-                    </ul>
                 </div>
             </div>
             <div class="row m-0 foot">
 
-                <div class="col-xs-12 col-lg-2 col-sm-12 f2-3"></div>
+                <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">
+                    {{ include('_locales.html.twig') }}
+                </div>
                 <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">
                     <ul class="list-unstyled m-1 small">
                         <li><a class="text-decoration-none small" href="{{ path('general') }}">Пользовательское соглашение</a></li>
@@ -271,8 +264,8 @@
         {{ encore_entry_script_tags('app') }}
         <script>
             (function(w,d,u){
-                var s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+                let s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
+                let h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
             })(window,document,'https://cdn.bitrix24.ua/b16519075/crm/site_button/loader_8_prai3q.js');
         </script>
     {% endblock %}
