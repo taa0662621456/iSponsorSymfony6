@@ -9,7 +9,8 @@ parameters:
     app_logout_routename: 'logout'
     app_logged_in_target_routename: 'homepage'
     app_logged_out_target_routename: 'homepage'
-    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
+    app_locales: en|ru|uk
+#    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
     app_locale: 'en'
     app_cache: 0
     app_cache_time: 360

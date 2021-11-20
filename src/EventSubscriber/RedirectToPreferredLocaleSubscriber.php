@@ -14,23 +14,23 @@
 
 	{
 		private UrlGeneratorInterface $urlGenerator;
-		private array $locales;
+		private string $locales;
 		private string $locale;
 
-		public function __construct(UrlGeneratorInterface $urlGenerator, array $locales, string $locale)
+		public function __construct(UrlGeneratorInterface $urlGenerator, string $locales, string $locale)
 		{
 			$this->urlGenerator = $urlGenerator;
-//			$this->locale = $locale;
+			$this->locale = $locale;
 			$this->locales = $locales;
 
-			$l = explode('|', trim((string)$locales));
-			if (empty($l)) {
+            $locales = explode('|', trim($locales));
+			if (empty($locales)) {
 				throw new \UnexpectedValueException('The list of supported locales must not be empty. Хотя бы одна локаль должна быть в массиве локалей');
 			}
 
-			$this->locale = trim($locale) ?? trim((string)$this->locales[0]);
+			$this->locale = trim($locale) ?? trim($locales[0]);
 
-			if (!\in_array($this->locale, $this->locales, true)) {
+			if (!\in_array($this->locale, $locales, true)) {
 				throw new \UnexpectedValueException(
 					sprintf('The default locale ("%s") must be one of "%s".', $this->locale, $locales)
 				);
@@ -39,8 +39,8 @@
 			// Add the default locale at the first position of the array,
 			// because Symfony\HttpFoundation\Request::getPreferredLanguage
 			// returns the first element when no an appropriate language is found
-			array_unshift($this->locales, $this->locale);
-			$this->locales = array_unique($this->locales);
+//			array_unshift($locales, $this->locale);
+//			$this->locales = array_unique($locales);
 		}
 
 		#[ArrayShape([KernelEvents::REQUEST => "string"])]
@@ -65,7 +65,7 @@
 				return;
 			}
 
-			$preferredLanguage = $request->getPreferredLanguage($this->locales);
+			$preferredLanguage = $request->getPreferredLanguage('');
 
 			if ($preferredLanguage !== $this->locale) {
 				$response = new RedirectResponse(

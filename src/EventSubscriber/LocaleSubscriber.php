@@ -11,11 +11,11 @@ declare(strict_types=1);
 
     class LocaleSubscriber implements EventSubscriberInterface
     {
-        private mixed $defaultLocale;
+        private string $locale;
 
-        public function __construct($defaultLocale = 'en')
+        public function __construct(string $locale = 'en')
         {
-            $this->defaultLocale = $defaultLocale;
+            $this->locale = $locale;
         }
 
         /**
@@ -28,19 +28,16 @@ declare(strict_types=1);
                 return;
             }
 
-            // попробуйте увидеть, была ли локаль установлена как параметр маршрутизации _locale
             if ($locale = $request->attributes->get('_locale')) {
                 $request->getSession()->set('_locale', $locale);
             } else {
-                // если для этого запроса не было ясно установлено никакой локали, используйте её из сесии
-                $request->setLocale($request->getSession()->get('_locale', $this->defaultLocale));
+                $request->setLocale($request->getSession()->get('_locale', $this->locale));
             }
         }
 
         #[ArrayShape([KernelEvents::REQUEST => "array[]"])] public static function getSubscribedEvents(): array
         {
             return array(
-                // должен быть зарегистрирован после слушателя локали по умолчанию
                 KernelEvents::REQUEST => array(array('onKernelRequest', 15)),
             );
         }
