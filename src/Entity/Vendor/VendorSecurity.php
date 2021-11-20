@@ -9,6 +9,7 @@ use App\Entity\BaseTrait;
 
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
 use Serializable;
@@ -25,10 +26,10 @@ use Symfony\Component\Validator\Constraints\Length;
  * @ORM\UniqueConstraint(name="vendor_security_idx", columns={"slug", "email", "phone"})})
  * @UniqueEntity("email",
  *        errorPath="email",
- *        message="You have an account already or this email already in use!")
+ *        message="email.already.use")
  * @UniqueEntity("phone",
  *        errorPath="phone",
- *        message="You have an account already or this phone already in use!")
+ *        message="phone.already.use")
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorSecurityRepository")
  * @ORM\HasLifecycleCallbacks()
  *
@@ -50,7 +51,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @Assert\NotBlank(message="vendors_security.blank_content")
      * @Assert\Length(min=3)
-     * @Assert\Email(message = "The email '{{ value }}' is not a valid.")
+     * @Assert\Email(message="The email '{{ value }}' is not a valid.", mode="strict")
      */
     private string $email = 'exemple@domail.com';
 
@@ -71,7 +72,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      * @ORM\Column(name="username", type="string", length=255)
      *
      * @Assert\Length(min=3, minMessage="vendors_security.too_short_content_username")
-     * @Assert\Length(max=32, maxMessage="vendors_security.too_long_content_username")
+     * @Assert\Length(max=64, maxMessage="vendors_security.too_long_content_username")
      */
     private string $username = '380662621456';
 
@@ -132,8 +133,13 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @var string
 	 *
 	 * @ORM\Column(name="locale", type="string", nullable=false, options={"default"="en"})
+     *
+     * @Assert\Locale(canonicalize=true, message="Код локали должен соответствовать стандарту языка ISO 639-1 или с применением стардарта кода страны  ISO 3166-1 alpha-2")
 	 */
 	private string $locale = 'en';
+
+	# TODO: засунуть также Предпочитаемый язык объектов поумолчанию
+    # https://symfony.com.ua/doc/current/reference/constraints/Language.html
 
 	/**
 	 * @var string
@@ -220,6 +226,15 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @return string
      */
+    public function getUser(): string
+    {
+        return $this->username;
+    }
+
+    /**
+     *
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->email;
@@ -232,7 +247,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      */
     public function setUsername(string $username): self
     {
-        $this->username = $username;
+        $uuid = Uuid::v4();
+        $this->username = $username ?? $uuid;
         return $this;
     }
 
@@ -520,6 +536,19 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     {
         $this->password = $password;
         return $this;
+    }
+
+
+    #[Assert\IsTrue(message: 'The password cannot match your Username')]
+    public function isPasswordUsername()
+    {
+        return $this->username !== $this->plainPassword;
+    }
+
+    #[Assert\IsTrue(message: 'The password cannot match your email')]
+    public function isPasswordMail()
+    {
+        return $this->email !== $this->plainPassword;
     }
 
     /**

@@ -7,14 +7,10 @@ use App\Entity\Vendor\Vendor;
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\IsTrue;
 
 class VendorRegistrationType extends AbstractType
 {
@@ -51,10 +47,15 @@ class VendorRegistrationType extends AbstractType
     {
         $resolver->setDefaults([
 			'data_class'         => Vendor::class,
-			'csrf_protection'    => true,
-			'csrf_field_name'    => '_csrf_token',
-			'csrf_token_id'      => 'weqweqweDFDFDFFDwqeqwewqewqe',
-			'translation_domain' => 'vendor'
+            'trim' => true,
+            'csrf_protection'    => true,
+            'csrf_field_name'    => '_csrf_token',
+            'csrf_token_id'      => 'weqweqweDFDFDFFDwqeqwewqewqe',
+            'translation_domain' => 'vendor',
+            'attr' => [
+                'class' => 'needs-validation',
+                'novalidate' => null,
+            ]
         ]);
     }
 }
