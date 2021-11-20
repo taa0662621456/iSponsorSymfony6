@@ -1,7 +1,4 @@
-require('jquery');
 require('bootstrap');
-require('jquery-confirm');
-require('bootstrap-autohide-navbar');
 
 
 require('../scss/err404.scss');

@@ -1,4 +1,3 @@
-import jQuery from 'jquery';
 import Cookies from 'js-cookie';
 
 // $(document).ready(function (e) {
@@ -9,7 +8,7 @@ import Cookies from 'js-cookie';
 // });
 
 
-(function ($, undefined) {
+function () {
     let $showModal = $('#showModal');
     let $clearCart = $('.clear').filter('input');
     let $removeItem = $('.remove').filter('input');
@@ -17,8 +16,6 @@ import Cookies from 'js-cookie';
     let $quantity = $('.quantity').filter('input');
 
     //TODO: диалоговое окно, которое непонятно, как работает на образце и используется вместе с Bootstrap,
-    // мне больше по душе jquery-confirm plugin
-    // всё установлено, нужно доделать
     //$('[data-toggle="confirmation"]').confirmation();
 
     $showModal.focus(function (e){
@@ -139,6 +136,5 @@ import Cookies from 'js-cookie';
 
     }
 
-})
-(jQuery);
+};
 

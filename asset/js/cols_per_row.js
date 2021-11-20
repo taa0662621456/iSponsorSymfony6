@@ -1,10 +1,9 @@
-import jQuery from 'jquery';
 import Cookies from 'js-cookie';
 import Masonry from 'masonry-layout';
 
 let assets = document.querySelector('#tools');
 if (assets != null) {
-    (function ($, undefined) {
+    function () {
 
         let $col1 = $('#col1:first').filter('button');
         let $col2 = $('#col2:first').filter('button');
@@ -58,5 +57,5 @@ if (assets != null) {
                 $masonry.layout();
             }
         }
-    })(jQuery);
+    }
 }

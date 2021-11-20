@@ -1,6 +1,4 @@
-var jQuery = require('jquery');
-
-(function ($, undefined) {
+function () {
 
     let $moveUp = $('#move_up').filter('div');
     let $moveUpBlock = $('#b1').filter('aside');
@@ -30,5 +28,4 @@ var jQuery = require('jquery');
         return false;
     });
 
-})
-(jQuery);
+}

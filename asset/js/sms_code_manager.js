@@ -1,5 +1,4 @@
-var jQuery = require('jquery');
-(function ($, undefined) {
+function () {
     let $submit = $('text-link').filter('input');
     let $phone = $('#app_user_registration_mobileNumber').val(); // считываем значение, если это форма регистрации
 
@@ -19,5 +18,4 @@ var jQuery = require('jquery');
                 console.log('Ошибка соединения с сервером');
             });
     });
-})(jQuery);
-
+}

@@ -1,5 +1,5 @@
-jQuery(function ($) {
-    $(document).ready(function () {
+function () {
+    (document).ready(function () {
         if (cookie_cols != 'undefined') {
             var cookie_cols = $.cookie('cookie_cols');
         } else {
@@ -57,4 +57,4 @@ jQuery(function ($) {
         $(".category-vendor-avatar").css('width', '65px');
         $(".view").masonry('layout');
     });
-});
+}

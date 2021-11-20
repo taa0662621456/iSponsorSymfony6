@@ -1,9 +1,8 @@
-import jQuery from 'jquery';
 //http://techlaboratory.net/smartwizard
 
 let smart = document.querySelector('#object000');
 if (smart != null) {
-    (function ($, undefined) {
+    function () {
         //$(document).on('load', function(){
         $(document).ready(function () {
             $('#object').smartWizard({
@@ -14,5 +13,5 @@ if (smart != null) {
                 showNextButton: false,
             })
         });
-    })(jQuery);
+    }
 }

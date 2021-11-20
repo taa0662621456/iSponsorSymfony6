@@ -1,10 +1,9 @@
-var jQuery = require('jquery');
 
 let form = document.querySelector('form');
 
 if (form != undefined) {
 
-    (function ($, undefined) {
+    function () {
 
         let $form = $('form:first');
 
@@ -106,6 +105,6 @@ if (form != undefined) {
         $submit.click(function () {
             return false;
         });
-    })(jQuery);
+    }
 }
 
