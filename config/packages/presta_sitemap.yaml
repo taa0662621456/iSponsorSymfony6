@@ -1,0 +1,14 @@
+presta_sitemap:
+  default_section: default
+  defaults:
+    priority: 1
+#    changefreq: daily
+    lastmod: now
+  alternate:
+    enabled: true
+    default_locale: 'en'
+    locales: ['en', 'ru']
+    i18n: symfony
+#  generator: presta_sitemap.generator_default
+#  dumper: presta_sitemap.dumper_default
+  dump_directory: public

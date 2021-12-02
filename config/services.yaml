@@ -20,8 +20,8 @@ parameters:
     app_cache_time: 360
     #
     # Mailing
-    app_email_sender: 'taa0662621456@gmail.com'
-    app_notifications_email_sender: 'taa0662621456@gmail.com'
+    app_email_sender: 'taa0662621456@@gmail.com'
+    app_notifications_email_sender: 'taa0662621456@@gmail.com'
     app_property: 'email'
     # Akismet
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
@@ -43,6 +43,9 @@ parameters:
     app_secret: '%env(APP_SECRET)%'
     # router.request_context.host: '%env(default:default_domain:SYMFONY_DEFAULT_ROUTE_HOST)%'
     # router.request_context.scheme: '%env(default:default_scheme:SYMFONY_DEFAULT_ROUTE_SCHEME)%'
+    # Sitemap
+    router.request_context.host: smartresponsor.com
+    router.request_context.scheme: https
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -65,6 +68,21 @@ services:
 #            string $categoryImageAttachmentsPath: "%app_category_images_directory%"
 #            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
 #            string $daysBeforeRemoveRejectedReview: ""
+
+#    twilio.client:
+#        class: Twilio\Rest\Client
+#        arguments: [ '%twilio_sid%', '%twilio_token%' ]
+#
+#        # Add an alias for the twilio.client service
+#        Twilio\Rest\Client: '@twilio.client'
+
+# Must working
+#    app.sitemap.blog_post_subscriber:
+#        class: App\Listener\SitemapListener
+#        arguments:
+#            - '@doctrine'
+#        tags:
+#            - { name: "kernel.event_subscriber", priority: 100 }
 
     hwi_oauth.resource_owners:
         class: App\Security\OAuthAuthenticator
