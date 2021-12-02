@@ -1,5 +1,6 @@
 import 'bootstrap'
 import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
+import { google } from 'googleapis'
 
 require('../scss/sign.scss')
 require('../css/sign.css')
@@ -28,3 +29,21 @@ Array.from(document.querySelectorAll('.toast'))
             }, false)
         })
 })()
+
+
+    app.post('/sendSMS', function (req, res) {
+        const {phoneNumber, recaptchaToken} = req.body;
+
+        const identityToolkit = google.identitytoolkit({
+            auth: 'GCP_API_KEY',
+            version: 'v3',
+        });
+
+        await identityToolkit.relyingparty.verifyPhoneNumber({
+            code: verificationCode,
+            sessionInfo: phoneSessionId,
+        });
+
+        // verification code accepted, update phoneNumberVerified flag in database
+        // ...
+    });
