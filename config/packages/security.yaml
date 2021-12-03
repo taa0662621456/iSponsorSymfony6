@@ -53,6 +53,7 @@ security:
             provider: postgres_users
             remember_me:
                 secret: '%app_secret%' # or '%env(APP_SECRET)%'
+                samesite: none
                 lifetime: 604800 # 1 week in seconds # https://symfony.com/doc/current/security/remember_me.html
                 always_remember_me: true
             login_throttling:

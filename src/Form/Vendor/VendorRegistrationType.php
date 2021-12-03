@@ -40,10 +40,10 @@ class VendorRegistrationType extends AbstractType
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3([
                     'message' => 'There were problems with your captcha. Please try again or contact with support and provide following code(s): {{ errorCodes }}',
-                    'messageMissingValue' => 'karser_recaptcha3.message_missing_value',
+                    'messageMissingValue' => 'captcha.missing.value',
                     ]),
                 'action_name' => 'registration',
-                'script_nonce_csp' => 'sdfsdfsdf',
+//                'script_nonce_csp' => $nonceCSP,
             ])
             ->add('token', HiddenType::class, [
                 'mapped' => false,

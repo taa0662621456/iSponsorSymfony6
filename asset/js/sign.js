@@ -1,6 +1,5 @@
 import 'bootstrap'
 import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
-import { google } from 'googleapis'
 
 require('../scss/sign.scss')
 require('../css/sign.css')
@@ -14,7 +13,7 @@ Array.from(document.querySelectorAll('.toast'))
     'use strict'
 
     // Получите все формы, к которым мы хотим применить пользовательские стили проверки Bootstrap
-    var forms = document.querySelectorAll('.needs-validation')
+    let forms = document.querySelectorAll('.needs-validation')
 
     // Зацикливайтесь на них и предотвращайте отправку
     Array.prototype.slice.call(forms)
@@ -31,19 +30,19 @@ Array.from(document.querySelectorAll('.toast'))
 })()
 
 
-    app.post('/sendSMS', function (req, res) {
-        const {phoneNumber, recaptchaToken} = req.body;
-
-        const identityToolkit = google.identitytoolkit({
-            auth: 'GCP_API_KEY',
-            version: 'v3',
-        });
-
-        await identityToolkit.relyingparty.verifyPhoneNumber({
-            code: verificationCode,
-            sessionInfo: phoneSessionId,
-        });
-
-        // verification code accepted, update phoneNumberVerified flag in database
-        // ...
-    });
+    // app.post('/sendSMS', function (req, res) {
+    //     const {phoneNumber, recaptchaToken} = req.body;
+    //
+    //     const identityToolkit = google.identitytoolkit({
+    //         auth: 'GCP_API_KEY',
+    //         version: 'v3',
+    //     });
+    //
+    //     identityToolkit.relyingparty.verifyPhoneNumber({
+    //         code: verificationCode,
+    //         sessionInfo: phoneSessionId,
+    //     });
+    //
+    //     // verification code accepted, update phoneNumberVerified flag in database
+    //     // ...
+    // });
