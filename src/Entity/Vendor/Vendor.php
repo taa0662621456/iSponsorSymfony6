@@ -10,6 +10,7 @@ use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,14 +24,15 @@ use DateTime;
 /**
  * @ORM\Table(name="vendors", indexes={
  * @ORM\Index(name="vendor_idx", columns={"slug"})})
- * UniqueEntity("slug"), errorPath="slug", message="This name | {Value} | is already in use!"
  * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorRepository")
  * @ORM\HasLifecycleCallbacks()
+ * UniqueEntity(fields={"slug"}, errorPath="slug", message="This name | {Value} | is already in use!")
+
  *
  * @ApiResource(
  *     collectionOperations={"get"={"normalization_context"={"groups"="vendor:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="vendor:item"}}},
- *     order={"roles"="DESC", "last_reset_time"="ASC"},
+ *     order={"is_active"="DESC", "locale"="ASC"},
  *     paginationEnabled=false
  *     )
  * @ApiFilter(BooleanFilter::class, properties={"isActive"})
@@ -39,78 +41,43 @@ class Vendor
 {
     use BaseTrait;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="user", type="string", unique=true)
-     */
-    private string $user;
 	/**
-	 * @var true
+	 * @var int|boolean
 	 *
-	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 1})
+	 * @ORM\Column(name="is_active", type="boolean", nullable=false, options={"default" : 1, "comment"="New user default is active"})
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private bool $isActive;
+	private int|bool $isActive;
 
 	/**
-	 * @var array
-	 *
-	 * @ORM\Column(name="roles", type="json", nullable=false)
-	 */
-    #[Groups(['vendor:list', 'vendor:item'])]
-	private array $roles = ["ROLE_USER"];
-
-	/**
-     * @var string
-     *
-	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-	 */
-    #[Groups(['vendor:list', 'vendor:item'])]
-	private string $lastVisitDate;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="activation_code", type="string", nullable=false, options={"default"="0"})
-	 */
-	private string $activationCode = '0';
-
-	/**
-	 * @var string|null
+	 * @var null|string
 	 *
 	 * @ORM\Column(name="locale", type="string", nullable=true, options={"default"="en"})
 	 */
     #[Groups(['vendor:list', 'vendor:item'])]
-	private ?string $locale = null;
-
-	/**
-	 * @var string
-     *
-	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
-	 *                                     "comment"="Date of last password reset"})
-	 */
-    #[Groups(['vendor:list', 'vendor:item'])]
-	private string $lastResetTime;
+	private null|string $locale = 'en';
 
 	/**
 	 * @var integer
 	 *
-	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"default" : 0, "comment"="Count of password resets since lastResetTime"})
+	 * @ORM\Column(name="reset_count", type="integer", nullable=false, options={"default" : 0,
+     *      "comment"="Count of password resets since lastResetTime"})
      */
 	private int $resetCount = 0;
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="","comment"="Two factor authentication encrypted keys"})
+	 * @ORM\Column(name="otp_key", type="string", nullable=false, options={"default"="",
+     *     "comment"="Two factor authentication encrypted keys"})
      */
 	private string $otpKey = '';
 
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="","comment"="One time emergency passwords"})
+	 * @ORM\Column(name="otep", type="string", nullable=false, options={"default"="",
+     *     "comment"="One time emergency passwords"})
      */
 	private string $otep = '';
 
@@ -131,7 +98,7 @@ class Vendor
 	 * @Assert\Type(type="App\Entity\Vendor\VendorSecurity")
 	 * @Assert\Valid()
 	 */
-	private VendorSecurity $vendorSecurity;
+	private array|VendorSecurity $vendorSecurity;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorIban",
@@ -142,7 +109,7 @@ class Vendor
      * @Assert\Type(type="App\Entity\Vendor\VendorIban")
 	 * @Assert\Valid()
 	 */
-	private VendorIban $vendorIban;
+	private array|VendorIban $vendorIban;
 
 	/**
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\VendorEnGb",
@@ -153,7 +120,7 @@ class Vendor
 	 * @Assert\Type(type="App\Entity\Vendor\VendorEnGb")
 	 * @Assert\Valid()
 	 */
-	private VendorEnGb $vendorEnGb;
+	private array|VendorEnGb $vendorEnGb;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured",
@@ -164,7 +131,7 @@ class Vendor
      * @Assert\Type(type="App\Entity\Featured\Featured")
      * @Assert\Valid()
      */
-    private Featured $vendorFeatured;
+    private array|Featured $vendorFeatured;
 
     /**
 	 * @ORM\OneToMany(targetEntity="App\Entity\Vendor\VendorDocument",
@@ -223,8 +190,9 @@ class Vendor
     public function __construct()
     {
         $t = new DateTime();
-        $this->lastResetTime = $t->format('Y-m-d H:i:s');
-        $this->lastVisitDate = $t->format('Y-m-d H:i:s');
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->participant = new ArrayCollection();
         $this->vendorMessage = new ArrayCollection();
         $this->vendorItems = new ArrayCollection();
@@ -233,23 +201,6 @@ class Vendor
         $this->vendorMediaAttachments = new ArrayCollection();
         $this->isActive = true;
 
-    }
-
-    /**
-     * @return string
-     */
-    public function getUser(): string
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param string $user
-     */
-    public function setUser(string $user): void
-    {
-        $uuid = Uuid::v4();
-        $this->user = $user ?? $uuid;
     }
 
     /**
@@ -266,43 +217,6 @@ class Vendor
 	public function setIsActive(bool $isActive): void
 	{
 		$this->isActive = $isActive;
-	}
-
-	/**
-	 * @return string
-     */
-	public function getLastVisitDate(): string
-    {
-        return $this->lastVisitDate;
-	}
-
-    /**
-     * @param string $lastVisitDate
-     * @return Vendor
-     */
-	public function setLastVisitDate (string $lastVisitDate): self
-	{
-		$this->lastVisitDate = $lastVisitDate;
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getActivationCode(): string
-	{
-		return $this->activationCode;
-	}
-
-	/**
-	 * @param string $activationCode
-	 *
-	 * @return Vendor
-	 */
-	public function setActivationCode(string $activationCode): self
-	{
-		$this->activationCode = $activationCode;
-		return $this;
 	}
 
     /**
@@ -416,15 +330,15 @@ class Vendor
 		return $this;
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getRoles(): array
-	{
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-        return array_unique($roles);
-	}
+//	/**
+//	 * @return array
+//	 */
+//	public function getRoles(): array
+//	{
+//        $roles = $this->roles;
+//        $roles[] = 'ROLE_USER';
+//        return array_unique($roles);
+//	}
 
     /**
      * @return VendorSecurity
