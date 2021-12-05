@@ -31,7 +31,7 @@ trait BaseTrait
      *
      * @ORM\Column(name="published", type="boolean", nullable=false)
      */
-    private bool $isPublished = true;
+    private bool $published = true;
 
     /**
      * @var string
@@ -121,7 +121,7 @@ trait BaseTrait
         $this->createdAt = $t->format('Y-m-d H:i:s');
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
         $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->isPublished = true;
+        $this->published = true;
     }
 
     /**
@@ -137,15 +137,15 @@ trait BaseTrait
      */
     public function isPublished(): bool
     {
-        return $this->isPublished;
+        return $this->published;
     }
 
     /**
-     * @param bool $isPublished
+     * @param bool $published
      */
-    public function setIsPublished(bool $isPublished): void
+    public function setPublished(bool $published): void
     {
-        $this->isPublished = $isPublished;
+        $this->published = $published;
     }
 
     /**
