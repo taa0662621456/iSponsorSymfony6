@@ -2,11 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Vendor\Vendors;
-use App\Entity\Vendor\VendorsDocumentAttachments;
-use App\Entity\Vendor\VendorsEnGb;
-use App\Entity\Vendor\VendorsIban;
-use App\Entity\Vendor\VendorsMediaAttachments;
+use App\Entity\Vendor\Vendor;
+use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorIban;
+use App\Entity\Vendor\VendorMedia;
 use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -22,19 +22,16 @@ class VendorsFixtures extends Fixture
         $password = $rand;
         //$password = md5($rand);
 
-        $vendor = new Vendors();
+        $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
-        $vendorIban = new VendorsIban();
-        $vendorEnGb = new VendorsEnGb();
-        $vendorDocumentAttachments = new VendorsDocumentAttachments();
-        $vendorMediaAttachments = new VendorsMediaAttachments();
+        $vendorIban = new VendorIban();
+        $vendorEnGb = new VendorEnGb();
+        $vendorDocument = new VendorDocument();
+        $vendorMedia = new VendorMedia();
         $uuid = $slug = Uuid::v4();
 
         try {
-			$vendor->setUuid($uuid);
 			$vendor->setSlug($slug);
-
-            $vendorSecurity->setUuid($uuid);
             $vendorSecurity->setSlug($uuid);
         } catch (Exception $e) {
         }
@@ -52,20 +49,20 @@ class VendorsFixtures extends Fixture
 
         $vendorIban->setIban('0000000000000000');
 
-        $vendorDocumentAttachments->setFileName('cover.jpg');
-        $vendorDocumentAttachments->setFilePath('/');
-        $vendorDocumentAttachments->setAttachment($vendor);
+        $vendorDocument->setFileName('cover.jpg');
+        $vendorDocument->setFilePath('/');
+        $vendorDocument->setAttachment($vendor);
 
-        $vendorMediaAttachments->setFileName('cover.jpg');
-        $vendorMediaAttachments->setFilePath('/');
-        $vendorMediaAttachments->setAttachment($vendor);
+        $vendorMedia->setFileName('cover.jpg');
+        $vendorMedia->setFilePath('/');
+        $vendorMedia->setAttachment($vendor);
 
 		$vendor->setVendorEnGb($vendorEnGb);
 		$vendor->setVendorSecurity($vendorSecurity);
 		$vendor->setVendorIban($vendorIban);
 
-		$manager->persist($vendorDocumentAttachments);
-		$manager->persist($vendorMediaAttachments);
+		$manager->persist($vendorDocument);
+		$manager->persist($vendorMedia);
 		$manager->persist($vendorIban);
 		$manager->persist($vendorEnGb);
 		$manager->persist($vendorSecurity);
@@ -76,8 +73,8 @@ class VendorsFixtures extends Fixture
 	/**
 	 * @return int
 	 */
-	public function getOrder()
-	{
+	public function getOrder(): int
+    {
 		return 1;
 	}
 
