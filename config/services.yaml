@@ -6,7 +6,7 @@ parameters:
     #
     # Redirect routs
     app_schema: 'https'
-    app_homepage_route: 'homepage'
+    app_homepage_route: homepage
     app_login_page_route: 'login'
     app_logout_route: 'logout'
     app_logged_in_target_route: 'homepage'
@@ -21,7 +21,7 @@ parameters:
     #
     # Mailing
     app_email_sender: 'taa0662621456@gmail.com'
-    app_notifications_email_sender: 'taa0662621456@gmail.com'
+    app_notification_email_sender: 'taa0662621456@gmail.com'
     app_property: 'email'
     # Akismet
     app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
