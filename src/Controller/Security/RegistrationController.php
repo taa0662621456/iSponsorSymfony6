@@ -129,7 +129,7 @@ class RegistrationController extends AbstractController
                 $this->emailVerifier->sendEmailConfirmation('email_confirmation', $vendorSecurity,
                     (new TemplatedEmail())
                         ->from(new Address(
-                            $this->getParameter('app_notifications_email_sender'),
+                            $this->getParameter('app_notification_email_sender'),
                             $this->getParameter('app_email_sender')
                         ))
                         ->to($vendorSecurity->getEmail())
