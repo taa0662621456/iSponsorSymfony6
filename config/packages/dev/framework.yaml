@@ -4,4 +4,3 @@ framework:
     trusted_hosts: ['%env(TRUSTED_HOSTS)%', '127.0.0.1', 'localhost', 'smartresponsor.com']
     profiler: true
     default_locale: '%app_locale%'
-    error_controller: ~
