@@ -8,10 +8,8 @@ use App\Event\RegisteredEvent;
 use App\Form\Vendor\VendorRegistrationType;
 use App\Service\ConfirmationCodeGenerator;
 use App\Service\EmailVerifier;
-use App\Service\SmsVerifier;
-use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
+
 use Psr\Log\LoggerInterface;
-use ReCaptcha\ReCaptcha;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -20,11 +18,10 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Notifier\Message\SmsMessage;
-use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Uid\Uuid;
 use Twig\Environment;
 
 
@@ -70,17 +67,13 @@ class RegistrationController extends AbstractController
      * @Route("/registration", name="registration", defaults={"layout" : "registration"}, options={"layout" : "registration"}, methods={"GET", "POST"})
      * @Route("/signup", name="signup", defaults={"layout" : "signup"}, options={"layout" : "signup"}, methods={"GET", "POST"})
      * @param Request $request
-     * @param ConfirmationCodeGenerator $codeGenerator
      * @param EventDispatcherInterface $eventDispatcher
-     * @param TexterInterface $texter
      * @param $layout
      * @return Response
-     * @throws \Symfony\Component\Notifier\Exception\TransportExceptionInterface
+     * @throws \Exception
      */
 	public function registration(Request $request,
-								 ConfirmationCodeGenerator $codeGenerator,
 								 EventDispatcherInterface $eventDispatcher,
-                                 TexterInterface $texter,
                                  $layout): Response
 	{
         $vendor = new Vendor();
@@ -92,38 +85,35 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
-            $recaptchaResponse = $recaptcha->verify($request->request->get('vendor_registration')['captcha']);
-
-            if (!$recaptchaResponse->isSuccess()) {
-                foreach ($recaptchaResponse->getErrorCodes() as $errorCode) {
-                    $this->addFlash('danger', 'Error captcha: ' . $errorCode);
-                    return $this->render('security/' . $layout . '.html.twig', [
-                        'form' => $form->createView(),
-                    ]);
-                }
+//            $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
+//            $recaptchaResponse = $recaptcha->verify($request->request->get('vendor_registration')['captcha']);
+//
+//            if (!$recaptchaResponse->isSuccess()) {
+//                foreach ($recaptchaResponse->getErrorCodes() as $errorCode) {
+//                    $this->addFlash('danger', 'Error captcha: ' . $errorCode);
+//                    return $this->render('security/' . $layout . '.html.twig', [
+//                        'form' => $form->createView(),
+//                    ]);
+//                }
+//            }
                 #
                 $formData = $form->getData();
-                #
-                $sms = new SmsMessage(
-                    (string)$formData->getVendorSecurity()->getPhone(), ''
-                );
-                $sentMessage = $texter->send($sms);
-                #
+//                #
+//                $sms = new SmsMessage(
+//                    (string)$formData->getVendorSecurity()->getPhone(), 'Привет. Это круть'
+//                );
+//                $sentMessage = $texter->send($sms);
+//                #
                 $password = $this->passwordHasher->hashPassword(
                     $vendorSecurity,
                     $formData->getVendorSecurity()->getPlainPassword());
                 #
-                $confirmationCode = $codeGenerator->getConfirmationCode();
-                #
                 $vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
                 $vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
                 $vendorSecurity->setPassword($password);
-                $vendorSecurity->setActivationCode($confirmationCode);
                 #
                 $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
                 #
-                $vendor->setActivationCode($confirmationCode);
                 $vendor->setVendorSecurity($vendorSecurity);
                 $vendor->setVendorEnGb($vendorEnGb);
                 #
@@ -140,7 +130,8 @@ class RegistrationController extends AbstractController
                     (new TemplatedEmail())
                         ->from(new Address(
                             $this->getParameter('app_notifications_email_sender'),
-                            $this->getParameter('app_sender_name')))
+                            $this->getParameter('app_email_sender')
+                        ))
                         ->to($vendorSecurity->getEmail())
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('registration/confirmation_email.html.twig')
@@ -151,9 +142,8 @@ class RegistrationController extends AbstractController
                 $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
                 $eventDispatcher->dispatch($vendorRegisteredEvent);
                 #
-                return $this->redirectToRoute($this->getParameter('app_homepage_routename'));
+                return $this->redirectToRoute($this->getParameter('app_homepage_route'));
             }
-        }
 		return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),
 		]);
