@@ -34,7 +34,7 @@ class VendorProfileType extends AbstractType
             ->add('vendorZip')
             ->add('sendEmail', EmailType::class, ['label' => 'sendEmail'] )
             ->add('registerDate')
-            ->add('lastVisitDate')
+            ->add('lastRequestDate')
             ->add('lastResetTime')
             ->add('resetCount')
 
