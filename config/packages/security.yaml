@@ -76,7 +76,7 @@ security:
                 csrf_token_id: 'weqweqweDFDFDFFDwqeqwewqewqe' # Can be '%env(APP_SECRET)%'
 #                csrf_token_generator: security.csrf.token_manager # dont work with enable_authenticator_manager is true
                 check_path: login_check
-                login_path: '%app_login_page_route%'
+                login_path: '%app_login_route%'
                 default_target_path: '%app_logged_in_target_route%'
                 use_referer: true
 #                target_path_parameter: redirect
