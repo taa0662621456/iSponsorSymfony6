@@ -1,4 +1,6 @@
-require('bootstrap');
+import 'bootstrap'
+import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
+// require('bootstrap');
 // require('bootstrap-autohide-navbar');
 
 
@@ -24,3 +26,7 @@ require('./tinymce_init');
 // require('./cols_per_row');
 // require('./add-collection-widget');
 // require('./full_screen');
+
+
+Array.from(document.querySelectorAll('.toast'))
+    .forEach(toastNode => new Toast(toastNode).show());

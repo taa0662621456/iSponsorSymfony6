@@ -139,6 +139,7 @@
             {% endfor %}
         </div>
 {% endblock %}
+        {% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
     {% block javascripts %}
         {{ encore_entry_script_tags('homepage') }}
     {% endblock %}
