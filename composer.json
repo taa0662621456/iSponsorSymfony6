@@ -31,6 +31,7 @@
         "symfony/google-mailer": "5.3.*",
         "symfony/http-client": "5.3.*",
         "symfony/http-kernel": "5.3.*",
+        "symfony/lock": "5.3.*",
         "symfony/mailer": "5.3.*",
         "symfony/notifier": "5.3.*",
         "symfony/proxy-manager-bridge": "5.3.*",
