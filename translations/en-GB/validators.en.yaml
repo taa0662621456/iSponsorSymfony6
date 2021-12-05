@@ -2,9 +2,3 @@ email.already.use: 'You have an account already or this email already in use!'
 phone.already.use: 'You have an account already or this phone already in use!'
 captcha.missing.value: 'Каптча-контроль не фонтан, честно говоря'
 
-
-vendor:
-  security:
-    too:
-      short:
-        plainPassword: 'Предпочитаемый Password too short'

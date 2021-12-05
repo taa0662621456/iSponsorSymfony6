@@ -2,9 +2,3 @@ email.already.use: 'Пользователь с таки email уже зарег
 phone.already.use: 'Пользователь с таки телефонным номером уже зарегистрирован'
 captcha.missing.value: 'Каптча-контроль не фонтан, честно говоря'
 captcha.problem.message: 'There were problems with your captcha. Please try again or contact with support and provide following code(s): %s'
-
-vendor:
-  security:
-    too:
-      short:
-        plainPassword: 'Предпочитаемый пароль слишком короткий'
