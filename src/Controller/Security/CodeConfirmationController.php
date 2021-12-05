@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CodeConfirmationController extends AbstractController
 {
     /**
-     * @Route("/confirmation/{code}", name="code_confirmation")
+     * @Route("/confirmations/{code}", name="code_confirmation")
      * @param VendorSecurityRepository $vendorSecurityRepository
      * @param string $code
      * @return Response

@@ -4,43 +4,67 @@
 namespace App\Controller\Security;
 
 
+use App\Entity\Vendor\VendorSecurity;
 use App\Repository\Vendor\VendorSecurityRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailConfirmationController extends AbstractController
 {
-    #[Route('/confirmation/email', name: 'email_confirmation')]
-    public function verifyUserEmail(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
+    /**
+     * @var \SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface
+     */
+    private VerifyEmailHelperInterface $verifyEmailHelper;
+
+    /**
+     * EmailConfirmationController constructor.
+     */
+    public function __construct(VerifyEmailHelperInterface $helper)
     {
-        $id = $request->get('id');
+        $this->verifyEmailHelper = $helper;
+    }
 
-        if (null === $id) {
-            return $this->redirectToRoute('registration');
+    /**
+     * @Route("/confirmations/email", name="confirmation_email")
+     * @param Request $request
+     * @param VendorSecurityRepository $vendorSecurityRepository
+     * @return Response
+     */
+    public function EmailVerifier(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $user = $this->getUser();
+
+        $slug = $request->get('slug');
+        if (null === $slug) {
+            return $this->redirectToRoute('homepage');
+        }
+        $user = $vendorSecurityRepository->findOneBy(['slug' => $slug]);
+        if (null === $user) {
+            return $this->redirectToRoute('homepage');
         }
 
-        $vendor = $vendorSecurityRepository->find($id);
-
-        if (null === $vendor) {
-            return $this->redirectToRoute('registration');
-        }
-
-        // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $this->emailVerifier->handleEmailConfirmation($request, $vendor);
+            $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $this->addFlash('e', $exception->getReason());
 
             return $this->redirectToRoute('registration');
         }
+        $vendorSecurity = new VendorSecurity();
+        $vendorSecurity->setPublished(true);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($vendorSecurity);
+        $em->flush();
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('registration');
+        return $this->redirectToRoute('homepage');
     }
 
 
