@@ -8,6 +8,7 @@ use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,14 +31,14 @@ trait BaseTrait
      *
      * @ORM\Column(name="published", type="boolean", nullable=false)
      */
-    private bool $published = true;
+    private bool $isPublished = true;
 
     /**
      * @var string
      *
      * @ORM\Column(name="slug", type="string", unique=true, nullable=false)
      */
-    protected string $slug = 'slug';
+    private string $slug;
 
     /**
      * @var string
@@ -54,6 +55,15 @@ trait BaseTrait
      * @ORM\Column(name="created_by", type="integer", nullable=false, options={"default" : 1})
      */
     private int $createdBy = 1;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_request_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
+     *     "comment"="Owned request last time"})
+     */
+    #[Groups(['vendor:list', 'vendor:item'])]
+    private string $lastRequestDate;
 
     /**
      * @var string
@@ -105,16 +115,13 @@ trait BaseTrait
      */
     public function __construct()
     {
-        try {
-            $this->slug = Uuid::v4();
-        } catch (Exception $e) {
-            throw($e);
-        }
-
         $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
         $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->isPublished = true;
     }
 
     /**
@@ -130,15 +137,15 @@ trait BaseTrait
      */
     public function isPublished(): bool
     {
-        return $this->published;
+        return $this->isPublished;
     }
 
     /**
-     * @param bool $published
+     * @param bool $isPublished
      */
-    public function setPublished(bool $published): void
+    public function setIsPublished(bool $isPublished): void
     {
-        $this->published = $published;
+        $this->isPublished = $isPublished;
     }
 
     /**
@@ -169,8 +176,7 @@ trait BaseTrait
      */
     public function setSlug(string $slug): void
     {
-        $uuid = Uuid::v4();
-        $this->slug = $slug ?? $uuid;
+        $this->slug = $slug;
     }
 
 
@@ -190,6 +196,24 @@ trait BaseTrait
     {
         $t = new DateTime();
         $this->createdAt = $t->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastRequestDate(): string
+    {
+        return $this->lastRequestDate;
+    }
+
+    /**
+     * @param string $lastRequestDate
+     */
+    public function setLastRequestDate(string $lastRequestDate): void
+    {
+        //TODO: must be setting date owner request only
+        $t = new DateTime();
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
     }
 
     /**

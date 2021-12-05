@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\OAuthTrait;
 use App\Entity\BaseTrait;
 
+use App\Service\ConfirmationCodeGenerator;
 use \DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -103,7 +104,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 
 	/**
      * @var array
-	 * @ORM\Column(name="roles", type="json")
+	 * @ORM\Column(name="roles", type="array")
 	 */
 	private array $roles = ["ROLE_USER"];
 
@@ -114,13 +115,6 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @ORM\Column(name="send_email", type="boolean", nullable=true)
 	 */
 	private ?bool $sendEmail = null;
-
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(name="last_visit_date", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP"})
-	 */
-	private string $lastVisitDate;
 
 	/**
 	 * @var string
@@ -154,7 +148,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @ORM\Column(name="last_reset_time", type="string", nullable=false, options={"default":"CURRENT_TIMESTAMP",
      *     "comment"="Date of last password reset"})
 	 */
-	private string $lastResetTime;
+	private string $lastResetTime = '0000-00-00 00:00:00';
 
 	/**
 	 * @var integer|null
@@ -203,7 +197,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 * @ORM\OneToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorSecurity")
      * @ORM\JoinColumn(name="vendorSecurity_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
 	 */
-	private Vendor $vendorSecurity;
+	private array|Vendor $vendorSecurity;
 
     /**
      * @ORM\Column(name="salt", type="string")
@@ -215,11 +209,12 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 */
 	public function __construct()
     {
-//        $this->roles = [self::ROLE_USER];
         $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
+        $codeGenerator = new ConfirmationCodeGenerator;
+        $this->activationCode = (string)$codeGenerator->getConfirmationCode();
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
-        $this->lastVisitDate = $t->format('Y-m-d H:i:s');
-
     }
 
     /**
@@ -325,25 +320,6 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	public function setSendEmail(?bool $sendEmail): self
     {
         $this->sendEmail = $sendEmail;
-        return $this;
-    }
-
-    /**
-	 * @return string
-     */
-	public function getLastVisitDate(): string
-    {
-        return $this->lastVisitDate;
-    }
-
-    /**
-	 * @param string $lastVisitDate
-	 *
-	 * @return VendorSecurity
-	 */
-	public function setLastVisitDate(string $lastVisitDate): self
-    {
-        $this->lastVisitDate = $lastVisitDate;
         return $this;
     }
 
@@ -613,9 +589,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     }
 
     /**
-	 * @return
+	 * @return Vendor
 	 */
-	public function getVendorSecurity()
+	public function getVendorSecurity(): Vendor
     {
         return $this->vendorSecurity;
     }
