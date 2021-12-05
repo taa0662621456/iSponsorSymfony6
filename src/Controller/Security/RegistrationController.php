@@ -6,8 +6,7 @@ use App\Entity\Vendor\VendorEnGb;
 use App\Entity\Vendor\VendorSecurity;
 use App\Event\RegisteredEvent;
 use App\Form\Vendor\VendorRegistrationType;
-use App\Service\ConfirmationCodeGenerator;
-use App\Service\EmailVerifier;
+use App\Service\EmailConfirmation;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -21,7 +20,6 @@ use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Component\Uid\Uuid;
 use Twig\Environment;
 
 
@@ -43,16 +41,16 @@ class RegistrationController extends AbstractController
     private FormFactory $formFactory;
 
     /**
-     * @var EmailVerifier $emailVerifier
+     * @var EmailConfirmation $emailVerifier
      */
-    private EmailVerifier $emailVerifier;
+    private EmailConfirmation $emailConfirmation;
     private LoggerInterface $logger;
 
     public function __construct(
         Environment                 $twig,
         UserPasswordHasherInterface $passwordHasher,
         FormFactoryInterface        $formFactory,
-        EmailVerifier               $emailVerifier,
+        EmailConfirmation           $emailConfirmation,
         LoggerInterface             $logger,
 	)
 	{
@@ -60,7 +58,7 @@ class RegistrationController extends AbstractController
 		$this->twig = $twig;
 		$this->passwordHasher = $passwordHasher;
 		$this->formFactory = $formFactory;
-        $this->emailVerifier = $emailVerifier;
+        $this->emailConfirmation = $emailConfirmation;
 	}
 
     /**
@@ -70,7 +68,7 @@ class RegistrationController extends AbstractController
      * @param EventDispatcherInterface $eventDispatcher
      * @param $layout
      * @return Response
-     * @throws \Exception
+     * @throws \Exception|\Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
 	public function registration(Request $request,
 								 EventDispatcherInterface $eventDispatcher,
@@ -126,7 +124,7 @@ class RegistrationController extends AbstractController
                 $this->addFlash('success', 'Вы успешно зарегистрировались');
                 $this->logger->notice('Успешная регистрация');
                 #
-                $this->emailVerifier->sendEmailConfirmation('email_confirmation', $vendorSecurity,
+                $this->emailConfirmation->confirmationSignatureSender('confirmation_email', $vendorSecurity,
                     (new TemplatedEmail())
                         ->from(new Address(
                             $this->getParameter('app_notification_email_sender'),
@@ -136,14 +134,12 @@ class RegistrationController extends AbstractController
                         ->subject('Please Confirm your Email')
                         ->htmlTemplate('registration/confirmation_email.html.twig')
                 );
-                #
+
                 $this->addFlash('success', 'На Вашу почту отправлено письмо с кодом подтверждения');
-                #
-                $vendorRegisteredEvent = new RegisteredEvent($vendorSecurity);
-                $eventDispatcher->dispatch($vendorRegisteredEvent);
-                #
+
                 return $this->redirectToRoute($this->getParameter('app_homepage_route'));
-            }
+        }
+
 		return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),
 		]);
