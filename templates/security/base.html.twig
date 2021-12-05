@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="icon" href="../../public/favicon.ico">
-        <title>{% block title %}Please sign in!{% endblock %}</title>
+        <title>{% block title %}...iSponsor platform. Smartresponsor{% endblock %}</title>
 
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -15,10 +15,10 @@
     {#{{ ws_client() }}#}
     <body>
         {% block body %}{% endblock %}
+        {% block flash %}{% endblock %}
     </body>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
-
         {% endblock %}
 </html>
 
