@@ -127,11 +127,13 @@ class VendorSecurityType extends AbstractType
                 ],
                 'attr' => [
                     'class' =>'form-control m-1',
+                    'minlength' => 8,
+                    'maxlength' => 20,
+                    'pattern' => '[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}',
                     'placeholder' => 'vendor.placeholder.phone',
                     'required'    => null,
                 ],
                 'constraints' => [
-                    # TODO: нужен валидатор телефона
                 ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
