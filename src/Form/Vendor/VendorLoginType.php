@@ -50,7 +50,7 @@ class VendorLoginType extends AbstractType
                 'attr'            => [
                     'id'          => 'email',
                     'name'        => '_email',
-                    'class'       => 'form-control m-1',
+                    'class'       => '',
                     'placeholder' => 'vendor.placeholder.email',
                     'tabindex'    => '101',
                     'required'    => null,
@@ -68,7 +68,7 @@ class VendorLoginType extends AbstractType
                     'id'          => 'password',
                     'name'        => '_password',
                     'required'    => null,
-                    'class'       => 'form-control m-1',
+                    'class'       => '',
                     'placeholder' => 'vendor.placeholder.password',
                     'tabindex'    => '203'
                 ]

@@ -54,7 +54,7 @@ class VendorSecurityType extends AbstractType
 				'attr'            => [
 					'id'          => 'email',
 					'name'        => '_email',
-					'class'       => 'form-control m-1',
+					'class'       => '',
 					'placeholder' => 'vendor.placeholder.email',
 					'tabindex'    => '101',
 					'required'    => null,
@@ -71,7 +71,7 @@ class VendorSecurityType extends AbstractType
 						'class' => 'sr-only',
                     ],
 					'attr'       => [
-						'class'       => 'form-control m-1',
+						'class'       => '',
 						'placeholder' => 'vendor.placeholder.password',
 						'tabindex'    => '201',
                         'required'    => null,
@@ -84,7 +84,7 @@ class VendorSecurityType extends AbstractType
 						'class' => 'sr-only'
                     ],
 					'attr'       => [
-						'class'       => 'form-control m-1',
+						'class'       => '',
 						'placeholder' => 'vendor.placeholder.password.confirm',
 						'tabindex'    => '202',
                         'required'    => null,
@@ -94,7 +94,7 @@ class VendorSecurityType extends AbstractType
                 'attr' => [
                     'id' => 'password',
                     'name' => '_password',
-                    'class' =>'form-control m-1',
+//                    'class' =>'',
                     'placeholder' => 'Password',
 					'tabindex' => '203',
                     'required'    => null,
@@ -118,7 +118,7 @@ class VendorSecurityType extends AbstractType
                 ],
             ])
             ->add('phone', TelType::class, [
-                'help' => 'vendor.phone.must.be.formatted',
+//                'help' => 'vendor.phone.must.be.formatted',
                 'invalid_message' => 'vendor.phone.invalid',
                 'empty_data' => '000000000000',
                 'label' => 'vendor.label.phone',
@@ -126,10 +126,10 @@ class VendorSecurityType extends AbstractType
                     'class' => 'sr-only'
                 ],
                 'attr' => [
-                    'class' =>'form-control m-1',
+                    'class' =>'',
                     'minlength' => 8,
                     'maxlength' => 20,
-                    'pattern' => '[\+]\d{1}\s[\(]\d{3}[\)]\s\d{3}[\-]\d{2}[\-]\d{2}',
+                    'pattern' => '\+?[0-9\s\-\(\)]+',
                     'placeholder' => 'vendor.placeholder.phone',
                     'required'    => null,
                 ],
