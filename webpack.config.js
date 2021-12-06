@@ -37,7 +37,7 @@ Encore
     .cleanupOutputBeforeBuild()
     // .autoProvidejQuery()
     // .autoProvideVariables()
-    //.enableReactPreset()
+    .enableReactPreset()
     .disableSingleRuntimeChunk()
 ;
 
