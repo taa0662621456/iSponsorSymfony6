@@ -4,14 +4,14 @@ namespace App\Controller\Security;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnGb;
 use App\Entity\Vendor\VendorSecurity;
-use App\Event\RegisteredEvent;
 use App\Form\Vendor\VendorRegistrationType;
 use App\Service\EmailConfirmation;
 
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Psr\Log\LoggerInterface;
+use ReCaptcha\ReCaptcha;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,14 +65,14 @@ class RegistrationController extends AbstractController
      * @Route("/registration", name="registration", defaults={"layout" : "registration"}, options={"layout" : "registration"}, methods={"GET", "POST"})
      * @Route("/signup", name="signup", defaults={"layout" : "signup"}, options={"layout" : "signup"}, methods={"GET", "POST"})
      * @param Request $request
-     * @param EventDispatcherInterface $eventDispatcher
      * @param $layout
+     * @param \Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator $recaptcha3Validator
      * @return Response
-     * @throws \Exception|\Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
 	public function registration(Request $request,
-								 EventDispatcherInterface $eventDispatcher,
-                                 $layout): Response
+                                 $layout,
+                                 Recaptcha3Validator $recaptcha3Validator): Response
 	{
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
@@ -81,20 +81,9 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(VendorRegistrationType::class, $vendor);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
 
-//            $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
-//            $recaptchaResponse = $recaptcha->verify($request->request->get('vendor_registration')['captcha']);
-//
-//            if (!$recaptchaResponse->isSuccess()) {
-//                foreach ($recaptchaResponse->getErrorCodes() as $errorCode) {
-//                    $this->addFlash('danger', 'Error captcha: ' . $errorCode);
-//                    return $this->render('security/' . $layout . '.html.twig', [
-//                        'form' => $form->createView(),
-//                    ]);
-//                }
-//            }
-                #
                 $formData = $form->getData();
 //                #
 //                $sms = new SmsMessage(
@@ -137,12 +126,11 @@ class RegistrationController extends AbstractController
 
                 $this->addFlash('success', 'На Вашу почту отправлено письмо с кодом подтверждения');
 
-                return $this->redirectToRoute($this->getParameter('app_homepage_route'));
+            return $this->redirectToRoute($this->getParameter('app_homepage_route'));
         }
 
-		return $this->render('security/' . $layout . '.html.twig', [
+        return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),
 		]);
 	}
-
 }
