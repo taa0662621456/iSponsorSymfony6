@@ -51,14 +51,14 @@ class LoginController extends AbstractController
     {
 
         if (!$security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute($this->getParameter('app_logged_in_target_route'));
         }
 
         $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
 
         $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class, [
             '_username' => $authenticationUtils->getLastUsername()], [
-            'action' => $this->router->generate('login')]);
+            'action' => $this->router->generate($this->getParameter('app_login_route'))]);
 
         return $this->render(
             'security/' . $layout . '.html.twig', [

@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CodeConfirmationController extends AbstractController
 {
     /**
-     * @Route("/confirmations/{code}", name="code_confirmation")
+     * @Route("/confirmation/code/{code}", name="confirmation_code")
      * @param VendorSecurityRepository $vendorSecurityRepository
      * @param string $code
      * @return Response
@@ -29,17 +29,16 @@ class CodeConfirmationController extends AbstractController
 
         $vendor = new Vendor();
 
-        $vendor->setIsActive(true);
+        $vendor->setPublished(true);
         #
-        $vendorSecurityRepository->setActivationCode('');
+        $vendorSecurityRepository->setActivationCode(null);
         #
         $em = $this->getDoctrine()->getManager();
         $em->persist($vendor);
         $em->flush();
 
-        return $this->render('security/confirmed.html.twig', [
-            'vendor' => $vendorSecurityRepository,
-        ]);
+        $this->addFlash('success', 'Вы успешно прошли проверку кодом');
+        return $this->redirectToRoute($this->getParameter('app_homepage_route'));
     }
 
 }

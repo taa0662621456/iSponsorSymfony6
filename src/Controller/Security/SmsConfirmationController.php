@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class SmsConfirmationController extends AbstractController
 {
     /**
-     * @Route("/smsConfirmation", name="sms_confirmation")
+     * @Route("/confirmation/sms", name="confirmation_sms")
      * @param Request $request
      *
      * @return JsonResponse
