@@ -29,7 +29,7 @@
 					'required' => true,
 					'attr' => array(
 						'id' => 'vendorFirstName',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your first name',
 						'tabindex' => '101',
 						'autofocus' => true
@@ -43,7 +43,7 @@
 					'required' => true,
 					'attr' => array(
 						'id' => 'lastName',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your last name',
 						'tabindex' => '102',
 						'autofocus' => false
@@ -57,7 +57,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'middleName',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your middle name',
 						'tabindex' => '103',
 						'autofocus' => false
@@ -71,7 +71,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'phoneNumber',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your phone number',
 						'tabindex' => '201',
 						'autofocus' => false
@@ -85,7 +85,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'phoneSecond',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your second phone number',
 						'tabindex' => '202',
 						'autofocus' => false
@@ -99,7 +99,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'faxNumber',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your fax number',
 						'tabindex' => '203',
 						'autofocus' => false
@@ -113,7 +113,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'firstAddress',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your address',
 						'tabindex' => '301',
 						'autofocus' => false
@@ -127,7 +127,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'firstAddress',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your second address',
 						'tabindex' => '302',
 						'autofocus' => false
@@ -141,7 +141,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'firstAddress',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your city',
 						'tabindex' => '401',
 						'autofocus' => false
@@ -158,7 +158,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'country',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your country name',
 						'tabindex' => '403',
 						'autofocus' => false
@@ -172,7 +172,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'zip',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your zip-code',
 						'tabindex' => '404',
 						'autofocus' => false
@@ -188,7 +188,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'currency',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your main currency',
 						'tabindex' => '501',
 						'autofocus' => false
@@ -204,7 +204,7 @@
 					'required' => false,
 					'attr' => array(
 						'id' => 'accepted_currency',
-						'class' => 'form-control',
+						'class' => '',
 						'placeholder' => 'Enter Your accepted currency',
 						'tabindex' => '502',
 						'autofocus' => false
