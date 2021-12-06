@@ -1,5 +1,6 @@
 {
     "devDependencies": {
+        "@babel/preset-react": "^7.0.0",
         "@fortawesome/fontawesome-free": "^5.15.4",
         "@symfony/stimulus-bridge": "^2.0.0",
         "@symfony/webpack-encore": "^1.6.1",
@@ -20,6 +21,7 @@
         "prod": "./node_modules/.bin/encore production"
     },
     "dependencies": {
+        "@popperjs/core": "^2.11.0",
         "animate.css": "^4.1.1",
         "bloodhound-js": "^1.2.3",
         "bootstrap-icons": "^1.7.0",
@@ -29,6 +31,8 @@
         "fs": "0.0.1-security",
         "glyphicons": "^0.2.0",
         "h-include": "^4.3.0",
+        "Hinclude": "^1.2.0",
+        "imask": "^6.2.2",
         "infinite-scroll": "^4.0.1",
         "js-cookie": "^3.0.1",
         "masonry": "0.0.2",
@@ -36,7 +40,10 @@
         "node-sass": "*",
         "popper": "^1.0.1",
         "popper.js": "^1.15.0",
+        "prop-types": "^15.7.2",
         "propel": "^3.3.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
         "smartwizard": "^5.1.1",
         "tinymce": "^5.9.2"
     },
