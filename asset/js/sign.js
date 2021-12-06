@@ -1,10 +1,14 @@
 import 'bootstrap'
 import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
+import IMask from 'imask';
 
 require('../scss/sign.scss')
 require('../css/sign.css')
 
-require('../../templates/bootstrap-4.0.0/docs/4.0/examples/sign-in/signin.css')
+require('../../templates/bootstrap-5.1.3/sign-in/signin.css')
+// require('../../templates/bootstrap-4.0.0/docs/4.0/examples/sign-in/signin.css')
+
+
 Array.from(document.querySelectorAll('.toast'))
     .forEach(toastNode => new Toast(toastNode).show());
 
@@ -28,6 +32,14 @@ Array.from(document.querySelectorAll('.toast'))
             }, false)
         })
 })()
+
+const vendorSecurity_phone = document.getElementById('vendor_registration_vendorSecurity_phone');
+const maskOptions = {
+    // mask: '+0[000]`(00[00])`00[0]\\00\\00',
+    mask: '{+}00000000000000',
+    overwrite: true,
+};
+const mask = IMask(vendorSecurity_phone, maskOptions);
 
 
     // app.post('/sendSMS', function (req, res) {
