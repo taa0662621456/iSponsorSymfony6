@@ -30,17 +30,21 @@ class EmailConfirmationController extends AbstractController
     }
 
     /**
-     * @Route("/confirmations/email", name="confirmation_email")
+     * @Route("/confirmation/email", name="confirmation_email")
      * @param Request $request
      * @param VendorSecurityRepository $vendorSecurityRepository
      * @return Response
      */
-    public function EmailVerifier(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
+    public function confirmationEngine(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        /** @var \App\Entity\Vendor\VendorSecurity $user */
         $user = $this->getUser();
 
+        $id = $request->get('id');
         $slug = $request->get('slug');
+
         if (null === $slug) {
             return $this->redirectToRoute('homepage');
         }
@@ -52,11 +56,13 @@ class EmailConfirmationController extends AbstractController
         try {
             $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
         } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('e', $exception->getReason());
+
+            $this->addFlash('error', $exception->getReason());
 
             return $this->redirectToRoute('registration');
         }
-        $vendorSecurity = new VendorSecurity();
+
+        $vendorSecurity = $vendorSecurityRepository->findOneBy(['slug' => $slug]);
         $vendorSecurity->setPublished(true);
         $em = $this->getDoctrine()->getManager();
         $em->persist($vendorSecurity);
@@ -66,6 +72,4 @@ class EmailConfirmationController extends AbstractController
 
         return $this->redirectToRoute('homepage');
     }
-
-
 }
