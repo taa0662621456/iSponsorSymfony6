@@ -1,6 +1,6 @@
 karser_recaptcha3:
-    host: 'www.recaptcha.com'
-    site_key: '%app_google_recaptcha_key%'
-    secret_key: '%app_google_recaptcha_secret%'
-    score_threshold: 0.1
-    enabled: '%env(bool:RECAPTCHA3_ENABLED)%' # 0 or false for test .env
+    host: 'www.recaptcha.net'
+    site_key: '%env(GOOGLE_RECAPTCHA_KEY))%'
+    secret_key: '%env(GOOGLE_RECAPTCHA_SECRET))%'
+    score_threshold: 0.5
+    enabled: true
