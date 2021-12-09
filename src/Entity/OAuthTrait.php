@@ -13,12 +13,12 @@ trait OAuthTrait
      *
      * @ORM\Column(name="facebook_id", type="string", nullable=true)
      */
-    private string $facebookID;
+    private string $facebookId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="facebook_access_token", type="string", nullable=true)
+     * @ORM\Column(name="facebook_access_token", type="string", length="510", nullable=true)
      */
     private string $facebookAccessToken;
 
@@ -27,12 +27,12 @@ trait OAuthTrait
      *
      * @ORM\Column(name="github_id", type="string", nullable=true)
      */
-    private string $githubID;
+    private string $githubId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="github_access_token", type="string", nullable=true)
+     * @ORM\Column(name="github_access_token", type="string", length="510", nullable=true)
      */
     private string $githubAccessToken;
 
@@ -41,29 +41,29 @@ trait OAuthTrait
      *
      * @ORM\Column(name="google_id", type="string", nullable=true)
      */
-    private string $googleID;
+    private string $googleId;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="google_access_token", type="string", nullable=true)
+     * @ORM\Column(name="google_access_token", type="string", length="510", nullable=true)
      */
     private string $googleAccessToken;
 
     /**
      * @return string
      */
-    public function getFacebookID(): string
+    public function getFacebookId(): string
     {
-        return $this->facebookID;
+        return $this->facebookId;
     }
 
     /**
-     * @param string $facebookID
+     * @param string $facebookId
      */
-    public function setFacebookID(string $facebookID): void
+    public function setFacebookId(string $facebookId): void
     {
-        $this->facebookID = $facebookID;
+        $this->facebookId = $facebookId;
     }
 
     /**
@@ -85,17 +85,17 @@ trait OAuthTrait
     /**
      * @return string
      */
-    public function getGithubID(): string
+    public function getGithubId(): string
     {
-        return $this->githubID;
+        return $this->githubId;
     }
 
     /**
-     * @param string $githubID
+     * @param string $githubId
      */
-    public function setGithubID(string $githubID): void
+    public function setGithubId(string $githubId): void
     {
-        $this->githubID = $githubID;
+        $this->githubId = $githubId;
     }
 
     /**
@@ -117,17 +117,17 @@ trait OAuthTrait
     /**
      * @return string
      */
-    public function getGoogleID(): string
+    public function getGoogleId(): string
     {
-        return $this->googleID;
+        return $this->googleId;
     }
 
     /**
-     * @param string $googleID
+     * @param string $googleId
      */
-    public function setGoogleID(string $googleID): void
+    public function setGoogleId(string $googleId): void
     {
-        $this->googleID = $googleID;
+        $this->googleId = $googleId;
     }
 
     /**
