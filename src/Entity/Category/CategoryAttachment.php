@@ -5,7 +5,6 @@ namespace App\Entity\Category;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
-use App\Entity\OAuthTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,8 +28,8 @@ class CategoryAttachment
     /**
      * @return
 	 */
-	public function getCategoryAttachments()
-	{
+	public function getCategoryAttachments(): Category
+    {
 		return $this->categoryAttachments;
 	}
 
