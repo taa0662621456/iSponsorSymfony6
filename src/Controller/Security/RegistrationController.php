@@ -9,7 +9,6 @@ use App\Service\EmailConfirmation;
 
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Psr\Log\LoggerInterface;
-use ReCaptcha\ReCaptcha;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactory;
@@ -17,6 +16,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
@@ -65,14 +66,17 @@ class RegistrationController extends AbstractController
      * @Route("/registration", name="registration", defaults={"layout" : "registration"}, options={"layout" : "registration"}, methods={"GET", "POST"})
      * @Route("/signup", name="signup", defaults={"layout" : "signup"}, options={"layout" : "signup"}, methods={"GET", "POST"})
      * @param Request $request
-     * @param $layout
+     * @param \Symfony\Component\Notifier\TexterInterface $texter
      * @param \Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator $recaptcha3Validator
+     * @param $layout
      * @return Response
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Symfony\Component\Notifier\Exception\TransportExceptionInterface
      */
 	public function registration(Request $request,
-                                 $layout,
-                                 Recaptcha3Validator $recaptcha3Validator): Response
+                                 TexterInterface $texter,
+                                 Recaptcha3Validator $recaptcha3Validator,
+                                 $layout): Response
 	{
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
@@ -84,47 +88,49 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-                $formData = $form->getData();
-//                #
-//                $sms = new SmsMessage(
-//                    (string)$formData->getVendorSecurity()->getPhone(), 'Привет. Это круть'
-//                );
-//                $sentMessage = $texter->send($sms);
-//                #
-                $password = $this->passwordHasher->hashPassword(
-                    $vendorSecurity,
-                    $formData->getVendorSecurity()->getPlainPassword());
-                #
-                $vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
-                $vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
-                $vendorSecurity->setPassword($password);
-                #
-                $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
-                #
-                $vendor->setVendorSecurity($vendorSecurity);
-                $vendor->setVendorEnGb($vendorEnGb);
-                #
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($vendorSecurity);
-                $em->persist($vendorEnGb);
-                $em->persist($vendor);
-                $em->flush();
-                #
-                $this->addFlash('success', 'Вы успешно зарегистрировались');
-                $this->logger->notice('Успешная регистрация');
-                #
-                $this->emailConfirmation->confirmationSignatureSender('confirmation_email', $vendorSecurity,
-                    (new TemplatedEmail())
-                        ->from(new Address(
-                            $this->getParameter('app_notification_email_sender'),
-                            $this->getParameter('app_email_sender')
-                        ))
-                        ->to($vendorSecurity->getEmail())
-                        ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
+            $formData = $form->getData();
+            #
+            if ($recaptcha3Validator->getLastResponse()->getScore() * 100 - 1 <= $this->getParameter('env(RECAPTCHA_SCOPE)') * 100) {
+                $sms = new SmsMessage(
+                    (string)$formData->getVendorSecurity()->getPhone(), 'Привет. Это будет код-верификации.'
                 );
+                $sentMessage = $texter->send($sms);
+            }
+            #
+            $password = $this->passwordHasher->hashPassword(
+                $vendorSecurity,
+                $formData->getVendorSecurity()->getPlainPassword());
+            #
+            $vendorSecurity->setEmail((string)$formData->getVendorSecurity()->getEmail());
+            $vendorSecurity->setPhone((string)$formData->getVendorSecurity()->getPhone());
+            $vendorSecurity->setPassword($password);
+            #
+            $vendorEnGb->setVendorPhone((string)$formData->getVendorSecurity()->getPhone());
+            #
+            $vendor->setVendorSecurity($vendorSecurity);
+            $vendor->setVendorEnGb($vendorEnGb);
+            #
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($vendorSecurity);
+            $em->persist($vendorEnGb);
+            $em->persist($vendor);
+            $em->flush();
+            #
+            $this->addFlash('success', 'Вы успешно зарегистрировались');
+            $this->logger->notice('Успешная регистрация');
+            #
+            $this->emailConfirmation->confirmationSignatureSender('confirmation_email', $vendorSecurity,
+                (new TemplatedEmail())
+                    ->from(new Address(
+                        $this->getParameter('app_notification_email_sender'),
+                        $this->getParameter('app_email_sender')
+                    ))
+                    ->to($vendorSecurity->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
 
-                $this->addFlash('success', 'На Вашу почту отправлено письмо с кодом подтверждения');
+            $this->addFlash('success', 'На Вашу почту отправлено письмо с кодом подтверждения');
 
             return $this->redirectToRoute($this->getParameter('app_homepage_route'));
         }
