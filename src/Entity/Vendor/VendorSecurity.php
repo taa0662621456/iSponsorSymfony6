@@ -61,7 +61,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      *
      * @ORM\Column(name="phone", type="string", unique=true, nullable=false)
      *
-     * @Assert\NotBlank(message="vendors.message.error.phone")
+     * @Assert\NotBlank(message="vendor.message.error.phone")
      * @Length(min=9, minMessage="vendor.security.too.short.phone")
      * @Length(max=13, maxMessage="vendor.security.too.long.phone")
      */
@@ -210,7 +210,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	public function __construct()
     {
         $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
+        $uuid = (string)Uuid::v4();
+        $this->slug = $uuid;
+        $this->username = $uuid;
         $codeGenerator = new ConfirmationCodeGenerator;
         $this->activationCode = (string)$codeGenerator->getConfirmationCode();
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
@@ -242,8 +244,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      */
     public function setUsername(string $username): self
     {
-        $uuid = Uuid::v4();
-        $this->username = $username ?? $uuid;
+        $this->username = $username;
         return $this;
     }
 
@@ -300,7 +301,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      */
 	public function setPhone(string $phone): self
     {
-        $this->phone = $phone;
+        $this->phone = preg_replace("/[\'^£$%&*()}{@#~?><>,|=_+¬-]/","",$phone);
         return $this;
     }
 
@@ -563,7 +564,8 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
         return serialize([
             $this->id,
             $this->email,
-            $this->password
+            $this->password,
+            $this->phone
         ]);
 
     }
