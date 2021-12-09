@@ -26,3 +26,8 @@ hwi_oauth:
             client_id: '%env(GITHUB_KEY)%'
             client_secret: '%env(GITHUB_SECRET)%'
             scope: 'user:email,public_repo'
+    fosub:
+        properties:
+            facebook: facebook_id
+            google: google_id
+            github: github_id

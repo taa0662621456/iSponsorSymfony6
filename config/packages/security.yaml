@@ -77,14 +77,15 @@ security:
 #                csrf_token_generator: security.csrf.token_manager # dont work with enable_authenticator_manager is true
                 check_path: login_check
                 login_path: '%app_login_route%'
-                default_target_path: '%app_logged_in_target_route%'
-                use_referer: true
+                always_use_default_target_path: true
+                default_target_path: '%app_default_target_path%'
 #                target_path_parameter: redirect
                 failure_path_parameter: forgot
-                failure_path: login
+#                failure_path: login
                 username_parameter: _email
                 password_parameter: _password
                 use_forward: false
+                use_referer: true
             oauth:
                 resource_owners:
                     facebook: "/login/check-facebook"
