@@ -12,41 +12,42 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class OAuthAuthenticator extends EntityUserProvider implements AccountConnectorInterface
+class HWIOAuthAuthenticator extends EntityUserProvider implements AccountConnectorInterface
 {
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface|VendorSecurity
     {
-        $resourceOwnerName = $response->getResourceOwner()->getName();
-
-        if (!isset($this->properties[$resourceOwnerName])) {
-            throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resourceOwnerName));
+        $resource = $serviceName = $response->getResourceOwner()->getName();
+        if (isset($this->properties[$resource])) {
+            throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resource));
         }
 
-        $serviceName = $response->getResourceOwner()->getName();
-        $setterId = 'set'. ucfirst($serviceName) . 'ID';
+        $property = $response->getResourceOwner()->getName() . 'Id';
+        $setterId = 'set'. ucfirst($serviceName) . 'Id';
         $setterAccessToken = 'set'. ucfirst($serviceName) . 'AccessToken';
 
-        // unique integer
-        $username = $response->getUsername();
-        $email = $response->getEmail();
-        if (null === $user = $this->findUser([$this->properties[$resourceOwnerName] => $username])) {
-            // TODO: Create new user
-            if (null === $user = $this->findUser(['email' => $email])){
+        //TODO: в целом можно усовершенствовать запись и обновление персональных данных...
+        $id = $response->getData()['id'];
+        $name = $response->getData()['name']; //TODO: разобрать на имя и фамилию
+        $email = $username = $response->getData()['email'];
+
+        if (null == $user = $this->findUser([$property => $id])) { // Found
+
+            if (null == $user = $this->findUser(['email' => $email])) {
+                # A New User
                 $user = new VendorSecurity();
-                $user->setIsVerified(true);
-                $user->setEmail($response->getEmail());
+                $user->setPublished(true);
+                $user->setEmail($email);
                 $user->setPassword(md5(uniqid('', true)));
             }
-            else{
-                $user->setIsVerified(true);
-            }
-            $user->$setterId($username);
-        }
 
+        }
+        # Update UserToken
+        $user->$setterId($id);
         $user->$setterAccessToken($response->getAccessToken());
         $this->em->persist($user);
         $this->em->flush();
         return $user;
+//        return $this->redirectToRoute($this->getParameter('app_homepage_route'));
     }
 
     public function connect(UserInterface $user, UserResponseInterface $response)
@@ -56,9 +57,11 @@ class OAuthAuthenticator extends EntityUserProvider implements AccountConnectorI
         }
 
         $property = $this->getProperty($response);
-        $username = $response->getUsername();
+        $id = $response->getData()['id'];
+//        $name = $response->getData()['name']; //TODO: разобрать на имя и фамилию
+//        $email = $username = $response->getData()['email'];
 
-        if (null !== $previousUser = $this->registry->getRepository(VendorSecurity::class)->findOneBy(array($property => $username))) {
+        if (null !== $previousUser = $this->registry->getRepository(VendorSecurity::class)->findOneBy(array($property => $id))) {
             // 'disconnect' previously connected users
             $this->disconnect($previousUser, $response);
         }
@@ -79,13 +82,13 @@ class OAuthAuthenticator extends EntityUserProvider implements AccountConnectorI
      */
     protected function getProperty(UserResponseInterface $response): string
     {
-        $resourceOwnerName = $response->getResourceOwner()->getName();
 
-        if (!isset($this->properties[$resourceOwnerName])) {
-            throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resourceOwnerName));
+        $resource = $response->getResourceOwner()->getName();
+        if (!isset($this->properties[$resource])) {
+            throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resource));
         }
 
-        return $this->properties[$resourceOwnerName];
+        return $this->properties[$resource];
     }
 
     /**
@@ -111,7 +114,7 @@ class OAuthAuthenticator extends EntityUserProvider implements AccountConnectorI
      */
     private function updateUser(UserInterface $user, UserResponseInterface $response)
     {
-        $user->setEmail($response->getEmail());
+        $user->setEmail($response->getData()['email']);
         // TODO: Add more fields?!
 
         $this->em->persist($user);
