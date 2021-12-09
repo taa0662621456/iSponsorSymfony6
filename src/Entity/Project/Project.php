@@ -3,12 +3,12 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
+use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
 use App\Entity\Product\Product;
 use App\Entity\Product\ProductEnGb;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Category\Category;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -41,6 +41,13 @@ class Project
      * @ORM\JoinColumn(name="projectCategory_id", referencedColumnName="id")
      */
     private Category $projectCategory;
+
+//TODO: отвязать категории, чтобы системные данные: категории и меню хранились и работали в отдельной БД
+//    /**
+//     * @ORM\ManyToOne(targetEntity="App\Entity\Category\CategoryInterface")
+//     * @var CategoryInterface
+//     */
+//    protected CategoryInterface $projectCategory;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductEnGb",
