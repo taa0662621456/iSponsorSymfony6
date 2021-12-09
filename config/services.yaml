@@ -7,10 +7,10 @@ parameters:
     # Redirect routs
     app_schema: 'https'
     app_homepage_route: homepage
-    app_login_route: 'login'
-    app_logout_route: 'logout'
-    app_logged_in_target_route: 'homepage'
-    app_logged_out_target_route: 'homepage'
+    app_login_route: login
+    app_logout_route: logout
+    app_default_target_path: homepage
+    app_logged_out_target_route: homepage
     # Localisation
     app_locales: en|ru|uk
 #    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
@@ -35,6 +35,8 @@ parameters:
     app_menu_images_directory: '%env(APP_MENU_IMAGE_DIRECTORY)%'
     app_project_images_directory: '%env(APP_PROJECT_IMAGE_DIRECTORY)%'
     app_product_images_directory: '%env(APP_PRODUCT_IMAGE_DIRECTORY)%'
+    app_google_recaptcha: '%env(RECAPTCHA3_ENABLED)%'
+    app_google_scope: '%env(RECAPTCHA_SCOPE)%'
     app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
     app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
     app_vendor_images_directory: '%env(APP_VENDOR_IMAGES_DIRECTORY)%'
@@ -85,11 +87,11 @@ services:
 #            - { name: "kernel.event_subscriber", priority: 100 }
 
     hwi_oauth.resource_owners:
-        class: App\Security\OAuthAuthenticator
+        class: App\Security\HWIOAuthAuthenticator
         arguments:
             - '@doctrine'
             - 'App\Entity\Vendor\VendorSecurity'
-            - [facebook: facebookID, google: googleID, github: githubID]
+            - [facebook: facebookId, google: googleId, github: githubId]
     App\Service\CloudflareIpResolver:
         decorates: 'karser_recaptcha3.ip_resolver'
         arguments:

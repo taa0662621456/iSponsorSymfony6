@@ -32,6 +32,8 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'
     orm:
+        resolve_target_entities:
+            App\Interface\CategoryInterface: App\Entity\Category\Category
         #        auto_generate_proxy_classes: true
         #        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         #        auto_mapping: true
@@ -132,6 +134,25 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Tag'
                         prefix: 'App\Entity\Tag'
                         alias: Tag
+                    Attachment:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Attachment'
+                        prefix: 'App\Entity\Attachment'
+                        alias: Attachment
+                    Featured:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Featured'
+                        prefix: 'App\Entity\Featured'
+                        alias: Featured
+                    # May be Module not need in this connection
+                    Module:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Module'
+                        prefix: 'App\Entity\Module'
+                        alias: Module
             review:
                 connection: review
                 mappings:
