@@ -2,6 +2,8 @@
 
 namespace App\Form\Vendor;
 
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -148,16 +150,25 @@ class VendorLoginType extends AbstractType
                             'onclick' => 'window.location.href=\'/connect/google\'',
                         ]
                     ])
+            )
             # Login by Social Network. End!
-            );
-
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3([
+                    'message' => 'There were problems with your captcha. Please try again or contact with support and provide following code(s): {{ errorCodes }}',
+                    'messageMissingValue' => 'captcha.missing.value',
+                ]),
+                'action_name' => 'registration',
+                # 'script_nonce_csp' => $nonceCSP,
+            ])
+        ;
     }
 
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-                'csrf_protection' => true,
+                'trim' => true,
+                'csrf_protection'    => true,
                 'csrf_field_name' => '_csrf_token',
                 'csrf_token_id' => $this->token,
                 'translation_domain' => 'vendor',
