@@ -51,7 +51,7 @@ class LoginController extends AbstractController
     {
 
         if (!$security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            return $this->redirectToRoute($this->getParameter('app_logged_in_target_route'));
+            return $this->redirectToRoute($this->getParameter('app_default_target_path'));
         }
 
         $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
