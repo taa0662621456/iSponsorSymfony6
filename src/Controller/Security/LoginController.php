@@ -5,7 +5,6 @@ namespace App\Controller\Security;
 
 
 use App\Form\Vendor\VendorLoginType;
-use App\Form\Vendor\VendorRegistrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,25 +39,29 @@ class LoginController extends AbstractController
      * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "login"},
      *     methods={"GET", "POST"})
      *
-     * @param Request $request
      * @param Security $security
      * @param AuthenticationUtils $authenticationUtils
      * @param string $layout
      *
      * @return Response
      */
-    public function login(Request $request, Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
+    public function login(Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
     {
-
-        if (!$security->isGranted('IS_AUTHENTICATED_ANONYMOUSLY')) {
-            return $this->redirectToRoute($this->getParameter('app_default_target_path'));
+        if (null !== $this->getUser()) {
+            return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
+        }
+        if (null !== $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
         }
 
-        $this->saveTargetPath($request->getSession(), 'main', $this->generateUrl('homepage'));
-
-        $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class, [
-            '_username' => $authenticationUtils->getLastUsername()], [
-            'action' => $this->router->generate($this->getParameter('app_login_route'))]);
+        $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class,
+            [
+            '_username' => $authenticationUtils->getLastUsername()
+            ],
+            [
+            'action' => $this->router->generate($this->getParameter('app_login_route'))
+            ]
+        );
 
         return $this->render(
             'security/' . $layout . '.html.twig', [

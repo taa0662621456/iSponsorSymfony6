@@ -152,6 +152,35 @@ class VendorLoginType extends AbstractType
                     ])
             )
             # Login by Social Network. End!
+            # Forgot.
+            ->add(
+                $builder
+                    ->create('forgot', FormType::class, [
+                        'translation_domain' => 'button',
+                        'inherit_data' => true,
+                        'label' => false,
+                        'attr'=> [
+                            'class' => 'btn-group m-1'
+                        ]
+                    ])
+                    ->add('forgot_email', ButtonType::class, [
+                        'translation_domain' => 'button',
+                        'label' => 'button.label.forgot.email',
+                        'attr'  => [
+                            'class' => 'btn btn-link btn-sm forgot',
+                            'onclick' => 'window.location.href=\'/forgot/email\''
+                        ]
+                    ])
+                    ->add('forgot_password', ButtonType::class, [
+                        'translation_domain' => 'button',
+                        'label' => 'button.label.forgot.password',
+                        'attr' => [
+                            'class' => 'btn btn-link btn-sm forgot',
+                            'onclick' => 'window.location.href=\'/forgot/password\'',
+                        ]
+                    ])
+            )
+            # Forgot. End!
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3([
                     'message' => 'There were problems with your captcha. Please try again or contact with support and provide following code(s): {{ errorCodes }}',

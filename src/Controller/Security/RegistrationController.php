@@ -20,6 +20,7 @@ use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Twig\Environment;
 
@@ -66,18 +67,22 @@ class RegistrationController extends AbstractController
      * @Route("/registration", name="registration", defaults={"layout" : "registration"}, options={"layout" : "registration"}, methods={"GET", "POST"})
      * @Route("/signup", name="signup", defaults={"layout" : "signup"}, options={"layout" : "signup"}, methods={"GET", "POST"})
      * @param Request $request
-     * @param \Symfony\Component\Notifier\TexterInterface $texter
      * @param \Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator $recaptcha3Validator
-     * @param $layout
+     * @param \Symfony\Component\Notifier\TexterInterface $texter
+     * @param string $layout
      * @return Response
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      * @throws \Symfony\Component\Notifier\Exception\TransportExceptionInterface
      */
 	public function registration(Request $request,
-                                 TexterInterface $texter,
                                  Recaptcha3Validator $recaptcha3Validator,
-                                 $layout): Response
+                                 TexterInterface $texter,
+                                 string $layout = 'registration'): Response
 	{
+        if (null !== $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
+        }
+
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
         $vendorEnGb = new VendorEnGb();
