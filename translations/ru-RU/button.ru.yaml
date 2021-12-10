@@ -24,5 +24,7 @@ button.navbar.signup: 'Зарегистрироваться'
 button.label.facebook: 'Через Facebook'
 button.label.google: 'Через Google'
 button.label.github: 'Через Github'
+button.label.forgot.email: 'Забыл email'
+button.label.forgot.password: 'Забыл пароль'
 
 

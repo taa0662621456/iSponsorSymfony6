@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block meta_description %}Fogot!{% endblock %}
+{% block title %}Fogot!{% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('sign') }}
+{% endblock %}
+{% block body %}
+    <body class="justify-content-center">
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error.message }}
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    {{ form_errors (form) }}
+    </body>
+{% endblock %}
+{% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
+{% block footer %}{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('sign') }}
+{% endblock %}
