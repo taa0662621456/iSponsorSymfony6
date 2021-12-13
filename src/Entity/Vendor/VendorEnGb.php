@@ -5,6 +5,7 @@ namespace App\Entity\Vendor;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
+use App\Entity\VendorLanguageTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 

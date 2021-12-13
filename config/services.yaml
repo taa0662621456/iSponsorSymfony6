@@ -9,7 +9,7 @@ parameters:
     app_homepage_route: homepage
     app_login_route: login
     app_logout_route: logout
-    app_default_target_path: homepage
+    app_default_target_path: profile
     app_logged_out_target_route: homepage
     # Localisation
     app_locales: en|ru|uk
@@ -48,6 +48,7 @@ parameters:
     # Sitemap
     router.request_context.host: smartresponsor.com
     router.request_context.scheme: https
+    container.dumper.inline_factories: true
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -85,13 +86,13 @@ services:
 #            - '@doctrine'
 #        tags:
 #            - { name: "kernel.event_subscriber", priority: 100 }
-
-    hwi_oauth.resource_owners:
+    hwi_oauth.user.provider.entity:
         class: App\Security\HWIOAuthAuthenticator
         arguments:
             - '@doctrine'
-            - 'App\Entity\Vendor\VendorSecurity'
+            - 'App\\Entity\\Vendor\\VendorSecurity'
             - [facebook: facebookId, google: googleId, github: githubId]
+            - postgres
     App\Service\CloudflareIpResolver:
         decorates: 'karser_recaptcha3.ip_resolver'
         arguments:
@@ -101,7 +102,7 @@ services:
     App\EventSubscriber\LocaleSubscriber:
         #        arguments: [ '%kernel.default_locale%' ]
         arguments: [ '%app_locale%' ]
-#         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
+    #         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
 
     App\:
         resource: '../src/'

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity\Vendor;
 
@@ -601,7 +600,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     /**
 	 * @param $vendorSecurity
 	 */
-	public function setVendorSecurity($vendorSecurity): void
+	public function setVendorSecurity($vendorSecurity): self
     {
         $this->vendorSecurity = $vendorSecurity;
     }

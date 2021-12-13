@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Entity\Category;
+namespace App\Entity;
 
 
+use App\Entity\Category\CategoryEnGb;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;

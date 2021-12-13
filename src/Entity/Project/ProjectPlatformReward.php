@@ -16,7 +16,8 @@ class ProjectPlatformReward
     use BaseTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Project", inversedBy="projectPlatformReward")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project\Project",
+     *     inversedBy="projectPlatformReward")
      * @ORM\JoinTable(name="project")
      */
     private Project $projectId;

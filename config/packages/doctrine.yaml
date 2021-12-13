@@ -34,17 +34,15 @@ doctrine:
     orm:
         resolve_target_entities:
             App\Interface\CategoryInterface: App\Entity\Category\Category
+            App\Interface\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
+            App\Interface\ProjectInterface: App\Entity\Project\Project
+            App\Interface\FeaturedInterface: App\Entity\Featured\Featured
+            App\Interface\ReviewProductInterface: App\Entity\Review\ReviewProduct
+            App\Interface\ReviewProjectInterface: App\Entity\Review\ReviewProject
         #        auto_generate_proxy_classes: true
         #        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         #        auto_mapping: true
 
-        #        mappings:
-        #            App:
-        #                is_bundle: false
-        #                type: annotation
-        #                dir: '%kernel.project_dir%/src/Entity'
-        #                prefix: 'App\Entity'
-        #                alias: App
         default_entity_manager: postgres
         entity_managers:
             postgres:
@@ -62,12 +60,6 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Vendor'
                         prefix: 'App\Entity\Vendor'
                         alias: Vendor
-                    Category:
-                        is_bundle: false
-                        type: annotation
-                        dir: '%kernel.project_dir%/src/Entity/Category'
-                        prefix: 'App\Entity\Category'
-                        alias: Category
                     Project:
                         is_bundle: false
                         type: annotation

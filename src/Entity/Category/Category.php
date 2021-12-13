@@ -4,11 +4,10 @@ declare(strict_types=1);
 namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
-use App\Entity\Featured\Featured;
 use App\Interface\CategoryInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\Common\Collections\ArrayCollection;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 
@@ -34,21 +33,21 @@ class Category implements CategoryInterface
     private int $ordering = 1;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\Category",
+     * @ORM\OneToMany(targetEntity="App\Interface\CategoryInterface",
      *     mappedBy="parent",
      *     fetch="EXTRA_LAZY")
      */
     private ArrayCollection $children;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
+     * @ORM\ManyToOne(targetEntity="App\Interface\CategoryInterface",
      *     cascade={"persist"},
      *     inversedBy="children")
      */
-    private Category $parent;
+    private ArrayCollection $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\Project",
+     * @ORM\OneToMany(targetEntity="App\Interface\ProjectInterface",
      *      mappedBy="projectCategory")
      */
     private ArrayCollection $categoryProjects;
@@ -65,7 +64,7 @@ class Category implements CategoryInterface
     private CategoryEnGb $categoryEnGb;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Category\CategoryAttachment",
+     * @ORM\OneToMany(targetEntity="App\Interface\CategoryAttachmentInterface",
      *     mappedBy="categoryAttachments",
      *     cascade={"persist", "remove"},
      *     orphanRemoval=true)
@@ -73,9 +72,10 @@ class Category implements CategoryInterface
     private ArrayCollection $categoryAttachments;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured", mappedBy="categoryFeatured")
+     * @ORM\OneToOne(targetEntity="App\Interface\FeaturedInterface",
+     *     mappedBy="categoryFeatured")
      */
-    private Featured $categoryFeatured;
+    private ArrayCollection $categoryFeatured;
 
 
     /**
@@ -100,9 +100,9 @@ class Category implements CategoryInterface
     /**
      * @param ArrayCollection $categoryProjects
      */
-    public function setCategoryProjects(ArrayCollection $categoryProjects): void
+    public function addCategoryProjects(ArrayCollection $categoryProjects): void
     {
-        $this->categoryProjects = $categoryProjects;
+        $this->categoryProjects->add($categoryProjects);
     }
 
 
@@ -141,9 +141,9 @@ class Category implements CategoryInterface
 
     /**
      * @param $children
-     * @return CategoryInterface
+     * @return Category
      */
-    public function addChildren($children):CategoryInterface
+    public function addChildren($children):Category
     {
         $this->children = $children;
 
@@ -151,7 +151,7 @@ class Category implements CategoryInterface
     }
 
     /**
-     * @param Category $children
+     * @param CategoryInterface $children
      */
     public function removeChildren(CategoryInterface $children): void
     {
@@ -167,30 +167,28 @@ class Category implements CategoryInterface
     }
 
     /**
-     * @return Category|null
+     * @return ArrayCollection
      */
-    public function getParent(): ?Category
+    public function getParent(): ArrayCollection
     {
         return $this->parent;
     }
 
     /**
-     * @param Category $parent
+     * @param $parent
      *
-     * @return Category
      */
-    public function setParent(Category $parent): Category
+    public function addParent($parent):void
     {
-        $this->parent = $parent;
+        $this->parent->add($parent);
 
-        return $this;
     }
 
 
     /**
-     * @param CategoryAttachment $attachments
+     * @param $attachments
      */
-    public function addCategoryAttachment(CategoryAttachment $attachments): void
+    public function addCategoryAttachment($attachments): void
     {
         foreach ($attachments as $attachment) {
             if (!$this->categoryAttachments->contains($attachment)) {
@@ -201,9 +199,9 @@ class Category implements CategoryInterface
 
 
     /**
-     * @param CategoryAttachment $attachment
+     * @param $attachment
      */
-    public function removeCategoryAttachment(CategoryAttachment $attachment): void
+    public function removeCategoryAttachment($attachment): void
     {
         $this->categoryAttachments->removeElement($attachment);
     }
@@ -217,9 +215,9 @@ class Category implements CategoryInterface
     }
 
     /**
-     * @return Featured
+     * @return ArrayCollection
      */
-    public function getCategoryFeatured(): Featured
+    public function getCategoryFeatured(): ArrayCollection
     {
         return $this->categoryFeatured;
     }
@@ -227,8 +225,8 @@ class Category implements CategoryInterface
     /**
      * @param $categoryFeatured
      */
-    public function setCategoryFeatured($categoryFeatured): void
+    public function addCategoryFeatured($categoryFeatured): void
     {
-        $this->categoryFeatured = $categoryFeatured;
+        $this->categoryFeatured->add($categoryFeatured);
     }
 }

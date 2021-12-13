@@ -5,6 +5,7 @@ namespace App\Entity\Project;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait ProjectLanguageTrait
@@ -66,12 +67,13 @@ trait ProjectLanguageTrait
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Project\Project",
-     *     inversedBy="projectEnGb"
-     *)
+     *     inversedBy="projectEnGb")
+     *
      */
     private Project $projectEnGb;
 
 
+    #[Pure]
     public function __toString()
     {
         return $this->getProjectTitle();
@@ -88,7 +90,7 @@ trait ProjectLanguageTrait
     /**
      * @param string $projectTitle
      *
-     * @return ProjectEnGb
+     * @return \App\Entity\Project\ProjectRuRu|\App\Entity\Project\ProjectEnGb|\App\Entity\Project\ProjectLanguageTrait|\App\Entity\Project\ProjectUkUa
      */
     public function setProjectTitle(string $projectTitle): self
     {

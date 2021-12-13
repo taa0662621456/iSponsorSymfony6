@@ -3,16 +3,13 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
-use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
 use App\Entity\Product\Product;
-use App\Entity\Product\ProductEnGb;
+use App\Interface\ProjectInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
-
-
 
 /**
  * @ORM\Table(name="projects", indexes={
@@ -23,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Project
+class Project implements ProjectInterface
 {
     use BaseTrait;
     public const NUM_ITEMS = 10;
@@ -35,30 +32,27 @@ class Project
     private string $projectType; //TODO: поменять на связь с таблицей типов проектов
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
-     *      inversedBy="categoryProjects",
-     *      fetch="EXTRA_LAZY")
+     *
+     * @ORM\ManyToOne(targetEntity="App\Interface\CategoryInterface",
+     *     inversedBy="categoryProjects",
+     *     fetch="EXTRA_LAZY")
      * @ORM\JoinColumn(name="projectCategory_id", referencedColumnName="id")
+     *
+     * @var ArrayCollection
      */
-    private Category $projectCategory;
-
-//TODO: отвязать категории, чтобы системные данные: категории и меню хранились и работали в отдельной БД
-//    /**
-//     * @ORM\ManyToOne(targetEntity="App\Entity\Category\CategoryInterface")
-//     * @var CategoryInterface
-//     */
-//    protected CategoryInterface $projectCategory;
+    private ArrayCollection $projectCategory;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product\ProductEnGb",
+     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectEnGb",
      *     cascade={"persist", "remove"},
      *     mappedBy="projectEnGb",
      *     orphanRemoval=true)
      * @ORM\JoinColumn(name="projectEnGb_id", referencedColumnName="id", onDelete="CASCADE")
+     *
      * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
      * @Assert\Valid()
      */
-    private ProductEnGb $projectEnGb;
+    private ArrayCollection $projectEnGb;
 
 
     /**
@@ -117,10 +111,10 @@ class Project
      *     cascade={"persist", "remove"},
      *     mappedBy="projectId",
      *     orphanRemoval=true)
-     * @ORM\JoinTable(name="rewards")
+     * @ORM\JoinTable(name="project_platform_reward")
      * @Assert\Count(max="100", maxMessage="project.too_many_rewards")
      */
-    private ArrayCollection $projectsPlatformReward;
+    private ArrayCollection $projectPlatformReward;
 
 
     /**
@@ -133,23 +127,31 @@ class Project
         $this->projectAttachments = new ArrayCollection();
         $this->projectTags = new ArrayCollection();
         $this->projectProducts = new ArrayCollection();
-        $this->projectsPlatformReward = new ArrayCollection();
+        $this->projectPlatformReward = new ArrayCollection();
     }
 
+//    /**
+//     * @return Category
+//     */
+//    public function getProjectCategory(): Category
+//    {
+//        return $this->projectCategory;
+//    }
+
     /**
-     * @return Category
+     * @return ArrayCollection
      */
-    public function getProjectCategory(): Category
+    public function getProjectCategory():ArrayCollection
     {
         return $this->projectCategory;
     }
 
     /**
-     * @param Category $projectCategory
+     * @param $projectCategory
      */
-    public function setProjectCategory(Category $projectCategory): void
+    public function addProjectCategory($projectCategory): void
     {
-        $this->projectCategory = $projectCategory;
+        $this->projectCategory->add($projectCategory);
     }
 
     /**
@@ -258,8 +260,8 @@ class Project
     public function addProjectPlatformReward(ProjectPlatformReward $rewards): void
     {
         foreach ($rewards as $reward) {
-            if (!$this->projectsPlatformReward->contains($reward)) {
-                $this->projectsPlatformReward->add($reward);
+            if (!$this->projectPlatformReward->contains($reward)) {
+                $this->projectPlatformReward->add($reward);
             }
         }
     }
@@ -269,21 +271,21 @@ class Project
      */
     public function removeProjectPlatformReward(ProjectPlatformReward $reward): void
     {
-        $this->projectsPlatformReward->removeElement($reward);
+        $this->projectPlatformReward->removeElement($reward);
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getProjectPlatformRewards(): ArrayCollection
+    public function getProjectPlatformReward(): ArrayCollection
     {
-        return $this->projectsPlatformReward;
+        return $this->projectPlatformReward;
     }
 
     /**
-     * @return ProductEnGb
+     * @return ArrayCollection
      */
-    public function getProjectEnGb(): ProductEnGb
+    public function getProjectEnGb(): ArrayCollection
     {
         return $this->projectEnGb;
     }

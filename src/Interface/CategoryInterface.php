@@ -44,9 +44,9 @@ interface CategoryInterface
 
     /**
      * @param $children
-     * @return CategoryInterface
+     * @return Category
      */
-	public function addChildren($children):CategoryInterface;
+	public function addChildren($children):Category;
 
     /**
      * @param Category $children
@@ -63,7 +63,7 @@ interface CategoryInterface
      * @return Category|null
      * @return void
      */
-	public function getParent(): ?Category;
+	public function getParent(): Category|null;
 
 	/**
 	 * @param Category $parent

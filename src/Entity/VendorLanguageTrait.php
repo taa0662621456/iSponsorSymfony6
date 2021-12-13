@@ -1,9 +1,10 @@
 <?php
 
 
-namespace App\Entity\Vendor;
+namespace App\Entity;
 
 
+use App\Entity\Vendor\VendorEnGb;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;

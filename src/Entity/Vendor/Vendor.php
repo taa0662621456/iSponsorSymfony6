@@ -178,7 +178,8 @@ class Vendor
     private Collection $participant;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorFavourite", mappedBy="vendorFavourite")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Vendor\VendorFavourite",
+     *     mappedBy="vendorFavourites")
      * @ORM\JoinColumn(name="vendors_favourite_id", referencedColumnName="id", onDelete="CASCADE", nullable=true)
      */
     private Collection $vendorFavourite;
