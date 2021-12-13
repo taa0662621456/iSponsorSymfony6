@@ -3,11 +3,9 @@
 namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
-use App\Entity\OAuthTrait;
+use App\Entity\CategoryLanguageTrait;
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 
 

@@ -1,15 +1,11 @@
 <?php
-declare(strict_types=1);
 
 namespace App\Entity\Category;
 
 use App\Entity\BaseTrait;
-use App\Entity\OAuthTrait;
+use App\Entity\CategoryLanguageTrait;
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
-
 
 
 /**
@@ -20,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class CategoryEnGb
 {
-    use BaseTrait;
-    use ObjectTrait;
     use CategoryLanguageTrait;
+    use ObjectTrait;
+    use BaseTrait;
 }

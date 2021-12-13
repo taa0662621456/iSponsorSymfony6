@@ -67,21 +67,20 @@ security:
 #                - App\Security\PassportAuthenticator
                 - App\Security\LoginFormAuthenticator
                 - App\Security\ApiKeyAuthenticator
-#                - App\Security\OAuthAuthenticator
             entry_point: App\Security\LoginFormAuthenticator
-#            entry_point: form_login #TODO:проверить комбинацию
+#            entry_point: form_login # TODO:проверить комбинацию
             form_login:
                 enable_csrf: true # if true, to csrf_token_generator must be false
                 csrf_parameter: '%app_csrf_token%'
                 csrf_token_id: 'weqweqweDFDFDFFDwqeqwewqewqe' # Can be '%env(APP_SECRET)%'
 #                csrf_token_generator: security.csrf.token_manager # dont work with enable_authenticator_manager is true
-                check_path: login_check
+                check_path: /connect/login_check
                 login_path: '%app_login_route%'
                 always_use_default_target_path: true
                 default_target_path: '%app_default_target_path%'
 #                target_path_parameter: redirect
                 failure_path_parameter: forgot
-#                failure_path: login
+                failure_path: login
                 username_parameter: _email
                 password_parameter: _password
                 use_forward: false
@@ -95,15 +94,18 @@ security:
                 use_forward: false
                 failure_path: /login
                 oauth_user_provider:
-                    service: hwi_oauth.resource_owners
+                    service: hwi_oauth.user.provider.entity
             logout:
                 path: '%app_logout_route%'
                 target: '%app_logged_out_target_route%'
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS, ip: '%env(TRUSTED_IPS)%' }
-        - { path: ^/connect, roles: PUBLIC_ACCESS, ip: '%env(TRUSTED_IPS)%' }
-        - { path: ^/admin, roles: ROLE_ADMIN, ip: '%env(TRUSTED_IPS)%' }
-        - { path: ^/profile/, roles: ROLE_USER, ip: '%env(TRUSTED_IPS)%' }
+        - { path: ^/login, roles: [IS_AUTHENTICATED_ANONYMOUSLY, PUBLIC_ACCESS], ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/connect, roles: [IS_AUTHENTICATED_ANONYMOUSLY, PUBLIC_ACCESS], ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/admin, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_ADMIN], ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/category/new, roles: [ROLE_ADMIN], ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/profile/, roles: ROLE_USER, ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/project/new, roles: ROLE_USER, ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/product/new, roles: ROLE_USER, ips: '%env(TRUSTED_IPS)%' }
         - { path: ^/api/, roles: ROLE_USER, ip: '%env(TRUSTED_IPS)%' }
 
 

@@ -5,6 +5,7 @@ namespace App\Entity\Category;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
+use App\Interface\CategoryInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,25 +19,32 @@ class CategoryAttachment
     use BaseTrait;
     use AttachmentTrait;
 
+//    /**
+//     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
+//     *     inversedBy="categoryAttachment")
+//     * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
+//     */
+//    private Category $categoryAttachments;
+
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category\Category",
-     *     inversedBy="categoryAttachment")
+     * @ORM\ManyToOne(targetEntity="App\Interface\CategoryInterface",
+     *     inversedBy="categoryAttachments")
      * @ORM\JoinColumn(name="categoryAttachments_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    private Category $categoryAttachments;
+    private CategoryInterface $categoryAttachments;
 
     /**
      * @return
 	 */
-	public function getCategoryAttachments(): Category
+	public function getCategoryAttachments(): CategoryInterface
     {
 		return $this->categoryAttachments;
 	}
 
 	/**
-	 * @param Category $categoryAttachments
+	 * @param CategoryInterface $categoryAttachments
 	 */
-	public function setCategoryAttachments(Category $categoryAttachments): void
+	public function setCategoryAttachments(CategoryInterface $categoryAttachments): void
 	{
 		$this->categoryAttachments = $categoryAttachments;
 	}
