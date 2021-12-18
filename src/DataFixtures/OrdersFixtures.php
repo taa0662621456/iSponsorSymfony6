@@ -2,15 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Order\Orders;
-use App\Entity\Order\OrdersItems;
-use App\Entity\Order\OrdersStatus;
-use App\Entity\Product\ProductsEnGb;
+use App\Entity\Order\Order;
+use App\Entity\Order\OrderItem;
+use App\Entity\Order\OrderStatus;
+use App\Entity\Product\ProductEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Symfony\Component\Uid\Uuid;
 
 class OrdersFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -20,21 +19,14 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
 	{
-		$productsEnGbRepository = $manager->getRepository(ProductsEnGb::class);
+		$productsEnGbRepository = $manager->getRepository(ProductEnGb::class);
 		$productsCount = count($productsEnGbRepository->findAll());
 
-		$status = $manager->getRepository(OrdersStatus::class)->findAll();
+		$status = $manager->getRepository(OrderStatus::class)->findAll();
 
 		for ($p = 1; $p <= rand(1, $productsCount); $p++) {
 
-			$orders = new Orders();
-			$slug = $uuid = Uuid::v4();
-
-			try {
-				$orders->setUuid($uuid);
-				$orders->setSlug($slug);
-			} catch (Exception $e) {
-			}
+			$orders = new Order();
 
 			$orders->setOrderStatus($status[array_rand($status)]);
 
@@ -42,7 +34,7 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 
 			for ($i = 1; $i <= rand(1, $productsCount); $i++) {
 
-				$orderItems = new OrdersItems();
+				$orderItems = new OrderItem();
 
 				$orderItems->setItemId($i);
 				$orderItems->setItemName('item ' . $i);

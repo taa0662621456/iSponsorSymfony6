@@ -2,7 +2,7 @@
 
 	namespace App\DataFixtures;
 
-	use App\Entity\Category\Categories;
+	use App\Entity\Category\Category;
 	use Doctrine\Bundle\FixturesBundle\Fixture;
 	use Doctrine\Common\DataFixtures\DependentFixtureInterface;
     use Doctrine\Persistence\ObjectManager;
@@ -12,7 +12,7 @@
 
 		public function load(ObjectManager $manager)
 		{
-			$categoriesRepository = $manager->getRepository(Categories::class);
+			$categoriesRepository = $manager->getRepository(Category::class);
 			$countCategories = count($categoriesRepository->findAll());
 			$categories = $categoriesRepository->findAll();
 
@@ -40,10 +40,10 @@
 			}
 		}
 
-		public function getDependencies()
-		{
+		public function getDependencies(): array
+        {
 			return array(
-				CategoriesFixtures::class,
+				CategoryFixtures::class,
 			);
 		}
 

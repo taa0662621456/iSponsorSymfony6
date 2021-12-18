@@ -10,8 +10,6 @@ use App\Entity\Vendor\VendorMedia;
 use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use Symfony\Component\Uid\Uuid;
 
 class VendorsFixtures extends Fixture
 {
@@ -28,24 +26,14 @@ class VendorsFixtures extends Fixture
         $vendorEnGb = new VendorEnGb();
         $vendorDocument = new VendorDocument();
         $vendorMedia = new VendorMedia();
-        $uuid = $slug = Uuid::v4();
-
-        try {
-			$vendor->setSlug($slug);
-            $vendorSecurity->setSlug($uuid);
-        } catch (Exception $e) {
-        }
-
 
         $vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
         $vendorSecurity->setPassword($password);
 
         $vendorEnGb->setVendorZip($rand);
-//        $vendorEnGb->setFirstTitle('VendorFT' . $rand);
-//        $vendorEnGb->setFirstTitle('VendorMT' . $rand);
-//        $vendorEnGb->setFirstTitle('VendorLT' . $rand);
-//        //TODO: тут я хочу унифицировать три Titles и перенести их в BaseTrait, т.к. эти три поля так или иначе
-// присущий всем типам объектов
+        $vendorEnGb->setFirstTitle('VendorFT' . $rand);
+        $vendorEnGb->setFirstTitle('VendorMT' . $rand);
+        $vendorEnGb->setFirstTitle('VendorLT' . $rand);
 
         $vendorIban->setIban('0000000000000000');
 

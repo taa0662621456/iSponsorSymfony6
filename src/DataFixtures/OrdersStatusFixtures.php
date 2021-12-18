@@ -2,12 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\Doctrine\UuidEncoder;
-use App\Entity\Order\OrdersStatus;
+use App\Entity\Order\OrderStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
 use Symfony\Component\Uid\Uuid;
 
 class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
@@ -17,14 +15,7 @@ class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
     {
         for ($p = 1; $p <= 5; $p++) {
 
-            $ordersStatus = new OrdersStatus();
-            $slug = $uuid = Uuid::v4();
-
-            try {
-                $ordersStatus->setUuid($uuid);
-                $ordersStatus->setSlug($slug);
-            } catch (Exception $e) {
-            }
+            $ordersStatus = new OrderStatus();
 
             $ordersStatus->setOrderStatusCode('N');
             $ordersStatus->setOrderStatusName('New ' . $p);
@@ -35,7 +26,7 @@ class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return array(
             VendorsFixtures::class,
@@ -45,7 +36,7 @@ class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 5;
     }

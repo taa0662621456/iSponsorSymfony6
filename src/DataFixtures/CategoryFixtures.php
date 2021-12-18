@@ -2,38 +2,26 @@
 
 namespace App\DataFixtures;
 
-use App\Doctrine\UuidEncoder;
-use App\Entity\Category\Categories;
-use App\Entity\Category\CategoriesAttachments;
-use App\Entity\Category\CategoriesEnGb;
+use App\Entity\Category\Category;
+use App\Entity\Category\CategoryAttachment;
+use App\Entity\Category\CategoryEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use Symfony\Component\Uid\Uuid;
 
-class CategoriesFixtures extends Fixture implements DependentFixtureInterface
+class CategoryFixtures extends Fixture implements DependentFixtureInterface
 {
 
 	public function load(ObjectManager $manager)
 	{
 		for ($p = 1; $p <= 26; $p++) {
 
-			$categories = new Categories();
-			$categoryEnGb = new CategoriesEnGb();
-			$categoryAttachments = new CategoriesAttachments();
+			$category = new Category();
+			$categoryEnGb = new CategoryEnGb();
+			$categoryAttachments = new CategoryAttachment();
 
-
-            $uuid = $slug = Uuid::v4();
-
-			try {
-                $categories->setUuid($uuid);
-                $categories->setSlug(($slug));
-            } catch (Exception $e) {
-            }
-
-            $categories->setOrdering($p);
-            $categories->setCategoryEnGb($categoryEnGb);
+            $category->setOrdering($p);
+            $category->setCategoryEnGb($categoryEnGb);
 
             $categoryEnGb->setCategoryName('Category #' . $p);
             $categoryEnGb->setFirstTitle('Category #' . $p);
@@ -43,17 +31,17 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
             $categoryAttachments->setFileName('cover.jpg');
             $categoryAttachments->setFilePath('/');
             $categoryAttachments->setFileLayoutPosition('homepage');
-            $categoryAttachments->setCategoryAttachments($categories);
+            $categoryAttachments->setCategoryAttachments($category);
 
             $manager->persist($categoryAttachments);
             $manager->persist($categoryEnGb);
-            $manager->persist($categories);
+            $manager->persist($category);
             $manager->flush();
 		}
 	}
 
-	public function getDependencies ()
-	{
+	public function getDependencies (): array
+    {
 		return array (
 			VendorsFixtures::class,
 		);
@@ -62,8 +50,8 @@ class CategoriesFixtures extends Fixture implements DependentFixtureInterface
 	/**
 	 * @return int
 	 */
-	public function getOrder()
-	{
+	public function getOrder(): int
+    {
 		return 2;
 	}
 

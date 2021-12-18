@@ -36,7 +36,7 @@ class ReviewProductFixtures extends Fixture
     /**
      * @return int
      */
-    public function getOrder()
+    public function getOrder(): int
     {
         return 100;
     }

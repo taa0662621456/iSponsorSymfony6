@@ -2,15 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category\Categories;
-use App\Entity\Project\Projects;
-use App\Entity\Project\ProjectsAttachments;
-use App\Entity\Project\ProjectsEnGb;
+use App\Entity\Category\Category;
+use App\Entity\Project\Project;
+use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProjectEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Symfony\Component\Uid\Uuid;
 
 class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -20,26 +19,17 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
 	{
-		$categoriesRepository = $manager->getRepository(Categories::class);
+		$categoriesRepository = $manager->getRepository(Category::class);
 
 		$categories = $categoriesRepository->findAll();
 
 		for ($p = 1; $p <= 26; $p++) {
 
-			$projects = new Projects();
-			$projectEnGb = new ProjectsEnGb();
-			$projectAttachments = new ProjectsAttachments();
-            $slug = $uuid = Uuid::v4();
+			$projects = new Project();
+			$projectEnGb = new ProjectEnGb();
+			$projectAttachments = new ProjectAttachment();
 
-			try {
-				$projects->setUuid($uuid);
-				$projects->setSlug($slug);
-            } catch (Exception $e) {
-                throw ($e);
-            }
-
-
-            $projects->setProjectCategory($categories[array_rand($categories)]);
+            $projects->addProjectCategory($categories[array_rand($categories)]);
             $projects->setProjectType(rand(1, 4));
 
             $projects->setProjectEnGb($projectEnGb);
@@ -65,7 +55,7 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 	public function getDependencies (): array
     {
 		return array (
-			CategoriesFixtures::class,
+			CategoryFixtures::class,
 		);
 	}
 
