@@ -2,15 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Doctrine\UuidEncoder;
-use App\Entity\Product\Products;
-use App\Entity\Product\ProductsAttachments;
-use App\Entity\Product\ProductsEnGb;
+use App\Entity\Product\Product;
+use App\Entity\Product\ProductAttachment;
+use App\Entity\Product\ProductEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use Symfony\Component\Uid\Uuid;
 
 
 class ProductsFixtures extends Fixture implements DependentFixtureInterface
@@ -21,16 +18,9 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 
 		for ($p = 1; $p <= 26; $p++) {
 
-			$products = new Products();
-			$productEnGb = new ProductsEnGb();
-			$productAttachments = new ProductsAttachments();
-            $slug = $uuid = Uuid::v4();
-
-            try {
-                $products->setUuid($uuid);
-                $products->setSlug($slug);
-            } catch (Exception $e) {
-            }
+			$products = new Product();
+			$productEnGb = new ProductEnGb();
+			$productAttachments = new ProductAttachment();
 
             $productEnGb->setProductName('Product # ' . $p);
             $productEnGb->setFirstTitle('ProductFT # ' . $p);
@@ -52,11 +42,11 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 		}
 	}
 
-	public function getDependencies()
-	{
+	public function getDependencies(): array
+    {
 		return array(
 			VendorsFixtures::class,
-			CategoriesFixtures::class,
+			CategoryFixtures::class,
 			ProjectsFixtures::class,
 			OrdersStatusFixtures::class,
 		);
@@ -65,8 +55,8 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 	/**
 	 * @return int
 	 */
-	public function getOrder()
-	{
+	public function getOrder(): int
+    {
 		return 4;
 	}
 
