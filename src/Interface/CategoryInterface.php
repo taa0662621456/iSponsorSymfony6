@@ -18,7 +18,7 @@ interface CategoryInterface
      * @param ArrayCollection $categoryProjects
      * @return void
      */
-	public function setCategoryProjects(ArrayCollection $categoryProjects): void;
+	public function addCategoryProjects(ArrayCollection $categoryProjects): void;
 
     /**
      * @return CategoryEnGb
@@ -60,16 +60,14 @@ interface CategoryInterface
     public function getChildren(): ArrayCollection;
 
     /**
-     * @return Category|null
-     * @return void
+     * @return ArrayCollection|Category
      */
-	public function getParent(): Category|null;
+	public function getParent(): ArrayCollection|Category;
 
 	/**
 	 * @param Category $parent
-	 * @return Category
 	 */
-	public function setParent(Category $parent): Category;
+	public function addParent(Category $parent): void;
 
 	/**
 	 * @param CategoryAttachment $attachments
@@ -82,20 +80,20 @@ interface CategoryInterface
 	public function removeCategoryAttachment(CategoryAttachment $attachment): void;
 
     /**
-     * @return ArrayCollection
+     * @return ArrayCollection|CategoryAttachment
      */
-	public function getCategoryAttachments(): ArrayCollection;
+	public function getCategoryAttachments(): ArrayCollection|CategoryAttachment;
 
     /**
-     * @return Featured
+     * @return ArrayCollection|Featured
      */
-	public function getCategoryFeatured(): Featured;
+	public function getCategoryFeatured(): Featured|ArrayCollection;
 
 	/**
 	 * @param $categoryFeatured
      * @return void
 	 */
-	public function setCategoryFeatured($categoryFeatured): void;
+	public function addCategoryFeatured($categoryFeatured): void;
 
 
 

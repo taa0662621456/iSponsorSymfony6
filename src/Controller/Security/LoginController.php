@@ -48,9 +48,11 @@ class LoginController extends AbstractController
     public function login(Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
     {
         if (null !== $this->getUser()) {
+            $this->addFlash('success', 'Вы успешно авторизовались');
             return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
         }
         if (null !== $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->addFlash('success', 'Вы успешно авторизовались');
             return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
         }
 

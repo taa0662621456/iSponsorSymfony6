@@ -4,13 +4,12 @@
 {% block little_panel %}
     {{ include('_tools.html.twig') }}
 {% endblock %}
-{% block article_header %}{% endblock %}
+{% block article_header %}<h3>Create new Project</h3>{% endblock %}
 {% block article_content %}
     <div class="row">
         <div class="col- {{ c1 }}">
         </div>
         <div class="col- {{ c2 }}">
-            <h3>Create new Project</h3>
             {{ include('project/project/_form.html.twig') }}
         </div>
         <div class="col- {{ c3 }}">

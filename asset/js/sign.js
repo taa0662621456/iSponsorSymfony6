@@ -27,16 +27,6 @@ if (document.querySelectorAll('input[type="password"]').length > 1) {
             passwordFirst.classList.add('is-invalid')
             passwordSecond.classList.remove('is-valid')
             passwordSecond.classList.add('is-invalid')
-
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
-
-                form.classList.add('was-validated')
-            }, false)
-
         } else {
             let submit = document.querySelector('button[type="submit"]')
             passwordFirst.classList.remove('is-invalid')
@@ -55,28 +45,28 @@ Array.from(document.querySelectorAll('.toast'))
 /**
  * Bootstrap validation
  */
-let forms = document.querySelectorAll('.needs-validation')
-    Array.prototype.slice.call(forms)
-        .forEach(function (form) {
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
+Array.prototype.slice.call(document.querySelectorAll('form[class="needs-validation"]'))
+    .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
 
-                form.classList.add('was-validated')
-            }, false)
-        })
+            form.classList.add('was-validated')
+        }, false)
+    })
 /**
  * IMask pattern
  */
-const vendorSecurity_phone = document.getElementById('vendor_registration_vendorSecurity_phone');
-const maskOptions = {
-    mask: '+00000000000[0000]',
-    overwrite: true,
-};
-const mask = IMask(vendorSecurity_phone, maskOptions);
-
+if (document.querySelectorAll('input[type="tel"]').length > 0) {
+    const vendorSecurity_phone = document.getElementById('vendor_registration_vendorSecurity_phone');
+    const maskOptions = {
+        mask: '+00000000000[0000]',
+        overwrite: true,
+    };
+    const mask = IMask(vendorSecurity_phone, maskOptions);
+}
 
     // app.post('/sendSMS', function (req, res) {
     //     const {phoneNumber, recaptchaToken} = req.body;

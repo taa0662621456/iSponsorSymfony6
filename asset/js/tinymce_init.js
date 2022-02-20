@@ -9,7 +9,7 @@ require('tinymce/plugins/image');
 let form = document.querySelector('#object');
 //let form = $('#object').filter('form');
 //console.dir(document.documentElement); console.log(form.dataset.objectId);
-if (form != undefined) {
+if (form !== undefined) {
     tinymce.init({
         selector: '.reader',
         plugins: 'image',

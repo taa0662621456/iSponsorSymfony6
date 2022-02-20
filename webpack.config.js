@@ -11,6 +11,7 @@ Encore
     .addEntry('app', './asset/js/app.js')
     .addEntry('homepage', './asset/js/homepage.js')
     .addEntry('sign', './asset/js/sign.js')
+    .addEntry('profile', './asset/js/profile.js')
     .addEntry('err404', './asset/js/err404.js')
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

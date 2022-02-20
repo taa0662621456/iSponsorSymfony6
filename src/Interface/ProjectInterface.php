@@ -14,14 +14,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 interface ProjectInterface
 {
     /**
-     * @return Project
+     * @return ArrayCollection|Project
      */
-    public function getProjectCategory(): Project;
+    public function getProjectCategory(): ArrayCollection|Project;
 
     /**
      * @param Project $projectCategory
      */
-    public function setProjectCategory(Project $projectCategory): void;
+    public function addProjectCategory(Project $projectCategory): void;
 
     /**
      * @return string|null
@@ -95,9 +95,9 @@ interface ProjectInterface
     public function getProjectPlatformReward(): ArrayCollection;
 
     /**
-     * @return ProductEnGb
+     * @return ArrayCollection|ProductEnGb
      */
-    public function getProjectEnGb(): ProductEnGb;
+    public function getProjectEnGb(): ArrayCollection|ProductEnGb;
 
     /**
      * @param $projectEnGb

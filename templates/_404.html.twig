@@ -14,6 +14,7 @@
         </div>
     </body>
 {% endblock %}
+{% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
 {#    {{ show_source_code(_self) }}#}
 {% block javascripts %}
     {{ encore_entry_script_tags('err404') }}

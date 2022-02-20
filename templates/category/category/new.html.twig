@@ -2,28 +2,18 @@
 {% block title %}New Category{% endblock %}
 {% block header %}{% endblock %}
 {% block little_panel %}{% endblock %}
-{% block article_header %}{% endblock %}
+{% block article_header %} <h3>Create new Category</h3>{% endblock %}
 {% block section %}{% endblock %}
 {% block article_content %}
     <div class="row">
         <div class="{{ c1 }}">
         </div>
         <div class="{{ c2 }}">
-            <h3>Create new Category</h3>
             <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="example-wrapper">
-                    {% form_theme form 'bootstrap_4_layout.html.twig' %}
-
-                    {{ form_start(form, {'attr': {'id':'categoryEnGb', 'class':'form',}}) }}
-                    {{ form(form) }}
-                    {{ form_errors (form) }}
-                    {{ form_end(form) }}
-
+                    {{ include('category/category/_form.html.twig') }}
                 </div>
             </div>
-
-
-            {{ include('category/category/_form.html.twig') }}
         </div>
         <div class="{{ c3 }}">
         </div>

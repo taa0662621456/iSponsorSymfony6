@@ -8,9 +8,21 @@
         <ul class="list-unstyled">
         {%- for error in errors -%}
             {# use font-awesome icon library #}
+            //////////
             <li><span class="fa fa-exclamation-triangle"></span> {{ error.message }}</li>
         {%- endfor -%}
         </ul>
         {% if form is not rootform %}</span>{% else %}</div>{% endif %}
+    {%- endif %}
+{%- endblock form_errors %}
+
+
+{# Errors #}
+
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+        {%- for error in errors -%}
+            <div class="invalid-feedback d-block">{{ error.message }}</div>
+        {%- endfor -%}
     {%- endif %}
 {%- endblock form_errors %}

@@ -51,6 +51,7 @@ security:
             lazy: true
             switch_user: { role: ROLE_ALLOWED_TO_SWITCH }
             provider: postgres_users
+#            security: false # Not 'true' with HWI
             remember_me:
                 secret: '%app_secret%' # or '%env(APP_SECRET)%'
                 samesite: none

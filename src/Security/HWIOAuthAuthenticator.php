@@ -1,19 +1,19 @@
 <?php
 
-
 namespace App\Security;
-
 
 use App\Entity\Vendor\VendorSecurity;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class HWIOAuthAuthenticator extends EntityUserProvider implements AccountConnectorInterface
+class HWIOAuthAuthenticator extends EntityUserProvider implements AccountConnectorInterface, OAuthAwareUserProviderInterface
 {
+
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface|VendorSecurity
     {
         $resource = $serviceName = $response->getResourceOwner()->getName();
@@ -46,8 +46,8 @@ class HWIOAuthAuthenticator extends EntityUserProvider implements AccountConnect
         $user->$setterAccessToken($response->getAccessToken());
         $this->em->persist($user);
         $this->em->flush();
+
         return $user;
-//        return $this->redirectToRoute($this->getParameter('app_homepage_route'));
     }
 
     public function connect(UserInterface $user, UserResponseInterface $response)
@@ -120,5 +120,5 @@ class HWIOAuthAuthenticator extends EntityUserProvider implements AccountConnect
         $this->em->persist($user);
         $this->em->flush();
     }
-
 }
+
