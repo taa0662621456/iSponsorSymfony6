@@ -4,79 +4,57 @@ namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
 use App\Entity\Vendor\Vendor;
+use App\Repository\Message\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Message
  * @package App\Entity\Message
- * @ORM\Table(name="message", indexes={
- * @ORM\Index(name="message_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Message\MessageRepository")
- * @ORM\HasLifecycleCallbacks()
  */
+#[ORM\Table(name: 'message')]
+#[ORM\Index(columns: ['slug'], name: 'message_idx')]
+#[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Message
 {
     use BaseTrait;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $content;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vendor\Vendor", inversedBy="vendorMessage")
-     */
+    #[ORM\Column(type: 'text')]
+    private mixed $content;
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorMessage')]
     private Vendor $vendor;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Message\MessageConversation", inversedBy="message")
-     */
+    #[ORM\ManyToOne(targetEntity: MessageConversation::class, inversedBy: 'message')]
     private MessageConversation $conversation;
 
-    private $mine;
+    #[ORM\Column(type: 'text')]
+    private mixed $mine;
 
     /**
-     * @return
+     * @return mixed
      */
-    public function getContent()
+    public function getContent(): mixed
     {
         return $this->content;
     }
-
-    /**
-     * @param string $content
-     * @return Message
-     */
     public function setContent(string $content): self
     {
         $this->content = $content;
     }
-
-    /**
-     * @return MessageConversation|null
-     */
     public function getConversation(): ?MessageConversation
     {
         return $this->conversation;
     }
-
-    /**
-     * @param MessageConversation $conversation
-     * @return Message
-     */
     public function setConversation(MessageConversation $conversation): self
     {
         $this->conversation = $conversation;
     }
 
     /**
-     * @return
+     * @return mixed
      */
-    public function getMine()
+    public function getMine(): mixed
     {
         return $this->mine;
     }
-
     /**
      * @param $mine
      */
@@ -84,6 +62,4 @@ class Message
     {
         $this->mine = $mine;
     }
-
-
 }

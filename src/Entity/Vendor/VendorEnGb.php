@@ -1,20 +1,19 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Entity\Vendor;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\VendorLanguageTrait;
+use App\Repository\Vendor\VendorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-/**
- * @ORM\Table(name="vendors_en_gb", indexes={
- * @ORM\Index(name="vendor_en_gb_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'vendors_en_gb')]
+#[ORM\Index(columns: ['slug'], name: 'vendor_en_gb_idx')]
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class VendorEnGb
 {
     use BaseTrait;

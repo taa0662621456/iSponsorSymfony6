@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 	namespace App\EventSubscriber;
 
@@ -17,36 +17,11 @@ declare(strict_types=1);
 
 	class OrderSubscriber implements EventSubscriberInterface
 	{
-        private MailerInterface $mailer;
-        /**
-         * @var ParameterBagInterface
-         */
-        private ParameterBagInterface $params;
-        /**
-         * @var FormFactoryInterface
-         */
-        private FormFactoryInterface $formFactory;
-
-        //TODO: этот класс должен, скорее всего объединиться с классом прослушивания доктрины
-
-
-        /**
-         * @param MailerInterface $mailer
-         * @param ParameterBagInterface $params
-         * @param FormFactoryInterface $formFactory
-         */
-		#[NoReturn]
-        public function __construct(MailerInterface $mailer, ParameterBagInterface $params,
-                                    FormFactoryInterface $formFactory)
+        #[NoReturn]
+		public function __construct(private MailerInterface $mailer, private ParameterBagInterface $params, private FormFactoryInterface $formFactory)
 		{
-			$this->mailer = $mailer;
-            $this->params = $params;
-            $this->formFactory = $formFactory;
 		}
 
-		/**
-		 * @return array
-		 */
 		#[ArrayShape([OrderSubmitEvent::NAME => "string"])]
         public static function getSubscribedEvents(): array
 		{
@@ -79,10 +54,6 @@ declare(strict_types=1);
             $order = $event->getSubject();
         }
 
-		/**
-		 * @param OrderSubmitEvent $orderSubmittedEvent
-		 *
-         */
 		public function onOrdersOrder(OrderSubmitEvent $orderSubmittedEvent): void
 		{
 			$this->mailer->sendNewOrderNotification((array)$orderSubmittedEvent->getOrderSubmited());

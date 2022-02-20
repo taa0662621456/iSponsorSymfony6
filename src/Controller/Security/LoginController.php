@@ -5,6 +5,8 @@ namespace App\Controller\Security;
 
 
 use App\Form\Vendor\VendorLoginType;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,33 +21,18 @@ class LoginController extends AbstractController
 {
     use TargetPathTrait;
 
-    /**
-     * @var RouterInterface
-     */
-    private RouterInterface $router;
-
-    /**
-     * LoginController constructor.
-     */
-    public function __construct(RouterInterface $router)
+    public function __construct(private RouterInterface $router)
     {
-        $this->router = $router;
     }
 
 
     /**
-     * @Route("/signin", defaults={"layout" : "signin"}, name="signin", options={"layout" : "signinFormHomePage"},
-     *     methods={"GET", "POST"})
-     * @Route("/login", defaults={"layout" : "login"}, name="login", options={"layout" : "login"},
-     *     methods={"GET", "POST"})
-     *
-     * @param Security $security
-     * @param AuthenticationUtils $authenticationUtils
-     * @param string $layout
-     *
-     * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function login(Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login'): Response
+    #[Route(path: '/signin', name: 'signin', options: ['layout' => 'signinFormHomePage'], defaults: ['layout' => 'signin'], methods: ['GET', 'POST'])]
+    #[Route(path: '/login', name: 'login', options: ['layout' => 'login'], defaults: ['layout' => 'login'], methods: ['GET', 'POST'])]
+    public function login(Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login') : Response
     {
         if (null !== $this->getUser()) {
             $this->addFlash('success', 'Вы успешно авторизовались');
@@ -56,7 +43,7 @@ class LoginController extends AbstractController
             return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
         }
 
-        $loginType = $this->get('form.factory')->createNamed('', VendorLoginType::class,
+        $loginType = $this->container->get('form.factory')->createNamed('', VendorLoginType::class,
             [
             '_username' => $authenticationUtils->getLastUsername()
             ],
@@ -74,25 +61,17 @@ class LoginController extends AbstractController
         );
     }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logout(): void
+    #[Route(path: '/logout', name: 'logout')]
+    public function logout() : void
     {
         throw new \RuntimeException('This should never be reached!');
-//		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
+        //		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
     }
 
-    /**
-     * @Route("/login/json", name="login_json", methods={"POST"})
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function jsonLogin(Request $request): JsonResponse
+    #[Route(path: '/login/json', name: 'login_json', methods: ['POST'])]
+    public function jsonLogin(Request $request) : JsonResponse
     {
         $user = $this->getUser();
-
         return $this->json(
             array(
                 'username' => $user->getUserIdentifier(),

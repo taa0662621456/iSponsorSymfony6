@@ -1,5 +1,5 @@
 <?php
-	declare(strict_types=1);
+
 
 	namespace App\EventSubscriber;
 
@@ -13,17 +13,9 @@
 	class RedirectToPreferredLocaleSubscriber
 
 	{
-		private UrlGeneratorInterface $urlGenerator;
-		private string $locales;
-		private string $locale;
-
-		public function __construct(UrlGeneratorInterface $urlGenerator, string $locales, string $locale)
+		public function __construct(private UrlGeneratorInterface $urlGenerator, private string $locales, private string $locale)
 		{
-			$this->urlGenerator = $urlGenerator;
-			$this->locale = $locale;
-			$this->locales = $locales;
-
-            $locales = explode('|', trim($locales));
+			$locales = explode('|', trim($locales));
 			if (empty($locales)) {
 				throw new \UnexpectedValueException('The list of supported locales must not be empty. Хотя бы одна локаль должна быть в массиве локалей');
 			}

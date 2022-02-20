@@ -1,5 +1,5 @@
 <?php
-	declare(strict_types=1);
+
 
 	namespace App\Form\Category;
 
@@ -73,9 +73,6 @@
 			;
 		}
 
-		/**
-		 * @param OptionsResolver $resolver
-		 */
 		public function configureOptions(OptionsResolver $resolver): void
 		{
 			$resolver->setDefaults(

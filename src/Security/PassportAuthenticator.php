@@ -14,7 +14,6 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 
 class PassportAuthenticator extends AbstractAuthenticator
 {
@@ -26,7 +25,7 @@ class PassportAuthenticator extends AbstractAuthenticator
         return true;
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         $password = $request->request->get('password');
         $username = $request->request->get('username');

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 	namespace App\EventSubscriber;
 
@@ -11,16 +11,10 @@ declare(strict_types=1);
 
     class LocaleSubscriber implements EventSubscriberInterface
     {
-        private string $locale;
+        public function __construct(private string $locale = 'en')
+								{
+								}
 
-        public function __construct(string $locale = 'en')
-        {
-            $this->locale = $locale;
-        }
-
-        /**
-         * @param RequestEvent $event
-         */
         public function onKernelRequest(RequestEvent $event)
         {
             $request = $event->getRequest();

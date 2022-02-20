@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -30,51 +29,29 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
-use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
-use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
-class LoginFormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
+class FormAuthenticator extends AbstractAuthenticator implements AuthenticationEntryPointInterface
 {
     use TargetPathTrait;
 
-    private EntityManagerInterface $entityManager;
-    private UrlGeneratorInterface $urlGenerator;
-    private CsrfTokenManagerInterface $csrfTokenManager;
-    private UserPasswordHasherInterface $passwordHasher;
-
     private Request $request;
-    private string $token;
-    private string $pathToLogin;
-    private string $pathToLoginSuccess;
-    private LoggerInterface $logger;
-    private FlashBagInterface $flashBag;
 
-    public function __construct(EntityManagerInterface $entityManager,
-                                UrlGeneratorInterface $urlGenerator,
-                                CsrfTokenManagerInterface $csrfTokenManager,
-                                UserPasswordHasherInterface $passwordHasher,
-                                LoggerInterface $logger,
-                                FlashBagInterface $flashBag,
+    public function __construct(private EntityManagerInterface $entityManager,
+                                private UrlGeneratorInterface $urlGenerator,
+                                private CsrfTokenManagerInterface $csrfTokenManager,
+                                private UserPasswordHasherInterface $passwordHasher,
+                                private LoggerInterface $logger,
 
-                                string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token',
-                                string $pathToLogin = 'No $token! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLogin',
-                                string $pathToLoginSuccess = 'No $pathToLoginSuccess! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLoginSuccess',
+                                private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token',
+                                private string $pathToLogin = 'No $token! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLogin',
+                                private string $pathToLoginSuccess = 'No $pathToLoginSuccess! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLoginSuccess',
                                 )
     {
-        $this->entityManager = $entityManager;
-        $this->urlGenerator = $urlGenerator;
-        $this->csrfTokenManager = $csrfTokenManager;
-        $this->passwordHasher = $passwordHasher;
-        $this->token = $token;
-        $this->pathToLogin = $pathToLogin;
-        $this->pathToLoginSuccess = $pathToLoginSuccess;
-        $this->logger = $logger;
-        $this->flashBag = $flashBag;
     }
 
-    public function supports(Request $request): ?bool
+    public function supports(Request $request): bool
     {
         return ($this->pathToLogin === $request->attributes->get('_route')) && $request->isMethod('POST');
     }
@@ -95,7 +72,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         return $credentials;
     }
 
-    public function getUser($credentials, UserPassportInterface $userProvider): object
+    public function getUser($credentials): object
     {
         $token = $this->token;
 
@@ -120,7 +97,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $firewallName): ?Response
     {
         $pathToLoginSuccess = $this->pathToLoginSuccess;
-        $user = $token->getUser();
+//        $user = $token->getUser();
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
@@ -129,16 +106,17 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
-//        $user = $exception->getToken()->getUser();
+//        $user = $exception->getToken()->getUser(;
         $user = $exception->getToken();
 //        $user = 'SomeUser';
+        $session = $request->getSession();
         $this->logger->notice('Failed to login user:" '. $user .' " ' . 'Reason: '. $exception->getMessage());
-        $this->flashBag->add('error', 'Попытка неуспешная Вовсе!');
+        $session->getFlashBag()->add('error', 'Попытка неуспешная Вовсе!');
 
         return new RedirectResponse($this->urlGenerator->generate($this->pathToLogin));
     }
 
-    public function authenticate(Request $request): PassportInterface
+    public function authenticate(Request $request): Passport
     {
         return new Passport(
             new UserBadge($request->request->get('email')),

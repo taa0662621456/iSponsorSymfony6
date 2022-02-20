@@ -1,22 +1,16 @@
 <?php
 
-namespace AppEntity;
+namespace App\Entity\Event;
 
 use App\Entity\BaseTrait;
-use App\Entity\OAuthTrait;
 use App\Entity\ObjectTrait;
+use App\Repository\Category\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * EventCategories
- *
- * @ORM\Table(name="event_categories", indexes={
- *     @ORM\Index(name="event_category_idx", columns={"slug"})})
- * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\Category\CategoryRepository")
- * @ORM\HasLifecycleCallbacks())
- * @ORM\Entity
- */
+#[ORM\Table(name: 'event_categories')]
+#[ORM\Index(columns: ['slug'], name: 'event_category_idx')]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class EventCategory
 {
     use BaseTrait;

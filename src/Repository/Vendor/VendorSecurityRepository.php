@@ -25,16 +25,14 @@ class VendorSecurityRepository extends ServiceEntityRepository
     }
 
     /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     * @param UserInterface $user
-     * @param string $newEncodedPassword
-     * @throws ORMException
-     * @throws OptimisticLockException|\Doctrine\ORM\ORMException
-     */
-    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+				 * Used to upgrade (rehash) the user's password automatically over time.
+				 * @throws ORMException
+				 * @throws OptimisticLockException|\Doctrine\ORM\ORMException
+				 */
+				public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof VendorSecurity) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
         }
 
         $user->setPassword($newEncodedPassword);

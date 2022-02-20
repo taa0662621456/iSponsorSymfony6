@@ -1,5 +1,5 @@
 <?php
-	declare(strict_types=1);
+
 
 	namespace App\Listener;
 
@@ -10,29 +10,13 @@
 
 	class AttachmentManagerListener
 	{
-		/**
-		 * @var AttachmentsManager
-		 */
-		private AttachmentsManager $attachmentsManager;
-		/**
-		 * @var EntityManagerInterface
-		 */
-		private EntityManagerInterface $entityManager;
-		/**
-		 * @var AttachmentRepository
-		 */
-		private AttachmentRepository $attachmentRepository;
-
-		public function __construct(EntityManagerInterface $entityManager, AttachmentRepository $attachmentRepository,
-									AttachmentsManager $attachmentsManager)
+		public function __construct(private EntityManagerInterface $entityManager, private AttachmentRepository $attachmentRepository, private AttachmentsManager $attachmentsManager)
 		{
-			$this->attachmentsManager = $attachmentsManager;
-			$this->entityManager = $entityManager;
-			$this->attachmentRepository = $attachmentRepository;
 		}
 
 		public function preUpdate($entityManager, PreUpdateEventArgs $args)
 		{
+			$post = null;
 			if ($args->hasChangedField('attachment')) {
 
 				$em = $args->getEntityManager();
@@ -44,9 +28,7 @@
 				if (preg_match_all($regex, $args->getNewValue('content'), $matches) > 0) {
 
 					$filenames = array_map(
-						function ($match) {
-							return basename($match);
-						}, $matches[0]
+						fn($match) => basename($match), $matches[0]
 					);
 
 					$recordsToRemove = $this->attachmentRepository->findAttachmentsToRemove(

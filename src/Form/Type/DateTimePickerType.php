@@ -28,11 +28,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class DateTimePickerType extends AbstractType
 {
-    private MomentFormatConverter $formatConverter;
-
-    public function __construct(MomentFormatConverter $converter)
+    public function __construct(private MomentFormatConverter $formatConverter)
     {
-        $this->formatConverter = $converter;
     }
 
     /**

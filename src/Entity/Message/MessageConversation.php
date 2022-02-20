@@ -3,57 +3,36 @@
 namespace App\Entity\Message;
 
 use App\Entity\BaseTrait;
+use App\Repository\Message\MessageConversationRepository;
 use App\Service\RequestDispatcher;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\Pure;
 
-/**
- * Class Conversation
- * @package App\Entity\Message
- * @ORM\Table(name="message_conversation", indexes={
- * @ORM\Index(name="conversation_idx", columns={"slug"})})
- *
- * @ORM\Entity(repositoryClass="App\Repository\Message\MessageConversationRepository")
- *
- */
+#[ORM\Table(name: 'message_conversation')]
+#[ORM\Index(columns: ['slug'], name: 'conversation_idx')]
+#[ORM\Entity(repositoryClass: MessageConversationRepository::class)]
 class MessageConversation
 {
-
     use BaseTrait;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message\MessageParticipant", mappedBy="conversation")
-     */
+    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: MessageParticipant::class)]
     private ArrayCollection $participants;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Message\Message")
-     * @ORM\JoinColumn(name="last_message_id", referencedColumnName="id")
-     */
+    #[ORM\OneToOne(targetEntity: Message::class)]
+    #[ORM\JoinColumn(name: 'last_message_id', referencedColumnName: 'id')]
     private Message $lastMessage;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Message\Message", mappedBy="conversation")
-     */
+    #[ORM\OneToMany(mappedBy: 'conversation', targetEntity: Message::class)]
     private ArrayCollection $message;
-
-    public function __construct(RequestDispatcher $requestDispatcher)
+    #[Pure] public function __construct(RequestDispatcher $requestDispatcher)
     {
         //parent::__construct($requestDispatcher);
 
         $this->participants = new ArrayCollection();
         $this->message = new ArrayCollection();
     }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getParticipants(): ArrayCollection
     {
         return $this->participants;
     }
-
     /**
      * @param $participants
      */
@@ -61,15 +40,10 @@ class MessageConversation
     {
         $this->participants = $participants;
     }
-
-    /**
-     * @return Message
-     */
     public function getLastMessage(): Message
     {
         return $this->lastMessage;
     }
-
     /**
      * @param $lastMessage
      */
@@ -77,15 +51,13 @@ class MessageConversation
     {
         $this->lastMessage = $lastMessage;
     }
-
     /**
      * @return ArrayCollection|Message[]
      */
-    public function getMessage()
+    public function getMessage(): array|ArrayCollection
     {
         return $this->message;
     }
-
     public function addMessage(Message $message): self
     {
         if (!$this->message->contains($message)) {
@@ -95,7 +67,6 @@ class MessageConversation
 
         return $this;
     }
-
     public function removeMessage(Message $message): self
     {
         if ($this->message->contains($message)) {
@@ -108,6 +79,4 @@ class MessageConversation
 
         return $this;
     }
-
-
 }

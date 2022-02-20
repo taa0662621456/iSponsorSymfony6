@@ -1,5 +1,5 @@
 <?php
-	declare(strict_types=1);
+
 
 	namespace App\Controller;
 
@@ -11,26 +11,16 @@
 
 	class SearchController extends AbstractController
 	{
-		/**
-		 * @Route("/search", methods={"GET"}, name="search")
-		 * @param Request            $request
-		 *
-		 * @param ProductRepository $projects
-		 *
-		 * @return Response
-		 */
-		public function search(Request $request, ProductRepository $projects): Response
+		#[Route(path: '/search', methods: ['GET'], name: 'search')]
+		public function search(Request $request, ProductRepository $projects) : Response
 		{
 			if (!$request->isXmlHttpRequest()) {
 				return $this->render('search/search.html.twig');
 			}
-
 			$query = $request->query->get('q', '');
 			$limit = $request->query->get('l', 10);
 			$found = $projects->findBySearchQuery($query, $limit);
-
 			$results = [];
-
 			//TODO
 			foreach ($found as $post) {
 				$results[] = [
@@ -41,7 +31,6 @@
 					'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
 				];
 			}
-
 			return $this->json($results);
 		}
 	}

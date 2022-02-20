@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Event;
 
@@ -11,16 +11,10 @@ class OrderSubmitEvent extends Event
     public const NAME = 'orders.order';
 
     /**
-     * @var Orders
-     */
-    private $orderSubmited;
-
-    /**
      * @param Orders $orderSubmited
      */
-    public function __construct(Orders $orderSubmited)
+    public function __construct(private Orders $orderSubmited)
     {
-        $this->orderSubmited = $orderSubmited;
     }
 
     /**

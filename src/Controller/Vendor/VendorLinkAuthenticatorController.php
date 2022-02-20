@@ -16,19 +16,17 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 
 class VendorLinkAuthenticatorController extends AbstractController
 {
-    /**
-     * @Route("/link_authenticator", name="link_authenticator")
-     */
+    #[Route(path: '/link_authenticator', name: 'link_authenticator')]
     public function linkAuthenticator()
     {
         throw new LogicException('This function code should never be reached');
     }
 
     /**
-     * @Route("/link_authenticator_page", name="link_authenticator_page")
      * @throws NonUniqueResultException
      */
-    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $VendorSecurityRepository, Request $request): Response
+    #[Route(path: '/link_authenticator_page', name: 'link_authenticator_page')]
+    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $VendorSecurityRepository, Request $request) : Response
     {
         // Helper https://symfony.com.ua/doc/current/security/login_link.html
         // check if login form is submitted
@@ -69,7 +67,6 @@ class VendorLinkAuthenticatorController extends AbstractController
             //TODO: email sending
             // ... send the link and return a response (see next section)
         }
-
         // if it's not submitted, render the "login" form
         return $this->render('security/linkAuthenticatorPage.html.twig');
     }

@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Event;
 
@@ -11,11 +11,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploaderEvent
 {
-    private $uploader;
-
-    public function __construct(FileUploader $uploader)
+    public function __construct(private FileUploader $uploader)
     {
-        $this->uploader = $uploader;
     }
 
     public function prePersist(LifecycleEventArgs $args): void

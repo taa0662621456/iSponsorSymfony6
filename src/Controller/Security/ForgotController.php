@@ -26,41 +26,19 @@ class ForgotController extends AbstractController
 {
 
     /**
-     * @var LoggerInterface
-     */
-    private LoggerInterface $logger;
-    /**
-     * @var EntityManagerInterface
-     */
-    private EntityManagerInterface $em;
-
-    /**
      * ForgotCredential constructor.
      */
-    public function __construct(LoggerInterface $logger,
-                                EntityManagerInterface $em,
-    )
+    public function __construct(private LoggerInterface $logger, private EntityManagerInterface $em)
     {
-        $this->logger = $logger;
-        $this->em = $em;
     }
 
     /**
-     * @Route("/forgot/email", name="forgot_email", methods={"GET", "POST"})
-     * @Route("/forgot/phone", name="forgot_phone", methods={"GET", "POST"})
-     * @Route("/forgot/password", name="forgot_password", methods={"GET", "POST"})
-     * @param Request $request
-     * @param AuthenticationUtils $authenticationUtils
-     * @param MailerInterface $mailer
-     * @param TexterInterface $texter
-     * @return Response
      * @throws TransportExceptionInterface|\Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function forgotCredential(Request $request,
-                                AuthenticationUtils $authenticationUtils,
-                                MailerInterface $mailer,
-                                TexterInterface $texter,
-    ): Response
+    #[Route(path: '/forgot/email', name: 'forgot_email', methods: ['GET', 'POST'])]
+    #[Route(path: '/forgot/phone', name: 'forgot_phone', methods: ['GET', 'POST'])]
+    #[Route(path: '/forgot/password', name: 'forgot_password', methods: ['GET', 'POST'])]
+    public function forgotCredential(Request $request, AuthenticationUtils $authenticationUtils, MailerInterface $mailer, TexterInterface $texter) : Response
     {
         if (null !== $this->getUser()) {
             $this->addFlash('success', 'Вы уже авторизовались');
@@ -70,18 +48,14 @@ class ForgotController extends AbstractController
             $this->addFlash('notice', 'В данный момент Вы авторизованы в системе');
             return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
         }
-
         $credential = explode('_', $request->attributes->get('_route'), '2');
         $credential = $credential[1];
         $forgotCredentialType = 'App\Form\Forgot\Forgot' . ucfirst($credential) . 'Type';
-
         $vendor = new Vendor();
-
         $form = $this->createForm(ForgotType::class, $vendor, [
             'forgot_сredential_type' => $forgotCredentialType,
         ]);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($credential == 'password') {
@@ -159,7 +133,6 @@ class ForgotController extends AbstractController
 
             $this->logger->notice('восстановление учетных данных');
         }
-
         return $this->render(
             'security/forgot.html.twig', [
                 'last_username' => $authenticationUtils->getLastUsername(),

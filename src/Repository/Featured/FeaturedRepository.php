@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Repository\Featured;
 
@@ -17,7 +17,6 @@ class FeaturedRepository extends ServiceEntityRepository
 {
     /**
      * ProjectsRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

@@ -11,13 +11,8 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 class WsseListener
 {
-    protected TokenStorageInterface $tokenStorage;
-    protected AuthenticationManagerInterface $authenticationManager;
-
-    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager)
+    public function __construct(protected TokenStorageInterface $tokenStorage, protected AuthenticationManagerInterface $authenticationManager)
     {
-        $this->tokenStorage = $tokenStorage;
-        $this->authenticationManager = $authenticationManager;
     }
 
     public function __invoke(RequestEvent $event): void
@@ -41,7 +36,7 @@ class WsseListener
             $this->tokenStorage->setToken($authToken);
 
             return;
-        } catch (AuthenticationException $failed) {
+        } catch (AuthenticationException) {
             // ... you might log something here
 
             // To deny the authentication clear the token. This will redirect to the login page.

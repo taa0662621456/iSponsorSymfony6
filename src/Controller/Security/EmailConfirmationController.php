@@ -6,7 +6,6 @@ namespace App\Controller\Security;
 
 use App\Entity\Vendor\VendorSecurity;
 use App\Repository\Vendor\VendorSecurityRepository;
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,34 +16,20 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 class EmailConfirmationController extends AbstractController
 {
     /**
-     * @var \SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface
-     */
-    private VerifyEmailHelperInterface $verifyEmailHelper;
-
-    /**
      * EmailConfirmationController constructor.
      */
-    public function __construct(VerifyEmailHelperInterface $helper)
+    public function __construct(private VerifyEmailHelperInterface $verifyEmailHelper)
     {
-        $this->verifyEmailHelper = $helper;
     }
 
-    /**
-     * @Route("/confirmation/email", name="confirmation_email")
-     * @param Request $request
-     * @param VendorSecurityRepository $vendorSecurityRepository
-     * @return Response
-     */
-    public function confirmationEngine(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
+    #[Route(path: '/confirmation/email', name: 'confirmation_email')]
+    public function confirmationEngine(Request $request, VendorSecurityRepository $vendorSecurityRepository) : Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
-        /** @var \App\Entity\Vendor\VendorSecurity $user */
+        /** @var VendorSecurity $user */
         $user = $this->getUser();
-
         $id = $request->get('id');
         $slug = $request->get('slug');
-
         if (null === $slug) {
             return $this->redirectToRoute('homepage');
         }
@@ -52,7 +37,6 @@ class EmailConfirmationController extends AbstractController
         if (null === $user) {
             return $this->redirectToRoute('homepage');
         }
-
         try {
             $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
         } catch (VerifyEmailExceptionInterface $exception) {
@@ -61,15 +45,12 @@ class EmailConfirmationController extends AbstractController
 
             return $this->redirectToRoute('registration');
         }
-
         $vendorSecurity = $vendorSecurityRepository->findOneBy(['slug' => $slug]);
         $vendorSecurity->setPublished(true);
         $em = $this->getDoctrine()->getManager();
         $em->persist($vendorSecurity);
         $em->flush();
-
         $this->addFlash('success', 'Your email address has been verified.');
-
         return $this->redirectToRoute('homepage');
     }
 }
