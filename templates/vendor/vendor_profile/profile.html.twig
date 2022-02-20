@@ -9,11 +9,8 @@
 {#
 {% {{ cover_col_2 }}lock title %}Vendors{% endblock %}
 #}
-{#
-{% block header %}<h1>Vendors</h1>{% endblock %}
-#}
+{#{% block header %}<h1>Vendors</h1>{% endblock %}#}
 {% block section %}{% endblock %}
-
 {% block blocks %}
     <main role="main" class="row">
         <aside id="b1" class="col- {{ b1 }}">
@@ -44,7 +41,7 @@
                     <div class="col- {{ cover_col_2 }} x1y1"><img src="{{ asset('cover.jpg') }}"
                                                                   class="rounded float-left img-thumbnail avatar m-1"
                                                                   alt="Avatar"></div>
-                    <div class="col- {{ cover_col_7 }} x2y1"><span class="align-middle"><h3>{{ app.user.username }}</h3></span>
+                    <div class="col- {{ cover_col_7 }} x2y1"><span class="align-middle"><h3>{{ app.user }}</h3></span>
                     </div>
                     <div class="col- {{ cover_col_3 }} m-0 p-0 x3y1">{{ include('favourites_assets.html.twig') }}</div>
                 </div>
@@ -99,7 +96,7 @@
                     #}
                 </div>
                 <div class="col-8 p-0 m-0">
-                    сюда вуводим ленту новостей и форму отправки новостей
+                    сюда вводим ленту новостей и форму отправки новостей
                     {{ include('feed.html.twig') }}
                 </div>
             </section>
@@ -119,5 +116,8 @@
         </aside>
     </main>
 {% endblock %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('profile') }}
+    {% endblock %}
 
 

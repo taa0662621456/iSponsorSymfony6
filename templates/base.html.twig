@@ -36,52 +36,52 @@
     <body class="">
     <header class="section-header">
 
-{#        {% block navbar %}#}
-{#            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">#}
-{#                <menu class="{{ b1 }}">#}
-{#                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"#}
-{#                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"#}
-{#                       href="#"><span class="text-break">...iSponsor!</span><span#}
-{#                                class="navbar-toggler-icon"></span></a>#}
-{#                </menu>#}
-{#                <menu class="{{ b2 }} left">#}
+        {% block navbar %}
+            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">
+                <menu class="{{ b1 }}">
+                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"
+                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"
+                       href="#"><span class="text-break">...iSponsor!</span><span
+                                class="navbar-toggler-icon"></span></a>
+                </menu>
+                <menu class="{{ b2 }} left">
 
-{#                </menu>#}
-{#                <menu class="{{ b3 }}">#}
-{#                    <div class="collapse navbar-collapse" id="isponsor">#}
-{#                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>#}
-{#                        <ul class="navbar-nav mr-auto">#}
+                </menu>
+                <menu class="{{ b3 }}">
+                    <div class="collapse navbar-collapse" id="isponsor">
+                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>
+                        <ul class="navbar-nav mr-auto">
 
-{#                            <li class="nav-item">#}
-{#                                <a class="btn btn-warning btn-block rounded-0" role="button"#}
-{#                                   href="{{ path('project_new') }}"><i class="fal fa-plus-circle"></i></a>#}
-{#                            </li>#}
+                            <li class="nav-item">
+                                <a class="btn btn-warning btn-block rounded-0" role="button"
+                                   href="{{ path('project_new') }}"><i class="fal fa-plus-circle"></i></a>
+                            </li>
 
-{#                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}#}
-{#                                <li class="nav-item">#}
-{#                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="face" alt="Avatar"></a>#}
-{#                                </li>#}
-{#                                <li class="nav-item">#}
-{#                                    <a class="btn btn-link btn-block" role="button">Main</a>#}
-{#                                </li>#}
-{#                                <li class="nav-item">#}
-{#                                    <a class="btn btn-link btn-block" role="button">{{ app.user.username }}</a>#}
-{#                                </li>#}
-{#                            {% endif %}#}
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li class="nav-item">
+                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="face" alt="Avatar"></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-link btn-block" role="button">Main</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-link btn-block" role="button">{{ app.user }}</a>
+                                </li>
+                            {% endif %}
 
-{#                            {{ include('security/_yetMenuDropdown.html.twig') }}#}
-{#                        </ul>#}
-{#                    </div>#}
-{#                </menu>#}
-{#                <menu class="{{ b4 }}">#}
+                            {{ include('security/_yetMenuDropdown.html.twig') }}
+                        </ul>
+                    </div>
+                </menu>
+                <menu class="{{ b4 }}">
 
-{#                </menu>#}
+                </menu>
 
-{#            </nav>#}
+            </nav>
 
-{#                        {{ include('security/navbarForAdmin.html.twig') }}#}
+                        {{ include('security/navbarForAdmin.html.twig') }}
 
-{#        {% endblock %}#}
+        {% endblock %}
 
         {% block section %}
             <section class="row header-main bg m-1">

@@ -34,6 +34,7 @@
         "symfony/http-kernel": "5.3.*",
         "symfony/lock": "5.3.*",
         "symfony/mailer": "5.3.*",
+        "symfony/mercure-notifier": "5.3.*",
         "symfony/notifier": "5.3.*",
         "symfony/proxy-manager-bridge": "5.3.*",
         "symfony/rate-limiter": "5.3.*",
@@ -55,10 +56,12 @@
         "twig/intl-extra": "^3.3",
         "twig/string-extra": "^3.3",
         "twig/twig": "^3.3.0",
-        "twilio/sdk": "^6.31"
+        "twilio/sdk": "^6.31",
+        "vich/uploader-bundle": "^1.18"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "rector/rector": "^0.12.16",
         "symfony/debug-bundle": "5.3.*",
         "symfony/monolog-bundle": "^3.0",
         "symfony/stopwatch": "5.3.*",

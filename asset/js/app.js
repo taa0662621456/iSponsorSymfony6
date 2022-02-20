@@ -1,6 +1,6 @@
 import 'bootstrap'
 import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
-// require('bootstrap');
+require('bootstrap');
 // require('bootstrap-autohide-navbar');
 
 
@@ -21,11 +21,11 @@ require('../fontawesome-pro/js/all.min');
 // require('./cart.js');
 //require('./multistep_form');
 require('./tinymce_init');
-// require('./move_up');
+require('./move_up');
 //require('./masonry_init');
 // require('./cols_per_row');
 // require('./add-collection-widget');
-// require('./full_screen');
+require('./full_screen');
 
 
 Array.from(document.querySelectorAll('.toast'))

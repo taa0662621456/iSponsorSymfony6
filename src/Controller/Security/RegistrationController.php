@@ -4,7 +4,7 @@ namespace App\Controller\Security;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnGb;
 use App\Entity\Vendor\VendorSecurity;
-use App\Form\Vendor\VendorRegistrationType;
+use App\Form\Vendor\VendorSecurityType;
 use App\Service\EmailConfirmation;
 
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
@@ -79,7 +79,12 @@ class RegistrationController extends AbstractController
                                  TexterInterface $texter,
                                  string $layout = 'registration'): Response
 	{
+        if (null !== $this->getUser()) {
+            $this->addFlash('success', 'Вы уже авторизовались');
+            return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
+        }
         if (null !== $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
+            $this->addFlash('success', 'Вы уже авторизовались');
             return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
         }
 
@@ -87,7 +92,7 @@ class RegistrationController extends AbstractController
         $vendorSecurity = new VendorSecurity();
         $vendorEnGb = new VendorEnGb();
 
-        $form = $this->createForm(VendorRegistrationType::class, $vendor);
+        $form = $this->createForm(VendorSecurityType::class, $vendor);
         $form->handleRequest($request);
 
 
@@ -142,6 +147,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('security/' . $layout . '.html.twig', [
 			'form' => $form->createView(),
+            'error' => null
 		]);
 	}
 }

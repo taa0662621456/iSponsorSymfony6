@@ -18,7 +18,7 @@
 				->add('locale', TextType::class, array(
 					'required' => false
 				))
-				->add('vendorSecurity', VendorSecurityType::class)
+				->add('vendorSecurity', VendorRegistrationType::class)
 				->add('vendorEnGb', VendorEnGbType::class)
 				->add('previous', SubmitType::class, array(
 					'label' => 'label.previous',

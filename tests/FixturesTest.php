@@ -2,7 +2,7 @@
 
 	namespace App\Tests;
 
-	use App\DataFixtures\CategoriesFixtures;
+	use App\DataFixtures\CategoryFixtures;
 	use App\DataFixtures\OrdersFixtures;
 	use App\DataFixtures\ProductsFixtures;
 	use App\DataFixtures\VendorsFixtures;
@@ -66,7 +66,7 @@
 		{
 			return [
 				new VendorsFixtures(),
-				new CategoriesFixtures(),
+				new CategoryFixtures(),
 				new OrdersStatus(),
 				new ProjectsFavourites(),
 				new ProductsFixtures(),

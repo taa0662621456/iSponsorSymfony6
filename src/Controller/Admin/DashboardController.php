@@ -5,8 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\Category\Category;
 use App\Entity\Category\CategoryAttachment;
 use App\Entity\Product\Product;
+use App\Entity\Product\ProductPrice;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProjectPlatformReward;
 use App\Entity\Review\ReviewProduct;
 use App\Entity\Review\ReviewProject;
 use App\Entity\Vendor\Vendor;
@@ -55,7 +57,7 @@ class DashboardController extends AbstractDashboardController
 //        yield MenuItem::section('ProjectAttachments');
         yield MenuItem::linkToCrud('Projects', 'fa fa-tags', ProjectAttachment::class);
 //        yield MenuItem::section('Rewards');
-        yield MenuItem::linkToCrud('Rewards', 'fa fa-tags', ProjectPlatformReward::class);
+//        yield MenuItem::linkToCrud('Rewards', 'fa fa-tags', ProjectPlatformReward::class);
 
         yield MenuItem::section('Product');
         yield MenuItem::linkToCrud('Product', 'fa fa-tags', Product::class);
@@ -76,8 +78,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Reviews');
         yield MenuItem::linkToCrud('ProductReviews', 'fa fa-tags', ReviewProduct::class);
         yield MenuItem::linkToCrud('ProjectReviews', 'fa fa-tags', ReviewProject::class);
-
-
 
         yield MenuItem::section('Events');
 

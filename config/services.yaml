@@ -92,7 +92,7 @@ services:
             - '@doctrine'
             - 'App\\Entity\\Vendor\\VendorSecurity'
             - [facebook: facebookId, google: googleId, github: githubId]
-            - postgres
+#            - postgres
     App\Service\CloudflareIpResolver:
         decorates: 'karser_recaptcha3.ip_resolver'
         arguments:

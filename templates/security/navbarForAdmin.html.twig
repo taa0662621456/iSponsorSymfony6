@@ -1,11 +1,11 @@
 {% if is_granted('ROLE_ADMIN') %}
     <nav class="row navbar navbar-expand-sm navbar-light bg-secondary navbar-fixed-top pt-0 pb-0">
         <menu class="{{ b1 }}">
-            <a class="navbar-brand float-right" href="#"><span class="text-break">Home</span></a>
+{#            <a class="navbar-brand float-right" href="#"><span class="text-break">NavBarForAdmin</span></a>#}
 
         </menu>
         <menu class="{{ b2 }} left">
-            Something else
+            NavBarForAdmin
         </menu>
         <menu class="{{ b3 }}">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -54,20 +54,23 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Sign..</a>
                     </li>
-                    {{ render(controller( 'App\\Controller\\SecurityController::login' , {'layout' : 'navbarAuthBlock'})) }}
+                    {{ render(controller( 'App\\Controller\\Security\\LoginController::login' , {'layout' : 'navbarAuthBlock'})) }}
+
+                    {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}
+                    <li class="nav-item">
+                    <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} ">Exit impersonation</a>
+                    </li>
+                    {% endif %}
+
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="nav-item">
+                            Username: {{ app.user }}
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
-{#            {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
-{#                Username: {{ app.user.username }}#}
-{#            {% endif %}#}
-
-{#            {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}#}
-{#                <a href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} "> Exit#}
-{#                    impersonation </a>#}
-{#            {% endif %}#}
         </menu>
         <menu class="{{ b4 }}">
-
         </menu>
 
     </nav>

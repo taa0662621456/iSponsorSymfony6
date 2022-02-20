@@ -7,8 +7,6 @@ let masonryGrid = document.querySelector('#masonry-grid');
 
 if (fullScreenButton != null && masonryGrid != null) {
 
-    function () {
-
         let $html = $('html');
         let $hideArray = $('#b1, #b2, #header, #p1, #p2');
         let $panel = $('#panel').filter('div');
@@ -120,5 +118,4 @@ if (fullScreenButton != null && masonryGrid != null) {
                 $masonry.layout();
             }
         }
-    }
 }

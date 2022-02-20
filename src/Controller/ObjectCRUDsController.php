@@ -65,6 +65,7 @@ class ObjectCRUDsController extends AbstractController
     /**
      * @Route("vendor/new/", name="vendor_new", methods={"GET","POST"})
      * @Route("vendor/commission/", name="vendor_new_commission", methods={"GET","POST"})
+     * @Route( "vendor/profile/", name="vendor_new_profile", methods={"GET","POST"})
      *
      * @Route("event/new/", name="event_new", methods={"GET","POST"})
      * @Route("event/category/new/", name="event_new_category", methods={"GET","POST"})
@@ -87,35 +88,25 @@ class ObjectCRUDsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        //TODO: need VendorTypeAttach for difference Docs and Media
-        $slug = new Slugify();
-
         $object = $this->requestDispatcher->object();
         $object = new $object;
 
-        $objectEnGb = $this->requestDispatcher->objectEnGb();
-        $objectEnGb = new $objectEnGb;
-
-//        $objectAttachment = $this->requestDispatcher->objectAttachment();
-//        $objectAttachment = new $objectAttachment;
+//        $objectEnGb = $this->requestDispatcher->objectEnGb();
+//        $objectEnGb = new $objectEnGb;
 
         $form = $this->createForm($this->requestDispatcher->objectType(), $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
-//            $s = $form->get('productEnGb')->get('slug')->getData();
-//            if (!isset($s)) {
-//                //$form->set('productEnGb')->set('slug')->setSlug($slug->slugify($productEnGb->getProductName()))
-//                $product->setSlug($slug->slugify($productEnGb->getProductName()));
-//            }
-            if (true == $form->getData()->objectEnGb->getSlug()) {
-                $object->setSlug($slug->slugify($objectEnGb->getFirstTitle()));
-            }
             $em->persist($object);
+//            $em->persist($objectEnGb);
             $em->flush();
 
-            return $this->redirect($object);
+            $route = $form->get('submitAndNew')->isClicked()
+                ? $object . '_new'
+                : $object . '_index';
+
+            return $this->redirectToRoute($route);
         }
 
         return $this->render($this->requestDispatcher->layOutPath(), [
@@ -129,6 +120,8 @@ class ObjectCRUDsController extends AbstractController
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
      * ********************************************
      * @Route("vendor/{id<\d+>}", name="vendor_show_id", methods={"GET"})
+     * @Route( "vendor/profile/{id<\d+>}", name="vendor_show_id_profile", methods={"GET"})
+     *
      * @Route("folder/{id<\d+>}", name="folder_show_id", methods={"GET"})
      * @Route("commission/{id<\d+>}", name="commission_show_id", methods={"GET"})
      * @Route("project/{id<\d+>}", name="project_show_id", methods={"GET"})
@@ -145,6 +138,8 @@ class ObjectCRUDsController extends AbstractController
      * Routes by 'slug' for Front-end and Back-end
      * ********************************************
      * @Route("vendor/{slug}", name="vendor_show_slug", methods={"GET"})
+     * @Route( "vendor/profile/{slug}", name="vendor_show_slug_profile", methods={"GET"})
+     *
      * @Route("folder/{slug}", name="folder_show_slug", methods={"GET"})
      * @Route("commission/{slug}", name="commission_show_slug", methods={"GET"})
      * @Route("project/{slug}", name="project_show_slug", methods={"GET"})
@@ -159,10 +154,20 @@ class ObjectCRUDsController extends AbstractController
      * @Route("event/{slug}", name="event_show_slug", methods={"GET"})
      * @Route("event/category/{slug}", name="event_show_slug_category", methods={"GET"})
      *
+     * @param Request $request
      * @return Response
      */
-    public function show(): Response
+    public function show(Request $request): Response
     {
+
+
+//        return $this->render(
+//            'vendor/vendor_profile/profile.html.twig', array(
+//                'vendor' => $vendorsRepository->findBy(
+//                    array('slug' => $this->getUser())
+//                ),
+//            )
+//        );
 
         $object = $this->requestDispatcher->object();
         return $this->render($this->requestDispatcher->layOutPath(), [

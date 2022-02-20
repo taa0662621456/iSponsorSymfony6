@@ -26,7 +26,7 @@
                                 'id' => 'step-1'
                             ],
                         ])
-				->add('vendorSecurity', VendorSecurityType::class)
+				->add('vendorSecurity', VendorRegistrationType::class)
                 )
                 ->add(
                     $builder
