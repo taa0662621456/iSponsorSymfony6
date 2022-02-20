@@ -6,27 +6,25 @@ namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class VendorLocaleSubscriber implements EventSubscriberInterface
 {
-    private SessionInterface $session;
 
-    public function __construct(SessionInterface $session)
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
     {
-        $this->session = $session;
+        $this->requestStack = $requestStack;
     }
 
-    /**
-     * @param InteractiveLoginEvent $event
-     */
     public function onInteractiveLogin(InteractiveLoginEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
-
+        $session = $this->requestStack->getSession();
         if (null !== $user->getLocale()) {
-            $this->session->set('_locale', $user->getLocale());
+            $session->set('_locale', $user->getLocale());
         }
     }
 

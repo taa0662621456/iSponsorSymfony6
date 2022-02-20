@@ -71,6 +71,15 @@ services:
 #            string $categoryImageAttachmentsPath: "%app_category_images_directory%"
 #            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
 #            string $daysBeforeRemoveRejectedReview: ""
+    Redis:
+        class: Redis
+        calls:
+            - connect:
+                  - localhost
+                  - '%env(int:REDIS_PORT)%'
+            # uncomment the following if your Redis server requires a password
+            # - auth:
+            # - '%env(REDIS_PASSWORD)%'
 
 #    twilio.client:
 #        class: Twilio\Rest\Client
@@ -93,6 +102,14 @@ services:
             - 'App\\Entity\\Vendor\\VendorSecurity'
             - [facebook: facebookId, google: googleId, github: githubId]
 #            - postgres
+    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+        arguments:
+            - '@Redis'
+            # you can optionally pass an array of options. The only options are 'prefix' and 'ttl',
+            # which define the prefix to use for the keys to avoid collision on the Redis server
+            # and the expiration time for any given entry (in seconds), defaults are 'sf_s' and null:
+            # - { 'prefix': 'my_prefix', 'ttl': 600 }
+
     App\Service\CloudflareIpResolver:
         decorates: 'karser_recaptcha3.ip_resolver'
         arguments:

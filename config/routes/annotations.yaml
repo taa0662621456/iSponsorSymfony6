@@ -5,7 +5,9 @@ controllers:
         _locale: '%app_locale%'
     defaults:
         _locale: '%app_locale%'
-
+#annot:
+#    resource: "@AnnotRoutingBundle/Controller"
+#    type: annotation
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

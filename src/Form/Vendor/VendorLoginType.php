@@ -18,14 +18,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class VendorLoginType extends AbstractType
 {
-    private string $token;
-
     /**
      * VendorLoginType constructor.
      */
-    public function __construct(string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
+    public function __construct(private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
     {
-        $this->token = $token;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -212,5 +209,6 @@ class VendorLoginType extends AbstractType
         );
     }
 
-    public function getBlockPrefix() { }
+//    public function getBlockPrefix() {
+//    }
 }

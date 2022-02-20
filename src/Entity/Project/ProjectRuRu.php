@@ -4,14 +4,13 @@ namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
+use App\Repository\Project\ProjectRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="project_ru_ru", indexes={
- * @ORM\Index(name="project_ru_ru_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'project_ru_ru')]
+#[ORM\Index(columns: ['slug'], name: 'project_ru_ru_idx')]
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ProjectRuRu
 {
     use BaseTrait;

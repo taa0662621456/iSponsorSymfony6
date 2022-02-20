@@ -6,14 +6,13 @@ namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
+use App\Repository\Vendor\VendorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="product_ru_ru", indexes={
- * @ORM\Index(name="product_ru_ru_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Vendor\VendorRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'product_ru_ru')]
+#[ORM\Index(columns: ['slug'], name: 'product_ru_ru_idx')]
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ProductRuRu
 {
     use BaseTrait;

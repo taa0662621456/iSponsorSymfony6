@@ -14,22 +14,8 @@ use Symfony\Component\Routing\RouterInterface;
 
 class SitemapListener implements EventSubscriberInterface
 {
-    private EntityManagerInterface $doctrine;
-    private UrlGeneratorInterface $router;
-    private RequestDispatcher $requestDispatcher;
-
-
-    /**
-     * @param EntityManagerInterface $doctrine
-     * @param UrlGeneratorInterface $router
-     * @param RequestDispatcher $requestDispatcher
-     */
-    public function __construct(EntityManagerInterface $doctrine, UrlGeneratorInterface $router,
-                                RequestDispatcher $requestDispatcher)
+    public function __construct(private EntityManagerInterface $doctrine, private UrlGeneratorInterface $router, private RequestDispatcher $requestDispatcher)
     {
-        $this->doctrine = $doctrine;
-        $this->router = $router;
-        $this->requestDispatcher = $requestDispatcher;
     }
 
     /**
@@ -43,10 +29,6 @@ class SitemapListener implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param SitemapPopulateEvent $event
-     * @param RequestDispatcher $requestDispatcher
-     */
     public function populate(SitemapPopulateEvent $event, RequestDispatcher $requestDispatcher): void
     {
         if (\in_array($event->getSection(), [$requestDispatcher->object(), null], true)) {
@@ -59,10 +41,6 @@ class SitemapListener implements EventSubscriberInterface
         $this->entityPage($event->getUrlContainer());
     }
 
-    /**
-     * @param UrlContainerInterface $url
-     * @param UrlGeneratorInterface $router
-     */
     public function entityPage(UrlContainerInterface $url, UrlGeneratorInterface $router): void
     {
         $object = $this->requestDispatcher->object();

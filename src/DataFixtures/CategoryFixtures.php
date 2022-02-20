@@ -47,9 +47,6 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
 		);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getOrder(): int
     {
 		return 2;

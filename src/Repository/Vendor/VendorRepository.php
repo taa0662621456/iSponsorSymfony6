@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Repository\Vendor;
 
@@ -21,10 +21,8 @@ class VendorRepository extends ServiceEntityRepository
     }
 
     //TODO: непойму, зачем писать дополнительные методы, если есть аналогичные встроенные в фреймворк
-
     /**
      * @param $vendorId
-     * @return \App\Entity\Vendor\Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|\App\Entity\Vendor\VendorIban|null
      */
     public function findActiveVendorById($vendorId): \App\Entity\Vendor\VendorIban|Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|null
     {

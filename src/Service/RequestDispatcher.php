@@ -7,56 +7,34 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestDispatcher
 {
-    /**
-     * @var string
-     */
+
     public string $object;
 
 
     public string $crudAction;
-    /**
-     * @var string
-     */
+
     public string $route;
-    /**
-     * @var string
-     */
+
     public string $type;
-    /**
-     * @var string
-     */
+
     public string $templatePath;
     /**
      * @var RequestStack
      */
     public RequestStack $requestStack;
-    /**
-     * @var string
-     */
+
     public string $typeEnGb;
-    /**
-     * @var string
-     */
+
     public string $objectEnGb;
-    /**
-     * @var string
-     */
+
     public string $objectRepository;
-    /**
-     * @var string
-     */
+
     private string $objectAttachment;
-    /**
-     * @var string
-     */
+
     private string $localeFilter;
-    /**
-     * @var string
-     */
+
     private string $locale;
-    /**
-     * @var string
-     */
+
     public string $objectLanguageLayer;
 
 

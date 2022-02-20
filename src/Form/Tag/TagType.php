@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Form\Tag;
 
@@ -15,11 +15,8 @@ use Symfony\Component\Form\FormView;
 
 class TagType extends AbstractType
 {
-    private TagRepository $tags;
-
-    public function __construct(TagRepository $tags)
+    public function __construct(private TagRepository $tags)
     {
-        $this->tags = $tags;
     }
 
     /**

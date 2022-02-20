@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Controller;
 
@@ -7,35 +7,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/dashboard")
- */
+#[Route(path: '/dashboard')]
 class DashboardController extends AbstractController
 {
-    /**
-     * @Route("/")
-     * @return Response
-     */
-    public function index():Response
+    #[Route(path: '/')]
+    public function index() : Response
     {
-    return $this->render('dashboard/index.html.twig');
+        return $this->render('dashboard/index.html.twig');
     }
-
-    /**
-    * @Route("/sponsor", name="sponsor", methods={"GET"})
-    * @return void
-    */
-    public function sponsor(): void
+    #[Route(path: '/sponsor', name: 'sponsor', methods: ['GET'])]
+    public function sponsor() : void
     {
-    // Dashboard
+        // Dashboard
     }
-
-    /**
-    * @Route("/author", name="author", methods={"GET"})
-    * @return void
-    */
-    public function author(): void
+    #[Route(path: '/author', name: 'author', methods: ['GET'])]
+    public function author() : void
     {
-    // Dashboard
+        // Dashboard
     }
 }

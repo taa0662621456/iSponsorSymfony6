@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Controller\Vendor;
 
@@ -19,42 +19,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/vendors")
- * @Route("/sponsors")
- */
+#[Route(path: '/vendors')]
+#[Route(path: '/sponsors')]
 class VendorsController extends AbstractController
 {
-    /**
-     * @var AttachmentManager
-     */
-    private $attachmentManager;
-
-    public function __construct(AttachmentManager $attachmentManager)
-    {
-        $this->attachmentManager = $attachmentManager;
-    }
-
-    /**
-     * @Route("/", name="vendors", methods={"GET"})
-     * @param VendorRepository $vendorsRepository
-     *
-     * @return Response
-     */
-    public function vendors(VendorRepository $vendorsRepository): Response
-    {
-        return $this->render('vendor/vendors/index.html.twig', [
-            'vendors' => $vendorsRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="vendors_new", methods={"GET","POST"})
-     * @param Request $request
-     * @return Response
-     * @throws Exception
-     */
-    public function new(Request $request): Response
+	public function __construct(private AttachmentManager $attachmentManager)
+	{
+	}
+	#[Route(path: '/', name: 'vendors', methods: ['GET'])]
+	public function vendors(VendorRepository $vendorsRepository) : Response
+	{
+		return $this->render('vendor/vendors/index.html.twig', [
+      'vendors' => $vendorsRepository->findAll(),
+  ]);
+	}
+	/**
+	 * @throws Exception
+	 */
+	#[Route(path: '/new', name: 'vendors_new', methods: ['GET', 'POST'])]
+	public function new(Request $request) : Response
 	{
 		$slug = new Slugify();
 		$vendor = new Vendor();
@@ -67,10 +50,8 @@ class VendorsController extends AbstractController
 		$vendorDocAttachment = new VendorDocument();
 		$vendorDocAttachment->setFileClass('');
 		$vendor->getVendorDocumentAttachments()->add($vendorDocAttachment);
-
 		$form = $this->createForm(VendorAddType::class, $vendor);
 		$form->handleRequest($request);
-
 		if ($form->isSubmitted() && $form->isValid()) {
 
 			$entityManager = $this->getDoctrine()->getManager();
@@ -86,81 +67,56 @@ class VendorsController extends AbstractController
 
             return $this->redirectToRoute('vendors');
         }
+		return $this->render('vendor/vendors/new.html.twig', [
+      'vendor' => $vendor,
+      'form' => $form->createView(),
+  ]);
+	}
+	#[Route(path: '/{id<\d+>}', name: 'vendors_show', methods: ['GET'])]
+	public function show(Vendor $vendor) : Response
+	{
+		return $this->render('vendor/vendors/show.html.twig', [
+      'vendors' => $vendor,
+  ]);
+	}
+	#[Route(path: '/{id<\d+>}/edit', name: 'vendors_edit', methods: ['GET', 'POST'])]
+	public function edit(Request $request, Vendor $vendor) : Response
+	{
+		$form = $this->createForm(VendorEditType::class, $vendor);
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+      $this->getDoctrine()->getManager()->flush();
 
-        return $this->render('vendor/vendors/new.html.twig', [
-            'vendor' => $vendor,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-	 * @Route("/{id<\d+>}", name="vendors_show", methods={"GET"})
-	 * @param Vendor $vendor
-	 *
-	 * @return Response
-	 */
-    public function show(Vendor $vendor): Response
-    {
-        return $this->render('vendor/vendors/show.html.twig', [
-            'vendors' => $vendor,
-        ]);
+      return $this->redirectToRoute('vendors');
+  }
+		return $this->render('vendor/vendors/edit.html.twig', [
+      'vendor' => $vendor,
+      'form' => $form->createView(),
+  ]);
 	}
 
-	/**
-	 * @Route("/{id<\d+>}/edit", name="vendors_edit", methods={"GET","POST"})
-	 * @param Request $request
-	 * @param Vendor $vendor
-	 * @return Response
-	 */
-    public function edit(Request $request, Vendor $vendor): Response
-    {
-        $form = $this->createForm(VendorEditType::class, $vendor);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('vendors');
-        }
-
-        return $this->render('vendor/vendors/edit.html.twig', [
-            'vendor' => $vendor,
-            'form' => $form->createView(),
-        ]);
-    }
-
-
     /**
-     * @Route("/{id<\d+>}/projects", name="vendor_projects", methods={"GET","POST"})
      * @param ProjectRepository $projects
      * @param $user
      * @return Response
      */
-    public function projects(ProjectRepository $projects, $user): Response
-    {
-        return $this->render('vendor/vendors/index.html.twig', array(
-            'projects' => $projects->findBy(
-                array('user' => $user)
-            )
-        ));
-    }
-
-
-	/**
-	 * @Route("/{id<\d+>}", name="vendors_delete", methods={"DELETE"})
-	 * @param Request $request
-	 * @param Vendor $vendor
-	 * @return Response
-	 */
-    public function delete(Request $request, Vendor $vendor): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$vendor->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($vendor);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('vendors');
-    }
-
+	#[Route(path: '/{id<\d+>}/projects', name: 'vendor_projects', methods: ['GET', 'POST'])]
+	public function projects(ProjectRepository $projects, $user) : Response
+	{
+		return $this->render('vendor/vendors/index.html.twig', array(
+      'projects' => $projects->findBy(
+          array('user' => $user)
+      )
+  ));
+	}
+	#[Route(path: '/{id<\d+>}', name: 'vendors_delete', methods: ['DELETE'])]
+	public function delete(Request $request, Vendor $vendor) : Response
+	{
+		if ($this->isCsrfTokenValid('delete'.$vendor->getId(), $request->request->get('_token'))) {
+      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager->remove($vendor);
+      $entityManager->flush();
+  }
+		return $this->redirectToRoute('vendors');
+	}
 }

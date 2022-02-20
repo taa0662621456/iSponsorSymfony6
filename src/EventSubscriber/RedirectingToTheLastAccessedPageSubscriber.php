@@ -2,10 +2,10 @@
 
 	namespace App\EventSubscriber;
 
-	use JetBrains\PhpStorm\ArrayShape;
+    use JetBrains\PhpStorm\ArrayShape;
     use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-	use Symfony\Component\HttpFoundation\Session\SessionInterface;
-	use Symfony\Component\HttpKernel\Event\RequestEvent;
+    use Symfony\Component\HttpFoundation\RequestStack;
+    use Symfony\Component\HttpKernel\Event\RequestEvent;
 	use Symfony\Component\HttpKernel\KernelEvents;
 	use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
@@ -14,11 +14,11 @@
 	{
 		use TargetPathTrait;
 
-		private SessionInterface $session;
+        private RequestStack $requestStack;
 
-		public function __construct(SessionInterface $session)
+		public function __construct(RequestStack $requestStack)
 		{
-			$this->session = $session;
+            $this->requestStack = $requestStack;
 		}
 
 		public function onKernelRequest(RequestEvent $event): void
@@ -28,10 +28,12 @@
 				return;
 			}
 
-			$this->saveTargetPath($this->session, 'main', $request->getUri());
+            $session = $this->requestStack->getSession();
+
+			$this->saveTargetPath($session, 'main', $request->getUri());
 		}
 
-		#[ArrayShape([KernelEvents::REQUEST => "string[]"])]
+        #[ArrayShape([KernelEvents::REQUEST => "string[]"])]
         public static function getSubscribedEvents(): array
         {
 			return [

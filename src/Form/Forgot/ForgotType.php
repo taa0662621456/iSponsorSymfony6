@@ -17,14 +17,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForgotType extends AbstractType
 {
-    private string $token;
-
     /**
      * SecurityForgotEmailType constructor.
      */
-    public function __construct(string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
+    public function __construct(private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
     {
-        $this->token = $token;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -66,7 +63,7 @@ class ForgotType extends AbstractType
             'csrf_token_id' => $this->token,
             'translation_domain' => 'security',
             'validation_groups' => false,
-            'forgot_сredential_type' => 'App\Form\Forgot\ForgotEmailType', //TODO: добавить парамерт в app и дефолтное значение
+            'forgot_сredential_type' => \App\Form\Forgot\ForgotEmailType::class, //TODO: добавить парамерт в app и дефолтное значение
             'attr' => [
                 'class' => 'needs-validation',
                 'novalidate' => null,

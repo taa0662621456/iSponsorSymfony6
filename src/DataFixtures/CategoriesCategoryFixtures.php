@@ -29,7 +29,7 @@
 			for ($p = 0; $p <= $countCategories - 1; $p++) {
 				$currentCategoryId = $maxId - $p;
 				$currentCategory = $categoriesRepository->find($currentCategoryId);
-				$parent = rand($minId, $minId + 4);
+				$parent = random_int($minId, $minId + 4);
 				$parentCategory = $categoriesRepository->find($parent);
 
 				if ($currentCategoryId >= ($minId + 4)) {
@@ -47,11 +47,8 @@
 			);
 		}
 
-		/**
-		 * @return int
-		 */
-		public function getOrder()
-		{
+		public function getOrder(): int
+        {
 			return 2;
 		}
 

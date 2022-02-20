@@ -21,7 +21,7 @@ use Exception;
 class ProductReviewRepository extends ServiceEntityRepository
 {
     public const REVIEWS_PER_PAGE = 10;
-    const DAYS_BEFORE_REJECTED_REMOVAL = '';
+    public const DAYS_BEFORE_REJECTED_REMOVAL = '';
 
     public function __construct(ManagerRegistry $registry)
     {

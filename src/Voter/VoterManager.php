@@ -3,7 +3,6 @@
 namespace App\Voter;
 
 use App\Entity\Vendor\Vendor;
-use App\Service\RequestDispatcher;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -27,13 +26,9 @@ class VoterManager extends Voter
      * @var RequestStack
      */
     private RequestStack $requestStack;
-    /**
-     * @var string
-     */
+
     private $voter;
-    /**
-     * @var string
-     */
+
     private string $object;
     /**
      * @var Security
@@ -70,7 +65,7 @@ class VoterManager extends Voter
         return true;
     }
 
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool|int
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
     {
 
         if ($token instanceof NullToken) {

@@ -16,7 +16,7 @@ class VendorsFixtures extends Fixture
 
 	public function load(ObjectManager $manager)
 	{
-        $rand = rand(0, 999999);
+        $rand = random_int(0, 999999);
         $password = $rand;
         //$password = md5($rand);
 
@@ -58,9 +58,6 @@ class VendorsFixtures extends Fixture
 		$manager->flush();
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getOrder(): int
     {
 		return 1;

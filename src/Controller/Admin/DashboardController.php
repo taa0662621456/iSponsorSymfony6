@@ -23,14 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-    /**
-     * @Route("/dashboard", name="dashboard_index")
-     */
-    public function index(): Response
+    #[Route(path: '/dashboard', name: 'dashboard_index')]
+    public function index() : Response
     {
         return parent::index();
         //$routeBuilder = $this->get(CrudUrlGenerator::class);
-
         //return $this->redirect($routeBuilder->setController(ProductCrudController::class)->generateUrl());
     }
 

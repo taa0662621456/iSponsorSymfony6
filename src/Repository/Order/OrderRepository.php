@@ -21,7 +21,6 @@ class OrderRepository extends ServiceEntityRepository
 {
     /**
      * ProjectsRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -29,9 +28,7 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $page
      * @param Tag|null $tag
-     * @return Paginator
      */
     public function findLatest(int $page = 1, $tag = null): Paginator
     {
@@ -54,8 +51,6 @@ class OrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $rawQuery
-     * @param int $limit
      * @return Project[]
      */
     public function findBySearchQuery(string $rawQuery, int $limit = Order::NUM_ITEMS): array
@@ -83,8 +78,6 @@ class OrderRepository extends ServiceEntityRepository
 
     /**
      * Removes all non-alphanumeric characters except whitespaces.
-     * @param string $query
-     * @return string
      */
     private function sanitizeSearchQuery(string $query): string
     {
@@ -93,15 +86,11 @@ class OrderRepository extends ServiceEntityRepository
 
     /**
      * Splits the search query into terms and removes the ones which are irrelevant.
-     * @param string $searchQuery
-     * @return array
      */
     private function extractSearchTerms(string $searchQuery): array
     {
         $terms = array_unique(explode(' ', $searchQuery));
-        return array_filter($terms, static function ($term) {
-            return 2 <= mb_strlen($term);
-        });
+        return array_filter($terms, static fn($term) => 2 <= mb_strlen($term));
     }
 
 

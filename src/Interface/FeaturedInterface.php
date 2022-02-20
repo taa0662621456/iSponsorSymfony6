@@ -12,21 +12,12 @@ interface FeaturedInterface
     public function setOrdering($ordering): static;
 
 
-    /**
-     * @return integer
-     */
     public function getOrdering(): int;
 
 
-    /**
-     * @return string
-     */
     public function getFeaturedType(): string;
 
 
-	/**
-	 * @param string $featuredType
-	 */
-    public function setFeaturedType(string $featuredType): void;
+	public function setFeaturedType(string $featuredType): void;
 
 }

@@ -20,44 +20,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class CredentialController extends AbstractController
 {
     /**
-     * @var UserPasswordHasherInterface
-     */
-    private UserPasswordHasherInterface $passwordHasher;
-
-    /**
      * CredentialController constructor.
      */
-    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
-        $this->passwordHasher = $passwordHasher;
     }
 
     /**
-     * @Route("/change", methods={"GET", "POST"}, name="change_security")
-     * @param Request $request
-     * @param ConfirmationCodeGenerator $codeGenerator
      *
-     * @param EventDispatcherInterface $eventDispatcher
      *
-     * @return Response
      * @throws \Exception
      */
-    public function change(Request $request,
-                           ConfirmationCodeGenerator $codeGenerator,
-                           EventDispatcherInterface $eventDispatcher): Response
+    #[Route(path: '/change', name: 'change_security', methods: ['GET', 'POST'])]
+    public function change(Request $request, ConfirmationCodeGenerator $codeGenerator, EventDispatcherInterface $eventDispatcher) : Response
     {
         $recaptcha = new ReCaptcha($this->getParameter('app_google_recaptcha_secret'));
         $resp = $recaptcha->verify($request->request->get('g-recaptcha-response'), $request->getClientIp());
-
-
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
-
         $vendorCurrent = $this->getUser();
-
         $form = $this->createForm(SecurityChangePasswordType::class);
         $form->handleRequest($request);
-
         if (!$resp->isSuccess()) {
             foreach ($resp->getErrorCodes() as $errorCode) {
                 $this->addFlash('danger', 'Error captcha: ' . $errorCode);
@@ -88,7 +71,6 @@ class CredentialController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
             return $this->redirectToRoute('change_security');
         }
-
         return $this->render(
             'security/change.html.twig', array(
                 'form' => $form->createView(),

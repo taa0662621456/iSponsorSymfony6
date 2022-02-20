@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Repository\Product;
 
@@ -18,19 +18,16 @@ use Doctrine\Persistence\ManagerRegistry;
 class ProductRepository extends ServiceEntityRepository
 {
     /**
-     * ProductsRepository constructor.
-     * @param ManagerRegistry $registry
-     */
-    public function __construct(ManagerRegistry $registry)
+				 * ProductsRepository constructor.
+				 */
+				public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
     }
     /**
-     * @param string $slug
-     * @return mixed
-     * @throws NonUniqueResultException
-     */
-    public function findBySlug(string $slug): mixed
+				 * @throws NonUniqueResultException
+				 */
+				public function findBySlug(string $slug): mixed
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
 

@@ -4,51 +4,32 @@ namespace App\Entity\Attachment;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
-use App\Entity\OAuthTrait;
+use App\Repository\Attachment\AttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-/**
- * @ORM\Table(name="attachments", indexes={
- * @ORM\Index(name="attachments_idx", columns={"slug"})})
- * UniqueEntity("slug"), errorPath="slug", message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\Attachment\AttachmentRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'attachments')]
+#[ORM\Index(columns: ['slug'], name: 'attachments_idx')]
+#[ORM\Entity(repositoryClass: AttachmentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Attachment
 {
     use BaseTrait;
     use AttachmentTrait;
 
-    /**
-     * @var string
-     * @ORM\Column(name="object", type="text", nullable=false)
-     */
+    #[ORM\Column(name: 'object', type: 'text', nullable: false)]
     private string $object;
-
-    /**
-     * @ORM\Column(name="attachments", type="string", nullable=false)
-     * @Assert\NotBlank(message="attachments.en.gb.blank")
-     * @Assert\Length(min=10, minMessage="attachments.en.gb.too.short")
-     */
+    #[ORM\Column(name: 'attachments', type: 'string', nullable: false)]
+    #[Assert\NotBlank(message: 'attachments.en.gb.blank')]
+    #[Assert\Length(min: 10, minMessage: 'attachments.en.gb.too.short')]
     private string $attachments;
-
-    /**
-     * @return string
-     */
     public function getObject(): string
     {
         return $this->object;
     }
-
-    /**
-     * @param string $object
-     */
     public function setObject(string $object): void
     {
         $this->object = $object;
     }
-
-
 }

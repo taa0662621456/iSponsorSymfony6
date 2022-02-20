@@ -30,9 +30,6 @@ class ReviewProjectFixtures extends Fixture
     }
 
 
-    /**
-     * @return int
-     */
     public function getOrder(): int
     {
         return 101;

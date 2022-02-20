@@ -30,7 +30,7 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 			$projectAttachments = new ProjectAttachment();
 
             $projects->addProjectCategory($categories[array_rand($categories)]);
-            $projects->setProjectType(rand(1, 4));
+            $projects->setProjectType(random_int(1, 4));
 
             $projects->setProjectEnGb($projectEnGb);
 
@@ -59,9 +59,6 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 		);
 	}
 
-	/**
-	 * @return int
-	 */
 	public function getOrder(): int
     {
 		return 3;

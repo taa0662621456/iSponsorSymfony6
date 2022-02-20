@@ -5,118 +5,75 @@ namespace App\Entity\Project;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
 use App\Entity\Product\Product;
+use App\Interface\CategoryInterface;
 use App\Interface\ProjectInterface;
+use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="projects", indexes={
- * @ORM\Index(name="project_idx", columns={"slug"})})
- * UniqueEntity("slug"),
- *        errorPath="slug",
- *        message="This slug is already in use!"
- * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'projects')]
+#[ORM\Index(columns: ['slug'], name: 'project_idx')]
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Project implements ProjectInterface
 {
     use BaseTrait;
     public const NUM_ITEMS = 10;
 
-    /**
-     * @var string
-     * @ORM\Column(name="project_type", type="string", nullable=true)
-     */
-    private string $projectType; //TODO: поменять на связь с таблицей типов проектов
-
+    #[ORM\Column(name: 'project_type', type: 'string', nullable: true)]
+    private string $projectType;
+    //TODO: поменять на связь с таблицей типов проектов
     /**
      *
-     * @ORM\ManyToOne(targetEntity="App\Interface\CategoryInterface",
-     *     inversedBy="categoryProjects",
-     *     fetch="EXTRA_LAZY")
-     * @ORM\JoinColumn(name="projectCategory_id", referencedColumnName="id")
      *
      * @var ArrayCollection
      */
+    #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProjects')]
+    #[ORM\JoinColumn(name: 'projectCategory_id', referencedColumnName: 'id')]
     private ArrayCollection $projectCategory;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\ProjectEnGb",
-     *     cascade={"persist", "remove"},
-     *     mappedBy="projectEnGb",
-     *     orphanRemoval=true)
-     * @ORM\JoinColumn(name="projectEnGb_id", referencedColumnName="id", onDelete="CASCADE")
-     *
-     * @Assert\Type(type="App\Entity\Project\ProjectsEnGb")
-     * @Assert\Valid()
-     */
+    #[ORM\OneToOne(mappedBy: 'projectEnGb', targetEntity: ProjectEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(name: 'projectEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[Assert\Type(type: 'App\Entity\Project\ProjectsEnGb')]
+    #[Assert\Valid]
     private ArrayCollection $projectEnGb;
-
-
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Project\ProjectAttachment",
-     *      cascade={"persist", "remove"},
-     *      mappedBy="projectAttachments",
-     *      orphanRemoval=true)
-     * @ORM\JoinTable(name="project_attachments")
-     * @Assert\Count(max="8", maxMessage="projects.too_many_files")
      */
+    #[ORM\OneToMany(mappedBy: 'projectAttachments', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'project_attachments')]
+    #[Assert\Count(max: 8, maxMessage: 'projects.too_many_files')]
     private ArrayCollection $projectAttachments;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectFavourite", mappedBy="projectFavourites")
-     * @ORM\JoinTable(name="project_favourites")
-     **/
+    #[ORM\ManyToMany(targetEntity: ProjectFavourite::class, mappedBy: 'projectFavourites')]
+    #[ORM\JoinTable(name: 'project_favourites')]
     private int $projectFavourites;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Featured\Featured",
-     *     cascade={"persist", "remove"},
-     *     mappedBy="projectFeatured"
-     * )
-     */
+    #[ORM\OneToOne(mappedBy: 'projectFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'])]
     private Featured $projectFeatured;
-
     /**
      * @var ArrayCollection
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Project\ProjectTag", cascade={"persist"})
-     * @ORM\JoinTable(name="project_tags")
-     * @ORM\OrderBy({"name": "ASC"})
-     * @Assert\Count(max="4", maxMessage="projects.too_many_tags")
      *
      */
+    #[ORM\ManyToMany(targetEntity: ProjectTag::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'project_tags')]
+    #[ORM\OrderBy(['name' => 'ASC'])]
+    #[Assert\Count(max: 4, maxMessage: 'projects.too_many_tags')]
     private ArrayCollection $projectTags;
-
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="App\Entity\Product\Product",
-     *      cascade={"persist"},
-     *      mappedBy="products",
-     *      orphanRemoval=true)
-     * @ORM\JoinTable(name="project_products")
-     * @Assert\Count(max="100", maxMessage="projects.too_many_files")
      */
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Product::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'project_products')]
+    #[Assert\Count(max: 100, maxMessage: 'projects.too_many_files')]
     private ArrayCollection $projectProducts;
-
     /**
      * @var ArrayCollection
-     *
-     * @ORM\OneToMany(targetEntity="ProjectPlatformReward",
-     *     cascade={"persist", "remove"},
-     *     mappedBy="projectId",
-     *     orphanRemoval=true)
-     * @ORM\JoinTable(name="project_platform_reward")
-     * @Assert\Count(max="100", maxMessage="project.too_many_rewards")
      */
+    #[ORM\OneToMany(mappedBy: 'projectId', targetEntity: ProjectPlatformReward::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinTable(name: 'project_platform_reward')]
+    #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private ArrayCollection $projectPlatformReward;
-
-
     /**
      * Projects constructor.
      * @throws \Exception
@@ -129,23 +86,10 @@ class Project implements ProjectInterface
         $this->projectProducts = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
     }
-
-//    /**
-//     * @return Category
-//     */
-//    public function getProjectCategory(): Category
-//    {
-//        return $this->projectCategory;
-//    }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getProjectCategory():ArrayCollection
     {
         return $this->projectCategory;
     }
-
     /**
      * @param $projectCategory
      */
@@ -153,26 +97,14 @@ class Project implements ProjectInterface
     {
         $this->projectCategory->add($projectCategory);
     }
-
-    /**
-     * @return string|null
-     */
     public function getProjectType(): ?string
     {
         return $this->projectType;
     }
-
-    /**
-     * @param string $projectType
-     */
     public function setProjectType(string $projectType): void
     {
         $this->projectType = $projectType;
     }
-
-    /**
-     * @param ProjectTag $tags
-     */
     public function addProjectTag(ProjectTag $tags): void
     {
         foreach ($tags as $tag) {
@@ -181,26 +113,14 @@ class Project implements ProjectInterface
             }
         }
     }
-
-    /**
-     * @param ProjectTag $tag
-     */
     public function removeProjectTag(ProjectTag $tag): void
     {
         $this->projectTags->removeElement($tag);
     }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getProjectTags(): ArrayCollection
     {
         return $this->projectTags;
     }
-
-    /**
-     * @param ProjectAttachment $attachments
-     */
     public function addProjectAttachment(ProjectAttachment $attachments): void
     {
         foreach ($attachments as $attachment) {
@@ -209,26 +129,14 @@ class Project implements ProjectInterface
             }
         }
     }
-
-    /**
-     * @param ProjectAttachment $attachment
-     */
     public function removeProjectAttachment(ProjectAttachment $attachment): void
     {
         $this->projectAttachments->removeElement($attachment);
     }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getProjectAttachments(): ArrayCollection
     {
         return $this->projectAttachments;
     }
-
-    /**
-     * @param Product $products
-     */
     public function addProjectProducts(Product $products): void
     {
         foreach ($products as $product) {
@@ -237,26 +145,14 @@ class Project implements ProjectInterface
             }
         }
     }
-
-    /**
-     * @param Product $product
-     */
     public function removeProjectProducts(Product $product): void
     {
         $this->projectProducts->removeElement($product);
     }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getProjectProducts(): ArrayCollection
     {
         return $this->projectProducts;
     }
-
-    /**
-     * @param ProjectPlatformReward $rewards
-     */
     public function addProjectPlatformReward(ProjectPlatformReward $rewards): void
     {
         foreach ($rewards as $reward) {
@@ -265,31 +161,18 @@ class Project implements ProjectInterface
             }
         }
     }
-
-    /**
-     * @param ProjectPlatformReward $reward
-     */
     public function removeProjectPlatformReward(ProjectPlatformReward $reward): void
     {
         $this->projectPlatformReward->removeElement($reward);
     }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getProjectPlatformReward(): ArrayCollection
     {
         return $this->projectPlatformReward;
     }
-
-    /**
-     * @return ArrayCollection
-     */
     public function getProjectEnGb(): ArrayCollection
     {
         return $this->projectEnGb;
     }
-
     /**
      * @param $projectEnGb
      */
@@ -297,31 +180,18 @@ class Project implements ProjectInterface
     {
         $this->projectEnGb = $projectEnGb;
     }
-
-    /**
-     * @return int
-     */
     public function getProjectFavourites(): int
     {
         return $this->projectFavourites;
     }
-
-    /**
-     * @param int $projectFavourites
-     */
     public function setProjectFavourites(int $projectFavourites): void
     {
         $this->projectFavourites = $projectFavourites;
     }
-
-    /**
-     * @return Featured
-     */
     public function getProjectFeatured(): Featured
     {
         return $this->projectFeatured;
     }
-
     /**
      * @param $projectFeatured
      */

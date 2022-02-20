@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Entity\Project;
 
@@ -11,12 +11,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 
-/**
- * @ORM\Table(name="projects_en_gb", indexes={
- * @ORM\Index(name="project_en_gb_idx", columns={"slug"})})
- * @ORM\Entity(repositoryClass="App\Repository\Project\ProjectRepository")
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Table(name: 'projects_en_gb')]
+#[ORM\Index(columns: ['slug'], name: 'project_en_gb_idx')]
+#[ORM\Entity(repositoryClass: \App\Repository\Project\ProjectRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class ProjectEnGb
 {
     use BaseTrait;

@@ -10,66 +10,43 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait ProjectLanguageTrait
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="project_title", type="string", nullable=false, options={"default"="project_title"})
-     * @Assert\NotBlank(message="projects.en.gb.blank")
-     * @Assert\Length(min=50, minMessage="projects.en.gb.too.short")
-     */
+
+    #[ORM\Column(name: 'project_title', type: 'string', nullable: false, options: ['default' => 'project_title'])]
+    #[Assert\NotBlank(message: 'projects.en.gb.blank')]
+    #[Assert\Length(min: 50, minMessage: 'projects.en.gb.too.short')]
     private string $projectTitle = 'project_title';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="project_s_desc", type="text", nullable=false, options={"default"="project_s_desc"})
-     * @Assert\NotBlank(message="projects.en.gb.blank")
-     * @Assert\Length(min=50, minMessage="projects.en.gb.too.short")
-     */
+
+    #[ORM\Column(name: 'project_s_desc', type: 'text', nullable: false, options: ['default' => 'project_s_desc'])]
+    #[Assert\NotBlank(message: 'projects.en.gb.blank')]
+    #[Assert\Length(min: 50, minMessage: 'projects.en.gb.too.short')]
     private string $projectSDesc = 'project_s_desc';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="project_desc", type="text", nullable=false, options={"default"="project_desc"})
-     * @Assert\NotBlank(message="projects.en.gb.blank")
-     * @Assert\Length(min=100, minMessage="projects.en.gb.too.short")
-     */
+
+    #[ORM\Column(name: 'project_desc', type: 'text', nullable: false, options: ['default' => 'project_desc'])]
+    #[Assert\NotBlank(message: 'projects.en.gb.blank')]
+    #[Assert\Length(min: 100, minMessage: 'projects.en.gb.too.short')]
     private string $projectDesc = 'project_desc';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="project_product_name", type="text", nullable=false, options={"default"="project_product_name"})
-     * @Assert\NotBlank(message="projects.en.gb.blank")
-     * @Assert\Length(min=50, minMessage="projects.en.gb.too.short")
-     */
+
+    #[ORM\Column(name: 'project_product_name', type: 'text', nullable: false, options: ['default' => 'project_product_name'])]
+    #[Assert\NotBlank(message: 'projects.en.gb.blank')]
+    #[Assert\Length(min: 50, minMessage: 'projects.en.gb.too.short')]
     private string $projectProductName = 'project_product_name';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="project_product_s_desc", type="text", nullable=false,
-     *                                            options={"default"="project_product_s_desc"})
-     * @Assert\NotBlank(message="projects.en.gb.blank")
-     * @Assert\Length(min=10, minMessage="projects.en.gb.too.short")
-     */
+
+    #[ORM\Column(name: 'project_product_s_desc', type: 'text', nullable: false, options: ['default' => 'project_product_s_desc'])]
+    #[Assert\NotBlank(message: 'projects.en.gb.blank')]
+    #[Assert\Length(min: 10, minMessage: 'projects.en.gb.too.short')]
     private string $projectProductSDesc = 'project_product_s_desc';
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="project_product_desc", type="text", nullable=false, options={"default"="project_product_desc"})
-     * @Assert\NotBlank(message="projects.en.gb.blank")
-     * @Assert\Length(min=100, minMessage="projects.en.gb.too.short")
-     */
+
+    #[ORM\Column(name: 'project_product_desc', type: 'text', nullable: false, options: ['default' => 'project_product_desc'])]
+    #[Assert\NotBlank(message: 'projects.en.gb.blank')]
+    #[Assert\Length(min: 100, minMessage: 'projects.en.gb.too.short')]
     private string $projectProductDesc = 'project_product_desc';
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Project\Project",
-     *     inversedBy="projectEnGb")
-     *
-     */
+    #[ORM\OneToOne(inversedBy: 'projectEnGb', targetEntity: Project::class)]
     private Project $projectEnGb;
 
 
@@ -79,17 +56,12 @@ trait ProjectLanguageTrait
         return $this->getProjectTitle();
     }
 
-    /**
-     * @return string
-     */
     public function getProjectTitle(): string
     {
         return $this->projectTitle;
     }
 
     /**
-     * @param string $projectTitle
-     *
      * @return \App\Entity\Project\ProjectRuRu|\App\Entity\Project\ProjectEnGb|\App\Entity\Project\ProjectLanguageTrait|\App\Entity\Project\ProjectUkUa
      */
     public function setProjectTitle(string $projectTitle): self
@@ -98,9 +70,6 @@ trait ProjectLanguageTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectSDesc(): string
     {
         return $this->projectSDesc;
@@ -108,8 +77,7 @@ trait ProjectLanguageTrait
 
     /**
      * @param string $projectSDesc
-     *
-     * @return ProjectEnGb
+     * @return ProjectRuRu|ProjectEnGb|ProjectLanguageTrait|ProjectUkUa
      */
     public function setProjectSDesc(string $projectSDesc): self
     {
@@ -117,9 +85,6 @@ trait ProjectLanguageTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectDesc(): string
     {
         return $this->projectDesc;
@@ -127,8 +92,7 @@ trait ProjectLanguageTrait
 
     /**
      * @param string $projectDesc
-     *
-     * @return ProjectEnGb
+     * @return ProjectRuRu|ProjectEnGb|ProjectLanguageTrait|ProjectUkUa
      */
     public function setProjectDesc(string $projectDesc): self
     {
@@ -136,9 +100,6 @@ trait ProjectLanguageTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectProductName(): string
     {
         return $this->projectProductName;
@@ -146,8 +107,7 @@ trait ProjectLanguageTrait
 
     /**
      * @param string $projectProductName
-     *
-     * @return ProjectEnGb
+     * @return ProjectRuRu|ProjectEnGb|ProjectLanguageTrait|ProjectUkUa
      */
     public function setProjectProductName(string $projectProductName): self
     {
@@ -155,9 +115,6 @@ trait ProjectLanguageTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectProductSDesc(): string
     {
         return $this->projectProductSDesc;
@@ -165,8 +122,7 @@ trait ProjectLanguageTrait
 
     /**
      * @param string $projectProductSDesc
-     *
-     * @return ProjectEnGb
+     * @return ProjectRuRu|ProjectEnGb|ProjectLanguageTrait|ProjectUkUa
      */
     public function setProjectProductSDesc(string $projectProductSDesc): self
     {
@@ -174,9 +130,6 @@ trait ProjectLanguageTrait
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getProjectProductDesc(): string
     {
         return $this->projectProductDesc;
@@ -184,8 +137,7 @@ trait ProjectLanguageTrait
 
     /**
      * @param string $projectProductDesc
-     *
-     * @return ProjectEnGb
+     * @return ProjectRuRu|ProjectEnGb|ProjectLanguageTrait|ProjectUkUa
      */
     public function setProjectProductDesc(string $projectProductDesc): self
     {
@@ -193,9 +145,6 @@ trait ProjectLanguageTrait
         return $this;
     }
 
-    /**
-     * @return Project
-     */
     public function getProjectEnGb(): Project
     {
         return $this->projectEnGb;

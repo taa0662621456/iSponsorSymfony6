@@ -33,9 +33,6 @@ class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
         );
     }
 
-    /**
-     * @return int
-     */
     public function getOrder(): int
     {
         return 5;

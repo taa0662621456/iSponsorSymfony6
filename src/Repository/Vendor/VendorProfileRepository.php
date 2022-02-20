@@ -23,7 +23,6 @@ class VendorProfileRepository extends ServiceEntityRepository
 
     /**
      * @param $vendorId
-     * @return \App\Entity\Vendor\VendorProfile
      */
     public function findActiveVendorById($vendorId): VendorProfile
     {

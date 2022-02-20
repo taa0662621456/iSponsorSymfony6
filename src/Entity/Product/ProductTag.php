@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 
 namespace App\Entity\Product;
 
@@ -7,33 +7,24 @@ use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 
-/**
- * @ORM\Entity()
- * @ORM\Table(name="products_tags", indexes={
- * @ORM\Index(name="product_tag_idx", columns={"slug"})})
- * @ORM\HasLifecycleCallbacks()
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'products_tags')]
+#[ORM\Index(columns: ['slug'], name: 'product_tag_idx')]
+#[ORM\HasLifecycleCallbacks]
 class ProductTag implements JsonSerializable
 {
 	use BaseTrait;
 
-	/**
-	 * @var string
-	 *
-	 * @ORM\Column(type="string", unique=true)
-	 */
+	#[ORM\Column(type: 'string', unique: true)]
 	private string $name;
-
 	public function setName(string $name): void
 	{
 		$this->name = $name;
 	}
-
 	public function getName(): ?string
 	{
 		return $this->name;
 	}
-
 	/**
 	 * {@inheritdoc}
 	 */
@@ -44,10 +35,6 @@ class ProductTag implements JsonSerializable
 		// is called, for example in tags|json_encode (app/Resources/views/form/fields.html.twig)
 		return $this->name;
 	}
-
-	/**
-	 * @return string
-	 */
 	public function __toString(): string
 	{
 		return $this->name;

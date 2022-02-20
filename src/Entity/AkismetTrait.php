@@ -10,12 +10,8 @@ use JetBrains\PhpStorm\Pure;
 trait AkismetTrait
 {
     //TODO: скорее всего эти свойства перенести в ReviewTrait
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="state", type="string",
-     *     options={"default"="submitted", "comment"="Submitted, Spam and Published stats"})
-     */
+
+    #[ORM\Column(name: 'state', type: 'string', options: ['default' => 'submitted', 'comment' => 'Submitted, Spam and Published stats'])]
     private string $state;
 
     #[Pure] public function __toString(): string
@@ -24,17 +20,11 @@ trait AkismetTrait
     }
 
 
-    /**
-     * @return string
-     */
     public function getState(): string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
     public function setState(string $state): void
     {
         $this->state = $state;

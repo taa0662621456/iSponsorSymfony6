@@ -63,7 +63,7 @@ class MessageConversationRepository extends ServiceEntityRepository
             ->innerJoin('me.user', 'meUser')
             ->innerJoin('p.user', 'otherUser')
             ->where('meUser.id = :user')
-            ->setParameters('user', $userId)
+            ->setParameters('user')
             ->orderBy('lm.createdBy', 'DESC');
 
         return $qb->getQuery()->getResult();
