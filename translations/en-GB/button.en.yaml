@@ -12,7 +12,9 @@ button.remember.label: 'Remember me'
 
 
 button.navbar.signin: 'Login'
+button.navbar.logout: 'Logout'
 button.navbar.signup: 'Register now'
+
 button.label.facebook: 'By Facebook'
 button.label.google: 'By Google'
 button.label.github: 'By Github'

@@ -3,10 +3,10 @@
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block title %}{{ 'orderform.orderform'|trans({},'domain') }}{% endblock title %}
+{% block title %}{{ 'order.orderform'|trans({},'order') }}{% endblock title %}
 
 {% block page_content -%}
-    <h2 class="text-center">{{ 'orderform.orderform'|trans({},'domain') }}</h2>
+    <h2 class="text-center">{{ 'order.orderform'|trans({},'order') }}</h2>
     <hr>
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
@@ -45,12 +45,12 @@
             {{ form_rest(form) }}
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10 text-right">
-                    <button type="submit" class="btn btn-success">{{ 'orderform.submit'|trans({},'domain') }}</button>
+                    <button type="submit" class="btn btn-success">{{ 'button.submit'|trans({},'button') }}</button>
                 </div>
             </div>
             <div class="form-group">
                 <div class="well col-sm-offset-2 col-sm-10 text-right">
-                    {{ 'orderform.totalsumis'|trans({},'domain') }} <span id="totalsum"></span>{{ 'currency'|trans({},'domain') }}
+                    {{ 'order.total.sum.is'|trans({},'order') }} <span id="totalsum"></span>{{ 'order.total.sum'|trans({},'order') }}
                 </div>
             </div>
             {{ form_start(form) }}
