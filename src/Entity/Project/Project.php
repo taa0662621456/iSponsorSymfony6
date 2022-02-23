@@ -26,13 +26,12 @@ class Project implements ProjectInterface
     private string $projectType;
     //TODO: поменять на связь с таблицей типов проектов
     /**
-     *
-     *
      * @var ArrayCollection
      */
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProjects')]
     #[ORM\JoinColumn(name: 'projectCategory_id', referencedColumnName: 'id')]
     private ArrayCollection $projectCategory;
+
     #[ORM\OneToOne(mappedBy: 'projectEnGb', targetEntity: ProjectEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(name: 'projectEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectsEnGb')]
@@ -45,21 +44,22 @@ class Project implements ProjectInterface
     #[ORM\JoinTable(name: 'project_attachments')]
     #[Assert\Count(max: 8, maxMessage: 'projects.too_many_files')]
     private ArrayCollection $projectAttachments;
+
     #[ORM\ManyToMany(targetEntity: ProjectFavourite::class, mappedBy: 'projectFavourites')]
     #[ORM\JoinTable(name: 'project_favourites')]
     private int $projectFavourites;
+
     #[ORM\OneToOne(mappedBy: 'projectFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'])]
     private Featured $projectFeatured;
     /**
      * @var ArrayCollection
-     *
-     *
      */
     #[ORM\ManyToMany(targetEntity: ProjectTag::class, cascade: ['persist'])]
     #[ORM\JoinTable(name: 'project_tags')]
     #[ORM\OrderBy(['name' => 'ASC'])]
     #[Assert\Count(max: 4, maxMessage: 'projects.too_many_tags')]
     private ArrayCollection $projectTags;
+
     /**
      * @var ArrayCollection
      */
@@ -67,6 +67,7 @@ class Project implements ProjectInterface
     #[ORM\JoinTable(name: 'project_products')]
     #[Assert\Count(max: 100, maxMessage: 'projects.too_many_files')]
     private ArrayCollection $projectProducts;
+
     /**
      * @var ArrayCollection
      */
@@ -74,8 +75,8 @@ class Project implements ProjectInterface
     #[ORM\JoinTable(name: 'project_platform_reward')]
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private ArrayCollection $projectPlatformReward;
+
     /**
-     * Projects constructor.
      * @throws \Exception
      */
     #[Pure]
@@ -184,6 +185,7 @@ class Project implements ProjectInterface
     {
         return $this->projectFavourites;
     }
+
     public function setProjectFavourites(int $projectFavourites): void
     {
         $this->projectFavourites = $projectFavourites;

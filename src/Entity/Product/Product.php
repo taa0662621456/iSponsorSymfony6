@@ -116,11 +116,13 @@
 
 		#[ORM\Column(name: 'product_country_origin', type: 'string', nullable: false, options: ['default' => 'product_country_origin'])]
 		private string $productCountryOrigin = 'product_country_origin';
+
 		#[ORM\OneToOne(targetEntity: ProductEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
 		#[ORM\JoinColumn(name: 'productEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 		#[Assert\Type(type: 'App\Entity\Product\ProductsEnGb')]
 		#[Assert\Valid]
 		private ProductEnGb $productEnGb;
+
 		/**
 		 * @var ArrayCollection|ProductTag[]
 		 */
@@ -134,11 +136,14 @@
 		#[Assert\Type(type: 'App\Entity\Product\ProductsPrice')]
 		#[Assert\Valid]
 		private ProductPrice $productPrice;
+
 		#[ORM\ManyToMany(targetEntity: ProductFavourite::class, mappedBy: 'productFavourites')]
 		#[ORM\JoinTable(name: 'product_favourites')]
 		private int $productFavourites;
+
 		#[ORM\OneToOne(mappedBy: 'productFeatured', targetEntity: Featured::class)]
 		private Featured $productFeatured;
+
 		#[ORM\OneToMany(mappedBy: 'productAttachments', targetEntity: ProductAttachment::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
 		private ArrayCollection $productAttachments;
 
@@ -415,21 +420,24 @@
         {
 			return $this->productTags;
 		}
-		/**
+        public function getProductFavourites(): int
+        {
+            return $this->productFavourites;
+        }
+        public function setProductFavourites(int $productFavourites): void
+        {
+            $this->productFavourites = $productFavourites;
+        }
+
+        /**
 		 * @param ArrayCollection|ProductTag[] $productTags
 		 */
 		public function setProductTags(ArrayCollection|array $productTags): void
 		{
 			$this->productTags = $productTags;
 		}
-		public function getProductFavourites(): int
-		{
-			return $this->productFavourites;
-		}
-		public function setProductFavourites(int $productFavourites): void
-		{
-			$this->productFavourites = $productFavourites;
-		}
+
+
 		public function getProductFeatured(): Featured
         {
 			return $this->productFeatured;

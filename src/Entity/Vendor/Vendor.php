@@ -147,7 +147,6 @@ class Vendor
 	{
 		$this->locale = $locale;
 	}
-
 	public function getResetCount(): int
 	{
 		return $this->resetCount;
@@ -200,47 +199,47 @@ class Vendor
 	{
 		$this->vendorEnGb = $vendorEnGb;
 	}
-	public function addOrder(Order $order): Vendor
+    public function getOrders(): ArrayCollection
+    {
+        return $this->vendorOrders;
+    }
+    public function addOrder(Order $order): Vendor
 	{
 		$this->vendorOrders[] = $order;
 
 		return $this;
 	}
-	public function removeOrder(Order $order)
+    public function removeOrder(Order $order)
 	{
 		$this->vendorOrders->removeElement($order);
 	}
-	public function getOrders(): ArrayCollection
-	{
-		return $this->vendorOrders;
-	}
-	public function addVendorDocumentAttachment(VendorDocument $vendorDocumentAttachment): Vendor
+    public function getVendorDocumentAttachments(): ArrayCollection
+    {
+        return $this->vendorDocumentAttachments;
+    }
+    public function addVendorDocumentAttachment(VendorDocument $vendorDocumentAttachment): Vendor
 	{
 		$this->vendorDocumentAttachments[] = $vendorDocumentAttachment;
 
 		return $this;
 	}
-	public function removeVendorDocumentAttachment(VendorDocument $vendorDocumentAttachment)
+    public function removeVendorDocumentAttachment(VendorDocument $vendorDocumentAttachment)
 	{
 		$this->vendorDocumentAttachments->removeElement($vendorDocumentAttachment);
 	}
-	public function getVendorDocumentAttachments(): ArrayCollection
+    public function getVendorMediaAttachments(): ArrayCollection
     {
-		return $this->vendorDocumentAttachments;
-	}
-	public function addVendorMediaAttachment(VendorMedia $vendorMediaAttachment): Vendor
+        return $this->vendorMediaAttachments;
+    }
+    public function addVendorMediaAttachment(VendorMedia $vendorMediaAttachment): Vendor
 	{
 		$this->vendorMediaAttachments[] = $vendorMediaAttachment;
 
 		return $this;
 	}
-	public function removeVendorMediaAttachment(VendorMedia $vendorMediaAttachment)
+    public function removeVendorMediaAttachment(VendorMedia $vendorMediaAttachment)
 	{
 		$this->vendorMediaAttachments->removeElement($vendorMediaAttachment);
-	}
-	public function getVendorMediaAttachments(): ArrayCollection
-    {
-		return $this->vendorMediaAttachments;
 	}
 	public function getVendorIban(): VendorIban
     {
