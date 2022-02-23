@@ -21,14 +21,12 @@
     <h1 class="text-danger">{{ 'http_error.name'|trans({ '%status_code%': 500 }) }}</h1>
 
     <p class="lead">
-        {{ 'http_error_500.description'|trans({},'domain') }}
+        {{ 'http_error_500.description'|trans({},'exception') }}
     </p>
     <p>
         {{ 'http_error_500.suggestion'|trans({ '%url%': path('blog_index') })|raw }}
     </p>
 
-
-    sdfdsdsdsdsfdsf
 {% endblock %}
 
 {% block sidebar %}

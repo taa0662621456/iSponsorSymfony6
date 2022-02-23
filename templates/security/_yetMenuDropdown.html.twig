@@ -20,10 +20,10 @@
             <a class="dropdown-item" href="#">Something else here</a>
             <div class="dropdown-divider"></div>
 
-            <a class="dropdown-item" href="{{ path('logout') }}">{{ 'logout'|trans({},'domain') }}</a>
+            <a class="dropdown-item" href="{{ path('logout') }}">{{ 'button.navbar.logout'|trans({},'button') }}</a>
         {% else %}
-            <a class="dropdown-item" href="{{ path('login') }}">{{ 'button.navbar.signin'|trans({},'domain') }}</a>
-            <a class="dropdown-item" href="{{ path('registration') }}">{{ 'button.navbar.signup'|trans({},'domain') }}</a>
+            <a class="dropdown-item" href="{{ path('login') }}">{{ 'button.navbar.signin'|trans({},'button') }}</a>
+            <a class="dropdown-item" href="{{ path('registration') }}">{{ 'button.navbar.signup'|trans({},'button') }}</a>
         {% endif %}
 
         {% if is_granted ( 'ROLE_PREVIOUS_ADMIN' ) %}

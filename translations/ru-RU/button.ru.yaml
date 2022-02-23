@@ -20,6 +20,7 @@ button.remember.label: 'Запомнить меня'
 button.submit.label: 'Авторизоваться'
 
 button.navbar.signin: 'Авторизоваться'
+button.navbar.logout: 'Выйти'
 button.navbar.signup: 'Зарегистрироваться'
 button.label.facebook: 'Через Facebook'
 button.label.google: 'Через Google'
