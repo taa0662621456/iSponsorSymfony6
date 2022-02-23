@@ -22,6 +22,7 @@ class ProductFavourite
 	{
 		return $this->productFavourites;
 	}
+
 	public function setProductFavourites(int $productFavourites): void
 	{
 		$this->productFavourites = $productFavourites;
