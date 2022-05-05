@@ -16,7 +16,7 @@ require('../css/homepage.css');
 
 
 // //require('../css/likeMasonryCart.css');
-// require('../fontawesome-pro/js/all.min');
+require('../fontawesome-pro/js/all.min');
 // require('./auto_hiding_navbar_init');
 // require('./bootstrap-tags-input-init');
 // require('./cart.js');
