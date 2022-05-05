@@ -28,7 +28,7 @@
         <title>{% block title %}{% endblock %}</title>
 
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('base') }}
         {% endblock %}
     </head>
 {% endblock %}
@@ -262,7 +262,7 @@
 </footer>
 {% endblock %}
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+        {{ encore_entry_script_tags('base') }}
         <script>
             (function(w,d,u){
                 let s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);

@@ -14,6 +14,7 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
+        "easycorp/easyadmin-bundle": "^4.1",
         "google/apiclient": "2.11",
         "google/recaptcha": "^1.2",
         "hwi/oauth-bundle": "2.0.0-BETA2",

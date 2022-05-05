@@ -8,7 +8,7 @@ Encore
     .setOutputPath('public/build/')
     .setPublicPath('/build')
     // .setManifestKeyPrefix('isponsor')
-    .addEntry('app', './asset/js/app.js')
+    .addEntry('base', './asset/js/base.js')
     .addEntry('homepage', './asset/js/homepage.js')
     .addEntry('sign', './asset/js/sign.js')
     .addEntry('profile', './asset/js/profile.js')
