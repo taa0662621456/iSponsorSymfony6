@@ -39,8 +39,8 @@
 		private string $fileMimeType = '';
 
 
-		#[ORM\Column(name: 'file_layout_position', type: 'string', nullable: true, options: ['default' => 'file_layout_position'])]
-		private string $fileLayoutPosition = 'file_layout_position';
+		#[ORM\Column(name: 'file_layout_position')]
+		private ?string $fileLayoutPosition = null;
 
 
 		#[ORM\Column(name: 'file_path', type: 'string', nullable: false, options: ['default' => ''])]

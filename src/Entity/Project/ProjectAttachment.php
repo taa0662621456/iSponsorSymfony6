@@ -16,9 +16,10 @@ class ProjectAttachment
 {
 	use BaseTrait;
 	use AttachmentTrait;
-	#[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectAttachments')]
+/*	#[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectAttachments')]*/
+	#[ORM\ManyToOne(inversedBy: 'projectAttachments')]
 	#[ORM\JoinColumn(name: 'projectAttachments_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private Project $projectAttachments;
+	private ?Project $projectAttachments = null;
 
     /**
      * @return Project

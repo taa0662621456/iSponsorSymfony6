@@ -20,7 +20,7 @@ trait BaseTrait
     #[ORM\Id]
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected int $id = 0;
+    protected ?int $id = null;
 
 
     #[ORM\Column(name: 'published', type: 'boolean', nullable: false)]
