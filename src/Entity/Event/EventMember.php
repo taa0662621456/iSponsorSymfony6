@@ -25,12 +25,12 @@ class EventMember
     #[ORM\Column(name: 'event_permission', type: 'boolean', nullable: false, options: ['default' => 3, 'comment' => '1 - creator, 2 - admin, 3 - member'])]
     private bool|string $eventPermission = '3';
 
-    #[ORM\Column(name: 'event_invited_by', type: 'integer', nullable: true, options: ['unsigned' => true])]
-    private ?int $eventInvitedBy = 0;
+    #[ORM\Column(name: 'event_invited_by', options: ['unsigned' => true])]
+    private ?int $eventInvitedBy = null;
     /**
      * @var bool|null
      * TODO: сомнительное свойство
      */
-    #[ORM\Column(name: 'event_approval', type: 'boolean', nullable: true, options: ['comment' => '0 - no approval required, 1 - required admin approval'])]
+    #[ORM\Column(name: 'event_approval', type: 'boolean', options: ['comment' => '0 - no approval required, 1 - required admin approval'])]
     private ?bool $eventApproval = false;
 }
