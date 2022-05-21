@@ -38,10 +38,10 @@
 		#[ORM\Column(name: 'product_mpn', type: 'integer', nullable: false, options: ['default' => 0])]
 		private int $productMpn = 0;
 
-		#[ORM\Column(name: 'product_weight', type: 'decimal', nullable: true, options: ['default' => 0])]
+		#[ORM\Column(name: 'product_weight', type: 'decimal')]
 		private ?NumberType $productWeight = null;
 
-		#[ORM\Column(name: 'product_weight_uom', type: 'integer', nullable: true, options: ['default' => 0])]
+		#[ORM\Column(name: 'product_weight_uom', type: 'integer')]
 		private ?NumberType $productWeightUom = null;
 		#[ORM\Column(name: 'product_length', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default'])]
 		private int $productLength = 0;
@@ -85,11 +85,11 @@
 		#[ORM\Column(name: 'product_unit', type: 'integer', nullable: false, options: ['default' => 0])]
 		private int $productUnit = 0;
 
-		#[ORM\Column(name: 'product_packaging', type: 'integer', nullable: true, options: ['default' => 0])]
-		private int $productPackaging = 0;
+		#[ORM\Column(name: 'product_packaging')]
+		private ?int $productPackaging = null;
 
-		#[ORM\Column(name: 'product_params', type: 'string', nullable: false, options: ['default' => 'product_params'])]
-		private string $productParams = 'product_params';
+		#[ORM\Column(name: 'product_params')]
+		private ?string $productParams = null;
 
 		#[ORM\Column(name: 'product_canon_category_id', type: 'integer', nullable: false, options: ['default' => 0])]
 		private int $productCanonCategoryId = 0;

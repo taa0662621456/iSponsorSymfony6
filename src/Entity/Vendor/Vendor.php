@@ -47,11 +47,11 @@ class Vendor
 	private int|bool $isActive = true;
 
 	#[Groups(['vendor:list', 'vendor:item'])]
-	#[ORM\Column(name: 'locale', type: 'string', nullable: true, options: ['default' => 'en'])]
-	private ?string $locale = 'en';
+	#[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
+	private string $locale = 'en';
 
-	#[ORM\Column(name: 'reset_count', type: 'integer', nullable: true, options: ['default' => 0, 'comment' => 'Count of password resets since lastResetTime'])]
-	private ?int $resetCount = 0;
+	#[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets since lastResetTime'])]
+	private ?int $resetCount = null;
 
 	#[ORM\Column(name: 'otp_key', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'Two factor authentication encrypted keys'])]
 	private string $otpKey = '';
@@ -63,28 +63,28 @@ class Vendor
 	private int|bool $requireReset = false;
 
 	#[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: VendorSecurity::class)]
 	#[Assert\Valid]
-	private array|VendorSecurity $vendorSecurity;
+	private ?array|VendorSecurity $vendorSecurity = null;
 
 	#[ORM\OneToOne(mappedBy: 'vendorIban', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-	#[ORM\JoinColumn(name: 'vendorIban_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+	#[ORM\JoinColumn(name: 'vendorIban_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: VendorIban::class)]
 	#[Assert\Valid]
-	private array|VendorIban $vendorIban;
+	private ?array|VendorIban $vendorIban = null;
 
 	#[ORM\OneToOne(mappedBy: 'vendorEnGb', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-	#[ORM\JoinColumn(name: 'vendorEnGb_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+	#[ORM\JoinColumn(name: 'vendorEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: VendorEnGb::class)]
 	#[Assert\Valid]
-	private array|VendorEnGb $vendorEnGb;
+	private ?array|VendorEnGb $vendorEnGb = null;
 
 	#[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-	#[ORM\JoinColumn(name: 'vendorFeatured_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+	#[ORM\JoinColumn(name: 'vendorFeatured_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: Featured::class)]
 	#[Assert\Valid]
-	private array|Featured $vendorFeatured;
+	private ?array|Featured $vendorFeatured = null;
 
 	#[ORM\OneToMany(mappedBy: 'attachments', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
 	#[ORM\JoinTable(name: 'attachments')]
@@ -111,8 +111,8 @@ class Vendor
 	private Collection $participant;
 
 	#[ORM\ManyToMany(targetEntity: VendorFavourite::class, mappedBy: 'vendorFavourites')]
-	#[ORM\JoinColumn(name: 'vendors_favourite_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-	private Collection $vendorFavourite;
+	#[ORM\JoinColumn(name: 'vendors_favourite_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+	private ?Collection $vendorFavourite = null;
 	/**
 	 * @throws Exception
 	 */

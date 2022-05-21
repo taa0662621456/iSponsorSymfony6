@@ -18,8 +18,8 @@ class OrderItem
 {
 	use BaseTrait;
 
-	#[ORM\Column(name: 'item_id', type: 'integer', nullable: true, options: ['default' => 0])]
-	private int $itemId = 0;
+	#[ORM\Column(name: 'item_id')]
+	private ?int $itemId = null;
 
 	#[ORM\Column(name: 'item_sku', type: 'integer', nullable: false, options: ['default' => 1])]
 	private int $itemSku = 1;
@@ -27,23 +27,23 @@ class OrderItem
 	#[ORM\Column(name: 'item_name', type: 'string', nullable: false, options: ['default' => ''])]
 	private string $itemName = 'item_name';
 
-	#[ORM\Column(name: 'item_quantity', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $itemQuantity = 1;
+	#[ORM\Column(name: 'item_quantity', type: 'integer', nullable: false, options: ['default' => 1])]
+	private int $itemQuantity = 1;
 
-	#[ORM\Column(name: 'item_price', type: 'decimal', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
-	private ?int $itemPrice = 1;
+	#[ORM\Column(name: 'item_price', type: 'decimal', precision: 7, scale: 2)]
+	private ?int $itemPrice = null;
 
-	#[ORM\Column(name: 'item_price_without_tax', type: 'decimal', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
-	private ?int $itemPriceWithoutTax = 0;
+	#[ORM\Column(name: 'item_price_without_tax', type: 'decimal', precision: 7, scale: 2)]
+	private ?int $itemPriceWithoutTax = null;
 
-	#[ORM\Column(name: 'item_tax', type: 'decimal', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
-	private ?int $itemTax = 0;
+	#[ORM\Column(name: 'item_tax', type: 'decimal', precision: 7, scale: 2)]
+	private ?int $itemTax = null;
 
-	#[ORM\Column(name: 'item_base_price_with_tax', type: 'decimal', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
-	private ?int $itemBasePriceWithTax = 0;
+	#[ORM\Column(name: 'item_base_price_with_tax', type: 'decimal', precision: 7, scale: 2)]
+	private ?int $itemBasePriceWithTax = null;
 
-	#[ORM\Column(name: 'item_discounted_price_without_tax', type: 'decimal', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
-	private ?int $itemDiscountedPriceWithoutTax = 0;
+	#[ORM\Column(name: 'item_discounted_price_without_tax', type: 'decimal', precision: 7, scale: 2)]
+	private ?int $itemDiscountedPriceWithoutTax = null;
 	/**
 	 * @var
 	 */
@@ -59,12 +59,12 @@ class OrderItem
 	 */
 	#[ORM\Column(name: 'item_subtotal_with_tax', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
 	private string $itemSubtotalWithTax = '0.00000';
-	#[ORM\Column(name: 'item_order_currency', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $itemOrderCurrency = 0;
-	#[ORM\Column(name: 'item_attribute', type: 'text', nullable: true, options: ['default' => 'item_attribute'])]
-	private string|\Doctrine\DBAL\Types\TextType $itemAttribute = 'item_attribute';
-	#[ORM\Column(name: 'item_hash', type: 'string', nullable: true, options: ['default' => 'item_hash'])]
-	private string $itemHash = 'item_hash';
+	#[ORM\Column(name: 'item_order_currency')]
+	private ?int $itemOrderCurrency = null;
+	#[ORM\Column(name: 'item_attribute')]
+	private ?string $itemAttribute = null;
+	#[ORM\Column(name: 'item_hash')]
+	private ?string $itemHash = null;
 	#[ORM\ManyToOne(targetEntity: \App\Entity\Vendor\Vendor::class, inversedBy: 'vendorItems')]
 	#[ORM\JoinColumn(name: 'itemVendors_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	private Vendor $itemVendors;

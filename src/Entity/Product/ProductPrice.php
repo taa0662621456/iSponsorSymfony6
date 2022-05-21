@@ -24,20 +24,20 @@ class ProductPrice
 	#[ORM\JoinColumn(name: 'productPrice_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
 	private Product|int $productPrice = 0;
 
-	#[ORM\Column(name: 'override', type: 'boolean', nullable: true, options: ['default' => 0])]
-	private ?bool $override = false;
+	#[ORM\Column(name: 'override')]
+	private ?bool $override = null;
 
-	#[ORM\Column(name: 'product_override_price', type: 'decimal', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
-	private int $productOverridePrice = 0;
+	#[ORM\Column(name: 'product_override_price', type: 'decimal', precision: 7, scale: 2)]
+	private ?int $productOverridePrice = null;
 
-	#[ORM\Column(name: 'product_tax_id', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $productTaxId = 0;
+	#[ORM\Column(name: 'product_tax_id')]
+	private ?int $productTaxId = null;
 
-	#[ORM\Column(name: 'product_discount_id', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $productDiscountId = 0;
+	#[ORM\Column(name: 'product_discount_id')]
+	private ?int $productDiscountId = null;
 
-	#[ORM\Column(name: 'product_currency', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $productCurrency = 0;
+	#[ORM\Column(name: 'product_currency')]
+	private ?int $productCurrency = null;
 
 	#[ORM\Column(name: 'product_price_publish_up', type: 'string', nullable: false)]
 	private string $productPricePublishUp;

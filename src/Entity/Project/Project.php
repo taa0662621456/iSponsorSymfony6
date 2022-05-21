@@ -22,8 +22,8 @@ class Project implements ProjectInterface
     use BaseTrait;
     public const NUM_ITEMS = 10;
 
-    #[ORM\Column(name: 'project_type', type: 'string', nullable: true)]
-    private string $projectType;
+    #[ORM\Column(name: 'project_type')]
+    private ?string $projectType = null;
     //TODO: поменять на связь с таблицей типов проектов
     /**
      * @var ArrayCollection

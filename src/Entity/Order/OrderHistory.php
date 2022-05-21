@@ -22,11 +22,11 @@ class OrderHistory
 	#[ORM\Column(name: 'customer_notified', type: 'boolean', nullable: false)]
 	private bool $customerNotified = false;
 
-	#[ORM\Column(name: 'comments', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $comments = '0';
+	#[ORM\Column(name: 'comments')]
+	private ?string $comments = null;
 
-	#[ORM\Column(name: 'o_hash', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $oHash = '0';
+	#[ORM\Column(name: 'o_hash')]
+	private ?string $oHash = null;
 
 	public function getOrderStatusCode(): OrderStatus
     {

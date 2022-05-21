@@ -9,28 +9,28 @@ trait OAuthTrait
 {
 
 
-    #[ORM\Column(name: 'facebook_id', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'facebook_id')]
     private string $facebookId;
 
 
-    #[ORM\Column(name: 'facebook_access_token', type: 'string', length: 510, nullable: true)]
-    private string $facebookAccessToken;
+    #[ORM\Column(name: 'facebook_access_token', type: 'string', length: 510)]
+    private ?string $facebookAccessToken = null;
 
 
-    #[ORM\Column(name: 'github_id', type: 'string', nullable: true)]
-    private string $githubId;
+    #[ORM\Column(name: 'github_id')]
+    private ?string $githubId = null;
 
 
-    #[ORM\Column(name: 'github_access_token', type: 'string', length: 510, nullable: true)]
-    private string $githubAccessToken;
+    #[ORM\Column(name: 'github_access_token', length: 510)]
+    private ?string $githubAccessToken = null;
 
 
-    #[ORM\Column(name: 'google_id', type: 'string', nullable: true)]
-    private string $googleId;
+    #[ORM\Column(name: 'google_id')]
+    private ?string $googleId = null;
 
 
-    #[ORM\Column(name: 'google_access_token', type: 'string', length: 510, nullable: true)]
-    private string $googleAccessToken;
+    #[ORM\Column(name: 'google_access_token', length: 510)]
+    private ?string $googleAccessToken = null;
 
     public function getFacebookId(): string
     {

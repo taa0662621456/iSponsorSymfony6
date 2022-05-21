@@ -63,7 +63,7 @@ class Event
     #[ORM\Column(name: 'ticket', options: ['unsigned' => true, 'comment' => 'Represent how many guest can be joined or invited.'])]
     private ?int $ticket = null;
 
-    #[ORM\Column(name: 'allow_invite', type: 'boolean', nullable: true, options: ['default' => 1, 'comment' => '0 - guest member cannot invite thier friends to join. 1 - yes, guest member can invite any of thier friends to join.'])]
+    #[ORM\Column(name: 'allow_invite', options: ['comment' => '0 - guest member cannot invite their friends to join. 1 - yes, guest member can invite any of their friends to join.'])]
     private ?bool $allowInvite = true;
 
     #[ORM\Column(name: 'hits', options: ['unsigned' => true])]
