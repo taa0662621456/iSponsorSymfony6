@@ -63,28 +63,28 @@ class Vendor
 	private int|bool $requireReset = false;
 
 	#[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
 	#[Assert\Type(type: VendorSecurity::class)]
 	#[Assert\Valid]
-	private ?array|VendorSecurity $vendorSecurity = null;
+	private array|VendorSecurity $vendorSecurity;
 
 	#[ORM\OneToOne(mappedBy: 'vendorIban', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
 	#[ORM\JoinColumn(name: 'vendorIban_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: VendorIban::class)]
 	#[Assert\Valid]
-	private ?array|VendorIban $vendorIban = null;
+	private ?VendorIban $vendorIban = null;
 
 	#[ORM\OneToOne(mappedBy: 'vendorEnGb', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
 	#[ORM\JoinColumn(name: 'vendorEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: VendorEnGb::class)]
 	#[Assert\Valid]
-	private ?array|VendorEnGb $vendorEnGb = null;
+	private ?VendorEnGb $vendorEnGb = null;
 
 	#[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
 	#[ORM\JoinColumn(name: 'vendorFeatured_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	#[Assert\Type(type: Featured::class)]
 	#[Assert\Valid]
-	private ?array|Featured $vendorFeatured = null;
+	private ?Featured $vendorFeatured = null;
 
 	#[ORM\OneToMany(mappedBy: 'attachments', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
 	#[ORM\JoinTable(name: 'attachments')]
