@@ -7,14 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 trait ReviewTrait
 {
 
-    #[ORM\Column(name: 'review', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'review')]
     private ?string $review = null;
 
-    #[ORM\Column(name: 'review_lang', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'review_lang')]
     private ?string $reviewLang = null;
 
 
-    #[ORM\Column(name: 'review_type', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'review_type')]
     private ?string $reviewType = null;
 
     /**

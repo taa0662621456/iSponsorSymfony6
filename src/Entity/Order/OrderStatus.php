@@ -18,14 +18,14 @@ class OrderStatus
 	#[ORM\Column(name: 'order_status_code', type: 'string', nullable: false, options: ['default' => ''])]
 	private string $orderStatusCode = '';
 
-	#[ORM\Column(name: 'order_status_name', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderStatusName = '0';
+	#[ORM\Column(name: 'order_status_name')]
+	private ?string $orderStatusName = null;
 
-	#[ORM\Column(name: 'order_status_color', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderStatusColor = '0';
+	#[ORM\Column(name: 'order_status_color')]
+	private ?string $orderStatusColor = null;
 
-	#[ORM\Column(name: 'order_status_description', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderStatusDescription = '0';
+	#[ORM\Column(name: 'order_status_description')]
+	private ?string $orderStatusDescription = null;
 
 	#[ORM\Column(name: 'order_stock_handle', type: 'string', nullable: false, options: ['default' => 'A'])]
 	private string $orderStockHandle = 'A';

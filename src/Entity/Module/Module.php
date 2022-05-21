@@ -42,8 +42,8 @@ class Module
     #[ORM\Column(name: 'publish_down', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private string $publishDown = '';
 
-    #[ORM\Column(name: 'module', type: 'string', nullable: true, options: ['default' => 0])]
-    private ?string $module = '0';
+    #[ORM\Column(name: 'module')]
+    private ?string $module = null;
 
     #[ORM\Column(name: 'access', type: 'integer', nullable: false)]
     private int $access = 0;

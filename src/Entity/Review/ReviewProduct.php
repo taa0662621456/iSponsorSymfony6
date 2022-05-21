@@ -19,14 +19,15 @@ class ReviewProduct
     use ReviewTrait;
     public const NUM_ROWS = 10;
 
-    #[ORM\Column(name: 'product_id', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'product_id')]
     private ?string $productId = null;
 
-    #[ORM\Column(name: 'product_uuid', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'product_uuid')]
     private ?string $productUuid = null;
 
-    #[ORM\Column(name: 'product_slug', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'product_slug')]
     private ?string $productSlug = null;
+
     public function getProductId(): ?string
     {
         return $this->productId;

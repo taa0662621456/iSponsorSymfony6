@@ -25,17 +25,17 @@ class Featured
 	#[ORM\Column(name: 'featured_type', type: 'string')]
 	private string $featuredType;
 	#[ORM\OneToOne(inversedBy: 'projectFeatured', targetEntity: Project::class)]
-	#[ORM\JoinColumn(name: 'projectFeatured_id', referencedColumnName: 'id', nullable: true)]
-	private Project $projectFeatured;
+	#[ORM\JoinColumn(name: 'projectFeatured_id', referencedColumnName: 'id')]
+	private ?Project $projectFeatured = null;
 	#[ORM\OneToOne(inversedBy: 'productFeatured', targetEntity: Product::class)]
-	#[ORM\JoinColumn(name: 'productFeatured_id', referencedColumnName: 'id', nullable: true)]
-	private Product $productFeatured;
+	#[ORM\JoinColumn(name: 'productFeatured_id', referencedColumnName: 'id')]
+	private ?Product $productFeatured = null;
 	#[ORM\OneToOne(inversedBy: 'categoryFeatured', targetEntity: Category::class)]
-	#[ORM\JoinColumn(name: 'categoryFeatured_id', referencedColumnName: 'id', nullable: true)]
-	private Category $categoryFeatured;
+	#[ORM\JoinColumn(name: 'categoryFeatured_id', referencedColumnName: 'id')]
+	private ?Category $categoryFeatured = null;
 	#[ORM\OneToOne(inversedBy: 'vendorFeatured', targetEntity: Vendor::class)]
-	#[ORM\JoinColumn(name: 'vendorFeatured_id', referencedColumnName: 'id', nullable: true)]
-	private Vendor $vendorFeatured;
+	#[ORM\JoinColumn(name: 'vendorFeatured_id', referencedColumnName: 'id')]
+	private ?Vendor $vendorFeatured = null;
 
      /**
       * @param $ordering

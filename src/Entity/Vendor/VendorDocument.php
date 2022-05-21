@@ -17,8 +17,8 @@ class VendorDocument
 	use BaseTrait;
 	use AttachmentTrait;
 	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorDocumentAttachments')]
-	#[ORM\JoinColumn(name: 'attachments_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-	private Vendor $attachments;
+	#[ORM\JoinColumn(name: 'attachments_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+	private ?Vendor $attachments = null;
 
 	public function getAttachments(): Vendor
     {

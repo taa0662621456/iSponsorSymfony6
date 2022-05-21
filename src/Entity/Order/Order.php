@@ -24,17 +24,17 @@ class Order
 	use BaseTrait;
 	public const NUM_ITEMS = 10;
 
-	#[ORM\Column(name: 'order_number', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderNumber = '0';
+	#[ORM\Column(name: 'order_number')]
+	private ?string $orderNumber = null;
 
-	#[ORM\Column(name: 'order_customer_number', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderCustomerNumber = '0';
+	#[ORM\Column(name: 'order_customer_number')]
+	private ?string $orderCustomerNumber = null;
 
-	#[ORM\Column(name: 'order_pass', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderPass = '0';
+	#[ORM\Column(name: 'order_pass')]
+	private ?string $orderPass = null;
 
-	#[ORM\Column(name: 'order_create_invoice_pass', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderCreateInvoicePass = '0';
+	#[ORM\Column(name: 'order_create_invoice_pass')]
+	private ?string $orderCreateInvoicePass = null;
 
 	#[ORM\Column(name: 'order_total', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderTotal = '0.00000';
@@ -45,8 +45,8 @@ class Order
 	#[ORM\Column(name: 'order_bill_tax_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderBillTaxAmount = '0.00000';
 
-	#[ORM\Column(name: 'order_bill_tax', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderBillTax = '0';
+	#[ORM\Column(name: 'order_bill_tax')]
+	private ?string $orderBillTax = null;
 
 	#[ORM\Column(name: 'order_bill_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderBillDiscountAmount = '0.00000';
@@ -54,68 +54,68 @@ class Order
 	#[ORM\Column(name: 'order_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderBillDiscount = '0.00000';
 
-	#[ORM\Column(name: 'order_subtotal', type: 'decimal', nullable: true, options: ['default' => 0])]
-	private ?string $orderSubtotal = '0';
+	#[ORM\Column(name: 'order_subtotal')]
+	private ?string $orderSubtotal = null;
 
-	#[ORM\Column(name: 'order_tax', type: 'decimal', nullable: true, options: ['default' => 0])]
-	private ?string $orderTax = '0';
+	#[ORM\Column(name: 'order_tax')]
+	private ?string $orderTax = null;
 
-	#[ORM\Column(name: 'order_shipment', type: 'decimal', nullable: true, options: ['default' => 0])]
-	private ?string $orderShipment = '0';
+	#[ORM\Column(name: 'order_shipment')]
+	private ?string $orderShipment = null;
 
-	#[ORM\Column(name: 'order_shipment_tax', type: 'decimal', nullable: true, options: ['default' => 0])]
-	private ?string $orderShipmentTax = '0';
+	#[ORM\Column(name: 'order_shipment_tax')]
+	private ?string $orderShipmentTax = null;
 
-	#[ORM\Column(name: 'order_payment', type: 'decimal', nullable: true, options: ['default' => 0])]
-	private ?string $orderPayment = '0';
+	#[ORM\Column(name: 'order_payment')]
+	private ?string $orderPayment = null;
 
-	#[ORM\Column(name: 'order_payment_tax', type: 'decimal', nullable: true, options: ['default' => 0])]
-	private ?string $orderPaymentTax = '0';
+	#[ORM\Column(name: 'order_payment_tax')]
+	private ?string $orderPaymentTax = null;
 
 	#[ORM\Column(name: 'order_coupon_discount', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
 	private string $orderCouponDiscount = '0.00';
 
-	#[ORM\Column(name: 'order_coupon_code', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderCouponCode = '0';
+	#[ORM\Column(name: 'order_coupon_code')]
+	private ?string $orderCouponCode = null;
 
 	#[ORM\Column(name: 'order_discount', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
 	private string $orderDiscount = '0.00';
 
-	#[ORM\Column(name: 'order_currency', type: 'smallint', nullable: true, options: ['default' => 0])]
-	private ?int $orderCurrency = 0;
+	#[ORM\Column(name: 'order_currency')]
+	private ?int $orderCurrency = null;
 
 	#[ORM\Column(name: 'order_currency_rate', type: 'decimal', nullable: false, options: ['default' => '1.000000'])]
 	private string $orderCurrencyRate = '1.000000';
 
-	#[ORM\Column(name: 'order_shopper_groups', type: 'integer', nullable: true, options: ['unsigned' => true, 'default' => 0])]
-	private ?int $orderShopperGroups = 0;
+	#[ORM\Column(name: 'order_shopper_groups', options: ['unsigned' => true])]
+	private ?int $orderShopperGroups = null;
 
-	#[ORM\Column(name: 'order_payment_currency_id', type: 'smallint', nullable: true, options: ['default' => 0])]
-	private ?int $orderPaymentCurrencyId = 0;
+	#[ORM\Column(name: 'order_payment_currency_id')]
+	private ?int $orderPaymentCurrencyId = null;
 
 	#[ORM\Column(name: 'order_payment_currency_rate', type: 'decimal', nullable: false, options: ['default' => '1.000000'])]
 	private string $orderPaymentCurrencyRate = '1.000000';
 
-	#[ORM\Column(name: 'order_payment_method_id', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $orderPaymentMethodId = 0;
+	#[ORM\Column(name: 'order_payment_method_id')]
+	private ?int $orderPaymentMethodId = null;
 
-	#[ORM\Column(name: 'order_shipment_method_id', type: 'integer', nullable: true, options: ['default' => 0])]
-	private ?int $orderShipmentMethodId = 0;
+	#[ORM\Column(name: 'order_shipment_method_id')]
+	private ?int $orderShipmentMethodId = null;
 
-	#[ORM\Column(name: 'order_delivery_date', type: 'string', nullable: true)]
-	private string $orderDeliveryDate;
+	#[ORM\Column(name: 'order_delivery_date')]
+	private ?string $orderDeliveryDate = null;
 
-	#[ORM\Column(name: 'order_language', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderLanguage = '0';
+	#[ORM\Column(name: 'order_language')]
+	private ?string $orderLanguage = null;
 
-	#[ORM\Column(name: 'order_ip_address', type: 'string', nullable: false, options: ['default' => "''"])]
-	private string $orderIpAddress = '';
+	#[ORM\Column(name: 'order_ip_address')]
+	private ?string $orderIpAddress = null;
 
 	#[ORM\Column(name: 'order_st_same_as_bt', type: 'boolean', nullable: false)]
 	private bool $orderStSameAsBt = false;
 
-	#[ORM\Column(name: 'order_hash', type: 'string', nullable: true, options: ['default' => 0])]
-	private ?string $orderHash = '0';
+	#[ORM\Column(name: 'order_hash')]
+	private ?string $orderHash = null;
 	#[ORM\OneToMany(mappedBy: 'items', targetEntity: OrderItem::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
 	#[Assert\Type(type: 'App\Entity\Order\Orders')]
 	#[Assert\Valid]

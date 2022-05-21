@@ -29,14 +29,15 @@ class ReviewProject
     use ReviewTrait;
     public const NUM_ROWS = 10;
 
-    #[ORM\Column(name: 'project_id', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'project_id')]
     private ?string $projectId = null;
 
-    #[ORM\Column(name: 'project_uuid', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'project_uuid')]
     private ?string $projectUuid = null;
 
-    #[ORM\Column(name: 'project_slug', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'project_slug')]
     private ?string $projectSlug = null;
+
     public function getProjectId(): ?string
     {
         return $this->projectId;

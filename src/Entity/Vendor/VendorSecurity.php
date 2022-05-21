@@ -72,7 +72,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'roles', type: 'array')]
 	private array $roles = ["ROLE_USER"];
 
-	#[ORM\Column(name: 'send_email', type: 'boolean', nullable: true)]
+	#[ORM\Column(name: 'send_email')]
 	private ?bool $sendEmail = null;
 
 	#[ORM\Column(name: 'activation_code', type: 'string', nullable: false, options: ['default' => 'activation_code'])]
@@ -90,24 +90,24 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'last_reset_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP', 'comment' => 'Date of last password reset'])]
 	private string $lastResetTime = '0000-00-00 00:00:00';
 
-	#[ORM\Column(name: 'reset_count', type: 'integer', nullable: true, options: ['comment' => '"Countofpasswordresets'])]
+	#[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets'])]
 	private ?int $resetCount = 0;
 
-	#[ORM\Column(name: 'otp_key', type: 'string', nullable: false, options: ['default' => '', 'comment' => '"Twofactor'])]
+	#[ORM\Column(name: 'otp_key', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'Two factor'])]
 	private string $otpKey = '';
 
-	#[ORM\Column(name: 'otep', type: 'string', nullable: false, options: ['default' => '', 'comment' => '"Onetimeemergency'])]
+	#[ORM\Column(name: 'otep', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'One time emergency'])]
 	private string $otep = '';
 
-	#[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['comment' => '"Requireusertoreset'])]
+	#[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['comment' => 'Require user to reset'])]
 	private int|bool $requireReset = 0;
 
 	#[ORM\Column(name: 'api_key', type: 'string', nullable: false, options: ['comment' => 'API key'])]
 	private string $apiKey = 'api_key';
 
 	#[ORM\OneToOne(targetEntity: \App\Entity\Vendor\Vendor::class, inversedBy: 'vendorSecurity')]
-	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE', nullable: true)]
-	private array|Vendor $vendorSecurity;
+	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+	private ?array|Vendor $vendorSecurity = null;
 
 	#[ORM\Column(name: 'salt', type: 'string')]
 	private string $salt = '0';
@@ -129,6 +129,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     {
         return $this->username;
     }
+
     public function getUsername(): string
     {
         return $this->email;
