@@ -1,6 +1,6 @@
 import 'bootstrap'
 import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
-require('bootstrap');
+//require('bootstrap');
 // require('bootstrap-autohide-navbar');
 
 
@@ -13,7 +13,7 @@ require('../css/base.css');
 //import('../css/app.css');
 import('../css/navbar.css');
 
-require('./dropdown-toggle_init');
+//require('./dropdown-toggle_init');
 //require('../css/likeMasonryCart.css');
 require('../fontawesome-pro/js/all.min');
 // require('./auto_hiding_navbar_init');
