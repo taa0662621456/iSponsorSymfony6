@@ -107,7 +107,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 
 	#[ORM\OneToOne(targetEntity: \App\Entity\Vendor\Vendor::class, inversedBy: 'vendorSecurity')]
 	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private ?array|Vendor $vendorSecurity = null;
+	private ?Vendor $vendorSecurity = null;
 
 	#[ORM\Column(name: 'salt', type: 'string')]
 	private string $salt = '0';
