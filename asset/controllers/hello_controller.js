@@ -1,5 +1,5 @@
 import { Controller } from 'stimulus';
-
+import axios from 'axios';
 /*
  * This is an example Stimulus controller!
  *
