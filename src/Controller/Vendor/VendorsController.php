@@ -13,6 +13,7 @@ use App\Repository\Project\ProjectRepository;
 use App\Repository\Vendor\VendorRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\EntityManager;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/sponsors')]
 class VendorsController extends AbstractController
 {
-	public function __construct(private AttachmentManager $attachmentManager)
+	public function __construct()
 	{
 	}
 	#[Route(path: '/', name: 'vendors', methods: ['GET'])]
@@ -37,7 +38,7 @@ class VendorsController extends AbstractController
 	 * @throws Exception
 	 */
 	#[Route(path: '/new', name: 'vendors_new', methods: ['GET', 'POST'])]
-	public function new(Request $request) : Response
+	public function new(Request $request, EntityManager $entityManager) : Response
 	{
 		$slug = new Slugify();
 		$vendor = new Vendor();
@@ -53,8 +54,6 @@ class VendorsController extends AbstractController
 		$form = $this->createForm(VendorAddType::class, $vendor);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-
-			$entityManager = $this->getDoctrine()->getManager();
 
 			$s = $form->getData()->vendorEnGb->getSlug();
 
@@ -79,13 +78,18 @@ class VendorsController extends AbstractController
       'vendors' => $vendor,
   ]);
 	}
-	#[Route(path: '/{id<\d+>}/edit', name: 'vendors_edit', methods: ['GET', 'POST'])]
-	public function edit(Request $request, Vendor $vendor) : Response
+
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    #[Route(path: '/{id<\d+>}/edit', name: 'vendors_edit', methods: ['GET', 'POST'])]
+	public function edit(Request $request, Vendor $vendor, EntityManager $entityManager) : Response
 	{
 		$form = $this->createForm(VendorEditType::class, $vendor);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-      $this->getDoctrine()->getManager()->flush();
+            $entityManager->flush();
 
       return $this->redirectToRoute('vendors');
   }
@@ -109,11 +113,15 @@ class VendorsController extends AbstractController
       )
   ));
 	}
-	#[Route(path: '/{id<\d+>}', name: 'vendors_delete', methods: ['DELETE'])]
-	public function delete(Request $request, Vendor $vendor) : Response
+
+    /**
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    #[Route(path: '/{id<\d+>}', name: 'vendors_delete', methods: ['DELETE'])]
+	public function delete(Request $request, Vendor $vendor, EntityManager $entityManager) : Response
 	{
 		if ($this->isCsrfTokenValid('delete'.$vendor->getId(), $request->request->get('_token'))) {
-      $entityManager = $this->getDoctrine()->getManager();
       $entityManager->remove($vendor);
       $entityManager->flush();
   }
