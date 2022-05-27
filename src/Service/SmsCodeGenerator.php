@@ -6,6 +6,8 @@ namespace App\Service;
 
 use App\Entity\BaseTrait;
 use App\Entity\Vendor\VendorCodeStorage;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SmsCodeGenerator
 {
 
-    public function smsCodeGenerator(Request $request): Response
+    public function smsCodeGenerator(Request $request, EntityManagerInterface $em): Response
     {
         $phone = $request->get('phone');
 
@@ -23,9 +25,6 @@ class SmsCodeGenerator
         $code->setPhone($phone);
         $code->setCode($rand);
 
-        $em = $this->getDoctrine()
-            ->getManager()
-        ;
         $em->persist($code);
         $em->flush();
 
@@ -42,7 +41,7 @@ class SmsCodeGenerator
         );
     }
 
-    public function isSmsCodeConsist(array $formData): array
+    public function isSmsCodeConsist(array $formData, EntityManagerInterface $em): array
     {
         // Достаём код из БД по известному нам мобильному номеру
         $codeFromDataBase = $this->getDoctrine()
