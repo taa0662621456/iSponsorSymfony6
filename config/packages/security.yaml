@@ -70,6 +70,7 @@ security:
             custom_authenticators:
 #                - App\Security\PassportAuthenticator
                 - App\Security\FormAuthenticator
+                - App\Security\LoginFormAuthenticator
                 - App\Security\ApiKeyAuthenticator
             entry_point: App\Security\FormAuthenticator
 #            entry_point: form_login # TODO:проверить комбинацию
@@ -106,6 +107,7 @@ security:
         - { path: ^/login, roles: [IS_AUTHENTICATED_ANONYMOUSLY, PUBLIC_ACCESS], ips: '%env(TRUSTED_IPS)%' }
         - { path: ^/connect, roles: [IS_AUTHENTICATED_ANONYMOUSLY, PUBLIC_ACCESS], ips: '%env(TRUSTED_IPS)%' }
         - { path: ^/admin, roles: [IS_AUTHENTICATED_ANONYMOUSLY, ROLE_ADMIN], ips: '%env(TRUSTED_IPS)%' }
+        - { path: ^/admin/login, roles: [IS_AUTHENTICATED_ANONYMOUSLY, PUBLIC_ACCESS], ips: '%env(TRUSTED_IPS)%' }
         - { path: ^/category/new, roles: [ROLE_ADMIN], ips: '%env(TRUSTED_IPS)%' }
         - { path: ^/profile/, roles: ROLE_USER, ips: '%env(TRUSTED_IPS)%' }
         - { path: ^/project/new, roles: ROLE_USER, ips: '%env(TRUSTED_IPS)%' }
