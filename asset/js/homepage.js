@@ -1,6 +1,5 @@
-import 'bootstrap'
+import 'bootstrap/dist/js/bootstrap.bundle.min'
 import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
-require('bootstrap');
 // require('bootstrap-autohide-navbar');
 
 // require('smartwizard');
