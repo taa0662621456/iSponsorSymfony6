@@ -1,0 +1,8 @@
+forgot: 'Восстановление доступа'
+forgot.password.placeholder: 'Input your password'
+forgot.email.label: 'Input your e-mail'
+forgot.email.placeholder: 'Input your e-mail'
+forgot.email.invalid: 'Такой e-mail отсутствует в базе'
+forgot.phone.placeholder: 'Input your phone'
+forgot.phone.invalid: 'That number is invalid'
+forgot.phone.label: 'Input your phone number'

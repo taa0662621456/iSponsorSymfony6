@@ -5,15 +5,18 @@ button.label.authorization: 'Login'
 button.label.next: 'Next'
 button.label.back: 'Back'
 button.label.submit: 'Save'
+button.label.submit.forgot: 'Восстановить'
 button.label.submitAndNew: 'Save and New'
+button.label.show.password: 'Show password'
+
 
 button.submit.label: 'Login'
 button.remember.label: 'Remember me'
 
 
-button.navbar.signin: 'Login'
+button.navbar.sign.in: 'Login'
 button.navbar.logout: 'Logout'
-button.navbar.signup: 'Register now'
+button.navbar.sign.up: 'Register now'
 
 button.label.facebook: 'By Facebook'
 button.label.google: 'By Google'

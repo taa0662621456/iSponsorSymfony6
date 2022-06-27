@@ -16,6 +16,8 @@ vendor.phone.must.be.formatted: 'Телефонный номер должен б
 vendor.phone.invalid: 'Телефонный номер не корректный'
 vendor.password.not.compromised: 'Пароль считается ненадежным/скомпрометированным'
 vendor.term.agree: 'Соглашаюсь и принимаю условия'
+vendor.term.agree.ask: 'Вы соглашаетесь с условиями?'
+vendor.term.agree.notice: 'Вы соглашаетесь с условиями'
 
 vendor.security.too.long.phone: 'Телефонный номер слишком длинный'
 vendor.security.too.short.phone: 'Телефонный номер слишком короткий'
