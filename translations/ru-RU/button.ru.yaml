@@ -19,13 +19,18 @@ button.remember.label: 'Запомнить меня'
 
 button.submit.label: 'Авторизоваться'
 
-button.navbar.signin: 'Авторизоваться'
+button.navbar.sign.in: 'Авторизоваться'
 button.navbar.logout: 'Выйти'
-button.navbar.signup: 'Зарегистрироваться'
+button.navbar.sign.up: 'Зарегистрироваться'
 button.label.facebook: 'Через Facebook'
 button.label.google: 'Через Google'
 button.label.github: 'Через Github'
 button.label.forgot.email: 'Забыл email'
 button.label.forgot.password: 'Забыл пароль'
+button.label.registration: 'Зарегистрироваться'
+button.label.submit.forgot: 'Восстановить'
+
+button.label.show.password: 'Показать пароль'
+
 
 
