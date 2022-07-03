@@ -7,6 +7,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
+use App\Entity\Event\EventMember;
 use App\Entity\Featured\Featured;
 use App\Entity\Message\Message;
 use App\Entity\Message\MessageParticipant;
@@ -113,7 +114,8 @@ class Vendor
 	#[ORM\ManyToMany(targetEntity: VendorFavourite::class, mappedBy: 'vendorFavourites')]
 	#[ORM\JoinColumn(name: 'vendors_favourite_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	private ?Collection $vendorFavourite = null;
-	/**
+
+    /**
 	 * @throws Exception
 	 */
 	public function __construct()
@@ -209,8 +211,8 @@ class Vendor
 
 		return $this;
 	}
-    public function removeOrder(Order $order)
-	{
+    public function removeOrder(Order $order): void
+    {
 		$this->vendorOrders->removeElement($order);
 	}
     public function getVendorDocumentAttachments(): ArrayCollection
@@ -223,8 +225,8 @@ class Vendor
 
 		return $this;
 	}
-    public function removeVendorDocumentAttachment(VendorDocument $vendorDocumentAttachment)
-	{
+    public function removeVendorDocumentAttachment(VendorDocument $vendorDocumentAttachment): void
+    {
 		$this->vendorDocumentAttachments->removeElement($vendorDocumentAttachment);
 	}
     public function getVendorMediaAttachments(): ArrayCollection
@@ -237,8 +239,8 @@ class Vendor
 
 		return $this;
 	}
-    public function removeVendorMediaAttachment(VendorMedia $vendorMediaAttachment)
-	{
+    public function removeVendorMediaAttachment(VendorMedia $vendorMediaAttachment): void
+    {
 		$this->vendorMediaAttachments->removeElement($vendorMediaAttachment);
 	}
 	public function getVendorIban(): VendorIban

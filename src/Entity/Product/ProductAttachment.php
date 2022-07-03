@@ -23,8 +23,8 @@ class ProductAttachment
     /**
      * @return Product
      */
-	public function getProductAttachments()
-	{
+	public function getProductAttachments(): Product
+    {
 		return $this->productAttachments;
 	}
 	public function setProductAttachments(Product $productAttachments): void

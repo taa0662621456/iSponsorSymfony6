@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\Length;
 trait VendorLanguageTrait
 {
     /**
-     * TODO: добавить свойства: Обложка профиля и аватар c отношением к МедиаАтачментам
+     * TODO: добавить свойства: Обложка профиля и аватар c отношением к МедиаАттачментам
      * $vendorCover
      * $vendorAvatar
      * возможно определить данные свойства в BaseTrait

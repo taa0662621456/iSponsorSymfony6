@@ -22,14 +22,31 @@ class ProjectAttachment
 	private ?Project $projectAttachments = null;
 
     /**
-     * @return Project
+     * @return Project|null
      */
-	public function getProjectAttachments()
-	{
+	public function getProjectAttachments(): ?Project
+    {
 		return $this->projectAttachments;
 	}
 	public function setProjectAttachments(Project $projectAttachments): void
 	{
 		$this->projectAttachments = $projectAttachments;
 	}
+
+//    public function addProjectAttachments(Project $projectAttachments): void
+//    {
+//        // для ассоциации многие-ко-многим:
+//        $projectAttachments->addProjectAttachment($this);
+//        // для ассоциации многие-к-одному:
+////        $projectAttachments->setProjectAttachment($this);
+//
+////        $projectAttachments->projectAttachments->add($tag);
+//    }
+//
+//    public function removeProjectAttachments(Project $projectAttachments): void
+//    {
+//        $this->projectAttachments->removeElement($projectAttachments);
+//
+//    }
+
 }
