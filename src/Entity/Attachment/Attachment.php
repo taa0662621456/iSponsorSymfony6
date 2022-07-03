@@ -24,6 +24,7 @@ class Attachment
     #[Assert\NotBlank(message: 'attachments.en.gb.blank')]
     #[Assert\Length(min: 10, minMessage: 'attachments.en.gb.too.short')]
     private string $attachments;
+
     public function getObject(): string
     {
         return $this->object;

@@ -6,16 +6,45 @@
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Validator\Constraints as Assert;
 
-
-
     trait AttachmentTrait
 	{
-        /**
-			 */
 		#[ORM\Column(name: 'file_name', type: 'string', nullable: false, options: ['default' => 'noimage'])]
-		#[Assert\NotBlank(message: "Please, upload the project's pictures as a jpeg/jpg file.")]
-		#[Assert\File(mimeTypes: ['image/jpeg', 'image/jpg'], mimeTypesMessage: 'Please, upload the jpeg/jpg files only')]
-		private string $fileName = 'no image';
+		#[Assert\NotBlank(message: 'Please, upload the project pictures as a jpeg/jpg or PDF file.')]
+		#[Assert\File(
+            maxSize: '2M',
+
+            binaryFormat: false,
+            mimeTypes: ['application/pdf', 'application/x-pdf'],
+            notReadableMessage: 'notReadableMessage',
+            maxSizeMessage: 'The file could not be loaded. File size too large',
+            mimeTypesMessage: 'Please, upload the jpeg/jpg or PDF file only',
+            disallowEmptyMessage: 'File is empty',
+            uploadFormSizeErrorMessage: 'The file could not be loaded. File size too large',
+            uploadNoFileErrorMessage: 'Fine does not exist',
+            uploadErrorMessage: 'The file could not be uploaded for an unknown reason')]
+        #[Assert\Image(
+            maxSize: '2M',
+            binaryFormat: '',
+            mimeTypes: ['image/jpeg', 'image/jpg',],
+            minWidth: '200',
+            maxWidth: '500',
+            maxHeight: '1000',
+            minHeight: '200',
+            minPixels: '100',
+            maxPixels: '200',
+            detectCorrupted: true,
+            notReadableMessage: 'notReadableMessage',
+            maxSizeMessage: 'maxSizeMessage',
+            mimeTypesMessage: 'Please, upload the jpeg/jpg or PDF file only',
+            sizeNotDetectedMessage: '',
+            maxWidthMessage: 'maxWidthMessage',
+            maxHeightMessage: 'maxHeightMessage',
+            minHeightMessage: 'minHeightMessage',
+            minPixelsMessage: 'minPixelsMessage',
+            maxPixelsMessage: 'maxPixelsMessage',
+            corruptedMessage: 'corruptedMessage'
+        )]
+        private string $fileName = 'no image';
 
 
 		#[ORM\Column(name: 'file_title', type: 'string', nullable: false, options: ['default' => 'file_title'])]
@@ -24,7 +53,6 @@
 
 		#[ORM\Column(name: 'file_description', type: 'string', nullable: false, options: ['default' => 'file_description'])]
 		private string $fileDescription = 'file_description';
-
 
 		#[ORM\Column(name: 'file_meta', type: 'string', nullable: false, options: ['default' => 'file_meta'])]
 		private string $fileMeta = 'file_meta';
@@ -50,15 +78,9 @@
 		#[ORM\Column(name: 'file_path_thumb', type: 'string', nullable: false, options: ['default' => ''])]
 		private string $filePathThumb = '';
 
-		/**
-		 * @var boolean|false
-		 */
 		#[ORM\Column(name: 'file_is_downloadable', type: 'boolean', nullable: false)]
 		private bool $fileIsDownloadable = false;
 
-		/**
-		 * @var boolean|false
-		 */
 		#[ORM\Column(name: 'file_is_for_sale', type: 'boolean', nullable: false)]
 		private bool $fileIsForSale = false;
 
@@ -70,9 +92,6 @@
 		#[ORM\Column(name: 'file_lang', type: 'string', nullable: false, options: ['default' => 'file_lang'])]
 		private string $fileLang = 'file_lang';
 
-		/**
-		 * @var boolean|false
-		 */
 		#[ORM\Column(name: 'file_shared', type: 'boolean', nullable: false)]
 		private bool $fileShared = false;
 
@@ -215,4 +234,5 @@
         {
             $this->fileShared = $fileShared;
         }
+
     }

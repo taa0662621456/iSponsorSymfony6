@@ -15,8 +15,6 @@
     use Exception;
 	use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
-
-
 	#[ORM\Table(name: 'products')]
 	#[ORM\Index(columns: ['slug'], name: 'product_idx')]
 	#[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -43,15 +41,16 @@
 
 		#[ORM\Column(name: 'product_weight_uom', type: 'integer')]
 		private ?NumberType $productWeightUom = null;
-		#[ORM\Column(name: 'product_length', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default'])]
+		#[ORM\Column(name: 'product_length', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => 0])]
 		private int $productLength = 0;
-		#[ORM\Column(name: 'product_width', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '
-                                  '])]
+
+		#[ORM\Column(name: 'product_width', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => 0])]
 		private int $productWidth = 0;
-		#[ORM\Column(name: 'product_height', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default'])]
+
+		#[ORM\Column(name: 'product_height', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => 0])]
 		private int $productHeight = 0;
 
-		#[ORM\Column(name: 'product_lwh_uom', type: 'integer', precision: 7, scale: 2, nullable: false, options: ['default'])]
+		#[ORM\Column(name: 'product_lwh_uom', type: 'integer', precision: 7, scale: 2, nullable: false, options: ['default' => 0])]
 		private int $productLwhUom = 0;
 
 		#[ORM\Column(name: 'product_in_stock', type: 'integer', nullable: false, options: ['default' => 0])]

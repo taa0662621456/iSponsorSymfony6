@@ -29,6 +29,7 @@ class VendorIban
 	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: \App\Entity\Vendor\Vendor::class, orphanRemoval: true)]
 	#[ORM\JoinColumn(name: 'vendorIban_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	private ?Vendor $vendorIban = null;
+
 	public function setIban(string $iban): void
  {
      $this->iban = $iban;
