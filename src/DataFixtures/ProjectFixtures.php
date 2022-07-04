@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
-class ProjectsFixtures extends Fixture implements DependentFixtureInterface
+class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
 
     /**
@@ -28,6 +28,7 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 			$projects = new Project();
 			$projectEnGb = new ProjectEnGb();
 			$projectAttachments = new ProjectAttachment();
+			$projectCategory = new Category();
 
             $projects->addProjectCategory($categories[array_rand($categories)]);
             $projects->setProjectType(random_int(1, 4));
@@ -44,6 +45,7 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 
             $projectAttachments->setProjectAttachments($projects);
 
+            $manager->persist($projectCategory);
             $manager->persist($projectAttachments);
             $manager->persist($projectEnGb);
             $manager->persist($projects);
@@ -69,6 +71,6 @@ class ProjectsFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public static function getGroups(): array
 	{
-		return ['projects'];
+		return ['project'];
 	}
 }

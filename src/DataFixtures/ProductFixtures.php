@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 
-class ProductsFixtures extends Fixture implements DependentFixtureInterface
+class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
 
 	public function load(ObjectManager $manager)
@@ -44,12 +44,12 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 
 	public function getDependencies(): array
     {
-		return array(
-			VendorsFixtures::class,
+		return [
+			VendorFixtures::class,
 			CategoryFixtures::class,
-			ProjectsFixtures::class,
-			OrdersStatusFixtures::class,
-		);
+			ProjectFixtures::class,
+			OrderStatusFixtures::class,
+        ];
 	}
 
 	public function getOrder(): int
@@ -62,6 +62,6 @@ class ProductsFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public static function getGroups(): array
 	{
-		return ['products'];
+		return ['product'];
 	}
 }

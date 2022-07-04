@@ -28,16 +28,16 @@
 		public function favourites($favourites, ProjectFavouriteRepository $projectsFavouritesRepository, ProductFavouriteRepository $productsFavouritesRepository, VendorFavouriteRepository $vendorsFavouritesRepository, CategoryFavouriteRepository $categoriesFavouritesRepository): Response
         {
 			return $this->render(
-				'/' . $favourites . '.html.twig', array(
+				'/' . $favourites . '.html.twig', [
 					// findBy() must have first parameter: 'createdBy' => $this->getUser()
 					// for all next row
 					'categories' => $categoriesFavouritesRepository->findBy(
-						['published' => 't'], ['createdAt' => 'ASC'], 12, null
-					),
-					'projects'   => $projectsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
-					'products'   => $productsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12, null),
-					'vendors'    => $vendorsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12, null)
-				)
+						['published' => 't'], ['createdAt' => 'ASC'], 12
+                    ),
+					'projects'   => $projectsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12),
+					'products'   => $productsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12),
+					'vendors'    => $vendorsFavouritesRepository->findBy([], ['createdAt' => 'ASC'], 12)
+                ]
 			);
 		}
 	}

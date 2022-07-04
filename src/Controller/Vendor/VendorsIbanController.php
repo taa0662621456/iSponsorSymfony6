@@ -5,6 +5,7 @@ namespace App\Controller\Vendor;
 
 use App\Entity\Vendor\VendorIban;
 use App\Form\Vendor\VendorIbanType;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/sponsor/iban')]
 class VendorsIbanController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __constructor(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
 	#[Route(path: '/', name: 'index', methods: ['GET'])]
 	public function index() : Response
 	{
-		$vendorsIbans = $this->getDoctrine()
+		$vendorsIbans = $this->managerRegistry
 							 ->getRepository(VendorIban::class)
 							 ->findAll()
 		;
@@ -34,7 +41,7 @@ class VendorsIbanController extends AbstractController
 		$form = $this->createForm(VendorIbanType::class, $vendorsIban);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager = $this->managerRegistry->getManager();
 			$entityManager->persist($vendorsIban);
 			$entityManager->flush();
 
@@ -62,9 +69,9 @@ class VendorsIbanController extends AbstractController
 		$form = $this->createForm(VendorIbanType::class, $vendorsIban);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-			$this->getDoctrine()->getManager()->flush();
+			$this->managerRegistry->getManager()->flush();
 
-			return $this->redirectToRoute('vendor_vendors_iban_index');
+			return $this->redirectToRoute('vendor_vendors_iban_show');
 		}
 		return $this->render(
 			'vendor/vendors_iban/edit.html.twig', [
@@ -77,7 +84,7 @@ class VendorsIbanController extends AbstractController
 	public function delete(Request $request, VendorIban $vendorsIban) : Response
 	{
 		if ($this->isCsrfTokenValid('delete' . $vendorsIban->getId(), $request->request->get('_token'))) {
-			$entityManager = $this->getDoctrine()->getManager();
+			$entityManager = $this->managerRegistry->getManager();
 			$entityManager->remove($vendorsIban);
 			$entityManager->flush();
 		}

@@ -14,6 +14,8 @@ use App\Repository\Vendor\VendorRepository;
 use App\Service\AttachmentManager;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -80,8 +82,8 @@ class VendorsController extends AbstractController
 	}
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     #[Route(path: '/{id<\d+>}/edit', name: 'vendors_edit', methods: ['GET', 'POST'])]
 	public function edit(Request $request, Vendor $vendor, EntityManager $entityManager) : Response
@@ -107,16 +109,16 @@ class VendorsController extends AbstractController
 	#[Route(path: '/{id<\d+>}/projects', name: 'vendor_projects', methods: ['GET', 'POST'])]
 	public function projects(ProjectRepository $projects, $user) : Response
 	{
-		return $this->render('vendor/vendors/index.html.twig', array(
+		return $this->render('vendor/vendors/index.html.twig', [
       'projects' => $projects->findBy(
-          array('user' => $user)
+          ['user' => $user]
       )
-  ));
+        ]);
 	}
 
     /**
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     #[Route(path: '/{id<\d+>}', name: 'vendors_delete', methods: ['DELETE'])]
 	public function delete(Request $request, Vendor $vendor, EntityManager $entityManager) : Response

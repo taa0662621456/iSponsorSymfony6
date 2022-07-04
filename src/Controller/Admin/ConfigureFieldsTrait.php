@@ -11,7 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Vich\UploaderBundle\VichUploaderBundle;
 
-trait configureFieldsTrait
+trait ConfigureFieldsTrait
 {
 
     public function configureFields(string $pageName): iterable
@@ -26,7 +26,7 @@ trait configureFieldsTrait
             TextEditorField::new('middle_title'),
             TextField::new('last_title'),
             AssociationField::new('category')->autocomplete(), //TODO: настроить категории
-            AssociationField::new('createBy')->hideOnForm(),
+            AssociationField::new('createBy')->hideOnForm()
 //            ImageField::new('thumbnailFilePath')->setFormType(VichUploaderBundle::class),
 //            ImageField::new('thumbnail')->setBasePath('/upload/product/thumbnail') //TODO: заменить на определение динамически (использовать наш сервис ДиспетчерЗапросов)
 //TODO: если использовать универсально для многих проектов, то предыдущая строка не должна указываться явно

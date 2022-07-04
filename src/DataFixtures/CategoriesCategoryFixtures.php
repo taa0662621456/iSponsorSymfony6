@@ -6,11 +6,15 @@
 	use Doctrine\Bundle\FixturesBundle\Fixture;
 	use Doctrine\Common\DataFixtures\DependentFixtureInterface;
     use Doctrine\Persistence\ObjectManager;
+    use Exception;
 
-	class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInterface
+    class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInterface
 	{
 
-		public function load(ObjectManager $manager)
+        /**
+         * @throws Exception
+         */
+        public function load(ObjectManager $manager)
 		{
 			$categoriesRepository = $manager->getRepository(Category::class);
 			$countCategories = count($categoriesRepository->findAll());
@@ -33,7 +37,7 @@
 				$parentCategory = $categoriesRepository->find($parent);
 
 				if ($currentCategoryId >= ($minId + 4)) {
-					$currentCategory->setParent($parentCategory);
+					$currentCategory->addParent($parentCategory);
 					$manager->persist($currentCategory);
 					$manager->flush();
 				}
@@ -42,9 +46,9 @@
 
 		public function getDependencies(): array
         {
-			return array(
+			return [
 				CategoryFixtures::class,
-			);
+            ];
 		}
 
 		public function getOrder(): int
@@ -57,6 +61,6 @@
 		 */
 		public static function getGroups(): array
 		{
-			return ['categories'];
+			return ['category'];
 		}
 	}

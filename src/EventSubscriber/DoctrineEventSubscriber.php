@@ -17,11 +17,10 @@ class DoctrineEventSubscriber implements EventSubscriber
     /**
      * @return array
      */
-    #[ArrayShape([Events::preRemove => "string", Events::postRemove => "string", Events::postPersist => "string", Events::postUpdate => "string"])] public function getSubscribedEvents()
+    #[ArrayShape([Events::preRemove => "string", Events::postRemove => "string", Events::postPersist => "string", Events::postUpdate => "string"])] public function getSubscribedEvents(): array
     {
         return [
             Events::preRemove => 'preRemove',
-            Events::prePersist => 'prePersist',
             Events::postRemove => 'postRemove',
             Events::postPersist => 'postPersist',
             Events::postUpdate => 'postUpdate'

@@ -9,7 +9,7 @@ interface CategoryAttachmentInterface
 
     public function getCategoryAttachments(): CategoryAttachment;
 
-	public function setCategoryAttachments(CategoryAttachment $categoryAttachments): void;
+	public function setCategoryAttachments(CategoryAttachmentInterface $categoryAttachments): void;
 
     public function removeCategoryAttachment(CategoryAttachmentInterface $attachment): void;
 

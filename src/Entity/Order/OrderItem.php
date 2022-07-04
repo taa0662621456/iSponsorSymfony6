@@ -7,12 +7,13 @@ use App\Entity\BaseTrait;
 use App\Entity\OAuthTrait;
 use App\Entity\Product\Product;
 use App\Entity\Vendor\Vendor;
+use App\Repository\Order\OrderRepository;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'orders_items')]
-#[ORM\Index(name: 'order_item_idx', columns: ['slug'])]
-#[ORM\Entity(repositoryClass: \App\Repository\Order\OrderRepository::class)]
+#[ORM\Index(columns: ['slug'], name: 'order_item_idx')]
+#[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class OrderItem
 {
@@ -45,18 +46,18 @@ class OrderItem
 	#[ORM\Column(name: 'item_discounted_price_without_tax', type: 'decimal', precision: 7, scale: 2)]
 	private ?int $itemDiscountedPriceWithoutTax = null;
 	/**
-	 * @var
-	 */
+	 * @var string
+     */
 	#[ORM\Column(name: 'item_final_price', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
 	private string $itemFinalPrice = '0.00000';
 	/**
-	 * @var
-	 */
+	 * @var string
+     */
 	#[ORM\Column(name: 'item_subtotal_discount', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
 	private string $itemSubtotalDiscount = '0.00000';
 	/**
-	 * @var
-	 */
+	 * @var string
+     */
 	#[ORM\Column(name: 'item_subtotal_with_tax', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
 	private string $itemSubtotalWithTax = '0.00000';
 	#[ORM\Column(name: 'item_order_currency')]
@@ -65,12 +66,12 @@ class OrderItem
 	private ?string $itemAttribute = null;
 	#[ORM\Column(name: 'item_hash')]
 	private ?string $itemHash = null;
-	#[ORM\ManyToOne(targetEntity: \App\Entity\Vendor\Vendor::class, inversedBy: 'vendorItems')]
+	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorItems')]
 	#[ORM\JoinColumn(name: 'itemVendors_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	private Vendor $itemVendors;
-	#[ORM\ManyToOne(targetEntity: \App\Entity\Order\Order::class, inversedBy: 'orderItems')]
+	#[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'orderItems')]
 	private Order $items;
-	#[ORM\ManyToOne(targetEntity: \App\Entity\Product\Product::class, inversedBy: 'productOrdered')]
+	#[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productOrdered')]
 	private Product $productOrdered;
 	public function getItemId(): ?int
 	{
@@ -84,9 +85,10 @@ class OrderItem
  {
      return $this->itemSku;
  }
-	/**
-	 * @param int $itemSku
-	 */
+
+    /**
+     * @param int|null $itemSku
+     */
 	public function setItemSku(?int $itemSku): void
  {
      $this->itemSku = $itemSku;
@@ -95,9 +97,10 @@ class OrderItem
  {
      return $this->itemName;
  }
-	/**
-	 * @param string $itemName
-	 */
+
+    /**
+     * @param string|null $itemName
+     */
 	public function setItemName(?string $itemName): void
  {
      $this->itemName = $itemName;
@@ -110,11 +113,12 @@ class OrderItem
  {
      $this->itemQuantity = $itemQuantity;
  }
-	/**
-	 * @return null
-	 */
-	public function getItemPrice()
- {
+
+    /**
+     * @return int|null
+     */
+	public function getItemPrice(): ?int
+    {
      return $this->itemPrice;
  }
 	/**
@@ -124,11 +128,12 @@ class OrderItem
  {
      $this->itemPrice = $itemPrice;
  }
-	/**
-	 * @return null
-	 */
-	public function getItemPriceWithoutTax()
- {
+
+    /**
+     * @return int|null
+     */
+	public function getItemPriceWithoutTax(): ?int
+    {
      return $this->itemPriceWithoutTax;
  }
 	/**
@@ -138,11 +143,12 @@ class OrderItem
  {
      $this->itemPriceWithoutTax = $itemPriceWithoutTax;
  }
-	/**
-	 * @return null
-	 */
-	public function getItemTax()
- {
+
+    /**
+     * @return int|null
+     */
+	public function getItemTax(): ?int
+    {
      return $this->itemTax;
  }
 	/**
@@ -152,11 +158,12 @@ class OrderItem
  {
      $this->itemTax = $itemTax;
  }
-	/**
-	 * @return null
-	 */
-	public function getItemBasePriceWithTax()
- {
+
+    /**
+     * @return int|null
+     */
+	public function getItemBasePriceWithTax(): ?int
+    {
      return $this->itemBasePriceWithTax;
  }
 	/**
@@ -166,11 +173,12 @@ class OrderItem
  {
      $this->itemBasePriceWithTax = $itemBasePriceWithTax;
  }
-	/**
-	 * @return null
-	 */
-	public function getItemDiscountedPriceWithoutTax()
- {
+
+    /**
+     * @return int|null
+     */
+	public function getItemDiscountedPriceWithoutTax(): ?int
+    {
      return $this->itemDiscountedPriceWithoutTax;
  }
 	/**
@@ -180,11 +188,12 @@ class OrderItem
  {
      $this->itemDiscountedPriceWithoutTax = $itemDiscountedPriceWithoutTax;
  }
-	/**
-	 * @return
-	 */
-	public function getItemFinalPrice()
- {
+
+    /**
+     * @return string
+     */
+	public function getItemFinalPrice(): string
+    {
      return $this->itemFinalPrice;
  }
 	/**
@@ -194,11 +203,12 @@ class OrderItem
  {
      $this->itemFinalPrice = $itemFinalPrice;
  }
-	/**
-	 * @return
-	 */
-	public function getItemSubtotalDiscount()
- {
+
+    /**
+     * @return string
+     */
+	public function getItemSubtotalDiscount(): string
+    {
      return $this->itemSubtotalDiscount;
  }
 	/**
@@ -208,11 +218,12 @@ class OrderItem
  {
      $this->itemSubtotalDiscount = $itemSubtotalDiscount;
  }
-	/**
-	 * @return
-	 */
-	public function getItemSubtotalWithTax()
- {
+
+    /**
+     * @return string
+     */
+	public function getItemSubtotalWithTax(): string
+    {
      return $this->itemSubtotalWithTax;
  }
 	/**
@@ -230,8 +241,8 @@ class OrderItem
  {
      $this->itemOrderCurrency = $itemOrderCurrency;
  }
-	public function getItemAttribute(): ?TextType
- {
+	public function getItemAttribute(): string
+    {
      return $this->itemAttribute;
 	}
 	public function setItemAttribute(?TextType $itemAttribute): void
@@ -246,11 +257,12 @@ class OrderItem
 	{
 		$this->itemHash = $itemHash;
 	}
-	/**
-	 * @return
-	 */
-	public function getItemVendors()
-	{
+
+    /**
+     * @return Vendor
+     */
+	public function getItemVendors(): Vendor
+    {
 		return $this->itemVendors;
 	}
 	/**
@@ -260,11 +272,12 @@ class OrderItem
 	{
 		$this->itemVendors = $itemVendors;
 	}
-	/**
-	 * @return
-	 */
-	public function getItems()
-	{
+
+    /**
+     * @return Order
+     */
+	public function getItems(): Order
+    {
 		return $this->items;
 	}
 	/**
@@ -274,11 +287,12 @@ class OrderItem
 	{
 		$this->items = $items;
 	}
-	/**
-	 * @return
-	 */
-	public function getProductOrdered()
-	{
+
+    /**
+     * @return Product
+     */
+	public function getProductOrdered(): Product
+    {
 		return $this->productOrdered;
 	}
 	/**

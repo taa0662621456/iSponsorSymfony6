@@ -7,9 +7,11 @@ namespace App\Controller\Security;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorSecurity;
 use App\Event\RegisteredEvent;
-use App\Form\SecurityChangePasswordType;
 use App\Service\ConfirmationCodeGenerator;
+use App\Service\SecurityForgot;
+use Exception;
 use ReCaptcha\ReCaptcha;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,17 +21,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CredentialController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
     /**
      * CredentialController constructor.
      */
-    public function __construct(private UserPasswordHasherInterface $passwordHasher)
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, ManagerRegistry $managerRegistry)
     {
+        $this->managerRegistry = $managerRegistry;
     }
 
     /**
      *
      *
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/change', name: 'change_security', methods: ['GET', 'POST'])]
     public function change(Request $request, ConfirmationCodeGenerator $codeGenerator, EventDispatcherInterface $eventDispatcher) : Response
@@ -39,7 +44,7 @@ class CredentialController extends AbstractController
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
         $vendorCurrent = $this->getUser();
-        $form = $this->createForm(SecurityChangePasswordType::class);
+        $form = $this->createForm(SecurityForgot::class);
         $form->handleRequest($request);
         if (!$resp->isSuccess()) {
             foreach ($resp->getErrorCodes() as $errorCode) {
@@ -56,7 +61,7 @@ class CredentialController extends AbstractController
 
             $vendorSecurity->setActivationCode($codeGenerator->getConfirmationCode());
 
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->managerRegistry->getManager();
             $em->persist($vendorSecurity);
             $em->persist($vendor);
 
@@ -68,13 +73,13 @@ class CredentialController extends AbstractController
             $this->addFlash('success', 'Success. Успешно изменили параметры безопасности');
 
 
-            $this->getDoctrine()->getManager()->flush();
+            $this->managerRegistry->getManager()->flush();
             return $this->redirectToRoute('change_security');
         }
         return $this->render(
-            'security/change.html.twig', array(
+            'security/change.html.twig', [
                 'form' => $form->createView(),
-            )
+            ]
         );
     }
 

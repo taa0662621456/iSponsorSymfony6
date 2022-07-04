@@ -6,8 +6,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\OAuthTrait;
 use App\Entity\BaseTrait;
 
+use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
-use \DateTime;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -29,13 +30,13 @@ use Symfony\Component\Validator\Constraints\Length;
  * @method string getUserIdentifier()
  */
 #[ORM\Table(name: 'vendors_security')]
-#[ORM\Index(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
+#[ORM\Index(columns: ['slug', 'email', 'phone'], name: 'vendor_security_idx')]
 #[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
 //#[UniqueEntity(errorPath: 'email', message: 'email.already.use')]
 //#[UniqueEntity(errorPath: 'phone', message: 'phone.already.use')]
-#[ORM\Entity(repositoryClass: \App\Repository\Vendor\VendorSecurityRepository::class)]
+#[ORM\Entity(repositoryClass: VendorSecurityRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
+class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\UserInterface
 {
 	use BaseTrait;
 	use OAuthTrait;
@@ -55,7 +56,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'username', type: 'string', length: 255)]
 	#[Assert\Length(min: 3, minMessage: 'vendor.security.too.short.username')]
 	#[Assert\Length(max: 64, maxMessage: 'vendor.security.too.long.username')]
-	private string $username = '380662621456';
+	private string $username;
 
 	#[ORM\Column(name: 'password', type: 'string', unique: false)]
 	#[Assert\NotBlank(message: 'vendors.message.error.password')]
@@ -72,14 +73,14 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'roles', type: 'array')]
 	private array $roles = ["ROLE_USER"];
 
-	#[ORM\Column(name: 'send_email')]
-	private ?bool $sendEmail = null;
+	#[ORM\Column(name: 'send_email', nullable: false, options: ['default' => false])]
+	private ?bool $sendEmail = false;
 
 	#[ORM\Column(name: 'activation_code', type: 'string', nullable: false, options: ['default' => 'activation_code'])]
-	private string $activationCode = 'activation_code';
+	private string $activationCode;
 
 	#[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
-	#[Assert\Locale(canonicalize: true, message: 'Код локали должен соответствовать стандарту языка ISO 639-1 или с применением стардарта кода страны  ISO 3166-1 alpha-2')]
+	#[Assert\Locale(message: 'Код локали должен соответствовать стандарту языка ISO 639-1 или с применением стардарта кода страны  ISO 3166-1 alpha-2', canonicalize: true)]
 	private string $locale = 'en';
 	# TODO: засунуть также Предпочитаемый язык объектов поумолчанию
 	# https://symfony.com.ua/doc/current/reference/constraints/Language.html
@@ -88,7 +89,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	private string $params = 'params';
 
 	#[ORM\Column(name: 'last_reset_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP', 'comment' => 'Date of last password reset'])]
-	private string $lastResetTime = '0000-00-00 00:00:00';
+	private string $lastResetTime;
 
 	#[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets'])]
 	private ?int $resetCount = 0;
@@ -105,7 +106,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'api_key', type: 'string', nullable: false, options: ['comment' => 'API key'])]
 	private string $apiKey = 'api_key';
 
-	#[ORM\OneToOne(targetEntity: \App\Entity\Vendor\Vendor::class, inversedBy: 'vendorSecurity')]
+	#[ORM\OneToOne(inversedBy: 'vendorSecurity', targetEntity: \App\Entity\Vendor\Vendor::class)]
 	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	private ?Vendor $vendorSecurity = null;
 
@@ -121,7 +122,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
         $this->slug = $uuid;
         $this->username = $uuid;
         $codeGenerator = new ConfirmationCodeGenerator;
-        $this->activationCode = (string)$codeGenerator->getConfirmationCode();
+        $this->activationCode = $codeGenerator->getConfirmationCode();
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
     }
@@ -268,12 +269,12 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
         return $this;
     }
 	#[Assert\IsTrue(message: 'The password cannot match your Username')]
-    public function isPasswordUsername()
+    public function isPasswordUsername(): bool
     {
      return $this->username !== $this->plainPassword;
     }
 	#[Assert\IsTrue(message: 'The password cannot match your email')]
-    public function isPasswordMail()
+    public function isPasswordMail(): bool
     {
      return $this->email !== $this->plainPassword;
     }
@@ -317,7 +318,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 *
 	 * @since 5.1.0
 	 */
-	public function unserialize($data): void
+	public function unserialize(string $data): void
     {
         [
             $this->id,
@@ -343,6 +344,16 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     public function __call(string $name, array $arguments)
     {
      // TODO: Implement @method string getUserIdentifier()
+    }
+
+    public function __serialize(): array
+    {
+        // TODO: Implement __serialize() method.
+    }
+
+    public function __unserialize(array $data): void
+    {
+        // TODO: Implement __unserialize() method.
     }
 }
 

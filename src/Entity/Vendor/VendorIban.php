@@ -17,16 +17,17 @@ class VendorIban
 {
 	use BaseTrait;
 
-	#[ORM\Column(name: 'iban')]
+	#[ORM\Column(name: 'iban', nullable: true, options: ['default' => '0'])]
 	#[Assert\Iban(message: 'Номер счета должен иметь международный формат. Например, для Украины: UA85 3996 2200 0000 0260 0123 3566 1')]
 	private ?string $iban = null;
 
-	#[ORM\Column(name: 'expires_end')]
+	#[ORM\Column(name: 'expires_end', nullable: true, options: ['default' => '0'])]
 	private ?string $expiresEnd = null;
 
-	#[ORM\Column(name: 'signature_code', type: 'smallint', nullable: false, options: ['default' => 0])]
-	private int $signatureCode = 0;
-	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: \App\Entity\Vendor\Vendor::class, orphanRemoval: true)]
+	#[ORM\Column(name: 'signature_code', type: 'smallint', options: ['default' => 0])]
+	private ?int $signatureCode = 0;
+
+	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: Vendor::class, orphanRemoval: true)]
 	#[ORM\JoinColumn(name: 'vendorIban_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
 	private ?Vendor $vendorIban = null;
 

@@ -7,8 +7,8 @@ namespace App\Controller\Security;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorSecurity;
 use App\Form\Forgot\ForgotType;
-use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +28,7 @@ class ForgotController extends AbstractController
     /**
      * ForgotCredential constructor.
      */
-    public function __construct(private LoggerInterface $logger, private EntityManagerInterface $em)
+    public function __construct(private readonly LoggerInterface $logger, private readonly ManagerRegistry $managerRegistry)
     {
     }
 
@@ -60,15 +60,15 @@ class ForgotController extends AbstractController
 
             if ($credential == 'password') {
 
-                $user = $this->getDoctrine()->getRepository(VendorSecurity::class)->findOneBy(['email' => (string)$form->getData()->getVendorSecurity()->getEmail()]);
+                $user = $this->managerRegistry->getRepository(VendorSecurity::class)->findOneBy(['email' => (string)$form->getData()->getVendorSecurity()->getEmail()]);
 
                 if (null !== $user) {
 
                     $plainPassword = uniqid('', true);
                     $password = md5($plainPassword);
                     $user->setPassword($password);
-                    $this->em->persist($user);
-                    $this->em->flush();
+                    $this->managerRegistry->getManager()->persist($user);
+                    $this->managerRegistry->getManager()->flush();
 
                     $email = (new Email())
                         ->from(new Address(
@@ -89,7 +89,7 @@ class ForgotController extends AbstractController
 
             } elseif ($credential == 'email') {
 
-                $user = $this->getDoctrine()->getRepository(VendorSecurity::class)->findOneBy(
+                $user = $this->managerRegistry->getRepository(VendorSecurity::class)->findOneBy(
                     ['phone' => (string)$form->getData()->getVendorSecurity()->getPhone()]
                 );
 
@@ -109,7 +109,7 @@ class ForgotController extends AbstractController
 
             } elseif ($credential == 'phone') {
 
-                $user = $this->getDoctrine()->getRepository(VendorSecurity::class)->findOneBy(['email' => (string)$form->getData()->getVendorSecurity()->getEmail()]);
+                $user = $this->managerRegistry->getRepository(VendorSecurity::class)->findOneBy(['email' => (string)$form->getData()->getVendorSecurity()->getEmail()]);
 
                 if (null !== $user) {
 

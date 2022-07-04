@@ -37,21 +37,21 @@ trait VendorLanguageTrait
     private ?string $vendorMiddleName = 'vendor_middle_name';
 
 
-    #[ORM\Column(name: 'vendor_phone', unique: true)]
+    #[ORM\Column(name: 'vendor_phone', unique: true, nullable: true)]
     #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
     #[Length(min: 10, minMessage: 'vendors.en.gb.too.short')]
     #[Length(max: 12, maxMessage: 'vendors.en.gb.too.long')]
     private ?string $vendorPhone = null;
 
 
-    #[ORM\Column(name: 'vendor_second_phone')]
+    #[ORM\Column(name: 'vendor_second_phone', unique: true, nullable: true)]
     #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
     #[Length(min: 10, minMessage: 'vendors.en.gb.too.short')]
     #[Length(max: 12, maxMessage: 'vendors.en.gb.too.long')]
     private ?string $vendorSecondPhone = null;
 
 
-    #[ORM\Column(name: 'vendor_fax')]
+    #[ORM\Column(name: 'vendor_fax', unique: true, nullable: true)]
     #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
     #[Length(min: 10, minMessage: 'vendors.en.gb.too.short')]
     #[Length(max: 12, maxMessage: 'vendors.en.gb.too.long')]
@@ -64,7 +64,7 @@ trait VendorLanguageTrait
     private string $vendorAddress = 'address';
 
 
-    #[ORM\Column(name: 'vendor_second_address')]
+    #[ORM\Column(name: 'vendor_second_address', nullable: true)]
     #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
     #[Length(min: 6, minMessage: 'vendors.en.gb.too.short')]
     private ?string $vendorSecondAddress = null;
@@ -103,15 +103,15 @@ trait VendorLanguageTrait
     private string $vendorAcceptedCurrencies = 'vendor_accepted_currencies';
 
 
-    #[ORM\Column(name: 'vendor_params', type: 'string', nullable: false, options: ['default' => 'vendor_params'])]
-    private string $vendorParams = 'vendor_params';
+    #[ORM\Column(name: 'vendor_params', type: 'string', nullable: true, options: ['default' => 'vendor_params'])]
+    private ?string $vendorParams = null;
 
 
-    #[ORM\Column(name: 'vendor_meta_robot', type: 'string', nullable: false, options: ['default' => 'meta_robot'])]
-    private string $vendorMetaRobot = 'meta_robot';
+    #[ORM\Column(name: 'vendor_meta_robot', type: 'string', nullable: true, options: ['default' => 'meta_robot'])]
+    private ?string $vendorMetaRobot = null;
 
 
-    #[ORM\Column(name: 'vendor_meta_author')]
+    #[ORM\Column(name: 'vendor_meta_author', nullable: true)]
     private ?string $vendorMetaAuthor = null;
 
     #[ORM\OneToOne(inversedBy: 'vendorEnGb', targetEntity: Vendor::class)]

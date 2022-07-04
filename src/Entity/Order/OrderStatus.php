@@ -4,12 +4,14 @@
 namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
+use App\Repository\Order\OrderStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'orders_status')]
-#[ORM\Index(name: 'order_status_idx', columns: ['slug'])]
-#[ORM\Entity(repositoryClass: \App\Repository\Order\OrderStatusRepository::class)]
+#[ORM\Index(columns: ['slug'], name: 'order_status_idx')]
+#[ORM\Entity(repositoryClass: OrderStatusRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class OrderStatus
 {
@@ -18,13 +20,13 @@ class OrderStatus
 	#[ORM\Column(name: 'order_status_code', type: 'string', nullable: false, options: ['default' => ''])]
 	private string $orderStatusCode = '';
 
-	#[ORM\Column(name: 'order_status_name')]
+	#[ORM\Column(name: 'order_status_name', nullable: true)]
 	private ?string $orderStatusName = null;
 
-	#[ORM\Column(name: 'order_status_color')]
+	#[ORM\Column(name: 'order_status_color', nullable: true)]
 	private ?string $orderStatusColor = null;
 
-	#[ORM\Column(name: 'order_status_description')]
+	#[ORM\Column(name: 'order_status_description', nullable: true)]
 	private ?string $orderStatusDescription = null;
 
 	#[ORM\Column(name: 'order_stock_handle', type: 'string', nullable: false, options: ['default' => 'A'])]
@@ -35,8 +37,8 @@ class OrderStatus
 	/**
 	 * @var ArrayCollection
 	 */
-	#[ORM\OneToMany(targetEntity: \App\Entity\Order\Order::class, mappedBy: 'orderStatus')]
-	private ArrayCollection $orders;
+	#[ORM\OneToMany(mappedBy: 'orderStatus', targetEntity: Order::class)]
+	private Collection $orders;
 	public function __construct()
 	{
 		$this->orders = new ArrayCollection();
@@ -96,8 +98,8 @@ class OrderStatus
 	/**
 	 * @return OrderStatus
 	 */
-	public function addOrder(Order $order)
-	{
+	public function addOrder(Order $order): static
+    {
 		if (!$this->orders->contains($order)) {
 			$order->setOrderStatus($this);
 			$this->orders->add($order);
@@ -106,8 +108,8 @@ class OrderStatus
 		return $this;
 
 	}
-	public function removeOrder(Order $order)
-	{
+	public function removeOrder(Order $order): void
+    {
 		if (!$this->orders->contains($order)) {
 			$this->orders->removeElement($order);
 		}

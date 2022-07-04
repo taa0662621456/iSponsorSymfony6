@@ -14,8 +14,9 @@ class SetErrorController extends AbstractController
     /**
      * @param $message
      * @param int $status
+     * @return JsonResponse
      */
-    public function setError($message, $status = Response::HTTP_UNPROCESSABLE_ENTITY): JsonResponse
+    public function setError($message, int $status = Response::HTTP_UNPROCESSABLE_ENTITY): JsonResponse
     {
         $response = new JsonResponse(["error" => $message]);
         return $response->setStatusCode($status);

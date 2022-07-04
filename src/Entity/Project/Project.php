@@ -10,6 +10,7 @@ use App\Interface\ProjectInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,21 +23,26 @@ class Project implements ProjectInterface
     use BaseTrait;
     public const NUM_ITEMS = 10;
 
-    #[ORM\Column(name: 'project_type')]
-    private ?string $projectType = null;
-    //TODO: поменять на связь с таблицей типов проектов
+    #[ORM\OneToOne(mappedBy: 'projectType', targetEntity: ProjectType::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(name: 'projectType_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[Assert\Type(type: 'App\Entity\Project\ProjectsType')]
+    #[Assert\Valid]
+    private string $projectType = 'Charity';
+
     /**
-     * @var ArrayCollection
+     * @var string|ArrayCollection
      */
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProjects')]
     #[ORM\JoinColumn(name: 'projectCategory_id', referencedColumnName: 'id')]
-    private ArrayCollection $projectCategory;
+    #[Assert\Valid]
+    private string|ArrayCollection $projectCategory;
 
     #[ORM\OneToOne(mappedBy: 'projectEnGb', targetEntity: ProjectEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(name: 'projectEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectsEnGb')]
     #[Assert\Valid]
-    private ArrayCollection $projectEnGb;
+    private string $projectEnGb = '0';
+
     /**
      * @var ArrayCollection
      */
@@ -77,11 +83,12 @@ class Project implements ProjectInterface
     private ArrayCollection $projectPlatformReward;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Pure]
     public function __construct()
     {
+        $this->projectCategory = new ArrayCollection();
         $this->projectAttachments = new ArrayCollection();
         $this->projectTags = new ArrayCollection();
         $this->projectProducts = new ArrayCollection();
@@ -98,14 +105,20 @@ class Project implements ProjectInterface
     {
         $this->projectCategory->add($projectCategory);
     }
-    public function getProjectType(): ?string
+
+    /**
+     * @return string
+     */
+    public function getProjectType(): string
     {
         return $this->projectType;
     }
-    public function setProjectType(string $projectType): void
+
+    public function setProjectType($projectType): void
     {
         $this->projectType = $projectType;
     }
+
     public function addProjectTag(ProjectTag $tags): void
     {
         foreach ($tags as $tag) {
@@ -170,13 +183,12 @@ class Project implements ProjectInterface
     {
         return $this->projectPlatformReward;
     }
-    public function getProjectEnGb(): ArrayCollection
+
+    public function getProjectEnGb(): ArrayCollection|string|\App\Entity\Product\ProductEnGb
     {
         return $this->projectEnGb;
     }
-    /**
-     * @param $projectEnGb
-     */
+
     public function setProjectEnGb($projectEnGb): void
     {
         $this->projectEnGb = $projectEnGb;

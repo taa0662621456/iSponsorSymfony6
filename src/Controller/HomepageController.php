@@ -6,6 +6,8 @@ use App\Repository\Category\CategoryRepository;
 use App\Repository\Featured\FeaturedRepository;
 use App\Repository\Product\ProductRepository;
 use App\Repository\Project\ProjectRepository;
+use DateInterval;
+use DateTime;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -26,34 +28,34 @@ class HomepageController extends AbstractController
         $userName = '$this->getUser()->getUserIdentifier()';
         $key = $this->getParameter('app_mercure_secret_key');
         $response = $this->render(
-            'home/home.html.twig', array(
+            'home/home.html.twig', [
             'categories' => $categoriesRepository->findAll(),
             //'categories' => $categoriesRepository->findOneBy(
             //  ['published' => 't'], ['id' => 'ASC']),
             'latest_projects' => $projectsRepository->findBy(
-            [], ['createdAt' => 'ASC'], 12, null),
+            [], ['createdAt' => 'ASC'], 12),
             'latest_products' => $productsRepository->findBy(
-            [], ['createdAt' => 'ASC'], 12, null),
+            [], ['createdAt' => 'ASC'], 12),
             'featured_projects' => $featuredRepository->findBy(
-            ['featuredType' => 'J'], ['ordering' => 'ASC'], 12, null
+            ['featuredType' => 'J'], ['ordering' => 'ASC'], 12
             ),
             'featured_products' => $featuredRepository->findBy(
-            ['featuredType' => 'D'], ['ordering' => 'ASC'], 12, null
+            ['featuredType' => 'D'], ['ordering' => 'ASC'], 12
             ),
             'featured_categories' => $featuredRepository->findBy(
-            ['featuredType' => 'C'], ['ordering' => 'ASC'], 12, null
+            ['featuredType' => 'C'], ['ordering' => 'ASC'], 12
             ),
             'featured_vendors' => $featuredRepository->findBy(
-            ['featuredType' => 'V'], ['ordering' => 'ASC'], 12, null
+            ['featuredType' => 'V'], ['ordering' => 'ASC'], 12
             )
-            )
+            ]
         );
         $response->headers->setCookie(
             new Cookie(
             'mercureAuthorisation',
             $token,
-            (new \DateTime())
-            ->add(new \DateInterval('PT2H')),
+            (new DateTime())
+            ->add(new DateInterval('PT2H')),
             '/.well-know/mercure',
             null,
             false,

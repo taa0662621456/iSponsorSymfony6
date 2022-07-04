@@ -3,7 +3,7 @@
 
 namespace App\Event;
 
-use App\Entity\Order\Orders;
+use App\Entity\Order\Order;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class OrderSubmitEvent extends Event
@@ -11,16 +11,16 @@ class OrderSubmitEvent extends Event
     public const NAME = 'orders.order';
 
     /**
-     * @param Orders $orderSubmited
+     * @param Order $orderSubmited
      */
-    public function __construct(private Orders $orderSubmited)
+    public function __construct(private readonly Order $orderSubmited)
     {
     }
 
     /**
-     * @return Orders
+     * @return Order
      */
-    public function getOrderSubmited(): Orders
+    public function getOrderSubmited(): Order
     {
         return $this->orderSubmited;
     }

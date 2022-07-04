@@ -15,21 +15,21 @@ class ReviewProductFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        for ($p = 1; $p <= 26; $p++)
+        for ($p = 1; $p <= 26; $p++) {
 
             $review = 'Review Review Review Review';
             //TODO: тип поля $review необходимо изменить на text
 
+            $productReview = new ReviewProduct();
 
-        $productReview = new ReviewProduct();
 
+            $productReview->setProductId($p);
+            $productReview->setWorkFlow('published');
+            $productReview->setReview($review);
 
-        $productReview->setProductId($p);
-        $productReview->setWorkFlow('published');
-        $productReview->setReview($review);
-
-        $manager->persist($productReview);
-        $manager->flush();
+            $manager->persist($productReview);
+            $manager->flush();
+        }
     }
 
 
@@ -40,6 +40,6 @@ class ReviewProductFixtures extends Fixture
 
     public static function getGroups(): array
     {
-        return ['reviews'];
+        return ['review'];
     }
 }

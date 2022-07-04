@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Service\RequestDispatcher;
-use Cocur\Slugify\Slugify;
+use Doctrine\Persistence\ManagerRegistry;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,10 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ObjectCRUDsController extends AbstractController
 {
-    public function __construct(private RequestDispatcher $requestDispatcher)
+    #[NoReturn]
+    public function __construct(private readonly RequestDispatcher $requestDispatcher, private readonly ManagerRegistry $managerRegistry)
     {
     }
-
+    # Index
     #[Route(path: 'vendor/', name: 'vendor_index', methods: ['GET'])]
     #[Route(path: 'vendor/folder', name: 'vendor_folder_index', methods: ['GET'])]
     #[Route(path: 'order/', name: 'order_index', methods: ['GET'])]
@@ -33,7 +35,7 @@ class ObjectCRUDsController extends AbstractController
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
         ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer(): $object = $this->requestDispatcher->object();
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->managerRegistry->getManager();
         //TODO: определяем уровень прав пользователя и если Юзер
         //        ($this->getUser()) ?
         //            $q = $em->getRepository($object)->findAll():
@@ -45,6 +47,7 @@ class ObjectCRUDsController extends AbstractController
         ]);
     }
 
+    # New
     #[Route(path: 'vendor/new/', name: 'vendor_new', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/commission/', name: 'vendor_new_commission', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/profile/', name: 'vendor_new_profile', methods: ['GET', 'POST'])]
@@ -63,14 +66,19 @@ class ObjectCRUDsController extends AbstractController
     {
         $object = $this->requestDispatcher->object();
         $object = new $object;
-        //        $objectEnGb = $this->requestDispatcher->objectEnGb();
-        //        $objectEnGb = new $objectEnGb;
+
+//        $objectEnGb = $this->requestDispatcher->objectEnGb(); //TODO: подменить/заменить мультиязычностью
+//        $objectEnGb = new $objectEnGb; //TODO: подменить/заменить мультиязычностью
+
+        $objectAttachment = $this->requestDispatcher->objectAttachment();
+        $objectAttachment = new $objectAttachment;
+
         $form = $this->createForm($this->requestDispatcher->objectType(), $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->managerRegistry->getManager();
             $em->persist($object);
-//            $em->persist($objectEnGb);
+//            $em->persist($objectEnGb); //TODO: подменить/заменить мультиязычностью
             $em->flush();
 
             $route = $form->get('submitAndNew')->isClicked()
@@ -85,6 +93,7 @@ class ObjectCRUDsController extends AbstractController
         ]);
     }
 
+    # Show
     /**
      * ********************************************
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
@@ -136,6 +145,7 @@ class ObjectCRUDsController extends AbstractController
         ]);
     }
 
+    # Edit
     /**
      * ********************************************
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
@@ -176,7 +186,7 @@ class ObjectCRUDsController extends AbstractController
         $form = $this->createForm($this->requestDispatcher->objectType(), $object);
         $form->handleRequest($object);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->managerRegistry->getManager()->flush();
 
             return $this->redirectToRoute($object);
         }
@@ -186,7 +196,7 @@ class ObjectCRUDsController extends AbstractController
         ]);
     }
 
-
+    # Delete
     /**
      * ********************************************
      * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
@@ -225,13 +235,14 @@ class ObjectCRUDsController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $this->requestDispatcher->object()->getId(), $request->get('_token'))) {
             //TODO: в этой строке сделать get по тому признаку, который определен в роуте id/slug
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->managerRegistry->getManager();
             $entityManager->remove((object)$this->requestDispatcher->object());
             $entityManager->flush();
         }
         return $this->redirectToRoute($this->requestDispatcher->object());
     }
 
+    # Own
     #[Route(path: 'vendor/', name: 'vendor_own', methods: ['GET'])]
     #[Route(path: 'vendor/folder', name: 'vendor_folder_own', methods: ['GET'])]
     #[Route(path: 'order/', name: 'order_own', methods: ['GET'])]
@@ -250,7 +261,7 @@ class ObjectCRUDsController extends AbstractController
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
         ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer(): $object = $this->requestDispatcher->object();
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->managerRegistry->getManager();
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $em->getRepository($object)->findBy(['createdBy' => $this->getUser()]),
         ]);
