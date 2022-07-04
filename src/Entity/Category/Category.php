@@ -8,7 +8,9 @@ use App\Interface\CategoryAttachmentInterface;
 use App\Interface\CategoryInterface;
 use App\Interface\FeaturedInterface;
 use App\Interface\ProjectInterface;
+use App\Repository\Category\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
@@ -18,7 +20,7 @@ use JetBrains\PhpStorm\Pure;
 
 #[ORM\Table(name: 'categories')]
 #[ORM\Index(columns: ['slug'], name: 'category_idx')]
-#[ORM\Entity(repositoryClass: \App\Repository\Category\CategoryRepository::class)]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Category implements CategoryInterface
 {
@@ -27,21 +29,27 @@ class Category implements CategoryInterface
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
     private int $ordering = 1;
+
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY')]
-    private ArrayCollection $children;
+    private Collection $children;
+
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, cascade: ['persist'], inversedBy: 'children')]
     private ArrayCollection $parent;
+
     #[ORM\OneToMany(mappedBy: 'projectCategory', targetEntity: ProjectInterface::class)]
-    private ArrayCollection $categoryProjects;
+    private Collection $categoryProjects;
+
     #[ORM\OneToOne(mappedBy: 'categoryEnGb', targetEntity: CategoryEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(name: 'categoryEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\Type(type: CategoryEnGb::class)]
     #[Assert\Valid]
     private CategoryEnGb $categoryEnGb;
+
     #[ORM\OneToMany(mappedBy: 'categoryAttachments', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private ArrayCollection $categoryAttachments;
+    private Collection $categoryAttachments;
+
     #[ORM\OneToOne(mappedBy: 'categoryFeatured', targetEntity: FeaturedInterface::class)]
-    private ArrayCollection $categoryFeatured;
+    private Collection $categoryFeatured;
     /**
      * @throws Exception
      */

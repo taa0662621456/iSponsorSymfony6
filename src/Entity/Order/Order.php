@@ -103,7 +103,7 @@ class Order
 	private ?int $orderShipmentMethodId = null;
 
 	#[ORM\Column(name: 'order_delivery_date')]
-	private ?string $orderDeliveryDate = null;
+	private ?string $orderDeliveryDate;
 
 	#[ORM\Column(name: 'order_language')]
 	private ?string $orderLanguage = null;
@@ -389,8 +389,8 @@ class Order
 
 		return $this;
 	}
-	public function removeOrderItem(OrderItem $orderItem)
-	{
+	public function removeOrderItem(OrderItem $orderItem): void
+    {
 		$this->orderItems->removeElement($orderItem);
 	}
 	public function getOrderItems(): ArrayCollection

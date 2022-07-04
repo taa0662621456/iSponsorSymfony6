@@ -62,7 +62,8 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return \App\Entity\Project\ProjectRuRu|\App\Entity\Project\ProjectEnGb|\App\Entity\Project\ProjectLanguageTrait|\App\Entity\Project\ProjectUkUa
+     * @param string $projectTitle
+     * @return ProjectRuRu|ProjectEnGb|ProjectLanguageTrait|ProjectUkUa
      */
     public function setProjectTitle(string $projectTitle): self
     {

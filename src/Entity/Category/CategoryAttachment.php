@@ -8,11 +8,13 @@ use App\Entity\BaseTrait;
 use App\Interface\CategoryInterface;
 use App\Repository\Category\CategoryAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Table(name: 'categories_attachments')]
 #[ORM\Index(columns: ['slug'], name: 'category_attachment_idx')]
 #[ORM\Entity(repositoryClass: CategoryAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable]
 class CategoryAttachment
 {
 	use BaseTrait;

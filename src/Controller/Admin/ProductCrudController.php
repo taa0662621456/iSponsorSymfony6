@@ -17,7 +17,7 @@ class ProductCrudController extends AbstractCrudController
         return Product::class;
     }
 
-    use configureFieldsTrait;
+    use ConfigureFieldsTrait;
 
     // ...
 }

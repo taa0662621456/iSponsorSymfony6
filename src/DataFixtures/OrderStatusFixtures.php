@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Uid\Uuid;
 
-class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
+class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
@@ -28,9 +28,9 @@ class OrdersStatusFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies(): array
     {
-        return array(
-            VendorsFixtures::class,
-        );
+        return [
+            VendorFixtures::class,
+        ];
     }
 
     public function getOrder(): int

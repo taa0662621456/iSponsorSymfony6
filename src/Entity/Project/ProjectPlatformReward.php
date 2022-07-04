@@ -3,11 +3,12 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
+use App\Repository\Project\ProjectPlatformRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'rewards')]
 #[ORM\Index(columns: ['slug'], name: 'commission_idx')]
-#[ORM\Entity(repositoryClass: \App\Repository\Project\ProjectPlatformRewardRepository::class)]
+#[ORM\Entity(repositoryClass: ProjectPlatformRewardRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class ProjectPlatformReward
 {
@@ -25,7 +26,7 @@ class ProjectPlatformReward
     /**
      * @return Project
      */
-    public function getProjectId()
+    public function getProjectId(): Project
     {
         return $this->projectId;
     }

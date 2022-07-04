@@ -11,7 +11,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
-class OrdersFixtures extends Fixture implements DependentFixtureInterface
+class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
 
     /**
@@ -51,10 +51,10 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 
 	public function getDependencies (): array
     {
-		return array(
-			OrdersStatusFixtures::class,
-			ProductsFixtures::class,
-		);
+		return [
+			OrderStatusFixtures::class,
+			ProductFixtures::class,
+        ];
 	}
 
 	public function getOrder(): int
@@ -67,6 +67,6 @@ class OrdersFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public static function getGroups(): array
 	{
-		return ['orders'];
+		return ['order'];
 	}
 }

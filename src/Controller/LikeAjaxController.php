@@ -3,6 +3,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Product\ProductFavourite;
+use DateTime;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,13 +17,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/like')]
 class LikeAjaxController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __constructor(ManagerRegistry $managerRegistry): void
+    {
+        $this->managerRegistry = $managerRegistry;
+
+    }
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route(path: '/project', name: 'project_like', methods: ['POST'])]
     public function like(Request $request) : JsonResponse
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->managerRegistry->getManager();
         $productRepository = $em->getRepository('ShopBundle:Product');
         $favouritesRepository = $em->getRepository('ShopBundle:Favourites');
         $productId = $request->request->getInt('product_id');
@@ -37,10 +47,10 @@ class LikeAjaxController extends AbstractController
         ]);
         $liked = false;
         if (!is_object($favoriteRecord)) {
-            $favoriteRecord = new Favourites; //add like
+            $favoriteRecord = new ProductFavourite(); //add like
             $favoriteRecord->setUser($this->getUser());
             $favoriteRecord->setProduct($product);
-            $favoriteRecord->setDate(new \DateTime());
+            $favoriteRecord->setDate(new DateTime());
             $em->persist($favoriteRecord);
             $liked = true;
         } else {
@@ -55,7 +65,7 @@ class LikeAjaxController extends AbstractController
     #[Route(path: '/project_is_liked', name: 'project_is_liked', methods: ['POST'])]
     public function checkIsLiked(Request $request) : JsonResponse
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->managerRegistry->getManager();
         $favouritesRepository = $em->getRepository('ShopBundle:Favourites');
         $user = $this->getUser();
         if (!$user) {
@@ -71,7 +81,7 @@ class LikeAjaxController extends AbstractController
     #[Route(path: '/ajax_get_last_seen_projects', name: 'ajax_get_last_seen_projects', methods: ['POST'])]
     public function getLastSeenProductsAction(Request $request) : JsonResponse
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->managerRegistry->getManager();
         $projectsRepository = $em->getRepository('projects');
         $productIdsArray = $this->get('app.page_utilities')->getLastSeenProducts($request);
         $projects = $projectsRepository->getLastSeen(4, $productIdsArray, $this->getUser());
@@ -87,7 +97,7 @@ class LikeAjaxController extends AbstractController
     /**
      * @param string $message
      */
-    private function returnErrorJson($message): JsonResponse
+    private function returnErrorJson(string $message): JsonResponse
     {
         return new JsonResponse([
             'success' => false,

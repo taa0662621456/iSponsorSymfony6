@@ -11,7 +11,7 @@
 
 	class SearchController extends AbstractController
 	{
-		#[Route(path: '/search', methods: ['GET'], name: 'search')]
+		#[Route(path: '/search', name: 'search', methods: ['GET'])]
 		public function search(Request $request, ProductRepository $projects) : Response
 		{
 			if (!$request->isXmlHttpRequest()) {

@@ -14,19 +14,20 @@ class ReviewProjectFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
-        for ($p = 1; $p <= 26; $p++)
+        for ($p = 1; $p <= 26; $p++) {
 
             $review = 'Review Review Review Review';
 
-        $projectReview = new ReviewProject();
+            $projectReview = new ReviewProject();
 
 
-        $projectReview->setProjectId($p);
-        $projectReview->setWorkFlow('published');
-        $projectReview->setReview($review);
+            $projectReview->setProjectId($p);
+            $projectReview->setWorkFlow('published');
+            $projectReview->setReview($review);
 
-        $manager->persist($projectReview);
-        $manager->flush();
+            $manager->persist($projectReview);
+            $manager->flush();
+        }
     }
 
 
@@ -37,7 +38,7 @@ class ReviewProjectFixtures extends Fixture
 
     public static function getGroups(): array
     {
-        return ['reviews'];
+        return ['review'];
     }
 
 

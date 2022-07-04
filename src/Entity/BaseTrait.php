@@ -27,8 +27,8 @@ trait BaseTrait
     private bool $published = true;
 
 
-    #[ORM\Column(name: 'slug', type: 'string', unique: true, nullable: false)]
-    private string $slug;
+    #[ORM\Column(name: 'slug', type: 'string', unique: true, nullable: true)]
+    private ?string $slug = null;
 
 
     #[ORM\Column(name: 'created_at', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -42,11 +42,11 @@ trait BaseTrait
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'last_request_date', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP', 'comment' => 'Owned request last time'])]
-    private string $lastRequestDate;
+    private string $lastRequestDate = 'Y-m-d H:i:s';
 
 
     #[ORM\Column(name: 'modified_at', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private string $modifiedAt;
+    private string $modifiedAt = 'Y-m-d H:i:s';
 
 
     #[ORM\Column(name: 'modified_by', type: 'integer', nullable: false, options: ['default' => 1])]

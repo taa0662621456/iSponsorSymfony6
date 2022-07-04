@@ -43,7 +43,7 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
 	public function getDependencies (): array
     {
 		return array (
-			VendorsFixtures::class,
+			VendorFixtures::class,
 		);
 	}
 
@@ -57,6 +57,6 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public static function getGroups(): array
 	{
-		return ['categories'];
+		return ['category'];
 	}
 }

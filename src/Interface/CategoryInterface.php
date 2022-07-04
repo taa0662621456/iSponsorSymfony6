@@ -21,9 +21,6 @@ interface CategoryInterface
 
 	public function setOrdering(int $ordering): void;
 
-    /**
-	 * @param $children
-	 */
 	public function addChildren($children):Category;
 
     public function removeChildren(Category $children): void;
@@ -42,11 +39,5 @@ interface CategoryInterface
 
     public function getCategoryFeatured(): Featured|ArrayCollection;
 
-	/**
-	 * @param $categoryFeatured
-	 */
 	public function addCategoryFeatured($categoryFeatured): void;
-
-
-
 }

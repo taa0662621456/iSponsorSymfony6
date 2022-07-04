@@ -17,7 +17,8 @@ class SmsConfirmationController extends AbstractController
     #[Route(path: '/confirmation/sms', name: 'confirmation_sms')]
     public function smsCodeConfirmation(Request $request) : Response
     {
-        # TODO: use SmsCodeGenerator Service
+        # TODO//: use SmsCodeGenerator Service
+        return 'TODO: use SmsCodeGenerator Service';
     }
 
 }

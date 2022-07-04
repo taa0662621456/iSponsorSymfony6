@@ -7,20 +7,20 @@ use App\Entity\Vendor\VendorSecurity;
 use App\Form\Vendor\VendorSecurityType;
 use App\Service\EmailConfirmation;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Notifier\Exception\TransportExceptionInterface;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Twig\Environment;
 
@@ -29,13 +29,22 @@ class RegistrationController extends AbstractController
 {
     use TargetPathTrait;
 
-    public function __construct(private Environment $twig, private UserPasswordHasherInterface $passwordHasher, private FormFactoryInterface $formFactory, private EmailConfirmation $emailConfirmation, private LoggerInterface             $logger)
-				{
-				}
+
+    private ManagerRegistry $managerRegistry;
+
+    public function __construct(private readonly Environment                 $twig,
+                                private readonly UserPasswordHasherInterface $passwordHasher,
+                                private readonly FormFactoryInterface        $formFactory,
+                                private readonly EmailConfirmation           $emailConfirmation,
+                                private readonly LoggerInterface             $logger,
+                                ManagerRegistry                              $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
 
     /**
 	 * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
-	 * @throws \Symfony\Component\Notifier\Exception\TransportExceptionInterface
+	 * @throws TransportExceptionInterface
 	 */
 	#[Route(path: '/registration', name: 'registration', options: ['layout' => 'registration'], defaults: ['layout' => 'registration'], methods: ['GET', 'POST'])]
 	#[Route(path: '/signup', name: 'signup', options: ['layout' => 'signup'], defaults: ['layout' => 'signup'], methods: ['GET', 'POST'])]
@@ -78,7 +87,7 @@ class RegistrationController extends AbstractController
       $vendor->setVendorSecurity($vendorSecurity);
       $vendor->setVendorEnGb($vendorEnGb);
       #
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->managerRegistry->getManager();
       $em->persist($vendorSecurity);
       $em->persist($vendorEnGb);
       $em->persist($vendor);

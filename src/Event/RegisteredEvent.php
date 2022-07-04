@@ -10,7 +10,7 @@ class RegisteredEvent extends Event
 {
     public const NAME = 'vendor.registered';
 
-    public function __construct(private VendorSecurity $vendorRegistered)
+    public function __construct(private readonly VendorSecurity $vendorRegistered)
     {
     }
 

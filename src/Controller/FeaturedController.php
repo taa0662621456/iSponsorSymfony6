@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Featured;
-use App\Form\FeaturedType;
-use App\Repository\FeaturedRepository;
+use App\Entity\Featured\Featured;
+use App\Form\Featured\FeaturedType;
+use App\Repository\Featured\FeaturedRepository;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +14,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/featured')]
 class FeaturedController extends AbstractController
 {
-	/**
-	 * @param FeaturedRepository $featuredRepository
-	 *
-	 */
+    private ManagerRegistry $managerRegistry;
+
+    public function __constructor(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
+    /**
+     * @param FeaturedRepository $featuredRepository
+     * @return Response
+     */
 	#[Route(path: '/', name: 'featured_index', methods: ['GET'])]
 	public function index(FeaturedRepository $featuredRepository) : Response
 	{
@@ -24,10 +31,11 @@ class FeaturedController extends AbstractController
       'features' => $featuredRepository->findAll(),
   ]);
 	}
-	/**
-	 * @param FeaturedRepository $featuredRepository
-	 *
-	 */
+
+    /**
+     * @param FeaturedRepository $featuredRepository
+     * @return Response
+     */
 	#[Route(path: '/projects', name: 'featured_projects', methods: ['GET'])]
 	public function projects(FeaturedRepository $featuredRepository) : Response
 	{
@@ -35,10 +43,11 @@ class FeaturedController extends AbstractController
 			'features' => $featuredRepository->findOneBy(['featuredType' => 'J'], ['id' => 'ASC']),
 		]);
 	}
-	/**
-	 * @param FeaturedRepository $featuredRepository
-	 *
-	 */
+
+    /**
+     * @param FeaturedRepository $featuredRepository
+     * @return Response
+     */
 	#[Route(path: '/products', name: 'featured_products', methods: ['GET'])]
 	public function products(FeaturedRepository $featuredRepository) : Response
 	{
@@ -46,10 +55,11 @@ class FeaturedController extends AbstractController
 			'features' => $featuredRepository->findOneBy(['featuredType' => 'D'], ['id' => 'ASC']),
 		]);
 	}
-	/**
-	 * @param FeaturedRepository $featuredRepository
-	 *
-	 */
+
+    /**
+     * @param FeaturedRepository $featuredRepository
+     * @return Response
+     */
 	#[Route(path: '/categories', name: 'featured_categories', methods: ['GET'])]
 	public function categories(FeaturedRepository $featuredRepository) : Response
 	{
@@ -57,10 +67,11 @@ class FeaturedController extends AbstractController
 			'features' => $featuredRepository->findOneBy(['featuredType' => 'C'], ['id' => 'ASC']),
 		]);
 	}
-	/**
-	 * @param FeaturedRepository $featuredRepository
-	 *
-	 */
+
+    /**
+     * @param FeaturedRepository $featuredRepository
+     * @return Response
+     */
 	#[Route(path: '/vendors', name: 'featured_vendors', methods: ['GET'])]
 	public function vendors(FeaturedRepository $featuredRepository) : Response
 	{
@@ -75,7 +86,7 @@ class FeaturedController extends AbstractController
 		$form = $this->createForm(FeaturedType::class, $featured);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager = $this->managerRegistry->getManager();
       $entityManager->persist($featured);
       $entityManager->flush();
 
@@ -86,10 +97,11 @@ class FeaturedController extends AbstractController
       'form' => $form->createView(),
   ]);
 	}
-	/**
-	 * @param Featured $featured
-	 *
-	 */
+
+    /**
+     * @param Featured $featured
+     * @return Response
+     */
 	#[Route(path: '/{id}', name: 'featured_show', methods: ['GET'])]
 	public function show(Featured $featured) : Response
 	{
@@ -97,17 +109,19 @@ class FeaturedController extends AbstractController
       'featured' => $featured,
   ]);
 	}
-	/**
-	 * @param Featured $featured
-	 *
-	 */
+
+    /**
+     * @param Request $request
+     * @param Featured $featured
+     * @return Response
+     */
 	#[Route(path: '/{id}/edit', name: 'featured_edit', methods: ['GET', 'POST'])]
 	public function edit(Request $request, Featured $featured) : Response
 	{
 		$form = $this->createForm(FeaturedType::class, $featured);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
-      $this->getDoctrine()->getManager()->flush();
+      $this->managerRegistry->getManager()->flush();
 
       return $this->redirectToRoute('featured_index');
   }
@@ -116,15 +130,17 @@ class FeaturedController extends AbstractController
       'form' => $form->createView(),
   ]);
 	}
-	/**
-	 * @param Featured $featured
-	 *
-	 */
+
+    /**
+     * @param Request $request
+     * @param Featured $featured
+     * @return Response
+     */
 	#[Route(path: '/{id}', name: 'featured_delete', methods: ['DELETE'])]
 	public function delete(Request $request, Featured $featured) : Response
 	{
 		if ($this->isCsrfTokenValid('delete'.$featured->getId(), $request->request->get('_token'))) {
-      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager = $this->managerRegistry->getManager();
       $entityManager->remove($featured);
       $entityManager->flush();
   }

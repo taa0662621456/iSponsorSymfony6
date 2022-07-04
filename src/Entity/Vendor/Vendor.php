@@ -45,20 +45,20 @@ class Vendor
 
 	#[Groups(['vendor:list', 'vendor:item'])]
 	#[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
-	private int|bool $isActive = true;
+	private int|bool $isActive;
 
 	#[Groups(['vendor:list', 'vendor:item'])]
 	#[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
 	private string $locale = 'en';
 
-	#[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets since lastResetTime'])]
+	#[ORM\Column(name: 'reset_count', type: 'integer', nullable: true, options: ['default' => 0, 'comment' => 'Count of password resets since lastResetTime'])]
 	private ?int $resetCount = null;
 
-	#[ORM\Column(name: 'otp_key', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'Two factor authentication encrypted keys'])]
-	private string $otpKey = '';
+	#[ORM\Column(name: 'otp_key', type: 'string', nullable: true, options: ['comment' => 'Two factor authentication encrypted keys'])]
+	private ?string $otpKey = null;
 
-	#[ORM\Column(name: 'otep', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'One time emergency passwords'])]
-	private string $otep = '';
+	#[ORM\Column(name: 'otep', type: 'string', nullable: true, options: ['comment' => 'One time emergency passwords'])]
+	private ?string $otep = null;
 
 	#[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['default' => 0, 'comment' => 'Require user to reset password on next login'])]
 	private int|bool $requireReset = false;

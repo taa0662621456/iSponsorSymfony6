@@ -6,6 +6,7 @@ namespace App\Controller\Security;
 
 use App\Entity\Vendor\VendorSecurity;
 use App\Repository\Vendor\VendorSecurityRepository;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +16,14 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailConfirmationController extends AbstractController
 {
+    private ManagerRegistry $managerRegistry;
+
     /**
      * EmailConfirmationController constructor.
      */
-    public function __construct(private VerifyEmailHelperInterface $verifyEmailHelper)
+    public function __construct(private readonly VerifyEmailHelperInterface $verifyEmailHelper, ManagerRegistry $managerRegistry)
     {
+        $this->managerRegistry = $managerRegistry;
     }
 
     #[Route(path: '/confirmation/email', name: 'confirmation_email')]
@@ -47,7 +51,7 @@ class EmailConfirmationController extends AbstractController
         }
         $vendorSecurity = $vendorSecurityRepository->findOneBy(['slug' => $slug]);
         $vendorSecurity->setPublished(true);
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->managerRegistry->getManager();
         $em->persist($vendorSecurity);
         $em->flush();
         $this->addFlash('success', 'Your email address has been verified.');

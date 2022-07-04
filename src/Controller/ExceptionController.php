@@ -10,7 +10,8 @@ class ExceptionController extends AbstractController
 {
     /**
      * @param $exception
-     * @param $logger
+     * @param null $logger
+     * @return Response
      */
     #[Route(path: '/exception', name: 'exception')]
     public function exception($exception, $logger = null) : Response

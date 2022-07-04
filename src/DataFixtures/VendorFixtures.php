@@ -10,11 +10,15 @@ use App\Entity\Vendor\VendorMedia;
 use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 
-class VendorsFixtures extends Fixture
+class VendorFixtures extends Fixture
 {
 
-	public function load(ObjectManager $manager)
+    /**
+     * @throws Exception
+     */
+    public function load(ObjectManager $manager)
 	{
         $rand = random_int(0, 999999);
         $password = $rand;
@@ -32,8 +36,8 @@ class VendorsFixtures extends Fixture
 
         $vendorEnGb->setVendorZip($rand);
         $vendorEnGb->setFirstTitle('VendorFT' . $rand);
-        $vendorEnGb->setFirstTitle('VendorMT' . $rand);
-        $vendorEnGb->setFirstTitle('VendorLT' . $rand);
+        $vendorEnGb->setMiddleTitle('VendorMT' . $rand);
+        $vendorEnGb->setLastTitle('VendorLT' . $rand);
 
         $vendorIban->setIban('0000000000000000');
 
