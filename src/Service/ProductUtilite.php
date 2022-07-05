@@ -6,7 +6,7 @@ namespace App\Service;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProductUtility
+class ProductUtilite
 {
     /**
      * return sorting name param from request
