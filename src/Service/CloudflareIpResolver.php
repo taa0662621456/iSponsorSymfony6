@@ -27,9 +27,6 @@ class CloudflareIpResolver implements IpResolverInterface
     private function doResolveIp(): ?string
     {
         $request = $this->requestStack->getCurrentRequest();
-        if ($request === null) {
-            return null;
-        }
-        return $request->server->get('HTTP_CF_CONNECTING_IP');
+        return $request?->server->get('HTTP_CF_CONNECTING_IP');
     }
 }

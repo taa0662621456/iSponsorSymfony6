@@ -107,8 +107,8 @@
 			);
 		}
 
-		public function removeAttachment(?string $filename)
-		{
+		public function removeAttachment(?string $filename): void
+        {
 			if (!empty($filename)) {
 				$filesystem = new Filesystem();
 				$filesystem->remove($this->getUploadsDirectory() . $filename);

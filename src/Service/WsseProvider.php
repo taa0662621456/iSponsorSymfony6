@@ -1,15 +1,14 @@
 <?php
 namespace App\Service;
 
-use App\Security\WsseUserToken;
+use App\Security\Wsse\WsseUserToken;
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 
-class WsseProvider implements AuthenticationProviderInterface
+class WsseProvider
 {
     private UserProviderInterface $userProvider;
     private CacheItemPoolInterface $cachePool;
@@ -42,6 +41,7 @@ class WsseProvider implements AuthenticationProviderInterface
      *
      * For more information specific to the logic here, see
      * https://github.com/symfony/symfony-docs/pull/3134#issuecomment-27699129
+     * @throws \Psr\Cache\InvalidArgumentException
      */
     protected function validateDigest($digest, $nonce, $created, $secret): bool
     {

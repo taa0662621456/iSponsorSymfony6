@@ -8,29 +8,17 @@
 
 	class StorageCRUDsMethods
 	{
-		/**
-		 * @var EntityManager $em
-		 */
-		private $em;
-
-		public function __construct(EntityManager $entityManager)
-		{
-			$this->em = $entityManager;
-		}
-
-        public function updateRemainder()
+        public function updateRemainder(): void
         {
 
 		}
-        public function decrementRemainder()
+        public function decrementRemainder(): void
         {
 
 		}
-        public function incrementRemainder()
+        public function incrementRemainder(): void
         {
 
 		}
-
-
 
 	}
