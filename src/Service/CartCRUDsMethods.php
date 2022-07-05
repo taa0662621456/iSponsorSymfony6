@@ -53,19 +53,20 @@
 					$quantity = abs((int)$productQuantity);
 					$sum += ($quantity * $product->getPrice());
 
+                    //TODO: methods not found
 					$orderProduct = new OrderItem();
-					$orderProduct->setOrder($order);
-					$orderProduct->setProductId((int)$product);
-					$orderProduct->setProductItemPrice($product->getPrice());
-					$orderProduct->setProductQuantity($quantity);
+//					$orderProduct->setOrder($order);
+//					$orderProduct->setProductId((int)$product);
+//					$orderProduct->setProductItemPrice($product->getPrice());
+//					$orderProduct->setProductQuantity($quantity);
 					$this->em->persist($orderProduct);
 
-					$order->addOrderItems($orderProduct);
+//					$order->addOrderItems($orderProduct);
 				}
 			}
 
-			$order->setCreatedBy($vendor); //can be null if not registered
-			$order->setModifiedBy($vendor); //can be null if not registered
+			$order->setCreatedBy((int)$vendor); //can be null if not registered
+			$order->setModifiedBy((int)$vendor); //can be null if not registered
 			$order->setOrderTotal((string)$sum);
 			$this->em->persist($order);
 			$this->em->flush();
@@ -79,8 +80,8 @@
 		 *
 		 * @return mixed
 		 */
-		private function getCartFromCookies(Request $request)
-		{
+		private function getCartFromCookies(Request $request): mixed
+        {
 			$cookies = $request->cookies->all();
 
 			if (isset($cookies['cart'])) {

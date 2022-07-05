@@ -10,17 +10,12 @@
 	class FavouriteManager
 	{
 		/**
-		 * @var ContainerInterface
-		 */
-		private ContainerInterface $container;
-		/**
 		 * @var EntityManagerInterface
 		 */
 		private EntityManagerInterface $entityManager;
 
-		public function __construct(ContainerInterface $container, EntityManagerInterface $entityManager)
+		public function __construct(EntityManagerInterface $entityManager)
 		{
-			$this->container = $container;
 			$this->entityManager = $entityManager;
 		}
 
@@ -30,8 +25,8 @@
 		 *
 		 * @return void
 		 */
-		public function setFavourite(string $entity, object $createdBy)
-		{
+		public function setFavourite(string $entity, object $createdBy): void
+        {
 			//TODO
 		}
 
@@ -54,8 +49,8 @@
 			), 12, null);
 		}
 
-		public function removeFavourite()
-		{
+		public function removeFavourite(): void
+        {
 
 		}
 	}

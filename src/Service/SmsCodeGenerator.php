@@ -4,16 +4,23 @@
 namespace App\Service;
 
 
-use App\Entity\BaseTrait;
 use App\Entity\Vendor\VendorCodeStorage;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class SmsCodeGenerator
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __constructor(ManagerRegistry $managerRegistry): void
+    {
+        $this->managerRegistry = $managerRegistry;
+
+    }
 
     public function smsCodeGenerator(Request $request, EntityManagerInterface $em): Response
     {
@@ -44,7 +51,7 @@ class SmsCodeGenerator
     public function isSmsCodeConsist(array $formData, EntityManagerInterface $em): array
     {
         // Достаём код из БД по известному нам мобильному номеру
-        $codeFromDataBase = $this->getDoctrine()
+        $codeFromDataBase = $this->managerRegistry
             ->getManager()
             ->getRepository(VendorCodeStorage::class)
             ->findOneBy(
@@ -74,9 +81,9 @@ class SmsCodeGenerator
         }
 
         // Если же ошибок не обнаружено
-        $codeFromDataBase->setIsLogin((bool)1);
+        $codeFromDataBase->setIsLogin(true);
 
-        $em = $this->getDoctrine()
+        $em = $this->managerRegistry
             ->getManager()
         ;
         $em->persist($codeFromDataBase);
