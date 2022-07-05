@@ -18,6 +18,7 @@ button.previous.step: 'Предыдущий шаг'
 button.remember.label: 'Запомнить меня'
 
 button.submit.label: 'Авторизоваться'
+button.submit.new.product.label: 'Отправить новый продукт'
 
 button.navbar.sign.in: 'Авторизоваться'
 button.navbar.logout: 'Выйти'

@@ -11,6 +11,7 @@ button.label.show.password: 'Show password'
 
 
 button.submit.label: 'Login'
+button.submit.new.product.label: 'Submit'
 button.remember.label: 'Remember me'
 
 
