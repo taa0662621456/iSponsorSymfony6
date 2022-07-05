@@ -14,3 +14,8 @@ framework:
             low: ['browser']
         admin_recipients:
             - { email: taa0662621456@gmail.com }
+
+            # TODO: сделать браузерные уведомления
+            # browserNotifier: '%env(MERCURE_DSN)%'
+            # help https://symfony.com/bundles/ux-notify/current/index.html
+

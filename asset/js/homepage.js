@@ -1,6 +1,10 @@
-import 'bootstrap/dist/js/bootstrap.bundle.min'
-import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
-// require('bootstrap-autohide-navbar');
+import '../stimulus_bridge_init'
+import 'bootstrap'
+//import 'bootstrap/dist/js/bootstrap.bundle.min'
+import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min'
+
+
+//require('bootstrap-autohide-navbar');
 
 // require('smartwizard');
 

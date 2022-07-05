@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 // });
 
 
-function () {
+function cart () {
     let $showModal = $('#showModal');
     let $clearCart = $('.clear').filter('input');
     let $removeItem = $('.remove').filter('input');
@@ -136,5 +136,5 @@ function () {
 
     }
 
-};
+}
 
