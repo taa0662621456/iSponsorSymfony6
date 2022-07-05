@@ -18,18 +18,18 @@ if (form !== undefined) {
         images_upload_url: '/attachment/' + form.dataset.name + form.dataset.objectId,
         file_picker_types: 'image',
         file_picker_callback: function (cb, value, meta) {
-            var input = document.createElement('input');
+            let input = document.createElement('input');
             input.setAttribute('type', 'file');
             input.setAttribute('accept', 'image/*');
             input.onchange = function () {
-                var file = this.files[0];
+                let file = this.files[0];
 
-                var reader = new FileReader();
+                let reader = new FileReader();
                 reader.onload = function () {
-                    var id = 'blobid' + (new Date()).getTime();
-                    var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-                    var base64 = reader.result.split(',')[1];
-                    var blobInfo = blobCache.create(id, file, base64);
+                    let id = 'blobid' + (new Date()).getTime();
+                    let blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    let base64 = reader.result.split(',')[1];
+                    let blobInfo = blobCache.create(id, file, base64);
                     blobCache.add(blobInfo);
 
                     /* call the callback and populate the Title field with the file name */

@@ -1,14 +1,16 @@
 twig:
     cache: false
     default_path: '%kernel.project_dir%/templates'
+    auto_reload: true
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
-    form_themes: ['bootstrap_5_layout.html.twig']
+    form_themes: ['bootstrap_5_layout.html.twig', 'form/base-form.html.twig']
     globals:
         app_name: '%app_name%'
         app_logo_url: '%app_logo_url%'
         app_version: '%app_version%'
-        locales: '%app_locales%'
+        locales: '%app_locales%' # TODO: помечено на удаление
+        app_locales: '%app_locales%'
         app_locale: '%app_locale%'
 
 when@test:

@@ -64,7 +64,7 @@ services:
             string $pathToLoginSuccess: '%app_login_route%'
             string $token: '%app_csrf_token%'
 #            $emailSender: '%app_email_sender%'
-#            $akismetKey: "%env(AKISMET_KEY)%"
+            string $akismetKey: "%env(AKISMET_KEY)%"
 #            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
 #            string $projectImageAttachmentsPath: "%app_project_images_directory%"
 #            string $productImageAttachmentsPath: "%app_product_images_directory%"
@@ -120,6 +120,10 @@ services:
         #        arguments: [ '%kernel.default_locale%' ]
         arguments: [ '%app_locale%' ]
     #         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
+
+    App\Service\SymfonyUploader:
+        arguments:
+            $targetDirectory: '%app_project_images_directory'
 
     App\:
         resource: '../src/'

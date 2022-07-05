@@ -1,5 +1,6 @@
+import '../stimulus_bridge_init'
 import 'bootstrap'
-import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min.js'
+import { Toast } from 'bootstrap/dist/js/bootstrap.esm.min'
 import IMask from 'imask';
 
 require('../scss/sign.scss')
@@ -7,15 +8,40 @@ require('../css/sign.css')
 require('../../templates/bootstrap-5.1.3/sign-in/signin.css')
 
 /**
+ * Show_me_password
+ * TODO: отображение пароля не работает
+ */
+window.addEventListener("load", function() {
+    let showMePassword = document.getElementById('vendor_security_vendorSecurity_show_me_password');
+    let firstPassword = document.getElementById('vendor_security_vendorSecurity_plainPassword_first');
+    let secondPassword = document.getElementById('vendor_security_vendorSecurity_plainPassword_second');
+
+    showMePassword.addEventListener('click', () => {
+        if ( firstPassword.type === "text" ) {
+            firstPassword.type = "password"
+            secondPassword.type = "password"
+            //showPassword.classList.remove('fa-eye-slash');
+        } else {
+            firstPassword.type = "text"
+            secondPassword.type = "text"
+            firstPassword.classList.add('mb-2')
+            secondPassword.classList.add('mb-2')
+            //showPassword.classList.toggle("fa-eye-slash");
+        }
+    })
+})
+
+/**
  * Password validation
  */
-
 if (document.querySelectorAll('input[type="password"]').length > 1) {
 
+    let passwordFirst = document.getElementById('vendor_security_vendorSecurity_plainPassword_first')
+    let passwordSecond = document.getElementById('vendor_security_vendorSecurity_plainPassword_second')
+
     let submit = document.querySelector('button[type="submit"]')
+
     submit.classList.add('disabled')
-    let passwordFirst = document.getElementById('vendor_registration_vendorSecurity_plainPassword_first')
-    let passwordSecond = document.getElementById('vendor_registration_vendorSecurity_plainPassword_second')
 
     passwordFirst.addEventListener('input', plainValidation)
     passwordSecond.addEventListener('input', plainValidation)
@@ -42,6 +68,7 @@ if (document.querySelectorAll('input[type="password"]').length > 1) {
  */
 Array.from(document.querySelectorAll('.toast'))
     .forEach(toastNode => new Toast(toastNode).show());
+
 /**
  * Bootstrap validation
  */
@@ -56,6 +83,7 @@ Array.prototype.slice.call(document.querySelectorAll('form[class="needs-validati
             form.classList.add('was-validated')
         }, false)
     })
+
 /**
  * IMask pattern
  */
