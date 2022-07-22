@@ -1,0 +1,15 @@
+parameters:
+  symfony:
+    container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
+  level: 8
+  fileExtensions:
+    - php
+  paths:
+    - src
+    - tests
+  autoload_files:
+      - bin/.phpunit/phpunit/vendor/autoload.php
+includes:
+  - vendor/phpstan/phpstan-symfony/extension.neon
+  - vendor/phpstan/phpstan-symfony/rules.neon
+
