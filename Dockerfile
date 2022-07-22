@@ -16,6 +16,14 @@ RUN echo ${TZ} > /etc/timezone \
     && date
 #
 
+# set ENV lang
+ENV LANG=ru_RU.UTF-8 \
+	LC_ALL=ru_RU.UTF-8 \
+	LANGUAGE=ru_RU.UTF-8 \
+	COMPOSER_ALLOW_SUPERUSER=1 \
+	COMPOSER_HOME=/tmp
+#
+
 # Install Curl
 RUN apt-get update
 #RUN export DEBIAN_FRONTEND="noninteractive" \
