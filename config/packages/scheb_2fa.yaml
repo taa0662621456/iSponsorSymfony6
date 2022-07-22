@@ -1,0 +1,70 @@
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
+# https://symfonycasts.com/screencast/symfony-security/scheb-2fa
+scheb_two_factor:
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+        - Acme\AuthenticationBundle\Token\CustomAuthenticationToken
+    # Trusted device feature
+    trusted_device:
+        enabled: false                 # If the trusted device feature should be enabled
+        manager: acme.custom_trusted_device_manager  # Use a custom trusted device manager
+        lifetime: 5184000              # Lifetime of the trusted device token
+        extend_lifetime: false         # Automatically extend lifetime of the trusted cookie on re-login
+        cookie_name: trusted_device    # Name of the trusted device cookie
+        cookie_secure: false           # true|false|auto Set the 'Secure' (HTTPS Only) flag on the trusted device cookie
+        cookie_same_site: "lax"        # The same-site option of the cookie, can be "lax", "strict" or null
+        cookie_domain: ".smartresponsor.com"  # Domain to use when setting the cookie, fallback to the request domain if not set
+        cookie_path: "/"               # Path to use when setting the cookie
+
+    # Backup codes feature
+    backup_codes:
+        enabled: false                 # If the backup code feature should be enabled
+        manager: acme.custom_backup_code_manager  # Use a custom backup code manager
+
+    # TOTP authentication config
+#    totp:
+#        enabled: false
+#        server_name: Smartresponsor        # Server name used in QR code
+#            issuer: Smartresponsor         # Issuer name used in QR code
+#            window: 1                      # How many codes before/after the current one would be accepted as valid
+#            parameters: # Additional parameters added in the QR code
+#                image: 'cover.jpg'
+#                template: security/2fa_form.html.twig   # Template used to render the authentication form
+#                form_renderer: acme.custom_form_renderer_service
+        # $secret = $container->get("scheb_two_factor.security.totp_authenticator")->generateSecret();
+        # $qrCodeContent = $container->get("scheb_two_factor.security.totp_authenticator")->getQRContent($user);
+    google:
+        enabled: false
+
+    email:
+        digits: 6
+        enabled: false
+        sender_email: '%app_email_sender%'
+        sender_name: '%app_email_sender_name%'  # Optional
+        mailer: acme.custom_mailer_service  # Use alternative service to send the authentication code
+        code_generator: acme.custom_code_generator_service  # Use alternative service to generate authentication code
+        template: security/2fa_form.html.twig   # Template used to render the authentication form
+
+    # A list of IP addresses or netmasks, which will not trigger two-factor authentication.
+    # Supports IPv4, IPv6 and IP subnet masks.
+    ip_whitelist:
+        - 127.0.0.1  # One IPv4
+        - 192.168.0.0/16  # IPv4 subnet
+#        - 2001:0db8:85a3:0000:0000:8a2e:0370:7334  # One IPv6
+#        - 2001:db8:abcd:0012::0/64  # IPv6 subnet
+
+    # If you want to have your own implementation to retrieve the whitelisted IPs.
+    # The configuration option "ip_whitelist" becomes meaningless in that case.
+    # Must implement Scheb\TwoFactorBundle\Security\TwoFactor\IpWhitelist\IpWhitelistProviderInterface
+    # ip_whitelist_provider: acme.custom_ip_whitelist_provider
+
+    # If you want to exchange/extend the TwoFactorToken class, which is used by the bundle, you can have a factory
+    # service providing your own implementation.
+    # Must implement Scheb\TwoFactorBundle\Security\TwoFactor\AuthenticationContextFactoryInterface
+    # two_factor_token_factory: acme.custom_two_factor_token_factory
+
+    # If you need custom conditions when to perform two-factor authentication.
+    # Must implement Scheb\TwoFactorBundle\Security\TwoFactor\Condition\TwoFactorConditionInterface
+    # two_factor_condition: acme.custom_two_factor_condition
+

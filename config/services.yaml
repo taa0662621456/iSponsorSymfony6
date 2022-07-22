@@ -21,6 +21,7 @@ parameters:
     #
     # Mailing
     app_email_sender: 'taa0662621456@gmail.com'
+    app_email_sender_name: '...iSponsor! Marketing America Corporation'
     app_notification_email_sender: 'taa0662621456@gmail.com'
     app_property: 'email'
     # Akismet
@@ -35,6 +36,7 @@ parameters:
     app_menu_images_directory: '%env(APP_MENU_IMAGE_DIRECTORY)%'
     app_project_images_directory: '%env(APP_PROJECT_IMAGE_DIRECTORY)%'
     app_product_images_directory: '%env(APP_PRODUCT_IMAGE_DIRECTORY)%'
+    app_event_images_directory: '%env(APP_EVENT_IMAGE_DIRECTORY)%'
     app_google_recaptcha: '%env(RECAPTCHA3_ENABLED)%'
     app_google_scope: '%env(RECAPTCHA_SCOPE)%'
     app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
@@ -49,6 +51,15 @@ parameters:
     router.request_context.host: smartresponsor.com
     router.request_context.scheme: https
     container.dumper.inline_factories: true
+    exceptions:
+        App\Exception\VendorNotFoundException: { code: 404, hidden: false }
+        App\Exception\CategoryNotFoundException: { code: 404, hidden: false }
+        App\Exception\ProjectNotFoundException: { code: 404, hidden: false }
+        App\Exception\ProductNotFoundException: { code: 404, hidden: false }
+        App\Exception\AttachmentNotFoundException: { code: 404, hidden: false }
+        App\Exception\EventNotFoundException: { code: 404, hidden: false }
+        App\Exception\TypeNotFoundException: { code: 404, hidden: false }
+
 services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -95,6 +106,10 @@ services:
 #            - '@doctrine'
 #        tags:
 #            - { name: "kernel.event_subscriber", priority: 100 }
+    api_zone_matcher:
+        class: Symfony\Component\HttpFoundation\RequestMatcher
+        arguments: [ '^/api/' ]
+
     hwi_oauth.user.provider.entity:
         class: App\Security\HWIOAuthAuthenticator
         arguments:
@@ -121,9 +136,27 @@ services:
         arguments: [ '%app_locale%' ]
     #         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
 
-    App\Service\SymfonyUploader:
+    App\Service\ObjectFileUploader:
         arguments:
-            $targetDirectory: '%app_project_images_directory'
+            string $projectTargetDirectory: '%app_project_images_directory%'
+            string $productTargetDirectory: '%app_product_images_directory%'
+            string $categoryTargetDirectory: '%app_category_images_directory%'
+            string $vendorTargetDirectory: '%app_vendor_images_directory%'
+            string $eventTargetDirectory: '%app_event_images_directory%'
+
+    App\Service\ExceptionMappingResolver:
+        arguments: ['%exceptions%']
+
+    App\EventListener\ApiExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 10 }
+
+
+    App\EventListener\ZoneMatcherListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 300 }
+        arguments:
+            - '@api_zone_matcher'
 
     App\:
         resource: '../src/'

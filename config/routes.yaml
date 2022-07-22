@@ -15,3 +15,16 @@ hwi_oauth_connect:
 hwi_oauth_login:
   resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
   prefix:   /login
+
+app.swagger_ui:
+    path: /api/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+app.swagger:
+    path: /api/doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger }
+
+api_login_check:
+    path: /api/login_check
