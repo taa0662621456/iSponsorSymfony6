@@ -32,6 +32,8 @@ Encore
         useBuiltIns: 'usage',
         corejs: 3
     })
+
+    .enableStimulusBridge('./asset/controllers.json')
     .enableSassLoader()
     //.enableTypeScriptLoader()
     //.enableIntegrityHashes(Encore.isProduction())
