@@ -7,8 +7,11 @@ use App\Entity\Product\Product;
 use App\Entity\Product\ProductEnGb;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProjectEnGb;
+use App\Entity\Project\ProjectFavourite;
 use App\Entity\Project\ProjectPlatformReward;
 use App\Entity\Project\ProjectTag;
+use App\Entity\Type\Type;
 use Doctrine\Common\Collections\ArrayCollection;
 
 interface ProjectInterface
@@ -17,9 +20,9 @@ interface ProjectInterface
 
     public function addProjectCategory(Project $projectCategory): void;
 
-    public function getProjectType(): ?string;
+    public function getProjectType(): Type;
 
-    public function setProjectType(string $projectType): void;
+    public function setProjectType(Type $projectType): void;
 
     public function addProjectTag(ProjectTag $tags): void;
 
@@ -46,22 +49,16 @@ interface ProjectInterface
 
     public function getProjectPlatformReward(): ArrayCollection;
 
-    public function getProjectEnGb(): ArrayCollection|ProductEnGb;
+//    public function getProjectEnGb(): ProductEnGb;
+//
+//    public function setProjectEnGb(ProjectEnGb $projectEnGb): void;
 
-    /**
-     * @param $projectEnGb
-     */
-    public function setProjectEnGb($projectEnGb): void;
+    public function getProjectFavourites(): ProjectFavourite;
 
-    public function getProjectFavourites(): int;
-
-    public function setProjectFavourites(int $projectFavourites): void;
+    public function setProjectFavourites(ProjectFavourite $projectFavourites): void;
 
     public function getProjectFeatured(): Featured;
 
-    /**
-     * @param $projectFeatured
-     */
-    public function setProjectFeatured($projectFeatured): void;
+    public function setProjectFeatured(Featured $projectFeatured): void;
 
 }
