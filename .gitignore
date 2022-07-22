@@ -5,7 +5,7 @@ package-lock.json
 composer.phar
 none
 /config/secrets/dev/dev.decrypt.private.php
-
+.php_cs.cache
 
 /config/secrets/prod/*
 /.idea
@@ -19,10 +19,6 @@ none
 /migrations
 /migrations/*
 /bootstrap-4.0.0/*
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
-
 #
 /.env.prod
 /.env.prod.php
@@ -61,3 +57,7 @@ yarn-error.log
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

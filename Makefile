@@ -1,4 +1,31 @@
-#TODO: изучить детали
+SHELL := /bin/bash
+ff:
+	# force fixtures
+	#symfony console cache:clear
+	#rm -rf ./app/cache/dev/* ; rm -rf ./app/cache/prod/*
+	symfony console doctrine:cache:clear-metadata &&
+	symfony console doctrine:cache:clear-query &&
+	symfony console doctrine:cache:clear-result
+	#symfony console doctrine:cache:warmup
+	#symfony console doctrine:schema:validate
+	#symfony console doctrine:schema:drop --force --env=dev
+	symfony console doctrine:schema:update --force --env=dev
+	#symfony console doctrine:migration:migrate
+	# symfony console doctrine:database:create --env=dev
+	# symfony console doctrine:migration:migrate -n --env=dev
+	symfony console doctrine:fixtures:load --purge-with-truncate
+
+.PHONY: forcedbdev
+
+linter:
+	# Linter
+	symfony console lint:container
+	symfony lint:yaml config/services.yaml --parse-tags
+	vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation
+	vendor/bin/phpstan analyse --memory-limit=1G
+.PHONY: linter
+
+# Docker
 up: docker-up
 down: docker-down
 restart: docker-down docker-up
