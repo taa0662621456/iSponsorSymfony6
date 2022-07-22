@@ -37,7 +37,7 @@ interface CategoryInterface
 
     public function getCategoryAttachments(): ArrayCollection|CategoryAttachment;
 
-    public function getCategoryFeatured(): Featured|ArrayCollection;
+    public function getCategoryFeatured(): Featured;
 
-	public function addCategoryFeatured($categoryFeatured): void;
+	public function addCategoryFeatured(Featured $categoryFeatured): void;
 }
