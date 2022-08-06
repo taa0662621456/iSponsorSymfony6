@@ -5,6 +5,7 @@ namespace App\Repository\Review;
 
 
 use App\Entity\Review\ReviewProject;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -73,7 +74,7 @@ class ProjectReviewRepository extends ServiceEntityRepository
             ->setParameters([
                 'state_rejected' => 'rejected',
                 'state_spam' => 'spam',
-                'date' => new \DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
+                'date' => new DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
             ]);
     }
 }

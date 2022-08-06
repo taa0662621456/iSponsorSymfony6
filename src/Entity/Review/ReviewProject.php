@@ -19,7 +19,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     )
  * ApiFilter(properties={"review": "exact"}) //TODO: Чтобы работала аннотация, необходимо создать таблицы базы
  */
-#[ORM\Table(name: 'project_reviews')]
+#[ORM\Table(name: 'project_review')]
 #[ORM\Index(columns: ['slug'], name: 'project_reviews_idx')]
 #[ORM\Entity(repositoryClass: ProjectReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]

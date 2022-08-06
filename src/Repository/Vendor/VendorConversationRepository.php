@@ -1,25 +1,25 @@
 <?php
 
 
-namespace App\Repository\Message;
+namespace App\Repository\Vendor;
 
-use App\Entity\Conversation;
+use App\Entity\Vendor\VendorConversation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use function Doctrine\ORM\QueryBuilder;
 
 /**
- * @method Conversation|null find($id, $lockMode = null, $lockVersion = null)
- * @method Conversation|null findOneBy(array $criteria, array $orderBy = null)
- * @method Conversation[]    findAll()
- * @method Conversation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method VendorConversation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VendorConversation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VendorConversation[]    findAll()
+ * @method VendorConversation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MessageConversationRepository extends ServiceEntityRepository
+class VendorConversationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Conversation::class);
+        parent::__construct($registry, VendorConversation::class);
     }
 
     public function findConversationByParticipants(?int $otherUserId, ?int $currentUserId)
@@ -69,6 +69,9 @@ class MessageConversationRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function checkIfUserIsParticipant(int $conversationId, int $userId)
     {
         $qb = $this->createQueryBuilder('c');

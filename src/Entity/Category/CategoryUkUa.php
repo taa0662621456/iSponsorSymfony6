@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 
-#[ORM\Table(name: 'categories_uk_ua')]
+#[ORM\Table(name: 'category_uk_ua')]
 #[ORM\Index(columns: ['slug'], name: 'category_uk_ua_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]

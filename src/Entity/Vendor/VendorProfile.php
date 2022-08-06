@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ApiResource()
  *
  */
-#[ORM\Table(name: 'vendors_profile')]
+#[ORM\Table(name: 'vendor_profile')]
 #[ORM\Index(columns: ['slug', 'vendor_phone'], name: 'vendor_profile_idx')]
 #[ORM\UniqueConstraint(name: 'vendor_profile_idx', columns: ['slug', 'vendor_phone'])]
 //#[UniqueEntity(errorPath: 'vendor_phone', message: 'phone.already.use')]

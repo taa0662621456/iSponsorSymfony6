@@ -5,9 +5,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Review\ReviewProduct;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ReviewProductFixtures extends Fixture
+class ReviewProductFixtures extends Fixture implements DependentFixtureInterface
 {
 
     /**
@@ -32,10 +33,18 @@ class ReviewProductFixtures extends Fixture
         }
     }
 
+    public function getDependencies (): array
+    {
+        return [
+            VendorFixtures::class,
+            AttachmentFixtures::class,
+            ReviewProjectFixtures::class,
+        ];
+    }
 
     public function getOrder(): int
     {
-        return 100;
+        return 4;
     }
 
     public static function getGroups(): array

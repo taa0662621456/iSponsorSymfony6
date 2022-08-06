@@ -8,15 +8,14 @@ use App\Repository\Order\OrderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Table(name: 'orders_histories')]
-#[ORM\Index(columns: ['slug'], name: 'order_history_idx')]
+#[ORM\Table(name: 'order_logs')]
+#[ORM\Index(columns: ['slug'], name: 'order_log_idx')]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class OrderHistory
+class OrderLog
 {
 	use BaseTrait;
 	#[ORM\ManyToOne(targetEntity: OrderStatus::class)]
-	#[ORM\JoinColumn(name: 'order_status_id', referencedColumnName: 'id')]
 	private OrderStatus $orderStatusCode;
 
 	#[ORM\Column(name: 'customer_notified', type: 'boolean', nullable: false)]

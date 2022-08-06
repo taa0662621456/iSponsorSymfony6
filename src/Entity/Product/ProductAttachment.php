@@ -8,7 +8,7 @@ use App\Entity\BaseTrait;
 use App\Repository\Product\ProductAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'products_attachments')]
+#[ORM\Table(name: 'product_attachment')]
 #[ORM\Index(columns: ['slug'], name: 'product_attachment_idx')]
 #[ORM\Entity(repositoryClass: ProductAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -16,19 +16,19 @@ class ProductAttachment
 {
 	use BaseTrait;
 	use AttachmentTrait;
-	#[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachments')]
-	#[ORM\JoinColumn(name: 'productAttachments_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private Product $productAttachments;
+	#[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachment')]
+	#[ORM\JoinColumn(onDelete: 'CASCADE')]
+	private Product $productAttachment;
 
     /**
      * @return Product
      */
-	public function getProductAttachments(): Product
+	public function getProductAttachment(): Product
     {
-		return $this->productAttachments;
+		return $this->productAttachment;
 	}
-	public function setProductAttachments(Product $productAttachments): void
+	public function setProductAttachment(Product $productAttachment): void
 	{
-		$this->productAttachments = $productAttachments;
+		$this->productAttachment = $productAttachment;
 	}
 }

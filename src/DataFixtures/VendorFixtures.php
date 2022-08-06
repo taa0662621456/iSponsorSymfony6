@@ -20,49 +20,95 @@ class VendorFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
 	{
-        $rand = random_int(0, 999999);
-        $password = $rand;
-        //$password = md5($rand);
+        $dir = dirname('public\\upload\\vendor\\image\\.');
+        $avatarArray = scandir($dir);
 
-        $vendor = new Vendor();
-        $vendorSecurity = new VendorSecurity();
-        $vendorIban = new VendorIban();
-        $vendorEnGb = new VendorEnGb();
-        $vendorDocument = new VendorDocument();
-        $vendorMedia = new VendorMedia();
+        foreach ($avatarArray as $avatar){
+            if (!is_dir($avatar)){
+                $avatar = 'public/upload/vendor/image/' . $avatar;
+                unlink($avatar);
+            }
+        }
+        for ($p = 1; $p <= 1; $p++) {
 
-        $vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
-        $vendorSecurity->setPassword($password);
+            $rand = random_int(1000000, 1000000000);
+            $requestUrl = 'https://www.thispersondoesnotexist.com/image?' . $rand;
 
-        $vendorEnGb->setVendorZip($rand);
-        $vendorEnGb->setFirstTitle('VendorFT' . $rand);
-        $vendorEnGb->setMiddleTitle('VendorMT' . $rand);
-        $vendorEnGb->setLastTitle('VendorLT' . $rand);
+            $filename = $rand . '.jpg';
+            $file = 'public\\upload\\vendor\\image\\' . $rand . '.jpg';
 
-        $vendorIban->setIban('0000000000000000');
+            $fp = fopen($file, 'w+');
+            $ch = curl_init($requestUrl);
 
-        $vendorDocument->setFileName('cover.jpg');
-        $vendorDocument->setFilePath('/');
-        $vendorDocument->setAttachment($vendor);
+            curl_setopt($ch, CURLOPT_FILE, $fp);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 6000);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
+            curl_setopt($ch, CURLOPT_VERBOSE, false);
+            $raw = curl_exec($ch);
+            curl_close($ch);
 
-        $vendorMedia->setFileName('cover.jpg');
-        $vendorMedia->setFilePath('/');
-        $vendorMedia->setAttachment($vendor);
+            fwrite($fp, $raw);
+            fclose($fp);
 
-		$vendor->setVendorEnGb($vendorEnGb);
-		$vendor->setVendorSecurity($vendorSecurity);
-		$vendor->setVendorIban($vendorIban);
 
-		$manager->persist($vendorDocument);
-		$manager->persist($vendorMedia);
-		$manager->persist($vendorIban);
-		$manager->persist($vendorEnGb);
-		$manager->persist($vendorSecurity);
-		$manager->persist($vendor);
-		$manager->flush();
+            $password = $rand;
+            $phone =
+                random_int(10, 99) .
+                random_int(100, 999) .
+                random_int(100, 999) .
+                random_int(10, 99) .
+                random_int(10, 99);
+
+            //$password = md5($rand);
+
+            $vendor = new Vendor();
+            $vendorSecurity = new VendorSecurity();
+            $vendorIban = new VendorIban();
+            $vendorEnGb = new VendorEnGb();
+            $vendorDocument = new VendorDocument();
+            $vendorMedia = new VendorMedia();
+
+            $vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
+            $vendorSecurity->setPassword($password);
+            $vendorSecurity->setPhone($phone);
+
+            $vendorEnGb->setVendorZip($rand);
+            $vendorEnGb->setFirstTitle('VendorFT' . $rand);
+            $vendorEnGb->setMiddleTitle('VendorMT' . $rand);
+            $vendorEnGb->setLastTitle('VendorLT' . $rand);
+
+            $vendorIban->setIban('0000000000000000');
+
+            $vendorDocument->setFileName('cover.jpg');
+            $vendorDocument->setFilePath('/');
+//            $vendorDocument->setAttachment($vendor);
+
+            $vendorMedia->setFileName($filename);
+            $vendorMedia->setFilePath('/');
+//            $vendorMedia->setAttachment($vendor);
+
+            $vendor->setVendorEnGb($vendorEnGb);
+            $vendor->setVendorSecurity($vendorSecurity);
+            $vendor->setVendorIban($vendorIban);
+
+            $manager->persist($vendorDocument);
+            $manager->persist($vendorMedia);
+            $manager->persist($vendorIban);
+            $manager->persist($vendorEnGb);
+            $manager->persist($vendorSecurity);
+            $manager->persist($vendor);
+            $manager->flush();
+        }
 	}
 
-	public function getOrder(): int
+    public function getDependencies (): array
+    {
+        return [
+        ];
+    }
+
+    public function getOrder(): int
     {
 		return 1;
 	}
@@ -72,7 +118,7 @@ class VendorFixtures extends Fixture
 	 */
 	public static function getGroups(): array
 	{
-		return ['vendors'];
+		return ['vendor'];
 	}
 }
 

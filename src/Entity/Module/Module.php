@@ -6,7 +6,7 @@ use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Table(name: 'modules')]
+#[ORM\Table(name: 'module')]
 #[ORM\Entity]
 class Module
 {

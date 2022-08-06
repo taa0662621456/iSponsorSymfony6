@@ -6,6 +6,7 @@ namespace App\Repository\Vendor;
 use App\Entity\Vendor\VendorFavourite;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * VendorsFavouritesRepository
@@ -16,13 +17,14 @@ use Doctrine\ORM\NonUniqueResultException;
 class VendorFavouriteRepository extends EntityRepository
 {
     /**
-	 * @param VendorFavourite $vendor
-	 * @param integer           $vendorId
-	 *
-     * @return bool
+     * @param VendorFavourite $vendor
+     * @param integer $vendorId
+     *
+     * @return bool|null
      * @throws NonUniqueResultException
+     * @throws NoResultException
      */
-    public function checkIsLiked($vendor, $vendorId): ?bool
+    public function checkIsLiked(VendorFavourite $vendor, int $vendorId): ?bool
     {
         $qb = $this->getEntityManager()
             ->createQueryBuilder()

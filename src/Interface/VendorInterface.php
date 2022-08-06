@@ -3,7 +3,7 @@
 namespace App\Interface;
 
 use App\Entity\Featured\Featured;
-use App\Entity\Order\Order;
+use App\Entity\Order\OrderStorage;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorDocument;
 use App\Entity\Vendor\VendorEnGb;
@@ -49,9 +49,9 @@ interface VendorInterface
 
     public function getOrders(): ArrayCollection;
 
-    public function addOrder(Order $order): Vendor;
+    public function addOrder(OrderStorage $order): Vendor;
 
-    public function removeOrder(Order $order): void;
+    public function removeOrder(OrderStorage $order): void;
 
     public function getVendorDocumentAttachments(): ArrayCollection;
 

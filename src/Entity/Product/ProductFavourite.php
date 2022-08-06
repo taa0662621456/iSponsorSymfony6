@@ -7,24 +7,23 @@ use App\Entity\BaseTrait;
 use App\Repository\Product\ProductFavouriteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'products_favourites')]
+#[ORM\Table(name: 'product_favourite')]
 #[ORM\Index(columns: ['slug'], name: 'product_favourite_idx')]
 #[ORM\Entity(repositoryClass: ProductFavouriteRepository::class)]
 class ProductFavourite
 {
 	use BaseTrait;
 
-	#[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'productFavourites')]
-	#[ORM\JoinColumn(name: 'projectFavourites_id', referencedColumnName: 'id')]
-	private int $productFavourites;
+	#[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'productFavourite')]
+	private Product $productFavourite;
 
-	public function getProductFavourites(): int
+	public function getProductFavourite(): Product
 	{
-		return $this->productFavourites;
+		return $this->productFavourite;
 	}
 
-	public function setProductFavourites(int $productFavourites): void
+	public function setProductFavourite(Product $productFavourite): void
 	{
-		$this->productFavourites = $productFavourites;
+		$this->productFavourite = $productFavourite;
 	}
 }

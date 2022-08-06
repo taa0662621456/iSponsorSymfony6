@@ -5,7 +5,7 @@ namespace App\Entity\Event;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'events')]
+#[ORM\Table(name: 'event')]
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
 #[ORM\Index(columns: ['type'], name: 'event_idx_type')]
 #[ORM\Index(columns: ['published'], name: 'event_idx_published')]

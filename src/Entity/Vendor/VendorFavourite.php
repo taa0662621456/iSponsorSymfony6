@@ -5,23 +5,42 @@ namespace App\Entity\Vendor;
 
 use App\Entity\BaseTrait;
 use App\Repository\Vendor\VendorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'vendors_favourites')]
+#[ORM\Table(name: 'vendor_favourite')]
 #[ORM\Index(columns: ['slug'], name: 'vendor_favourite_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
 class VendorFavourite
 {
 	use BaseTrait;
 	#[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorFavourite')]
-	#[ORM\JoinColumn(name: 'vendorFavourites_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-	private int $vendorFavourites;
-	public function getVendorFavourites(): int
+	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+	private Collection $vendorFavourite;
+
+    public function __construct()
+    {
+        $this->vendorFavourite = new ArrayCollection();
+    }
+
+    # ManyToMany
+	public function getVendorFavourite(): Collection
 	{
-		return $this->vendorFavourites;
+		return $this->vendorFavourite;
 	}
-	public function setVendorFavourites(int $vendorFavourites): void
+	public function addVendorFavourite(Vendor $vendorFavourite): self
 	{
-		$this->vendorFavourites = $vendorFavourites;
+        if (!$this->vendorFavourite->contains($vendorFavourite)){
+            $this->vendorFavourite[] = $vendorFavourite;
+        }
+        return $this;
 	}
+    public function removeVendorFavourite(Vendor $vendorFavourite): self
+    {
+        if ($this->vendorFavourite->contains($vendorFavourite)){
+            $this->vendorFavourite->removeElement($vendorFavourite);
+        }
+        return $this;
+    }
 }

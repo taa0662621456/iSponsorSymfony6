@@ -1,15 +1,21 @@
 <?php
+declare(strict_types=1);
 
 namespace App\DataFixtures;
 
+use App\Entity\Attachment\Attachment;
 use App\Entity\Category\Category;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectAttachment;
 use App\Entity\Project\ProjectEnGb;
+use App\Entity\Project\ProjectTag;
+use App\Entity\Project\ProjectType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
+use JetBrains\PhpStorm\NoReturn;
 
 class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -17,38 +23,82 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @throws Exception
      */
+    #[NoReturn]
     public function load(ObjectManager $manager)
 	{
-		$categoriesRepository = $manager->getRepository(Category::class);
+        $projectCollection = new ArrayCollection();
+        $projectAttachmentCollection = new ArrayCollection();
+        $projectTagCollection = new ArrayCollection();
 
-		$categories = $categoriesRepository->findAll();
+        $categoryRepository = $manager->getRepository(Category::class)->findAll();
+        $projectAttachmentRepository = $manager->getRepository(ProjectAttachment::class)->findAll();
+        $projectTypeRepository = $manager->getRepository(ProjectType::class)->findAll();
+        $projectTagRepository = $manager->getRepository(ProjectTag::class)->findAll();
 
-		for ($p = 1; $p <= 26; $p++) {
 
-			$projects = new Project();
-			$projectEnGb = new ProjectEnGb();
-			$projectAttachments = new ProjectAttachment();
-			$projectCategory = new Category();
+        for ($p = 1; $p <= 10; $p++) {
 
-            $projects->addProjectCategory($categories[array_rand($categories)]);
-            $projects->setProjectType(random_int(1, 4));
+            $project = new Project();
+            $projectType = new ProjectType();
+            $projectEnGb = new ProjectEnGb();
+            $projectAttachment = new ProjectAttachment();
 
-            $projects->setProjectEnGb($projectEnGb);
+            if ($manager->getRepository(Project::class)->findAll()){
+            dd();
+                $projectRepository = $manager->getRepository(Project::class)->findAll();
 
-            $projectEnGb->setProjectTitle('Project #' . $p);
-            $projectEnGb->setFirstTitle('ProjectFT #' . $p);
-            $projectEnGb->setMiddleTitle('ProjectMT #' . $p);
-            $projectEnGb->setLastTitle('ProjectLT #' . $p);
+                foreach ($projectRepository as $item){
+                    if (!$projectCollection->contains($item)){
+                        $projectCollection->add($item);
+                        $project = $projectCollection[array_rand($projectRepository)];
+                    }
+                }
 
-            $projectAttachments->setFileName('cover.jpg');
-            $projectAttachments->setFilePath('/');
+            }
 
-            $projectAttachments->setProjectAttachments($projects);
+            $tag = $projectTagRepository[array_rand($projectTagRepository)];
 
-            $manager->persist($projectCategory);
-            $manager->persist($projectAttachments);
+            if (!$projectTagCollection->contains($tag)){
+                $projectTagCollection->add($tag);
+            }
+            $tag = $projectTagCollection->current();
+
+            $attachment = $projectAttachmentRepository[array_rand($projectAttachmentRepository)];
+
+            if (!$projectAttachmentCollection->contains($attachment)){
+                $projectAttachmentCollection->add($attachment);
+            }
+
+            $attachment = $projectAttachmentCollection->current();
+
+            #
+            $projectType->setFirstTitle('ProjectTypeFT #_' . $p);
+            $projectType->setMiddleTitle('ProjectTypeMT #_' . $p);
+            $projectType->setLastTitle('ProjectTypeLT #_' . $p);
+            #
+            //$project->setProjectCategory($categoryRepository[array_rand($categoryRepository)]);
+            $project->addProjectAttachment($attachment);
+            $project->addProjectTag($tag);
+
+            $project->setProjectEnGb($projectEnGb);
+            $project->setProjectType($projectTypeRepository[array_rand($projectTypeRepository)]);
+            #
+            $projectEnGb->setProjectTitle('Project #_' . $p);
+            $projectEnGb->setFirstTitle('ProjectFT #_' . $p);
+            $projectEnGb->setMiddleTitle('ProjectMT #_' . $p);
+            $projectEnGb->setLastTitle('ProjectLT #_' . $p);
+            #
+            $projectAttachment->setFileName('cover.jpg');
+            $projectAttachment->setFilePath('/');
+//            $projectAttachment->setProjectAttachment($project);
+            //dd($projectAttachmentArrayCollection);
+            //$projectAttachment->addProjectAttachment($projectAttachmentArrayCollection);
+            #
+            $manager->persist($projectAttachment);
+            $manager->persist($projectType);
             $manager->persist($projectEnGb);
-            $manager->persist($projects);
+            $manager->persist($project);
+            dd();
             $manager->flush();
 
 		}
@@ -56,14 +106,22 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
 	public function getDependencies (): array
     {
-		return array (
-			CategoryFixtures::class,
-		);
+		return [
+            VendorFixtures::class,
+            AttachmentFixtures::class,
+            ReviewProjectFixtures::class,
+            ReviewProductFixtures::class,
+            CategoryAttachmentFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectAttachmentFixtures::class,
+            ProjectTagFixtures::class,
+            OrderStatusFixtures::class,
+        ];
 	}
 
 	public function getOrder(): int
     {
-		return 3;
+		return 10;
 	}
 
 	/**

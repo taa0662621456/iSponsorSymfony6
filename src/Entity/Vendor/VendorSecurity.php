@@ -5,7 +5,9 @@ namespace App\Entity\Vendor;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\OAuthTrait;
 use App\Entity\BaseTrait;
-
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
@@ -26,17 +28,15 @@ use Symfony\Component\Validator\Constraints\Length;
  * @ApiResource()
  * TODO: https://symfonycasts.com/screencast/api-platform/user-resource#play
  * TODO: не реализовал один из методов интерфейса
- *
- * @method string getUserIdentifier()
  */
-#[ORM\Table(name: 'vendors_security')]
+#[ORM\Table(name: 'vendor_security')]
 #[ORM\Index(columns: ['slug', 'email', 'phone'], name: 'vendor_security_idx')]
 #[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
 //#[UniqueEntity(errorPath: 'email', message: 'email.already.use')]
 //#[UniqueEntity(errorPath: 'phone', message: 'phone.already.use')]
 #[ORM\Entity(repositoryClass: VendorSecurityRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\UserInterface, \Symfony\Component\Security\Core\User\UserInterface
+class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
 	use BaseTrait;
 	use OAuthTrait;
@@ -51,7 +51,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[Assert\NotBlank(message: 'vendor.message.error.phone')]
 	#[Length(min: 9, minMessage: 'vendor.security.too.short.phone')]
 	#[Length(max: 13, maxMessage: 'vendor.security.too.long.phone')]
-	private string $phone = '380662621456';
+	private string $phone;
 
 	#[ORM\Column(name: 'username', type: 'string', length: 255)]
 	#[Assert\Length(min: 3, minMessage: 'vendor.security.too.short.username')]
@@ -94,11 +94,11 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets'])]
 	private ?int $resetCount = 0;
 
-	#[ORM\Column(name: 'otp_key', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'Two factor'])]
-	private string $otpKey = '';
+	#[ORM\Column(name: 'totp_key', type: 'string', nullable: true, options: ['comment' => 'Two factor'])]
+	private string $totpKey;
 
-	#[ORM\Column(name: 'otep', type: 'string', nullable: false, options: ['default' => '', 'comment' => 'One time emergency'])]
-	private string $otep = '';
+	#[ORM\Column(name: 'otep', type: 'string', nullable: true, options: ['comment' => 'One time emergency'])]
+	private string $otep;
 
 	#[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['comment' => 'Require user to reset'])]
 	private int|bool $requireReset = 0;
@@ -106,9 +106,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'api_key', type: 'string', nullable: false, options: ['comment' => 'API key'])]
 	private string $apiKey = 'api_key';
 
-	#[ORM\OneToOne(inversedBy: 'vendorSecurity', targetEntity: \App\Entity\Vendor\Vendor::class)]
-	#[ORM\JoinColumn(name: 'vendorSecurity_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private ?Vendor $vendorSecurity = null;
+	#[ORM\OneToOne(inversedBy: 'vendorSecurity', targetEntity: Vendor::class)]
+	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+	private Vendor $vendorSecurity;
 
 	#[ORM\Column(name: 'salt', type: 'string')]
 	private string $salt = '0';
@@ -292,13 +292,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
      $this->plainPassword = '';
      return $this;
     }
-	/**
-	 * String representation of object
-	 *
-	 * @link  https://php.net/manual/en/serializable.serialize.php
-	 * @return string the string representation of the object or null
-	 * @since 5.1.0
-	 */
+    #
 	public function serialize(): string
     {
         return serialize([
@@ -309,15 +303,6 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
         ]);
 
     }
-	/**
-	 * Constructs the object
-	 *
-	 * @link  https://php.net/manual/en/serializable.unserialize.php
-	 *
-	 * @param string $data <p>
-	 *
-	 * @since 5.1.0
-	 */
 	public function unserialize(string $data): void
     {
         [
@@ -326,17 +311,16 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
             $this->password
         ] = unserialize($data, ['allowed_class' => false]);
     }
+    # OneToOne
 	public function getVendorSecurity(): Vendor
     {
         return $this->vendorSecurity;
     }
-	/**
-	 * @param $vendorSecurity
-	 */
 	public function setVendorSecurity($vendorSecurity): self
     {
         $this->vendorSecurity = $vendorSecurity;
     }
+    #
     public function getSalt()
     {
      // TODO: Implement getSalt() method.
@@ -354,6 +338,51 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     public function __unserialize(array $data): void
     {
         // TODO: Implement __unserialize() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function isTotpAuthenticationEnabled(): bool
+    {
+        return $this->totpKey ? true : false;
+    }
+
+    public function getTotpAuthenticationUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getTotpAuthenticationConfiguration(): TotpConfigurationInterface
+    {
+        // You could persist the other configuration options in the user entity to make it individual per user.
+        return new TotpConfiguration($this->totpKey, TotpConfiguration::ALGORITHM_SHA1, 20, 8);
+    }
+
+    public function isEmailAuthEnabled(): bool
+    {
+        return true; // This can be a persisted field to switch email code authentication on/off
+    }
+
+    public function getEmailAuthRecipient(): string
+    {
+        return $this->email;
+    }
+
+    public function getEmailAuthCode(): string
+    {
+        if (null === $this->otep) {
+            throw new \LogicException('The email authentication code was not set');
+        }
+
+        return $this->otep;
+    }
+
+    public function setEmailAuthCode(string $otep): void
+    {
+        $this->otep = $otep;
     }
 }
 

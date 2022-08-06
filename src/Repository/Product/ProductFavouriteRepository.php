@@ -7,6 +7,7 @@ use App\Entity\Product\ProductFavourite;
 use App\Entity\Vendor\VendorFavourite;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * ProductsFavouritesRepository
@@ -17,13 +18,12 @@ use Doctrine\ORM\NonUniqueResultException;
 class ProductFavouriteRepository extends EntityRepository
 {
     /**
-	 * @param VendorFavourite $vendor
-	 * @param integer           $productId
-	 *
-     * @return bool
-     * @throws NonUniqueResultException
+     * @param VendorFavourite $vendor
+     * @param integer $productId
+     *
+     * @return bool|null
      */
-    public function checkIsLiked($vendor, $productId): ?bool
+    public function checkIsLiked(VendorFavourite $vendor, int $productId): ?bool
     {
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
@@ -38,8 +38,11 @@ class ProductFavouriteRepository extends EntityRepository
                 'vendor' => $vendor
             ]);
 
-        if ($qb->getQuery()->getSingleScalarResult()) {
-            return true;
+        try {
+            if ($qb->getQuery()->getSingleScalarResult()) {
+                return true;
+            }
+        } catch (NoResultException|NonUniqueResultException $e) {
         }
 
         return false;

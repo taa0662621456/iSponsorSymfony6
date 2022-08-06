@@ -4,6 +4,10 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\Vendor;
+use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorFavourite;
+use App\Entity\Vendor\VendorIban;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,10 +25,12 @@ class VendorRepository extends ServiceEntityRepository
     }
 
     //TODO: непойму, зачем писать дополнительные методы, если есть аналогичные встроенные в фреймворк
+
     /**
      * @param $vendorId
+     * @return VendorIban|Vendor|VendorDocument|VendorEnGb|VendorFavourite|null
      */
-    public function findActiveVendorById($vendorId): \App\Entity\Vendor\VendorIban|Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|null
+    public function findActiveVendorById($vendorId): VendorIban|Vendor|VendorDocument|VendorEnGb|VendorFavourite|null
     {
         return $this->findOneBy([
             'id' => (int) $vendorId,
@@ -32,7 +38,7 @@ class VendorRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function findActiveVendorByApiToken($vendorId): \App\Entity\Vendor\VendorIban|Vendor|\App\Entity\Vendor\VendorDocument|\App\Entity\Vendor\VendorEnGb|\App\Entity\Vendor\VendorFavourite|null
+    public function findActiveVendorByApiToken($vendorId): VendorIban|Vendor|VendorDocument|VendorEnGb|VendorFavourite|null
     {
         return $this->findOneBy([
             'apiToken' => $vendorId,

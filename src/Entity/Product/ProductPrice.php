@@ -21,7 +21,7 @@ class ProductPrice
 	#[ORM\Column(name: 'shopper_group_id', type: 'integer', nullable: false, options: ['default' => 0])]
 	private int $shopperGroupId = 0;
 	#[ORM\OneToOne(inversedBy: 'productPrice', targetEntity: Product::class)]
-	#[ORM\JoinColumn(name: 'productPrice_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+	#[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
 	private Product|int $productPrice = 0;
 
 	#[ORM\Column(name: 'override')]

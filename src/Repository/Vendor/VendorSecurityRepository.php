@@ -25,10 +25,10 @@ class VendorSecurityRepository extends ServiceEntityRepository
     }
 
     /**
-				 * Used to upgrade (rehash) the user's password automatically over time.
-				 * @throws ORMException
-				 * @throws OptimisticLockException|\Doctrine\ORM\ORMException
-				 */
+     * Used to upgrade (rehash) the user's password automatically over time.
+     * @param UserInterface $user
+     * @param string $newEncodedPassword
+     */
 				public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof VendorSecurity) {
