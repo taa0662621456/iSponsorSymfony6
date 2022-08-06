@@ -9,7 +9,7 @@ use App\Repository\Review\ProductReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Table(name: 'product_reviews')]
+#[ORM\Table(name: 'product_review')]
 #[ORM\Index(columns: ['slug'], name: 'product_reviews_idx')]
 #[ORM\Entity(repositoryClass: ProductReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]

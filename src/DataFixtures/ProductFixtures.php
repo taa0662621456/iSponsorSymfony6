@@ -29,7 +29,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
             $productAttachments->setFileName('cover.jpg');
             $productAttachments->setFilePath('/');
-            $productAttachments->setProductAttachments($products);
+            $productAttachments->setProductAttachment($products);
 
 
             $products->setProductEnGb($productEnGb);
@@ -45,16 +45,22 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 	public function getDependencies(): array
     {
 		return [
-			VendorFixtures::class,
-			CategoryFixtures::class,
-			ProjectFixtures::class,
-			OrderStatusFixtures::class,
+            VendorFixtures::class,
+            AttachmentFixtures::class,
+            ReviewProjectFixtures::class,
+            ReviewProductFixtures::class,
+            CategoryAttachmentFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectAttachmentFixtures::class,
+            ProjectTagFixtures::class,
+            OrderStatusFixtures::class,
+            ProjectFixtures::class,
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 4;
+		return 11;
 	}
 
 	/**

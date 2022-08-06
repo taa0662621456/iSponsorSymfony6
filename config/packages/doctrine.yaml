@@ -36,6 +36,7 @@ doctrine:
             App\Interface\CategoryInterface: App\Entity\Category\Category
             App\Interface\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
             App\Interface\ProjectInterface: App\Entity\Project\Project
+            App\Interface\ProjectTypeInterface: App\Entity\Project\ProjectType
             App\Interface\FeaturedInterface: App\Entity\Featured\Featured
             App\Interface\ReviewProductInterface: App\Entity\Review\ReviewProduct
             App\Interface\ReviewProjectInterface: App\Entity\Review\ReviewProject

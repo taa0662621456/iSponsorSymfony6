@@ -6,7 +6,7 @@ use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Table(name: 'sms_code_send_storage')]
+#[ORM\Table(name: 'vendor_sms_code_send_storage')]
 #[ORM\Index(columns: ['phone'], name: 'sms_code_send_storage_idx')]
 class VendorCodeStorage
 {

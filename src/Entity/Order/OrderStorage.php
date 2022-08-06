@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
@@ -9,31 +8,32 @@ use App\Entity\Vendor\Vendor;
 use App\Repository\Order\OrderRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 
 
-#[ORM\Table(name: 'orders')]
+#[ORM\Table(name: 'order_storage')]
 #[ORM\Index(columns: ['slug'], name: 'order_idx')]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Order
+class OrderStorage
 {
 	use BaseTrait;
 	public const NUM_ITEMS = 10;
 
-	#[ORM\Column(name: 'order_number')]
+	#[ORM\Column(name: 'order_number', nullable: true)]
 	private ?string $orderNumber = null;
 
-	#[ORM\Column(name: 'order_customer_number')]
+	#[ORM\Column(name: 'order_customer_number', nullable: true)]
 	private ?string $orderCustomerNumber = null;
 
-	#[ORM\Column(name: 'order_pass')]
+	#[ORM\Column(name: 'order_pass', nullable: true)]
 	private ?string $orderPass = null;
 
-	#[ORM\Column(name: 'order_create_invoice_pass')]
+	#[ORM\Column(name: 'order_create_invoice_pass', nullable: true)]
 	private ?string $orderCreateInvoicePass = null;
 
 	#[ORM\Column(name: 'order_total', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
@@ -45,7 +45,7 @@ class Order
 	#[ORM\Column(name: 'order_bill_tax_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderBillTaxAmount = '0.00000';
 
-	#[ORM\Column(name: 'order_bill_tax')]
+	#[ORM\Column(name: 'order_bill_tax', nullable: true)]
 	private ?string $orderBillTax = null;
 
 	#[ORM\Column(name: 'order_bill_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
@@ -54,58 +54,58 @@ class Order
 	#[ORM\Column(name: 'order_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderBillDiscount = '0.00000';
 
-	#[ORM\Column(name: 'order_subtotal')]
+	#[ORM\Column(name: 'order_subtotal', nullable: true)]
 	private ?string $orderSubtotal = null;
 
-	#[ORM\Column(name: 'order_tax')]
+	#[ORM\Column(name: 'order_tax', nullable: true)]
 	private ?string $orderTax = null;
 
-	#[ORM\Column(name: 'order_shipment')]
+	#[ORM\Column(name: 'order_shipment', nullable: true)]
 	private ?string $orderShipment = null;
 
-	#[ORM\Column(name: 'order_shipment_tax')]
+	#[ORM\Column(name: 'order_shipment_tax', nullable: true)]
 	private ?string $orderShipmentTax = null;
 
-	#[ORM\Column(name: 'order_payment')]
+	#[ORM\Column(name: 'order_payment', nullable: true)]
 	private ?string $orderPayment = null;
 
-	#[ORM\Column(name: 'order_payment_tax')]
+	#[ORM\Column(name: 'order_payment_tax', nullable: true)]
 	private ?string $orderPaymentTax = null;
 
 	#[ORM\Column(name: 'order_coupon_discount', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
 	private string $orderCouponDiscount = '0.00';
 
-	#[ORM\Column(name: 'order_coupon_code')]
+	#[ORM\Column(name: 'order_coupon_code', nullable: true)]
 	private ?string $orderCouponCode = null;
 
 	#[ORM\Column(name: 'order_discount', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
 	private string $orderDiscount = '0.00';
 
-	#[ORM\Column(name: 'order_currency')]
+	#[ORM\Column(name: 'order_currency', nullable: true)]
 	private ?int $orderCurrency = null;
 
 	#[ORM\Column(name: 'order_currency_rate', type: 'decimal', nullable: false, options: ['default' => '1.000000'])]
 	private string $orderCurrencyRate = '1.000000';
 
-	#[ORM\Column(name: 'order_shopper_groups', options: ['unsigned' => true])]
+	#[ORM\Column(name: 'order_shopper_groups', nullable: true, options: ['unsigned' => true])]
 	private ?int $orderShopperGroups = null;
 
-	#[ORM\Column(name: 'order_payment_currency_id')]
+	#[ORM\Column(name: 'order_payment_currency_id', nullable: true)]
 	private ?int $orderPaymentCurrencyId = null;
 
 	#[ORM\Column(name: 'order_payment_currency_rate', type: 'decimal', nullable: false, options: ['default' => '1.000000'])]
 	private string $orderPaymentCurrencyRate = '1.000000';
 
-	#[ORM\Column(name: 'order_payment_method_id')]
+	#[ORM\Column(name: 'order_payment_method_id', nullable: true)]
 	private ?int $orderPaymentMethodId = null;
 
-	#[ORM\Column(name: 'order_shipment_method_id')]
+	#[ORM\Column(name: 'order_shipment_method_id', nullable: true)]
 	private ?int $orderShipmentMethodId = null;
 
 	#[ORM\Column(name: 'order_delivery_date')]
 	private ?string $orderDeliveryDate;
 
-	#[ORM\Column(name: 'order_language')]
+	#[ORM\Column(name: 'order_language', nullable: true)]
 	private ?string $orderLanguage = null;
 
 	#[ORM\Column(name: 'order_ip_address')]
@@ -114,27 +114,32 @@ class Order
 	#[ORM\Column(name: 'order_st_same_as_bt', type: 'boolean', nullable: false)]
 	private bool $orderStSameAsBt = false;
 
-	#[ORM\Column(name: 'order_hash')]
+	#[ORM\Column(name: 'order_hash', nullable: true)]
 	private ?string $orderHash = null;
-	#[ORM\OneToMany(mappedBy: 'items', targetEntity: OrderItem::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-	#[Assert\Type(type: 'App\Entity\Order\Orders')]
+
+	#[ORM\OneToMany(mappedBy: 'orderItem', targetEntity: OrderItem::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+	#[Assert\Type(type: 'App\Entity\Order\OrderStorage')]
 	#[Assert\Valid]
-	private ArrayCollection $orderItems;
-	#[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orders')]
-	#[ORM\JoinColumn(name: 'orderStatus_id', referencedColumnName: 'id')]
+	private Collection $orderItem;
+
+	#[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orderStatus')]
 	private OrderStatus $orderStatus;
-	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrders')]
-	private Vendor $orderCreatedAt;
+
+	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrder')]
+	private Vendor $orderVendor;
+    #
 	public function __construct()
 	{
         $t = new DateTime();
 		$this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
-		$this->orderItems = new ArrayCollection();
+		$this->orderItem = new ArrayCollection();
 	}
+    #
 	public function getOrderId(): int
 	{
 		return $this->id;
 	}
+    #
 	public function getOrderNumber(): ?string
 	{
 		return $this->orderNumber;
@@ -143,6 +148,7 @@ class Order
 	{
 		$this->orderNumber = $orderNumber;
 	}
+    #
 	public function getOrderCustomerNumber(): ?string
 	{
 		return $this->orderCustomerNumber;
@@ -151,6 +157,7 @@ class Order
 	{
 		$this->orderCustomerNumber = $orderCustomerNumber;
 	}
+    #
 	public function getOrderPass(): ?string
 	{
 		return $this->orderPass;
@@ -159,6 +166,7 @@ class Order
 	{
 		$this->orderPass = $orderPass;
 	}
+    #
 	public function getOrderCreateInvoicePass(): ?string
 	{
 		return $this->orderCreateInvoicePass;
@@ -167,6 +175,7 @@ class Order
 	{
 		$this->orderCreateInvoicePass = $orderCreateInvoicePass;
 	}
+    #
 	public function getOrderTotal(): string
 	{
 		return $this->orderTotal;
@@ -175,6 +184,7 @@ class Order
 	{
 		$this->orderTotal = $orderTotal;
 	}
+    #
 	public function getOrderSalesPrice(): string
 	{
 		return $this->orderSalesPrice;
@@ -183,6 +193,7 @@ class Order
 	{
 		$this->orderSalesPrice = $orderSalesPrice;
 	}
+    #
 	public function getOrderBillTaxAmount(): string
 	{
 		return $this->orderBillTaxAmount;
@@ -191,6 +202,7 @@ class Order
 	{
 		$this->orderBillTaxAmount = $orderBillTaxAmount;
 	}
+    #
 	public function getOrderBillTax(): ?string
 	{
 		return $this->orderBillTax;
@@ -199,6 +211,7 @@ class Order
 	{
 		$this->orderBillTax = $orderBillTax;
 	}
+    #
 	public function getOrderBillDiscountAmount(): string
 	{
 		return $this->orderBillDiscountAmount;
@@ -207,6 +220,7 @@ class Order
 	{
 		$this->orderBillDiscountAmount = $orderBillDiscountAmount;
 	}
+    #
 	public function getOrderBillDiscount(): string
 	{
 		return $this->orderBillDiscount;
@@ -215,6 +229,7 @@ class Order
 	{
 		$this->orderBillDiscount = $orderBillDiscount;
 	}
+    #
 	public function getOrderSubtotal(): ?string
 	{
 		return $this->orderSubtotal;
@@ -223,6 +238,7 @@ class Order
 	{
 		$this->orderSubtotal = $orderSubtotal;
 	}
+    #
 	public function getOrderTax(): ?string
 	{
 		return $this->orderTax;
@@ -231,6 +247,7 @@ class Order
 	{
 		$this->orderTax = $orderTax;
 	}
+    #
 	public function getOrderShipment(): ?string
 	{
 		return $this->orderShipment;
@@ -239,6 +256,7 @@ class Order
 	{
 		$this->orderShipment = $orderShipment;
 	}
+    #
 	public function getOrderShipmentTax(): ?string
 	{
 		return $this->orderShipmentTax;
@@ -247,6 +265,7 @@ class Order
 	{
 		$this->orderShipmentTax = $orderShipmentTax;
 	}
+    #
 	public function getOrderPayment(): ?string
 	{
 		return $this->orderPayment;
@@ -255,6 +274,7 @@ class Order
 	{
 		$this->orderPayment = $orderPayment;
 	}
+    #
 	public function getOrderPaymentTax(): ?string
 	{
 		return $this->orderPaymentTax;
@@ -263,6 +283,7 @@ class Order
 	{
 		$this->orderPaymentTax = $orderPaymentTax;
 	}
+    #
 	public function getOrderCouponDiscount(): string
 	{
 		return $this->orderCouponDiscount;
@@ -271,6 +292,7 @@ class Order
 	{
 		$this->orderCouponDiscount = $orderCouponDiscount;
 	}
+    #
 	public function getOrderCouponCode(): ?string
 	{
 		return $this->orderCouponCode;
@@ -279,6 +301,7 @@ class Order
 	{
 		$this->orderCouponCode = $orderCouponCode;
 	}
+    #
 	public function getOrderDiscount(): string
 	{
 		return $this->orderDiscount;
@@ -287,6 +310,7 @@ class Order
 	{
 		$this->orderDiscount = $orderDiscount;
 	}
+    #
 	public function getOrderCurrency(): ?int
 	{
 		return $this->orderCurrency;
@@ -295,6 +319,7 @@ class Order
 	{
 		$this->orderCurrency = $orderCurrency;
 	}
+    #
 	public function getOrderCurrencyRate(): string
 	{
 		return $this->orderCurrencyRate;
@@ -303,6 +328,7 @@ class Order
 	{
 		$this->orderCurrencyRate = $orderCurrencyRate;
 	}
+    #
 	public function getOrderShopperGroups(): ?int
 	{
 		return $this->orderShopperGroups;
@@ -311,6 +337,7 @@ class Order
 	{
 		$this->orderShopperGroups = $orderShopperGroups;
 	}
+    #
 	public function getOrderPaymentCurrencyId(): ?int
 	{
 		return $this->orderPaymentCurrencyId;
@@ -319,6 +346,7 @@ class Order
 	{
 		$this->orderPaymentCurrencyId = $orderPaymentCurrencyId;
 	}
+    #
 	public function getOrderPaymentCurrencyRate(): string
 	{
 		return $this->orderPaymentCurrencyRate;
@@ -383,27 +411,44 @@ class Order
 	{
 		$this->orderHash = $orderHash;
 	}
-	public function addOrderItem(OrderItem $orderItem): self
+    # OneToMany
+    public function getOrderItem(): Collection
+    {
+        return $this->orderItem;
+    }
+    public function addOrderItem(OrderItem $orderItem): self
 	{
-		$this->orderItems[] = $orderItem;
+        if (!$this->orderItem->contains($orderItem)){
+            $this->orderItem[] = $orderItem;
 
+        }
 		return $this;
 	}
-	public function removeOrderItem(OrderItem $orderItem): void
+    public function removeOrderItem(OrderItem $orderItem): self
     {
-		$this->orderItems->removeElement($orderItem);
+        if ($this->orderItem->contains($orderItem)){
+            $this->orderItem->removeElement($orderItem);
+        }
+        return $this;
 	}
-	public function getOrderItems(): ArrayCollection
-    {
-		return $this->orderItems;
-	}
+    # ManyToOne
 	public function getOrderStatus(): OrderStatus
     {
 		return $this->orderStatus;
 	}
-	public function setOrderStatus(OrderStatus $orderStatus): self
+	public function setOrderStatus(OrderStatus $orderStatus): void
 	{
 		$this->orderStatus = $orderStatus;
-		return $this;
 	}
+    # ManyToOne
+    public function getOrderVendor(): Vendor
+    {
+        return $this->orderVendor;
+    }
+    public function setOrderVendor(Vendor $orderVendor): void
+    {
+        $this->orderVendor = $orderVendor;
+    }
+
+
 }

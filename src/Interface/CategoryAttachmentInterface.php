@@ -2,17 +2,14 @@
 
 namespace App\Interface;
 
-use App\Entity\Category\CategoryAttachment;
+use App\Entity\Category\Category;
+use Google\Collection;
 
 interface CategoryAttachmentInterface
 {
+    # ManyToOne
+    public function getCategoryAttachment(): Collection;
+    public function setCategoryAttachment(Category $categoryAttachment): void;
 
-    public function getCategoryAttachments(): CategoryAttachment;
-
-	public function setCategoryAttachments(CategoryAttachmentInterface $categoryAttachments): void;
-
-    public function removeCategoryAttachment(CategoryAttachmentInterface $attachment): void;
-
-    public function addCategoryAttachment(CategoryAttachmentInterface $attachments): void;
 
 }

@@ -92,6 +92,4 @@ trait OAuthTrait
         $this->googleAccessToken = $googleAccessToken;
     }
 
-
-
 }

@@ -5,27 +5,30 @@ namespace App\Entity\Vendor;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 use App\Repository\Vendor\VendorDocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'vendors_documents')]
+#[ORM\Table(name: 'vendor_document')]
 #[ORM\Index(columns: ['slug'], name: 'vendor_document_idx')]
 #[ORM\Entity(repositoryClass: VendorDocumentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class VendorDocument
 {
 	use BaseTrait;
+    use ObjectTrait;
 	use AttachmentTrait;
-	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorDocumentAttachments')]
-	#[ORM\JoinColumn(name: 'attachments_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private ?Vendor $attachments = null;
 
-	public function getAttachments(): Vendor
+	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorDocument')]
+	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+	private Vendor $vendorDocument;
+    # ManyToOne
+	public function getVendorDocument(): Vendor
     {
-		return $this->attachments;
+		return $this->vendorDocument;
 	}
-	public function setAttachment(Vendor $attachments): void
+	public function setVendorDocument(Vendor $vendorDocument): void
 	{
-		$this->attachments = $attachments;
+		$this->vendorDocument = $vendorDocument;
 	}
 }

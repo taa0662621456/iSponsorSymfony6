@@ -1,21 +1,56 @@
+#!/bin/bash
 SHELL := /bin/bash
+f:
+	# fixtures; not symfony console cache:clear
+	symfony console doctrine:fixtures:load --purge-with-truncate
+.PHONY: fixturesdev
+
 ff:
+	clear
 	# force fixtures
 	#symfony console cache:clear
 	#rm -rf ./app/cache/dev/* ; rm -rf ./app/cache/prod/*
-	symfony console doctrine:cache:clear-metadata &&
-	symfony console doctrine:cache:clear-query &&
+	clear
+	# process...
+	pwd
+	cd var
+	rm -r cache || mkdir "cache"
+	pwd
+	symfony console doctrine:cache:clear-metadata
+
+	symfony console doctrine:cache:clear-query
 	symfony console doctrine:cache:clear-result
+	clear
 	#symfony console doctrine:cache:warmup
 	#symfony console doctrine:schema:validate
 	#symfony console doctrine:schema:drop --force --env=dev
+	clear
+	# process...
 	symfony console doctrine:schema:update --force --env=dev
+	clear
 	#symfony console doctrine:migration:migrate
 	# symfony console doctrine:database:create --env=dev
 	# symfony console doctrine:migration:migrate -n --env=dev
-	symfony console doctrine:fixtures:load --purge-with-truncate
+	clear
+	# process...
+	symfony console doctrine:fixtures:load --purge-with-truncate -n
+.PHONY: forcefixturesdev
 
-.PHONY: forcedbdev
+sso:
+	clear
+	# process...
+	symfony server:status
+	clear
+	# process...
+	symfony server:stop
+	clear
+	# process...
+	symfony server:start -d
+	#symfony server:log --no-follow --no-tail --no-server-logs --no-app-logs
+	# process...
+	symfony open:local
+	clear
+
 
 linter:
 	# Linter

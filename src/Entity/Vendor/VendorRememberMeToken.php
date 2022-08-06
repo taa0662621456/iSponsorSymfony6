@@ -9,7 +9,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 
-#[ORM\Table(name: 'rememberme_token')]
+#[ORM\Table(name: 'remember_me_token')]
 #[ORM\Entity]
 #[ORM\HasLifecycleCallbacks]
 class VendorRememberMeToken

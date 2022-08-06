@@ -6,7 +6,6 @@ use App\Entity\Order\OrderStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Uid\Uuid;
 
 class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -30,12 +29,19 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             VendorFixtures::class,
+            AttachmentFixtures::class,
+            ReviewProjectFixtures::class,
+            ReviewProductFixtures::class,
+            CategoryAttachmentFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectAttachmentFixtures::class,
+            ProjectTagFixtures::class,
         ];
     }
 
     public function getOrder(): int
     {
-        return 5;
+        return 9;
     }
 
     /**
@@ -43,6 +49,6 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
      */
     public static function getGroups(): array
     {
-        return ['status'];
+        return ['order'];
     }
 }

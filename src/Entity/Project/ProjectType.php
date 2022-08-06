@@ -2,34 +2,47 @@
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Interface\ProjectTypeInterface;
 use App\Repository\Project\ProjectTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+
 
 #[ORM\Table(name: 'project_type')]
 #[ORM\Index(columns: ['slug'], name: 'project_type_idx')]
 #[ORM\Entity(repositoryClass: ProjectTypeRepository::class)]
-class ProjectType
+class ProjectType implements ProjectTypeInterface
 {
     use BaseTrait;
+    use ObjectTrait;
 
-    #[ORM\OneToOne(inversedBy: 'projectType', targetEntity: Project::class)]
-    private Project $projectType;
+    #[ORM\OneToMany(mappedBy: 'projectType', targetEntity: Project::class)]
+    private Collection $projectType;
 
-    /**
-     * @return Project
-     */
-    public function getProjectType(): Project
+    public function __construct()
+    {
+        $this->projectType = new ArrayCollection();
+    }
+    # OneToMany
+    public function getProjectType(): Collection
     {
         return $this->projectType;
     }
-
-    /**
-     * @param $projectType
-     */
-    public function setProjectType($projectType): void
+    public function addProjectType(Project $project): self
     {
-        $this->projectType = $projectType;
+        if (!$this->projectType->contains($project)){
+            $this->projectType[] = $project;
+        }
+        return $this;
     }
-
-
+    public function removeProjectType(Project $project): self
+    {
+        if ($this->projectType->contains($project)){
+            $this->projectType->removeElement($project);
+        }
+        return $this;
+    }
 }

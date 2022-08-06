@@ -5,12 +5,13 @@ namespace App\Entity\Category;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
-use App\Interface\CategoryInterface;
+use App\Entity\ObjectTrait;
+use App\Interface\CategoryAttachmentInterface;
 use App\Repository\Category\CategoryAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-#[ORM\Table(name: 'categories_attachments')]
+#[ORM\Table(name: 'category_attachment')]
 #[ORM\Index(columns: ['slug'], name: 'category_attachment_idx')]
 #[ORM\Entity(repositoryClass: CategoryAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -19,19 +20,19 @@ class CategoryAttachment
 {
 	use BaseTrait;
 	use AttachmentTrait;
-	#[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachments')]
-	#[ORM\JoinColumn(name: 'categoryAttachments_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private CategoryInterface $categoryAttachments;
+    use ObjectTrait;
 
-    /**
-     * @return CategoryInterface
-     */
-	public function getCategoryAttachments(): CategoryInterface
+	#[ORM\ManyToOne(targetEntity: CategoryAttachmentInterface::class, inversedBy: 'categoryAttachment')]
+	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+	private Category $categoryAttachment;
+
+    # ManyToOne
+    public function getCategoryAttachment(): Category
     {
-		return $this->categoryAttachments;
+		return $this->categoryAttachment;
 	}
-	public function setCategoryAttachments(CategoryInterface $categoryAttachments): void
+	public function setCategoryAttachment(Category $categoryAttachment): void
 	{
-		$this->categoryAttachments = $categoryAttachments;
+        $this->categoryAttachment = $categoryAttachment;
 	}
 }

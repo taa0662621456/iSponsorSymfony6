@@ -2,7 +2,7 @@
 
 namespace App\Repository\Order;
 
-use App\Entity\Order\Order;
+use App\Entity\Order\OrderStorage;
 use App\Entity\Project\Project;
 
 use DateTime;
@@ -10,12 +10,14 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Laminas\Code\Generator\DocBlock\Tag;
+use Laminas\Code\Reflection\DocBlock\TagManager;
+use function count;
 
 /**
- * @method Order|null find($id, $lockMode = null, $lockVersion = null)
- * @method Order|null findOneBy(array $criteria, array $orderBy = null)
- * @method Order[]    findAll()
- * @method Order[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method OrderStorage|null find($id, $lockMode = null, $lockVersion = null)
+ * @method OrderStorage|null findOneBy(array $criteria, array $orderBy = null)
+ * @method OrderStorage[]    findAll()
+ * @method OrderStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class OrderRepository extends ServiceEntityRepository
 {
@@ -24,13 +26,13 @@ class OrderRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Order::class);
+        parent::__construct($registry, OrderStorage::class);
     }
 
     /**
-     * @param Tag|null $tag
+     * @param TagManager|null $tag
      */
-    public function findLatest(int $page = 1, $tag = null): Paginator
+    public function findLatest(int $page = 1, TagManager $tag = null): Paginator
     {
 
         $qb = $this->createQueryBuilder('p')
@@ -53,12 +55,12 @@ class OrderRepository extends ServiceEntityRepository
     /**
      * @return Project[]
      */
-    public function findBySearchQuery(string $rawQuery, int $limit = Order::NUM_ITEMS): array
+    public function findBySearchQuery(string $rawQuery, int $limit = OrderStorage::NUM_ITEMS): array
     {
 
         $query = $this->sanitizeSearchQuery($rawQuery);
         $searchTerms = $this->extractSearchTerms($query);
-        if (0 === \count($searchTerms)) {
+        if (0 === count($searchTerms)) {
             return [];
         }
         $queryBuilder = $this->createQueryBuilder('p');

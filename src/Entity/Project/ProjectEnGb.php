@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 
-#[ORM\Table(name: 'projects_en_gb')]
+#[ORM\Table(name: 'project_en_gb')]
 #[ORM\Index(columns: ['slug'], name: 'project_en_gb_idx')]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]

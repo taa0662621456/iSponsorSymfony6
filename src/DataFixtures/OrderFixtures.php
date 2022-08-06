@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Order\Order;
+use App\Entity\Order\OrderStorage;
 use App\Entity\Order\OrderItem;
 use App\Entity\Order\OrderStatus;
 use App\Entity\Product\ProductEnGb;
@@ -19,32 +19,30 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
 	{
-		$productsEnGbRepository = $manager->getRepository(ProductEnGb::class);
-		$productsCount = count($productsEnGbRepository->findAll());
+		$productsEnGbRepository = $manager->getRepository(ProductEnGb::class)->findAll();
+		$orderStatusesRepository = $manager->getRepository(OrderStatus::class)->findAll();
 
-		$status = $manager->getRepository(OrderStatus::class)->findAll();
+		for ($p = 1; $p <= random_int(1, count($productsEnGbRepository)); $p++) {
 
-		for ($p = 1; $p <= random_int(1, $productsCount); $p++) {
+			$order = new OrderStorage();
 
-			$orders = new Order();
+			$order->setOrderStatus($orderStatusesRepository[array_rand($orderStatusesRepository)]);
 
-			$orders->setOrderStatus($status[array_rand($status)]);
+			$order->setOrderIpAddress('127.0.0.1');
 
-			$orders->setOrderIpAddress('127.0.0.1');
-
-			for ($i = 1; $i <= random_int(1, $productsCount); $i++) {
+			for ($i = 1; $i <= random_int(1, count($productsEnGbRepository)); $i++) {
 
 				$orderItems = new OrderItem();
 
 				$orderItems->setItemId($i);
 				$orderItems->setItemName('item ' . $i);
 
-				$orders->addOrderItem($orderItems);
+				$order->addOrderItem($orderItems);
 				$manager->persist($orderItems);
 			}
 
 
-			$manager->persist($orders);
+			$manager->persist($order);
 			$manager->flush();
 		}
 	}
@@ -52,14 +50,23 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 	public function getDependencies (): array
     {
 		return [
-			OrderStatusFixtures::class,
-			ProductFixtures::class,
+            VendorFixtures::class,
+            AttachmentFixtures::class,
+            ReviewProjectFixtures::class,
+            ReviewProductFixtures::class,
+            CategoryAttachmentFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectAttachmentFixtures::class,
+            ProjectTagFixtures::class,
+            OrderStatusFixtures::class,
+            ProjectFixtures::class,
+            ProductFixtures::class,
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 6;
+		return 12;
 	}
 
 	/**

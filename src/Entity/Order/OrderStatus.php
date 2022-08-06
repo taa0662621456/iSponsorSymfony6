@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'orders_status')]
+#[ORM\Table(name: 'order_status')]
 #[ORM\Index(columns: ['slug'], name: 'order_status_idx')]
 #[ORM\Entity(repositoryClass: OrderStatusRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -37,11 +37,11 @@ class OrderStatus
 	/**
 	 * @var ArrayCollection
 	 */
-	#[ORM\OneToMany(mappedBy: 'orderStatus', targetEntity: Order::class)]
-	private Collection $orders;
+	#[ORM\OneToMany(mappedBy: 'orderStatus', targetEntity: OrderStorage::class)]
+	private Collection $orderStorage;
 	public function __construct()
 	{
-		$this->orders = new ArrayCollection();
+		$this->orderStorage = new ArrayCollection();
 	}
 	public function getOrderStatusCode(): string
 	{
@@ -91,27 +91,24 @@ class OrderStatus
 	{
 		$this->ordering = $ordering;
 	}
-	public function getOrders(): ArrayCollection
-	{
-		return $this->orders;
-	}
-	/**
-	 * @return OrderStatus
-	 */
-	public function addOrder(Order $order): static
+    # OneToMany
+    public function getOrderStorage(): Collection
     {
-		if (!$this->orders->contains($order)) {
-			$order->setOrderStatus($this);
-			$this->orders->add($order);
+        return $this->orderStorage;
+    }
+    public function addOrderStorage(OrderStorage $orderStorage): self
+    {
+		if (!$this->orderStorage->contains($orderStorage)) {
+			$this->orderStorage[] = $orderStorage;
 		}
-
 		return $this;
 
 	}
-	public function removeOrder(Order $order): void
+	public function removeOrderStorage(OrderStorage $orderStorage): self
     {
-		if (!$this->orders->contains($order)) {
-			$this->orders->removeElement($order);
+		if ($this->orderStorage->contains($orderStorage)) {
+			$this->orderStorage->removeElement($orderStorage);
 		}
+        return $this;
 	}
 }

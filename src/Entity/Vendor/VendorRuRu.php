@@ -10,7 +10,7 @@ use App\Entity\VendorLanguageTrait;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'vendors_ru_ru')]
+#[ORM\Table(name: 'vendor_ru_ru')]
 #[ORM\Index(columns: ['slug'], name: 'vendor_ru_ru_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
 #[ORM\HasLifecycleCallbacks]

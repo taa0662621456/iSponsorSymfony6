@@ -5,39 +5,34 @@ use App\Entity\Category\Category;
 use App\Entity\Category\CategoryAttachment;
 use App\Entity\Category\CategoryEnGb;
 use App\Entity\Featured\Featured;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Project\Project;
+use Doctrine\Common\Collections\Collection;
 
 interface CategoryInterface
 {
-    public function getCategoryProjects(): ArrayCollection;
-
-    public function addCategoryProjects(ArrayCollection $categoryProjects): void;
-
+    # ManyToOne
+    public function getCategoryProject(): Collection;
+    public function setCategoryProject(Project $categoryProject): void;
+    # OneToOne
     public function getCategoryEnGb(): CategoryEnGb;
-
 	public function setCategoryEnGb(CategoryEnGb $categoryEnGb): void;
-
+    #
 	public function getOrdering(): int;
-
 	public function setOrdering(int $ordering): void;
-
-	public function addChildren($children):Category;
-
-    public function removeChildren(Category $children): void;
-
-    public function getChildren(): ArrayCollection;
-
-    public function getParent(): ArrayCollection|Category;
-
-	public function addParent(Category $parent): void;
-
-	public function addCategoryAttachment(CategoryAttachment $attachments): void;
-
-	public function removeCategoryAttachment(CategoryAttachment $attachment): void;
-
-    public function getCategoryAttachments(): ArrayCollection|CategoryAttachment;
-
+    # OneToMany
+    public function getCategoryChildren(): Collection;
+    public function addCategoryChildren(Category $categoryChildren): self;
+    public function removeCategoryChildren(Category $categoryChildren): self;
+    # ManyToOne
+    public function getCategoryParent(): Category;
+	public function setCategoryParent(Category $categoryParent): void;
+    # OneToMany
+    public function getCategoryAttachment(): Collection;
+    public function addCategoryAttachment(CategoryAttachment $categoryAttachment): self;
+    public function removeCategoryAttachment(CategoryAttachment $categoryAttachment): self;
+    # OneToOne
     public function getCategoryFeatured(): Featured;
+    public function setCategoryFeatured(Featured $categoryFeatured): void;
+    #
 
-	public function addCategoryFeatured(Featured $categoryFeatured): void;
 }

@@ -5,9 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
-
-
 trait ObjectTrait
 {
 
@@ -45,47 +42,42 @@ trait ObjectTrait
     {
         return $this->firstTitle;
     }
-
     public function setFirstTitle(string $firstTitle): void
     {
         $this->firstTitle = $firstTitle;
     }
-
+    #
     public function getMiddleTitle(): string
     {
         return $this->middleTitle;
     }
-
     public function setMiddleTitle(string $middleTitle): void
     {
         $this->middleTitle = $middleTitle;
     }
-
+    #
     public function getLastTitle(): string
     {
         return $this->lastTitle;
     }
-
     public function setLastTitle(string $lastTitle): void
     {
         $this->lastTitle = $lastTitle;
     }
-
+    #
     public function getMetaDesc(): string
     {
         return $this->metaDesc;
     }
-
     public function setMetaDesc(string $metaDesc): void
     {
         $this->metaDesc = $metaDesc;
     }
-
+    #
     public function getMetaKey(): string
     {
         return $this->metaKey;
     }
-
     public function setMetaKey(string $metaKey): void
     {
         $this->metaKey = $metaKey;

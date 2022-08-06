@@ -7,11 +7,12 @@ namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\SchemaTool;
+use Doctrine\ORM\Tools\ToolsException;
 
 class ObjectDefaultRepository extends EntityRepository
 {
     /**
-     * @throws \Doctrine\ORM\Tools\ToolsException
+     * @throws ToolsException
      */
     public function createTable()
     {
@@ -23,7 +24,7 @@ class ObjectDefaultRepository extends EntityRepository
 
     /**
      * @param string $entityName Your entity full name like YourEntity::class
-     * @throws \Doctrine\ORM\Tools\ToolsException
+     * @throws ToolsException
      */
     public function createObjectTableByEntity(string $entityName)
     {

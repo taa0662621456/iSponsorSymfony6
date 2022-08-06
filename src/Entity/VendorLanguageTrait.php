@@ -115,8 +115,8 @@ trait VendorLanguageTrait
     private ?string $vendorMetaAuthor = null;
 
     #[ORM\OneToOne(inversedBy: 'vendorEnGb', targetEntity: Vendor::class)]
-    #[ORM\JoinColumn(name: 'vendorEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    private ?VendorEnGb $vendorEnGb = null;
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private VendorEnGb $vendorEnGb;
 
     public function getVendorFirstName(): string
     {

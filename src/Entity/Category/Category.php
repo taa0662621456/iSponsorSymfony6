@@ -3,7 +3,10 @@
 
 namespace App\Entity\Category;
 
+use App\Entity\Attachment\Attachment;
 use App\Entity\BaseTrait;
+use App\Entity\Featured\Featured;
+use App\Entity\Project\Project;
 use App\Interface\CategoryAttachmentInterface;
 use App\Interface\CategoryInterface;
 use App\Interface\FeaturedInterface;
@@ -17,8 +20,7 @@ use Exception;
 use JetBrains\PhpStorm\Pure;
 
 
-
-#[ORM\Table(name: 'categories')]
+#[ORM\Table(name: 'category')]
 #[ORM\Index(columns: ['slug'], name: 'category_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -30,44 +32,54 @@ class Category implements CategoryInterface
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
     private int $ordering = 1;
 
-    #[ORM\OneToMany(mappedBy: 'parent', targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY')]
-    private Collection $children;
+    #[ORM\OneToMany(mappedBy: 'categoryParent', targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $categoryChildren;
 
-    #[ORM\ManyToOne(targetEntity: CategoryInterface::class, cascade: ['persist'], inversedBy: 'children')]
-    private ArrayCollection $parent;
+    #[ORM\ManyToOne(targetEntity: CategoryInterface::class, cascade: ['persist'], inversedBy: 'categoryChildren')]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $categoryParent;
 
     #[ORM\OneToMany(mappedBy: 'projectCategory', targetEntity: ProjectInterface::class)]
-    private Collection $categoryProjects;
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $categoryProject;
 
     #[ORM\OneToOne(mappedBy: 'categoryEnGb', targetEntity: CategoryEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\JoinColumn(name: 'categoryEnGb_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\Type(type: CategoryEnGb::class)]
     #[Assert\Valid]
     private CategoryEnGb $categoryEnGb;
 
-    #[ORM\OneToMany(mappedBy: 'categoryAttachments', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $categoryAttachments;
+    #[ORM\OneToMany(mappedBy: 'categoryAttachment', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
+    private Collection $categoryAttachment;
 
     #[ORM\OneToOne(mappedBy: 'categoryFeatured', targetEntity: FeaturedInterface::class)]
-    private Collection $categoryFeatured;
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[Assert\Type(type: CategoryFeatured::class)]
+    #[Assert\Valid]
+    private Featured $categoryFeatured;
+
     /**
      * @throws Exception
      */
     #[Pure]
     public function __construct()
     {
-        $this->children = new ArrayCollection();
-        $this->categoryProjects = new ArrayCollection();
-        $this->categoryAttachments = new ArrayCollection();
+        $this->categoryChildren = new ArrayCollection();
+        $this->categoryProject = new ArrayCollection();
+        $this->categoryAttachment = new ArrayCollection();
     }
-    public function getCategoryProjects(): ArrayCollection
+    # OneToMany
+    public function getCategoryProject(): Collection
     {
-        return $this->categoryProjects;
+        return $this->categoryProject;
     }
-    public function addCategoryProjects(ArrayCollection $categoryProjects): void
+    public function setCategoryProject(Project $categoryProject): void
     {
-        $this->categoryProjects->add($categoryProjects);
+            $this->categoryProject = $categoryProject;
     }
+    # OneToOne
     public function getCategoryEnGb(): CategoryEnGb
     {
         return $this->categoryEnGb;
@@ -76,6 +88,7 @@ class Category implements CategoryInterface
     {
         $this->categoryEnGb = $categoryEnGb;
     }
+    #
     public function getOrdering(): int
     {
         return $this->ordering;
@@ -84,69 +97,60 @@ class Category implements CategoryInterface
     {
         $this->ordering = $ordering;
     }
-
-    /**
-     * @param $children
-     * @return Category
-     */
-    public function addChildren($children):Category
+    # OneToMany
+    public function getCategoryChildren(): Collection
     {
-        $this->children = $children;
-
+        return $this->categoryChildren;
+    }
+    public function addCategoryChildren(Category $categoryChildren): self
+    {
+        if (!$this->categoryChildren->contains($categoryChildren)) {
+            $this->categoryChildren[] = $categoryChildren;
+        }
         return $this;
     }
-    public function removeChildren(CategoryInterface $children): void
+    public function removeCategoryChildren(Category $categoryChildren): self
     {
-        $this->children->removeElement($children);
-    }
-    public function getChildren(): ArrayCollection
-    {
-        return $this->children;
-    }
-    public function getParent(): ArrayCollection
-    {
-        return $this->parent;
-    }
-    /**
-     * @param $parent
-     *
-     */
-    public function addParent($parent):void
-    {
-        $this->parent->add($parent);
-
-    }
-    /**
-     * @param $attachments
-     */
-    public function addCategoryAttachment($attachments): void
-    {
-        foreach ($attachments as $attachment) {
-            if (!$this->categoryAttachments->contains($attachment)) {
-                $this->categoryAttachments->add($attachment);
-            }
+        if ($this->categoryChildren->contains($categoryChildren)){
+            $this->categoryChildren->removeElement($categoryChildren);
         }
+        return $this;
     }
-    /**
-     * @param $attachment
-     */
-    public function removeCategoryAttachment($attachment): void
+    # ManyToOne
+    public function getCategoryParent(): Category
     {
-        $this->categoryAttachments->removeElement($attachment);
+        return $this->categoryParent;
     }
-    public function getCategoryAttachments(): ArrayCollection
+    public function setCategoryParent(Category $categoryParent):void
     {
-        return $this->categoryAttachments;
+        $this->categoryParent = $categoryParent;
     }
-    public function getCategoryFeatured(): ArrayCollection
+    # OneToMany
+    public function getCategoryAttachment(): Collection
+    {
+        return $this->categoryAttachment;
+    }
+    public function addCategoryAttachment(CategoryAttachment $categoryAttachment): self
+    {
+        if (!$this->categoryAttachment->contains($categoryAttachment)) {
+            $this->categoryAttachment[] = $categoryAttachment;
+        }
+        return $this;
+    }
+    public function removeCategoryAttachment(CategoryAttachment $categoryAttachment): self
+    {
+        if ($this->categoryAttachment->contains($categoryAttachment)){
+            $this->categoryAttachment->removeElement($categoryAttachment);
+        }
+        return $this;
+    }
+    # OneToOne
+    public function getCategoryFeatured(): Featured
     {
         return $this->categoryFeatured;
     }
-    /**
-     * @param $categoryFeatured
-     */
-    public function addCategoryFeatured($categoryFeatured): void
+    public function setCategoryFeatured(Featured $categoryFeatured): void
     {
-        $this->categoryFeatured->add($categoryFeatured);
+        $this->categoryFeatured = $categoryFeatured;
     }
 }

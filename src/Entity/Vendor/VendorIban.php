@@ -28,8 +28,8 @@ class VendorIban
 	private ?int $signatureCode = 0;
 
 	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: Vendor::class, orphanRemoval: true)]
-	#[ORM\JoinColumn(name: 'vendorIban_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-	private ?Vendor $vendorIban = null;
+	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+	private Vendor $vendorIban;
 
 	public function setIban(string $iban): void
  {

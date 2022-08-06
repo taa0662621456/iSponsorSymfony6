@@ -16,14 +16,15 @@ use Doctrine\ORM\NonUniqueResultException;
  */
 class ProjectFavouriteRepository extends EntityRepository
 {
-	/**
-	 * @param VendorFavourite $vendor
-	 * @param integer           $projectId
-	 *
-	 * @return bool
-	 * @throws NonUniqueResultException
-	 */
-	public function checkIsLiked($vendor, $projectId): ?bool
+    /**
+     * @param VendorFavourite $vendor
+     * @param integer $projectId
+     *
+     * @return bool|null
+     * @throws NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+	public function checkIsLiked(VendorFavourite $vendor, int $projectId): ?bool
 	{
 		$qb = $this->getEntityManager()
 			->createQueryBuilder()

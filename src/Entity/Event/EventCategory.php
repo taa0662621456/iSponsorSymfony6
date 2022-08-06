@@ -7,7 +7,7 @@ use App\Entity\ObjectTrait;
 use App\Repository\Category\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'event_categories')]
+#[ORM\Table(name: 'event_category')]
 #[ORM\Index(columns: ['slug'], name: 'event_category_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]

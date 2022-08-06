@@ -6,7 +6,7 @@ use App\Entity\BaseTrait;
 use App\Repository\Project\ProjectPlatformRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'rewards')]
+#[ORM\Table(name: 'reward')]
 #[ORM\Index(columns: ['slug'], name: 'commission_idx')]
 #[ORM\Entity(repositoryClass: ProjectPlatformRewardRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -14,7 +14,6 @@ class ProjectPlatformReward
 {
     use BaseTrait;
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectPlatformReward')]
-    #[ORM\JoinTable(name: 'project')]
     private Project $projectId;
 
     #[ORM\Column(name: 'commission_start_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
