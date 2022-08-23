@@ -20,14 +20,14 @@ class ProjectAttachment
 	use AttachmentTrait;
 	#[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectAttachment')]
 	#[ORM\JoinColumn(onDelete: 'CASCADE')]
-	private Project $projectAttachment;
+	private Project $projectAttachmentProject;
     # ManyToOne
-	public function getProjectAttachment(): Project
+	public function getProjectAttachmentProject(): Project
     {
-		return $this->projectAttachment;
+		return $this->projectAttachmentProject;
 	}
-    public function setProjectAttachment(Project $attachment): void
+    public function setProjectAttachmentProject(Project $attachment): void
     {
-            $this->projectAttachment = $attachment;
+            $this->projectAttachmentProject = $attachment;
     }
 }

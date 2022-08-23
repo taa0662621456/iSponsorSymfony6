@@ -43,12 +43,13 @@ class Project implements ProjectInterface
     private Category $projectCategory;
 
     #[ORM\OneToOne(mappedBy: 'projectEnGb', targetEntity: ProjectEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectEnGb')]
     #[Assert\Valid]
     private ProjectEnGb $projectEnGb;
 
-    #[ORM\OneToMany(mappedBy: 'projectAttachment', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'projectAttachmentProject', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Assert\Count(max: 8, maxMessage: 'project.too_many_files')]
     #[Assert\Valid]
     private Collection $projectAttachment;
@@ -57,14 +58,14 @@ class Project implements ProjectInterface
     private Collection $projectFavourite;
 
     #[ORM\OneToOne(mappedBy: 'projectFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\projectFeatured')]
     #[Assert\Valid]
     private Featured $projectFeatured;
 
     #[ORM\ManyToMany(targetEntity: ProjectTag::class, cascade: ['persist'], inversedBy: 'projectTagProject')]
     #[ORM\JoinColumn(nullable: true)]
-    #[ORM\OrderBy(['name' => 'ASC'])]
+    #[ORM\OrderBy(['firstTitle' => 'ASC'])]
     #[Assert\Count(max: 4, maxMessage: 'project.too_many_tags')]
     private Collection $projectTag;
 
@@ -73,6 +74,7 @@ class Project implements ProjectInterface
     private Collection $projectProduct;
 
     #[ORM\OneToMany(mappedBy: 'projectId', targetEntity: ProjectPlatformReward::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private Collection $projectPlatformReward;
 

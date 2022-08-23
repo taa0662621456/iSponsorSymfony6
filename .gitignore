@@ -16,8 +16,6 @@ none
 **/log/
 **/logs/
 
-/migrations
-/migrations/*
 /bootstrap-4.0.0/*
 #
 /.env.prod

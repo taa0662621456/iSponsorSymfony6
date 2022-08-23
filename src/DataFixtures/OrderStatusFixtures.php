@@ -4,14 +4,18 @@ namespace App\DataFixtures;
 
 use App\Entity\Order\OrderStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const ORDER_STATUS_COLLECTION = 'orderStatusCollection';
 
     public function load(ObjectManager $manager)
     {
+        $ordersStatusCollection = new ArrayCollection();
+
         for ($p = 1; $p <= 5; $p++) {
 
             $ordersStatus = new OrderStatus();
@@ -22,7 +26,11 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($ordersStatus);
             $manager->flush();
+
+            $ordersStatusCollection->add($ordersStatus);
         }
+
+        $this->addReference(self::ORDER_STATUS_COLLECTION, $ordersStatusCollection);
     }
 
     public function getDependencies(): array

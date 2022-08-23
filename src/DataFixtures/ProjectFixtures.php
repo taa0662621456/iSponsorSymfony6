@@ -1,9 +1,7 @@
 <?php
-declare(strict_types=1);
 
 namespace App\DataFixtures;
 
-use App\Entity\Attachment\Attachment;
 use App\Entity\Category\Category;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectAttachment;
@@ -19,6 +17,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PROJECT_COLLECTION = 'projectCollection';
 
     /**
      * @throws Exception
@@ -34,7 +33,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
         $projectAttachmentRepository = $manager->getRepository(ProjectAttachment::class)->findAll();
         $projectTypeRepository = $manager->getRepository(ProjectType::class)->findAll();
         $projectTagRepository = $manager->getRepository(ProjectTag::class)->findAll();
-
+        $projectRepository = $manager->getRepository(ProjectTag::class)->findAll();
 
         for ($p = 1; $p <= 10; $p++) {
 
@@ -43,9 +42,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             $projectEnGb = new ProjectEnGb();
             $projectAttachment = new ProjectAttachment();
 
-            if ($manager->getRepository(Project::class)->findAll()){
-            dd();
-                $projectRepository = $manager->getRepository(Project::class)->findAll();
+            if (0 != count($projectRepository)){
 
                 foreach ($projectRepository as $item){
                     if (!$projectCollection->contains($item)){
@@ -77,11 +74,11 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             $projectType->setLastTitle('ProjectTypeLT #_' . $p);
             #
             //$project->setProjectCategory($categoryRepository[array_rand($categoryRepository)]);
-            $project->addProjectAttachment($attachment);
-            $project->addProjectTag($tag);
+            //$project->addProjectAttachment($attachment);
+            //$project->addProjectTag($tag);
 
-            $project->setProjectEnGb($projectEnGb);
-            $project->setProjectType($projectTypeRepository[array_rand($projectTypeRepository)]);
+            //$project->setProjectEnGb($projectEnGb);
+            //$project->setProjectType($projectTypeRepository[array_rand($projectTypeRepository)]);
             #
             $projectEnGb->setProjectTitle('Project #_' . $p);
             $projectEnGb->setFirstTitle('ProjectFT #_' . $p);
@@ -98,10 +95,12 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($projectType);
             $manager->persist($projectEnGb);
             $manager->persist($project);
-            dd();
+
             $manager->flush();
 
 		}
+
+        $this->addReference(self::PROJECT_COLLECTION, $projectCollection);
 	}
 
 	public function getDependencies (): array

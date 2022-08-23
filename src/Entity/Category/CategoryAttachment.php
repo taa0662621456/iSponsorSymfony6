@@ -6,7 +6,7 @@ namespace App\Entity\Category;
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Interface\CategoryAttachmentInterface;
+use App\Interface\CategoryInterface;
 use App\Repository\Category\CategoryAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -22,17 +22,17 @@ class CategoryAttachment
 	use AttachmentTrait;
     use ObjectTrait;
 
-	#[ORM\ManyToOne(targetEntity: CategoryAttachmentInterface::class, inversedBy: 'categoryAttachment')]
+	#[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachment')]
 	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-	private Category $categoryAttachment;
+	private Category $categoryAttachmentCategory;
 
     # ManyToOne
-    public function getCategoryAttachment(): Category
+    public function getCategoryAttachmentCategory(): Category
     {
-		return $this->categoryAttachment;
+		return $this->categoryAttachmentCategory;
 	}
-	public function setCategoryAttachment(Category $categoryAttachment): void
+	public function setCategoryAttachmentCategory(Category $categoryAttachmentCategory): void
 	{
-        $this->categoryAttachment = $categoryAttachment;
+        $this->categoryAttachmentCategory = $categoryAttachmentCategory;
 	}
 }

@@ -7,33 +7,28 @@ f:
 
 ff:
 	clear
+	symfony console doctrine:schema:drop --force --env=dev --full-database -n
 	# force fixtures
-	#symfony console cache:clear
-	#rm -rf ./app/cache/dev/* ; rm -rf ./app/cache/prod/*
 	clear
 	# process...
 	pwd
-	cd var
-	rm -r cache || mkdir "cache"
+	rm -r var/cache/* -f
+	rm -r migrations/* -f
 	pwd
 	symfony console doctrine:cache:clear-metadata
-
 	symfony console doctrine:cache:clear-query
 	symfony console doctrine:cache:clear-result
-	clear
-	#symfony console doctrine:cache:warmup
-	#symfony console doctrine:schema:validate
-	#symfony console doctrine:schema:drop --force --env=dev
 	clear
 	# process...
 	symfony console doctrine:schema:update --force --env=dev
 	clear
-	#symfony console doctrine:migration:migrate
-	# symfony console doctrine:database:create --env=dev
-	# symfony console doctrine:migration:migrate -n --env=dev
-	clear
 	# process...
 	symfony console doctrine:fixtures:load --purge-with-truncate -n
+	clear
+	# process...
+	symfony console make:migration -n
+	symfony console doctrine:migration:migrate -n --env=dev
+	make sso
 .PHONY: forcefixturesdev
 
 sso:
