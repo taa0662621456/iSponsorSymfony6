@@ -19,7 +19,7 @@ class ProductTag implements JsonSerializable
 	use BaseTrait;
     use ObjectTrait;
 
-    #[ORM\OneToMany(mappedBy: 'productTag', targetEntity: Product::class)]
+    #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'productTag')]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]
     private Collection $productTagProduct;
 
@@ -27,7 +27,7 @@ class ProductTag implements JsonSerializable
     {
         $this->productTagProduct = new ArrayCollection();
     }
-    # OneToMany
+    # ManyToMany
     public function getProductTagProduct(): Collection
     {
         return $this->productTagProduct;

@@ -121,7 +121,7 @@ class Product
     private ProductEnGb $productEnGb;
 
     #[ORM\ManyToMany(targetEntity: ProductTag::class, inversedBy: 'productTagProduct', cascade: ['persist'])]
-    #[ORM\OrderBy(['name' => 'ASC'])]
+    #[ORM\OrderBy(['firstTitle' => 'ASC'])]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]
     private Collection $productTag;
 

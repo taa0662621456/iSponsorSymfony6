@@ -15,6 +15,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PROJECT_TAG_COLLECTION = 'projectTagCollection';
 
     /**
      * @throws Exception
@@ -62,6 +63,8 @@ class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
             $manager->flush();
 
 		}
+
+        $this->addReference(self::PROJECT_TAG_COLLECTION, $projectTagCollection);
 	}
 
 	public function getDependencies (): array

@@ -6,6 +6,7 @@ namespace App\Entity\Category;
 use App\Entity\Attachment\Attachment;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
+use App\Entity\ObjectTrait;
 use App\Entity\Project\Project;
 use App\Interface\CategoryAttachmentInterface;
 use App\Interface\CategoryInterface;
@@ -27,6 +28,7 @@ use JetBrains\PhpStorm\Pure;
 class Category implements CategoryInterface
 {
     use BaseTrait;
+    use ObjectTrait;
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
@@ -50,7 +52,7 @@ class Category implements CategoryInterface
     #[Assert\Valid]
     private CategoryEnGb $categoryEnGb;
 
-    #[ORM\OneToMany(mappedBy: 'categoryAttachment', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'categoryAttachmentCategory', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $categoryAttachment;
 

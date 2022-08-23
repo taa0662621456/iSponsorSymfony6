@@ -7,18 +7,22 @@ use App\Entity\Order\OrderItem;
 use App\Entity\Order\OrderStatus;
 use App\Entity\Product\ProductEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
 class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const ORDER_COLLECTION = 'orderCollection';
 
     /**
      * @throws Exception
      */
     public function load(ObjectManager $manager)
 	{
+        $orderCollection = new ArrayCollection();
+
 		$productsEnGbRepository = $manager->getRepository(ProductEnGb::class)->findAll();
 		$orderStatusesRepository = $manager->getRepository(OrderStatus::class)->findAll();
 
@@ -44,7 +48,11 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
 
 			$manager->persist($order);
 			$manager->flush();
+
+            $orderCollection->add($order);
 		}
+
+        $this->addReference(self::ORDER_COLLECTION, $orderCollection);
 	}
 
 	public function getDependencies (): array

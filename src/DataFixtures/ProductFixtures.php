@@ -6,40 +6,50 @@ use App\Entity\Product\Product;
 use App\Entity\Product\ProductAttachment;
 use App\Entity\Product\ProductEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 
 class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PRODUCT_COLLECTION = 'productCollection';
 
 	public function load(ObjectManager $manager)
 	{
+        $faker = Factory::create();
+
+        $productCollection = new ArrayCollection();
 
 		for ($p = 1; $p <= 26; $p++) {
 
-			$products = new Product();
+			$product = new Product();
 			$productEnGb = new ProductEnGb();
-			$productAttachments = new ProductAttachment();
+			$productAttachment = new ProductAttachment();
 
             $productEnGb->setProductName('Product # ' . $p);
             $productEnGb->setFirstTitle('ProductFT # ' . $p);
-            $productEnGb->setMiddleTitle('ProductMT # ' . $p);
-            $productEnGb->setLastTitle('ProductLT # ' . $p);
+            $productEnGb->setMiddleTitle($faker->realText(200));
+            $productEnGb->setLastTitle($faker->realText(7000));
 
-            $productAttachments->setFileName('cover.jpg');
-            $productAttachments->setFilePath('/');
-            $productAttachments->setProductAttachment($products);
+            $productAttachment->setFileName('cover.jpg');
+            $productAttachment->setFilePath('/');
+            $productAttachment->setProductAttachment($product);
 
 
-            $products->setProductEnGb($productEnGb);
+            $product->setProductEnGb($productEnGb);
 
-            $manager->persist($productAttachments);
+            $manager->persist($productAttachment);
             $manager->persist($productEnGb);
-			$manager->persist($products);
+			$manager->persist($product);
 			$manager->flush();
 
+            $productCollection->add($product);
+
 		}
+
+        $this->addReference(self::PRODUCT_COLLECTION, $productCollection);
 	}
 
 	public function getDependencies(): array

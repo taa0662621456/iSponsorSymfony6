@@ -11,13 +11,15 @@ use Doctrine\Persistence\ObjectManager;
 
 class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PROJECT_ATTACHMENT_COLLECTION = 'projectAttachmentCollection';
 
     /**
      * @throws \Exception
      */
     public function load(ObjectManager $manager)
 	{
-        $projectCollection = new ArrayCollection();
+
+        $projectAttachmentCollection = new ArrayCollection();
         $projectRepository = $manager->getRepository(Project::class)->findAll();
 
 		for ($p = 1; $p <= 3; $p++) {
@@ -29,14 +31,14 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
             if ($manager->getRepository(Project::class)->findAll()){
 
                 $project = $projectRepository[array_rand($projectRepository)];
-                if (!$projectCollection->contains($project)){
-                    $projectCollection->add($project);
+                if (!$projectAttachmentCollection->contains($project)){
+                    $projectAttachmentCollection->add($project);
                 }
-                $project = $projectCollection->current();
+                $project = $projectAttachmentCollection->current();
             }
 
-            $projectCollection->add($project);
-            $project = $projectCollection->current();
+            $projectAttachmentCollection->add($project);
+            $project = $projectAttachmentCollection->current();
 
 //            dump($project);
 
@@ -50,6 +52,8 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
             $manager->persist($projectAttachment);
             $manager->flush();
 		}
+
+        $this->addReference(self::PROJECT_ATTACHMENT_COLLECTION, $projectAttachmentCollection);
 	}
 
     public function getDependencies (): array

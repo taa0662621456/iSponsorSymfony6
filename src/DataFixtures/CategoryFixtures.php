@@ -9,20 +9,25 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class CategoryFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const CATEGORY_COLLECTION = 'categoryCollection';
 
 	public function load(ObjectManager $manager)
 	{
-        $categoryRepository = new ArrayCollection();
+        $faker = Factory::create();
+
+        $categoryCollection = new ArrayCollection();
+
 		for ($p = 1; $p <= 26; $p++) {
 
 			$category = new Category();
 			$categoryEnGb = new CategoryEnGb();
 			$categoryAttachment = new CategoryAttachment();
 
-            $categoryRepository->add($category);
+            $categoryCollection->add($category);
 
             $category->setOrdering($p);
             $category->setCategoryEnGb($categoryEnGb);
@@ -43,6 +48,8 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($category);
             $manager->flush();
 		}
+
+        $this->addReference(self::CATEGORY_COLLECTION, $categoryCollection);
 	}
 
 	public function getDependencies (): array

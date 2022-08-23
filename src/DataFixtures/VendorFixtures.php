@@ -9,17 +9,25 @@ use App\Entity\Vendor\VendorIban;
 use App\Entity\Vendor\VendorMedia;
 use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
+use Faker\Factory;
+use Faker\Generator;
 
 class VendorFixtures extends Fixture
 {
+    public const VENDOR_COLLECTION = 'vendorCollection';
 
     /**
      * @throws Exception
      */
     public function load(ObjectManager $manager)
 	{
+        $faker = Factory::create();
+
+        $vendorCollection = new ArrayCollection();
+
         $dir = dirname('public\\upload\\vendor\\image\\.');
         $avatarArray = scandir($dir);
 
@@ -52,14 +60,6 @@ class VendorFixtures extends Fixture
             fclose($fp);
 
 
-            $password = $rand;
-            $phone =
-                random_int(10, 99) .
-                random_int(100, 999) .
-                random_int(100, 999) .
-                random_int(10, 99) .
-                random_int(10, 99);
-
             //$password = md5($rand);
 
             $vendor = new Vendor();
@@ -69,29 +69,27 @@ class VendorFixtures extends Fixture
             $vendorDocument = new VendorDocument();
             $vendorMedia = new VendorMedia();
 
-            $vendorSecurity->setEmail('taa0' . $rand . '@gmail.com');
-            $vendorSecurity->setPassword($password);
-            $vendorSecurity->setPhone($phone);
 
-            $vendorEnGb->setVendorZip($rand);
-            $vendorEnGb->setFirstTitle('VendorFT' . $rand);
-            $vendorEnGb->setMiddleTitle('VendorMT' . $rand);
-            $vendorEnGb->setLastTitle('VendorLT' . $rand);
-
-            $vendorIban->setIban('0000000000000000');
-
+            $vendorSecurity->setEmail($faker->email);
+            $vendorSecurity->setPassword($faker->password(6, 20));
+            $vendorSecurity->setPhone($faker->phoneNumber);
+            #
+            $vendorEnGb->setVendorZip($faker->numberBetween(11111, 99999));
+            $vendorEnGb->setFirstTitle($faker->firstName);
+            $vendorEnGb->setLastTitle($faker->lastName);
+            #
+            $vendorIban->setIban($faker->numberBetween(1111111111111111, 9999999999999999));
+            #
             $vendorDocument->setFileName('cover.jpg');
             $vendorDocument->setFilePath('/');
-//            $vendorDocument->setAttachment($vendor);
-
+            #
             $vendorMedia->setFileName($filename);
             $vendorMedia->setFilePath('/');
-//            $vendorMedia->setAttachment($vendor);
-
+            ####
             $vendor->setVendorEnGb($vendorEnGb);
             $vendor->setVendorSecurity($vendorSecurity);
             $vendor->setVendorIban($vendorIban);
-
+            #
             $manager->persist($vendorDocument);
             $manager->persist($vendorMedia);
             $manager->persist($vendorIban);
@@ -99,8 +97,12 @@ class VendorFixtures extends Fixture
             $manager->persist($vendorSecurity);
             $manager->persist($vendor);
             $manager->flush();
+
+            $vendorCollection->add($vendor);
         }
-	}
+
+        $this->addReference(self::VENDOR_COLLECTION, $vendorCollection);
+    }
 
     public function getDependencies (): array
     {

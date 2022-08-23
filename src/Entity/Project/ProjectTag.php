@@ -19,14 +19,14 @@ class ProjectTag implements JsonSerializable
 	use BaseTrait;
     use ObjectTrait;
 
-    #[ORM\OneToMany(mappedBy: 'projectTag', targetEntity: Project::class)]
+    #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'projectTag')]
     private Collection $projectTagProject;
 
     public function __construct()
     {
         $this->projectTagProject = new ArrayCollection();
     }
-    # OneToMany
+    # ManyToMany
     public function getProjectTagProject(): Collection
     {
         return $this->projectTagProject;

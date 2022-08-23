@@ -12,15 +12,17 @@ use Exception;
 
 class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const CATEGORIES_CATEGORY_COLLECTION = 'categoriesCategoryCollection';
 
     /**
      * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
+
         $categoriesRepository = $manager->getRepository(Category::class)->findAll();
 
-        $repository = new ArrayCollection();
+        $categoriesCategoryCollection = new ArrayCollection();
         $array = [];
         $i = 1;
         foreach ($categoriesRepository as $category) {
@@ -35,13 +37,15 @@ class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInte
             //$currentCategory = $manager->getRepository(Category::class)->find($currentCategoryId);
             $randomId = random_int($minId, $minId + 4);
             $parentCategory = $manager->getRepository(Category::class)->find($randomId);
-            $repository->add($parentCategory);
+            $categoriesCategoryCollection->add($parentCategory);
             if ($currentCategoryId >= ($minId + 4)) {
 //                $parentCategory->addCategoryChildren($repository);
                 $manager->persist($parentCategory);
                 $manager->flush();
             }
         }
+
+        $this->addReference(self::CATEGORIES_CATEGORY_COLLECTION, $categoriesCategoryCollection);
     }
 
     public function getDependencies(): array

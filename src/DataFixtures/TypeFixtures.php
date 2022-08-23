@@ -4,18 +4,21 @@ namespace App\DataFixtures;
 
 use App\Entity\Type\Type;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
 class TypeFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const TYPE_COLLECTION = 'typeCollection';
 
     /**
      * @throws Exception
      */
     public function load(ObjectManager $manager)
 	{
+        $typeCollection = new ArrayCollection();
 
 		for ($p = 1; $p <= 5; $p++) {
 
@@ -26,8 +29,12 @@ class TypeFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($type);
             $manager->flush();
 
-		}
-	}
+            $typeCollection->add($type);
+
+        }
+
+        $this->addReference(self::TYPE_COLLECTION, $typeCollection);
+    }
 
 	public function getDependencies (): array
     {

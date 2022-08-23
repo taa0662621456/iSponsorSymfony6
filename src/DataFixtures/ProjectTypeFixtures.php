@@ -4,18 +4,21 @@ namespace App\DataFixtures;
 
 use App\Entity\Project\ProjectType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
 class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const PROJECT_TYPE = 'projectType';
 
     /**
      * @throws Exception
      */
     public function load(ObjectManager $manager)
 	{
+        $projectTypeCollection = new ArrayCollection();
 
 		for ($p = 1; $p <= 26; $p++) {
 
@@ -30,7 +33,11 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($projectType);
 //            dd($projectType);
             $manager->flush();
+
+            $projectTypeCollection->add($projectType);
 		}
+
+        $this->addReference(self::PROJECT_TYPE, $projectTypeCollection);
 	}
 
 	public function getDependencies (): array
