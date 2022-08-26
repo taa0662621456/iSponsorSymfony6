@@ -29,7 +29,16 @@ ff:
 	symfony console make:migration -n
 	symfony console doctrine:migration:migrate -n --env=dev
 	make sso
+	clear
+	make rr
 .PHONY: forcefixturesdev
+
+
+rr:
+	clear
+	rm -r var/cache/* -f
+	symfony php bin/phpunit tests/Controller/UrlResponse200Test.php --do-not-cache-result --no-logging --colors always
+.PHONY: testroutresponsedev
 
 sso:
 	clear
