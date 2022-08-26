@@ -334,43 +334,37 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     {
         // TODO: Implement __serialize() method.
     }
-
     public function __unserialize(array $data): void
     {
         // TODO: Implement __unserialize() method.
     }
-
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
-
+    #
     public function isTotpAuthenticationEnabled(): bool
     {
         return $this->totpKey ? true : false;
     }
-
     public function getTotpAuthenticationUsername(): string
     {
         return $this->username;
     }
-
-    public function getTotpAuthenticationConfiguration(): TotpConfigurationInterface
+    public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
     {
         // You could persist the other configuration options in the user entity to make it individual per user.
-        return new TotpConfiguration($this->totpKey, TotpConfiguration::ALGORITHM_SHA1, 20, 8);
+        return new TotpConfiguration($this->totpKey, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
     }
-
+    #
     public function isEmailAuthEnabled(): bool
     {
         return true; // This can be a persisted field to switch email code authentication on/off
     }
-
     public function getEmailAuthRecipient(): string
     {
         return $this->email;
     }
-
     public function getEmailAuthCode(): string
     {
         if (null === $this->otep) {
@@ -379,7 +373,6 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 
         return $this->otep;
     }
-
     public function setEmailAuthCode(string $otep): void
     {
         $this->otep = $otep;

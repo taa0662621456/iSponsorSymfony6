@@ -464,7 +464,7 @@ class Product
     }
     public function addProductTag(ProductTag $productTag): void
     {
-        $productTag->addProduct($this);
+        $productTag->addProductTagProduct($this);
         $this->productTag[] = $productTag;
     }
     public function removeProductTag(ProductTag $productTag): self

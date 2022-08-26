@@ -24,8 +24,8 @@ class VendorMessage
     #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorMessage')]
     private Vendor $vendorMessage;
 
-    #[ORM\ManyToOne(targetEntity: VendorConversation::class, inversedBy: 'vendorMessage')]
-    private VendorConversation $vendorConversation;
+    #[ORM\ManyToOne(targetEntity: VendorConversation::class, inversedBy: 'vendorConversationMessage')]
+    private VendorConversation $vendorMessageConversation;
 
     #
     public function getMessageMine(): mixed
@@ -37,14 +37,14 @@ class VendorMessage
         $this->messageMine = $messageMine;
     }
     # ManyToOne
-    public function getVendorConversation(): VendorConversation
+    public function getVendorMessageConversation(): VendorConversation
     {
-        return $this->vendorConversation;
+        return $this->vendorMessageConversation;
     }
-    public function setVendorConversation(VendorConversation $vendorConversation): void
+    public function setVendorMessageConversation(VendorConversation $vendorMessageConversation): void
     {
 
-        $this->vendorConversation = $vendorConversation;
+        $this->vendorMessageConversation = $vendorMessageConversation;
     }
     # ManyToOne
     public function getVendorMessage(): Vendor

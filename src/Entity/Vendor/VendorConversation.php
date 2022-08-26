@@ -15,49 +15,36 @@ class VendorConversation
 {
     use BaseTrait;
 
-    #[ORM\OneToMany(mappedBy: 'vendorMessage', targetEntity: VendorMessage::class)]
-    private Collection $vendorMessage;
-
-    #[ORM\ManyToOne(targetEntity: VendorMessage::class, inversedBy: 'vendorConversation')]
-    private Vendor $vendorConversationMessage;
+    #[ORM\OneToMany(mappedBy: 'vendorMessageConversation', targetEntity: VendorMessage::class)]
+    private Collection $vendorConversationMessage;
 
     #[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorConversation')]
     private Collection $vendorConversationVendor;
-
     #
     public function __construct()
     {
-        $this->vendorMessage = new ArrayCollection();
+        $this->vendorConversationMessage = new ArrayCollection();
         $this->vendorConversationVendor = new ArrayCollection();
     }
     # OneToMany
-    public function getVendorMessage(): Collection
+    public function getVendorConversationMessage(): Collection
     {
-        return $this->vendorMessage;
+        return $this->vendorConversationMessage;
     }
     public function addVendorMessage(VendorMessage $vendorMessage): self
     {
-        if (!$this->vendorMessage->contains($vendorMessage)) {
-            $this->vendorMessage[] = $vendorMessage;
+        if (!$this->vendorConversationMessage->contains($vendorMessage)) {
+            $this->vendorConversationMessage[] = $vendorMessage;
         }
         return $this;
     }
     public function removeVendorMessage(VendorMessage $vendorMessage): self
     {
-        if ($this->vendorMessage->contains($vendorMessage)) {
-            $this->vendorMessage->removeElement($vendorMessage);
+        if ($this->vendorConversationMessage->contains($vendorMessage)) {
+            $this->vendorConversationMessage->removeElement($vendorMessage);
         }
 
         return $this;
-    }
-    # ManyToOne
-    public function getVendorConversationMessage(): Vendor
-    {
-        return $this->vendorConversationMessage;
-    }
-    public function setVendorConversationMessage(Vendor $vendor): void
-    {
-            $this->vendorConversationMessage = $vendor;
     }
     # OneToMany
     public function getVendorConversationVendor(): Collection

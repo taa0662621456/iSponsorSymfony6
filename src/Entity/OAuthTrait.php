@@ -7,7 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait OAuthTrait
 {
+/**
+    #[ORM\Column(name: 'email_auth', type: 'string', nullable: true)]
+    private ?string $emailAuth = null;
 
+    #[ORM\Column(name: 'email_auth_code', type: 'string', nullable: true)]
+    private ?string $emailAuthCode = null;
+**/
 
     #[ORM\Column(name: 'facebook_id', type: 'string', nullable: true)]
     private ?string $facebookId = null;
@@ -28,10 +34,30 @@ trait OAuthTrait
     #[ORM\Column(name: 'google_id', type: 'string', nullable: true)]
     private ?string $googleId = null;
 
-
     #[ORM\Column(name: 'google_access_token', type: 'string', length: 510, nullable: true)]
     private ?string $googleAccessToken = null;
+/**
+    public function isEmailAuthEnabled(): bool
+    {
+        return true; // This can be a persisted field to switch email code authentication on/off
+    }
+    public function getEmailAuthRecipient(): string
+    {
+        return $this->email;
+    }
+    public function getEmailAuthCode(): string
+    {
+        if (null === $this->emailAuthCode) {
+            throw new \LogicException('The email authentication code was not set');
+        }
 
+        return $this->emailAuthCode;
+    }
+    public function setEmailAuthCode(string $emailAuthCode): void
+    {
+        $this->emailAuthCode = $emailAuthCode;
+    }
+*/
     public function getFacebookId(): string
     {
         return $this->facebookId;
@@ -82,14 +108,24 @@ trait OAuthTrait
         $this->googleId = $googleId;
     }
 
-    public function getGoogleAccessToken(): string
+    public function getGoogleAccessToken(): ?string
     {
         return $this->googleAccessToken;
     }
 
-    public function setGoogleAccessToken(string $googleAccessToken): void
+    public function isGoogleAccessToken(): bool
+    {
+        return null !== $this->googleAccessToken;
+    }
+
+    public function setGoogleAccessToken(?string $googleAccessToken): void
     {
         $this->googleAccessToken = $googleAccessToken;
+    }
+
+    public function getGoogleUsername(): string
+    {
+        return $this->username;
     }
 
 }
