@@ -38,10 +38,11 @@ class OrderStatus
 	 * @var ArrayCollection
 	 */
 	#[ORM\OneToMany(mappedBy: 'orderStatus', targetEntity: OrderStorage::class)]
-	private Collection $orderStorage;
+	private Collection $orderStatusStorage;
+    #
 	public function __construct()
 	{
-		$this->orderStorage = new ArrayCollection();
+		$this->orderStatusStorage = new ArrayCollection();
 	}
 	public function getOrderStatusCode(): string
 	{
@@ -92,22 +93,22 @@ class OrderStatus
 		$this->ordering = $ordering;
 	}
     # OneToMany
-    public function getOrderStorage(): Collection
+    public function getOrderStatusStorage(): Collection
     {
-        return $this->orderStorage;
+        return $this->orderStatusStorage;
     }
     public function addOrderStorage(OrderStorage $orderStorage): self
     {
-		if (!$this->orderStorage->contains($orderStorage)) {
-			$this->orderStorage[] = $orderStorage;
+		if (!$this->orderStatusStorage->contains($orderStorage)) {
+			$this->orderStatusStorage[] = $orderStorage;
 		}
 		return $this;
 
 	}
 	public function removeOrderStorage(OrderStorage $orderStorage): self
     {
-		if ($this->orderStorage->contains($orderStorage)) {
-			$this->orderStorage->removeElement($orderStorage);
+		if ($this->orderStatusStorage->contains($orderStorage)) {
+			$this->orderStatusStorage->removeElement($orderStorage);
 		}
         return $this;
 	}

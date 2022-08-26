@@ -122,7 +122,7 @@ class OrderStorage
 	#[Assert\Valid]
 	private Collection $orderItem;
 
-	#[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orderStatus')]
+	#[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orderStatusStorage')]
 	private OrderStatus $orderStatus;
 
 	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrder')]
