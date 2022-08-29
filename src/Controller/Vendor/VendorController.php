@@ -22,24 +22,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route(path: '/vendors')]
-#[Route(path: '/sponsors')]
-class VendorsController extends AbstractController
+#[Route(path: '/vendor')]
+#[Route(path: '/sponsor')]
+class VendorController extends AbstractController
 {
 	public function __construct()
 	{
 	}
-	#[Route(path: '/', name: 'vendors', methods: ['GET'])]
-	public function vendors(VendorRepository $vendorsRepository) : Response
+	#[Route(path: '/', name: 'vendor', methods: ['GET'])]
+	public function vendor(VendorRepository $vendorRepository) : Response
 	{
-		return $this->render('vendor/vendors/index.html.twig', [
-      'vendors' => $vendorsRepository->findAll(),
+		return $this->render('vendor/vendor/index.html.twig', [
+      'vendor' => $vendorRepository->findAll(),
   ]);
 	}
 	/**
 	 * @throws Exception
 	 */
-	#[Route(path: '/new', name: 'vendors_new', methods: ['GET', 'POST'])]
+	#[Route(path: '/new', name: 'vendor_new', methods: ['GET', 'POST'])]
 	public function new(Request $request, EntityManager $entityManager) : Response
 	{
 		$slug = new Slugify();
@@ -48,11 +48,11 @@ class VendorsController extends AbstractController
 		// костыль, чтобы вывести пустую форму коллекции
 		$vendorMediaAttachment = new VendorMedia();
 		$vendorMediaAttachment->setFileClass('');
-		$vendor->getVendorMediaAttachments()->add($vendorMediaAttachment);
+		$vendor->getVendorMedia()->add($vendorMediaAttachment);
 		// костыль, чтобы вывести пустую форму коллекции
 		$vendorDocAttachment = new VendorDocument();
 		$vendorDocAttachment->setFileClass('');
-		$vendor->getVendorDocumentAttachments()->add($vendorDocAttachment);
+		$vendor->getVendorDocument()->add($vendorDocAttachment);
 		$form = $this->createForm(VendorAddType::class, $vendor);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -66,18 +66,18 @@ class VendorsController extends AbstractController
 			$entityManager->persist($vendor);
             $entityManager->flush();
 
-            return $this->redirectToRoute('vendors');
+            return $this->redirectToRoute('vendor');
         }
-		return $this->render('vendor/vendors/new.html.twig', [
+		return $this->render('vendor/vendor/new.html.twig', [
       'vendor' => $vendor,
       'form' => $form->createView(),
   ]);
 	}
-	#[Route(path: '/{id<\d+>}', name: 'vendors_show', methods: ['GET'])]
+	#[Route(path: '/{id<\d+>}', name: 'vendor_show', methods: ['GET'])]
 	public function show(Vendor $vendor) : Response
 	{
-		return $this->render('vendor/vendors/show.html.twig', [
-      'vendors' => $vendor,
+		return $this->render('vendor/vendor/show.html.twig', [
+      'vendor' => $vendor,
   ]);
 	}
 
@@ -85,7 +85,7 @@ class VendorsController extends AbstractController
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    #[Route(path: '/{id<\d+>}/edit', name: 'vendors_edit', methods: ['GET', 'POST'])]
+    #[Route(path: '/{id<\d+>}/edit', name: 'vendor_edit', methods: ['GET', 'POST'])]
 	public function edit(Request $request, Vendor $vendor, EntityManager $entityManager) : Response
 	{
 		$form = $this->createForm(VendorEditType::class, $vendor);
@@ -93,9 +93,9 @@ class VendorsController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-      return $this->redirectToRoute('vendors');
+      return $this->redirectToRoute('vendor');
   }
-		return $this->render('vendor/vendors/edit.html.twig', [
+		return $this->render('vendor/vendor/edit.html.twig', [
       'vendor' => $vendor,
       'form' => $form->createView(),
   ]);
@@ -109,7 +109,7 @@ class VendorsController extends AbstractController
 	#[Route(path: '/{id<\d+>}/projects', name: 'vendor_projects', methods: ['GET', 'POST'])]
 	public function projects(ProjectRepository $projects, $user) : Response
 	{
-		return $this->render('vendor/vendors/index.html.twig', [
+		return $this->render('vendor/vendor/index.html.twig', [
       'projects' => $projects->findBy(
           ['user' => $user]
       )
@@ -120,13 +120,13 @@ class VendorsController extends AbstractController
      * @throws OptimisticLockException
      * @throws ORMException
      */
-    #[Route(path: '/{id<\d+>}', name: 'vendors_delete', methods: ['DELETE'])]
+    #[Route(path: '/{id<\d+>}', name: 'vendor_delete', methods: ['DELETE'])]
 	public function delete(Request $request, Vendor $vendor, EntityManager $entityManager) : Response
 	{
 		if ($this->isCsrfTokenValid('delete'.$vendor->getId(), $request->request->get('_token'))) {
       $entityManager->remove($vendor);
       $entityManager->flush();
   }
-		return $this->redirectToRoute('vendors');
+		return $this->redirectToRoute('vendor');
 	}
 }

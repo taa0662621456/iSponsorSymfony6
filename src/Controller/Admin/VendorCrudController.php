@@ -26,15 +26,8 @@ class VendorCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $thumbnailFile = ImageField::new('thumbnailFile')
-            ->setFormType(VichImageType::class)
-            ->setUploadDir('/upload/vendor/thumbnailfile')
-            ->onlyOnForms()
-            ;
 
-
-
-        $fields = [
+        return [
             TextField::new('first_title'),
             TextEditorField::new('middle_title'),
             TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
@@ -53,11 +46,7 @@ class VendorCrudController extends AbstractCrudController
                 ->setUploadDir('')
                 ->onlyOnIndex()
             ,
-            AssociationField::new('vendorMedia')->hideOnForm(),
-//            AssociationField::new('categoryEnGb')->hideOnIndex()->autocomplete(),
         ];
-
-        return $fields;
 
 
     }

@@ -6,7 +6,7 @@ namespace App\Controller\Security;
 
 use App\Entity\Vendor\VendorSecurity;
 use App\Repository\Vendor\VendorSecurityRepository;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,14 +16,11 @@ use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class EmailConfirmationController extends AbstractController
 {
-    private ManagerRegistry $managerRegistry;
-
     /**
      * EmailConfirmationController constructor.
      */
-    public function __construct(private readonly VerifyEmailHelperInterface $verifyEmailHelper, ManagerRegistry $managerRegistry)
+    public function __construct(private readonly VerifyEmailHelperInterface $verifyEmailHelper, private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     #[Route(path: '/confirmation/email', name: 'confirmation_email')]

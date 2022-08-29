@@ -79,7 +79,7 @@ class OrderItem
 
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
 
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');

@@ -55,7 +55,7 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('ISponsor')
             ->setTitle('<img src="#" alt=""> <span class="text-small">iCorp</span>')
-            ->setFaviconPath('favicon.svg')
+            ->setFaviconPath('public/favicon.ico')
             ->setTextDirection('ltr')
             ->renderContentMaximized()
             # ->renderSidebarMinimized()
