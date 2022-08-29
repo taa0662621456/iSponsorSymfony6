@@ -5,10 +5,12 @@ namespace App\Entity\Project;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Project\ProjectTagRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'project_tag')]
 #[ORM\Index(columns: ['slug'], name: 'project_tag_idx')]
@@ -24,7 +26,16 @@ class ProjectTag implements JsonSerializable
 
     public function __construct()
     {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
         $this->projectTagProject = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
+
     }
     # ManyToMany
     public function getProjectTagProject(): Collection

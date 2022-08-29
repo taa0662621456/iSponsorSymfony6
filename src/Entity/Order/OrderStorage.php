@@ -10,6 +10,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -131,8 +132,15 @@ class OrderStorage
 	public function __construct()
 	{
         $t = new DateTime();
-		$this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
-		$this->orderItem = new ArrayCollection();
+        $this->slug = (string)Uuid::v4();
+        $this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
+        $this->orderItem = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
 	}
     #
 	public function getOrderId(): int

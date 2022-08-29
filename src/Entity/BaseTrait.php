@@ -22,8 +22,8 @@ trait BaseTrait
     #[ORM\Column(name: 'published', type: 'boolean', nullable: false)]
     private bool $published = true;
 
-    #[ORM\Column(name: 'slug', type: 'string', unique: true, nullable: true)]
-    private ?string $slug = null;
+    #[ORM\Column(name: 'slug', type: 'string', unique: true)]
+    private string $slug;
 
     #[ORM\Column(name: 'created_at', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Assert\DateTime(format: 'Y-m-d H:i:s', message: 'Штамп должен соответствовать формату Y-m-d H:i:s')]
@@ -55,19 +55,6 @@ trait BaseTrait
     #[ORM\Version]
     protected int $version;
 
-    /**
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
     #
     public function getId(): int
     {
@@ -87,6 +74,7 @@ trait BaseTrait
     {
         return $this->slug;
     }
+
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;

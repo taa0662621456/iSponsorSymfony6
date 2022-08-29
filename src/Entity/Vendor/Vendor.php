@@ -8,8 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
-use App\Entity\Vendor\VendorConversation;
 use App\Entity\ObjectTrait;
+use App\Entity\ObjectVichUploadField;
 use App\Entity\Order\OrderItem;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\Collection;
@@ -42,6 +42,7 @@ class Vendor
 {
     use BaseTrait;
     use ObjectTrait;
+    use ObjectVichUploadField;
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
@@ -69,7 +70,7 @@ class Vendor
     #[Assert\Valid]
     private array|VendorSecurity $vendorSecurity;
 
-    #[ORM\OneToOne(mappedBy: 'vendorIban', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'vendorIbanVendor', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorIban::class)]
     #[Assert\Valid]
@@ -87,10 +88,10 @@ class Vendor
     #[Assert\Valid]
     private Featured $vendorFeatured;
 
-    #[ORM\OneToMany(mappedBy: 'vendorDocument', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
     private Collection $vendorDocument;
 
-    #[ORM\OneToMany(mappedBy: 'vendorMedia', targetEntity: VendorMedia::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'vendorMediaVendor', targetEntity: VendorMedia::class, cascade: ['persist', 'remove'])]
     private Collection $vendorMedia;
 
     #[ORM\OneToMany(mappedBy: 'orderVendor', targetEntity: OrderStorage::class)]
@@ -120,20 +121,22 @@ class Vendor
      */
     public function __construct()
     {
-     $t = new DateTime();
-     $this->slug = (string)Uuid::v4();
+        $t = new \DateTime();
+        $this->slug = (string)Uuid::v4();
+        $this->vendorMessage = new ArrayCollection();
+        $this->vendorItem = new ArrayCollection();
+        $this->vendorOrder = new ArrayCollection();
+        $this->vendorDocument = new ArrayCollection();
+        $this->vendorMedia = new ArrayCollection();
+        $this->vendorFriend = new ArrayCollection();
+        $this->vendorMyFriend = new ArrayCollection();
+        $this->isActive = true;
 
-     $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-     $this->vendorMessage = new ArrayCollection();
-     $this->vendorItem = new ArrayCollection();
-     $this->vendorOrder = new ArrayCollection();
-     $this->vendorDocument = new ArrayCollection();
-     $this->vendorMedia = new ArrayCollection();
-     $this->vendorFriend = new ArrayCollection();
-     $this->vendorMyFriend = new ArrayCollection();
-     $this->isActive = true;
-
-
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
     }
     #
     public function isActive(): bool

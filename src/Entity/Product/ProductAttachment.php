@@ -5,6 +5,7 @@ namespace App\Entity\Product;
 
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 use App\Repository\Product\ProductAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ProductAttachment
 {
 	use BaseTrait;
+    use ObjectTrait;
 	use AttachmentTrait;
 	#[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachment')]
 	#[ORM\JoinColumn(onDelete: 'CASCADE')]

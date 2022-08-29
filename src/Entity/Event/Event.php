@@ -3,7 +3,10 @@
 namespace App\Entity\Event;
 
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'event')]
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
@@ -14,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Event
 {
     use BaseTrait;
+    use ObjectTrait;
 
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
     private int $parent;
@@ -85,4 +89,16 @@ class Event
 
     #[ORM\Column(name: 'repeat_end', type: 'string', nullable: false)]
     private string $repeatEnd;
+
+    public function __construct()
+    {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
+    }
 }

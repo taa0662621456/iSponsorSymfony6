@@ -3,11 +3,13 @@
 
 namespace App\Entity\Order;
 
+use DateTime;
 use App\Entity\BaseTrait;
 use App\Repository\Order\OrderStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'order_status')]
 #[ORM\Index(columns: ['slug'], name: 'order_status_idx')]
@@ -42,7 +44,15 @@ class OrderStatus
     #
 	public function __construct()
 	{
-		$this->orderStatusStorage = new ArrayCollection();
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
+        $this->orderStatusStorage = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
 	}
 	public function getOrderStatusCode(): string
 	{

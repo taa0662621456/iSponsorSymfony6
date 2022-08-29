@@ -5,6 +5,7 @@ namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
+use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
@@ -13,6 +14,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
@@ -23,6 +25,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 class Product
 {
     use BaseTrait;
+    use ObjectTrait;
+
     public const NUM_ITEMS = 10;
 
     #[ORM\Column(name: 'product_sku', type: 'integer', nullable: false, options: ['default' => 0])]
@@ -142,10 +146,17 @@ class Product
     public function __construct()
     {
         $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
         $this->productAvailableDate = $t->format('Y-m-d H:i:s');
         $this->productAttachment = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
         $this->productTag = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
 
     }
     #

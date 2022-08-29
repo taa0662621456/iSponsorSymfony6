@@ -20,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use phpDocumentor\Reflection\Types\Self_;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'project')]
@@ -81,11 +82,22 @@ class Project implements ProjectInterface
     #[Pure]
     public function __construct()
     {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
         $this->projectAttachment = new ArrayCollection();
         $this->projectTag = new ArrayCollection();
         $this->projectProduct = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
     }
+
+
+
     # ManyToOne
     public function getProjectCategory():Collection
     {

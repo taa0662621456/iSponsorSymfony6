@@ -5,9 +5,8 @@ namespace App\Entity\Storage;
 
 
 use App\Entity\BaseTrait;
-use App\Factory\ObjectEntity;
 
-class Storage extends ObjectEntity
+class Storage
 {
     use BaseTrait;
     //TODO: склад товаров
