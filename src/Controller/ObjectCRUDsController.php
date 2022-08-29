@@ -13,7 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ObjectCRUDsController extends AbstractController
 {
     #[NoReturn]
-    public function __construct(private readonly RequestDispatcher $requestDispatcher, private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private readonly RequestDispatcher $requestDispatcher,
+                                private readonly ManagerRegistry $managerRegistry)
     {
     }
     # Index

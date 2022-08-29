@@ -4,8 +4,7 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Order\Order;
+use App\Entity\Order\OrderStorage;
 use App\Entity\Product\Product;
 use App\Entity\Product\ProductPrice;
 use App\Entity\Vendor\Vendor;
@@ -15,8 +14,8 @@ use App\Service\ProductUtilite;
 use App\Service\RequestDispatcher;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\Exception\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use JetBrains\PhpStorm\NoReturn;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,14 +26,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class CartController extends AbstractController
 {
-    private RequestDispatcher $requestDispatcher;
-    private ManagerRegistry $managerRegistry;
-
     #[NoReturn]
-    public function __construct(RequestDispatcher $requestDispatcher, ManagerRegistry $managerRegistry)
+    public function __construct(private readonly RequestDispatcher $requestDispatcher, private readonly ManagerRegistry $managerRegistry)
     {
-        $this->requestDispatcher = $requestDispatcher;
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**
@@ -89,7 +83,7 @@ class CartController extends AbstractController
 public function checkout(Request $request, EventDispatcherInterface $eventDispatcher) : array|Response
 {
     # TODO: Can't get a way to read the property "vendorId" in class "App\Entity\Order\Order".
-    $order = new Order();
+    $order = new OrderStorage();
     $form = $this->createForm(OrderHistory::class, $order);
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {

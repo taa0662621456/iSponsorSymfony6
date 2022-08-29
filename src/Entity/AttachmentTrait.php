@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 trait AttachmentTrait
 {
-    #[Vich\UploadableField(mapping: 'file', fileNameProperty: 'firstTitle', size: 'imageSize')]
+    #[Vich\UploadableField(mapping: 'vendorMedia', fileNameProperty: 'firstTitle', size: 'imageSize')]
     #[Assert\NotBlank(message: 'Please, upload the project pictures as a jpeg/jpg or PDF file.')]
     #[Assert\File(
         maxSize: '2M',

@@ -9,9 +9,9 @@ use App\Entity\Vendor\VendorSecurity;
 use App\Event\RegisteredEvent;
 use App\Service\ConfirmationCodeGenerator;
 use App\Service\SecurityForgot;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use ReCaptcha\ReCaptcha;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,14 +21,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CredentialController extends AbstractController
 {
-    private ManagerRegistry $managerRegistry;
-
     /**
      * CredentialController constructor.
      */
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, ManagerRegistry $managerRegistry)
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**

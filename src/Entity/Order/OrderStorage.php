@@ -6,7 +6,6 @@ use App\Entity\BaseTrait;
 
 use App\Entity\Vendor\Vendor;
 use App\Repository\Order\OrderRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -131,7 +130,7 @@ class OrderStorage
     #
 	public function __construct()
 	{
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
         $this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
         $this->orderItem = new ArrayCollection();
