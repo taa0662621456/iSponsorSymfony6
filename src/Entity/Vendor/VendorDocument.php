@@ -21,14 +21,14 @@ class VendorDocument
 
 	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorDocument')]
 	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-	private Vendor $vendorDocument;
+	private Vendor $vendorDocumentVendor;
     # ManyToOne
-	public function getVendorDocument(): Vendor
+	public function getVendorDocumentVendor(): Vendor
     {
-		return $this->vendorDocument;
+		return $this->vendorDocumentVendor;
 	}
-	public function setVendorDocument(Vendor $vendorDocument): void
+	public function setVendorDocumentVendor(Vendor $vendorDocumentVendor): void
 	{
-		$this->vendorDocument = $vendorDocument;
+		$this->vendorDocumentVendor = $vendorDocumentVendor;
 	}
 }

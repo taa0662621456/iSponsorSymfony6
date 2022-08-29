@@ -25,7 +25,7 @@ trait CategoryLanguageTrait
     private string $categoryDesc = 'category_desc';
 
     #[ORM\OneToOne(inversedBy: 'categoryEnGb', targetEntity: Category::class)]
-    private CategoryEnGb $categoryEnGb;
+    private CategoryEnGb $categoryEnGbCategory;
 
 
     /**
@@ -36,30 +36,28 @@ trait CategoryLanguageTrait
     {
         return $this->getCategoryName();
     }
-
+    #
     public function getCategoryName(): string
     {
         return $this->categoryName;
     }
-
     public function setCategoryName(string $categoryName): void
     {
         $this->categoryName = $categoryName;
     }
-
+    #
     public function getCategoryDesc(): string
     {
         return $this->categoryDesc;
     }
-
     public function setCategoryDesc(string $categoryDesc): void
     {
         $this->categoryDesc = $categoryDesc;
     }
-
-    public function getCategoryEnGb(): CategoryEnGb
+    # OneToOne
+    public function getCategoryEnGbCategory(): CategoryEnGb
     {
-        return $this->categoryEnGb;
+        return $this->categoryEnGbCategory;
     }
 
 }

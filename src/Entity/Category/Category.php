@@ -16,9 +16,11 @@ use App\Repository\Category\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
 use JetBrains\PhpStorm\Pure;
+use DateTime;
 
 
 #[ORM\Table(name: 'category')]
@@ -46,7 +48,7 @@ class Category implements CategoryInterface
     #[ORM\JoinColumn(nullable: true)]
     private Collection $categoryProject;
 
-    #[ORM\OneToOne(mappedBy: 'categoryEnGb', targetEntity: CategoryEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'categoryEnGbCategory', targetEntity: CategoryEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\Type(type: CategoryEnGb::class)]
     #[Assert\Valid]
@@ -68,9 +70,17 @@ class Category implements CategoryInterface
     #[Pure]
     public function __construct()
     {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
         $this->categoryChildren = new ArrayCollection();
         $this->categoryProject = new ArrayCollection();
         $this->categoryAttachment = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
     }
     # OneToMany
     public function getCategoryProject(): Collection

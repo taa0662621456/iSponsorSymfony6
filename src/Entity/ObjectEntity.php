@@ -1,23 +1,15 @@
 <?php
 
-namespace App\Entity\Module;
+namespace App\Entity;
 
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Table(name: 'module_menu')]
-#[ORM\Entity]
-class ModuleMenu
+class ObjectEntity
 {
-    use BaseTrait;
-    use ObjectTrait;
 
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
 
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
@@ -26,4 +18,5 @@ class ModuleMenu
         $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
     }
+
 }

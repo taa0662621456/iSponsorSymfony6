@@ -3,7 +3,6 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -11,10 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 trait AttachmentTrait
 {
-    #[Vich\UploadableField(mapping: 'product_image_vich', fileNameProperty: 'fileName', size: 'imageSize')]
-    private ?File $fileVich = null;
-
-    #[ORM\Column(name: 'file_name', type: 'string', nullable: false, options: ['default' => 'no_image'])]
+    #[Vich\UploadableField(mapping: 'file', fileNameProperty: 'firstTitle', size: 'imageSize')]
     #[Assert\NotBlank(message: 'Please, upload the project pictures as a jpeg/jpg or PDF file.')]
     #[Assert\File(
         maxSize: '2M',
@@ -49,19 +45,10 @@ trait AttachmentTrait
         maxPixelsMessage: 'maxPixelsMessage',
         corruptedMessage: 'corruptedMessage'
     )]
-    private string $fileName = 'no image';
+    private ?File $fileVich = null;
 
     #[ORM\Column(type: 'integer', nullable: false)]
     private ?int $fileSize = 0;
-
-    #[ORM\Column(name: 'file_title', type: 'string', nullable: false, options: ['default' => 'file_title'])]
-    private string $fileTitle = 'file_title';
-
-    #[ORM\Column(name: 'file_description', type: 'string', nullable: false, options: ['default' => 'file_description'])]
-    private string $fileDescription = 'file_description';
-
-    #[ORM\Column(name: 'file_meta', type: 'string', nullable: false, options: ['default' => 'file_meta'])]
-    private string $fileMeta = 'file_meta';
 
     #[ORM\Column(name: 'file_class', type: 'string', nullable: false, options: ['default' => 'file_class'])]
     private string $fileClass = 'file_class';
@@ -77,7 +64,7 @@ trait AttachmentTrait
     private string $filePath = '';
 
     #[ORM\Column(name: 'file_path_thumb', type: 'string', nullable: false, options: ['default' => ''])]
-    private string $filePathThumb = '';
+    private string $fileThumbPath = '';
 
     #[ORM\Column(name: 'file_is_downloadable', type: 'boolean', nullable: false)]
     private bool $fileIsDownloadable = false;
@@ -93,42 +80,6 @@ trait AttachmentTrait
 
     #[ORM\Column(name: 'file_shared', type: 'boolean', nullable: false)]
     private bool $fileShared = false;
-    #
-    public function getFileName(): string
-    {
-        return $this->fileName;
-    }
-    public function setFileName(string $fileName): void
-    {
-        $this->fileName = $fileName;
-    }
-    #
-    public function getFileTitle(): string
-    {
-        return $this->fileTitle;
-    }
-    public function setFileTitle(string $fileTitle): void
-    {
-        $this->fileTitle = $fileTitle;
-    }
-    #
-    public function getFileDescription(): string
-    {
-        return $this->fileDescription;
-    }
-    public function setFileDescription(string $fileDescription): void
-    {
-        $this->fileDescription = $fileDescription;
-    }
-    #
-    public function getFileMeta(): string
-    {
-        return $this->fileMeta;
-    }
-    public function setFileMeta(string $fileMeta): void
-    {
-        $this->fileMeta = $fileMeta;
-    }
     #
     public function getFileClass(): string
     {
@@ -166,13 +117,13 @@ trait AttachmentTrait
         $this->filePath = $filePath;
     }
     #
-    public function getFilePathThumb(): string
+    public function getFileThumbPath(): string
     {
-        return $this->filePathThumb;
+        return $this->fileThumbPath;
     }
-    public function setFilePathThumb(string $filePathThumb): void
+    public function setFileThumbPath(string $fileThumbPath): void
     {
-        $this->filePathThumb = $filePathThumb;
+        $this->fileThumbPath = $fileThumbPath;
     }
     #
     public function getFileIsDownloadable(): bool
@@ -227,12 +178,6 @@ trait AttachmentTrait
     public function setFileVich(?File $fileVich = null): void
     {
         $this->fileVich = $fileVich;
-
-        if (null !== $fileVich) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->modifiedAt = new DateTimeImmutable();
-        }
     }
     #
     public function setFileSize(int $fileSize): void

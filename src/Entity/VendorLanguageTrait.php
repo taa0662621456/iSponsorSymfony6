@@ -122,7 +122,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorFirstName;
     }
-
     public function setVendorFirstName(string $vendorFirstName): void
     {
         $this->vendorFirstName = $vendorFirstName;
@@ -132,7 +131,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorLastName;
     }
-
     public function setVendorLastName(string $lastName): void
     {
         $this->vendorLastName = $lastName;
@@ -142,7 +140,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorMiddleName;
     }
-
     public function setVendorMiddleName(string $vendorMiddleName): void
     {
         $this->vendorMiddleName = $vendorMiddleName;
@@ -152,7 +149,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorPhone;
     }
-
     public function setVendorPhone(string $vendorPhone): void
     {
         $this->vendorPhone = $vendorPhone;
@@ -162,7 +158,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorSecondPhone;
     }
-
     public function setVendorSecondPhone(string $vendorSecondPhone): void
     {
         $this->vendorSecondPhone = $vendorSecondPhone;
@@ -172,7 +167,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorFax;
     }
-
     public function setVendorFax(string $fax): void
     {
         $this->vendorFax = $fax;
@@ -182,7 +176,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorAddress;
     }
-
     public function setVendorAddress(string $address): void
     {
         $this->vendorAddress = $address;
@@ -192,7 +185,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorAddress;
     }
-
     public function setVendorAddressSecond(string $vendorSecondAddress): void
     {
         $this->vendorSecondAddress = $vendorSecondAddress;
@@ -202,7 +194,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorCity;
     }
-
     public function setVendorCity(string $vendorCity): void
     {
         $this->vendorCity = $vendorCity;
@@ -212,7 +203,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorStateId;
     }
-
     public function setVendorStateId(int $vendorStateId): void
     {
         $this->vendorStateId = $vendorStateId;
@@ -222,7 +212,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorCountryId;
     }
-
     public function setVendorCountryId(string $vendorCountryId): void
     {
         $this->vendorCountryId = $vendorCountryId;
@@ -232,7 +221,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorZip;
     }
-
     public function setVendorZip(int $vendorZip): void
     {
         $this->vendorZip = $vendorZip;
@@ -242,7 +230,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorCurrency;
     }
-
     public function setVendorCurrency(string $vendorCurrency): void
     {
         $this->vendorCurrency = $vendorCurrency;
@@ -252,7 +239,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorAcceptedCurrencies;
     }
-
     public function setVendorAcceptedCurrencies(string $vendorAcceptedCurrencies): void
     {
         $this->vendorAcceptedCurrencies = $vendorAcceptedCurrencies;
@@ -262,7 +248,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorParams;
     }
-
     public function setVendorParams(string $vendorParams): void
     {
         $this->vendorParams = $vendorParams;
@@ -272,7 +257,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorMetaRobot;
     }
-
     public function setVendorMetaRobot(string $vendorMetaRobot): void
     {
         $this->vendorMetaRobot = $vendorMetaRobot;
@@ -282,7 +266,6 @@ trait VendorLanguageTrait
     {
         return $this->vendorMetaAuthor;
     }
-
     public function setVendorMetaAuthor(string $vendorMetaAuthor): void
     {
         $this->vendorMetaAuthor = $vendorMetaAuthor;

@@ -29,30 +29,42 @@ class VendorIban
 
 	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: Vendor::class, orphanRemoval: true)]
 	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-	private Vendor $vendorIban;
+	private Vendor $vendorIbanVendor;
 
-	public function setIban(string $iban): void
- {
-     $this->iban = $iban;
- }
-	public function getExpiresEnd(): string
+    public function getIban(): ?string
+    {
+        return $this->iban;
+    }
+
+    public function setIban(?string $iban): void
+    {
+        $this->iban = $iban;
+    }
+
+    # OneToOne
+    public function getVendorIbanVendor(): Vendor
+    {
+        return $this->vendorIbanVendor;
+    }
+    public function setVendorIbanVendor(Vendor $iban): void
+    {
+     $this->vendorIbanVendor = $iban;
+    }
+
+    public function getExpiresEnd(): string
 	{
 		return $this->expiresEnd;
 	}
-	public function setExpiresEnd(string $expiresEnd): void
+    public function setExpiresEnd(string $expiresEnd): void
 	{
 		$this->expiresEnd = $expiresEnd;
 	}
-	public function getSignatureCode(): int
+    public function getSignatureCode(): int
 	{
 		return $this->signatureCode;
 	}
-	public function setSignatureCode(int $signatureCode): void
+    public function setSignatureCode(int $signatureCode): void
 	{
 		$this->signatureCode = $signatureCode;
 	}
-	public function getIban(): string
- {
-     return $this->iban;
- }
 }

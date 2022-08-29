@@ -8,7 +8,6 @@ use App\Entity\ObjectTrait;
 use App\Entity\VendorLanguageTrait;
 use App\Repository\Vendor\VendorProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  *

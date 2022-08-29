@@ -3,9 +3,12 @@
 namespace App\Entity\Event;
 
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 use App\Entity\Vendor\Vendor;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'event_member')]
 #[ORM\Index(columns: ['event_id', 'event_permission'], name: 'idx_permission')]
@@ -15,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EventMember
 {
     use BaseTrait;
+    use ObjectTrait;
     #[ORM\Column(name: 'event_id', type: 'integer', nullable: false, options: ['unsigned' => true])]
     private int $eventId;
 // TODO: не работает ассоциация
@@ -35,4 +39,16 @@ class EventMember
      */
     #[ORM\Column(name: 'event_approval', type: 'boolean', options: ['comment' => '0 - no approval required, 1 - required admin approval'])]
     private ?bool $eventApproval = false;
+
+    public function __construct()
+    {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
+    }
 }

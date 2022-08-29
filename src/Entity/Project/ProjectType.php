@@ -5,10 +5,11 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Interface\ProjectTypeInterface;
 use App\Repository\Project\ProjectTypeRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use DateTime;
+use Symfony\Component\Uid\Uuid;
 
 
 #[ORM\Table(name: 'project_type')]
@@ -24,7 +25,15 @@ class ProjectType implements ProjectTypeInterface
 
     public function __construct()
     {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
         $this->projectType = new ArrayCollection();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
     }
     # OneToMany
     public function getProjectType(): Collection

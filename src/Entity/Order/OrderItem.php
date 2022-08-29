@@ -5,11 +5,13 @@ namespace App\Entity\Order;
 
 use App\Entity\BaseTrait;
 use App\Entity\OAuthTrait;
+use App\Entity\ObjectTrait;
 use App\Entity\Product\Product;
 use App\Entity\Vendor\Vendor;
 use App\Repository\Order\OrderRepository;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'order_item')]
 #[ORM\Index(columns: ['slug'], name: 'order_item_idx')]
@@ -18,6 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 class OrderItem
 {
     use BaseTrait;
+    use ObjectTrait;
 
     #[ORM\Column(name: 'item_id', nullable: true)]
     private ?int $itemId = null;
@@ -73,6 +76,18 @@ class OrderItem
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productOrdered')]
     private Product $productOrdered;
+
+    public function __construct()
+    {
+        $t = new DateTime();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
+    }
     #
     public function getItemId(): ?int
     {

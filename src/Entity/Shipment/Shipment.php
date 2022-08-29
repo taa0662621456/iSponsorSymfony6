@@ -5,9 +5,8 @@ namespace App\Entity\Shipment;
 
 
 use App\Entity\BaseTrait;
-use App\Factory\ObjectEntity;
 
-class Shipment extends ObjectEntity
+class Shipment
 {
     use BaseTrait;
 
