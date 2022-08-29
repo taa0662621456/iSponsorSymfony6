@@ -3,9 +3,12 @@
 
 namespace App\Entity\Tag;
 
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 
-use App\Entity\ObjectEntity;
-
-class Tag extends ObjectEntity
+class Tag
 {
+    use BaseTrait;
+    use ObjectTrait;
+
 }
