@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Vendor\Vendor;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -22,7 +23,7 @@ trait BaseTrait
     #[ORM\Column(name: 'published', type: 'boolean', nullable: false)]
     private bool $published = true;
 
-    #[ORM\Column(name: 'slug', type: 'string', unique: true)]
+    #[ORM\Column(name: 'slug', type: 'string', unique: true, nullable: false)]
     private string $slug;
 
     #[ORM\Column(name: 'created_at', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
@@ -54,6 +55,22 @@ trait BaseTrait
     #[ORM\Column(type: 'integer')]
     #[ORM\Version]
     protected int $version;
+
+
+    /**
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $t = new \DateTime();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->published = true;
+    }
 
     #
     public function getId(): int
