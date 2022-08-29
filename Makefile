@@ -15,9 +15,7 @@ ff:
 	rm -r var/cache/* -f
 	rm -r migrations/* -f
 	pwd
-	symfony console doctrine:cache:clear-metadata
-	symfony console doctrine:cache:clear-query
-	symfony console doctrine:cache:clear-result
+	make cc
 	clear
 	# process...
 	symfony console doctrine:schema:update --force --env=dev
@@ -33,12 +31,19 @@ ff:
 	make rr
 .PHONY: forcefixturesdev
 
-
 rr:
 	clear
 	rm -r var/cache/* -f
 	symfony php bin/phpunit tests/Controller/UrlResponse200Test.php --do-not-cache-result --no-logging --colors always
 .PHONY: testroutresponsedev
+
+cc:
+	clear
+	rm -r var/cache/* -f
+	symfony console doctrine:cache:clear-metadata
+	symfony console doctrine:cache:clear-query
+	symfony console doctrine:cache:clear-result
+.PHONY: symfonycacheclear
 
 sso:
 	clear
