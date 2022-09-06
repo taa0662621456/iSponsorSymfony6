@@ -3,11 +3,12 @@
 namespace App\DataFixtures;
 
 use App\Entity\Project\Project;
-use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProductAttachment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -19,12 +20,18 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
     public function load(ObjectManager $manager)
 	{
 
+        $faker = Factory::create();
+
+        $att = $this->getReference(AttachmentFixtures::ATTACHMENT_COLLECTION);
+
+        $at = array_rand((array)$att);
+
         $projectAttachmentCollection = new ArrayCollection();
         $projectRepository = $manager->getRepository(Project::class)->findAll();
 
 		for ($p = 1; $p <= 3; $p++) {
 
-            $projectAttachment = new ProjectAttachment();
+            $projectAttachment = new ProductAttachment();
             $project = new Project();
 
 
@@ -44,9 +51,8 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
 
 
 
-            $projectAttachment->setFileName('cover.jpg');
-            $projectAttachment->setFilePath('/');
-            $projectAttachment->setFileLayoutPosition('homepage');
+            $projectAttachment->setFirstTitle('some file');
+
 //            $projectAttachment->addProjectAttachment($project);
 
             $manager->persist($projectAttachment);

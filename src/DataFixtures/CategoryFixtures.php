@@ -18,12 +18,14 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
 	public function load(ObjectManager $manager)
 	{
         $faker = Factory::create();
+        $categoryAttach = $this->getReference(AttachmentFixtures::ATTACHMENT_COLLECTION);
 
         $categoryCollection = new ArrayCollection();
 
 		for ($p = 1; $p <= 26; $p++) {
 
 			$category = new Category();
+            // EnGb vunesti v ondelnu fikcturu
 			$categoryEnGb = new CategoryEnGb();
 			$categoryAttachment = new CategoryAttachment();
 
@@ -31,17 +33,13 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
 
             $category->setOrdering($p);
             $category->setCategoryEnGb($categoryEnGb);
-//            $category->addCategoryChildren($categoryRepository);
 
             $categoryEnGb->setCategoryName('Category #' . $p);
             $categoryEnGb->setFirstTitle('Category #' . $p);
             $categoryEnGb->setMiddleTitle('Category #' . $p);
             $categoryEnGb->setLastTitle('Category #' . $p);
 
-            $categoryAttachment->setFileName('cover.jpg');
-            $categoryAttachment->setFilePath('/');
-            $categoryAttachment->setFileLayoutPosition('homepage');
-//            $categoryAttachment->setCategoryAttachment($category);
+            $categoryAttachment->setFirstTitle('some file');
 
             $manager->persist($categoryAttachment);
             $manager->persist($categoryEnGb);

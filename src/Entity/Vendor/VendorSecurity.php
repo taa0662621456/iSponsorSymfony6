@@ -316,7 +316,7 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     {
         return $this->vendorSecurity;
     }
-	public function setVendorSecurity($vendorSecurity): self
+	public function setVendorSecurity(Vendor $vendorSecurity): self
     {
         $this->vendorSecurity = $vendorSecurity;
     }

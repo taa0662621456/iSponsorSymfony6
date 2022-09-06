@@ -8,6 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class ReviewProductFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -20,17 +21,19 @@ class ReviewProductFixtures extends Fixture implements DependentFixtureInterface
     {
         $reviewProductCollection = new ArrayCollection();
 
+        $faker = Factory::create();
+
+
         for ($p = 1; $p <= 26; $p++) {
 
-            $review = 'Review Review Review Review';
-            //TODO: тип поля $review необходимо изменить на text
+            //TODO: тип поля $review необходимо изменить на text и сделать отношения
 
             $productReview = new ReviewProduct();
 
 
             $productReview->setProductId($p);
             $productReview->setWorkFlow('published');
-            $productReview->setReview($review);
+            $productReview->setReview($faker->realText(400));
 
             $manager->persist($productReview);
             $manager->flush();

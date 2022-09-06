@@ -7,28 +7,27 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class ReviewProjectFixtures extends Fixture implements DependentFixtureInterface
 {
     public const REVIEW_PROJECT_COLLECTION = 'reviewProjectCollection';
 
-    /**
-     * @inheritDoc
-     */
     public function load(ObjectManager $manager)
     {
         $reviewProjectCollection = new ArrayCollection();
 
-        for ($p = 1; $p <= 26; $p++) {
+        $faker = Factory::create();
 
-            $review = 'Review Review Review Review';
+        for ($p = 1; $p <= 26; $p++) {
 
             $projectReview = new ReviewProject();
 
 
             $projectReview->setProjectId($p);
+            // TODO: доработать отзывы: сделать соответствующие отношения и внедрить фикстуру проекта
             $projectReview->setWorkFlow('published');
-            $projectReview->setReview($review);
+            $projectReview->setReview($faker->realText(400));
 
             $manager->persist($projectReview);
             $manager->flush();

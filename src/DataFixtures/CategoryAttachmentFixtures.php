@@ -17,16 +17,15 @@ class CategoryAttachmentFixtures extends Fixture implements DependentFixtureInte
      */
     public function load(ObjectManager $manager)
 	{
+        $attachment = $this->getReference(AttachmentFixtures::ATTACHMENT_COLLECTION);
+        $vendor = $this->getReference(VendorFixtures::VENDOR_COLLECTION);
+
         $categoryAttachmentCollection = new ArrayCollection();
 
 		for ($p = 1; $p <= 3; $p++) {
 
             $categoryAttachment = new CategoryAttachment();
 
-            $categoryAttachment->setFileName('cover.jpg');
-            $categoryAttachment->setFilePath('/');
-            $categoryAttachment->setFileLayoutPosition('homepage');
-//            $categoryAttachment->addCategoryAttachment();
 
             $manager->persist($categoryAttachment);
             $manager->flush();

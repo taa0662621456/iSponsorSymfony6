@@ -23,13 +23,27 @@ class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
     #[NoReturn]
     public function load(ObjectManager $manager)
 	{
+        $projectTagTitle = [
+            'charity',
+            'donate',
+            'business',
+            'social',
+            'media',
+            'park',
+            'square',
+            'city',
+            'state',
+            'national',
+            'district',
+        ];
+
         $projectTagCollection = new ArrayCollection();
         $projectCollection = new ArrayCollection();
 //        $projectTagRepository = $manager->getRepository(ProjectType::class)->findAll();
 //        $projectRepository = $manager->getRepository(Project::class)->findAll();
 
 
-        for ($p = 1; $p <= 2; $p++) {
+        for ($p = 0; $p <= count($projectTagTitle); $p++) {
 
             $projectTag = new ProjectTag();
             $project = new Project();
@@ -42,7 +56,7 @@ class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
                         $projectTagCollection->add($item);
                 }
 
-                $tag = $projectTagCollection[array_rand($projectTagRepository)];
+//                $tag = $projectTagCollection[array_rand($projectTagRepository)];
             }
 
             if ($manager->getRepository(Project::class)->findAll()) {
@@ -57,7 +71,7 @@ class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
             }
 
             #
-            $projectTag->setFirstTitle('ProjectTagFT #_' . $p);
+            $projectTag->setFirstTitle($projectTagTitle[$p]);
             #
             $manager->persist($projectTag);
             $manager->flush();

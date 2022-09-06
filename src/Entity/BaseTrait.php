@@ -4,12 +4,10 @@ namespace App\Entity;
 
 use App\Entity\Vendor\Vendor;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
-use Exception;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -56,9 +54,8 @@ trait BaseTrait
     #[ORM\Version]
     protected int $version;
 
-
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -91,7 +88,6 @@ trait BaseTrait
     {
         return $this->slug;
     }
-
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;

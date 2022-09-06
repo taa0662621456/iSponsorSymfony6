@@ -22,20 +22,16 @@ class ProjectPlatformReward
     #[ORM\Column(name: 'commission_end_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private string $commissionEndTime;
 
-    /**
-     * @return Project
-     */
+    #
     public function getProjectId(): Project
     {
         return $this->projectId;
     }
-    /**
-     * @param $projectId
-     */
     public function setProjectId($projectId): void
     {
         $this->projectId = $projectId;
     }
+    #
     public function getCommissionStartTime(): string
     {
         return $this->commissionStartTime;
@@ -44,6 +40,7 @@ class ProjectPlatformReward
     {
         $this->commissionStartTime = $commissionStartTime;
     }
+    #
     public function getCommissionEndTime(): string
     {
         return $this->commissionEndTime;

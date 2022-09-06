@@ -46,6 +46,7 @@ class ReviewProject
     {
         $this->projectId = $projectId;
     }
+
     public function getProjectUuid(): ?string
     {
         return $this->projectUuid;
@@ -54,6 +55,7 @@ class ReviewProject
     {
         $this->projectUuid = $projectUuid;
     }
+
     public function getProjectSlug(): ?string
     {
         return $this->projectSlug;
