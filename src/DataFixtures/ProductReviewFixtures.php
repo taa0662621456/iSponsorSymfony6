@@ -2,43 +2,39 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Order\OrderStatus;
+
+use App\Entity\Product\ProductReview;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
-class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
+class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
 {
+
     public function load(ObjectManager $manager)
     {
-        $orderStatusMap = [
-            'New' => 'N',
-            'Depend' => 'D',
-            'Canceled' => 'C',
-            'Shipped' => 'S',
-            'Delivered' => 'D',
-            'Pause' => 'P'
-        ];
+        $faker = Factory::create();
 
-        for ($i = 0; $i <= count($orderStatusMap); $i++) {
+        for ($i = 1; $i <= 26; $i++) {
 
-            $orderStatus = new OrderStatus();
+            //TODO: тип поля $review необходимо изменить на text и сделать отношения
 
-            $orderStatus->setOrderStatusCode($i);
-            $orderStatus->setOrderStatusName($orderStatusMap[$i]);
-            $orderStatus->setOrdering($i);
+            $productReview = new ProductReview();
 
-            $manager->persist($orderStatus);
 
-            $this->setReference('orderStatus_' . $i, $orderStatus);
+            $productReview->setWorkFlow('published');
+            $productReview->setLastTitle($faker->realText(1400));
 
+            $manager->persist($productReview);
+
+            $this->addReference('reviewProduct_' . $i, $productReview);
         }
         $manager->flush();
 
     }
 
-    public function getDependencies(): array
+    public function getDependencies (): array
     {
         return [
             BaseEmptyFixtures::class,
@@ -63,24 +59,16 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
             ProjectFixtures::class,
             #
             ProductAttachmentFixtures::class,
-            ProductReviewFixtures::class,
-            ProductTagFixtures::class,
-            ProductTypeFixtures::class,
-            ProductEnGbFixtures::class,
-            ProductFixtures::class,
         ];
     }
 
     public function getOrder(): int
     {
-        return 24;
+        return 19;
     }
 
-    /**
-     * @return string[]
-     */
     public static function getGroups(): array
     {
-        return ['order'];
+        return ['review'];
     }
 }

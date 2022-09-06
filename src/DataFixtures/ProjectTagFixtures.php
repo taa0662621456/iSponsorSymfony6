@@ -15,73 +15,61 @@ use JetBrains\PhpStorm\NoReturn;
 
 class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const PROJECT_TAG_COLLECTION = 'projectTagCollection';
-
-    /**
-     * @throws Exception
-     */
-    #[NoReturn]
     public function load(ObjectManager $manager)
 	{
-        $projectTagCollection = new ArrayCollection();
-        $projectCollection = new ArrayCollection();
-//        $projectTagRepository = $manager->getRepository(ProjectType::class)->findAll();
-//        $projectRepository = $manager->getRepository(Project::class)->findAll();
+        $projectTagTitle = [
+            'charity',
+            'donate',
+            'business',
+            'social',
+            'media',
+            'park',
+            'square',
+            'city',
+            'state',
+            'national',
+            'district',
+        ];
 
-
-        for ($p = 1; $p <= 2; $p++) {
+        for ($i = 0; $i < count($projectTagTitle); $i++) {
 
             $projectTag = new ProjectTag();
-            $project = new Project();
 
-            if ($manager->getRepository(ProjectTag::class)->findAll()){
-
-                $projectTagRepository = $manager->getRepository(ProjectTag::class)->findAll();
-
-                foreach ($projectTagRepository as $item){
-                        $projectTagCollection->add($item);
-                }
-
-                $tag = $projectTagCollection[array_rand($projectTagRepository)];
-            }
-
-            if ($manager->getRepository(Project::class)->findAll()) {
-                $projectRepository = $manager->getRepository(Project::class)->findAll();
-
-                foreach ($projectRepository as $item) {
-                    $projectCollection->add($item);
-                }
-
-                $project = $projectRepository[array_rand($projectRepository)];
-                //$projectTag->addProjectTag($project);
-            }
-
-            #
-            $projectTag->setFirstTitle('ProjectTagFT #_' . $p);
+            $projectTag->setFirstTitle($projectTagTitle[$i]);
             #
             $manager->persist($projectTag);
-            $manager->flush();
 
-		}
+            $this->addReference('projectTag_' . $i, $projectTag);
+        }
+        $manager->flush();
 
-        $this->addReference(self::PROJECT_TAG_COLLECTION, $projectTagCollection);
-	}
+    }
 
 	public function getDependencies (): array
     {
 		return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
-            ProjectTypeFixtures::class,
+            CategoryEnGbFixtures::class,
+            CategoriesCategoryFixtures::class,
+            CategoryFixtures::class,
+            #
+            ProjectAttachmentFixtures::class,
+            ProjectReviewFixtures::class,
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 8;
+		return 14;
 	}
 
 	/**

@@ -2,43 +2,38 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\ProjectType;
+use App\Entity\Project\ProjectEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
-class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
+class ProjectEnGbFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
-	{
-        $projectTypeTitle = [
-            'charity',
-            'social',
-            'business',
-            'donate'
-        ];
+    {
 
-		for ($i = 0; $i < count($projectTypeTitle); $i++) {
+        $faker = Factory::create();
 
-            $projectType = new ProjectType();
+        for ($i = 0; $i < 20; $i++){
 
-
-            $projectType->setFirstTitle($projectTypeTitle[$i]);
-            $projectType->setMiddleTitle($projectTypeTitle[$i]);
-            $projectType->setLastTitle($projectTypeTitle[$i]);
-
-            $manager->persist($projectType);
-
-            $this->setReference('projectType_' . $i, $projectType);
+            $projectEnGb = new ProjectEnGb();
+            #
+            $projectEnGb->setFirstTitle($faker->firstName);
+            $projectEnGb->setLastTitle($faker->lastName);
+            #
+            $manager->persist($projectEnGb);
+            #
+            $this->addReference('projectEnGb_' . $i, $projectEnGb);
         }
         $manager->flush();
 
     }
 
-	public function getDependencies (): array
+    public function getDependencies(): array
     {
-		return [
+        return [
             BaseEmptyFixtures::class,
             #
             VendorMediaFixtures::class,
@@ -56,19 +51,21 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
             ProjectAttachmentFixtures::class,
             ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
+            ProjectTypeFixtures::class,
         ];
-	}
+    }
 
-	public function getOrder(): int
+    public function getOrder(): int
     {
-		return 15;
-	}
+        return 16;
+    }
 
-	/**
-	 * @return string[]
-	 */
-	public static function getGroups(): array
-	{
-		return ['project'];
-	}
+    /**
+     * @return string[]
+     */
+    public static function getGroups(): array
+    {
+        return ['vendor'];
+    }
+
 }

@@ -116,24 +116,6 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Event'
                         prefix: 'App\Entity\Event'
                         alias: Event
-                    Message:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Message'
-                        prefix: 'App\Entity\Message'
-                        alias: Message
-                    Tag:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Tag'
-                        prefix: 'App\Entity\Tag'
-                        alias: Tag
-                    Attachment:
-                        is_bundle: false
-                        type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Attachment'
-                        prefix: 'App\Entity\Attachment'
-                        alias: Attachment
                     Featured:
                         is_bundle: false
                         type: attribute
@@ -150,25 +132,25 @@ doctrine:
             review:
                 connection: review
                 mappings:
-                    Product:
+                    ProductReview:
                         is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity/Review'
-                        prefix: 'App\Entity\Review'
-                        alias: ReviewProduct
-                    Project:
+                        dir: '%kernel.project_dir%/src/Entity/Product'
+                        prefix: 'App\Entity\Product'
+                        alias: ProductReview
+                    ProjectReview:
                         is_bundle: false
                         type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Review'
-                        prefix: 'App\Entity\Review'
-                        alias: ReviewProject
+                        dir: '%kernel.project_dir%/src/Entity/Project'
+                        prefix: 'App\Entity\Project'
+                        alias: ProjectReview
             sqlite:
                 connection: sqlite
                 mappings:
-                    Menu:
-                        is_bundle: false
-                        dir: '%kernel.project_dir%/src/Entity/Menu'
-                        prefix: 'App\Entity\Menu'
-                        alias: Menu
+#                    Menu:
+#                        is_bundle: false
+#                        dir: '%kernel.project_dir%/src/Entity/Menu'
+#                        prefix: 'App\Entity\Menu'
+#                        alias: Menu
                     Module:
                         is_bundle: false
                         type: attribute
@@ -181,12 +163,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Category'
                         prefix: 'App\Entity\Category'
                         alias: Category
-                    Type:
+                    ProjectType:
                         is_bundle: false
                         type: attribute
-                        dir: '%kernel.project_dir%/src/Entity/Type'
-                        prefix: 'App\Entity\Type'
-                        alias: Type
+                        dir: '%kernel.project_dir%/src/Entity/Project'
+                        prefix: 'App\Entity\Project'
+                        alias: ProjectType
 
         auto_generate_proxy_classes: true
 

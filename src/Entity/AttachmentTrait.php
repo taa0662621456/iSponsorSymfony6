@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 trait AttachmentTrait
 {
-    #[Vich\UploadableField(mapping: 'vendorMedia', fileNameProperty: 'firstTitle', size: 'imageSize')]
+    #[Vich\UploadableField(mapping: 'attachment', fileNameProperty: 'fileName', size: 'fileSize')]
     #[Assert\NotBlank(message: 'Please, upload the project pictures as a jpeg/jpg or PDF file.')]
     #[Assert\File(
         maxSize: '2M',
@@ -45,10 +45,25 @@ trait AttachmentTrait
         maxPixelsMessage: 'maxPixelsMessage',
         corruptedMessage: 'corruptedMessage'
     )]
-    private ?File $fileVich = null;
+    private ?File $file = null;
 
-    #[ORM\Column(type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'file_name', type: 'string', length: 200, nullable: true, options: ['default' => 'noimage.jpg'])]
+    private ?string $fileName = 'noimage.jpg';
+
+    #[ORM\Column(name: 'file_path', type: 'string', nullable: false, options: ['default' => ''])]
+    private string $filePath = '/';
+
+    #[ORM\Column(name: 'file_size', type: 'integer', nullable: false)]
     private ?int $fileSize = 0;
+
+    #[Vich\UploadableField(mapping: 'fileThumbName', fileNameProperty: 'fileThumbName')]
+    private $fileThumbFile;
+
+    #[ORM\Column(name: 'file_thumb_name', type: 'string', length: 100, nullable: false, options: ['default' => ''])]
+    private string $fileThumbName = '';
+
+    #[ORM\Column(name: 'file_thumb_path', type: 'string', nullable: false, options: ['default' => ''])]
+    private string $fileThumbPath = '';
 
     #[ORM\Column(name: 'file_class', type: 'string', nullable: false, options: ['default' => 'file_class'])]
     private string $fileClass = 'file_class';
@@ -58,13 +73,7 @@ trait AttachmentTrait
     private string $fileMimeType = '';
 
     #[ORM\Column(name: 'file_layout_position', nullable: true)]
-    private ?string $fileLayoutPosition;
-
-    #[ORM\Column(name: 'file_path', type: 'string', nullable: false, options: ['default' => ''])]
-    private string $filePath = '';
-
-    #[ORM\Column(name: 'file_path_thumb', type: 'string', nullable: false, options: ['default' => ''])]
-    private string $fileThumbPath = '';
+    private ?string $fileLayoutPosition = 'homepage';
 
     #[ORM\Column(name: 'file_is_downloadable', type: 'boolean', nullable: false)]
     private bool $fileIsDownloadable = false;
@@ -80,6 +89,16 @@ trait AttachmentTrait
 
     #[ORM\Column(name: 'file_shared', type: 'boolean', nullable: false)]
     private bool $fileShared = false;
+
+    #
+    public function getFileName(): string
+    {
+        return $this->fileName;
+    }
+    public function setFileName(string $fileName): void
+    {
+        $this->fileName = $fileName;
+    }
     #
     public function getFileClass(): string
     {
@@ -115,6 +134,24 @@ trait AttachmentTrait
     public function setFilePath(string $filePath): void
     {
         $this->filePath = $filePath;
+    }
+    #
+    public function getFileThumbFile()
+    {
+        return $this->fileThumbFile;
+    }
+    public function setFileThumbFile($fileThumbFile): void
+    {
+        $this->fileThumbFile = $fileThumbFile;
+    }
+    #
+    public function getFileThumbName(): string
+    {
+        return $this->fileThumbName;
+    }
+    public function setFileThumbName(string $fileThumbName): void
+    {
+        $this->fileThumbName = $fileThumbName;
     }
     #
     public function getFileThumbPath(): string
@@ -171,13 +208,13 @@ trait AttachmentTrait
         $this->fileShared = $fileShared;
     }
     #
-    public function getFileVich(): ?File
+    public function getFile(): ?File
     {
-        return $this->fileVich;
+        return $this->file;
     }
-    public function setFileVich(?File $fileVich = null): void
+    public function setFile(?File $file = null): void
     {
-        $this->fileVich = $fileVich;
+        $this->file = $file;
     }
     #
     public function setFileSize(int $fileSize): void

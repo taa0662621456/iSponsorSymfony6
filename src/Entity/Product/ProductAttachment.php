@@ -17,20 +17,20 @@ class ProductAttachment
 {
 	use BaseTrait;
     use ObjectTrait;
-	use AttachmentTrait;
+    use AttachmentTrait;
+
 	#[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachment')]
 	#[ORM\JoinColumn(onDelete: 'CASCADE')]
-	private Product $productAttachment;
+	private Product $productAttachmentProduct;
 
-    /**
-     * @return Product
-     */
-	public function getProductAttachment(): Product
+    # ManyToOne
+	public function getProductAttachmentProduct(): Product
     {
-		return $this->productAttachment;
+		return $this->productAttachmentProduct;
 	}
-	public function setProductAttachment(Product $productAttachment): void
-	{
-		$this->productAttachment = $productAttachment;
-	}
+    public function setProductAttachmentProduct(Product $product): void
+    {
+            $this->productAttachmentProduct = $product;
+    }
+
 }

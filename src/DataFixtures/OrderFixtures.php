@@ -4,77 +4,95 @@ namespace App\DataFixtures;
 
 use App\Entity\Order\OrderStorage;
 use App\Entity\Order\OrderItem;
-use App\Entity\Order\OrderStatus;
-use App\Entity\Product\ProductEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
+use Faker\Factory;
 
 class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const ORDER_COLLECTION = 'orderCollection';
-
     /**
      * @throws Exception
      */
     public function load(ObjectManager $manager)
 	{
-        $orderCollection = new ArrayCollection();
+        $faker = Factory::create();
 
-		$productsEnGbRepository = $manager->getRepository(ProductEnGb::class)->findAll();
-		$orderStatusesRepository = $manager->getRepository(OrderStatus::class)->findAll();
 
-		for ($p = 1; $p <= random_int(1, count($productsEnGbRepository)); $p++) {
+		for ($i = 1; $i <= 15; $i++) {
 
 			$order = new OrderStorage();
 
-			$order->setOrderStatus($orderStatusesRepository[array_rand($orderStatusesRepository)]);
+            $orderStatus = $this->getReference('orderStatus_' . $i);
 
-			$order->setOrderIpAddress('127.0.0.1');
 
-			for ($i = 1; $i <= random_int(1, count($productsEnGbRepository)); $i++) {
+			$order->setOrderStatus($orderStatus);
+//            $order->setOrderVendor($i);
+//            $order->addOrderItem($orderItem);
+			$order->setOrderIpAddress($faker->ipv4);
 
-				$orderItems = new OrderItem();
+			for ($i = 1; $i <= 25; $i++) {
 
-				$orderItems->setItemId($i);
-				$orderItems->setItemName('item ' . $i);
+				$orderItem = new OrderItem();
 
-				$order->addOrderItem($orderItems);
-				$manager->persist($orderItems);
+				$orderItem->setItemId($i);
+				$orderItem->setItemName('item_' . $i);
+
+				$order->addOrderItem($orderItem);
+
+				$manager->persist($orderItem);
+
+                $this->setReference('orderItem_' . $i, $orderItem);
 			}
 
-
 			$manager->persist($order);
-			$manager->flush();
 
-            $orderCollection->add($order);
-		}
+            $this->setReference('order_' . $i, $order);
+        }
+        $manager->flush();
 
-        $this->addReference(self::ORDER_COLLECTION, $orderCollection);
 	}
 
 	public function getDependencies (): array
     {
 		return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
-            ProjectTypeFixtures::class,
+            CategoryEnGbFixtures::class,
+            CategoriesCategoryFixtures::class,
+            CategoryFixtures::class,
+            #
             ProjectAttachmentFixtures::class,
+            ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
-            OrderStatusFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectEnGbFixtures::class,
             ProjectFixtures::class,
+            #
+            ProductAttachmentFixtures::class,
+            ProductReviewFixtures::class,
+            ProductTagFixtures::class,
+            ProductTypeFixtures::class,
+            ProductEnGbFixtures::class,
             ProductFixtures::class,
+            #
+            OrderStatusFixtures::class,
+
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 12;
+		return 25;
 	}
 
 	/**

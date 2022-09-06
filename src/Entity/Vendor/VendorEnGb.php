@@ -4,6 +4,7 @@
 namespace App\Entity\Vendor;
 
 use App\Entity\BaseTrait;
+use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\VendorLanguageTrait;
 use App\Repository\Vendor\VendorRepository;
@@ -18,5 +19,6 @@ class VendorEnGb
 {
     use BaseTrait;
     use ObjectTrait;
+    use MetaTrait;
     use VendorLanguageTrait;
 }

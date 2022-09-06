@@ -6,12 +6,13 @@ use App\Entity\Attachment\Attachment;
 use App\Entity\BaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
+use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Product\Product;
-use App\Entity\Project\ProjectType;
+use App\Entity\Project\Type;
 use App\Entity\Tag\Tag;
+use App\Form\Project\ProjectType;
 use App\Interface\CategoryInterface;
-use App\Interface\ProjectInterface;
 use App\Interface\ProjectTypeInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,14 +28,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['slug'], name: 'project_idx')]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Project implements ProjectInterface
+class Project
 {
     use BaseTrait;
     use ObjectTrait;
+    use MetaTrait;
 
     public const NUM_ITEMS = 10;
 
-    #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectType')]
+    #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
     #[Assert\Valid]
     private ProjectType $projectType;
@@ -79,16 +81,22 @@ class Project implements ProjectInterface
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private Collection $projectPlatformReward;
 
+    #[ORM\OneToMany(mappedBy: 'projectReview', targetEntity: ProjectReview::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
+    private Collection $projectReviw;
+
     #[Pure]
     public function __construct()
     {
         $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
+        #
         $this->projectAttachment = new ArrayCollection();
         $this->projectTag = new ArrayCollection();
         $this->projectProduct = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
-
+        #
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
@@ -105,7 +113,7 @@ class Project implements ProjectInterface
         $this->projectCategory = $projectCategory;
     }
     # ManyToOne
-    public function getProjectType(): Collection
+    public function getProjectType(): ProjectType
     {
         return $this->projectType;
     }
@@ -135,33 +143,36 @@ class Project implements ProjectInterface
     {
         return $this->projectAttachment;
     }
-    public function addProjectAttachment(ProjectAttachment $attachment): self
+    public function addProjectAttachment(ProjectAttachment $projectAttachmenat): self
     {
-        if (!$this->projectAttachment->contains($attachment)) {
-            $this->projectAttachment[] = $attachment;
+        if (!$this->projectAttachment->contains($projectAttachmenat)) {
+            $this->projectAttachment[] = $projectAttachmenat;
         }
         return $this;
     }
     public function removeProjectAttachment(ProjectAttachment $projectAttachmenat): self
     {
-        $this->projectAttachment->removeElement($projectAttachmenat);
+        if ($this->projectAttachment->contains($projectAttachmenat)){
+            $this->projectAttachment->removeElement($projectAttachmenat);
+        }
+        return $this;
     }
     # OneToMany
     public function getProjectProduct(): Collection
     {
         return $this->projectProduct;
     }
-    public function addProjectProduct(Product $projectProduct): self
+    public function addProjectProduct(Product $product): self
     {
-        if (!$this->projectProduct->contains($projectProduct)) {
-            $this->projectProduct[] = $projectProduct;
+        if (!$this->projectProduct->contains($product)) {
+            $this->projectProduct[] = $product;
         }
         return $this;
     }
-    public function removeProjectProduct(Product $projectProduct): self
+    public function removeProjectProduct(Product $product): self
     {
-        if ($this->projectProduct->contains($projectProduct)) {
-            $this->projectProduct->removeElement($projectProduct);
+        if ($this->projectProduct->contains($product)) {
+            $this->projectProduct->removeElement($product);
         }
         return $this;
     }
@@ -221,5 +232,26 @@ class Project implements ProjectInterface
     {
         $this->projectFeatured = $projectFeatured;
     }
+    # OneToMeny
+    public function getProjectReviw(): Collection
+    {
+        return $this->projectReviw;
+    }
+    public function addProjectReviw(ProjectReview $projectReviw): self
+    {
+        if (!$this->projectReviw->contains($projectReviw)){
+            $this->projectReviw[] = $projectReviw;
+        }
+        return $this;
+    }
+    public function removeProjectReviw(ProjectReview $projectReviw): self
+    {
+        if ($this->projectReviw->contains($projectReviw)){
+            $this->projectReviw->removeElement($projectReviw);
+        }
+        return $this;
+    }
+
+
 
 }

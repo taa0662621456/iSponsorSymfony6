@@ -2,29 +2,32 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Product\ProductAttachment;
-use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProjectReview;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInterface
+class ProjectReviewFixtures extends Fixture implements DependentFixtureInterface
 {
+
     public function load(ObjectManager $manager)
-	{
+    {
 
         $faker = Factory::create();
 
-		for ($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 26; $i++) {
 
-            $projectAttachment = new ProjectAttachment();
+            $projectReview = new ProjectReview();
 
-            $projectAttachment->setFirstTitle('some file');
+            $projectReview->setProjectId($i);
+            // TODO: доработать отзывы: сделать соответствующие отношения и внедрить фикстуру проекта
+            $projectReview->setWorkFlow('published');
+            $projectReview->setLastTitle($faker->realText(600));
             #
-            $manager->persist($projectAttachment);
+            $manager->persist($projectReview);
 
-            $this->addReference('projectAttachment_' . $i, $projectAttachment);
+            $this->addReference('reviewProject_' . $i, $projectReview);
         }
         $manager->flush();
 
@@ -47,20 +50,20 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
             CategoriesCategoryFixtures::class,
             CategoryFixtures::class,
             #
+            ProjectAttachmentFixtures::class,
 
         ];
     }
 
-	public function getOrder(): int
+    public function getOrder(): int
     {
-		return 12;
-	}
+        return 13;
+    }
 
-	/**
-	 * @return string[]
-	 */
-	public static function getGroups(): array
-	{
-		return ['project'];
-	}
+    public static function getGroups(): array
+    {
+        return ['review'];
+    }
+
+
 }

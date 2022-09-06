@@ -1,33 +1,36 @@
 <?php
+
 namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Interface\ProjectTypeInterface;
-use App\Repository\Project\ProjectTypeRepository;
-use DateTime;
+use App\Repository\Type\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-
 #[ORM\Table(name: 'project_type')]
 #[ORM\Index(columns: ['slug'], name: 'project_type_idx')]
-#[ORM\Entity(repositoryClass: ProjectTypeRepository::class)]
+#[ORM\Entity(repositoryClass: TypeRepository::class)]
 class ProjectType implements ProjectTypeInterface
 {
     use BaseTrait;
     use ObjectTrait;
 
     #[ORM\OneToMany(mappedBy: 'projectType', targetEntity: Project::class)]
-    private Collection $projectType;
+    private Collection $projectTypeProject;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
-        $this->projectType = new ArrayCollection();
+        $this->projectTypeProject = new ArrayCollection();
+
 
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
@@ -35,23 +38,26 @@ class ProjectType implements ProjectTypeInterface
         $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
     }
-    # OneToMany
-    public function getProjectType(): Collection
+    #
+    public function getProjectTypeProject(): Collection
     {
-        return $this->projectType;
+        return $this->projectTypeProject;
     }
-    public function addProjectType(Project $project): self
+    public function addProjectTypeProject(Project $project): self
     {
-        if (!$this->projectType->contains($project)){
-            $this->projectType[] = $project;
+        if (!$this->projectTypeProject->contains($project)){
+            $this->projectTypeProject[] = $project;
         }
         return $this;
     }
-    public function removeProjectType(Project $project): self
+    public function removeProjectTypeProject(Project $project): self
     {
-        if ($this->projectType->contains($project)){
-            $this->projectType->removeElement($project);
+        if ($this->projectTypeProject->contains($project)){
+            $this->projectTypeProject->removeElement($project);
         }
         return $this;
     }
+
+
+
 }

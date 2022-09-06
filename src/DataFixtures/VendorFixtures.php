@@ -3,124 +3,91 @@
 namespace App\DataFixtures;
 
 use App\Entity\Vendor\Vendor;
-use App\Entity\Vendor\VendorDocument;
-use App\Entity\Vendor\VendorEnGb;
-use App\Entity\Vendor\VendorIban;
-use App\Entity\Vendor\VendorMedia;
-use App\Entity\Vendor\VendorSecurity;
+use App\Service\ThisPersonDoesNotExistPhotoConsumer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
+use \Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
 use Faker\Factory;
-use Faker\Generator;
+use App\DataFixtures\VendorSecurityFixtures;
 
-class VendorFixtures extends Fixture
+
+class VendorFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_COLLECTION = 'vendorCollection';
-
-    /**
-     * @throws Exception
-     */
     public function load(ObjectManager $manager)
 	{
         $faker = Factory::create();
 
-        $vendorCollection = new ArrayCollection();
-
-        $dir = dirname('public\\upload\\vendor\\image\\.');
-        $avatarArray = scandir($dir);
-
-        foreach ($avatarArray as $avatar){
-            if (!is_dir($avatar)){
-                $avatar = 'public/upload/vendor/image/' . $avatar;
-                unlink($avatar);
-            }
-        }
-        for ($p = 1; $p <= 1; $p++) {
-
-            $rand = random_int(1000000, 1000000000);
-            $requestUrl = 'https://www.thispersondoesnotexist.com/image?' . $rand;
-
-            $filename = $rand . '.jpg';
-            $file = 'public\\upload\\vendor\\image\\' . $rand . '.jpg';
-
-            $fp = fopen($file, 'w+');
-            $ch = curl_init($requestUrl);
-
-            curl_setopt($ch, CURLOPT_FILE, $fp);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 6000);
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
-            curl_setopt($ch, CURLOPT_VERBOSE, false);
-            $raw = curl_exec($ch);
-            curl_close($ch);
-
-            fwrite($fp, $raw);
-            fclose($fp);
+//        $picsumPhotoApiConsumer = new PicsumPhotoApiConsumer();
+//        $picsum = $picsumPhotoApiConsumer->getPicsum('GET', 'https://picsum.photos/v2/list')->toArray();
+//
+//        $picsum = array_rand($picsum);
 
 
-            //$password = md5($rand);
+
+//        $dir = dirname('public\\upload\\vendor\\image\\.');
+//        $avatarArray = scandir($dir);
+//
+//        foreach ($avatarArray as $avatar){
+//            if (!is_dir($avatar)){
+//                $avatar = 'public/upload/vendor/image/' . $avatar;
+//                unlink($avatar);
+//            }
+//        }
+
+
+        for ($i = 1; $i <= 10; $i++) {
+
+            $vendorMedia = $this->getReference('vendorMedia_' . $i);
+            $vendorDocument = $this->getReference('vendorDocument_' . $i);
+            $vendorEnGb = $this->getReference('vendorEnGb_' . $i);
+            $vendorIban = $this->getReference('vendorIban_' . $i);
+            $vendorSecurity = $this->getReference('vendorSecurity_' . $i);
+
+            $personPhoto = new ThisPersonDoesNotExistPhotoConsumer();
+            $randName = random_int(1000000, 1000000000);
+            $personPhoto->getExitPersonPhoto((string)$randName);
 
             $vendor = new Vendor();
-            $vendorSecurity = new VendorSecurity();
-            $vendorIban = new VendorIban();
-            $vendorEnGb = new VendorEnGb();
-            $vendorDocument = new VendorDocument();
-            $vendorMedia = new VendorMedia();
-
-
-            $vendorSecurity->setEmail($faker->email);
-            $vendorSecurity->setPassword($faker->password(6, 20));
-            $vendorSecurity->setPhone($faker->phoneNumber);
             #
-            $vendorEnGb->setVendorZip($faker->numberBetween(11111, 99999));
-            $vendorEnGb->setFirstTitle($faker->firstName);
-            $vendorEnGb->setLastTitle($faker->lastName);
-            #
-            $vendorIban->setIban($faker->numberBetween(1111111111111111, 9999999999999999));
-            #
-            $vendorDocument->setFileName('cover.jpg');
-            $vendorDocument->setFilePath('/');
-            #
-            $vendorMedia->setFileName($filename);
-            $vendorMedia->setFilePath('/');
-            ####
-            $vendor->setVendorEnGb($vendorEnGb);
-            $vendor->setVendorSecurity($vendorSecurity);
             $vendor->setVendorIban($vendorIban);
             #
-            $manager->persist($vendorDocument);
-            $manager->persist($vendorMedia);
-            $manager->persist($vendorIban);
-            $manager->persist($vendorEnGb);
-            $manager->persist($vendorSecurity);
+            $vendor->setVendorEnGb($vendorEnGb);
+            #
+            $vendor->setVendorSecurity($vendorSecurity);
+            #
             $manager->persist($vendor);
-            $manager->flush();
-
-            $vendorCollection->add($vendor);
+            #
+            $this->addReference('vendor_' . $i, $vendor);
         }
+        $manager->flush();
 
-        $this->addReference(self::VENDOR_COLLECTION, $vendorCollection);
     }
 
     public function getDependencies (): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
+            #
+
         ];
     }
 
     public function getOrder(): int
     {
-		return 1;
+		return 7;
 	}
 
-	/**
-	 * @return string[]
-	 */
 	public static function getGroups(): array
 	{
 		return ['vendor'];
 	}
+
 }
 
