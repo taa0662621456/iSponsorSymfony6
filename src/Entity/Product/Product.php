@@ -5,6 +5,7 @@ namespace App\Entity\Product;
 
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
+use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
@@ -26,6 +27,8 @@ class Product
 {
     use BaseTrait;
     use ObjectTrait;
+    use MetaTrait;
+
 
     public const NUM_ITEMS = 10;
 
@@ -94,15 +97,6 @@ class Product
     #[ORM\Column(name: 'product_hits', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productHit = 0;
 
-    #[ORM\Column(name: 'product_notes', type: 'text', nullable: false, options: ['default' => 'product_notes'])]
-    private string $productNote = 'product_notes';
-
-    #[ORM\Column(name: 'meta_robot', type: 'string', nullable: false, options: ['default' => 'meta_robot'])]
-    private string $metaRobot = 'meta_robot';
-
-    #[ORM\Column(name: 'meta_author', type: 'string', nullable: false, options: ['default' => 'meta_author'])]
-    private string $metaAuthor = 'meta_author';
-
     #[ORM\Column(name: 'layout', type: 'integer', nullable: false, options: ['default' => 0])]
     private ?int $layout = 0;
 
@@ -140,24 +134,28 @@ class Product
     #[ORM\OneToOne(mappedBy: 'productFeatured', targetEntity: Featured::class)]
     private Featured $productFeatured;
 
-    #[ORM\OneToMany(mappedBy: 'productAttachment', targetEntity: ProductAttachment::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'productAttachmentProduct', targetEntity: ProductAttachment::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $productAttachment;
+
+    #[ORM\OneToMany(mappedBy: 'productReviewProduct', targetEntity: ProductReview::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    private Collection $productReview;
 
     public function __construct()
     {
         $t = new DateTime();
         $this->slug = (string)Uuid::v4();
         $this->productAvailableDate = $t->format('Y-m-d H:i:s');
+        #
         $this->productAttachment = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
         $this->productTag = new ArrayCollection();
-
+        $this->productReview = new ArrayCollection();
+        #
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
         $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
-
     }
     #
     public function getProductSku(): int
@@ -378,33 +376,6 @@ class Product
         $this->productHit = $productHit;
     }
     #
-    public function getProductNote(): ?string
-    {
-        return $this->productNote;
-    }
-    public function setProductNote(string $productNote): void
-    {
-        $this->productNote = $productNote;
-    }
-    #
-    public function getMetaRobot(): ?string
-    {
-        return $this->metaRobot;
-    }
-    public function setMetaRobot(string $metaRobot): void
-    {
-        $this->metaRobot = $metaRobot;
-    }
-    #
-    public function getMetaAuthor(): ?string
-    {
-        return $this->metaAuthor;
-    }
-    public function setMetaAuthor(string $metaAuthor): void
-    {
-        $this->metaAuthor = $metaAuthor;
-    }
-    #
     public function getLayout(): ?int
     {
         return $this->layout;
@@ -513,4 +484,24 @@ class Product
         }
         return $this;
     }
+    # OneToMany
+    public function getProductReview(): Collection
+    {
+        return $this->productReview;
+    }
+    public function addProductReview(ProductReview $productReview): self
+    {
+        if (!$this->productReview->contains($productReview)){
+            $this->productReview[] = $productReview;
+        }
+        return $this;
+    }
+    public function removeProductReview(ProductReview $productReview): self
+    {
+        if ($this->productReview->contains($productReview)){
+            $this->productReview->removeElement($productReview);
+        }
+        return $this;
+    }
+
 }

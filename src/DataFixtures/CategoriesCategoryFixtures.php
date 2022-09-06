@@ -12,17 +12,12 @@ use Exception;
 
 class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const CATEGORIES_CATEGORY_COLLECTION = 'categoriesCategoryCollection';
 
-    /**
-     * @throws Exception
-     */
     public function load(ObjectManager $manager)
     {
 
         $categoriesRepository = $manager->getRepository(Category::class)->findAll();
 
-        $categoriesCategoryCollection = new ArrayCollection();
         $array = [];
         $i = 1;
         foreach ($categoriesRepository as $category) {
@@ -31,44 +26,40 @@ class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInte
         $minId = min($array);
         $maxId = max($array);
 
-        for ($p = 0; $p <= count($categoriesRepository) - 1; $p++) {
+        for ($i = 0; $i < count($categoriesRepository); $i++) {
 
-            $currentCategoryId = $maxId - $p;
-            //$currentCategory = $manager->getRepository(Category::class)->find($currentCategoryId);
+            $currentCategoryId = $maxId - $i;
             $randomId = random_int($minId, $minId + 4);
             $parentCategory = $manager->getRepository(Category::class)->find($randomId);
-            $categoriesCategoryCollection->add($parentCategory);
             if ($currentCategoryId >= ($minId + 4)) {
-//                $parentCategory->addCategoryChildren($repository);
                 $manager->persist($parentCategory);
-                $manager->flush();
             }
         }
 
-        $this->addReference(self::CATEGORIES_CATEGORY_COLLECTION, $categoriesCategoryCollection);
+        $manager->flush();
     }
 
     public function getDependencies(): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
-            ProjectTypeFixtures::class,
-            ProjectAttachmentFixtures::class,
-            ProjectTagFixtures::class,
-            OrderStatusFixtures::class,
-            ProjectFixtures::class,
-            ProductFixtures::class,
-            OrderFixtures::class,
+            CategoryEnGbFixtures::class,
+            #
         ];
     }
 
     public function getOrder(): int
     {
-        return 13;
+        return 10;
     }
 
     /**

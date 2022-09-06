@@ -39,7 +39,6 @@ trait ReviewTrait
     {
         return $this->reviewLang;
     }
-
     public function setReviewLang(?string $reviewLang): void
     {
         $this->reviewLang = $reviewLang;
@@ -49,7 +48,6 @@ trait ReviewTrait
     {
         return $this->reviewType;
     }
-
     public function setReviewType(?string $reviewType): void
     {
         $this->reviewType = $reviewType;
@@ -59,7 +57,6 @@ trait ReviewTrait
     {
         return $this->favourite;
     }
-
     public function setFavourites(int $favourite): void
     {
         $this->favourite = $favourite;

@@ -2,43 +2,36 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\ProjectType;
+use App\Entity\Product\ProductAttachment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
-class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
+class ProductAttachmentFixtures extends Fixture implements DependentFixtureInterface
 {
-
     public function load(ObjectManager $manager)
 	{
-        $projectTypeTitle = [
-            'charity',
-            'social',
-            'business',
-            'donate'
-        ];
 
-		for ($i = 0; $i < count($projectTypeTitle); $i++) {
+        $faker = Factory::create();
 
-            $projectType = new ProjectType();
+		for ($i = 1; $i <= 3; $i++) {
 
+            $productAttachment = new ProductAttachment();
 
-            $projectType->setFirstTitle($projectTypeTitle[$i]);
-            $projectType->setMiddleTitle($projectTypeTitle[$i]);
-            $projectType->setLastTitle($projectTypeTitle[$i]);
+            $productAttachment->setFirstTitle('some file');
+            #
+            $manager->persist($productAttachment);
 
-            $manager->persist($projectType);
-
-            $this->setReference('projectType_' . $i, $projectType);
+            $this->addReference('productAttachment' . $i, $productAttachment);
         }
         $manager->flush();
 
     }
 
-	public function getDependencies (): array
+    public function getDependencies (): array
     {
-		return [
+        return [
             BaseEmptyFixtures::class,
             #
             VendorMediaFixtures::class,
@@ -56,12 +49,17 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
             ProjectAttachmentFixtures::class,
             ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
+            ProductTypeFixtures::class,
+            ProjectEnGbFixtures::class,
+            ProjectFixtures::class,
+            #
+
         ];
-	}
+    }
 
 	public function getOrder(): int
     {
-		return 15;
+		return 18;
 	}
 
 	/**

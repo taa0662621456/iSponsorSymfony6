@@ -6,6 +6,7 @@ namespace App\Entity\Category;
 use App\Entity\Attachment\Attachment;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
+use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Project\Project;
 use App\Interface\CategoryAttachmentInterface;
@@ -31,6 +32,8 @@ class Category implements CategoryInterface
 {
     use BaseTrait;
     use ObjectTrait;
+    use MetaTrait;
+
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]

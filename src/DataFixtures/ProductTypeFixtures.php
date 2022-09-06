@@ -2,35 +2,35 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\ProjectType;
+use App\Entity\Product\ProductType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
+class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
 	{
-        $projectTypeTitle = [
-            'charity',
+        $productTypeTitle = [
+            'new',
             'social',
-            'business',
-            'donate'
+            'star',
+            'popular'
         ];
 
-		for ($i = 0; $i < count($projectTypeTitle); $i++) {
+		for ($i = 0; $i < count($productTypeTitle); $i++) {
 
-            $projectType = new ProjectType();
+            $productType = new ProductType();
 
 
-            $projectType->setFirstTitle($projectTypeTitle[$i]);
-            $projectType->setMiddleTitle($projectTypeTitle[$i]);
-            $projectType->setLastTitle($projectTypeTitle[$i]);
+            $productType->setFirstTitle($productTypeTitle[$i]);
+            $productType->setMiddleTitle($productTypeTitle[$i]);
+            $productType->setLastTitle($productTypeTitle[$i]);
 
-            $manager->persist($projectType);
+            $manager->persist($productType);
 
-            $this->setReference('projectType_' . $i, $projectType);
+            $this->setReference('projectType_' . $i, $productType);
         }
         $manager->flush();
 
@@ -56,12 +56,19 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
             ProjectAttachmentFixtures::class,
             ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectEnGbFixtures::class,
+            ProjectFixtures::class,
+            #
+            ProductAttachmentFixtures::class,
+            ProductReviewFixtures::class,
+            ProductTagFixtures::class,
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 15;
+		return 21;
 	}
 
 	/**

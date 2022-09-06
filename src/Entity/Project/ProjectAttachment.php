@@ -7,7 +7,6 @@ use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Project\ProjectAttachmentRepository;
-
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'project_attachment')]
@@ -18,10 +17,12 @@ class ProjectAttachment
 {
 	use BaseTrait;
     use ObjectTrait;
-	use AttachmentTrait;
+    use AttachmentTrait;
+
 	#[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectAttachment')]
 	#[ORM\JoinColumn(onDelete: 'CASCADE')]
 	private Project $projectAttachmentProject;
+
     # ManyToOne
 	public function getProjectAttachmentProject(): Project
     {
@@ -31,4 +32,5 @@ class ProjectAttachment
     {
             $this->projectAttachmentProject = $attachment;
     }
+
 }
