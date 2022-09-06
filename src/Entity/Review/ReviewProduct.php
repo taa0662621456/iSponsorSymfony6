@@ -36,6 +36,7 @@ class ReviewProduct
     {
         $this->productId = $productId;
     }
+
     public function getProductUuid(): ?string
     {
         return $this->productUuid;
@@ -44,6 +45,7 @@ class ReviewProduct
     {
         $this->productUuid = $productUuid;
     }
+
     public function getProductSlug(): ?string
     {
         return $this->productSlug;

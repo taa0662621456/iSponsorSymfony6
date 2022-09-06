@@ -8,8 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
+use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
-use App\Entity\ObjectVichUploadField;
 use App\Entity\Order\OrderItem;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\Collection;
@@ -41,7 +41,8 @@ class Vendor
 {
     use BaseTrait;
     use ObjectTrait;
-    use ObjectVichUploadField;
+    use MetaTrait;
+
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
@@ -64,7 +65,7 @@ class Vendor
     private int|bool $requireReset = false;
 
     #[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorSecurity::class)]
     #[Assert\Valid]
     private array|VendorSecurity $vendorSecurity;
@@ -75,7 +76,7 @@ class Vendor
     #[Assert\Valid]
     private VendorIban $vendorIban;
 
-    #[ORM\OneToOne(mappedBy: 'vendorEnGb', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'vendorEnGbVendor', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorEnGb::class)]
     #[Assert\Valid]
@@ -88,15 +89,19 @@ class Vendor
     private Featured $vendorFeatured;
 
     #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorDocument;
 
     #[ORM\OneToMany(mappedBy: 'vendorMediaVendor', targetEntity: VendorMedia::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMedia;
 
     #[ORM\OneToMany(mappedBy: 'orderVendor', targetEntity: OrderStorage::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorOrder;
 
     #[ORM\OneToMany(mappedBy: 'orderItemsVendor', targetEntity: OrderItem::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorItem;
 
     #[ORM\ManyToMany(targetEntity: VendorFavourite::class, mappedBy: 'vendorFavourite')]
@@ -104,15 +109,19 @@ class Vendor
     private Collection $vendorFavourite;
 
     #[ORM\ManyToMany(targetEntity: VendorConversation::class, mappedBy: 'vendorConversationVendor')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorConversation;
 
     #[ORM\OneToMany(mappedBy: 'vendorMessage', targetEntity: VendorMessage::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMessage;
 
     #[ORM\ManyToMany(targetEntity: Vendor::class, mappedBy: 'vendorMyFriend')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorFriend;
 
     #[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorFriend')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMyFriend;
 
     /**
@@ -250,7 +259,7 @@ class Vendor
     }
     public function addVendorMedia(VendorMedia $vendorMedia): self
     {
-        if ($this->vendorMedia->contains($vendorMedia)){
+        if (!$this->vendorMedia->contains($vendorMedia)){
             $this->vendorMedia[] = $vendorMedia;
 
         }

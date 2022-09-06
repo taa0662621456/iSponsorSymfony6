@@ -18,6 +18,8 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
 	public function load(ObjectManager $manager)
 	{
+        $att = $this->getReference(AttachmentFixtures::ATTACHMENT_COLLECTION);
+//        $proMedia = $this->getReference()  // вінести отдельно продукт медиа в фикстуру
         $faker = Factory::create();
 
         $productCollection = new ArrayCollection();
@@ -28,14 +30,12 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 			$productEnGb = new ProductEnGb();
 			$productAttachment = new ProductAttachment();
 
-            $productEnGb->setProductName('Product # ' . $p);
-            $productEnGb->setFirstTitle('ProductFT # ' . $p);
+            $productEnGb->setFirstTitle('Wonderful Product FT # ' . $p);
             $productEnGb->setMiddleTitle($faker->realText(200));
             $productEnGb->setLastTitle($faker->realText(7000));
 
-            $productAttachment->setFileName('cover.jpg');
-            $productAttachment->setFilePath('/');
-            $productAttachment->setProductAttachment($product);
+            $productAttachment->setFirstTitle('some file');
+            $productAttachment->setProductAttachmentProduct($product);
 
 
             $product->setProductEnGb($productEnGb);

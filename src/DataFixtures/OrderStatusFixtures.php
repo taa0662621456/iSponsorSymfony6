@@ -14,12 +14,20 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $orderStatusMap = [
+          'New' => 'N',
+          'Depend' => 'D',
+          'Canceled' => 'C',
+          'Shiped' => 'S',
+          'Delivered' => 'D'
+        ];
         $ordersStatusCollection = new ArrayCollection();
 
-        for ($p = 1; $p <= 5; $p++) {
+        for ($p = 0; $p <= count($orderStatusMap); $p++) {
 
             $ordersStatus = new OrderStatus();
 
+            //применить многомерній массив или карту
             $ordersStatus->setOrderStatusCode('N');
             $ordersStatus->setOrderStatusName('New ' . $p);
             $ordersStatus->setOrdering($p);

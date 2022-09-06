@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\ProjectType;
+use App\Entity\Project\Type;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -18,20 +18,27 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
      */
     public function load(ObjectManager $manager)
 	{
+        $projectTypeTitle = [
+            'charity',
+            'social',
+            'business',
+            'donate'
+        ];
+
         $projectTypeCollection = new ArrayCollection();
 
-		for ($p = 1; $p <= 26; $p++) {
 
-            $projectType = new ProjectType();
 
-            //$projectType->setProjectType($projectType[array_rand($projectRepository)]);
+		for ($p = 0; $p <= 3; $p++) {
 
-            $projectType->setFirstTitle('ProjectFT #_' . $p);
-            $projectType->setMiddleTitle('ProjectMT #_' . $p);
-            $projectType->setLastTitle('ProjectLT #_' . $p);
+            $projectType = new Type();
+
+
+            $projectType->setFirstTitle($projectTypeTitle[$p]);
+            $projectType->setMiddleTitle($projectTypeTitle[$p]);
+            $projectType->setLastTitle($projectTypeTitle[$p]);
 
             $manager->persist($projectType);
-//            dd($projectType);
             $manager->flush();
 
             $projectTypeCollection->add($projectType);
@@ -53,7 +60,7 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
 
 	public function getOrder(): int
     {
-		return 6;
+		return 7;
 	}
 
 	/**

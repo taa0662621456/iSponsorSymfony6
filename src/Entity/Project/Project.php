@@ -6,13 +6,13 @@ use App\Entity\Attachment\Attachment;
 use App\Entity\BaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
+use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Product\Product;
-use App\Entity\Project\ProjectType;
+use App\Entity\Project\Type;
 use App\Entity\Tag\Tag;
 use App\Interface\CategoryInterface;
-use App\Interface\ProjectInterface;
-use App\Interface\ProjectTypeInterface;
+use App\Interface\TypeInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,17 +27,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['slug'], name: 'project_idx')]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Project implements ProjectInterface
+class Project
 {
     use BaseTrait;
     use ObjectTrait;
+    use MetaTrait;
+
 
     public const NUM_ITEMS = 10;
 
-    #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectType')]
-    #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
+    #[ORM\ManyToOne(targetEntity: TypeInterface::class, inversedBy: 'projectType')]
+    #[Assert\Type(type: 'App\Entity\Project\Type')]
     #[Assert\Valid]
-    private ProjectType $projectType;
+    private Type $projectType;
 
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProject')]
     #[Assert\Valid]
@@ -109,7 +111,7 @@ class Project implements ProjectInterface
     {
         return $this->projectType;
     }
-    public function setProjectType(ProjectType $projectType): void
+    public function setProjectType(Type $projectType): void
     {
         $this->projectType = $projectType;
     }
@@ -135,33 +137,36 @@ class Project implements ProjectInterface
     {
         return $this->projectAttachment;
     }
-    public function addProjectAttachment(ProjectAttachment $attachment): self
+    public function addProjectAttachment(ProjectAttachment $projectAttachmenat): self
     {
-        if (!$this->projectAttachment->contains($attachment)) {
-            $this->projectAttachment[] = $attachment;
+        if (!$this->projectAttachment->contains($projectAttachmenat)) {
+            $this->projectAttachment[] = $projectAttachmenat;
         }
         return $this;
     }
     public function removeProjectAttachment(ProjectAttachment $projectAttachmenat): self
     {
-        $this->projectAttachment->removeElement($projectAttachmenat);
+        if ($this->projectAttachment->contains($projectAttachmenat)){
+            $this->projectAttachment->removeElement($projectAttachmenat);
+        }
+        return $this;
     }
     # OneToMany
     public function getProjectProduct(): Collection
     {
         return $this->projectProduct;
     }
-    public function addProjectProduct(Product $projectProduct): self
+    public function addProjectProduct(Product $product): self
     {
-        if (!$this->projectProduct->contains($projectProduct)) {
-            $this->projectProduct[] = $projectProduct;
+        if (!$this->projectProduct->contains($product)) {
+            $this->projectProduct[] = $product;
         }
         return $this;
     }
-    public function removeProjectProduct(Product $projectProduct): self
+    public function removeProjectProduct(Product $product): self
     {
-        if ($this->projectProduct->contains($projectProduct)) {
-            $this->projectProduct->removeElement($projectProduct);
+        if ($this->projectProduct->contains($product)) {
+            $this->projectProduct->removeElement($product);
         }
         return $this;
     }
