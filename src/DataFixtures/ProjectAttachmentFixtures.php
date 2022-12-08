@@ -44,7 +44,7 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
 

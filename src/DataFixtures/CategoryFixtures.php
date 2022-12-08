@@ -46,7 +46,6 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
             #
 
         ];
@@ -54,7 +53,7 @@ class CategoryFixtures extends Fixture implements DependentFixtureInterface
 
 	public function getOrder(): int
     {
-		return 11;
+		return 10;
 	}
 
 	/**

@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
-class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInterface
+class CategoryCategoryFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
@@ -53,13 +53,14 @@ class CategoriesCategoryFixtures extends Fixture implements DependentFixtureInte
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
+            CategoryFixtures::class,
             #
         ];
     }
 
     public function getOrder(): int
     {
-        return 10;
+        return 11;
     }
 
     /**

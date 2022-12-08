@@ -27,7 +27,7 @@ class ProjectReviewFixtures extends Fixture implements DependentFixtureInterface
             #
             $manager->persist($projectReview);
 
-            $this->addReference('reviewProject_' . $i, $projectReview);
+            $this->addReference('projectReview_' . $i, $projectReview);
         }
         $manager->flush();
 
@@ -47,7 +47,7 @@ class ProjectReviewFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,

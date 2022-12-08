@@ -6,14 +6,11 @@ use App\Entity\Product\ProductAttachment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
 class ProductAttachmentFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
 	{
-
-        $faker = Factory::create();
 
 		for ($i = 1; $i <= 3; $i++) {
 
@@ -23,7 +20,7 @@ class ProductAttachmentFixtures extends Fixture implements DependentFixtureInter
             #
             $manager->persist($productAttachment);
 
-            $this->addReference('productAttachment' . $i, $productAttachment);
+            $this->addReference('productAttachment_' . $i, $productAttachment);
         }
         $manager->flush();
 
@@ -43,13 +40,13 @@ class ProductAttachmentFixtures extends Fixture implements DependentFixtureInter
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,
             ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
-            ProductTypeFixtures::class,
+            ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
             ProjectFixtures::class,
             #
