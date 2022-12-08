@@ -2,16 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category\Category;
-use App\Entity\Category\CategoryEnGb;
-use App\Entity\Product\ProductAttachment;
 use App\Entity\Project\Project;
-use App\Entity\Project\ProjectAttachment;
-use App\Entity\Project\ProjectEnGb;
-use App\Entity\Project\ProjectTag;
-use App\Entity\Project\ProjectType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -25,7 +17,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 	{
         $faker = Factory::create();
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
 
             $project = new Project();
             $projectType = $this->getReference('projectType_' . $i);
@@ -34,7 +26,8 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             $projectCategory = $this->getReference('category_' . $i);
             $projectTag = $this->getReference('projectTag_' . $i);
 //            $projectPlatformReward = $this->getReference('projectPlatformReward_' . $i);
-            $projectReview = $this->getReference('projectReview_' . $i);
+//            $projectReview = $this->getReference('projectReview_' . $i);
+//            dd($projectReview);
             #
             $project->setFirstTitle($faker->realText());
             $project->setLastTitle($faker->realText(7000));
@@ -42,14 +35,14 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             #
             $project->setProjectType($projectType);
             $project->setProjectEnGb($projectEnGb);
-            $project->setProjectFeatured(1);
+//            $project->setProjectFeatured();
             $project->setProjectCategory($projectCategory);
             #
             $project->addProjectAttachment($projectAttachment);
             $project->addProjectTag($projectTag);
-            $project->addProjectFavorite(1);
+//            $project->addProjectFavorite();
 //            $project->addProjectPlatformReward($projectPlatformReward);
-            $project->addProjectReviw($projectReview);
+//            $project->addProjectReviw($projectReview);
 
             $manager->persist($project);
 
@@ -72,7 +65,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,

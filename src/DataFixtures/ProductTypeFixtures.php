@@ -30,7 +30,7 @@ class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($productType);
 
-            $this->setReference('projectType_' . $i, $productType);
+            $this->setReference('productType_' . $i, $productType);
         }
         $manager->flush();
 
@@ -50,7 +50,7 @@ class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,

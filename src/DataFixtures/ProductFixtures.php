@@ -16,16 +16,16 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 	{
         $faker = Factory::create();
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 3; $i++) {
 
             $product = new Product();
             #
             $productType = $this->getReference('productType_' . $i);
             $productEnGb = $this->getReference('productEnGb_' . $i);
             $productAttachment = $this->getReference('productAttachment_' . $i);
-            $productCategory = $this->getReference('productCategory_' . $i);
+//TODO:            $productCategory = $this->getReference('productCategory_' . $i);
             $productTag = $this->getReference('productTag_' . $i);
-            $productPlatformReward = $this->getReference('productPlatformReward_' . $i);
+//TODO:            $productPlatformReward = $this->getReference('productPlatformReward_' . $i);
             $productReview = $this->getReference('productReview_' . $i);
             #
             $product->setFirstTitle($faker->realText());
@@ -34,14 +34,14 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             #
             $product->setProductType($productType);
             $product->setProductEnGb($productEnGb);
-            $product->setProductFeatured(1);
-            $product->setProductCategory($productCategory);
+//TODO:            $product->setProductFeatured(1);
+            $product->setProductCategory($i);
             #
             $product->addProductAttachment($productAttachment);
             $product->addProductTag($productTag);
-            $product->addProductFavorite(true);
-            $product->addProductPlatformReward($productPlatformReward);
-            $product->addProductReviw($productReview);
+//TODO:            $product->addProductFavourite(true);
+//TODO:            $product->addProductPlatformReward($productPlatformReward);
+            $product->addProductReview($productReview);
 
             $manager->persist($product);
 
@@ -64,7 +64,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,
