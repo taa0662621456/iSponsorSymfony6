@@ -28,7 +28,7 @@ class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($productReview);
 
-            $this->addReference('reviewProduct_' . $i, $productReview);
+            $this->addReference('productReview_' . $i, $productReview);
         }
         $manager->flush();
 
@@ -48,7 +48,7 @@ class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,

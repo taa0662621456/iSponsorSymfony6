@@ -13,26 +13,25 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $orderStatusMap = [
-            'New' => 'N',
-            'Depend' => 'D',
-            'Canceled' => 'C',
-            'Shipped' => 'S',
-            'Delivered' => 'D',
-            'Pause' => 'P'
+            ['New', 'N'],
+            ['Depend', 'D'],
+            ['Canceled', 'C'],
+            ['Shipped', 'S'],
+            ['Delivered', 'D'],
+            ['Paused', 'P'],
         ];
 
-        for ($i = 0; $i <= count($orderStatusMap); $i++) {
+        for ($i = 0; $i <= count($orderStatusMap)-1; $i++){
 
             $orderStatus = new OrderStatus();
 
-            $orderStatus->setOrderStatusCode($i);
-            $orderStatus->setOrderStatusName($orderStatusMap[$i]);
+            $orderStatus->setOrderStatusName($orderStatusMap[$i][0]);
+            $orderStatus->setOrderStatusCode($orderStatusMap[$i][1]);
             $orderStatus->setOrdering($i);
 
             $manager->persist($orderStatus);
 
             $this->setReference('orderStatus_' . $i, $orderStatus);
-
         }
         $manager->flush();
 
@@ -52,7 +51,7 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,
