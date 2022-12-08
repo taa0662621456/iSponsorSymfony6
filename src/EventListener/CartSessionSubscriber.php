@@ -3,9 +3,9 @@
 namespace App\EventListener;
 
 use App\Exception\CartNotFoundException;
-use App\Interface\Cart\CartContextInterface;
-use App\Interface\Cart\CartStorageInterface;
-use App\Interface\Order\OrderInterface;
+use App\Interface\CartContextInterface;
+use App\Interface\CartStorageInterface;
+use App\OrderInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
@@ -14,7 +14,6 @@ use Webmozart\Assert\Assert;
 
 final class CartSessionSubscriber implements EventSubscriberInterface
 {
-    //public function __construct(private readonly CartContextInterface $cartContext,
     public function __construct(private readonly CartContextInterface $cartContext,
                                 private readonly CartStorageInterface $cartStorage)
     {

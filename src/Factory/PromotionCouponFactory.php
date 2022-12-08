@@ -2,12 +2,11 @@
 
 namespace App\Factory;
 
-use App\Interface\PromotionInterface;
 use Webmozart\Assert\Assert;
 
 final class PromotionCouponFactory implements PromotionCouponFactoryInterface
 {
-    public function __construct(private $factory)
+    public function __construct(private FactoryInterface $factory)
     {
     }
 

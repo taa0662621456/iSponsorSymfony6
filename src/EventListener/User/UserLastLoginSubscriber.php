@@ -1,12 +1,9 @@
 <?php
 
-namespace App\EventListener\User;
+namespace App\EventListener;
 
-use App\Event\UserEvent;
 use Doctrine\Persistence\ObjectManager;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
@@ -20,7 +17,7 @@ final class UserLastLoginSubscriber implements EventSubscriberInterface
     {
         return [
             SecurityEvents::INTERACTIVE_LOGIN => 'onSecurityInteractiveLogin',
-//            UserEvents::SECURITY_IMPLICIT_LOGIN => 'onImplicitLogin',
+            UserEvents::SECURITY_IMPLICIT_LOGIN => 'onImplicitLogin',
         ];
     }
 

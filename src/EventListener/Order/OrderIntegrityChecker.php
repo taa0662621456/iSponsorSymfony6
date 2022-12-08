@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener\Order;
+namespace App\EventListener;
 
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;

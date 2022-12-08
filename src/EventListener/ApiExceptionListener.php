@@ -2,10 +2,10 @@
 
 namespace App\EventListener;
 
+use App\Exception\ExceptionMapping;
 use App\Model\ErrorResponseModel;
 use App\Request\AttributeRequest;
-use App\Service\System\ExceptionMapping;
-use App\Service\System\ExceptionMappingResolver;
+use App\Service\ExceptionMappingResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;

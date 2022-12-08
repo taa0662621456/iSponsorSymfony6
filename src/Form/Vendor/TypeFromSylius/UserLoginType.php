@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Vendor\TypeFromSylius;
+namespace App\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

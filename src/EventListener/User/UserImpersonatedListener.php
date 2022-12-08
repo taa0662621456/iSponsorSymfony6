@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener\User;
+namespace App\EventListener;
 
 final class UserImpersonatedListener
 {

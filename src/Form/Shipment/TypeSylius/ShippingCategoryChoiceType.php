@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Shipment\TypeSylius;
+namespace App\Form;
 
 
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;

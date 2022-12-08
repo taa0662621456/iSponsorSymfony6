@@ -2,10 +2,6 @@
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
@@ -20,7 +16,6 @@ use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\ObjectCRUDsController;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use phpDocumentor\Reflection\Types\Self_;
@@ -31,10 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['slug'], name: 'project_idx')]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-
-
 class Project
 {
     use BaseTrait;
@@ -56,7 +47,6 @@ class Project
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectEnGb')]
     #[Assert\Valid]
-    #[Ignore]
     private ProjectEnGb $projectEnGb;
 
     #[ORM\OneToMany(mappedBy: 'projectAttachmentProject', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -72,7 +62,6 @@ class Project
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\projectFeatured')]
     #[Assert\Valid]
-    #[Ignore]
     private Featured $projectFeatured;
 
     #[ORM\ManyToMany(targetEntity: ProjectTag::class, cascade: ['persist'], inversedBy: 'projectTagProject')]
@@ -97,7 +86,7 @@ class Project
     #[Pure]
     public function __construct()
     {
-        $t = new \DateTimeImmutable();
+        $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
         #
         $this->projectAttachment = new ArrayCollection();
@@ -106,10 +95,10 @@ class Project
         $this->projectPlatformReward = new ArrayCollection();
         $this->projectReview = new ArrayCollection();
         #
-        $this->lastRequestAt = $t;
-        $this->createdAt = $t;
-        $this->modifiedAt = $t;
-        $this->lockedAt = $t;
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
     }
     # ManyToOne

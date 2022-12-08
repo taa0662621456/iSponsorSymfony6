@@ -2,42 +2,22 @@
 
 namespace App\Entity\Vendor;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\Embeddable\Object\ObjectTitle;
-use App\Entity\RootEntity;
-use App\EntityInterface\Object\ObjectTitleInterface;
+use App\Entity\BaseTrait;
+use App\Entity\MetaTrait;
+use App\Entity\ObjectTrait;
+use App\Entity\VendorLanguageTrait;
+use App\Repository\Vendor\VendorRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\VendorParameterTrait;
-use ApiPlatform\Metadata\ApiResource;
-use App\EntityInterface\Object\ObjectInterface;
-use Symfony\Component\Serializer\Annotation\Ignore;
 
-#[ApiResource(
-    /*    collectionOperations: [],
-        itemOperations: [
-            'get',
-            'put',
-            'delete',
-            'get_by_slug' => [
-                'method' => 'GET',
-                'path' => 'vendor/show/{slug}',
-                'controller' => 'ObjectCRUDsController::class'
-            ]
-        ],*/
-    normalizationContext: ['group' => 'read'],
-    denormalizationContext: ['group' => 'write'],
-    order: ['is_active' => 'DESC', 'locale' => 'ASC'],
-    paginationEnabled: false
-)]
-#[ORM\Entity]
-class VendorEnUS extends RootEntity implements ObjectInterface, ObjectTitleInterface
+
+#[ORM\Table(name: 'vendor_en_us')]
+#[ORM\Index(columns: ['slug'], name: 'vendor_en_us_idx')]
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+class VendorEnUS
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
-
-    use VendorParameterTrait;
-
-    #[ORM\OneToOne(inversedBy: 'vendorEnUs', targetEntity: Vendor::class)]
-    #[Ignore]
-    private Vendor $vendorEnUs;
+    use BaseTrait;
+    use ObjectTrait;
+    use MetaTrait;
+    use VendorLanguageTrait;
 }

@@ -2,11 +2,9 @@
 
 namespace App\Factory;
 
-use App\Interface\FactoryInterface;
-
 final class PaymentFactory implements PaymentFactoryInterface
 {
-    public function __construct(private readonly FactoryInterface $factory)
+    public function __construct(private FactoryInterface $factory)
     {
     }
 

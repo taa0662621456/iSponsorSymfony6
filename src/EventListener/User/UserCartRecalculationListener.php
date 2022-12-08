@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener\User;
+namespace App\EventListener;
 
 use App\SectionResolver\ShopSection;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;

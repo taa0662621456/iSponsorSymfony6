@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener\User;
+namespace App\EventListener;
 
 use Doctrine\Persistence\ObjectManager;
 
@@ -11,12 +11,12 @@ use Webmozart\Assert\Assert;
 final class UserRegistrationListener
 {
     public function __construct(
-        private readonly ObjectManager            $userManager,
-        private readonly GeneratorInterface       $tokenGenerator,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ChannelContextInterface  $channelContext,
-        private readonly UserLoginInterface       $userLogin,
-        private readonly string                   $firewallContextName,
+        private ObjectManager $userManager,
+        private GeneratorInterface $tokenGenerator,
+        private EventDispatcherInterface $eventDispatcher,
+        private ChannelContextInterface $channelContext,
+        private UserLoginInterface $userLogin,
+        private string $firewallContextName,
     ) {
     }
 
@@ -47,7 +47,7 @@ final class UserRegistrationListener
         $this->userManager->persist($user);
         $this->userManager->flush();
 
-//        $this->eventDispatcher->dispatch(new GenericEvent($user), UserEvents::REQUEST_VERIFICATION_TOKEN);
+        $this->eventDispatcher->dispatch(new GenericEvent($user), UserEvents::REQUEST_VERIFICATION_TOKEN);
     }
 
     private function enableAndLogin(ShopUserInterface $user): void

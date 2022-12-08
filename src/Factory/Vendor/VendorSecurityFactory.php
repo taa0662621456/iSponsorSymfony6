@@ -12,9 +12,9 @@ class VendorSecurityFactory
     }
 
 
-    public static function create(): VendorSecurity
-    {
-        return new VendorSecurity();
-    }
+//    public static function create(): VendorSecurity
+//    {
+//        return new VendorSecurity();
+//    }
 
 }

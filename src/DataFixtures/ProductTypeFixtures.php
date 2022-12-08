@@ -12,25 +12,28 @@ class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
 	{
-        $productTypeTitle = [
+        $productTypeMap = [
             'new',
             'social',
             'star',
-            'popular'
+            'popular',
+            'city',
+            'sky',
+            'hand',
         ];
 
-		for ($i = 0; $i < count($productTypeTitle); $i++) {
+		for ($i = 1; $i <= count($productTypeMap)-1; $i++) {
 
             $productType = new ProductType();
 
 
-            $productType->setFirstTitle($productTypeTitle[$i]);
-            $productType->setMiddleTitle($productTypeTitle[$i]);
-            $productType->setLastTitle($productTypeTitle[$i]);
+            $productType->setFirstTitle($productTypeMap[$i]);
+            $productType->setMiddleTitle($productTypeMap[$i]);
+            $productType->setLastTitle($productTypeMap[$i]);
 
             $manager->persist($productType);
 
-            $this->setReference('projectType_' . $i, $productType);
+            $this->setReference('productType_' . $i, $productType);
         }
         $manager->flush();
 
@@ -50,7 +53,7 @@ class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,
@@ -58,7 +61,7 @@ class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
             ProjectTagFixtures::class,
             ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
-            ProjectFixtures::class,
+            ProjectPlatformRewardFixtures::class,
             #
             ProductAttachmentFixtures::class,
             ProductReviewFixtures::class,

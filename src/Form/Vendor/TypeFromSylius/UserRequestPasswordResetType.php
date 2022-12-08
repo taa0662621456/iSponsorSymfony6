@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Vendor\TypeFromSylius;
+namespace App\UserBundle\Form\Type;
 
 
 

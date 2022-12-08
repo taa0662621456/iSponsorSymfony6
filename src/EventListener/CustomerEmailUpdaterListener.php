@@ -2,7 +2,6 @@
 
 namespace App\EventListener;
 
-use App\Provider\FlashBagProvider;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;

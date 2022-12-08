@@ -2,83 +2,40 @@
 
 namespace App\Entity\Vendor;
 
-
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Put;
-use App\Controller\Vendor\VendorController;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
-use App\Entity\Commission\Commission;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
-use App\Entity\Product\Product;
-use App\Entity\Shipment\Shipment;
-use App\Interface\Vendor\VendorInterface;
+use App\Interface\VendorInterface;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\ObjectCRUDsController;
-use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Order\OrderStorage;
 use Exception;
 
-#[ORM\Table(
-    name: 'vendor',
-
-)]
+/**
+ *
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="vendor:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="vendor:item"}}},
+ *     order={"is_active"="DESC", "locale"="ASC"},
+ *     paginationEnabled=false
+ *     )
+ * @ApiFilter(BooleanFilter::class, properties={"isActive"})
+ */
+#[ORM\Table(name: 'vendor')]
 #[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource(
-    operations: [
-        new GetCollection(
-            normalizationContext: ['groups' => ['vendor:list']],
-            name: 'vendor_list'
-        ),
-        new Get(
-            normalizationContext: ['groups' => ['vendor:item']],
-            name: 'vendor_item'
-        ),
-        new Put(
-            denormalizationContext: ['groups' => ['write','vendorEn','vendorSecurity','vendorIban']]
-        ),
-        new Delete(),
-        new Get(
-            uriTemplate: '/vendor/{slug}',
-            controller: VendorController::class,
-            normalizationContext: ['groups' => ['vendor:item']],
-            name: 'vendor_by_slug'
-        )
-    ],
-    normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']]
-)]
-# Boolean filter по активности и публикации
-#[ApiFilter(BooleanFilter::class, properties: ['isActive', 'published'])]
-# Поиск по полям
-#[ApiFilter(SearchFilter::class, properties: [
-    'slug' => 'exact',
-    'locale' => 'exact',
-    'vendorEnGb.firstTitle' => 'partial',
-    'vendorEnGb.lastTitle' => 'partial'
-])]
-# Сортировка
-#[ApiFilter(OrderFilter::class, properties: ['createdAt','modifiedAt','slug','isActive'], arguments: ['orderParameterName' => 'order'])]
-class Vendor implements VendorInterface, \JsonSerializable
+class Vendor implements VendorInterface
 {
     use BaseTrait;
     use ObjectTrait;
@@ -87,7 +44,7 @@ class Vendor implements VendorInterface, \JsonSerializable
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
-    private bool $isActive = true;
+    private int|bool $isActive;
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
@@ -103,37 +60,34 @@ class Vendor implements VendorInterface, \JsonSerializable
     private ?string $otep = null;
 
     #[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['default' => 0, 'comment' => 'Require user to reset password on next login'])]
-    private bool $requireReset = false;
+    private int|bool $requireReset = false;
 
     #[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorSecurity::class)]
     #[Assert\Valid]
-    #[Ignore]
-    private ?VendorSecurity $vendorSecurity = null;
+    private array|VendorSecurity $vendorSecurity;
 
     #[ORM\OneToOne(mappedBy: 'vendorIbanVendor', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorIban::class)]
     #[Assert\Valid]
-    #[Ignore]
-    private ?VendorIban $vendorIban = null;
+    private VendorIban $vendorIban;
 
     #[ORM\OneToOne(mappedBy: 'vendorEnGbVendor', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorEnUS::class)]
     #[Assert\Valid]
-    #[Ignore]
-    private ?VendorEnUS $vendorEnGb = null;
+    private VendorEnUS $vendorEnGb;
 
     #[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: Featured::class)]
     #[Assert\Valid]
-    #[Ignore]
-    private ?Featured $vendorFeatured = null;
+    private Featured $vendorFeatured;
 
-    #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorDocument;
 
     #[ORM\OneToMany(mappedBy: 'vendorMediaVendor', targetEntity: VendorMedia::class, cascade: ['persist', 'remove'])]
@@ -168,38 +122,12 @@ class Vendor implements VendorInterface, \JsonSerializable
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMyFriend;
 
-    #[ORM\OneToMany(
-        mappedBy: 'vendorProduct',
-        targetEntity: Product::class,
-        cascade: ['persist', 'remove'],
-        orphanRemoval: true
-    )]
-    private Collection $vendorProduct;
-
-    #[ORM\OneToMany(
-        mappedBy: 'vendorCommission',
-        targetEntity: Commission::class,
-        cascade: ['persist', 'remove'],
-        orphanRemoval: true
-    )]
-    private Collection $vendorCommission;
-
-    #[ORM\OneToMany(
-        mappedBy: 'vendorShipment',
-        targetEntity: Shipment::class,
-        cascade: ['persist', 'remove'],
-        orphanRemoval: true
-    )]
-    private Collection $vendorShipment;
-
-
-
     /**
      * @throws Exception
      */
     public function __construct()
     {
-        $t = new \DateTimeImmutable();
+        $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
         $this->vendorMessage = new ArrayCollection();
         $this->vendorItem = new ArrayCollection();
@@ -209,14 +137,11 @@ class Vendor implements VendorInterface, \JsonSerializable
         $this->vendorFriend = new ArrayCollection();
         $this->vendorMyFriend = new ArrayCollection();
         $this->isActive = true;
-        $this->vendorProduct = new ArrayCollection();
-        $this->vendorCommission = new ArrayCollection();
-        $this->vendorShipment = new ArrayCollection();
 
-        $this->lastRequestAt = clone $t;
-        $this->createdAt = clone $t;
-        $this->modifiedAt = clone $t;
-        $this->lockedAt = clone $t;
+        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = $t->format('Y-m-d H:i:s');
+        $this->modifiedAt = $t->format('Y-m-d H:i:s');
+        $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
     }
     #
@@ -238,7 +163,7 @@ class Vendor implements VendorInterface, \JsonSerializable
         $this->locale = $locale;
     }
     #
-    public function getResetCount(): ?int
+    public function getResetCount(): int
     {
         return $this->resetCount;
     }
@@ -248,7 +173,7 @@ class Vendor implements VendorInterface, \JsonSerializable
         return $this;
     }
     #
-    public function getOtpKey(): ?string
+    public function getOtpKey(): string
     {
         return $this->otpKey;
     }
@@ -258,7 +183,7 @@ class Vendor implements VendorInterface, \JsonSerializable
         return $this;
     }
     #
-    public function getOtep(): ?string
+    public function getOtep(): string
     {
         return $this->otep;
     }
@@ -277,9 +202,8 @@ class Vendor implements VendorInterface, \JsonSerializable
         $this->requireReset = $requireReset;
         return $this;
     }
-
     # OneToOne
-    public function getVendorSecurity(): ?VendorSecurity
+    public function getVendorSecurity(): VendorSecurity
     {
         return $this->vendorSecurity;
     }
@@ -297,71 +221,7 @@ class Vendor implements VendorInterface, \JsonSerializable
         $this->vendorEnGb = $vendorEnGb;
     }
     # OneToMany
-    /** @return Collection<int, Commission> */
-    public function getVendorCommission(): Collection
-    {
-        return $this->vendorCommission;
-    }
-    public function addVendorCommission(Commission $commission): void
-    {
-        if (!$this->vendorCommission->contains($commission)) {
-            $this->vendorCommission->add($commission);
-            $commission->setVendor($this);
-        }
-    }
-    public function removeVendorCommission(Commission $commission): void
-    {
-        if ($this->vendorCommission->removeElement($commission)) {
-            if ($commission->getVendor() === $this) {
-                $commission->setVendor(null);
-            }
-        }
-    }
-    # OneToMany
-    /** @return Collection<int, Product> */
-    public function getVendorProduct(): Collection
-    {
-        return $this->vendorProduct;
-    }
-    public function addVendorProduct(Product $product): void
-    {
-        if (!$this->vendorProduct->contains($product)) {
-            $this->vendorProduct->add($product);
-            $product->setVendor($this);
-        }
-    }
-    public function removeVendorProduct(Product $product): void
-    {
-        if ($this->vendorProduct->removeElement($product)) {
-            if ($product->getVendor() === $this) {
-                $product->setVendor(null);
-            }
-        }
-    }
-    # OneToMany
-    /** @return Collection<int, Shipment> */
-    public function getShipment(): Collection
-    {
-        return $this->vendorShipment;
-    }
-    public function addVendorShipment(Shipment $shipment): void
-    {
-        if (!$this->vendorShipment->contains($shipment)) {
-            $this->vendorShipment->add($shipment);
-            $shipment->setVendor($this);
-        }
-    }
-    public function removeVendorShipment(Shipment $shipment): void
-    {
-        if ($this->vendorShipment->removeElement($shipment)) {
-            if ($shipment->getVendor() === $this) {
-                $shipment->setVendor(null);
-            }
-        }
-    }
-    # OneToMany
-    /** @return Collection<int, VendorDocument> */
-    public function getVendorDocument(): Collection
+    public function getVendorDocument(): ArrayCollection
     {
         return $this->vendorDocument;
     }
@@ -491,15 +351,6 @@ class Vendor implements VendorInterface, \JsonSerializable
             $this->vendorMessage->removeElement($vendorMessage);
         }
         return $this;
-    }
-
-    #[ArrayShape(["firstTitle" => "string", "lastTitle" => "string"])]
-    public function jsonSerialize(): array
-    {
-        return [
-            "firstTitle" => $this->getFirstTitle(),
-            "lastTitle" => $this->getLastTitle()
-        ];
     }
 }
 

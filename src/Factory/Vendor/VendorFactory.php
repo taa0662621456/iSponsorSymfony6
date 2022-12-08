@@ -12,9 +12,9 @@ class VendorFactory
     }
 
 
-    public static function create(): Vendor
-    {
-        return new Vendor();
-    }
+//    public static function create(): Vendor
+//    {
+//        return new Vendor();
+//    }
 
 }

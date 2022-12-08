@@ -18,17 +18,16 @@ class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 1; $i <= 26; $i++) {
 
-            //TODO: тип поля $review необходимо изменить на text и сделать отношения
-
             $productReview = new ProductReview();
 
-
-            $productReview->setWorkFlow('published');
+            $productReview->setFirstTitle($faker->realText());
             $productReview->setLastTitle($faker->realText(1400));
-
+            #
+            $productReview->setWorkFlow('published');
+            #
             $manager->persist($productReview);
-
-            $this->addReference('reviewProduct_' . $i, $productReview);
+            #
+            $this->addReference('productReview_' . $i, $productReview);
         }
         $manager->flush();
 
@@ -48,7 +47,7 @@ class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
             #
             CategoryAttachmentFixtures::class,
             CategoryEnGbFixtures::class,
-            CategoriesCategoryFixtures::class,
+            CategoryCategoryFixtures::class,
             CategoryFixtures::class,
             #
             ProjectAttachmentFixtures::class,
@@ -56,7 +55,7 @@ class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
             ProjectTagFixtures::class,
             ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
-            ProjectFixtures::class,
+            ProjectPlatformRewardFixtures::class,
             #
             ProductAttachmentFixtures::class,
         ];

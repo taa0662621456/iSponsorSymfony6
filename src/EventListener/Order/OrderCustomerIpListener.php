@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener\Order;
+namespace App\EventListener;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
