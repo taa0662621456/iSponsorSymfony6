@@ -76,6 +76,7 @@ class OrderFixtures extends Fixture implements DependentFixtureInterface
             ProjectTagFixtures::class,
             ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
+            ProjectPlatformRewardFixtures::class,
             ProjectFixtures::class,
             #
             ProductAttachmentFixtures::class,

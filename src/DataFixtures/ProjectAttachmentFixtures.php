@@ -16,7 +16,7 @@ class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInter
 
         $faker = Factory::create();
 
-		for ($i = 1; $i <= 3; $i++) {
+		for ($i = 1; $i <= 7; $i++) {
 
             $projectAttachment = new ProjectAttachment();
 

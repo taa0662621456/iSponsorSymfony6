@@ -26,7 +26,7 @@ class CategoryCategoryFixtures extends Fixture implements DependentFixtureInterf
         $minId = min($array);
         $maxId = max($array);
 
-        for ($i = 0; $i < count($categoriesRepository); $i++) {
+        for ($i = 0; $i <= count($categoriesRepository); $i++) {
 
             $currentCategoryId = $maxId - $i;
             $randomId = random_int($minId, $minId + 4);

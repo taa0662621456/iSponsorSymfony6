@@ -13,7 +13,7 @@ class ProductTagFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
 	{
-        $projectTagTitle = [
+        $productTagTitle = [
             'phone',
             'iphone',
             'share',
@@ -27,11 +27,11 @@ class ProductTagFixtures extends Fixture implements DependentFixtureInterface
             'book',
         ];
 
-        for ($i = 0; $i < count($projectTagTitle); $i++) {
+        for ($i = 1; $i <= count($productTagTitle)-1; $i++) {
 
             $productTag = new ProductTag();
             #
-            $productTag->setFirstTitle($projectTagTitle[$i]);
+            $productTag->setFirstTitle($productTagTitle[$i]);
             #
             $manager->persist($productTag);
             #
@@ -63,7 +63,7 @@ class ProductTagFixtures extends Fixture implements DependentFixtureInterface
             ProjectTagFixtures::class,
             ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
-            ProjectFixtures::class,
+            ProjectPlatformRewardFixtures::class,
             #
             ProductAttachmentFixtures::class,
             ProductReviewFixtures::class,
@@ -80,6 +80,6 @@ class ProductTagFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public static function getGroups(): array
 	{
-		return ['project'];
+		return ['product'];
 	}
 }

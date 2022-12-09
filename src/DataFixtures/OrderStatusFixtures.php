@@ -60,6 +60,7 @@ class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
             ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
             ProjectFixtures::class,
+            ProjectPlatformRewardFixtures::class,
             #
             ProductAttachmentFixtures::class,
             ProductReviewFixtures::class,
