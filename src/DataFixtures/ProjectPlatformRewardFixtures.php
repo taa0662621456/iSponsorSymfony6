@@ -2,43 +2,36 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\ProjectType;
+use App\Entity\Project\ProjectPlatformReward;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use JetBrains\PhpStorm\NoReturn;
 
-class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
+class ProjectPlatformRewardFixtures extends Fixture implements DependentFixtureInterface
 {
 
+    #[NoReturn]
     public function load(ObjectManager $manager)
 	{
         $faker = Factory::create();
 
-        $projectTypeMap = [
-            'charity',
-            'social',
-            'business',
-            'donate',
-            'special',
-            'government',
-            'private',
-        ];
-		for ($i = 1; $i <= count($projectTypeMap)-1; $i++) {
+        for ($i = 1; $i <= 6; $i++) {
 
-            $projectType = new ProjectType();
-            #
-            $projectType->setFirstTitle($projectTypeMap[$i]);
-            $projectType->setMiddleTitle($projectTypeMap[$i]);
-            $projectType->setLastTitle($projectTypeMap[$i]);
-            #
-            $manager->persist($projectType);
+            $projectPlatformReward = new ProjectPlatformReward();
 
-            $this->setReference('projectType_' . $i, $projectType);
+            $project = $this->getReference('project_' . $i);
+            #
+            $projectPlatformReward->setCommissionStartTime($faker->date());
+            $projectPlatformReward->setCommissionEndTime($faker->date());
+            #
+            $manager->persist($projectPlatformReward);
+            #
+            $this->addReference('projectPlatformReward_' . $i, $projectPlatformReward);
         }
         $manager->flush();
-
-    }
+	}
 
 	public function getDependencies (): array
     {
@@ -60,12 +53,16 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
             ProjectAttachmentFixtures::class,
             ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectEnGbFixtures::class,
+            ProjectFixtures::class,
+
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 15;
+		return 17;
 	}
 
 	/**
