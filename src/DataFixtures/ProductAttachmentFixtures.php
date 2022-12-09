@@ -48,7 +48,7 @@ class ProductAttachmentFixtures extends Fixture implements DependentFixtureInter
             ProjectTagFixtures::class,
             ProjectTypeFixtures::class,
             ProjectEnGbFixtures::class,
-            ProjectFixtures::class,
+            ProjectPlatformRewardFixtures::class,
             #
 
         ];

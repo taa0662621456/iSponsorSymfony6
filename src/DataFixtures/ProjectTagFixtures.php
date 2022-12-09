@@ -4,20 +4,16 @@ declare(strict_types=1);
 namespace App\DataFixtures;
 
 
-use App\Entity\Project\Project;
 use App\Entity\Project\ProjectTag;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use JetBrains\PhpStorm\NoReturn;
 
 class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
 	{
-        $projectTagTitle = [
+        $projectTagCollection = [
             'charity',
             'donate',
             'business',
@@ -31,14 +27,14 @@ class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
             'district',
         ];
 
-        for ($i = 0; $i < count($projectTagTitle); $i++) {
+        for ($i = 1; $i <= count($projectTagCollection)-1; $i++) {
 
             $projectTag = new ProjectTag();
-
-            $projectTag->setFirstTitle($projectTagTitle[$i]);
+            #
+            $projectTag->setFirstTitle($projectTagCollection[$i]);
             #
             $manager->persist($projectTag);
-
+            #
             $this->addReference('projectTag_' . $i, $projectTag);
         }
         $manager->flush();

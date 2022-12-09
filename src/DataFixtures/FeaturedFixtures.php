@@ -2,46 +2,36 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Product\Product;
+use App\Entity\Featured\Featured;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
-
-class ProductFixtures extends Fixture implements DependentFixtureInterface
+class FeaturedFixtures extends Fixture implements DependentFixtureInterface
 {
 
 	public function load(ObjectManager $manager)
 	{
-        $faker = Factory::create();
-
         for ($i = 1; $i <= 3; $i++) {
 
-            $product = new Product();
+            $featured = new Featured();
             #
-            $productType = $this->getReference('productType_' . $i);
-            $productEnGb = $this->getReference('productEnGb_' . $i);
-            $productAttachment = $this->getReference('productAttachment_' . $i);
-            $productTag = $this->getReference('productTag_' . $i);
-            $productReview = $this->getReference('productReview_' . $i);
+            $product = $this->getReference('product_' . $i);
+            $project = $this->getReference('project_' . $i);
+            $category = $this->getReference('category_' . $i);
+            $vendor = $this->getReference('vendor_' . $i);
             #
-            $product->setFirstTitle($faker->realText());
-            $product->setLastTitle($faker->realText(7000));
-            #
-            #
-            $product->setProductType($productType);
-            $product->setProductEnGb($productEnGb);
-            $product->setProductCategory($i);
-            #
-            $product->addProductAttachment($productAttachment);
-            $product->addProductTag($productTag);
-            $product->addProductReview($productReview);
+            $featured->setProjectFeatured($project);
+            $featured->setProductFeatured($product);
+            $featured->setCategoryFeatured($category);
+            $featured->setVendorFeatured($vendor);
             #
             $manager->persist($product);
-            #
-            $this->addReference('product_' . $i, $product);
-            #
+            $manager->persist($project);
+            $manager->persist($category);
+            $manager->persist($vendor);
+
+            $this->addReference('featured_' . $i, $featured);
         }
         $manager->flush();
 	}
@@ -75,13 +65,18 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             ProductTagFixtures::class,
             ProductTypeFixtures::class,
             ProductEnGbFixtures::class,
+            ProjectPlatformRewardFixtures::class,
+            #
+            OrderStatusFixtures::class,
+            OrderFixtures::class,
+            #
 
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 23;
+		return 26;
 	}
 
 	/**
@@ -89,6 +84,6 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 	 */
 	public static function getGroups(): array
 	{
-		return ['product'];
+		return ['featured'];
 	}
 }

@@ -17,32 +17,27 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 	{
         $faker = Factory::create();
 
-        for ($i = 1; $i <= 3; $i++) {
+        for ($i = 1; $i <= 6; $i++) {
 
             $project = new Project();
+
             $projectType = $this->getReference('projectType_' . $i);
             $projectEnGb = $this->getReference('projectEnGb_' . $i);
             $projectAttachment = $this->getReference('projectAttachment_' . $i);
             $projectCategory = $this->getReference('category_' . $i);
             $projectTag = $this->getReference('projectTag_' . $i);
-//            $projectPlatformReward = $this->getReference('projectPlatformReward_' . $i);
-//            $projectReview = $this->getReference('projectReview_' . $i);
-//            dd($projectReview);
+            $projectReview = $this->getReference('projectReview_' . $i);
             #
             $project->setFirstTitle($faker->realText());
             $project->setLastTitle($faker->realText(7000));
             #
-            #
             $project->setProjectType($projectType);
             $project->setProjectEnGb($projectEnGb);
-//            $project->setProjectFeatured();
             $project->setProjectCategory($projectCategory);
             #
             $project->addProjectAttachment($projectAttachment);
             $project->addProjectTag($projectTag);
-//            $project->addProjectFavorite();
-//            $project->addProjectPlatformReward($projectPlatformReward);
-//            $project->addProjectReviw($projectReview);
+            $project->addProjectReview($projectReview);
 
             $manager->persist($project);
 
@@ -79,7 +74,7 @@ class ProjectFixtures extends Fixture implements DependentFixtureInterface
 
 	public function getOrder(): int
     {
-		return 17;
+		return 16;
 	}
 
 	/**
