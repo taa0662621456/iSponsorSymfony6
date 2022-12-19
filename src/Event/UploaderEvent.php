@@ -5,13 +5,11 @@ namespace App\Event;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use App\Service\FileUploader;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploaderEvent
 {
-    public function __construct(private FileUploader $uploader)
+    public function __construct(private readonly UploadedFile $uploader)
     {
     }
 
@@ -40,10 +38,11 @@ class UploaderEvent
 
         $file = $entity->getFileName();
 
-        // загружать только новые файлы
+
         if ($file instanceof UploadedFile) {
-        $fileName = $this->uploader->upload($file);
-        $entity->setFileName($fileName);
+        //$fileName = $this->uploader->uploader($file); // TODO: загружать только новые файлы
+
+            $entity->setFirstTitle($fileName);
         }
     }
 
@@ -57,8 +56,8 @@ class UploaderEvent
         }
         */
 
-        if ($fileName = $entity->getFileName()) {
-            $entity->setFileName(new File($this->uploader->getTargetDir().'/'.$fileName));
+        if ($fileName = $entity->getFirstTitle()) {
+//            $entity->setFileName(new File($this->uploader->getTargetDir().'/'.$fileName)); // TODO: загружать: нет метода
         }
     }
 }

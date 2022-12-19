@@ -21,17 +21,11 @@ class ProjectPlatformRewardCrudController extends AbstractCrudController
     {
 
         return [
-            TextField::new('first_title'),
-            TextEditorField::new('middle_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
+            TextField::new('commission_start_time'),
+            TextEditorField::new('commission_end_time'),
             AssociationField::new('projectPlatformRewardProject')->autocomplete()->hideOnIndex(),
             TextField::new('create_By')->hideOnForm(),
 
         ];
     }
-
-
-
-    use ConfigureFiltersTrait;
 }

@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormView;
 
 class TagType extends AbstractType
 {
-    public function __construct(private TagRepository $tags)
+    public function __construct(private readonly TagRepository $tags)
     {
     }
 
@@ -25,12 +25,13 @@ class TagType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            //
             // The Tags' collection must be transformed into a comma separated string.
             // We could create a custom transformer to do Collection <-> string in one step,
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            //->addModelTransformer(new TagArrayToStringTransformer($this->tags), true) //TODO: необходимо сделать собственній универсальный сервис
+            //->addModelTransformer(new TagArrayToStringTransformer($this->tags), true) //TODO: необходимо сделать собственный универсальный сервис
         ;
     }
 

@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}VendorsEnGb{% endblock %}
+{% block header %}
+    <h1>Vendor details</h1>
+{% endblock %}
+{% block article_header %}all information about this Vendor{% endblock %}
+{% block article_content %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ vendor_en_gb.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ vendor_en_gb.lastName }}</td>
+            </tr>
+            <tr>
+                <th>MiddleName</th>
+                <td>{{ vendor_en_gb.middleName }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ vendor_en_gb.phone }}</td>
+            </tr>
+            <tr>
+                <th>PhoneSecond</th>
+                <td>{{ vendor_en_gb.phoneSecond }}</td>
+            </tr>
+            <tr>
+                <th>Fax</th>
+                <td>{{ vendor_en_gb.fax }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ vendor_en_gb.address }}</td>
+            </tr>
+            <tr>
+                <th>AddressSecond</th>
+                <td>{{ vendor_en_gb.addressSecond }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ vendor_en_gb.city }}</td>
+            </tr>
+            <tr>
+                <th>StateId</th>
+                <td>{{ vendor_en_gb.stateId }}</td>
+            </tr>
+            <tr>
+                <th>CountryId</th>
+                <td>{{ vendor_en_gb.countryId }}</td>
+            </tr>
+            <tr>
+                <th>Zip</th>
+                <td>{{ vendor_en_gb.zip }}</td>
+            </tr>
+            <tr>
+                <th>VendorCurrency</th>
+                <td>{{ vendor_en_gb.vendorCurrency }}</td>
+            </tr>
+            <tr>
+                <th>VendorAcceptedCurrencies</th>
+                <td>{{ vendor_en_gb.vendorAcceptedCurrencies }}</td>
+            </tr>
+            <tr>
+                <th>VendorParams</th>
+                <td>{{ vendor_en_gb.vendorParams }}</td>
+            </tr>
+            <tr>
+                <th>MetaRobot</th>
+                <td>{{ vendor_en_gb.metaRobot }}</td>
+            </tr>
+            <tr>
+                <th>MetaAuthor</th>
+                <td>{{ vendor_en_gb.metaAuthor }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+{% block article_footer %}
+    <a href="{{ path('vendors_edit', {'id': vendor_en_gb.id}) }}">edit</a>
+    {{ include('vendors/_delete_form.html.twig') }}
+{% endblock %}

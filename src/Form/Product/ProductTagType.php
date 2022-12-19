@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormView;
 
 class ProductTagType extends AbstractType
 {
-    public function __construct(private TagRepository $tags)
+    public function __construct(private readonly TagRepository $tags)
     {
     }
 

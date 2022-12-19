@@ -3,14 +3,15 @@
 
 namespace App\Tool;
 
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Form\DataTransformerInterface;
 
 class FileTransformer implements DataTransformerInterface
 {
-    public function transform($file): array
+    #[ArrayShape(['file' => "mixed"])] public function transform($value): array
     {
         return [
-            'file' => $file,
+            'file' => $value,
         ];
     }
     public function reverseTransform($data)

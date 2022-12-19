@@ -5,8 +5,12 @@ namespace App\Controller\Admin;
 
 
 use App\Entity\Vendor\VendorDocument;
+use App\Form\Category\CategoryAttachmentType;
+use App\Form\Vendor\VendorDocumentType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -17,6 +21,29 @@ class VendorDocumentCrudController extends AbstractCrudController
         return VendorDocument::class;
     }
 
-    use ConfigureCRUDsFieldTrait;
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            TextField::new('firstTitle'),
+            TextEditorField::new('middle_title'),
+            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
+            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
+            CollectionField::new('vendorDocumentVendor')
+                ->setEntryType(VendorDocumentType::class)
+                ->setFormTypeOption('by_reference', false)
+                ->onlyOnForms()
+            ,
+            CollectionField::new('vendorDocumentVendor')
+                ->setTemplatePath('images.html.twig')
+                ->onlyOnDetail()
+            ,
+//            ImageField::new('fileVich')
+//                ->setBasePath('/upload/vendor/thumbnail')
+//                ->setUploadDir('/upload/vendor/thumbnail')
+//                ->onlyOnIndex()
+//            ,
+        ];
+    }
+
     use ConfigureFiltersTrait;
 }

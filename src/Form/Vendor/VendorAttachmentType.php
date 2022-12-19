@@ -11,9 +11,9 @@
 	use Symfony\Component\Form\FormEvents;
 	use Symfony\Component\HttpFoundation\Request;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
+    use Symfony\UX\Dropzone\Form\DropzoneType;
 
-	class VendorAttachmentType
-		extends AbstractType
+    class VendorAttachmentType extends AbstractType
 	{
 		public function buildForm(FormBuilderInterface $builder,
 								  array $options): void
@@ -25,28 +25,36 @@
 				$request = Request::createFromGlobals();
 
 				if ($request->query->get('_route') == 'media') {
-					$form->add(
+					$form
+                        ->add('file', DropzoneType::class, [
+                           //TODO: добавить параметры дропзоны для медиа файлов
+                        ])
+                        ->add(
 						'vendorsMediaAttachments', CollectionType::class,
-						array(
+						[
 							'entry_type'   => VendorMediaType::class,
 							'data_class'   => null,
 							'allow_add'    => true,
 							'by_reference' => false,
 							'allow_delete' => true,
 							'prototype'    => true
-						)
+                        ]
 					);
 				} elseif ($request->query->get('_route') == 'docs') {
-					$form->add(
+					$form
+                        ->add('file', DropzoneType::class, [
+                            //TODO: добавить параметры дропзоны для файлов документов
+                        ])
+                        ->add(
 						'vendorsDocumentAttachments', CollectionType::class,
-						array(
+						[
 							'entry_type'   => VendorDocumentType::class,
 							'data_class'   => null,
 							'allow_add'    => true,
 							'by_reference' => false,
 							'allow_delete' => true,
 							'prototype'    => true
-						)
+                        ]
 					);
 				} else {
 					//TODO: Error Exception

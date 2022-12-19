@@ -20,7 +20,6 @@ class ProductTagCrudController extends AbstractCrudController
     {
         return [
             TextField::new('first_title'),
-            TextEditorField::new('middle_title'),
             TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
             TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
             AssociationField::new('productTagProduct')->autocomplete()->hideOnIndex(),

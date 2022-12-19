@@ -2,7 +2,7 @@
 namespace App\Controller\Security;
 
 use App\Entity\Vendor\Vendor;
-use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorEnUS;
 use App\Entity\Vendor\VendorSecurity;
 use App\Form\Vendor\VendorSecurityType;
 use App\Service\EmailConfirmation;
@@ -60,7 +60,7 @@ class RegistrationController extends AbstractController
   }
 		$vendor = new Vendor();
 		$vendorSecurity = new VendorSecurity();
-		$vendorEnGb = new VendorEnGb();
+		$vendorEnGb = new VendorEnUS();
 		$form = $this->createForm(VendorSecurityType::class, $vendor);
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {

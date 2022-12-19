@@ -6,13 +6,9 @@
 {% endblock %}
 {% block article_header %}<h3>Create new Project</h3>{% endblock %}
 {% block article_content %}
-    <div class="row">
-        <div class="col- {{ c1 }}">
-        </div>
-        <div class="col- {{ c2 }}">
-            {{ include('project/project/_form.html.twig') }}
-        </div>
-        <div class="col- {{ c3 }}">
-        </div>
-    </div>
+    {{ form_start(form) }}
+    <ul class="projectAttachment" data-index="{{ form.stepThree.projectAttachment|length > 0 ? form.stepThree.projectAttachment|last.vars.fileName + 1 : 0 }}" data-prototype="{{ form_widget(form.stepThree.projectAttachment.vars.prototype)|e('html_attr') }}"></ul>
+    {{ form_end(form) }}
+    {{ form_errors (form) }}
 {% endblock %}
+

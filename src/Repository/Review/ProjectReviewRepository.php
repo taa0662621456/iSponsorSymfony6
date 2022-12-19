@@ -4,7 +4,7 @@
 namespace App\Repository\Review;
 
 
-use App\Entity\Review\ReviewProject;
+use App\Entity\Review\ProjectReview;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -15,10 +15,10 @@ use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 
 /**
- * @method ReviewProject|null find($id, $lockMode = null, $lockVersion = null)
- * @method ReviewProject|null findOneBy(array $criteria, array $orderBy = null)
- * @method ReviewProject[]    findAll()
- * @method ReviewProject[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProjectReview|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProjectReview|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProjectReview[]    findAll()
+ * @method ProjectReview[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ProjectReviewRepository extends ServiceEntityRepository
 {
@@ -27,10 +27,10 @@ class ProjectReviewRepository extends ServiceEntityRepository
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ReviewProject::class);
+        parent::__construct($registry, ProjectReview::class);
     }
 
-    public function getReviewsPerPage(ReviewProject $projectReviews, int $offset): Paginator
+    public function getReviewsPerPage(ProjectReview $projectReviews, int $offset): Paginator
     {
         $qb = $this->createQueryBuilder('r')
             ->andWhere('r.slug = :product')

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Entity\Vendor;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -11,6 +10,7 @@ use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
+use App\Interface\VendorInterface;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,8 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Order\OrderStorage;
 use Exception;
-
-
 
 /**
  *
@@ -37,7 +35,7 @@ use Exception;
 #[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Vendor
+class Vendor implements VendorInterface
 {
     use BaseTrait;
     use ObjectTrait;
@@ -76,11 +74,11 @@ class Vendor
     #[Assert\Valid]
     private VendorIban $vendorIban;
 
-    #[ORM\OneToOne(mappedBy: 'vendorEnGbVendor', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'vendorEnGbVendor', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: VendorEnGb::class)]
+    #[Assert\Type(type: VendorEnUS::class)]
     #[Assert\Valid]
-    private VendorEnGb $vendorEnGb;
+    private VendorEnUS $vendorEnGb;
 
     #[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
@@ -214,43 +212,31 @@ class Vendor
         $this->vendorSecurity = $vendorSecurity;
     }
     # OneToOne
-    public function getVendorEnGb(): VendorEnGb
+    public function getVendorEnGb(): VendorEnUS
     {
         return $this->vendorEnGb;
     }
-    public function setVendorEnGb(VendorEnGb $vendorEnGb): void
+    public function setVendorEnGb(VendorEnUS $vendorEnGb): void
     {
         $this->vendorEnGb = $vendorEnGb;
-    }
-    # OneToMany
-    public function getOrder(): Collection
-    {
-        return $this->vendorOrder;
-    }
-    public function addOrder(OrderStorage $order): Vendor
-    {
-        $this->vendorOrder[] = $order;
-
-        return $this;
-    }
-    public function removeOrder(OrderStorage $order): void
-    {
-        $this->vendorOrder->removeElement($order);
     }
     # OneToMany
     public function getVendorDocument(): ArrayCollection
     {
         return $this->vendorDocument;
     }
-    public function addVendorDocument(VendorDocument $vendorDocument): Vendor
+    public function addVendorDocument(VendorDocument $vendorDocument): self
     {
         $this->vendorDocument[] = $vendorDocument;
 
         return $this;
     }
-    public function removeVendorDocument(VendorDocument $vendorDocument): void
+    public function removeVendorDocument(VendorDocument $vendorDocument): self
     {
-        $this->vendorDocument->removeElement($vendorDocument);
+        if ($this->vendorDocument->contains($vendorDocument)){
+            $this->vendorDocument->removeElement($vendorDocument);
+        }
+        return $this;
     }
     # OneToMany
     public function getVendorMedia(): Collection

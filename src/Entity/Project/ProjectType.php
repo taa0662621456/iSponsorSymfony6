@@ -58,6 +58,4 @@ class ProjectType implements ProjectTypeInterface
         return $this;
     }
 
-
-
 }

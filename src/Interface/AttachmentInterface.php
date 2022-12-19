@@ -4,24 +4,8 @@ namespace App\Interface;
 
 interface AttachmentInterface
 {
-    public function getFileName(): string;
-
-    public function setFileName(string $fileName): void;
-
-    public function getFileTitle(): string;
-
-    public function setFileTitle(string $fileTitle): void;
-
-    public function getFileDescription(): string;
-
-    public function setFileDescription(string $fileDescription): void;
-
-    public function getFileMeta(): string;
-
-    public function setFileMeta(string $fileMeta): void;
 
     public function getFileClass(): string;
-
     public function setFileClass(string $fileClass): void;
 
     public function getFileMimeType(): string;

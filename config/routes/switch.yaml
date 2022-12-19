@@ -1,0 +1,11 @@
+switch_currency:
+    path: /switch-currency/{code}
+    methods: [GET]
+    defaults:
+        _controller: controller.shop.currency_switch::switchAction
+
+switch_locale:
+    path: /switch-locale/{code}
+    methods: [GET]
+    defaults:
+        _controller: controller.shop.locale_switch::switchAction

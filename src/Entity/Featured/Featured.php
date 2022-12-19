@@ -12,7 +12,7 @@ use App\Repository\Featured\FeaturedRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
- #[ORM\Table(name: 'feature')]
+#[ORM\Table(name: 'feature')]
 #[ORM\Entity(repositoryClass: FeaturedRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 class Featured

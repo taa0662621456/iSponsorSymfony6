@@ -1,0 +1,40 @@
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false">Yet
+    </button>
+    {#<li class="nav-item me-auto">
+    <li class="nav-item dropdown">
+        <a class="btn btn-info btn-block dropdown-toggle rounded-0" href="#" id="navbarDropdown" role="button"
+           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Yet</a>#}
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <li><a class="dropdown-item active" href="#">My Projects</a></li>
+                <li><a class="dropdown-item" href="#">My Products</a></li>
+                <div class="dropdown-divider"></div>
+
+                <li><a class="dropdown-item" href="{{ path('project_index') }}">Projects</a></li>
+                <li><a class="dropdown-item" href="{{ path('project_new') }}">Add Project</a></li>
+                <li><a class="dropdown-item" href="{{ path('product_new') }}">Add Product</a></li>
+                <div class="dropdown-divider"></div>
+
+                <li><a class="dropdown-item" href="{{ path('vendor_index') }}">Vendors</a></li>
+                <div class="dropdown-divider"></div>
+
+                <li><a class="dropdown-item" href="{{ path('order_index') }}">Orders</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                <div class="dropdown-divider"></div>
+
+                <li><a class="dropdown-item" href="{{ path('logout') }}">{{ 'button.navbar.logout'|trans({},'button') }}</a></li>
+            {% else %}
+                <li><a class="dropdown-item active" href="{{ path('login') }}">{{ 'button.navbar.sign.in'|trans({},'button') }}</a></li>
+                <li><a class="dropdown-item" href="{{ path('registration') }}">{{ 'button.navbar.sign.up'|trans({},'button') }}</a></li>
+            {% endif %}
+
+            {% if is_granted ( 'IS_IMPERSONATOR' ) %}
+                <li><a class="dropdown-item" href=" {{ path ( 'homepage' , { '_switch_user' : '_exit' }) }} ">Exit
+                    impersonation</a></li>
+            {% endif %}
+        </ul>
+</div>
+{#    </li>
+</ul>#}

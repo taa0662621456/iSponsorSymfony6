@@ -4,7 +4,7 @@
 namespace App\Controller\Admin;
 
 
-use App\Entity\Review\ReviewProduct;
+use App\Entity\Review\ProductReview;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -14,9 +14,18 @@ class ReviewProductCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return ReviewProduct::class;
+        return ProductReview::class;
     }
 
-    use ConfigureCRUDsFieldTrait;
-    use ConfigureFiltersTrait;
+    public function configureFields(string $pageName): iterable
+    {
+
+        return [
+            TextField::new('review')->setMaxLength(48)->onlyOnIndex(),
+            TextEditorField::new('review')->setNumOfRows(10)->hideOnIndex(),
+        ];
+
+
+    }
+
 }

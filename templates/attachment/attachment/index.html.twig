@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commission{% endblock %}
+{% block header %}<h1>Commission</h1>{% endblock %}
+{% block article_header %}<h1>Commission index</h1>{% endblock %}
+{% block article_content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>StateId</th>
+                <th>CountryId</th>
+                <th>Zip</th>
+                {#
+                <th>commissionCurrency</th>
+                <th>commissionAcceptedCurrencies</th>
+                <th>commissionParams</th>
+                <th>MetaRobot</th>
+                <th>MetaAuthor</th>
+                <th>createdAt</th>
+                <th>CreatedBy</th>
+                <th>modifiedAt</th>
+                <th>ModifiedBy</th>
+                <th>lockedAt</th>
+                <th>LockedBy</th>
+                #}
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for attachment in attachment %}
+            <tr>
+                <td>{{ attachment.id }}</td>
+                <td>
+                    <p>{{ attachment.slug }}</p>
+                    {#
+                        <p>{{ commission.lastName }}</p>
+                        <p>{{ commission.middleName }}</p>
+                    </td>
+                    <th>
+                        <p>{{ commission.phone }}</p>
+                        <p>{{ commission.phoneSecond }}</p>
+                        <p>{{ commission.fax }}</p>
+                    </th>
+                    <td>{{ commission.address }}</td>
+                    <td>{{ commission.city }}</td>
+                    <td>{{ commission.stateId }}</td>
+                    <td>{{ commission.countryId }}        <td>{{ commission.zip }}</td>
+                    {#
+                    <td>{{ commission.commissionCurrency }}</td>
+                    <td>{{ commission.commissionAcceptedCurrencies }}</td>
+                    <td>{{ commission.commissionParams }}</td>
+                    <td>{{ commission.metaRobot }}</td>
+                    <td>{{ commission.metaAuthor }}</td>
+                    <td>{{ commission.createdAt ? commission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ commission.createdBy }}</td>
+                    <td>{{ commission.modifiedAt ? commission.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ commission.modifiedBy }}</td>
+                    <td>{{ commission.lockedAt ? commission.lockedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ commission.lockedBy }}</td>
+                    #}
+                <td>
+                    <a href="{{ path('commission_show_id', {'id': attachment.id}) }}">show</a>
+                    <a href="{{ path('commission_edit_id', {'id': attachment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="25">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% block article_summery %}<p>All commissions this</p>{% endblock %}
+    {% block article_footer %}<a href="{{ path('commission_new') }}">Create new</a>{% endblock %}
+{% endblock %}

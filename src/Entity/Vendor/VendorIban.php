@@ -37,7 +37,6 @@ class VendorIban
     {
         return $this->iban;
     }
-
     public function setIban(?string $iban): void
     {
         $this->iban = $iban;
@@ -61,6 +60,7 @@ class VendorIban
 	{
 		$this->expiresEnd = $expiresEnd;
 	}
+
     public function getSignatureCode(): int
 	{
 		return $this->signatureCode;

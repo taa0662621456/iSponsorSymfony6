@@ -17,6 +17,21 @@ class ProductPriceCrudController extends AbstractCrudController
         return ProductPrice::class;
     }
 
-    use ConfigureCRUDsFieldTrait;
-    use ConfigureFiltersTrait;
+    public function configureFields(string $pageName): iterable
+    {
+
+        return [
+            TextField::new('product_discount_id'),
+            TextField::new('override'),
+            TextField::new('shopper_group_id'),
+            TextField::new('product_price_publish_up'),
+            TextField::new('price_quantity_start'),
+            TextEditorField::new('product_override_price'),
+
+            TextEditorField::new('product_tax_id'),
+        ];
+
+
+    }
+
 }

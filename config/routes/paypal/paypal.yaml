@@ -1,0 +1,135 @@
+paypal_pay_with_paypal_form:
+    path: /pay-with-paypal/{orderToken}/{paymentId}
+    methods: [GET]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\PayWithPayPalFormAction
+
+paypal_create_paypal_order:
+    path: /create-pay-pal-order/{token}
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CreatePayPalOrderAction
+
+paypal_create_paypal_order_from_cart:
+    path: /create-pay-pal-order-from-cart/{id}
+    methods: [POST, GET]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CreatePayPalOrderFromCartAction
+
+paypal_complete_paypal_order:
+    path: /complete-pay-pal-order/{token}
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CompletePayPalOrderAction
+
+paypal_complete_paypal_payment:
+    path: /complete-pay-pal-payment/{id}
+    methods: [GET]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CompletePayPalPaymentAction
+
+paypal_process_paypal_order:
+    path: /process-pay-pal-order/
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\ProcessPayPalOrderAction
+
+paypal_update_paypal_order:
+    path: /update-pay-pal-order
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\UpdatePayPalOrderAction
+
+paypal_create_paypal_order_from_payment_page:
+    path: /pay-pal-order-payment-page/{id}/create
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CreatePayPalOrderFromPaymentPageAction
+
+paypal_complete_paypal_order_from_payment_page:
+    path: /pay-pal-order-payment-page/{id}/complete
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CompletePayPalOrderFromPaymentPageAction
+
+paypal_create_paypal_order_from_product:
+    path: /create-pay-pal-order-from-product/{productId}
+    methods: [POST]
+    defaults:
+        _controller: sylius.controller.order_item::createFromProductDetailsAction
+        _sylius:
+            factory:
+                method: createForProduct
+                arguments: [expr:notFoundOnNull(service('sylius.repository.product').find($productId))]
+            form:
+                type: Sylius\Bundle\CoreBundle\Form\Type\Order\AddToCartType
+                options:
+                    product: expr:notFoundOnNull(service('sylius.repository.product').find($productId))
+
+sylius_shop_checkout_select_payment:
+    path: /checkout/select-payment
+    methods: [GET, PUT]
+    defaults:
+        _controller: sylius.controller.order::updateAction
+        _sylius:
+            event: payment
+            flash: false
+            template: "@SyliusShop/Checkout/selectPayment.html.twig"
+            form: Sylius\PayPalPlugin\Form\Type\SelectPaymentType
+            repository:
+                method: findCartForSelectingPayment
+                arguments:
+                    - "expr:service('sylius.context.cart').getCart().getId()"
+            state_machine:
+                graph: sylius_order_checkout
+                transition: select_payment
+
+sylius_shop_order_show:
+    path: /order/{tokenValue}
+    methods: [GET, PUT]
+    defaults:
+        _controller: sylius.controller.order::updateAction
+        _sylius:
+            template: "@SyliusShop/Order/show.html.twig"
+            repository:
+                method: findOneBy
+                arguments: [tokenValue: $tokenValue]
+            form:
+                type: Sylius\PayPalPlugin\Form\Type\SelectPaymentType
+                options:
+                    validation_groups: []
+            redirect:
+                route: sylius_shop_order_pay
+                parameters:
+                    tokenValue: resource.tokenValue
+            flash: false
+
+paypal_cancel_order:
+    path: /cancel-pay-pal-order
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CancelPayPalOrderAction
+
+paypal_cancel_payment:
+    path: /cancel-pay-pal-payment
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CancelPayPalPaymentAction
+
+paypal_cancel_last_payment:
+    path: /order/{token}/cancel-last-pay-pal-payment
+    methods: [GET]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CancelLastPayPalPaymentAction
+
+paypal_cancel_checkout_payment:
+    path: /cancel-pay-pal-checkout-payment
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\CancelPayPalCheckoutPaymentAction
+
+paypal_payment_error:
+    path: /pay-pal-payment-error
+    methods: [POST]
+    defaults:
+        _controller: Sylius\PayPalPlugin\Controller\PayPalPaymentOnErrorAction

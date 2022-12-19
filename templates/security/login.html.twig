@@ -1,31 +1,36 @@
 {% extends 'base.html.twig' %}
+
 {% block meta_description %}Please, sign in!{% endblock %}
 {% block title %}Please, sign in!{% endblock %}
 {% block stylesheets %}
     {{ encore_entry_link_tags('sign') }}
 {% endblock %}
 {% block body %}
-    <body class="justify-content-center">
-    {% if error %}
-        <div class="alert alert-danger">
-            {{ error.message }}
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-    {% endif %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
-    {{ form_errors (form) }}
+    <body class="justify-content-center" data-controller="symfony--ux-swup--swup">
+        <main class="form-signin w-100 m-auto text-center" id="swub">
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.message }}
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <img class="" src="{{ asset('mandala.svg') }}" alt="" width="72" height="72">
+            <h2 class="h3 mb-3 fw-normal text-center">Authorisation</h2>
+
+            {% form_theme form with ['bootstrap_5_layout.html.twig', 'form/login-form.html.twig'] only %}
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+            {{ form_errors (form) }}
+
+            <p class="mt-5 mb-3 text-muted">© 2007–2022</p>
+        </main>
     </body>
 {% endblock %}
 {% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
 {% block footer %}{% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('sign') }}
-    <script>
-        (function(w,d,u){
-            let s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-            let h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-        })(window,document,'https://cdn.bitrix24.ua/b16519075/crm/site_button/loader_8_prai3q.js');
-    </script>
+    {#{{ include('_bitrix24.html.twig') }}#}
 {% endblock %}

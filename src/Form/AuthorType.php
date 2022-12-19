@@ -13,7 +13,7 @@ class AuthorType extends AbstractType
     {
         $builder
             ->add('category')
-            ->add('fileName')
+            ->add('firstTitle')
             ->add('ordering')
             ->add('categoryKey')
             ->add('projectEnGb')

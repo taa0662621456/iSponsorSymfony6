@@ -3,7 +3,7 @@
 
 	namespace App\Form\Vendor;
 
-	use App\Entity\Vendor\VendorEnGb;
+	use App\Entity\Vendor\VendorEnUS;
 	use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
     use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -222,8 +222,12 @@
 		public function configureOptions(OptionsResolver $resolver):void
 		{
 			$resolver->setDefaults([
-				'data_class'         => VendorEnGb::class,
-				'translation_domain' => 'vendor'
+				'data_class'         => VendorEnUS::class,
+				'translation_domain' => 'vendor',
+                'attr' => [
+                    'class' => 'needs-validation',
+                    'novalidate' => null,
+                ]
 			]);
 		}
 	}

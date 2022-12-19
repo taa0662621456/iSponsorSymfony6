@@ -5,11 +5,12 @@ namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorDocument;
-use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorEnUS;
 use App\Entity\Vendor\VendorFavourite;
 use App\Entity\Vendor\VendorIban;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Vendor|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,9 +29,9 @@ class VendorRepository extends ServiceEntityRepository
 
     /**
      * @param $vendorId
-     * @return VendorIban|Vendor|VendorDocument|VendorEnGb|VendorFavourite|null
+     * @return VendorIban|Vendor|VendorDocument|VendorEnUS|VendorFavourite|null
      */
-    public function findActiveVendorById($vendorId): VendorIban|Vendor|VendorDocument|VendorEnGb|VendorFavourite|null
+    public function findActiveVendorById($vendorId): VendorIban|Vendor|VendorDocument|VendorEnUS|VendorFavourite|null
     {
         return $this->findOneBy([
             'id' => (int) $vendorId,
@@ -38,7 +39,7 @@ class VendorRepository extends ServiceEntityRepository
         ]);
     }
 
-    public function findActiveVendorByApiToken($vendorId): VendorIban|Vendor|VendorDocument|VendorEnGb|VendorFavourite|null
+    public function findActiveVendorByApiToken($vendorId): VendorIban|Vendor|VendorDocument|VendorEnUS|VendorFavourite|null
     {
         return $this->findOneBy([
             'apiToken' => $vendorId,
@@ -48,6 +49,17 @@ class VendorRepository extends ServiceEntityRepository
 
     public function setIsActive(bool $true)
     {
+    }
+
+
+    public function findOneByEmail(string $email): ?UserInterface
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.emailCanonical = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
 

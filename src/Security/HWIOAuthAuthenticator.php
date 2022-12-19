@@ -6,18 +6,27 @@ use App\Entity\Vendor\VendorSecurity;
 use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use RuntimeException;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use TypeError;
 
 class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUserProviderInterface
 {
+    private ManagerRegistry $managerRegistry;
+
+    public function __constructor(ManagerRegistry $managerRegistry)
+    {
+        $this->managerRegistry = $managerRegistry;
+    }
 
     public function loadUserByOAuthUserResponse(UserResponseInterface $response): UserInterface|VendorSecurity
     {
         $resource = $serviceName = $response->getResourceOwner()->getName();
         if (isset($this->properties[$resource])) {
-            throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resource));
+            throw new RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resource));
         }
 
         $property = $response->getResourceOwner()->getName() . 'Id';
@@ -43,8 +52,11 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
         # Update UserToken
         $user->$setterId($id);
         $user->$setterAccessToken($response->getAccessToken());
-        $this->em->persist($user);
-        $this->em->flush();
+
+        $em = $this->managerRegistry->getManager();
+
+        $em->persist($user);
+        $em->flush();
 
         return $user;
     }
@@ -60,7 +72,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
 //        $name = $response->getData()['name']; //TODO: разобрать на имя и фамилию
 //        $email = $username = $response->getData()['email'];
 
-        if (null !== $previousUser = $this->registry->getRepository(VendorSecurity::class)->findOneBy(array($property => $id))) {
+        if (null !== $previousUser = $this->managerRegistry->getRepository(VendorSecurity::class)->findOneBy(array($property => $id))) {
             // 'disconnect' previously connected users
             $this->disconnect($previousUser, $response);
         }
@@ -77,14 +89,14 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
     /**
      * @param UserResponseInterface $response
      * @return string
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function getProperty(UserResponseInterface $response): string
     {
 
         $resource = $response->getResourceOwner()->getName();
         if (!isset($this->properties[$resource])) {
-            throw new \RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resource));
+            throw new RuntimeException(sprintf("No property defined for entity for resource owner '%s'.", $resource));
         }
 
         return $this->properties[$resource];
@@ -94,7 +106,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
      * Disconnects a user.
      * @param UserInterface $user
      * @param UserResponseInterface $response
-     * @throws \TypeError
+     * @throws TypeError
      */
     public function disconnect(UserInterface $user, UserResponseInterface $response)
     {
@@ -115,9 +127,10 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
     {
         $user->setEmail($response->getData()['email']);
         // TODO: Add more fields?!
+        $em = $this->managerRegistry->getManager();
 
-        $this->em->persist($user);
-        $this->em->flush();
+        $em->persist($user);
+        $em->flush();
     }
 }
 

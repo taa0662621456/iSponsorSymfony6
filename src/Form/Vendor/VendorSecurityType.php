@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Form\Vendor;
 
 use App\Entity\Vendor\Vendor;
@@ -16,24 +15,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VendorSecurityType extends AbstractType
 {
-    /**
-     * VendorLoginType constructor.
-     */
-    public function __construct(private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
-				{
-				}
+    public function __construct(private readonly string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
+    {
+
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options):void
     {
         $builder
 			->add('vendorSecurity', VendorRegistrationType::class, [
-			    'label' => 'vendor.registration'
+			    'label' => false
             ])
 			->add('submit', SubmitType::class, [
                 'translation_domain' => 'button',
                 'label' => 'button.label.registration',
                 'attr'  => [
-                    'class' => 'btn btn-primary btn-block'
+                    'class' => 'w-100 btn btn-primary btn-block',
+                    'label' => 'button.label.registration'
                 ]
             ])
             ->add(
@@ -43,7 +41,7 @@ class VendorSecurityType extends AbstractType
                         'inherit_data' => true,
                         'label' => false,
                         'attr'=> [
-                            'class' => 'btn-group m-1'
+                            'class' => 'btn-group'
                         ]
                     ])
                     ->add('back', ButtonType::class, [
@@ -56,7 +54,7 @@ class VendorSecurityType extends AbstractType
                     ])
                     ->add('registration', ButtonType::class, [
                         'translation_domain' => 'button',
-                        'label' => 'button.label.registration',
+                        'label' => false,
                         'attr' => [
                             'class' => 'btn btn-link btn-sm signup',
                             'onclick' => 'window.location.href=\'/registration\''
@@ -71,7 +69,7 @@ class VendorSecurityType extends AbstractType
                         'inherit_data' => true,
                         'label' => false,
                         'attr'=> [
-                            'class' => 'btn-group m-1'
+                            'class' => 'btn-group mb-0'
                         ]
                     ])
                     ->add('facebook', ButtonType::class, [
@@ -117,6 +115,9 @@ class VendorSecurityType extends AbstractType
             'csrf_field_name'    => '_csrf_token',
             'csrf_token_id'      => $this->token,
             'translation_domain' => 'vendor',
+            'row_attr' => [
+                'class' => 'mb-0'
+            ],
             'attr' => [
                 'class' => 'needs-validation',
                 'novalidate' => null,

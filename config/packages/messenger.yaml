@@ -9,6 +9,9 @@ framework:
         failure_transport: failed
         reset_on_message: true
         transports:
+            sns:
+                dsn: 'enqueue://testsns?topic[name]=test'
+                serializer: messenger.transport.symfony_serializer
             failed: 'doctrine://postgres?queue_name=failed'
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async:
@@ -46,6 +49,7 @@ framework:
             # Route your messages to the transports
             # 'App\Message\YourMessage': async
             'App\Message\SmsNotification': async
+            'App\Message\SimpleOrder': sns
 
 when@test:
     framework:
