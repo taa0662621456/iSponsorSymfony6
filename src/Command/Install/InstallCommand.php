@@ -2,14 +2,14 @@
 
 namespace App\Command\Install;
 
-use App\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Exception\RuntimeException;
 
-final class Command extends AbstractCommand
+class InstallCommand extends Command
 {
     protected static $defaultName = 'install';
 
@@ -24,15 +24,15 @@ final class Command extends AbstractCommand
         ],
         [
             'command' => 'setup',
-            'message' => 'Shop configuration.',
+            'message' => 'Platform configuration.',
         ],
         [
             'command' => 'jwt-setup',
-            'message' => 'Configuring JWT token.',
+            'message' => 'JWT token Configuring.',
         ],
         [
             'command' => 'assets',
-            'message' => 'Installing assets.',
+            'message' => 'Assets Installing.',
         ],
     ];
 
@@ -57,7 +57,8 @@ EOT
         $outputStyle->writeln('<info>Installing ...</info>');
         $outputStyle->writeln($this->getConsoleLogo());
 
-        $this->ensureDirectoryExistsAndIsWritable((string) $this->getContainer()->getParameter('kernel.cache_dir'), $output);
+        //TODO: autowire directoryChecker service
+//        $this->directoryChecker((string) $this->getApplication()->get('kernel.cache_dir'), $output);
 
         $errored = false;
         /**
