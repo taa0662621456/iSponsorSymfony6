@@ -3,6 +3,7 @@
 namespace App\Command\Install;
 
 use App\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class SampleDataCommand extends AbstractCommand
+final class SampleDataCommand extends Command
 {
     protected static $defaultName = 'install:sample-data';
 
@@ -36,11 +37,12 @@ EOT
         $questionHelper = $this->getHelper('question');
         $suite = $input->getOption('fixture-suite');
 
+        $environment = $this->getApplication()->get('kernel.environment');
         $outputStyle = new SymfonyStyle($input, $output);
         $outputStyle->newLine();
         $outputStyle->writeln(sprintf(
             'Loading sample data for environment <info>%s</info> from suite <info>%s</info>.',
-            $this->getEnvironment(),
+            $environment,
             $suite ?? 'default',
         ));
         $outputStyle->writeln('<error>Warning! This action will erase your database.</error>');
@@ -52,10 +54,11 @@ EOT
         }
 
         try {
-            $publicDir = $this->get('core.public_dir');
+            $publicDir = $this->getApplication()->get('core.public_dir');
 
-            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/media/', $output);
-            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/media/image/', $output);
+            //TODO: autowire directoryChecker service
+//            $this->ensureDirectoryExistsAndIsWritable($publicDir, $output);
+//            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/media/image/', $output);
         } catch (\RuntimeException $exception) {
             $outputStyle->writeln($exception->getMessage());
 
@@ -68,10 +71,11 @@ EOT
         ];
 
         $commands = [
-            'sylius:fixtures:load' => $parameters,
+            'fixtures:load' => $parameters,
         ];
 
-        $this->runCommands($commands, $output);
+        //TODO: autovire CommandRunner Service
+//        $this->runCommands($commands, $output);
         $outputStyle->newLine(2);
 
         return 0;
