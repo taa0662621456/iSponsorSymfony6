@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% endblock %}
+{% block header %}{% endblock %}
+{% block article_header %}<h3>Create new Attachment</h3>{% endblock %}
+{% block article_content %}
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+    {{ form_errors (form) }}
+    {#
+    {{ include('product/product/_form.html.twig') }}
+    #}
+{% endblock %}
+{% block footer %}{% endblock %}
+

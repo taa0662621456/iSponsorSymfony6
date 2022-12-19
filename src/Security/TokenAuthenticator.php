@@ -60,7 +60,7 @@
             }
             return new Passport(
                 new UserBadge($apiToken, function ($userId) {
-                    return $this->VendorSecurityRepository->findBy([], ['Id' => $userId], 1, null);
+                    return $this->VendorSecurityRepository->findBy([], ['Id' => $userId], 1);
                     //return $this->vendorRepository->loadUserByApiToken($userIdentifier);
                 }),
                 new CustomCredentials(
@@ -73,8 +73,8 @@
         }
 
 
-		public function getUser($credentials, UserProviderInterface $userProvider)
-		{
+		public function getUser($credentials, UserProviderInterface $userProvider): ?VendorSecurity
+        {
 			$apiToken = $credentials ['token'];
 
 			if (null === $apiToken) {

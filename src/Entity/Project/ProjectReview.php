@@ -8,7 +8,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Entity\Product\Product;
 use App\Entity\ReviewTrait;
 use App\Repository\Review\ProjectReviewRepository;
 use Doctrine\ORM\Mapping as ORM;

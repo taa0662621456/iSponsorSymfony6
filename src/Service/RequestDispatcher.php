@@ -7,9 +7,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestDispatcher
 {
-
     public string $object;
-
 
     public string $crudAction;
 
@@ -18,9 +16,7 @@ class RequestDispatcher
     public string $type;
 
     public string $templatePath;
-    /**
-     * @var RequestStack
-     */
+
     public RequestStack $requestStack;
 
     public string $typeEnGb;
@@ -82,100 +78,65 @@ class RequestDispatcher
         #
     }
 
-    /**
-     * @return string
-     */
     public function route(): string
     {
         return $this->route;
 
     }
 
-    /**
-     * @return string
-     */
     public function object(): string
     {
         return $this->object;
 
     }
 
-    /**
-     * @return string
-     */
     public function objectRepository(): string
     {
         return $this->objectRepository;
     }
 
-    /**
-     * @return string
-     */
     public function objectEnGb(): string
     {
         return $this->objectEnGb;
     }
 
-    /**
-     * @return string
-     */
     public function objectType(): string
     {
         return $this->type;
 
     }
 
-    /**
-     * @return string
-     */
     public function objectEnGbType(): string
     {
         return $this->typeEnGb;
     }
 
-    /**
-     * @return string
-     */
     public function crudAction(): string
     {
         return $this->crudAction;
 
     }
 
-    /**
-     * @return string
-     */
     public function layOutPath(): string
     {
         return $this->templatePath;
     }
 
-    /**
-     * @return string
-     */
     public function objectAttachment(): string
     {
         return $this->objectAttachment;
     }
 
-    /**
-     * @return string
-     */
     public function objectLanguageLayer(): string
     {
         return $this->objectLanguageLayer;
     }
 
-    /**
-     * @return string
-     */
     public function locale(): string
     {
         return $this->locale;
     }
-    /**
-     * @return string
-     */
+
     public function localeFilter(): string
     {
         return $this->localeFilter;

@@ -8,7 +8,7 @@
 
 	namespace App\Factory;
 
-    use App\Listener\WsseListener;
+    use App\User\WsseListener;
     use App\Service\WsseProvider;
     use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface;
     use Symfony\Component\Config\Definition\Builder\NodeDefinition;

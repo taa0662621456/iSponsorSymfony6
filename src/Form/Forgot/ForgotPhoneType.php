@@ -17,8 +17,8 @@ class ForgotPhoneType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'invalid_message' => 'The email address is invalid.',
-                'label'           => 'vendor.label.email',
+                'invalid_message' => 'forgot.email.invalid',
+                'label'           => 'forgot.email.label',
                 'label_attr'      => [
                     'class' => 'sr-only',
                     'value' => 'last_username'
@@ -38,7 +38,7 @@ class ForgotPhoneType extends AbstractType
                     'id'          => 'email',
                     'name'        => '_email',
                     'class'       => '',
-                    'placeholder' => 'vendor.placeholder.email',
+                    'placeholder' => 'forgot.email.placeholder',
                     'tabindex'    => '101',
                     'required'    => null
                 ]
@@ -51,7 +51,7 @@ class ForgotPhoneType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VendorSecurity::class,
-            'translation_domain' => 'security',
+            'translation_domain' => 'forgot',
             'validation_groups' => false,
             'attr' => [
                 'class' => 'needs-validation',

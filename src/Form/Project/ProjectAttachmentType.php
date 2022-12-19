@@ -3,11 +3,14 @@
 
 namespace App\Form\Project;
 
-use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProductAttachment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
+
 
 class ProjectAttachmentType extends AbstractType
 {
@@ -15,16 +18,41 @@ class ProjectAttachmentType extends AbstractType
     {
         $builder
 			->add(
-				'fileName', FileType::class, array(
+				'firstTitle', FileType::class, [
 				'data_class' => null,
+                'empty_data' => '',
 				'multiple'   => true,
-				'label'      => 'project.filename.label',
-				'attr'       => array(
-					'class'                  => 'file',
+                'mapped' => false,
+                'required' => false,
+//				'label'      => 'project.firsttitle.label',
+                'label' => '',
+				'attr'       => [
+					'class'                  => 'file dropzone',
 					'multiple'               => true,
-					'data-preview-file-type' => 'any'
-				)
-			)
+					'data-preview-file-type' => 'any',
+                ],
+                'constraints' => [
+                    new File([
+                        'mimeTypesMessage' => 'application/pdf',
+                        'mimeTypes' => ['application/pdf', 'application/x-pdf'],
+                        'maxSize' => '1M',
+                        'notFoundMessage' => '',
+                        'uploadErrorMessage' => '',
+                    ]),
+                    new Image([
+                        'mimeTypes' => ['image/jpg', 'image/jpeg'],
+                        'uploadErrorMessage' => '',
+                        'mimeTypesMessage' => '',
+                        'maxSizeMessage' => '',
+                        'maxHeightMessage' => '',
+                        'maxSize' => '1M',
+                        'minHeight' => '200',
+                        'minHeightMessage' => '',
+                        'minWidth' => '200',
+                        'minWidthMessage' => '',
+                    ]),
+                ]
+                ]
 			)
             ->add('fileTitle')
             ->add('fileDescription')
@@ -58,7 +86,7 @@ class ProjectAttachmentType extends AbstractType
     {
         $resolver->setDefaults(
 			[
-				'data_class'         => ProjectAttachment::class,
+				'data_class'         => ProductAttachment::class,
 				'translation_domain' => 'project'
 			]);
     }

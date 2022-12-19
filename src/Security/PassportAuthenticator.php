@@ -5,6 +5,7 @@
 
 namespace App\Security;
 
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 class PassportAuthenticator extends AbstractAuthenticator
 {
 
-    public function supports(Request $request): ?bool
+    #[NoReturn] public function supports(Request $request): ?bool
     {
         dd($request);
         // TODO: Implement supports() method.
@@ -50,7 +51,7 @@ class PassportAuthenticator extends AbstractAuthenticator
         {
             var_dump('Ok');
             // TODO: Implement onAuthenticationSuccess() method.
-
+            return 'ok';
         }
 
         /**
@@ -63,6 +64,7 @@ class PassportAuthenticator extends AbstractAuthenticator
             var_dump('No Ok');
 
             // TODO: Implement onAuthenticationFailure() method.
+            return 'no ok';
         }
 
 

@@ -4,6 +4,7 @@ namespace App\Form\Vendor;
 
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\TwoFactorFormRendererInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -12,16 +13,18 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class VendorLoginType extends AbstractType
+class VendorLoginType extends AbstractType implements TwoFactorFormRendererInterface
 {
     /**
      * VendorLoginType constructor.
      */
-    public function __construct(private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
+    public function __construct(private readonly string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
     {
     }
 
@@ -32,13 +35,13 @@ class VendorLoginType extends AbstractType
                 'invalid_message' => 'The email address is invalid.',
                 'label'           => 'vendor.label.email',
                 'label_attr'      => [
-                    'class' => 'sr-only',
+                    'class' => '',
                     'value' => 'last_username'
                 ],
                 'required'        => true,
                 'constraints'     => [
                     new NotBlank([
-                        'message' => 'Пожалуйста введите email',
+                        'message' => 'vendor.message.password.please',
                     ]),
                     new Length([
                         'min' => 3,
@@ -60,17 +63,30 @@ class VendorLoginType extends AbstractType
                 'invalid_message' => 'The password is invalid.',
                 'label'           => 'vendor.label.password',
                 'label_attr'      => [
-                    'class' => 'sr-only'
+                    'class' => ''
                 ],
                 'required'        => true,
                 'attr'            => [
                     'id'          => 'password',
                     'name'        => '_password',
                     'required'    => null,
-                    'class'       => '',
+                    'class'       => 'mb-3',
                     'placeholder' => 'vendor.placeholder.password',
                     'tabindex'    => '203'
                 ]
+            ])
+            ->add('show_me_password', CheckboxType::class, [
+                'mapped'     => false,
+                'required'   => false,
+                'label' => 'Показать пароль',
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+                'attr'       => [
+                    'id'    => 'vendor_security_vendorSecurity_show_me_password',
+                    'name'  => 'show_me_password',
+                    'class' => 'text-left mb-3 password',
+                ],
             ])
             ->add('remember', CheckboxType::class, [
                 'mapped'     => false,
@@ -83,14 +99,14 @@ class VendorLoginType extends AbstractType
                 'attr'       => [
                     'id'    => 'remember_me',
                     'name'  => '_remember_me',
-//                    'class' => ''
+                    'class' => 'text-left'
                 ],
             ])
             ->add('submit', SubmitType::class, [
                 'translation_domain' => 'button',
                 'label' => 'button.label.authorization',
                 'attr'  => [
-                    'class' => 'btn btn-primary btn-block'
+                    'class' => 'w-100 btn btn-primary btn-block'
                 ]
             ])
             ->add(
@@ -100,7 +116,7 @@ class VendorLoginType extends AbstractType
                     'inherit_data' => true,
                     'label' => false,
                     'attr'=> [
-                        'class' => 'btn-group m-1'
+                        'class' => 'btn-group m-0'
                     ]
                 ])
                 ->add('back', ButtonType::class, [
@@ -199,6 +215,9 @@ class VendorLoginType extends AbstractType
                 'csrf_token_id' => $this->token,
                 'translation_domain' => 'vendor',
                 'method' => 'POST',
+                'row_attr' => [
+                    'class' => 'mb-0'
+                ],
                 'attr' => [
                     'id' => 'login',
                     'name' => 'login',
@@ -211,4 +230,9 @@ class VendorLoginType extends AbstractType
 
 //    public function getBlockPrefix() {
 //    }
+    public function renderForm(Request $request, array $templateVars): Response
+    {
+        // TODO: Implement renderForm() method.
+        return 'TODO: Implement renderForm() method';
+    }
 }

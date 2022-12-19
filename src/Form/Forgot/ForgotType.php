@@ -20,7 +20,7 @@ class ForgotType extends AbstractType
     /**
      * SecurityForgotEmailType constructor.
      */
-    public function __construct(private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
+    public function __construct(private readonly string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token')
     {
     }
 
@@ -28,11 +28,12 @@ class ForgotType extends AbstractType
     {
         $builder
             ->add('vendorSecurity', $options['forgot_сredential_type'], [
-                'label' => 'security.forgot'
+                'translation_domain' => 'forgot',
+                'label' => false
             ])
             ->add('submit', SubmitType::class, [
                 'translation_domain' => 'button',
-                'label' => 'button.label.forgot',
+                'label' => 'button.label.submit.forgot',
                 'attr'  => [
                     'class' => 'btn btn-primary btn-block'
                 ]
@@ -61,9 +62,9 @@ class ForgotType extends AbstractType
             'csrf_protection' => true,
             'csrf_field_name' => '_csrf_token',
             'csrf_token_id' => $this->token,
-            'translation_domain' => 'security',
+            'translation_domain' => 'forgot',
             'validation_groups' => false,
-            'forgot_сredential_type' => \App\Form\Forgot\ForgotEmailType::class, //TODO: добавить парамерт в app и дефолтное значение
+            'forgot_сredential_type' => ForgotEmailType::class, //TODO: добавить парамер в app и дефолтное значение
             'attr' => [
                 'class' => 'needs-validation',
                 'novalidate' => null,

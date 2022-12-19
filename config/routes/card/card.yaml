@@ -1,0 +1,49 @@
+cart_summary:
+    path: /
+    methods: [GET]
+    defaults:
+        _controller: controller.order::summaryAction
+        _sylius:
+            template: "@SyliusShop/Cart/summary.html.twig"
+            form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+
+cart_save:
+    path: /
+    methods: [PUT, PATCH]
+    defaults:
+        _controller: controller.order::saveAction
+        _sylius:
+            template: "@SyliusShop/Cart/summary.html.twig"
+            redirect: cart_summary
+            form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+            flash: cart.save
+
+cart_checkout:
+    path: /checkout
+    methods: [PATCH]
+    defaults:
+        _controller: controller.order::saveAction
+        _sylius:
+            template: "@SyliusShop/Cart/summary.html.twig"
+            redirect: checkout_start
+            form: Sylius\Bundle\OrderBundle\Form\Type\CartType
+            flash: false
+
+cart_clear:
+    path: /
+    methods: [DELETE]
+    defaults:
+        _controller: controller.order::clearAction
+        _sylius:
+            redirect: cart_summary
+
+cart_item_remove:
+    path: /{id}/remove
+    methods: [DELETE]
+    defaults:
+        _controller: controller.order_item::removeAction
+        _sylius:
+            flash: cart.remove_item
+            redirect:
+                route: cart_summary
+                parameters: {}

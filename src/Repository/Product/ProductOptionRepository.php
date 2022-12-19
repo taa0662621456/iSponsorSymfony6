@@ -2,7 +2,7 @@
 
 namespace App\Repository\Product;
 
-use App\Entity\Project\ProductOption;
+use App\Entity\Product\ProductOption;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

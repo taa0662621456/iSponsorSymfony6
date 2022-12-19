@@ -8,12 +8,13 @@ use App\Entity\Featured\Featured;
 use App\Entity\Product\Product;
 use App\Entity\Product\ProductEnGb;
 use App\Entity\Project\Project;
-use App\Entity\Project\ProjectAttachment;
+use App\Entity\Project\ProductAttachment;
 use App\Entity\Project\ProjectEnGb;
 use App\Entity\Project\ProjectFavourite;
 use App\Entity\Project\ProjectPlatformReward;
 use App\Entity\Project\ProjectTag;
 use App\Entity\Project\ProjectType;
+use App\Entity\Project\Type;
 use App\Entity\Tag\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -36,8 +37,8 @@ interface ProjectInterface
     public function removeProjectAttachment(ProjectAttachment $projectAttachment): self;
     # OneToMany
     public function getProjectProduct(): Collection;
-    public function addProjectProduct(Product $projectProduct): self;
-    public function removeProjectProduct(Product $projectProduct): self;
+    public function addProjectProduct(Product $product): self;
+    public function removeProjectProduct(Product $product): self;
     # OneToMany
     public function getProjectPlatformReward(): Collection;
     public function addProjectPlatformReward(ProjectPlatformReward $projectPlatformReward): self;

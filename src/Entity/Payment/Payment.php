@@ -12,7 +12,6 @@ use Symfony\Component\Uid\Uuid;
 class Payment
 {
     use BaseTrait;
-    use ObjectTrait;
 
     public function __construct()
     {

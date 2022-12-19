@@ -14,6 +14,8 @@ namespace App\Pagination;
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\CountWalker;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use Traversable;
+use function count;
 
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
@@ -21,14 +23,17 @@ use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 class Paginator
 {
     private const PAGE_SIZE = 10;
-    private $currentPage;
-    private $results;
-    private $numResults;
+    private int $currentPage;
+    private Traversable $results;
+    private int $numResults;
 
-    public function __construct(private DoctrineQueryBuilder $queryBuilder, private int $pageSize = self::PAGE_SIZE)
+    public function __construct(private readonly DoctrineQueryBuilder $queryBuilder, private readonly int $pageSize = self::PAGE_SIZE)
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function paginate(int $page = 1): self
     {
         $this->currentPage = max(1, $page);
@@ -39,13 +44,13 @@ class Paginator
             ->setMaxResults($this->pageSize)
             ->getQuery();
 
-        if (0 === (is_countable($this->queryBuilder->getDQLPart('join')) ? \count($this->queryBuilder->getDQLPart('join')) : 0)) {
+        if (0 === (is_countable($this->queryBuilder->getDQLPart('join')) ? count($this->queryBuilder->getDQLPart('join')) : 0)) {
             $query->setHint(CountWalker::HINT_DISTINCT, false);
         }
 
         $paginator = new DoctrinePaginator($query, true);
 
-        $useOutputWalkers = (is_countable($this->queryBuilder->getDQLPart('having') ?: []) ? \count($this->queryBuilder->getDQLPart('having') ?: []) : 0) > 0;
+        $useOutputWalkers = (is_countable($this->queryBuilder->getDQLPart('having') ?: []) ? count($this->queryBuilder->getDQLPart('having') ?: []) : 0) > 0;
         $paginator->setUseOutputWalkers($useOutputWalkers);
 
         $this->results = $paginator->getIterator();
@@ -99,7 +104,7 @@ class Paginator
         return $this->numResults;
     }
 
-    public function getResults(): \Traversable
+    public function getResults(): Traversable
     {
         return $this->results;
     }

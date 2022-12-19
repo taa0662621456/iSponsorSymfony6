@@ -2,6 +2,9 @@
 
 return [
     'APP_SECRET' => null,
+    'AWS_KEY' => null,
+    'AWS_SECRET' => null,
+    'AWS_TARGET_REGION' => null,
     'DATABASE_URL' => null,
     'FACEBOOK_OAUTH_ID' => null,
     'FACEBOOK_OAUTH_SECRET' => null,

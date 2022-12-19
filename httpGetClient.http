@@ -9,19 +9,19 @@ Authorization: Basic {{username}} {{password}}
 GET https://{{host}}/en
 Accept: application/json
 ###
-GET https://{{host}}/projects
+GET https://{{host}}/project
 Accept: application/json
 ###
-GET https://{{host}}/en/projects
+GET https://{{host}}/en/project
 Accept: application/json
 ###
-GET https://{{host}}/projects/new
+GET https://{{host}}/project/new
 Accept: application/json
 ###
-GET https://{{host}}/products
+GET https://{{host}}/product
 Accept: application/json
 ###
-GET https://{{host}}/products/new
+GET https://{{host}}/product/new
 Accept: application/json
 ###
 

@@ -5,17 +5,11 @@
 {% block article_header %} <h3>Create new Category</h3>{% endblock %}
 {% block section %}{% endblock %}
 {% block article_content %}
-    <div class="row">
-        <div class="{{ c1 }}">
-        </div>
-        <div class="{{ c2 }}">
-            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="example-wrapper">
-                    {{ include('category/category/_form.html.twig') }}
-                </div>
-            </div>
-        </div>
-        <div class="{{ c3 }}">
-        </div>
-    </div>
+    {{ form_start(form) }}
+    {{ dump(form) }}
+    {{ form_end(form) }}
+    {{ form_errors (form) }}
+    {#
+    {{ include('product/product/_form.html.twig') }}
+    #}
 {% endblock %}

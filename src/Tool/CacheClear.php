@@ -4,6 +4,7 @@
 namespace App\Tool;
 
 
+use Exception;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -48,7 +49,7 @@ class CacheClear
         try {
             rename($cacheDirPath, $warmupDir);
             $result = true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $result = false;
         }
 

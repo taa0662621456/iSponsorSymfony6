@@ -2,7 +2,8 @@
 
 	namespace App\EventSubscriber;
 
-	use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+	use JetBrains\PhpStorm\ArrayShape;
+    use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 	use Symfony\Component\Security\Http\Event\SwitchUserEvent;
 	use Symfony\Component\Security\Http\SecurityEvents;
 
@@ -22,8 +23,8 @@
 			}
 		}
 
-		public static function getSubscribedEvents()
-		{
+		#[ArrayShape([SecurityEvents::SWITCH_USER => "string"])] public static function getSubscribedEvents(): array
+        {
 			return [
 				// constant for security.switch_user
 				SecurityEvents::SWITCH_USER => 'onSwitchVendor',

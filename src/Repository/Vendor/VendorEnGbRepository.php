@@ -2,22 +2,22 @@
 
 namespace App\Repository\Vendor;
 
-use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorEnUS;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method VendorEnGb|null find($id, $lockMode = null, $lockVersion = null)
- * @method VendorEnGb|null findOneBy(array $criteria, array $orderBy = null)
- * @method VendorEnGb[]    findAll()
- * @method VendorEnGb[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method VendorEnUS|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VendorEnUS|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VendorEnUS[]    findAll()
+ * @method VendorEnUS[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class VendorEnGbRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, VendorEnGb::class);
+        parent::__construct($registry, VendorEnUS::class);
     }
 
     public function getMail()
@@ -47,7 +47,7 @@ class VendorEnGbRepository extends ServiceEntityRepository
     /**
      * @throws NonUniqueResultException
      */
-    public function findOneBySomeField($value): ?VendorEnGb
+    public function findOneBySomeField($value): ?VendorEnUS
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

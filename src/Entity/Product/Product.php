@@ -10,6 +10,7 @@ use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
+use App\Interface\ProductTypeInterface;
 use App\Repository\Product\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,8 +30,12 @@ class Product
     use ObjectTrait;
     use MetaTrait;
 
-
     public const NUM_ITEMS = 10;
+
+    #[ORM\ManyToOne(targetEntity: ProductTypeInterface::class, inversedBy: 'productTypeProduct')]
+    #[Assert\Type(type: 'App\Entity\Product\ProductType')]
+    #[Assert\Valid]
+    private ProductType $productType;
 
     #[ORM\Column(name: 'product_sku', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productSku = 0;
@@ -91,10 +96,10 @@ class Product
     #[ORM\Column(name: 'product_param', nullable: true)]
     private ?string $productParam = null;
 
-    #[ORM\Column(name: 'product_canon_category_id', type: 'integer', nullable: false, options: ['default' => 0])]
-    private int $productCanonCategoryId = 0;
+    #[ORM\Column(name: 'product_category', type: 'integer', nullable: false, options: ['default' => 0])]
+    private int $productCategory = 0;
 
-    #[ORM\Column(name: 'product_hits', type: 'integer', nullable: false, options: ['default' => 0])]
+    #[ORM\Column(name: 'product_hit', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productHit = 0;
 
     #[ORM\Column(name: 'layout', type: 'integer', nullable: false, options: ['default' => 0])]
@@ -140,6 +145,8 @@ class Product
     #[ORM\OneToMany(mappedBy: 'productReviewProduct', targetEntity: ProductReview::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $productReview;
 
+
+
     public function __construct()
     {
         $t = new DateTime();
@@ -156,6 +163,15 @@ class Product
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
         $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
+    }
+    # ManyToOne
+    public function getProductType(): ProductType
+    {
+        return $this->productType;
+    }
+    public function setProductType(ProductType $productType): void
+    {
+        $this->productType = $productType;
     }
     #
     public function getProductSku(): int
@@ -358,13 +374,13 @@ class Product
         $this->productParam = $productParam;
     }
     #
-    public function getProductCanonCategoryId(): ?int
+    public function getProductCategory(): ?int
     {
-        return $this->productCanonCategoryId;
+        return $this->productCategory;
     }
-    public function setProductCanonCategoryId(int $productCanonCategoryId): void
+    public function setProductCategory(int $productCategory): void
     {
-        $this->productCanonCategoryId = $productCanonCategoryId;
+        $this->productCategory = $productCategory;
     }
     #
     public function getProductHit(): ?int

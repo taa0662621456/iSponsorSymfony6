@@ -22,29 +22,29 @@ class CategoryType
         $builder
             ->add(
             $builder
-                ->create('step-1', FormType::class, array(
+                ->create('step-1', FormType::class, [
                     'inherit_data' => true,
                     'label' => false,
-                    'row_attr' => array(
+                    'row_attr' => [
                         'id' => 'step-1'
-                    ),
-                ))
+                    ],
+                ])
             ->add(
-                'categoryEnGb', CategoryEnGbType::class, array(
+                'categoryEnGb', CategoryEnGbType::class, [
                     'translation_domain' => 'category',
                     'label'              => 'category.engb.label',
-                )
+                ]
             )
             )
             ->add(
                 $builder
-                    ->create('step-2', FormType::class, array(
+                    ->create('step-2', FormType::class, [
                         'inherit_data' => true,
                         'label' => false,
-                        'row_attr' => array(
+                        'row_attr' => [
                             'id' => 'step-2'
-                        ),
-                    ))
+                        ],
+                    ])
             ->add(
                 'categoryAttachments', CollectionType::class, array(
                     'entry_type'         => CategoryAttachmentType::class,

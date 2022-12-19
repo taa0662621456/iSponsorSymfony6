@@ -9,12 +9,10 @@ use App\Form\Vendor\VendorMediaType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 
 class VendorCrudController extends AbstractCrudController
@@ -28,24 +26,12 @@ class VendorCrudController extends AbstractCrudController
     {
 
         return [
-            TextField::new('first_title'),
+            TextField::new('firstTitle'),
             TextEditorField::new('middle_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
+
+            TextEditorField::new('last_title'),
             TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            CollectionField::new('vendorMedia')
-                ->setEntryType(VendorMediaType::class)
-                ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
-            CollectionField::new('vendorMedia')
-                ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail()
-            ,
-            ImageField::new('thumbnail')
-                ->setBasePath('/upload/vendor/thumbnail')
-                ->setUploadDir('')
-                ->onlyOnIndex()
-            ,
+            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
         ];
 
 

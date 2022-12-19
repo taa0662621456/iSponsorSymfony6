@@ -1,0 +1,41 @@
+security_login:
+    path: /login
+    methods: [GET]
+    defaults:
+        _controller: sylius.controller.security::loginAction
+        _sylius:
+            template: "@SyliusAdmin/Security/login.html.twig"
+            permission: true
+            logged_in_route: security_dashboard
+
+security_login_check:
+    path: /login-check
+    methods: [POST]
+    defaults:
+        _controller: sylius.controller.security::checkAction
+
+security_logout:
+    path: /logout
+    methods: [GET]
+
+security_render_reset_password_page:
+    path: /forgotten-password
+    methods: [GET]
+    controller: Sylius\Bundle\AdminBundle\Action\Account\RenderRequestPasswordResetPageAction
+
+security_request_password_reset:
+    path: /forgotten-password
+    methods: [POST]
+    controller: Sylius\Bundle\AdminBundle\Action\Account\RequestPasswordResetAction
+
+security_render_password_reset:
+    path: /forgotten-password/{token}
+    methods: [GET]
+    defaults:
+        _controller: Sylius\Bundle\AdminBundle\Action\Account\RenderResetPasswordPageAction
+
+security_password_reset:
+    path: /forgotten-password/{token}
+    methods: [POST]
+    defaults:
+        _controller: Sylius\Bundle\AdminBundle\Action\Account\ResetPasswordAction

@@ -23,7 +23,7 @@
         <meta name="description" content="{% block meta_description %}{% endblock %}">
         <meta name="author" content="Smartresponsor, Llc">
 
-        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
 
         <title>{% block title %}{% endblock %}</title>
 
@@ -33,54 +33,12 @@
     </head>
 {% endblock %}
 {% block body %}
-    <body class="">
+    <body class="" data-controller="symfony--ux-swup--swup">
     <header class="section-header">
 
         {% block navbar %}
-            <nav class="row navbar navbar-expand-sm navbar-dark bg-secondary navbar-fixed-top p-0">
-                <menu class="{{ b1 }}">
-                    <a class="navbar-brand float-right navbar-toggler m-1 border-0" data-toggle="collapse"
-                       data-target="#isponsor" aria-controls="isponsor" aria-expanded="false" aria-label="...i Sponsor!"
-                       href="#"><span class="text-break">...iSponsor!</span><span
-                                class="navbar-toggler-icon"></span></a>
-                </menu>
-                <menu class="{{ b2 }} left">
-
-                </menu>
-                <menu class="{{ b3 }}">
-                    <div class="collapse navbar-collapse" id="isponsor">
-                        <a class="navbar-brand pl-4 pt-0" href="#">...iSponsor!</a>
-                        <ul class="navbar-nav mr-auto">
-
-                            <li class="nav-item">
-                                <a class="btn btn-warning btn-block rounded-0" role="button"
-                                   href="{{ path('project_new') }}"><i class="fal fa-plus-circle"></i></a>
-                            </li>
-
-                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <li class="nav-item">
-                                    <a class=""><img src="{{ asset('cover.jpg') }}" class="face" alt="Avatar"></a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-link btn-block" role="button">Main</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="btn btn-link btn-block" role="button">{{ app.user }}</a>
-                                </li>
-                            {% endif %}
-
-                            {{ include('security/_yetMenuDropdown.html.twig') }}
-                        </ul>
-                    </div>
-                </menu>
-                <menu class="{{ b4 }}">
-
-                </menu>
-
-            </nav>
-
-                        {{ include('security/navbarForAdmin.html.twig') }}
-
+            {{ include('_nav_bar.html.twig') }}
+            {#{{ include('security/navbarForAdmin.html.twig') }}#}
         {% endblock %}
 
         {% block section %}
@@ -157,7 +115,7 @@
     </header>
     {% block blocks %}
 
-        <main role="main" class="row m-0 min-vh-100">
+        <main id="swup" role="main" class="row m-0 min-vh-100">
             <aside id="b1" class="{{ b1 }}">
 {#                <div class="sticky-top text-center pt-5">#}
 {#                    <a id="move_up" href="#"><span style="font-size: 2em"><i#}
@@ -263,12 +221,8 @@
 {% endblock %}
     {% block javascripts %}
         {{ encore_entry_script_tags('base') }}
-{#        <script>
-            (function(w,d,u){
-                let s=d.createElement('script');s.async=true;s.src=u+'?'+(Date.now()/60000|0);
-                let h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
-            })(window,document,'https://cdn.bitrix24.ua/b16519075/crm/site_button/loader_8_prai3q.js');
-        </script>
+{#
+        {{ include('_bitrix24.html.twig') }}
 #}
     {% endblock %}
 </html>

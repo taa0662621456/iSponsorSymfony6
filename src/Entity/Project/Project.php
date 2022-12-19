@@ -2,7 +2,6 @@
 
 namespace App\Entity\Project;
 
-use App\Entity\Attachment\Attachment;
 use App\Entity\BaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
@@ -10,10 +9,9 @@ use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Product\Product;
 use App\Entity\Project\Type;
-use App\Entity\Tag\Tag;
-use App\Form\Project\ProjectType;
-use App\Interface\CategoryInterface;
+use App\Entity\Project\ProjectType;
 use App\Interface\ProjectTypeInterface;
+use App\Interface\CategoryInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -81,10 +79,9 @@ class Project
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private Collection $projectPlatformReward;
 
-    #[ORM\OneToMany(mappedBy: 'projectReview', targetEntity: ProjectReview::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'projectReviewProject', targetEntity: ProjectReview::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
-    #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
-    private Collection $projectReviw;
+    private Collection $projectReview;
 
     #[Pure]
     public function __construct()
@@ -96,6 +93,7 @@ class Project
         $this->projectTag = new ArrayCollection();
         $this->projectProduct = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
+        $this->projectReview = new ArrayCollection();
         #
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
@@ -126,10 +124,12 @@ class Project
     {
         return $this->projectTag;
     }
-    public function addProjectTag(ProjectTag $projectTag): void
+    public function addProjectTag(ProjectTag $projectTag): self
     {
-        $projectTag->addProjectTag($this);
-        $this->projectTag[] = $projectTag;
+        if (!$this->projectTag->contains($projectTag)){
+            $this->projectTag[] = $projectTag;
+        }
+        return $this;
     }
     public function removeProjectTag(ProjectTag $projectTag): self
     {
@@ -143,17 +143,17 @@ class Project
     {
         return $this->projectAttachment;
     }
-    public function addProjectAttachment(ProjectAttachment $projectAttachmenat): self
+    public function addProjectAttachment(ProjectAttachment $projectAttachment): self
     {
-        if (!$this->projectAttachment->contains($projectAttachmenat)) {
-            $this->projectAttachment[] = $projectAttachmenat;
+        if (!$this->projectAttachment->contains($projectAttachment)) {
+            $this->projectAttachment[] = $projectAttachment;
         }
         return $this;
     }
-    public function removeProjectAttachment(ProjectAttachment $projectAttachmenat): self
+    public function removeProjectAttachment(ProjectAttachment $projectAttachment): self
     {
-        if ($this->projectAttachment->contains($projectAttachmenat)){
-            $this->projectAttachment->removeElement($projectAttachmenat);
+        if ($this->projectAttachment->contains($projectAttachment)){
+            $this->projectAttachment->removeElement($projectAttachment);
         }
         return $this;
     }
@@ -233,25 +233,22 @@ class Project
         $this->projectFeatured = $projectFeatured;
     }
     # OneToMeny
-    public function getProjectReviw(): Collection
+    public function getProjectReview(): Collection
     {
-        return $this->projectReviw;
+        return $this->projectReview;
     }
-    public function addProjectReviw(ProjectReview $projectReviw): self
+    public function addProjectReview(ProjectReview $projectReview): self
     {
-        if (!$this->projectReviw->contains($projectReviw)){
-            $this->projectReviw[] = $projectReviw;
+        if (!$this->projectReview->contains($projectReview)){
+            $this->projectReview[] = $projectReview;
         }
         return $this;
     }
-    public function removeProjectReviw(ProjectReview $projectReviw): self
+    public function removeProjectReview(ProjectReview $projectReview): self
     {
-        if ($this->projectReviw->contains($projectReviw)){
-            $this->projectReviw->removeElement($projectReviw);
+        if ($this->projectReview->contains($projectReview)){
+            $this->projectReview->removeElement($projectReview);
         }
         return $this;
     }
-
-
-
 }

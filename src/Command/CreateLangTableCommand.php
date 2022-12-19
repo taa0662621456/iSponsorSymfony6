@@ -31,7 +31,7 @@ class CreateLangTableCommand extends Command
     // в случае неправильных параметров или аргументов return Command::INVALID
     // хелп https://symfony.com/doc/current/console.html
 
-    protected function configure(): int
+    protected function configure()
     {
         $this
 //            ->setDescription('Generate Object language Table in Postgre')
@@ -40,7 +40,7 @@ class CreateLangTableCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $language = $input->getArgument('language');

@@ -5,6 +5,11 @@
     {{ include('_tools.html.twig') }}
 {% endblock %}
 {% block article_header %}<h3>Create new Product</h3>{% endblock %}
-{% block body %}
-    {{ include('product/product/_form.html.twig') }}
+{% block article_content %}
+
+    {% form_theme form with ['bootstrap_5_layout.html.twig'] only %}
+    {{ form_start(form) }}
+    <ul class="productAttachment" data-index="{{ form.productAttachment|length > 0 ? form.productAttachment|last.vars.fileName + 1 : 0 }}" data-prototype="{{ form_widget(form.productAttachment.vars.prototype)|e('html_attr') }}"></ul>
+    {{ form_end(form) }}
+    {{ form_errors (form) }}
 {% endblock %}
