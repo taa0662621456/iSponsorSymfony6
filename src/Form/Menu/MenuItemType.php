@@ -2,8 +2,8 @@
 
 	namespace App\Form\Menu;
 
-	use App\Entity\Menu\MenusItems;
-	use Symfony\Component\Form\AbstractType;
+    use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+    use Symfony\Component\Form\AbstractType;
 	use Symfony\Component\Form\FormBuilderInterface;
 	use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -37,7 +37,7 @@
 		{
 			$resolver->setDefaults(
 				[
-					'data_class' => MenusItems::class,
+					'data_class' => MenuItem::class,
 				]
 			);
 		}

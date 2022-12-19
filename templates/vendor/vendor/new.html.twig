@@ -3,17 +3,13 @@
 {% block header %}{% endblock %}
 {% block article_header %}<h3>Create new Vendor</h3>{% endblock %}
 {% block article_content %}
-    <div class="row">
-        <div class="{{ c1 }}">
-        </div>
-        <div class="{{ c2 }}">
-            <div class="btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-            </div>
-            {{ include('vendor/vendor/_form.html.twig') }}
-        </div>
-        <div class="{{ c3 }}">
-        </div>
-    </div>
+    {{ form_start(form) }}
+    {{ dump(form) }}
+    {{ form_end(form) }}
+    {{ form_errors (form) }}
+    {#
+    {{ include('product/product/_form.html.twig') }}
+    #}
 {% endblock %}
 {% block footer %}{% endblock %}
 

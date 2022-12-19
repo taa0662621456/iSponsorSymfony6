@@ -1,23 +1,35 @@
 {% extends 'base.html.twig' %}
+
 {% block meta_description %}Please, sign up!{% endblock %}
 {% block title %}Please, sign up!{% endblock %}
 {% block stylesheets %}
     {{ encore_entry_link_tags('sign') }}
 {% endblock %}
 {% block body %}
-    <body class="justify-content-center">
-    {% if error %}
-        <div class="alert alert-danger">
-            {{ error.message }}
-            {{ error.messageKey|trans(error.messageData, 'security') }}
-        </div>
-    {% endif %}
-    {{ form(form) }}
-    {{ form_errors (form) }}
+    <body class="justify-content-center text-center" data-controller="symfony--ux-swup--swup">
+        <main id="swup" class="form-signin w-100 m-auto">
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.message }}
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            {% endif %}
+
+            <img class="" src="{{ asset('mandala.svg') }}" alt="" width="72" height="72">
+            <h2 class="h3 mb-3 fw-normal text-center">Registration</h2>
+
+            {% form_theme form with ['bootstrap_5_layout.html.twig', 'form/registration-form.html.twig'] only %}
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+            {{ form_errors (form) }}
+
+            <p class="mt-5 mb-3 text-muted">© 2007–2022</p>
+        </main>
     </body>
 {% endblock %}
 {% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
 {% block footer %}{% endblock %}
 {% block javascripts %}
     {{ encore_entry_script_tags('sign') }}
+    {#{{ include('_bitrix24.html.twig') }}#}
 {% endblock %}

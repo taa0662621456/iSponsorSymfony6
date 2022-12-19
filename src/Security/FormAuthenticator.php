@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
-
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
@@ -38,15 +37,15 @@ class FormAuthenticator extends AbstractAuthenticator implements AuthenticationE
 
     private Request $request;
 
-    public function __construct(private EntityManagerInterface $entityManager,
-                                private UrlGeneratorInterface $urlGenerator,
-                                private CsrfTokenManagerInterface $csrfTokenManager,
-                                private UserPasswordHasherInterface $passwordHasher,
-                                private LoggerInterface $logger,
+    public function __construct(private readonly EntityManagerInterface      $entityManager,
+                                private readonly UrlGeneratorInterface       $urlGenerator,
+                                private readonly CsrfTokenManagerInterface   $csrfTokenManager,
+                                private readonly UserPasswordHasherInterface $passwordHasher,
+                                private readonly LoggerInterface             $logger,
 
-                                private string $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token',
-                                private string $pathToLogin = 'No $token! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLogin',
-                                private string $pathToLoginSuccess = 'No $pathToLoginSuccess! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLoginSuccess',
+                                private readonly string                      $token = 'No $token?! Must be initialized to parameters.yaml or service.yaml and service.bind:$token',
+                                private readonly string                      $pathToLogin = 'No $token! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLogin',
+                                private readonly string                      $pathToLoginSuccess = 'No $pathToLoginSuccess! Must be initialized to parameters.yaml or service.yaml and service.bind:$pathToLoginSuccess',
                                 )
     {
     }
@@ -97,7 +96,7 @@ class FormAuthenticator extends AbstractAuthenticator implements AuthenticationE
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $firewallName): ?Response
     {
         $pathToLoginSuccess = $this->pathToLoginSuccess;
-//        $user = $token->getUser();
+        $user = $token->getUser();
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
@@ -111,7 +110,7 @@ class FormAuthenticator extends AbstractAuthenticator implements AuthenticationE
 //        $user = 'SomeUser';
         $session = $request->getSession();
         $this->logger->notice('Failed to login user:" '. $user .' " ' . 'Reason: '. $exception->getMessage());
-        $session->getFlashBag()->add('error', 'Попытка неуспешная Вовсе!');
+        $session->getFlashBag()->add('error', 'Попытка неуспешная Вовсе! Логин или пароль введені не верно');
 
         return new RedirectResponse($this->urlGenerator->generate($this->pathToLogin));
     }
@@ -125,7 +124,7 @@ class FormAuthenticator extends AbstractAuthenticator implements AuthenticationE
         );
     }
 
-    public function start(Request $request, AuthenticationException $authException = null)
+    public function start(Request $request, AuthenticationException $authException = null): Response
     {
         throw new CustomUserMessageAuthenticationException('Email|User could BE found!');
         // TODO: Implement start() method.

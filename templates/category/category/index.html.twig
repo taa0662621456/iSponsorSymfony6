@@ -20,7 +20,7 @@
                 <td>{{ category.id }}</td>
                 <td>{{ category.published ? 'Yes' : 'No' }}</td>
                 <td>
-                    <a href="{{ path('category_id_edit', {'id': category.id}) }}">edit</a>
+                    <a href="{{ path('category_edit_id', {'id': category.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

@@ -15,9 +15,9 @@
 		public function buildForm(FormBuilderInterface $builder, array $options):void
 		{
 			$builder
-				->add('locale', TextType::class, array(
+				->add('locale', TextType::class, [
 					'required' => false
-				))
+                ])
 				->add('vendorSecurity', VendorRegistrationType::class)
 				->add('vendorEnGb', VendorEnGbType::class)
 				->add('previous', SubmitType::class, array(

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Review\ReviewProduct;
+use App\Entity\Review\ProductReview;
 use RuntimeException;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -24,7 +24,7 @@ class AkismetSpamChecker
      *
      * @throws RuntimeException|TransportExceptionInterface if the call did not work
      */
-    public function getSpamScore(ReviewProduct $comment, array $context): int
+    public function getSpamScore(ProductReview $comment, array $context): int
     {
         $response = $this->client->request('POST', $this->endpoint, [
             'body' => array_merge($context, [

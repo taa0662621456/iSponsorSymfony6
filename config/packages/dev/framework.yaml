@@ -4,3 +4,29 @@ framework:
     trusted_hosts: ['%env(TRUSTED_HOSTS)%', '127.0.0.1', 'localhost', 'smartresponsor.com']
     profiler: true
     default_locale: '%app_locale%'
+
+#    http_client:
+#        default_options:
+#            max_redirects: 7
+#            max_host_connections: 10
+##
+#        scoped_clients:
+#            picsum.client:
+#                scope: 'https://picsum\.photos/v2/list'
+#                base_uri: 'https://picsum.photos/v2/list'
+
+#            # only requests matching scope will use these options
+#            github.client:
+#                scope: 'https://api\.github\.com'
+#                base_uri: 'https://api.github.com'
+#                # HTTP Basic authentication
+#                auth_basic: 'the-username:the-password'
+#                # HTTP Bearer authentication (also called token authentication)
+#                auth_bearer: the-bearer-token
+#                # Microsoft NTLM authentication
+#                auth_ntlm: 'the-username:the-password'
+#                headers:
+#                    Accept: 'application/vnd.github.v3+json'
+#                    Authorization: 'token %env(GITHUB_API_TOKEN)%'
+
+                # ...

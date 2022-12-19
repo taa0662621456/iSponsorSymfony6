@@ -5,7 +5,7 @@ namespace App\Controller\Vendor;
 
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorDocument;
-use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorEnUS;
 use App\Entity\Vendor\VendorMedia;
 use App\Form\Vendor\VendorAddType;
 use App\Form\Vendor\VendorEditType;
@@ -44,7 +44,7 @@ class VendorController extends AbstractController
 	{
 		$slug = new Slugify();
 		$vendor = new Vendor();
-		$vendorEnGb = new VendorEnGb();
+		$vendorEnGb = new VendorEnUS();
 		// костыль, чтобы вывести пустую форму коллекции
 		$vendorMediaAttachment = new VendorMedia();
 		$vendorMediaAttachment->setFileClass('');

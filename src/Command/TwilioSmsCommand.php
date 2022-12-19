@@ -3,15 +3,16 @@
 
 namespace App\Command;
 
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use \Twilio\Rest\Client;
+use Twilio\Rest\Client;
 class TwilioSmsCommand extends ContainerAwareCommand
 {
-    private $twilio;
+    private Client $twilio;
 
     public function __construct(Client $twilio) {
         $this->twilio = $twilio;
@@ -23,14 +24,17 @@ class TwilioSmsCommand extends ContainerAwareCommand
             ->setDescription('Send reminder text message');
     }
 
-   protected function execute(InputInterface $input, OutputInterface $output) {
+    /**
+     * @throws \Twilio\Exceptions\TwilioException
+     */
+    protected function execute(InputInterface $input, OutputInterface $output) {
         $em = $this->getContainer()->get('doctrine');
         $userRepository = $em->getRepository('AppBundle:User');
         $appointmentRepository = $em->getRepository('AppBundle:Appointment');
 
         // For our app, we'll be sending reminders to everyone who has an appointment on this current day, shortly after midnight.
         // As such, the start and end times we'll be checking for will be 12:00am (00:00h) and 11:59pm (23:59h).
-        $start = new \DateTime();
+        $start = new DateTime();
         $start->setTime(00, 00);
         $end = clone $start;
         $end->modify('+1 days');
@@ -40,10 +44,10 @@ class TwilioSmsCommand extends ContainerAwareCommand
         $appointments = $appointmentRepository->createQueryBuilder('a')
             ->select('a')
             ->where('a.date BETWEEN :now AND :end')
-            ->setParameters(array(
+            ->setParameters([
                 'now' => $start,
                 'end' => $end,
-            ))
+            ])
             ->getQuery()
             ->getResult();
 
@@ -55,10 +59,10 @@ class TwilioSmsCommand extends ContainerAwareCommand
                 $user = $appoint->getUser();
                 $message = $this->twilio->messages->create(
                     $user->getPhoneNumber(), // Send text to this number
-                    array(
+                    [
                         'from' => $sender, // My Twilio phone number
                         'body' => 'Hello from Awesome Massages. A reminder that your massage appointment is for today at ' . $appoint->getDate()->format('H:i') . '. Call ' . $sender . ' for any questions.'
-                    )
+                    ]
                 );
 
                 $output->writeln('SMS #' . $message->sid . ' sent to: ' . $user->getPhoneNumber());

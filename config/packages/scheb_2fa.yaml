@@ -3,8 +3,8 @@
 scheb_two_factor:
     security_tokens:
         - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
-        - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
-        - Acme\AuthenticationBundle\Token\CustomAuthenticationToken
+        # - Symfony\Component\Security\Http\Authenticator\Token\PostAuthenticationToken
+        # - Acme\AuthenticationBundle\Token\CustomAuthenticationToken
     # Trusted device feature
     trusted_device:
         enabled: false                 # If the trusted device feature should be enabled
@@ -22,23 +22,22 @@ scheb_two_factor:
         enabled: false                 # If the backup code feature should be enabled
         manager: acme.custom_backup_code_manager  # Use a custom backup code manager
 
-    # TOTP authentication config
-#    totp:
-#        enabled: false
-#        server_name: Smartresponsor        # Server name used in QR code
-#            issuer: Smartresponsor         # Issuer name used in QR code
-#            window: 1                      # How many codes before/after the current one would be accepted as valid
-#            parameters: # Additional parameters added in the QR code
-#                image: 'cover.jpg'
-#                template: security/2fa_form.html.twig   # Template used to render the authentication form
-#                form_renderer: acme.custom_form_renderer_service
+    totp:
+        enabled: false
+        server_name: Smartresponsor        # Server name used in QR code
+            issuer: Smartresponsor         # Issuer name used in QR code
+            window: 1                      # How many codes before/after the current one would be accepted as valid
+            parameters: # Additional parameters added in the QR code
+                image: 'cover.jpg'
+                template: security/2fa_form.html.twig   # Template used to render the authentication form
+                form_renderer: acme.custom_form_renderer_service
         # $secret = $container->get("scheb_two_factor.security.totp_authenticator")->generateSecret();
         # $qrCodeContent = $container->get("scheb_two_factor.security.totp_authenticator")->getQRContent($user);
     google:
         enabled: false
 
     email:
-        digits: 6
+        digits: 4
         enabled: false
         sender_email: '%app_email_sender%'
         sender_name: '%app_email_sender_name%'  # Optional

@@ -18,7 +18,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  */
 class ProjectTagTransformer implements DataTransformerInterface
 {
-    private $tags;
+    private TagRepository $tags;
 
     public function __construct(TagRepository $tags)
     {

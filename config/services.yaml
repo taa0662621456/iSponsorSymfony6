@@ -61,6 +61,13 @@ parameters:
         App\Exception\TypeNotFoundException: { code: 404, hidden: false }
 
 services:
+    App\Factory\Vendor\VendorFactory:
+        class: App\Factory\Vendor\VendorFactory
+        factory: '@VendorSecurityFactory'
+
+#    App\Factory\Vendor\VendorFactory:
+#        factory: ['App\Factory\Vendor\VendorFactory', 'create']
+
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.

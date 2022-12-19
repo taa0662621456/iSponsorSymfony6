@@ -1,0 +1,5 @@
+#_routing_directory:
+#    resource: '../../config/routes/*.{php,xml,yaml,yml}'
+#
+#_routing_file:
+#    resource: '../../config/routes.{php,xml,yaml,yml}'

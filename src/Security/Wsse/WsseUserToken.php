@@ -16,7 +16,7 @@ class WsseUserToken extends AbstractToken
         $this->setAuthenticated(count($roles) > 0);
     }
 
-    public function getCredentials()
+    public function getCredentials(): string
     {
         return '';
     }

@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Vendor\VendorEnGb;
+use App\Entity\Vendor\VendorEnUS;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -18,7 +18,7 @@ class VendorEnGbFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 20; $i++){
 
-            $vendorEnGb = new VendorEnGb();
+            $vendorEnGb = new VendorEnUS();
             #
             $vendorEnGb->setFirstTitle($faker->firstName);
             $vendorEnGb->setLastTitle($faker->lastName);

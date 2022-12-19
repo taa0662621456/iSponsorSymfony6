@@ -13,10 +13,6 @@ interface BaseInterface
 
     public function setPublished(bool $published): void;
 
-    public function getAttachments():Collection;
-
-    public function setAttachments(RequestDispatcher $requestDispatcher): void;
-
     public function getSlug(): string;
 
     public function setSlug(string $slug): void;

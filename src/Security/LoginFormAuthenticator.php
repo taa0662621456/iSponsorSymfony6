@@ -21,8 +21,8 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
-    public const LOGIN_ROUTE = 'app_login';
-    public function __construct(private EntityManagerInterface $entityManager, private UrlGeneratorInterface $urlGenerator)
+    public const LOGIN_ROUTE = 'login';
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly UrlGeneratorInterface $urlGenerator)
     {
     }
     public function authenticate(Request $request): Passport

@@ -35,12 +35,16 @@ doctrine:
         resolve_target_entities:
             App\Interface\CategoryInterface: App\Entity\Category\Category
             App\Interface\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
+            #
             App\Interface\ProjectInterface: App\Entity\Project\Project
+            #
             App\Interface\ProjectTypeInterface: App\Entity\Project\ProjectType
+            App\Interface\ProductTypeInterface: App\Entity\Product\ProductType
+            #
             App\Interface\FeaturedInterface: App\Entity\Featured\Featured
-            App\Interface\ReviewProductInterface: App\Entity\Review\ReviewProduct
-            App\Interface\ReviewProjectInterface: App\Entity\Review\ReviewProject
-            App\Interface\TypeInterface: App\Entity\Type\Type
+            #
+            App\Interface\ProductReviewInterface: App\Entity\Product\ProductReview
+            App\Interface\ProjectReviewInterface: App\Entity\Project\ProjectReview
         #        auto_generate_proxy_classes: true
         #        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         #        auto_mapping: true
@@ -169,7 +173,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Project'
                         prefix: 'App\Entity\Project'
                         alias: ProjectType
-
+                    ProductType:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Product'
+                        prefix: 'App\Entity\Product'
+                        alias: ProductType
         auto_generate_proxy_classes: true
 
 when@test:

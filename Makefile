@@ -1,9 +1,16 @@
 #!/bin/bash
 SHELL := /bin/bash
 f:
+	clear
 	# fixtures; not symfony console cache:clear
-	symfony console doctrine:fixtures:load --purge-with-truncate
+	symfony console doctrine:fixtures:load --purge-with-truncate -n
 .PHONY: fixturesdev
+
+fa:
+	clear
+	# fixtures; not symfony console cache:clear
+	symfony console doctrine:fixtures:load --purge-with-truncate -n --append
+.PHONY: fixturesappenddev
 
 ff:
 	clear
@@ -12,7 +19,8 @@ ff:
 	clear
 	# process...
 	pwd
-	rm -r var/cache/* -f
+	rm -r var/cache/dev/* -f
+	rm -r var/cache/log/* -f
 	rm -r migrations/* -f
 	pwd
 	make cc
@@ -33,7 +41,8 @@ ff:
 
 rr:
 	clear
-	rm -r var/cache/* -f
+	rm -r var/cache/dev/* -f
+	rm -r var/cache/log/* -f
 	symfony php bin/phpunit tests/Controller/UrlResponse200Test.php --do-not-cache-result --no-logging --colors always
 .PHONY: testroutresponsedev
 
@@ -176,3 +185,32 @@ deploy-production:
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'docker-compose up --build -d'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction'
+
+
+phpunit:
+	vendor/bin/phpunit
+
+phpspec:
+	vendor/bin/phpspec run --ansi --no-interaction -f dot
+
+phpstan:
+	vendor/bin/phpstan analyse
+
+psalm:
+	vendor/bin/psalm
+
+behat-cli:
+	vendor/bin/behat --colors --strict --no-interaction -vvv -f progress --tags="~@javascript&&@cli&&~@todo" || vendor/bin/behat --colors --strict --no-interaction -vvv -f progress --tags="~@javascript&&@cli&&~@todo" --rerun
+
+behat-non-js:
+	vendor/bin/behat --colors --strict --no-interaction -vvv -f progress --tags="~@javascript&&~@cli&&~@todo" || vendor/bin/behat --colors --strict --no-interaction -vvv -f progress --tags="~@javascript&&~@cli&&~@todo" --rerun
+
+behat-js:
+	vendor/bin/behat --colors --strict --no-interaction -vvv -f progress --tags="@javascript&&~@cli&&~@todo" || vendor/bin/behat --colors --strict --no-interaction -vvv -f progress --tags="@javascript&&~@cli&&~@todo" --rerun
+
+install:
+	composer install --no-interaction --no-scripts
+
+frontend:
+	yarn install --pure-lockfile
+	yarn encore production

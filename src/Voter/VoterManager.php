@@ -3,6 +3,7 @@
 namespace App\Voter;
 
 use App\Entity\Vendor\Vendor;
+use LogicException;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\NullToken;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -27,7 +28,7 @@ class VoterManager extends Voter
      */
     private RequestStack $requestStack;
 
-    private $voter;
+    private string $voter;
 
     private string $object;
     /**
@@ -49,7 +50,7 @@ class VoterManager extends Voter
         $this->decisionManager = $decisionManager;
         $this->blacklistedIp = $blacklistedIp;
         $this->requestStack = $requestStack;
-        $this->object = '\\App\Voter\\' . (string)ucfirst(current(explode('_', $requestStack->getMainRequest()->attributes->get('_route'), 1)) . 'Voter');
+        $this->object = '\\App\Voter\\' . ucfirst(current(explode('_', $requestStack->getMainRequest()->attributes->get('_route'), 1)) . 'Voter');
         $this->voter = (string)current(explode('_', $requestStack->getMainRequest()->attributes->get('_route', 2), 2));
         $this->security = $security;
     }
@@ -108,7 +109,7 @@ class VoterManager extends Voter
                 return $this->canDelete($subject, $user);
         }
 
-        throw new \LogicException('This code should not be reached!');
+        throw new LogicException('This code should not be reached!');
     }
 
     public final function canIndex($object, $user): bool

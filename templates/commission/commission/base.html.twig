@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    {% block head %}
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <meta name="description" content="">
+            <meta name="author" content="">
+
+            <link rel="icon" href="/favicon.ico">
+
+            <title>{% block title %}{% endblock %}</title>
+
+            {% block stylesheets %}
+                {{ encore_entry_link_tags('base') }}
+            {% endblock %}
+        </head>
+    {% endblock %}
+    {% block body %}
+        <body>
+        {% block navbar %}
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <menu>
+                    <a class="navbar-brand" href="#">...iSponsor!
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {{ app.user.username }}
+                        {% endif %}
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ path('projects') }}">Home <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Link</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Dropdown
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ path('project_index') }}">Projects</a>
+                                    <a class="dropdown-item" href="{{path('product_new')}}">Add Project</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="navbar-toggler-icon"></span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ path('sponsor') }}">Sponsor</a>
+                                    <a class="dropdown-item" href="{{ path('author') }}">Author</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ path('order_index') }}">Orders</a>
+                                    <a class="dropdown-item" href="{{ path('project_index') }}">Projects</a>
+                                    <a class="dropdown-item" href="{{ path('product_index') }}">Products</a>
+                                    {#
+                                    <a class="dropdown-item" href="{{ path('project_index') }}">Projects</a>
+                                    <a class="dropdown-item" href="{{path('project_new')}}">Add Project</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    #}
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" href="#">Disabled</a>
+                            </li>
+                            {% include 'security/navbarAuthBlock.html.twig' %}
+                        </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </div>
+                </menu>
+            </nav>
+        {% endblock %}
+        {% block header %}
+            <header>
+                <hgroup>
+                    {% block header %}{% endblock %}
+                </hgroup>
+            </header>
+        {% endblock %}
+        {% block blocks %}
+            <main>
+                <aside>
+                    {% block ontop %}{% endblock %}
+                </aside>
+                <aside>
+                    {% block sidebar %}{% endblock %}
+                </aside>
+                <article>
+                    <header>
+                        {% block article_header %}{% endblock %}
+                    </header>
+                    <section>
+                        {% block article_content %}{% endblock %}
+                    </section>
+                    <section>
+                        <details>
+                            <summary>
+                                {% block article_summery %}{% endblock %}
+                            </summary>
+                        </details>
+                    </section>
+                    <footer>
+                        {% block article_footer %}{% endblock %}
+                    </footer>
+                </article>
+                <aside>
+                    {% block aside %}{% endblock %}
+                </aside>
+            </main>
+        {% endblock %}
+    </body>
+    {% endblock %}
+    {% block footer %}
+        <footer id="footer" class="footer">
+            <div class="container-fluid">
+                <div class="row foot">
+                    <div class="col-xs-12 col-lg-12 col-sm-12 center">
+
+                    </div>
+                </div>
+                <div class="row foot">
+
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f2-3">2-3</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f4-5">4-5</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f6-7">6-7</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f8-9">8-9</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f10-11">10-11</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f12">12</div>
+                </div>
+                <div class="row foot">
+
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f20-30">20</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f40-50">40</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f60-70">60</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f80-90">80</div>
+                    <div class="col-xs-12 col-lg-2 col-sm-12 f100-110">100</div>
+                    <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+                    <div class="col-xs-12 col-lg-1 col-sm-12 f120">120</div>
+                </div>
+            </div>
+            {% block javascripts %}
+                {{ encore_entry_script_tags('app') }}
+            {% endblock %}
+        </footer>
+    {% endblock %}
+</html>
+

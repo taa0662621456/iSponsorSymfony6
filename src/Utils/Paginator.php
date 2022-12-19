@@ -4,6 +4,7 @@ namespace App\Utils;
 
 use ArrayIterator;
 use Doctrine\ORM\QueryBuilder;
+use Exception;
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -23,14 +24,14 @@ class Paginator
      * @param int $pageSize
      */
     public function __construct(
-        private QueryBuilder $queryBuilder,
-        private int $pageSize = self::PAGE_SIZE,
+        private readonly QueryBuilder $queryBuilder,
+        private readonly int          $pageSize = self::PAGE_SIZE,
     ) {}
 
     /**
      * @param int $page
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     final public function pagination(int $page = 1): self
     {

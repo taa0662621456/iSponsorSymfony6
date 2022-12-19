@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 interface ProjectTypeInterface
 {
     # OneToMany
-    public function getProjectType(): Collection;
-    public function addProjectType(Project $project): self;
-    public function removeProjectType(Project $project): self;
+    public function getProjectTypeProject(): Collection;
+    public function addProjectTypeProject(Project $project): self;
+    public function removeProjectTypeProject(Project $project): self;
 }
