@@ -3,10 +3,11 @@
 namespace App\Command;
 
 use RuntimeException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class CheckRequirementCommand extends AbstractCommand
+final class CheckRequirementCommand extends Command
 {
     protected static $defaultName = 'install:check-requirement';
 
@@ -24,7 +25,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $fulfilled = $this->getContainer()->get('installer.checker.requirement')->check($input, $output);
+        $fulfilled = $this->getApplication()->get('installer.checker.requirement')->check($input, $output);
 
         if (!$fulfilled) {
             throw new RuntimeException(

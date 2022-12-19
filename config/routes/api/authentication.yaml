@@ -4,9 +4,9 @@ sylius_api:
     prefix: /
 
 backend_authentication_token:
-    path: /admin/authentication-token
+    path: /backend/authentication-token
     methods: ['POST']
 
 frontend_authentication_token:
-    path: /shop/authentication-token
+    path: /frontend/authentication-token
     methods: ['POST']

@@ -2,11 +2,11 @@
 
 namespace App\Command\Install;
 
-use App\Command\AbstractCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class AssetCommand extends AbstractCommand
+class AssetCommand extends Command
 {
     protected static $defaultName = 'install:asset';
 
@@ -24,16 +24,19 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $environment = $this->getApplication()->get('kernel.environment');
+
         $output->writeln(sprintf(
-            'Installing asset for environment <info>%s</info>.',
-            $this->getEnvironment(),
+            'Installing assets for environment <info>%s</info>.',
+            $environment,
         ));
 
-        try {
-            $publicDir = $this->getContainer()->getParameter('core.public_dir');
 
-            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/assets/', $output);
-            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/bundles/', $output);
+        try {
+            $publicDir = $this->getApplication()->get('core.public_dir');
+
+            $this->directoryChecker($publicDir, $output);
+            $this->directoryChecker($publicDir . '/bundles/', $output);
         } catch (\RuntimeException $exception) {
             $output->writeln($exception->getMessage());
 
@@ -44,8 +47,17 @@ EOT
             'asset:install' => ['target' => $publicDir],
         ];
 
-        $this->runCommands($commands, $output);
+//        $this->runCommands($commands, $output); //TODO autowire service/command/ commandRunner
 
         return 0;
+    }
+
+    protected function directoryChecker(string $directory, OutputInterface $output): void
+    {
+        $checker = $this->getApplication()->get('directory_checker');
+        $checker->setCommandName($this->getName());
+
+        $checker->ensureDirectoryExists($directory, $output);
+        $checker->ensureDirectoryIsWritable($directory, $output);
     }
 }

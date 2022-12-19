@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CreateLangTableCommand extends Command
 {
-    protected static $defaultDescription = 'Generate Object language Table in Postgre. Эта команда создает таблицу объекта в базе данных с использованием аргумента - суффикса/постфикса - языка. Например: ObjectRuRu или ObjectMediaRuRu. RuRu - суффикс';
+    protected static $defaultDescription = 'Generate Object language Table in Postgres. Эта команда создает таблицу объекта в базе данных с использованием аргумента - суффикса/постфикса - языка. Например: ObjectRuRu или ObjectMediaRuRu. RuRu - суффикс';
     protected static $defaultName = 'app:generate-lang-table';
 //    private bool $requirePassword;
 

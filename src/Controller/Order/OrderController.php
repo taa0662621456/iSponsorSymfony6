@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class OrderController extends AbstractController
 {
-    public function summaryAction(Request $request): Response
+    public function summary(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
@@ -38,7 +38,7 @@ class OrderController extends AbstractController
         );
     }
 
-    public function widgetAction(Request $request): Response
+    public function widget(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
@@ -56,7 +56,7 @@ class OrderController extends AbstractController
         );
     }
 
-    public function saveAction(Request $request): Response
+    public function save(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
@@ -115,7 +115,7 @@ class OrderController extends AbstractController
     /**
      * @psalm-suppress DeprecatedMethod
      */
-    public function clearAction(Request $request): Response
+    public function clear(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 
@@ -170,40 +170,13 @@ class OrderController extends AbstractController
 
     protected function getContext(): CartContextInterface
     {
-        return $this->get('sylius.context.cart');
+        return $this->get('context.cart');
     }
 
     protected function getOrderRepository(): OrderRepositoryInterface
     {
-        return $this->get('sylius.repository.order');
+        return $this->get('repository.order');
     }
 
-    protected function getEventDispatcher(): EventDispatcherInterface
-    {
-        return $this->container->get('event_dispatcher');
-    }
 
-    /**
-     * @param Request $request
-     * @return mixed
-     *
-     * @deprecated This function will be removed in Sylius 2.0, since Symfony 5.4, use explicit input sources instead
-     * based on Symfony\Component\HttpFoundation\Request::get
-     */
-    private function getParameterFromRequest(Request $request): mixed
-    {
-        if ($request !== $result = $request->attributes->get('_csrf_token', $request)) {
-            return $result;
-        }
-
-        if ($request->query->has('_csrf_token')) {
-            return $request->query->all()['_csrf_token'];
-        }
-
-        if ($request->request->has('_csrf_token')) {
-            return $request->request->all()['_csrf_token'];
-        }
-
-        return null;
-    }
 }
