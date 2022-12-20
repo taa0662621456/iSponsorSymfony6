@@ -2,7 +2,7 @@
 
 namespace App\Interface;
 
-class ProductTaxationInterface
+interface CustomerInterface
 {
 
 }

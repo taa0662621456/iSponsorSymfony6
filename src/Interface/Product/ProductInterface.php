@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscriber\Product;
+namespace App\Interface\Product;
 
 interface ProductInterface
 {

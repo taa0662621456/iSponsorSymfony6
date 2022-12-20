@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Product;
 
 use App\Entity\Product\Product;
 use Doctrine\Common\Collections\Collection;

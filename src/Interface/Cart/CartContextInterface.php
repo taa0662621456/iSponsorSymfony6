@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Cart;
 
 use App\Exception\CartNotFoundException;
-use App\OrderInterface;
 
 interface CartContextInterface
 {
