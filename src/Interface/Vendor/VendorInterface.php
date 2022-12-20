@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Vendor;
 
 use App\Entity\Featured\Featured;
 use App\Entity\Order\OrderItem;

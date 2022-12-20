@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Project;
 
 interface ProjectReviewInterface
 {
