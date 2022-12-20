@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Project;
 
 use App\Entity\Attachment\Attachment;
 use App\Entity\Category\Category;
