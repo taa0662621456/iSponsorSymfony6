@@ -12,9 +12,9 @@ class VendorEnUsFactory
     }
 
 
-//    public static function create(): VendorEnUs
-//    {
-//        return new VendorEnUs();
-//    }
+    public static function create(): VendorEnUs
+    {
+        return new VendorEnUs();
+    }
 
 }

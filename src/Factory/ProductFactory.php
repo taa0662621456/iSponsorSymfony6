@@ -2,9 +2,11 @@
 
 namespace App\Factory;
 
+use App\EventSubscriber\Product\ProductInterface;
+
 class ProductFactory
 {
-    public function __construct(private FactoryInterface $factory, private FactoryInterface $variantFactory)
+    public function __construct(private $factory, private $variantFactory)
     {
     }
 
