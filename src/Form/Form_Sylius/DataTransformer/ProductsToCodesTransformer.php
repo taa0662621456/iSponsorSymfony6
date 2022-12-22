@@ -3,6 +3,7 @@
 
 namespace App\CoreBundle\Form\DataTransformer;
 
+use App\Repository\Product\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -12,7 +13,7 @@ use Webmozart\Assert\Assert;
 
 final class ProductsToCodesTransformer implements DataTransformerInterface
 {
-    public function __construct(private ProductRepositoryInterface $productRepository)
+    public function __construct(private readonly ProductRepository $productRepository)
     {
     }
 
@@ -27,7 +28,7 @@ final class ProductsToCodesTransformer implements DataTransformerInterface
             return new ArrayCollection();
         }
 
-        return new ArrayCollection($this->productRepository->findBy(['code' => $value]));
+        return new ArrayCollection($this->productRepository->findBy(['productSku' => $value]));
     }
 
     /**
@@ -41,7 +42,7 @@ final class ProductsToCodesTransformer implements DataTransformerInterface
 
         /** @var ProductInterface $product */
         foreach ($value as $product) {
-            $productCodes[] = $product->getCode();
+            $productCodes[] = $product->getProductSku();
         }
 
         return $productCodes;
