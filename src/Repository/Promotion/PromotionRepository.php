@@ -5,14 +5,22 @@ namespace App\Repository\Promotion;
 use App\Entity\Vendor\Vendor;
 use App\Interface\PromotionRepositoryInterface;
 use App\Service\AssociationHydrate;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 
 
-class PromotionRepository implements PromotionRepositoryInterface
+class PromotionRepository extends EntityManager
 {
     private AssociationHydrate $associationHydrate;
 
+    public function __construct(EntityManager $entityManager, ClassMetadata $class)
+    {
+        parent::__construct($entityManager, $class);
+
+        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+    }
     public function findActive(): array
     {
         return $this->filterByActive($this->createQueryBuilder('o'))
@@ -36,11 +44,11 @@ class PromotionRepository implements PromotionRepositoryInterface
         ;
     }
 
-    public function findActiveByChannel(Vendor $vendor): array
+    public function findActiveByVendor(Vendor $vendor): array
     {
         $promotions = $this->filterByActive($this->createQueryBuilder('o'))
-            ->andWhere(':channel MEMBER OF o.channels')
-            ->setParameter('channel', $vendor)
+            ->andWhere(':vendor MEMBER OF o.vendors')
+            ->setParameter('vendor', $vendor)
             ->addOrderBy('o.priority', 'DESC')
             ->getQuery()
             ->getResult()

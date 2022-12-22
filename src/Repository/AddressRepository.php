@@ -1,13 +1,17 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\ORM;
+namespace App\Repository;
 
 
 
 
 
-class AddressRepository extends EntityRepository implements AddressRepositoryInterface
+use App\Interface\CustomerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+
+class AddressRepository extends EntityRepository
 {
     public function findByCustomer(CustomerInterface $customer): array
     {
@@ -20,6 +24,9 @@ class AddressRepository extends EntityRepository implements AddressRepositoryInt
         ;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneByCustomer(string $id, CustomerInterface $customer): ?AddressInterface
     {
         return $this->createQueryBuilder('o')

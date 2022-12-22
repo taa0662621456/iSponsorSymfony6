@@ -3,7 +3,9 @@
 namespace App\Repository\Product;
 
 use App\Entity\Product\ProductOption;
+use App\Service\AssociationHydrate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,9 +16,15 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductOptionRepository extends ServiceEntityRepository
 {
+    /** @var AssociationHydrate */
+    protected $associationHydrate;
+
     public function __construct(ManagerRegistry $registry)
     {
 		parent::__construct($registry, ProductOption::class);
+
+//        parent::__construct($entityManager, $class);
+//        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
     }
 
     // /**
@@ -47,4 +55,35 @@ class ProductOptionRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function createListQueryBuilder(string $locale): QueryBuilder
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.translations', 'translation')
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('locale', $locale)
+            ;
+    }
+
+    public function findByName(string $name, string $locale): array
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.translations', 'translation')
+            ->andWhere('translation.name = :name')
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('name', $name)
+            ->setParameter('locale', $locale)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+//    public function findAll(): array
+//    {
+//        $productOptions = parent::findAll();
+//
+//        $this->associationHydrate->hydrateAssociation($productOptions, 'translations');
+//
+//        return $productOptions;
+//    }
 }
