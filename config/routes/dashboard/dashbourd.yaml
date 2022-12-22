@@ -1,9 +1,0 @@
-dashboard:
-    path: /
-    defaults:
-        _controller: dashboard::indexAction
-
-dashboard_statistics:
-    path: /statistic
-    defaults:
-        _controller: dashboard::getRawData
