@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 
 final class ResourceUpdateHandler implements ResourceUpdateHandlerInterface
 {
-    public function __construct(private ResourceUpdateHandlerInterface $decoratedHandler, private EntityManagerInterface $entityManager)
+    public function __construct(private readonly ResourceUpdateHandlerInterface $decoratedHandler, private readonly EntityManagerInterface $entityManager)
     {
     }
 

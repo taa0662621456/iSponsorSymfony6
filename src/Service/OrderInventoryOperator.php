@@ -3,18 +3,18 @@
 
 namespace App\Repository\ORM_Sylius\Inventory\Operator;
 
+use App\Interface\Order\OrderInterface;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
-
-
+use Doctrine\ORM\PessimisticLockException;
 
 
 final class OrderInventoryOperator implements OrderInventoryOperatorInterface
 {
     public function __construct(
-        private OrderInventoryOperatorInterface $decoratedOperator,
-        private EntityManagerInterface $productVariantManager,
+        private readonly OrderInventoryOperatorInterface $decoratedOperator,
+        private readonly EntityManagerInterface          $productVariantManager,
     ) {
     }
 
@@ -29,7 +29,7 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
     }
 
     /**
-     * @throws OptimisticLockException
+     * @throws OptimisticLockException|PessimisticLockException
      */
     public function hold(OrderInterface $order): void
     {
@@ -39,7 +39,7 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
     }
 
     /**
-     * @throws OptimisticLockException
+     * @throws OptimisticLockException|PessimisticLockException
      */
     public function sell(OrderInterface $order): void
     {
@@ -49,7 +49,7 @@ final class OrderInventoryOperator implements OrderInventoryOperatorInterface
     }
 
     /**
-     * @throws OptimisticLockException
+     * @throws OptimisticLockException|PessimisticLockException
      */
     private function lockProductVariants(OrderInterface $order): void
     {
