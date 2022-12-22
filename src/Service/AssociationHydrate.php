@@ -86,7 +86,7 @@ class AssociationHydrate
     /**
      * @param mixed $subject
      *
-     * @return array|mixed[]
+     * @return array
      */
     private function normalizeSubject(mixed $subject): array
     {
