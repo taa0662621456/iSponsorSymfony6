@@ -3,9 +3,11 @@
 namespace App\Repository\Payment;
 
 
+use App\Interface\Vendor\VendorInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 
-class PaymentMethodRepository extends EntityRepository implements PaymentMethodRepositoryInterface
+class PaymentMethodRepository extends EntityRepository
 {
     public function findByName(string $name, string $locale): array
     {
@@ -30,5 +32,27 @@ class PaymentMethodRepository extends EntityRepository implements PaymentMethodR
         $this->applySorting($queryBuilder, $sorting);
 
         return $this->getPaginator($queryBuilder);
+    }
+
+    public function createListQueryBuilder(string $locale): QueryBuilder
+    {
+        return $this->createQueryBuilder('o')
+            ->leftJoin('o.gatewayConfig', 'gatewayConfig')
+            ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+            ->setParameter('locale', $locale)
+            ;
+    }
+
+    public function findEnabledForVendor(VendorInterface $vendor): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.enabled = :enabled')
+            ->andWhere(':vendor MEMBER OF o.vendors')
+            ->setParameter('vendor', $vendor)
+            ->setParameter('enabled', true)
+            ->addOrderBy('o.position')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 }

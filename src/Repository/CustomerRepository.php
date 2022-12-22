@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\ORM;
+namespace App\Repository;
 
+use Doctrine\ORM\EntityRepository;
 
-
-class CustomerRepository extends EntityRepository implements CustomerRepositoryInterface
+class CustomerRepository extends EntityRepository
 {
-    public function countCustomers(): int
+    public function countCustomer(): int
     {
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
@@ -16,7 +16,7 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
         ;
     }
 
-    public function countCustomersInPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate): int
+    public function countCustomerPerPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate): int
     {
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')

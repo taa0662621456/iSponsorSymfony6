@@ -1,14 +1,16 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\ORM;
+namespace App\Repository\Payment;
 
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
 
 
 
-class PaymentRepository extends EntityRepository implements PaymentRepositoryInterface
+class PaymentRepository extends EntityRepository
 {
     public function createListQueryBuilder(): QueryBuilder
     {
@@ -43,6 +45,9 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
         ;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneByCustomer($id, CustomerInterface $customer): ?PaymentInterface
     {
         return $this->createQueryBuilder('o')

@@ -2,10 +2,12 @@
 
 namespace App\Repository\Product;
 
+use App\Interface\Product\ProductInterface;
+use App\Interface\Taxation\TaxationInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class ProductVariantRepository extends EntityRepository implements ProductVariantRepositoryInterface
+class ProductVariantRepository extends EntityRepository
 {
     public function createQueryBuilderByProductId(string $locale, $productId): QueryBuilder
     {
@@ -163,5 +165,41 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->getQuery()
             ->getArrayResult()
         ;
+    }
+
+    public function createInventoryListQueryBuilder(string $locale): QueryBuilder
+    {
+        return $this->createQueryBuilder('o')
+            ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+            ->andWhere('o.tracked = :tracked')
+            ->setParameter('locale', $locale)
+            ->setParameter('tracked', true)
+            ;
+    }
+
+    public function findByTaxon(TaxationInterface $taxon): array
+    {
+        return $this
+            ->createQueryBuilder('variant')
+            ->innerJoin('variant.product', 'product')
+            ->innerJoin('product.productTaxons', 'productTaxon')
+            ->andWhere('productTaxon.taxon = :taxon')
+            ->setParameter('taxon', $taxon)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function createCatalogPromotionListQueryBuilder(
+        string $locale,
+        CatalogPromotionInterface $catalogPromotion,
+    ): QueryBuilder {
+        return $this->createQueryBuilder('o')
+            ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+            ->leftJoin('o.channelPricings', 'channelPricing')
+            ->innerJoin('channelPricing.appliedPromotions', 'appliedPromotion', 'WITH', 'appliedPromotion = :catalogPromotion')
+            ->setParameter('catalogPromotion', $catalogPromotion)
+            ->setParameter('locale', $locale)
+            ;
     }
 }
