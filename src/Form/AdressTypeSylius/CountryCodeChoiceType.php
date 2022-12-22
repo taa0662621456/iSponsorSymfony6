@@ -4,13 +4,14 @@
 namespace App\AddressingBundle\Form\Type;
 
 
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
 
 final class CountryCodeChoiceType extends AbstractType
 {
-    public function __construct(private RepositoryInterface $countryRepository)
+    public function __construct(private readonly RepositoryInterface $countryRepository)
     {
     }
 

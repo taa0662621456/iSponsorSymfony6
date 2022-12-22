@@ -14,7 +14,7 @@ final class AddressType extends AbstractResourceType
     /**
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass, array $validationGroups, private EventSubscriberInterface $buildAddressFormSubscriber)
+    public function __construct(string $dataClass, array $validationGroups, private readonly EventSubscriberInterface $buildAddressFormSubscriber)
     {
         parent::__construct($dataClass, $validationGroups);
     }

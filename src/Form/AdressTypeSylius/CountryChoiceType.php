@@ -5,6 +5,7 @@ namespace App\AddressingBundle\Form\Type;
 
 
 
+use Composer\Repository\RepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
