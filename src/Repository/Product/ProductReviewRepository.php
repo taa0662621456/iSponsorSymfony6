@@ -3,12 +3,16 @@
 
 namespace App\CoreBundle\Doctrine\ORM;
 
+use App\Interface\ProductReviewInterface;
+use App\Interface\Vendor\VendorInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
 
 
 
-class ProductReviewRepository extends EntityRepository implements ProductReviewRepositoryInterface
+class ProductReviewRepository extends EntityRepository
 {
     public function findLatestByProductId($productId, int $count): array
     {
@@ -16,7 +20,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->andWhere('o.reviewSubject = :productId')
             ->andWhere('o.status = :status')
             ->setParameter('productId', $productId)
-            ->setParameter('status', ReviewInterface::STATUS_ACCEPTED)
+            ->setParameter('status', ProductReviewInterface::STATUS_ACCEPTED)
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
@@ -24,19 +28,19 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
         ;
     }
 
-    public function findAcceptedByProductSlugAndChannel(string $slug, string $locale, ChannelInterface $channel): array
+    public function findAcceptedByProductSlugAndVendor(string $slug, string $locale, VendorInterface $vendor): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.reviewSubject', 'product')
             ->innerJoin('product.translations', 'translation')
             ->andWhere('translation.locale = :locale')
             ->andWhere('translation.slug = :slug')
-            ->andWhere(':channel MEMBER OF product.channels')
+            ->andWhere(':vendor MEMBER OF product.vendors')
             ->andWhere('o.status = :status')
             ->setParameter('locale', $locale)
             ->setParameter('slug', $slug)
-            ->setParameter('channel', $channel)
-            ->setParameter('status', ReviewInterface::STATUS_ACCEPTED)
+            ->setParameter('vendor', $vendor)
+            ->setParameter('status', ProductReviewInterface::STATUS_ACCEPTED)
             ->getQuery()
             ->getResult()
         ;
@@ -54,7 +58,10 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
         ;
     }
 
-    public function findOneByIdAndProductCode($id, string $productCode): ?ReviewInterface
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByIdAndProductCode($id, string $productCode): ?ProductReviewInterface
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.reviewSubject', 'product')

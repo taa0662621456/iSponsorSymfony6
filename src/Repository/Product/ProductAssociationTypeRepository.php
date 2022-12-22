@@ -2,10 +2,11 @@
 
 namespace App\Repository\Product;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 
-class ProductAssociationTypeRepository extends EntityRepository implements ProductAssociationTypeRepositoryInterface
+class ProductAssociationTypeRepository extends EntityRepository
 {
     public function createListQueryBuilder(string $locale): QueryBuilder
     {
