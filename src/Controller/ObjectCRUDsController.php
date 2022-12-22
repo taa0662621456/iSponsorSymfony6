@@ -32,6 +32,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'attachment/', name: 'attachment_index', methods: ['GET'])]
     #[Route(path: 'review/product/', name: 'review_index_product', methods: ['GET'])]
     #[Route(path: 'review/project/', name: 'review_index_project', methods: ['GET'])]
+    #[Route(path: 'taxation/', name: 'taxation_index', methods: ['GET'])]
+    #[Route(path: 'taxation/zone/', name: 'taxation_index_zone', methods: ['GET'])]
+    #[Route(path: 'taxation/category/', name: 'taxation_index_category', methods: ['GET'])]
+    #[Route(path: 'shipment/', name: 'shipment_index', methods: ['GET'])]
+    #[Route(path: 'shipment/category/', name: 'shipment_index_category', methods: ['GET'])]
+    #[Route(path: 'payment/', name: 'payment_index', methods: ['GET'])]
+    #[Route(path: 'payment/category/', name: 'payment_index_category', methods: ['GET'])]
     public function index() : Response
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
@@ -63,6 +70,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'attachment/new/', name: 'attachment_new', methods: ['GET', 'POST'])]
     #[Route(path: 'review/product/new/', name: 'review_new_product', methods: ['GET', 'POST'])]
     #[Route(path: 'review/project/new/', name: 'review_new_project', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/new/', name: 'taxation_new', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/zone/new/', name: 'taxation_new_zone', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/category/new/', name: 'taxation_new_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/new/', name: 'shipment_new', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/category/new/', name: 'shipment_new_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/new/', name: 'payment_new', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/category/new/', name: 'payment_new_category', methods: ['GET', 'POST'])]
     public function new(Request $request) : Response
     {
         $object = $this->requestDispatcher->object();
@@ -113,6 +127,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'order/{id<\d+>}', name: 'order_show_id', methods: ['GET'])]
     #[Route(path: 'event/{id<\d+>}', name: 'event_show_id', methods: ['GET'])]
     #[Route(path: 'event/category/{id<\d+>}', name: 'event_show_id_category', methods: ['GET'])]
+    #[Route(path: 'taxation/{id<\d+>}', name: 'taxation_show_id', methods: ['GET'])]
+    #[Route(path: 'taxation/zone/{id<\d+>}', name: 'taxation_show_id_zone', methods: ['GET'])]
+    #[Route(path: 'taxation/category/{id<\d+>}', name: 'taxation_show_id_category', methods: ['GET'])]
+    #[Route(path: 'shipment/{id<\d+>}', name: 'shipment_show_id', methods: ['GET'])]
+    #[Route(path: 'shipment/category/{id<\d+>}', name: 'shipment_show_id_category', methods: ['GET'])]
+    #[Route(path: 'payment/{id<\d+>}', name: 'payment_show_id', methods: ['GET'])]
+    #[Route(path: 'payment/category/{id<\d+>}', name: 'payment_show_id_category', methods: ['GET'])]
     /**
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -131,6 +152,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'order/{slug}', name: 'order_show_slug', methods: ['GET'])]
     #[Route(path: 'event/{slug}', name: 'event_show_slug', methods: ['GET'])]
     #[Route(path: 'event/category/{slug}', name: 'event_show_slug_category', methods: ['GET'])]
+    #[Route(path: 'taxation/{slug}', name: 'taxation_show_slug', methods: ['GET'])]
+    #[Route(path: 'taxation/zone/{slug}', name: 'taxation_show_slug_zone', methods: ['GET'])]
+    #[Route(path: 'taxation/category/{slug}', name: 'taxation_show_slug_category', methods: ['GET'])]
+    #[Route(path: 'shipment/{slug}', name: 'shipment_show_slug', methods: ['GET'])]
+    #[Route(path: 'shipment/category/{slug}', name: 'shipment_show_slug_category', methods: ['GET'])]
+    #[Route(path: 'payment/{slug}', name: 'payment_show_slug', methods: ['GET'])]
+    #[Route(path: 'payment/category/{slug}', name: 'payment_show_slug_category', methods: ['GET'])]
     public function show(Request $request) : Response
     {
         //        return $this->render(
@@ -164,6 +192,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'order/edit/{id<\d+>}', name: 'order_id_edit', methods: ['GET', 'POST'])]
     #[Route(path: 'event/edit/{id<\d+>}', name: 'event_id_edit', methods: ['GET', 'POST'])]
     #[Route(path: 'event/category/edit/{id<\d+>}', name: 'event_edit_id_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/edit/{id<\d+>}', name: 'taxation_edit_id', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/zone/edit/{id<\d+>}', name: 'taxation_edit_id_zone', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/category/edit/{id<\d+>}', name: 'taxation_edit_id_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/edit/{id<\d+>}', name: 'shipment_edit_id', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/category/edit/{id<\d+>}', name: 'shipment_edit_id_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/edit/{id<\d+>}', name: 'payment_edit_id', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/category/edit/{id<\d+>}', name: 'payment_edit_id_category', methods: ['GET', 'POST'])]
     /**
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -181,6 +216,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'order/edit/{slug}', name: 'order_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'event/edit/{slug}', name: 'event_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'event/category/edit/{slug}', name: 'event_edit_slug_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/edit/{slug}', name: 'taxation_edit_slug', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/zone/edit/{slug}', name: 'taxation_edit_slug_zone', methods: ['GET', 'POST'])]
+    #[Route(path: 'taxation/category/edit/{slug}', name: 'taxation_edit_slug_category', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/edit/{slug}', name: 'taxation_edit_slug', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/category/edit/{slug}', name: 'shipment_edit_slug', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/edit/{slug}', name: 'payment_edit_slug', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/category/edit/{slug}', name: 'payment_edit_slug', methods: ['GET', 'POST'])]
     public function edit() : Response
     {
         $object = $this->requestDispatcher->object();
@@ -215,6 +257,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'order/delete/{id<\d+>}', name: 'order_delete_id', methods: ['DELETE'])]
     #[Route(path: 'event/delete/{id<\d+>}', name: 'event_delete_id', methods: ['DELETE'])]
     #[Route(path: 'event/category/delete/{id<\d+>}', name: 'event_delete_id_category', methods: ['DELETE'])]
+    #[Route(path: 'taxation/delete/{id<\d+>}', name: 'taxation_delete_id', methods: ['DELETE'])]
+    #[Route(path: 'taxation/zone/delete/{id<\d+>}', name: 'taxation_delete_id_zone', methods: ['DELETE'])]
+    #[Route(path: 'taxation/category/delete/{id<\d+>}', name: 'taxation_delete_id_category', methods: ['DELETE'])]
+    #[Route(path: 'shipment/delete/{id<\d+>}', name: 'shipment_delete_id', methods: ['DELETE'])]
+    #[Route(path: 'shipment/category/delete/{id<\d+>}', name: 'shipment_delete_id', methods: ['DELETE'])]
+    #[Route(path: 'payment/delete/{id<\d+>}', name: 'payment_delete_id', methods: ['DELETE'])]
+    #[Route(path: 'payment/category/delete/{id<\d+>}', name: 'payment_delete_id', methods: ['DELETE'])]
     /**
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -232,6 +281,13 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'order/delete/{slug}', name: 'order_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'event/delete/{slug}', name: 'event_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'event/category/delete/{slug}', name: 'event_delete_slug_category', methods: ['DELETE'])]
+    #[Route(path: 'taxation/delete/{slug}', name: 'taxation_delete_slug', methods: ['DELETE'])]
+    #[Route(path: 'taxation/zone/delete/{slug}', name: 'taxation_delete_slug_zone', methods: ['DELETE'])]
+    #[Route(path: 'taxation/category/delete/{slug}', name: 'taxation_delete_slug_category', methods: ['DELETE'])]
+    #[Route(path: 'shipment/delete/{slug}', name: 'shipment_delete_slug', methods: ['DELETE'])]
+    #[Route(path: 'shipment/category/delete/{slug}', name: 'shipment_delete_slug_category', methods: ['DELETE'])]
+    #[Route(path: 'payment/delete/{slug}', name: 'payment_delete_slug', methods: ['DELETE'])]
+    #[Route(path: 'payment/category/delete/{slug}', name: 'payment_delete_slug_category', methods: ['DELETE'])]
     public function delete(Request $request) : Response
     {
         if ($this->isCsrfTokenValid('delete' . $this->requestDispatcher->object()->getId(), $request->get('_token'))) {
@@ -258,6 +314,10 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'attachment/', name: 'attachment_own', methods: ['GET'])]
     #[Route(path: 'review/product/', name: 'review_own_product', methods: ['GET'])]
     #[Route(path: 'review/project/', name: 'review_own_project', methods: ['GET'])]
+    #[Route(path: 'cart/', name: 'cart_own', methods: ['GET'])]
+    #[Route(path: 'payment/', name: 'payment_own', methods: ['GET'])]
+    #[Route(path: 'shipment/', name: 'shipment_own', methods: ['GET'])]
+    #[Route(path: 'billing/', name: 'billing_own', methods: ['GET'])]
     public function own() : Response
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
@@ -268,6 +328,25 @@ class ObjectCRUDsController extends AbstractController
         ]);
     }
 
+    # ThankYou
+    #[Route(path: 'vendor/thank',name: 'vendor_thank', methods: ['GET'])]
+    #[Route(path: 'order/thank',name: 'order_thank', methods: ['GET'])]
+    #[Route(path: 'event/thank',name: 'event_thank', methods: ['GET'])]
+    #[Route(path: 'folder/thank',name: 'folder_thank', methods: ['GET'])]
+    #[Route(path: 'product/thank',name: 'product_thank', methods: ['GET'])]
+    #[Route(path: 'project/thank',name: 'project_thank', methods: ['GET'])]
+    #[Route(path: 'commission/thank',name: 'commission_thank', methods: ['GET'])]
+    #[Route(path: 'category/thank',name: 'category_thank', methods: ['GET'])]
+    #[Route(path: 'attachment/thank',name: 'attachment_thank', methods: ['GET'])]
+    #[Route(path: 'review/thank',name: 'review_thank', methods: ['GET'])]
+    #[Route(path: 'shipment/thank',name: 'shipment_thank', methods: ['GET'])]
+    #[Route(path: 'payment/thank',name: 'payment_thank', methods: ['GET'])]
+    #[Route(path: 'taxation/thank',name: 'taxation_thank', methods: ['GET'])]
+    #[Route(path: 'cart/thank',name: 'cart_thank', methods: ['GET'])]
+    public function thankYou()
+    {
+
+    }
 
 //    /**
 //     * TODO: метод перенесен в общий AttachmentController  и помечен на удаление

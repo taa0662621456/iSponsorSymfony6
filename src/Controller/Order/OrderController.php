@@ -2,11 +2,10 @@
 
 namespace App\Controller\Order;
 
-use App\ControllerSylius\OrderRepositoryInterface;
-use App\Interface\CartContextInterface;
-use App\OrderInterface;
+use App\Interface\Cart\CartContextInterface;
+use App\Interface\Order\OrderInterface;
+use App\Interface\Order\OrderRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -176,6 +175,26 @@ class OrderController extends AbstractController
     protected function getOrderRepository(): OrderRepositoryInterface
     {
         return $this->get('repository.order');
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function cancel()
+    {
+
+    }
+
+    public function requestRefund()
+    {
+
+    }
+
+    public function history()
+    {
+
     }
 
 

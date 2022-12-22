@@ -14,7 +14,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class OrderItemController extends AbstractController
 {
-    public function addAction(Request $request): Response
+    public function add(Request $request): Response
     {
         $cart = $this->getCurrentCart();
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
@@ -87,7 +87,7 @@ class OrderItemController extends AbstractController
         );
     }
 
-    public function removeAction(Request $request): Response
+    public function remove(Request $request): Response
     {
         $configuration = $this->requestConfigurationFactory->create($this->metadata, $request);
 

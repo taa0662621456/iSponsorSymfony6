@@ -10,8 +10,8 @@ use App\Entity\Product\ProductPrice;
 use App\Entity\Vendor\Vendor;
 use App\Event\OrderSubmitEvent;
 use App\Form\Order\OrderHistory;
+use App\Interface\Order\OrderRepositoryInterface;
 use App\Service\ProductUtilite;
-use App\Service\RequestDispatcher;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -27,7 +27,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class CartController extends AbstractController
 {
     #[NoReturn]
-    public function __construct(private readonly RequestDispatcher $requestDispatcher, private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
     }
 
@@ -74,46 +74,44 @@ class CartController extends AbstractController
         );
 	}
 
-/**
-* Shows order form.
-*
-*
-*/
-#[Route(path: 'cart/checkout', name: 'cart_checkout', methods: ['GET', 'POST'])]
-public function checkout(Request $request, EventDispatcherInterface $eventDispatcher) : array|Response
-{
-    # TODO: Can't get a way to read the property "vendorId" in class "App\Entity\Order\Order".
-    $order = new OrderStorage();
-    $form = $this->createForm(OrderHistory::class, $order);
-    $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid()) {
-         try {
-             $orderSuccess = $this->get(ProductUtilite::class)->createOrderDBRecord($request, $order, $this->getUser());
+    /**
+    * Show order form.
+    */
+    #[Route(path: 'cart/checkout', name: 'cart_checkout', methods: ['GET', 'POST'])]
+    public function checkout(Request $request, EventDispatcherInterface $eventDispatcher) : array|Response
+    {
+        # TODO: Can't get a way to read the property "vendorId" in class "App\Entity\Order\Order".
+        $order = new OrderStorage();
+        $form = $this->createForm(OrderHistory::class, $order);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+             try {
+                 $orderSuccess = $this->get(ProductUtilite::class)->createOrderDBRecord($request, $order, $this->getUser());
+             }
+             catch (OptimisticLockException | ORMException $e) {
+                 dd($e);
+             }
+
+
+
+             if (!$orderSuccess) {
+                 return $this->redirect($this->generateUrl('cart_empty'));
+             }
+             //TODO: do send email notification
+             $orderSubmitEvent = new OrderSubmitEvent($orderSuccess);
+             $eventDispatcher->dispatch($orderSubmitEvent);
+
+             return $this->render('cart/thankYou.html.twig');
          }
-         catch (OptimisticLockException | ORMException $e) {
-             dd($e);
+                        if (is_object($this->getUser())) {
+             $user = $this->getUser();
+             $this->fillWithUserData($user, $form); //TODO: непонятно, что за параметры
          }
-
-
-
-         if (!$orderSuccess) {
-             return $this->redirect($this->generateUrl('cart_empty'));
-         }
-         //TODO: do send email notification
-         $orderSubmitEvent = new OrderSubmitEvent($orderSuccess);
-         $eventDispatcher->dispatch($orderSubmitEvent);
-
-         return $this->render('cart/thankYou.html.twig');
-     }
-					if (is_object($this->getUser())) {
-         $user = $this->getUser();
-         $this->fillWithUserData($user, $form); //TODO: непонятно, что за параметры
-     }
-					return [
-			'order' => $order,
-			'form' => $form->createView()
-     ];
-				}
+                        return [
+                'order' => $order,
+                'form' => $form->createView()
+         ];
+                    }
 
 	#[Route(path: 'cart/empty', name: 'cart_empty', methods: ['GET'])]
 	public function empty() : Response
@@ -165,5 +163,40 @@ public function checkout(Request $request, EventDispatcherInterface $eventDispat
     private function fillWithUserData(Vendor $user, Form $form): void
     {
 
+    }
+
+    #[Route(path: 'cart/thank-you', name: 'cart_thank_you', methods: 'GET')]
+    public function thankYou(Request $request): string
+    {
+        return 'Thank You';
+    }
+
+    #[Route(path: 'cart/summery', name: 'cart_summery', methods: 'GET' )]
+    public function summary(Request $request): Response
+    {
+
+            $cart = '';
+//        $cart = $this->getCurrentCart();
+        if (null !== $cart->getId()) {
+            $orderRepository = $this->getOrderRepository();
+
+            Assert::isInstanceOf($orderRepository, OrderRepositoryInterface::class);
+
+            $cart = $orderRepository->findCartForSummary($cart->getId());
+        }
+
+        $configuration = '';
+        if (!$configuration->isHtmlRequest()) {
+            return $this->viewHandler->handle($configuration, View::create($cart));
+        }
+
+        $form = '';
+        return $this->render(
+            $configuration->getTemplate('summary.html'),
+            [
+                'cart' => $cart,
+                'form' => $form->createView(),
+            ],
+        );
     }
 }
