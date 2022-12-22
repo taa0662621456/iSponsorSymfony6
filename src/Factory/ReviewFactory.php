@@ -8,14 +8,14 @@ final class ReviewFactory
     {
     }
 
-    public function createNew()
+    public function create()
     {
-        return $this->factory->createNew();
+        return $this->factory->create();
     }
 
     public function createForSubject($subject)
     {
-        $review = $this->factory->createNew();
+        $review = $this->factory->create();
         $review->setReviewSubject($subject);
 
         return $review;
