@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Service\Handler;
+namespace App\Repository\ORM_Sylius\Handler;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
