@@ -1,10 +1,10 @@
 <?php
 
+namespace App\EventSubscriber;
 
-namespace App\CoreBundle\Form\EventSubscriber;
-
-
-
+use App\Interface\CustomerInterface;
+use Composer\Repository\RepositoryInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -12,10 +12,11 @@ use Webmozart\Assert\Assert;
 
 final class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private RepositoryInterface $customerRepository)
+    public function __construct(private readonly RepositoryInterface $customerRepository)
     {
     }
 
+    #[ArrayShape([FormEvents::PRE_SUBMIT => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [

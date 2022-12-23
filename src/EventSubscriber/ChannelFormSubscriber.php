@@ -1,14 +1,16 @@
 <?php
 
 
-namespace App\CoreBundle\Form\EventSubscriber;
+namespace App\EventSubscriber;
 
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 final class ChannelFormSubscriber implements EventSubscriberInterface
 {
+    #[ArrayShape([FormEvents::PRE_SUBMIT => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [
