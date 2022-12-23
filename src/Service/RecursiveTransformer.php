@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -16,7 +17,7 @@ class RecursiveTransformer implements DataTransformerInterface
     }
 
     /** @param Collection|null $value */
-    public function transform($value): ArrayCollection
+    public function transform($value): Collection
     {
         if (null === $value) {
             return new ArrayCollection();
@@ -64,15 +65,15 @@ class RecursiveTransformer implements DataTransformerInterface
      */
     private function assertTransformationValueType(mixed $value): void
     {
-//        if (!($value instanceof Collection::class)) {
-//            throw new TransformationFailedException(
-//                sprintf(
-//                    "Expected %s, but got %s",
-//                    Collection::class,
-//                    is_object($value) ? get_class($value) : gettype($value),
-//                ),
-//            );
-//        }
+        if (!($value instanceof Collection::class)) {
+            throw new TransformationFailedException(
+                sprintf(
+                    'Expected "%s", but got "%s"',
+                    Collection::class,
+                    is_object($value) ? get_class($value) : gettype($value),
+                ),
+            );
+        }
     }
 
 }
