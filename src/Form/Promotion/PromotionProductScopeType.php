@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\Type\CatalogPromotionScope;
+namespace App\Form\Promotion;
 
 
 use App\ProductBundle\Form\Type\ProductAutocompleteChoiceType;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-final class ForProductsScopeConfigurationType extends AbstractType
+final class PromotionProductScopeType extends AbstractType
 {
     public function __construct(private readonly DataTransformerInterface $productsToCodesTransformer)
     {

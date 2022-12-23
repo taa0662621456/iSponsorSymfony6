@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\Type\Grid\Filter;
+namespace App\Form;
 
 
 use Symfony\Component\Form\AbstractType;
