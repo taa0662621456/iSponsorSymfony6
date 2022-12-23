@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\ORM;
+namespace App\Repository\Product;
 
 use App\Interface\ProductReviewInterface;
 use App\Interface\Vendor\VendorInterface;
@@ -9,18 +9,17 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
-
-
-
 class ProductReviewRepository extends EntityRepository
 {
+    const STATUS_ACCEPTED = '';
     public function findLatestByProductId($productId, int $count): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.reviewSubject = :productId')
             ->andWhere('o.status = :status')
             ->setParameter('productId', $productId)
-            ->setParameter('status', ProductReviewInterface::STATUS_ACCEPTED)
+//            ->setParameter('status', ProductReviewInterface::STATUS_ACCEPTED)
+            ->setParameter('status', self::STATUS_ACCEPTED)
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
@@ -40,7 +39,7 @@ class ProductReviewRepository extends EntityRepository
             ->setParameter('locale', $locale)
             ->setParameter('slug', $slug)
             ->setParameter('vendor', $vendor)
-            ->setParameter('status', ProductReviewInterface::STATUS_ACCEPTED)
+            ->setParameter('status', self::STATUS_ACCEPTED)
             ->getQuery()
             ->getResult()
         ;
