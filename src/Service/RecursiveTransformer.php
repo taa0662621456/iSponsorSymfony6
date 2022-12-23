@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Service;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Form\DataTransformerInterface;
+use Symfony\Component\Form\Exception\TransformationFailedException;
+
+class RecursiveTransformer implements DataTransformerInterface
+{
+    private DataTransformerInterface $decoratedTransformer;
+
+    public function __construct(DataTransformerInterface $decoratedTransformer)
+    {
+        $this->decoratedTransformer = $decoratedTransformer;
+    }
+
+    /** @param Collection|null $value */
+    public function transform($value): Collection
+    {
+        if (null === $value) {
+            return new ArrayCollection();
+        }
+
+        $this->assertTransformationValueType($value);
+
+        return $value->map(
+        /**
+         * @param mixed $currentValue
+         *
+         * @return mixed
+         */
+            function ($currentValue) {
+                return $this->decoratedTransformer->transform($currentValue);
+            },
+        );
+    }
+
+    /** @param Collection|null $value */
+    public function reverseTransform($value): Collection
+    {
+        if (null === $value) {
+            return new ArrayCollection();
+        }
+
+        $this->assertTransformationValueType($value);
+
+        return $value->map(
+        /**
+         * @param mixed $currentValue
+         *
+         * @return mixed
+         */
+            function ($currentValue) {
+                return $this->decoratedTransformer->reverseTransform($currentValue);
+            },
+        );
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @throws TransformationFailedException
+     */
+    private function assertTransformationValueType(mixed $value): void
+    {
+        if (!($value instanceof Collection::class)) {
+            throw new TransformationFailedException(
+                sprintf(
+                    'Expected "%s", but got "%s"',
+                    Collection::class,
+                    is_object($value) ? get_class($value) : gettype($value),
+                ),
+            );
+        }
+    }
+
+}
