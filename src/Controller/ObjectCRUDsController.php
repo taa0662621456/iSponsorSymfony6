@@ -4,33 +4,19 @@ namespace App\Controller;
 
 use App\Service\RequestDispatcher;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectRepository;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[AsController]
 class ObjectCRUDsController extends AbstractController
 {
-
     #[NoReturn]
     public function __construct(private readonly RequestDispatcher $requestDispatcher,
                                 private readonly ManagerRegistry $managerRegistry)
     {
     }
-
-    // https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/
-    //    public function __invoke(string $slug)
-    //    {
-    //        $object = $this->getDoctrine()
-    //            ->getRepository($object::class)
-    //            ->findBy('slug' => $slug);
-    //        return $object;
-    //    }
-
     # Index
     #[Route(path: 'vendor/', name: 'vendor_index', methods: ['GET'])]
     #[Route(path: 'vendor/folder', name: 'vendor_folder_index', methods: ['GET'])]
@@ -40,10 +26,8 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'event/member/', name: 'event_index_member', methods: ['GET'])]
     #[Route(path: 'folder/', name: 'folder_index', methods: ['GET'])]
     #[Route(path: 'product/', name: 'product_index', methods: ['GET'])]
-    #[Route(path: 'product/price/', name: 'product_index_price', methods: ['GET'])]
-    #[Route(path: 'product/attachment/', name: 'product_index_attachment', methods: ['GET'])]
+    #[Route(path: 'product/price', name: 'product_index_price', methods: ['GET'])]
     #[Route(path: 'project/', name: 'project_index', methods: ['GET'])]
-    #[Route(path: 'project/attachment/', name: 'project_index_attachment', methods: ['GET'])]
     #[Route(path: 'commission/', name: 'commission_index', methods: ['GET'])]
     #[Route(path: 'category/', name: 'category_index', methods: ['GET'])]
     #[Route(path: 'attachment/', name: 'attachment_index', methods: ['GET'])]
@@ -56,10 +40,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/', name: 'shipment_index_category', methods: ['GET'])]
     #[Route(path: 'payment/', name: 'payment_index', methods: ['GET'])]
     #[Route(path: 'payment/category/', name: 'payment_index_category', methods: ['GET'])]
-    #[Route(path: 'coupon/', name: 'coupon_index', methods: ['GET'])]
-    #[Route(path: 'currency/', name: 'currency_index', methods: ['GET'])]
-    #[Route(path: 'role/', name: 'role_index', methods: ['GET'])]
-    #[Route(path: 'storage/', name: 'storage_index', methods: ['GET'])]
     public function index() : Response
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
@@ -78,16 +58,16 @@ class ObjectCRUDsController extends AbstractController
 
     # New
     #[Route(path: 'vendor/new/', name: 'vendor_new', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/commission/new/', name: 'vendor_new_commission', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/profile/new/', name: 'vendor_new_profile', methods: ['GET', 'POST'])]
+    #[Route(path: 'vendor/commission/', name: 'vendor_new_commission', methods: ['GET', 'POST'])]
+    #[Route(path: 'vendor/profile/', name: 'vendor_new_profile', methods: ['GET', 'POST'])]
     #[Route(path: 'event/new/', name: 'event_new', methods: ['GET', 'POST'])]
     #[Route(path: 'event/category/new/', name: 'event_new_category', methods: ['GET', 'POST'])]
     #[Route(path: 'folder/new/', name: 'folder_new', methods: ['GET', 'POST'])]
     #[Route(path: 'project/new/', name: 'project_new', methods: ['GET', 'POST'])]
     #[Route(path: 'commission/new/', name: 'commission_new', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/new/', name: 'product_new', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/price/new/', name: 'product_new_price', methods: ['GET', 'POST'])]
-    #[Route(path: 'category/new/', name: 'category_new', methods: ['GET', 'POST'])]
+    #[Route(path: 'product/new', name: 'product_new', methods: ['GET', 'POST'])]
+    #[Route(path: 'product/price/new', name: 'product_new_price', methods: ['GET', 'POST'])]
+    #[Route(path: 'category/new', name: 'category_new', methods: ['GET', 'POST'])]
     #[Route(path: 'order/new/', name: 'order_new', methods: ['GET', 'POST'])]
     #[Route(path: 'attachment/new/', name: 'attachment_new', methods: ['GET', 'POST'])]
     #[Route(path: 'review/product/new/', name: 'review_new_product', methods: ['GET', 'POST'])]
@@ -99,10 +79,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/new/', name: 'shipment_new_category', methods: ['GET', 'POST'])]
     #[Route(path: 'payment/new/', name: 'payment_new', methods: ['GET', 'POST'])]
     #[Route(path: 'payment/category/new/', name: 'payment_new_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'coupon/new/', name: 'coupon_new', methods: ['GET', 'POST'])]
-    #[Route(path: 'currency/new/', name: 'currency_new', methods: ['GET', 'POST'])]
-    #[Route(path: 'role/new/', name: 'role_new', methods: ['GET', 'POST'])]
-    #[Route(path: 'storage/new/', name: 'storage_new', methods: ['GET', 'POST'])]
     public function new(Request $request) : Response
     {
         $object = $this->requestDispatcher->object();
@@ -142,23 +118,16 @@ class ObjectCRUDsController extends AbstractController
      */
     #[Route(path: 'vendor/{id<\d+>}', name: 'vendor_show_id', methods: ['GET'])]
     #[Route(path: 'vendor/profile/{id<\d+>}', name: 'vendor_show_id_profile', methods: ['GET'])]
-    #[Route(path: 'vendor/payment/{id<\d+>}', name: 'vendor_show_id_payment', methods: ['GET'])]
-    #[Route(path: 'vendor/shipment/{id<\d+>}', name: 'vendor_show_id_shipment', methods: ['GET'])]
     #[Route(path: 'folder/{id<\d+>}', name: 'folder_show_id', methods: ['GET'])]
     #[Route(path: 'commission/{id<\d+>}', name: 'commission_show_id', methods: ['GET'])]
     #[Route(path: 'project/{id<\d+>}', name: 'project_show_id', methods: ['GET'])]
-    #[Route(path: 'project/attachment/{id<\d+>}', name: 'project_show_id_attachment', methods: ['GET'])]
-    #[Route(path: 'product/attachment/{id<\d+>}', name: 'product_show_id_attachment', methods: ['GET'])]
+    #[Route(path: 'product/{id<\d+>}', name: 'product_show_id', methods: ['GET'])]
     #[Route(path: 'product/price/{id<\d+>}', name: 'product_show_id_price', methods: ['GET'])]
-    #[Route(path: 'product/payment/{id<\d+>}', name: 'product_show_id_payment', methods: ['GET'])]
-    #[Route(path: 'product/shipment/{id<\d+>}', name: 'product_show_id_shipment', methods: ['GET'])]
     #[Route(path: 'category/{id<\d+>}', name: 'category_show_id', methods: ['GET'])]
     #[Route(path: 'attachment/{id<\d+>}', name: 'attachment_show_id', methods: ['GET'])]
     #[Route(path: 'review/product/{id<\d+>}', name: 'review_show_id_product', methods: ['GET'])]
     #[Route(path: 'review/project/{id<\d+>}', name: 'review_show_id_project', methods: ['GET'])]
     #[Route(path: 'order/{id<\d+>}', name: 'order_show_id', methods: ['GET'])]
-    #[Route(path: 'order/payment/{id<\d+>}', name: 'order_show_id_payment', methods: ['GET'])]
-    #[Route(path: 'order/shipment/{id<\d+>}', name: 'order_show_id_shipment', methods: ['GET'])]
     #[Route(path: 'event/{id<\d+>}', name: 'event_show_id', methods: ['GET'])]
     #[Route(path: 'event/category/{id<\d+>}', name: 'event_show_id_category', methods: ['GET'])]
     #[Route(path: 'taxation/{id<\d+>}', name: 'taxation_show_id', methods: ['GET'])]
@@ -168,10 +137,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/{id<\d+>}', name: 'shipment_show_id_category', methods: ['GET'])]
     #[Route(path: 'payment/{id<\d+>}', name: 'payment_show_id', methods: ['GET'])]
     #[Route(path: 'payment/category/{id<\d+>}', name: 'payment_show_id_category', methods: ['GET'])]
-    #[Route(path: 'coupon/{id<\d+>}', name: 'coupon_show_id', methods: ['GET'])]
-    #[Route(path: 'currency/{id<\d+>}', name: 'currency_show_id', methods: ['GET'])]
-    #[Route(path: 'role/{id<\d+>}', name: 'role_show_id', methods: ['GET'])]
-    #[Route(path: 'storage/{id<\d+>}', name: 'storage_show_id', methods: ['GET'])]
     /**
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -179,24 +144,16 @@ class ObjectCRUDsController extends AbstractController
      */
     #[Route(path: 'vendor/{slug}', name: 'vendor_show_slug', methods: ['GET'])]
     #[Route(path: 'vendor/profile/{slug}', name: 'vendor_show_slug_profile', methods: ['GET'])]
-    #[Route(path: 'vendor/payment/{slug}', name: 'vendor_show_slug_payment', methods: ['GET'])]
-    #[Route(path: 'vendor/shipment/{slug}', name: 'vendor_show_slug_shipment', methods: ['GET'])]
     #[Route(path: 'folder/{slug}', name: 'folder_show_slug', methods: ['GET'])]
     #[Route(path: 'commission/{slug}', name: 'commission_show_slug', methods: ['GET'])]
     #[Route(path: 'project/{slug}', name: 'project_show_slug', methods: ['GET'])]
-    #[Route(path: 'project/attachment/{slug}', name: 'project_show_slug_attachment', methods: ['GET'])]
     #[Route(path: 'product/{slug}', name: 'product_show_slug', methods: ['GET'])]
-    #[Route(path: 'product/attachment/{slug}', name: 'product_show_slug_attachment', methods: ['GET'])]
     #[Route(path: 'product/price/{slug}', name: 'product_show_slug_price', methods: ['GET'])]
-    #[Route(path: 'product/payment/{slug}', name: 'product_show_slug_payment', methods: ['GET'])]
-    #[Route(path: 'product/shipment/{slug}', name: 'product_show_slug_shipment', methods: ['GET'])]
     #[Route(path: 'category/{slug}', name: 'category_show_slug', methods: ['GET'])]
     #[Route(path: 'attachment/{slug}', name: 'attachment_show_slug', methods: ['GET'])]
     #[Route(path: 'review/product/{slug}', name: 'review_show_slug_product', methods: ['GET'])]
     #[Route(path: 'review/project/{slug}', name: 'review_show_slug_project', methods: ['GET'])]
     #[Route(path: 'order/{slug}', name: 'order_show_slug', methods: ['GET'])]
-    #[Route(path: 'order/payment/{slug}', name: 'order_show_slug_payment', methods: ['GET'])]
-    #[Route(path: 'order/shipment/{slug}', name: 'order_show_slug_shipment', methods: ['GET'])]
     #[Route(path: 'event/{slug}', name: 'event_show_slug', methods: ['GET'])]
     #[Route(path: 'event/category/{slug}', name: 'event_show_slug_category', methods: ['GET'])]
     #[Route(path: 'taxation/{slug}', name: 'taxation_show_slug', methods: ['GET'])]
@@ -206,10 +163,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/{slug}', name: 'shipment_show_slug_category', methods: ['GET'])]
     #[Route(path: 'payment/{slug}', name: 'payment_show_slug', methods: ['GET'])]
     #[Route(path: 'payment/category/{slug}', name: 'payment_show_slug_category', methods: ['GET'])]
-    #[Route(path: 'coupon/{slug}', name: 'coupon_show_slug', methods: ['GET'])]
-    #[Route(path: 'currency/{slug}', name: 'currency_show_slug', methods: ['GET'])]
-    #[Route(path: 'role/{slug}', name: 'role_show_slug', methods: ['GET'])]
-    #[Route(path: 'storage/{slug}', name: 'storage_show_slug', methods: ['GET'])]
     public function show(Request $request) : Response
     {
         //        return $this->render(
@@ -232,15 +185,11 @@ class ObjectCRUDsController extends AbstractController
      * ********************************************
      */
     #[Route(path: 'vendor/edit/{id<\d+>}', name: 'vendor_edit_id', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/payment/edit/{id<\d+>}', name: 'vendor_edit_id_payment', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/shipment/edit/{id<\d+>}', name: 'vendor_edit_id_payment', methods: ['GET', 'POST'])]
     #[Route(path: 'folder/edit/{id<\d+>}', name: 'folder_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'commission/edit/{id<\d+>}', name: 'commission_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'project/edit/{id<\d+>}', name: 'project_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'product/edit/{id<\d+>}', name: 'product_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'product/price/edit/{id<\d+>}', name: 'product_edit_id_price', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/payment/edit/{id<\d+>}', name: 'product_edit_id_payment', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/shipment/edit/{id<\d+>}', name: 'product_edit_id_shipment', methods: ['GET', 'POST'])]
     #[Route(path: 'category/edit/{id<\d+>}', name: 'category_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'attachment/edit/{id<\d+>}', name: 'attachment_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'review/product/edit/{id<\d+>}', name: 'review_edit_id_product', methods: ['GET', 'POST'])]
@@ -254,25 +203,18 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/edit/{id<\d+>}', name: 'shipment_edit_id', methods: ['GET', 'POST'])]
     #[Route(path: 'shipment/category/edit/{id<\d+>}', name: 'shipment_edit_id_category', methods: ['GET', 'POST'])]
     #[Route(path: 'payment/edit/{id<\d+>}', name: 'payment_edit_id', methods: ['GET', 'POST'])]
-    #[Route(path: 'coupon/edit/{id<\d+>}', name: 'coupon_edit_id', methods: ['GET', 'POST'])]
-    #[Route(path: 'currency/edit/{id<\d+>}', name: 'currency_edit_id', methods: ['GET', 'POST'])]
-    #[Route(path: 'role/edit/{id<\d+>}', name: 'role_edit_id', methods: ['GET', 'POST'])]
-    #[Route(path: 'storage/edit/{id<\d+>}', name: 'storage_edit_id', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/category/edit/{id<\d+>}', name: 'payment_edit_id_category', methods: ['GET', 'POST'])]
     /**
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
      * ********************************************
      */
     #[Route(path: 'vendor/edit/{slug}', name: 'vendor_edit_slug', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/payment/edit/{slug}', name: 'vendor_edit_slug_payment', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/shipment/edit/{slug}', name: 'vendor_edit_slug_shipment', methods: ['GET', 'POST'])]
     #[Route(path: 'folder/edit/{slug}', name: 'folder_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'commission/edit/{slug}', name: 'commission_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'project/edit/{slug}', name: 'project_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'product/edit/{slug}', name: 'product_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'product/price/edit/{slug}', name: 'product_edit_slug_price', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/payment/edit/{slug}', name: 'product_edit_slug_payment', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/shipment/edit/{slug}', name: 'product_edit_slug_shipment', methods: ['GET', 'POST'])]
     #[Route(path: 'category/edit/{slug}', name: 'category_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'attachment/edit/{slug}', name: 'attachment_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'review/product/edit/{slug}', name: 'review_edit_slug_project', methods: ['GET', 'POST'])]
@@ -287,11 +229,7 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/edit/{slug}', name: 'shipment_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'payment/edit/{slug}', name: 'payment_edit_slug', methods: ['GET', 'POST'])]
     #[Route(path: 'payment/category/edit/{slug}', name: 'payment_edit_slug', methods: ['GET', 'POST'])]
-    #[Route(path: 'coupon/edit/{slug}', name: 'coupon_edit', methods: ['GET', 'POST'])]
-    #[Route(path: 'currency/edit/{slug}', name: 'currency_edit', methods: ['GET', 'POST'])]
-    #[Route(path: 'role/edit/{slug}', name: 'role_edit', methods: ['GET', 'POST'])]
-    #[Route(path: 'storage/edit/{slug}', name: 'storage_edit', methods: ['GET', 'POST'])]
-    public function edit(?int $id, ?string $slug) : Response
+    public function edit() : Response
     {
         $object = $this->requestDispatcher->object();
         $form = $this->createForm($this->requestDispatcher->objectType(), $object);
@@ -333,10 +271,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/delete/{id<\d+>}', name: 'shipment_delete_id', methods: ['DELETE'])]
     #[Route(path: 'payment/delete/{id<\d+>}', name: 'payment_delete_id', methods: ['DELETE'])]
     #[Route(path: 'payment/category/delete/{id<\d+>}', name: 'payment_delete_id', methods: ['DELETE'])]
-    #[Route(path: 'coupon/delete/{id<\d+>}', name: 'coupon_delete_id', methods: ['DELETE'])]
-    #[Route(path: 'currency/delete/{id<\d+>}', name: 'currency_delete_id', methods: ['DELETE'])]
-    #[Route(path: 'role/delete/{id<\d+>}', name: 'role_delete_id', methods: ['DELETE'])]
-    #[Route(path: 'storage/delete/{id<\d+>}', name: 'storage_delete_id', methods: ['DELETE'])]
     /**
      * ********************************************
      * Routes by 'slug' for Front-end and Back-end
@@ -362,35 +296,20 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'shipment/category/delete/{slug}', name: 'shipment_delete_slug_category', methods: ['DELETE'])]
     #[Route(path: 'payment/delete/{slug}', name: 'payment_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'payment/category/delete/{slug}', name: 'payment_delete_slug_category', methods: ['DELETE'])]
-    #[Route(path: 'coupon/delete/{slug}', name: 'coupon_delete_slug', methods: ['DELETE'])]
-    #[Route(path: 'currency/delete/{slug}', name: 'currency_delete_slug', methods: ['DELETE'])]
-    #[Route(path: 'role/delete/{slug}', name: 'role_delete_slug', methods: ['DELETE'])]
-    #[Route(path: 'storage/delete/{slug}', name: 'storage_delete_slug', methods: ['DELETE'])]
-    public function delete(Request $request, ?int $id = null, ?string $slug = null) : Response
+    public function delete(Request $request) : Response
     {
-        $typeId = null ? $id : $slug;
-        $typeId = gettype($typeId) == 'string' ? $this->requestDispatcher->objectFindBySlug($slug) : $this->requestDispatcher->objectFindById($id);
-
-        if ($this->isCsrfTokenValid('delete' . $typeId, $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $this->requestDispatcher->object()->getId(), $request->get('_token'))) {
+            //TODO: в этой строке сделать get по тому признаку, который определен в роуте id/slug
             $entityManager = $this->managerRegistry->getManager();
             $entityManager->remove((object)$this->requestDispatcher->object());
             $entityManager->flush();
-            $this->addFlash(
-                'notice',
-                'Success delete message!'
-            );
-        } else {
-                throw $this->createNotFoundException('The object does not exist');
         }
-
         return $this->redirectToRoute($this->requestDispatcher->object());
     }
 
     # Own
     #[Route(path: 'vendor/own', name: 'vendor_own', methods: ['GET'])]
     #[Route(path: 'vendor/folder/own/', name: 'vendor_folder_own', methods: ['GET'])]
-    #[Route(path: 'vendor/payment/own/', name: 'vendor_folder_own_payment', methods: ['GET'])]
-    #[Route(path: 'vendor/shipment/own/', name: 'vendor_folder_own_shipment', methods: ['GET'])]
     #[Route(path: 'order/own/', name: 'order_own', methods: ['GET'])]
     #[Route(path: 'event/own/', name: 'event_own', methods: ['GET'])]
     #[Route(path: 'event/category/own/', name: 'event_category_own', methods: ['GET'])]
@@ -408,10 +327,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'payment/own/', name: 'payment_own', methods: ['GET'])]
     #[Route(path: 'shipment/own/', name: 'shipment_own', methods: ['GET'])]
     #[Route(path: 'billing/own/', name: 'billing_own', methods: ['GET'])]
-    #[Route(path: 'coupon/own/', name: 'coupon_own', methods: ['GET'])]
-    #[Route(path: 'currency/own/', name: 'currency_own', methods: ['GET'])]
-    #[Route(path: 'role/own/', name: 'role_own', methods: ['GET'])]
-    #[Route(path: 'storage/own/', name: 'storage_own', methods: ['GET'])]
     public function own() : Response
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
@@ -438,10 +353,6 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'payment/thank',name: 'payment_thank', methods: ['GET'])]
     #[Route(path: 'taxation/thank',name: 'taxation_thank', methods: ['GET'])]
     #[Route(path: 'cart/thank',name: 'cart_thank', methods: ['GET'])]
-    #[Route(path: 'coupon/thank',name: 'coupon_thank', methods: ['GET'])]
-    #[Route(path: 'currency/thank',name: 'currency_thank', methods: ['GET'])]
-    #[Route(path: 'role/thank',name: 'role_thank', methods: ['GET'])]
-    #[Route(path: 'storage/thank',name: 'storage_thank', methods: ['GET'])]
     public function thankYou()
     {
 
@@ -487,68 +398,4 @@ class ObjectCRUDsController extends AbstractController
 //    }
 //
 //
-    # Summery
-    #[Route(path: 'vendor/summery/', name: 'vendor_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/commission/summery/', name: 'vendor_summery_commission', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/profile/summery/', name: 'vendor_summery_profile', methods: ['GET', 'POST'])]
-    #[Route(path: 'event/summery/', name: 'event_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'event/category/summery/', name: 'event_summery_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'folder/summery/', name: 'folder_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'project/summery/', name: 'project_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'commission/summery/', name: 'commission_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/summery', name: 'product_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/price/summery', name: 'product_summery_price', methods: ['GET', 'POST'])]
-    #[Route(path: 'category/summery', name: 'category_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'order/summery/', name: 'order_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'attachment/summery/', name: 'attachment_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'review/product/summery/', name: 'review_summery_product', methods: ['GET', 'POST'])]
-    #[Route(path: 'review/project/summery/', name: 'review_summery_project', methods: ['GET', 'POST'])]
-    #[Route(path: 'taxation/summery/', name: 'taxation_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'taxation/zone/summery/', name: 'taxation_summery_zone', methods: ['GET', 'POST'])]
-    #[Route(path: 'taxation/category/summery/', name: 'taxation_summery_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'shipment/summery/', name: 'shipment_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'shipment/category/summery/', name: 'shipment_summery_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'payment/summery/', name: 'payment_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'payment/category/summery/', name: 'payment_summery_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'coupon/summery/', name: 'coupon_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'currency/summery/', name: 'currency_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'role/summery/', name: 'role_summery', methods: ['GET', 'POST'])]
-    #[Route(path: 'storage/summery/', name: 'storage_summery', methods: ['GET', 'POST'])]
-    public function summery()
-    {
-    }
-
-    # Summery
-    #[Route(path: 'vendor/widget/', name: 'vendor_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/commission/widget/', name: 'vendor_widget_commission', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/profile/widget/', name: 'vendor_widget_profile', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/payment/widget/', name: 'vendor_widget_payment', methods: ['GET', 'POST'])]
-    #[Route(path: 'vendor/shipment/widget/', name: 'vendor_widget_shipment', methods: ['GET', 'POST'])]
-    #[Route(path: 'event/widget/', name: 'event_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'event/category/widget/', name: 'event_widget_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'folder/widget/', name: 'folder_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'project/widget/', name: 'project_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'commission/widget/', name: 'commission_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/widget', name: 'product_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'product/price/widget', name: 'product_widget_price', methods: ['GET', 'POST'])]
-    #[Route(path: 'category/widget', name: 'category_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'order/widget/', name: 'order_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'attachment/widget/', name: 'attachment_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'review/product/widget/', name: 'review_widget_product', methods: ['GET', 'POST'])]
-    #[Route(path: 'review/project/widget/', name: 'review_widget_project', methods: ['GET', 'POST'])]
-    #[Route(path: 'taxation/widget/', name: 'taxation_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'taxation/zone/widget/', name: 'taxation_widget_zone', methods: ['GET', 'POST'])]
-    #[Route(path: 'taxation/category/widget/', name: 'taxation_widget_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'shipment/widget/', name: 'shipment_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'shipment/category/widget/', name: 'shipment_widget_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'payment/widget/', name: 'payment_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'payment/category/widget/', name: 'payment_widget_category', methods: ['GET', 'POST'])]
-    #[Route(path: 'coupon/widget/', name: 'coupon_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'currency/widget/', name: 'currency_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'role/widget/', name: 'role_widget', methods: ['GET', 'POST'])]
-    #[Route(path: 'storage/widget/', name: 'storage_widget', methods: ['GET', 'POST'])]
-    public function widget()
-    {
-    }
-
 }
