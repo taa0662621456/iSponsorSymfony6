@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\CoreBundle\Form\Type;
 
-
+use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class ImageType extends AbstractResourceType
 {
