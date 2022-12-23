@@ -1,15 +1,18 @@
 <?php
 
+namespace App\EventSubscriber;
 
-namespace App\CoreBundle\Form\EventSubscriber;
-
-
-
+use App\Exception\UnexpectedTypeException;
+use App\Form\Currency\CurrencySelectorType;
+use App\Interface\Vendor\VendorInterface;
+use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
 final class AddBaseCurrencySubscriber implements EventSubscriberInterface
 {
+    #[ArrayShape([FormEvents::PRE_SET_DATA => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -23,7 +26,7 @@ final class AddBaseCurrencySubscriber implements EventSubscriberInterface
         $disabled = $this->getDisabledOption($resource);
 
         $form = $event->getForm();
-        $form->add('baseCurrency', CurrencyChoiceType::class, [
+        $form->add('baseCurrency', CurrencySelectorType::class, [
             'label' => 'form.channel.currency_base',
             'required' => true,
             'disabled' => $disabled,
@@ -35,7 +38,7 @@ final class AddBaseCurrencySubscriber implements EventSubscriberInterface
      */
     private function getDisabledOption($resource): bool
     {
-        if ($resource instanceof ChannelInterface) {
+        if ($resource instanceof VendorInterface) {
             return null !== $resource->getId();
         }
 
@@ -43,6 +46,6 @@ final class AddBaseCurrencySubscriber implements EventSubscriberInterface
             return false;
         }
 
-        throw new UnexpectedTypeException($resource, ChannelInterface::class);
+        throw new UnexpectedTypeException($resource, VendorInterface::class);
     }
 }

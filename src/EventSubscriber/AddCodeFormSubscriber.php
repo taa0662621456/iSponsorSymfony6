@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-final class AddCodeFormSubscriber
+final class AddCodeFormSubscriber implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
 {
     private string $type;
 
