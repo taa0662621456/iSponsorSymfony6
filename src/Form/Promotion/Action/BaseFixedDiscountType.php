@@ -1,11 +1,10 @@
 <?php
 
 
-namespace App\Form\Promotion\Action;
+namespace App\CoreBundle\Form\Type\Promotion\Action;
 
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class BaseFixedDiscountType extends AbstractType

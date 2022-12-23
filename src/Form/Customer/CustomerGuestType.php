@@ -1,6 +1,11 @@
 <?php
 
-namespace App\Form\Customer;
+
+namespace App\CoreBundle\Form\Type\Customer;
+
+
+
+
 
 use App\Interface\CustomerInterface;
 use App\Interface\Factory\FactoryInterface;

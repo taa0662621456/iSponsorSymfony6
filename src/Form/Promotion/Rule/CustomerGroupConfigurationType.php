@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form\Promotion\Rule;
+namespace App\CoreBundle\Form\Type\Promotion\Rule;
 
 
 use Symfony\Component\Validator\Constraints\NotBlank;

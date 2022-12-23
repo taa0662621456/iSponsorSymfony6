@@ -4,12 +4,15 @@
 namespace App\CoreBundle\Form\Type\CatalogPromotionScope;
 
 
+use App\ProductBundle\Form\Type\ProductAutocompleteChoiceType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class ForProductsScopeConfigurationType extends AbstractType
 {
-    public function __construct(private DataTransformerInterface $productsToCodesTransformer)
+    public function __construct(private readonly DataTransformerInterface $productsToCodesTransformer)
     {
     }
 
