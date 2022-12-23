@@ -6,7 +6,7 @@ namespace App\Entity\Commission;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Factory\ObjectEntity;
+use App\Factory\EntityFactory;
 use DateTime;
 use Symfony\Component\Uid\Uuid;
 
