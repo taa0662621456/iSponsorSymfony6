@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Extension;
+namespace App\CoreBundle\Form\Extension;
 
 
 use Symfony\Component\Form\AbstractTypeExtension;

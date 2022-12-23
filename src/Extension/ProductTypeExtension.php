@@ -1,11 +1,9 @@
 <?php
 
 
-namespace App\Extension;
+namespace App\CoreBundle\Form\Extension;
 
 
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
