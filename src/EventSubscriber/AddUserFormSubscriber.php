@@ -1,9 +1,8 @@
 <?php
 
+namespace App\EventSubscriber;
 
-namespace App\CoreBundle\Form\EventSubscriber;
-
-
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormEvent;
@@ -13,10 +12,11 @@ use Webmozart\Assert\Assert;
 
 final class AddUserFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private string $entryType)
+    public function __construct(private readonly string $entryType)
     {
     }
 
+    #[ArrayShape([FormEvents::PRE_SET_DATA => "string", FormEvents::SUBMIT => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [
