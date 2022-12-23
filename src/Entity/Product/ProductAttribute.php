@@ -10,8 +10,7 @@ use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
-use App\Entity\Repository\Product\ProductAttributeRepository;
-use App\Interface\ProductTypeInterface;
+
 use App\Repository\Product\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -65,7 +64,7 @@ class ProductAttribute
     /** @var \DateTimeInterface|null */
     private ?\DateTimeInterface $date;
 
-    /** @var mixed[]|null */
+    /** @var array|null */
     private ?array $json;
 
 }
