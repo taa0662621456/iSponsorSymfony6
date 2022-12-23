@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\Type;
+namespace App\Form;
 
 
 use App\Form\MoneyType;

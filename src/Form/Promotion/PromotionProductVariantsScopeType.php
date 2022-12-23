@@ -1,15 +1,15 @@
 <?php
 
+namespace App\Form\Promotion;
 
-namespace App\CoreBundle\Form\Type\CatalogPromotionScope;
-
-
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-final class ForVariantsScopeConfigurationType extends AbstractType
+final class PromotionProductVariantsScopeType extends AbstractType
 {
-    public function __construct(private DataTransformerInterface $productVariantsToCodesTransformer)
+    public function __construct(private readonly DataTransformerInterface $productVariantsToCodesTransformer)
     {
     }
 
