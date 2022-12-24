@@ -3,8 +3,8 @@ doctrine:
         types:
             uuid: Symfony\Bridge\Doctrine\Types\UuidType
         #        url: '%env(resolve:PLATFORM_DATA_DATABASE)%'
-#        mapping_types:
-#            enum: string
+        mapping_types:
+            enum: string
         default_connection: postgres
         connections:
             postgres:
