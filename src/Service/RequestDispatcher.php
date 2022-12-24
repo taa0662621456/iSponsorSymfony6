@@ -55,7 +55,7 @@ class RequestDispatcher
         #
         $templatePath = (string)mb_strtolower($object . '/' . $object . '/' . $crudAction . '.html.twig');
 
-        ## this ##
+        ## This ##
         $this->locale = $locale;
         $this->localeFilter = $localeFilter;
         #
@@ -93,6 +93,18 @@ class RequestDispatcher
     public function objectRepository(): string
     {
         return $this->objectRepository;
+    }
+
+    public function objectFindById(?int $id)
+    {
+        $objectRepository = new $this->objectRepository();
+        return $objectRepository->find($id);
+    }
+
+    public function objectFindBySlug(?string $slug)
+    {
+        $objectRepository = new $this->objectRepository();
+        return $objectRepository->findOneBy(['slug' => $slug]);
     }
 
     public function objectEnGb(): string
