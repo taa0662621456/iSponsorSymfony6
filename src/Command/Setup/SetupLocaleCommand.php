@@ -3,7 +3,7 @@
 namespace App\Command\Setup;
 
 use App\Entity\Locale\Locale;
-use App\Interface\CurrencyInterface;
+use App\Interface\Currency\CurrencyInterface;
 use App\Repository\LocaleRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
