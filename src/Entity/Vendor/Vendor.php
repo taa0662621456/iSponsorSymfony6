@@ -10,11 +10,13 @@ use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
-use App\Interface\VendorInterface;
+use App\Interface\Vendor\VendorInterface;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -22,20 +24,24 @@ use App\Entity\Order\OrderStorage;
 use Exception;
 
 /**
- *
- * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="vendor:list"}}},
+ * ApiResource(
+ *     collectionOperations={
+ *     "get"={"normalization_context"={"groups"="vendor:list"}}},
  *     itemOperations={"get"={"normalization_context"={"groups"="vendor:item"}}},
- *     order={"is_active"="DESC", "locale"="ASC"},
- *     paginationEnabled=false
  *     )
- * @ApiFilter(BooleanFilter::class, properties={"isActive"})
  */
+#[ApiResource(
+    collectionOperations: ['get' => ''],
+    itemOperations: ['get', 'put', 'delete',
+        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class']]
+    ,
+    denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']],
+    normalizationContext: ['groups' => 'read'])]
 #[ORM\Table(name: 'vendor')]
 #[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Vendor implements VendorInterface
+class Vendor implements VendorInterface, \JsonSerializable
 {
     use BaseTrait;
     use ObjectTrait;
@@ -66,24 +72,28 @@ class Vendor implements VendorInterface
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorSecurity::class)]
     #[Assert\Valid]
+    #[Ignore]
     private array|VendorSecurity $vendorSecurity;
 
     #[ORM\OneToOne(mappedBy: 'vendorIbanVendor', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorIban::class)]
     #[Assert\Valid]
+    #[Ignore]
     private VendorIban $vendorIban;
 
     #[ORM\OneToOne(mappedBy: 'vendorEnGbVendor', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: VendorEnUS::class)]
     #[Assert\Valid]
+    #[Ignore]
     private VendorEnUS $vendorEnGb;
 
     #[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: Featured::class)]
     #[Assert\Valid]
+    #[Ignore]
     private Featured $vendorFeatured;
 
     #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
@@ -351,6 +361,15 @@ class Vendor implements VendorInterface
             $this->vendorMessage->removeElement($vendorMessage);
         }
         return $this;
+    }
+
+    #[ArrayShape(["firstTitle" => "string", "lastTitle" => "string"])]
+    public function jsonSerialize(): array
+    {
+        return [
+            "firstTitle" => $this->getFirstTitle(),
+            "lastTitle" => $this->getLastTitle()
+        ];
     }
 }
 
