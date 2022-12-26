@@ -25,7 +25,7 @@ class VendorRepository extends ServiceEntityRepository
         parent::__construct($registry, Vendor::class);
     }
 
-    //TODO: непойму, зачем писать дополнительные методы, если есть аналогичные встроенные в фреймворк
+    //TODO: не пойму, зачем писать дополнительные методы, если есть аналогичные встроенные в фреймворк
 
     /**
      * @param $vendorId
