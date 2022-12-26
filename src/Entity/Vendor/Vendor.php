@@ -23,18 +23,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Order\OrderStorage;
 use Exception;
 
-/**
- * ApiResource(
- *     collectionOperations={
- *     "get"={"normalization_context"={"groups"="vendor:list"}}},
- *     itemOperations={"get"={"normalization_context"={"groups"="vendor:item"}}},
- *     )
- */
 #[ApiResource(
-    collectionOperations: ['get' => ''],
-    itemOperations: ['get', 'put', 'delete',
-        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class']]
-    ,
+    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'vendor:list']]],
+    itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']], 'put', 'delete',
+        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class']],
     denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']],
     normalizationContext: ['groups' => 'read'])]
 #[ORM\Table(name: 'vendor')]
