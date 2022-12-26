@@ -9,8 +9,10 @@ use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
 class ObjectCRUDsController extends AbstractController
 {
 
@@ -19,6 +21,16 @@ class ObjectCRUDsController extends AbstractController
                                 private readonly ManagerRegistry $managerRegistry)
     {
     }
+
+    // https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/
+    //    public function __invoke(string $slug)
+    //    {
+    //        $object = $this->getDoctrine()
+    //            ->getRepository($object::class)
+    //            ->findBy('slug' => $slug);
+    //        return $object;
+    //    }
+
     # Index
     #[Route(path: 'vendor/', name: 'vendor_index', methods: ['GET'])]
     #[Route(path: 'vendor/folder', name: 'vendor_folder_index', methods: ['GET'])]

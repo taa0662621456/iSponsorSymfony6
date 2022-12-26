@@ -5,8 +5,10 @@ namespace App\Controller\Vendor;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[AsController]
 #[Route(path: '/vendor/dashboard')]
 #[Route(path: '/sponsor/dashboard')]
 class VendorDashboardController extends AbstractController

@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -19,6 +20,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  *
  * @package App\Controller\Category
  */
+#[AsController]
 #[Route(path: 'categories/attachments')]
 class CategoryAttachmentController extends AbstractController
 {
