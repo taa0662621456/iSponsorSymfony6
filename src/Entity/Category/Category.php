@@ -55,6 +55,7 @@ class Category implements CategoryInterface
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\Type(type: CategoryEnGb::class)]
     #[Assert\Valid]
+    #[Ignore]
     private CategoryEnGb $categoryEnGb;
 
     #[ORM\OneToMany(mappedBy: 'categoryAttachmentCategory', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -65,6 +66,7 @@ class Category implements CategoryInterface
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\Type(type: CategoryFeatured::class)]
     #[Assert\Valid]
+    #[Ignore]
     private Featured $categoryFeatured;
 
     /**

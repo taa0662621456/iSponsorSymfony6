@@ -47,6 +47,7 @@ class Project
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectEnGb')]
     #[Assert\Valid]
+    #[Ignore]
     private ProjectEnGb $projectEnGb;
 
     #[ORM\OneToMany(mappedBy: 'projectAttachmentProject', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -62,6 +63,7 @@ class Project
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Project\projectFeatured')]
     #[Assert\Valid]
+    #[Ignore]
     private Featured $projectFeatured;
 
     #[ORM\ManyToMany(targetEntity: ProjectTag::class, cascade: ['persist'], inversedBy: 'projectTagProject')]
