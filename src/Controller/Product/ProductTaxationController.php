@@ -6,9 +6,11 @@ use App\Interface\Product\ProductTaxationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Webmozart\Assert\Assert;
 
+#[AsController]
 class ProductTaxationController extends AbstractController
 {
 
