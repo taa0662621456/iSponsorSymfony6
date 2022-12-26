@@ -1,7 +1,8 @@
 <?php
-namespace App\Service;
+namespace App\Service\System;
 
 
+use App\Service\System\ExceptionMapping;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 class ExceptionMappingResolver
