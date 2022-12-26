@@ -52,10 +52,14 @@ parameters:
     router.request_context.scheme: https
     container.dumper.inline_factories: true
     exceptions:
-        App\Exception\VendorNotFoundException: { code: 404, hidden: false }
+        App\Exception\Vendor\VendorNotFoundException: { code: 404, hidden: false }
+        App\Exception\Vendor\VendorPaymentNotFoundException: { code: 404, hidden: false }
+        App\Exception\Vendor\VendorShipmentNotFoundException: { code: 404, hidden: false }
         App\Exception\CategoryNotFoundException: { code: 404, hidden: false }
-        App\Exception\ProjectNotFoundException: { code: 404, hidden: false }
-        App\Exception\ProductNotFoundException: { code: 404, hidden: false }
+        App\Exception\Project\ProjectNotFoundException: { code: 404, hidden: false }
+        App\Exception\Product\NotFoundException: { code: 404, hidden: false }
+        App\Exception\Product\ProductPaymentNotFoundException: { code: 404, hidden: false }
+        App\Exception\Product\ProductShipmentNotFoundException: { code: 404, hidden: false }
         App\Exception\AttachmentNotFoundException: { code: 404, hidden: false }
         App\Exception\EventNotFoundException: { code: 404, hidden: false }
         App\Exception\TypeNotFoundException: { code: 404, hidden: false }
@@ -63,7 +67,7 @@ parameters:
 services:
     App\Factory\Vendor\VendorFactory:
         class: App\Factory\Vendor\VendorFactory
-        factory: '@VendorSecurityFactory'
+        factory: 'VendorSecurityFactory'
 
 #    App\Factory\Vendor\VendorFactory:
 #        factory: ['App\Factory\Vendor\VendorFactory', 'create']
@@ -151,7 +155,7 @@ services:
             string $vendorTargetDirectory: '%app_vendor_images_directory%'
             string $eventTargetDirectory: '%app_event_images_directory%'
 
-    App\Service\ExceptionMappingResolver:
+    App\Service\System\ExceptionMapping:
         arguments: ['%exceptions%']
 
     App\EventListener\ApiExceptionListener:
