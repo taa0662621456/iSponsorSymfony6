@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\EventSubscriber\Product\ProductInterface;
+use App\Interface\Product\ProductInterface;
 
 class ProductFactory
 {

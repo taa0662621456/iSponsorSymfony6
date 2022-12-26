@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\OrderInterface;
+use App\Interface\Order\OrderInterface;
 
 class AddToCartCommandFactory
 {
