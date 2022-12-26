@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -79,6 +80,7 @@ trait VendorLanguageTrait
 
     #[ORM\OneToOne(inversedBy: 'vendorEnGb', targetEntity: Vendor::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Ignore]
     private Vendor $vendorEnGbVendor;
 
 

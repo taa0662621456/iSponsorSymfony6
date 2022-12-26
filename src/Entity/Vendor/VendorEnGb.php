@@ -3,6 +3,9 @@
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
@@ -15,6 +18,25 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'vendor_en_gb_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+//HELP: https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/
+#[ApiResource(
+    collectionOperations: [],
+    itemOperations: [
+        'get',
+        'put',
+        'delete',
+        'get_by_slug' => [
+            'method' => 'GET',
+            'path' => 'vendor/show/{slug}',
+            'controller' => 'ObjectCRUDsController::class'
+        ]
+    ],
+    denormalizationContext: ["group" => "write"],
+    normalizationContext: ["group" => "read"],
+    order: ["is_active" => "DESC", "locale" => "ASC"],
+    paginationEnabled: false
+)]
+#[ApiFilter(BooleanFilter::class, properties: ["is_active"])]
 class VendorEnGb
 {
     use BaseTrait;

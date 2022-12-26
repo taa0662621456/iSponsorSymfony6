@@ -44,6 +44,7 @@ trait BaseTrait
     #[ORM\Column(name: 'locked_at', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private string $lockedAt  = 'Y-m-d H:i:s';
 
+    #[Groups(['read', 'write'])]
     #[ORM\Column(name: 'locked_by', type: 'integer', nullable: false, options: ['default' => 1])]
     private int $lockedBy = 1;
 

@@ -10,6 +10,7 @@ use App\Entity\Project\Project;
 use App\Entity\Vendor\Vendor;
 use App\Repository\Featured\FeaturedRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 
 #[ORM\Table(name: 'feature')]
@@ -26,15 +27,19 @@ class Featured
     private string $featuredType;
 
     #[ORM\OneToOne(inversedBy: 'projectFeatured', targetEntity: Project::class)]
+    #[Ignore]
     private ?Project $projectFeatured = null;
 
     #[ORM\OneToOne(inversedBy: 'productFeatured', targetEntity: Product::class)]
+    #[Ignore]
     private ?Product $productFeatured = null;
 
     #[ORM\OneToOne(inversedBy: 'categoryFeatured', targetEntity: Category::class)]
+    #[Ignore]
     private ?Category $categoryFeatured = null;
 
     #[ORM\OneToOne(inversedBy: 'vendorFeatured', targetEntity: Vendor::class)]
+    #[Ignore]
     private ?Vendor $vendorFeatured = null;
 
     public function setOrdering($ordering): static

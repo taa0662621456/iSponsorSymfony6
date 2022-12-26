@@ -6,6 +6,7 @@ namespace App\Entity\Project;
 
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait ProjectLanguageTrait
@@ -47,6 +48,7 @@ trait ProjectLanguageTrait
     private string $projectProductDesc = 'project_product_desc';
 
     #[ORM\OneToOne(inversedBy: 'projectEnGb', targetEntity: Project::class)]
+    #[Ignore]
     private Project $projectEnGb;
 
 
