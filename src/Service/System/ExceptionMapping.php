@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exception;
+namespace App\Service\System;
 
 class ExceptionMapping
 {
