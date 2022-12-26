@@ -8,6 +8,7 @@ use App\Entity\ObjectTrait;
 use App\Repository\Vendor\VendorIbanRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'vendor_iban')]
@@ -31,6 +32,7 @@ class VendorIban
 
 	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: Vendor::class, orphanRemoval: true)]
 	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Ignore]
 	private Vendor $vendorIbanVendor;
 
     public function getIban(): ?string

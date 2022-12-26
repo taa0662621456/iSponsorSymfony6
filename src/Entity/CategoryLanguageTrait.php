@@ -8,6 +8,7 @@ use App\Entity\Category\Category;
 use App\Entity\Category\CategoryEnGb;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait CategoryLanguageTrait
@@ -25,6 +26,7 @@ trait CategoryLanguageTrait
     private string $categoryDesc = 'category_desc';
 
     #[ORM\OneToOne(inversedBy: 'categoryEnGb', targetEntity: Category::class)]
+    #[Ignore]
     private CategoryEnGb $categoryEnGbCategory;
 
 

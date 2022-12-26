@@ -16,6 +16,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -121,6 +122,7 @@ class Product
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     #[Assert\Type(type: 'App\Entity\Product\ProductsEnGb')]
     #[Assert\Valid]
+    #[Ignore]
     private ProductEnGb $productEnGb;
 
     #[ORM\ManyToMany(targetEntity: ProductTag::class, inversedBy: 'productTagProduct', cascade: ['persist'])]
@@ -131,12 +133,14 @@ class Product
     #[ORM\OneToOne(mappedBy: 'productPrice', targetEntity: ProductPrice::class, fetch: 'EAGER', orphanRemoval: true)]
     #[Assert\Type(type: 'App\Entity\Product\ProductsPrice')]
     #[Assert\Valid]
+    #[Ignore]
     private ProductPrice $productPrice;
 
     #[ORM\ManyToMany(targetEntity: ProductFavourite::class, mappedBy: 'productFavourite')]
     private Collection $productFavourite;
 
     #[ORM\OneToOne(mappedBy: 'productFeatured', targetEntity: Featured::class)]
+    #[Ignore]
     private Featured $productFeatured;
 
     #[ORM\OneToMany(mappedBy: 'productAttachmentProduct', targetEntity: ProductAttachment::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
