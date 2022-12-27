@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Vendor\Vendor;
@@ -15,6 +16,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['event_id'], name: 'idx_event_id')]
 #[ORM\Index(columns: ['event_invited_by'], name: 'idx_invite_by')]
 #[ORM\Entity]
+#
+#[ApiResource(mercure: true)]
 class EventMember
 {
     use BaseTrait;

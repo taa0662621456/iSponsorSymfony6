@@ -3,7 +3,7 @@
 
 namespace App\Entity\Vendor;
 
-use App\Entity\Attachment\Attachment;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
@@ -17,6 +17,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['slug'], name: 'vendor_document_idx')]
 #[ORM\Entity(repositoryClass: VendorDocumentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(mercure: true)]
 class VendorDocument
 {
 	use BaseTrait;

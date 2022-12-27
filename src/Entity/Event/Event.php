@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use DateTime;
@@ -14,6 +15,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['published'], name: 'event_idx_published')]
 #[ORM\Index(columns: ['cat_id'], name: 'event_idx_cat_id')]
 #[ORM\Entity]
+#
+#[ApiResource(mercure: true)]
 class Event
 {
     use BaseTrait;

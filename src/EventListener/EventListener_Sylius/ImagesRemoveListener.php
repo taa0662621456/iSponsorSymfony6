@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\CoreBundle\EventListener;
+namespace App\EventListener\EventListener_Sylius;
 
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
+use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
 
@@ -19,9 +20,9 @@ final class ImagesRemoveListener
     private array $imagesToDelete = [];
 
     public function __construct(
-        private ImageUploaderInterface $imageUploader,
-        private CacheManager $cacheManager,
-        private FilterManager $filterManager,
+        private readonly ImageUploaderInterface $imageUploader,
+        private readonly CacheManager           $cacheManager,
+        private readonly FilterManager          $filterManager,
     ) {
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\EventListener;
+namespace App\EventListener\EventListener_Sylius;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;

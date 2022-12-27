@@ -23,16 +23,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Order\OrderStorage;
 use Exception;
 
+#[ORM\Table(name: 'vendor')]
+#[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
 #[ApiResource(
     collectionOperations: ['get' => ['normalization_context' => ['groups' => 'vendor:list']]],
     itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']], 'put', 'delete',
         'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class']],
     denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']],
     normalizationContext: ['groups' => 'read'])]
-#[ORM\Table(name: 'vendor')]
-#[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
-#[ORM\Entity(repositoryClass: VendorRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class Vendor implements VendorInterface, \JsonSerializable
 {
     use BaseTrait;

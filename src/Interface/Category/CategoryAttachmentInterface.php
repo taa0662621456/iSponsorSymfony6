@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Category;
 
 use App\Entity\Category\Category;
 use Google\Collection;

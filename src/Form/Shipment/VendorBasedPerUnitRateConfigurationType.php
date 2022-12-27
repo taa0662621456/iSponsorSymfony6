@@ -4,7 +4,8 @@
 namespace App\Form\Shipment;
 
 
-use App\Form\Type\Calculator\PerUnitRateConfigurationType;
+use App\Form\Shipment\Calculator\PerUnitRateConfigurationType;
+use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

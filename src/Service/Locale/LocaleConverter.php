@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Locale;
 
 use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Component\Intl\Locales;

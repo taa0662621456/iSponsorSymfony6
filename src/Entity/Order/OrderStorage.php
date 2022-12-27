@@ -2,6 +2,10 @@
 
 namespace App\Entity\Order;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 
 use App\Entity\Vendor\Vendor;
@@ -13,12 +17,13 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-
-
 #[ORM\Table(name: 'order_storage')]
 #[ORM\Index(columns: ['slug'], name: 'order_idx')]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(mercure: true)]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class OrderStorage
 {
 	use BaseTrait;

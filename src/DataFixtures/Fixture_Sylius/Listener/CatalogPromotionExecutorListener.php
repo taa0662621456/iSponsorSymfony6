@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\DataFixtures\Fixture_Sylius\Listener;
 
-
-
-
-
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Security\Http\Firewall\AbstractListener;
 
 final class CatalogPromotionExecutorListener extends AbstractListener implements AfterFixtureListenerInterface
 {
@@ -42,5 +40,15 @@ final class CatalogPromotionExecutorListener extends AbstractListener implements
     public function getName(): string
     {
         return 'catalog_promotion_processor_executor';
+    }
+
+    public function supports(Request $request): ?bool
+    {
+        // TODO: Implement supports() method.
+    }
+
+    public function authenticate(RequestEvent $event)
+    {
+        // TODO: Implement authenticate() method.
     }
 }

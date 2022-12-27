@@ -3,6 +3,10 @@
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
@@ -13,6 +17,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'vendor_media_idx')]
 #[ORM\Entity(repositoryClass: VendorMediaRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(mercure: true)]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "firstTitle" => "partial",
+    "lastTitle" => "partial",
+])]
 class VendorMedia
 {
 	use BaseTrait;

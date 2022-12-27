@@ -3,6 +3,7 @@
 
 namespace App\Entity\Order;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\OAuthTrait;
 use App\Entity\ObjectTrait;
@@ -17,6 +18,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['slug'], name: 'order_item_idx')]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(mercure: true)]
 class OrderItem
 {
     use BaseTrait;

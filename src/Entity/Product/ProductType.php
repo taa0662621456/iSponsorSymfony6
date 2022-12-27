@@ -2,9 +2,12 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Interface\ProductTypeInterface;
+use App\Interface\Product\ProductTypeInterface;
 use App\Repository\Type\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,6 +17,10 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Table(name: 'product_type')]
 #[ORM\Index(columns: ['slug'], name: 'product_type_idx')]
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductType implements ProductTypeInterface
 {
     use BaseTrait;

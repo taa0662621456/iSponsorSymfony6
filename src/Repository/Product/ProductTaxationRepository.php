@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\ORM;
+namespace App\Repository\Product;
 
 use App\Interface\Product\ProductTaxationInterface;
 use Doctrine\ORM\EntityRepository;

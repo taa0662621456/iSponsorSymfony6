@@ -13,7 +13,9 @@ final class LocaleSetup implements LocaleSetupInterface
 {
     private string $locale;
 
-    public function __construct(private readonly RepositoryInterface $localeRepository, private readonly FactoryInterface $localeFactory, string $locale)
+    public function __construct(private readonly RepositoryInterface $localeRepository,
+                                private readonly FactoryInterface $localeFactory,
+                                string $locale)
     {
         $this->locale = trim($locale);
     }

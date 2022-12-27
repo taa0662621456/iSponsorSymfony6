@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\DQL;
+namespace App\Doctrine\DQL;
 
 use Doctrine\ORM\Query\AST\ArithmeticExpression;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;

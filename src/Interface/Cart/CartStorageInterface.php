@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Cart;
+
+use App\Interface\Order\OrderInterface;
 
 interface CartStorageInterface
 {
 
-    public function setForChannel($getChannel, \App\OrderInterface $cart);
+    public function setForChannel($getChannel, OrderInterface $cart);
 }

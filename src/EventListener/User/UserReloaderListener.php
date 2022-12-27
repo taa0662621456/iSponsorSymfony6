@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventListener\User;
 
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Installer\Setup;
+namespace App\Service\Setup;
 
 use Doctrine\Persistence\ObjectManager;
 

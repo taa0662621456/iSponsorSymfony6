@@ -3,6 +3,7 @@
 
 namespace App\Entity\Order;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Order\OrderRepository;
@@ -11,10 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
 
-#[ORM\Table(name: 'order_logs')]
+#[ORM\Table(name: 'order_log')]
 #[ORM\Index(columns: ['slug'], name: 'order_log_idx')]
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ApiResource(mercure: true)]
 class OrderLog
 {
 	use BaseTrait;
@@ -26,8 +28,8 @@ class OrderLog
 	#[ORM\Column(name: 'customer_notified', type: 'boolean', nullable: false)]
 	private bool $customerNotified = false;
 
-	#[ORM\Column(name: 'comments')]
-	private ?string $comments = null;
+	#[ORM\Column(name: 'comment')]
+	private ?string $comment = null;
 
 	#[ORM\Column(name: 'o_hash')]
 	private ?string $oHash = null;
@@ -60,13 +62,13 @@ class OrderLog
 	{
 		$this->customerNotified = $customerNotified;
 	}
-	public function getComments(): ?string
+	public function getComment(): ?string
 	{
-		return $this->comments;
+		return $this->comment;
 	}
-	public function setComments(?string $comments): void
+	public function setComment(?string $comment): void
 	{
-		$this->comments = $comments;
+		$this->comment = $comment;
 	}
 	public function getOHash(): ?string
 	{

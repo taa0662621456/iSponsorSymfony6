@@ -49,10 +49,10 @@ trait ObjectTrait
         $this->lastTitle = $lastTitle;
     }
     #
-    public function __toString(): string
-    {
-        return $this->firstTitle;
-    }
+//    public function __toString(): string
+//    {
+//        return $this->firstTitle;
+//    }
 
 
 }

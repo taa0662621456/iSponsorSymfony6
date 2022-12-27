@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Locale;
 
-class LocaleRepositoryInterface
+interface LocaleRepositoryInterface
 {
 
 }

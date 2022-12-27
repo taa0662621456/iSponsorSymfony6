@@ -1,14 +1,13 @@
 {
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
         "ext-ctype": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
-        "api-platform/core": "2.6.*",
         "cocur/slugify": "^4.2",
         "composer/package-versions-deprecated": "1.11.99.4",
         "doctrine/annotations": "1.13.*",
@@ -88,7 +87,8 @@
         "twig/twig": "^3.4.0",
         "twilio/sdk": "^6.42",
         "vich/uploader-bundle": "^1.21.1",
-        "webmozart/assert": "1.11.*"
+        "webmozart/assert": "1.11.*",
+        "payum/payum-bundle": "2.5.*"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^6.7",
@@ -105,7 +105,8 @@
         "symfony/panther": "^2.0",
         "symfony/phpunit-bridge": "^6.1",
         "symfony/stopwatch": "6.0.*",
-        "symfony/web-profiler-bundle": "6.0.*"
+        "symfony/web-profiler-bundle": "6.0.*",
+        "liip/functional-test-bundle": "4.6.*"
     },
     "config": {
         "optimize-autoloader": true,

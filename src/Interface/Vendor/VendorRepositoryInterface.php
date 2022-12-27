@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interface;
+namespace App\Interface\Vendor;
 
 use App\Entity\Vendor\Vendor;
 

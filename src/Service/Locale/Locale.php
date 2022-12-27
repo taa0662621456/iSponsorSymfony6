@@ -1,6 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Locale;
+
+use App\Interface\Locale\LocaleInterface;
+use App\Interface\RepositoryInterface;
 
 final class Locale implements LocaleProviderInterface
 {
