@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\DQL;
+namespace App\Doctrine\DQL;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;

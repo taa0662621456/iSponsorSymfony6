@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Doctrine\ORM;
+namespace App\Repository\Shipment;
 
 use App\Interface\CustomerInterface;
 use App\Interface\Vendor\VendorInterface;

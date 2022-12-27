@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventListener\Order;
 
 use Webmozart\Assert\Assert;
 

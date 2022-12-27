@@ -12,7 +12,12 @@ fa:
 	symfony console doctrine:fixtures:load --purge-with-truncate -n --append
 .PHONY: fixturesappenddev
 
+cu:
+	composer update
+
 ff:
+	clear
+	make cu
 	clear
 	symfony console doctrine:schema:drop --force --env=dev --full-database -n
 	# force fixtures

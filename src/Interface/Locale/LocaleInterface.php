@@ -2,7 +2,7 @@
 
 namespace App\Interface\Locale;
 
-class LocaleInterface
+interface LocaleInterface
 {
 
 }

@@ -2,6 +2,10 @@
 
 namespace App\Entity\Category;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\CategoryLanguageTrait;
 use App\Entity\ObjectTrait;
@@ -15,6 +19,13 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['slug'], name: 'category_en_gb_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "firstTitle" => "partial",
+    "lastTitle" => "partial",
+])]
 class CategoryEnGb
 {
     use CategoryLanguageTrait;

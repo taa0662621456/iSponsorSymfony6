@@ -2,6 +2,10 @@
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Repository\Vendor\VendorMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,9 +15,16 @@ use Doctrine\ORM\Mapping as ORM;
  * @package App\Entity\Vendor
  */
 #[ORM\Table(name: 'vendor_message')]
-#[ORM\Index(columns: ['slug'], name: 'vendorMessage_idx')]
+#[ORM\Index(columns: ['slug'], name: 'vendor_message_idx')]
 #[ORM\Entity(repositoryClass: VendorMessageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(mercure: ["private" => true])]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "vendor_message" => "partial",
+    "vendor_message_conversation" => "partial",
+])]
 class VendorMessage
 {
     use BaseTrait;

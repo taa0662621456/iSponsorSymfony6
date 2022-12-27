@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\Extension;
+namespace App\Extension;
 
 
 use Symfony\Component\Form\FormInterface;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\EventListener;
+namespace App\EventListener\EventListener_Sylius;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;

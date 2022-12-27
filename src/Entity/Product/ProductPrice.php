@@ -3,7 +3,11 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use App\Repository\Product\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +16,9 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Table(name: 'product_price')]
 #[ORM\Index(columns: ['slug'], name: 'product_price_idx')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductPrice
 {
 	use BaseTrait;
@@ -24,8 +31,12 @@ class ProductPrice
 
 	#[ORM\OneToOne(inversedBy: 'productPrice', targetEntity: Product::class)]
 	#[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[Assert\Range(
+        minMessage: 'The price must be superior to 0',
+        maxMessage: 'The price can\'t be more than 1M',
+        min: 0, max: 1000000)]
     #[Ignore]
-	private Product|int $productPrice = 0;
+	private Product|float $productPrice = -1.0;
 
 	#[ORM\Column(name: 'override')]
 	private ?bool $override = null;

@@ -2,6 +2,10 @@
 
 namespace App\Entity\Event;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Category\CategoryRepository;
@@ -13,6 +17,13 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['slug'], name: 'event_category_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "firstTitle" => "partial",
+    "lastTitle" => "partial",
+])]
 class EventCategory
 {
     use BaseTrait;

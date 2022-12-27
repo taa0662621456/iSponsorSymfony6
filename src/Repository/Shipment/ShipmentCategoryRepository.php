@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Repository\Shipment;
+namespace App\Repository\Shipment;
 
 class ShipmentCategoryRepository
 {

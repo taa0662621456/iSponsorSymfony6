@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\DataTransformer;
+namespace App\Service\DataTransformer;
 
 use App\Repository\Product\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;

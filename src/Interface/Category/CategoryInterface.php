@@ -1,5 +1,5 @@
 <?php
-namespace App\Interface;
+namespace App\Interface\Category;
 
 use App\Entity\Category\Category;
 use App\Entity\Category\CategoryAttachment;

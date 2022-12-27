@@ -1,9 +1,8 @@
 <?php
 
+namespace App\Form\Shipment\TypeSylius;
 
-namespace App\Form;
-
-
+use Symfony\Component\Form\FormBuilderInterface;
 
 final class ShippingMethodTranslationType extends AbstractResourceType
 {

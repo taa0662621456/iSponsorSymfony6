@@ -9,11 +9,9 @@ use App\Entity\VendorLanguageTrait;
 use App\Repository\Vendor\VendorProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- *
- * @ApiResource()
- *
- */
+#[ApiResource(
+
+)]
 #[ORM\Table(name: 'vendor_profile')]
 #[ORM\Index(columns: ['slug', 'vendor_phone'], name: 'vendor_profile_idx')]
 #[ORM\UniqueConstraint(name: 'vendor_profile_idx', columns: ['slug', 'vendor_phone'])]

@@ -2,9 +2,13 @@
 
 namespace App\Entity\Project;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Interface\ProjectTypeInterface;
+use App\Interface\Project\ProjectTypeInterface;
 use App\Repository\Type\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,6 +18,13 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Table(name: 'project_type')]
 #[ORM\Index(columns: ['slug'], name: 'project_type_idx')]
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
+#
+#[ApiResource()]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "firstTitle" => "partial",
+    "lastTitle" => "partial",
+])]
 class ProjectType implements ProjectTypeInterface
 {
     use BaseTrait;

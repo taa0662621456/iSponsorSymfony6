@@ -2,12 +2,18 @@
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
 #[ORM\Table(name: 'vendor_sms_code_send_storage')]
 #[ORM\Index(columns: ['phone'], name: 'sms_code_send_storage_idx')]
+#[ORM\HasLifecycleCallbacks]
+
+#
+#[ApiResource()]
+
 class VendorCodeStorage
 {
     use BaseTrait;

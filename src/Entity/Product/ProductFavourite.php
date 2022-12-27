@@ -3,6 +3,9 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Repository\Product\ProductFavouriteRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_favourite')]
 #[ORM\Index(columns: ['slug'], name: 'product_favourite_idx')]
 #[ORM\Entity(repositoryClass: ProductFavouriteRepository::class)]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductFavourite
 {
 	use BaseTrait;

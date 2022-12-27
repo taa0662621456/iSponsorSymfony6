@@ -5,7 +5,7 @@ namespace App\Repository\Taxation;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class TaxonRepository extends EntityRepository implements TaxonRepositoryInterface
+class TaxationRepository extends EntityRepository implements TaxonRepositoryInterface
 {
     public function findChildren(string $parentCode, ?string $locale = null): array
     {

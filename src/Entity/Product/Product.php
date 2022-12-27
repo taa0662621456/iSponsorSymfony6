@@ -3,6 +3,10 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
@@ -10,7 +14,7 @@ use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
-use App\Interface\ProductTypeInterface;
+use App\Interface\Product\ProductTypeInterface;
 use App\Repository\Product\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,6 +29,9 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 #[ORM\Index(columns: ['slug'], name: 'product_idx')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class Product
 {
     use BaseTrait;
