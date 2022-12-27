@@ -1,7 +1,8 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\Shipment\TypeSylius;
+
 
 use App\Form\Type\Core\AbstractConfigurationCollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

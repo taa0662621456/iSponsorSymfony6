@@ -3,6 +3,7 @@
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'vendor_favourite')]
 #[ORM\Index(columns: ['slug'], name: 'vendor_favourite_idx')]
 #[ORM\Entity(repositoryClass: VendorRepository::class)]
+#
+#[ApiResource(mercure: true)]
 class VendorFavourite
 {
 	use BaseTrait;

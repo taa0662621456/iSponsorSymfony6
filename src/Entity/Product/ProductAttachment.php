@@ -3,6 +3,9 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\AttachmentTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
@@ -13,6 +16,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'product_attachment_idx')]
 #[ORM\Entity(repositoryClass: ProductAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductAttachment
 {
 	use BaseTrait;

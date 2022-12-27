@@ -3,6 +3,10 @@
 
 namespace App\Entity\Order;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 use App\Entity\BaseTrait;
 use App\Repository\Order\OrderStatusRepository;
@@ -15,6 +19,9 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Index(columns: ['slug'], name: 'order_status_idx')]
 #[ORM\Entity(repositoryClass: OrderStatusRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(mercure: true)]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class OrderStatus
 {
 	use BaseTrait;

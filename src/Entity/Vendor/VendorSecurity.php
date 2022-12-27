@@ -22,20 +22,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints\Length;
 
-
-/**
- *
- * @ApiResource()
- * TODO: https://symfonycasts.com/screencast/api-platform/user-resource#play
- * TODO: не реализовал один из методов интерфейса
- */
 #[ORM\Table(name: 'vendor_security')]
 #[ORM\Index(columns: ['slug', 'email', 'phone'], name: 'vendor_security_idx')]
+#[ORM\Entity(repositoryClass: VendorSecurityRepository::class)]
 #[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
 //#[UniqueEntity(errorPath: 'email', message: 'email.already.use')]
 //#[UniqueEntity(errorPath: 'phone', message: 'phone.already.use')]
-#[ORM\Entity(repositoryClass: VendorSecurityRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource()]
+
 class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
 	use BaseTrait;

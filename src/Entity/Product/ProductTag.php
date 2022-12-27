@@ -2,6 +2,9 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use DateTime;
@@ -16,6 +19,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name: 'product_tag')]
 #[ORM\Index(columns: ['slug'], name: 'product_tag_idx')]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductTag implements JsonSerializable
 {
 	use BaseTrait;

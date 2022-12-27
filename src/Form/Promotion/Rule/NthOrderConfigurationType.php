@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\Type\Promotion\Rule;
+namespace App\Form\Promotion\Rule;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;

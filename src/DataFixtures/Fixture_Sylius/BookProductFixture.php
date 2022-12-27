@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Fixture;
+namespace App\DataFixtures\Fixture_Sylius;
 
 @trigger_error('The "BookProductFixture" class is deprecated since Sylius 1.5 Use new product fixtures class located at "src/Sylius/Bundle/CoreBundle/Fixture/" instead.', \E_USER_DEPRECATED);
 

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Fixture;
+namespace App\DataFixtures\Fixture_Sylius;
 
 use Doctrine\Persistence\ObjectManager;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\User\EventListener_Sylius;
+namespace App\EventListener\EventListener_Sylius;
 
 final class ChannelDeletionListener
 {

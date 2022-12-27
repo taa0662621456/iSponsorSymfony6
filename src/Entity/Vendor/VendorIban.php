@@ -3,6 +3,7 @@
 
 namespace App\Entity\Vendor;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Vendor\VendorIbanRepository;
@@ -15,6 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['slug'], name: 'vendor_iban_idx')]
 #[UniqueEntity('iban')]
 #[ORM\Entity(repositoryClass: VendorIbanRepository::class)]
+#
+#[ApiResource()]
 class VendorIban
 {
 	use BaseTrait;

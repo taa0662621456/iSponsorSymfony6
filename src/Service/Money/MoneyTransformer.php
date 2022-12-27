@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Money;
 
 use Symfony\Component\Form\Extension\Core\DataTransformer\MoneyToLocalizedStringTransformer;
 
