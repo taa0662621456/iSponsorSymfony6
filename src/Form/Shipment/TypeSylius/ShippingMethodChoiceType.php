@@ -1,12 +1,6 @@
 <?php
 
-
-namespace App\Form;
-
-
-
-
-
+namespace App\Form\Shipment\TypeSylius;
 
 
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
@@ -22,9 +16,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class ShippingMethodChoiceType extends AbstractType
 {
     public function __construct(
-        private ShippingMethodsResolverInterface $shippingMethodsResolver,
-        private ServiceRegistryInterface $calculators,
-        private RepositoryInterface $repository,
+        private readonly ShippingMethodsResolverInterface $shippingMethodsResolver,
+        private readonly ServiceRegistryInterface         $calculators,
+        private readonly RepositoryInterface              $repository,
     ) {
     }
 

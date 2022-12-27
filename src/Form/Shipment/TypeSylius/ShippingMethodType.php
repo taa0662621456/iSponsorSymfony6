@@ -1,12 +1,10 @@
 <?php
 
+namespace App\Form\Shipment\TypeSylius;
 
-namespace App\Form;
-
-
-
-
-
+use App\EventSubscriber\AddCodeFormSubscriber;
+use App\Interface\ServiceRegistryInterface;
+use Ramsey\Uuid\Math\CalculatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -19,11 +17,11 @@ use Symfony\Component\Form\FormView;
 final class ShippingMethodType extends AbstractResourceType
 {
     public function __construct(
-        string $dataClass,
-        array $validationGroups,
-        private string $shippingMethodTranslationType,
-        private ServiceRegistryInterface $calculatorRegistry,
-        private FormTypeRegistryInterface $formTypeRegistry,
+        string                                     $dataClass,
+        array                                      $validationGroups,
+        private readonly string                    $shippingMethodTranslationType,
+        private readonly ServiceRegistryInterface  $calculatorRegistry,
+        private readonly FormTypeRegistryInterface $formTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }

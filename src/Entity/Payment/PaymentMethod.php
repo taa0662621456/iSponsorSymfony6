@@ -4,11 +4,23 @@
 namespace App\Entity\Payment;
 
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
+use App\Repository\Payment\PaymentMethodRepository;
 use DateTime;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Table(name: 'payment_method')]
+#[ORM\Index(columns: ['slug'], name: 'payment_method_idx')]
+#[ORM\Entity(repositoryClass: PaymentMethodRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class PaymentMethod
 {
     use BaseTrait;

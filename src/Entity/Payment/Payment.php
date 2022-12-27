@@ -8,6 +8,12 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use DateTime;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Table(name: 'payment')]
+#[ORM\Index(columns: ['slug'], name: 'payment_idx')]
+#[ORM\Entity(repositoryClass: PaymentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 
 class Payment
 {

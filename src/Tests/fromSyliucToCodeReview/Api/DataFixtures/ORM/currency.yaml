@@ -1,3 +1,0 @@
-Sylius\Component\Currency\Model\Currency:
-    currency_usd:
-        code: 'USD'

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\Shipment\TypeSylius;
 
 use Symfony\Component\Form\FormBuilderInterface;
 

@@ -1,9 +1,13 @@
 <?php
 
 
-namespace App\UserBundle\Form\Type;
+namespace App\Form\Vendor\TypeFromSylius;
 
 
+
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 final class UserChangePasswordType extends AbstractResourceType
 {

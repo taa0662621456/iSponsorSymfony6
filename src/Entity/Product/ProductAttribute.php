@@ -3,6 +3,9 @@
 
 namespace App\Entity\Product;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use App\Entity\BaseTrait;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
@@ -24,6 +27,9 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 #[ORM\Index(columns: ['slug'], name: 'product_attribute_idx')]
 #[ORM\Entity(repositoryClass: ProductAttributeRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductAttribute
 {
 

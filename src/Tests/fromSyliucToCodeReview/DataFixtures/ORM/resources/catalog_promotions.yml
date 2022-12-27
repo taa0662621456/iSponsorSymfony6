@@ -1,6 +1,0 @@
-Sylius\Component\Core\Model\CatalogPromotion:
-    sale_1:
-        code: sale1
-        name: Sale1
-        enabled: true
-        state: inactive

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\CoreBundle\Form\Type\Promotion\Action;
+namespace App\Form\Promotion\Action;
 
 
 use App\Interface\Vendor\VendorInterface;
