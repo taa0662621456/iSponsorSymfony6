@@ -46,6 +46,12 @@ services:
       dockerfile: docker/php/php-fpm.Dockerfile
       args:
         DOCKER_IMAGE: ${DOCKER_IMAGE}
+    restart: unless-stopped
+    healthcheck:
+        interval: 10s
+        timeout: 3s
+        retries: 3
+        start_period: 30s
     links:
       - postgres
       - redis
@@ -55,6 +61,13 @@ services:
       ELASTICSEARCH_HOST: 'elasticsearch:9200'
       APP_ENV: 'prod'
       APP_DEBUG: 'false'
+      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-14}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
+      TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|caddy$$
+      MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
+      MERCURE_PUBLIC_URL: https://${SERVER_NAME:-localhost}/.well-known/mercure
+      MERCURE_JWT_SECRET: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+
     tty: true
     working_dir: /var/www
     container_name: php-fpm
@@ -70,6 +83,7 @@ services:
 #      - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
 #      - ./docker/php/conf.d/opcache.ini://usr/local/etc/php/conf.d/opcache.ini
 #        entrypoint: "php -S 0.0.0.0:8000"
+#  - php_socket:/var/run/php
 #    depends_on:
 #      - postgres
 #      - redis
@@ -90,6 +104,45 @@ services:
     networks:
       - dev
   ######################################
+  pwa:
+      build:
+          context: ./pwa
+          target: prod
+      environment:
+          NEXT_PUBLIC_ENTRYPOINT: http://caddy
+  ######################################
+  caddy:
+      build:
+          context: api/
+          target: app_caddy
+      depends_on:
+          - php
+          - pwa
+      environment:
+          PWA_UPSTREAM: pwa:3000
+          SERVER_NAME: ${SERVER_NAME:-localhost}, caddy:80
+          MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+          MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      restart: unless-stopped
+      volumes:
+          - php_socket:/var/run/php
+          - caddy_data:/data
+          - caddy_config:/config
+#      ports:
+          # HTTP
+#          - target: 80
+#              published: ${HTTP_PORT:-80}
+#              protocol: tcp
+          # HTTPS
+#          -   target: 443
+#              published: ${HTTPS_PORT:-443}
+#              protocol: tcp
+          # HTTP/3
+#          -   target: 443
+#              published: ${HTTP3_PORT:-443}
+#              protocol: udp
+  ######################################
+
   php-cli:
     build:
       context: .
@@ -173,6 +226,7 @@ services:
   ######################################
   # https://habr.com/ru/post/578744/
   postgres:
+#    image: postgres:${POSTGRES_VERSION:-14}-alpine
     image: postgres:13.3
 #    build:
 #      context: .
@@ -183,11 +237,15 @@ services:
 #      - .:/docker-entrypoint-initdb.d
       - ./docker/postgres/data:/var/lib/postgresql/data
       - ./docker/postgres/dump:/var/dump
+#      - db_data:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
+#      POSTGRES_DB: ${POSTGRES_DB:-app}
       POSTGRES_DB: ${POSTGRES_DB}
+#      POSTGRES_USER: ${POSTGRES_USER:-app}
       POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: ${WORKSPACE_TIMEZONE}
       PGDATA: "/var/lib/postgresql/data/pgdata"
@@ -298,8 +356,16 @@ services:
 
 volumes:
   postgres:
+  php_socket:
+  caddy_data:
+  caddy_config:
 #  redis:
 #  redis-queue:
+    ###> doctrine/doctrine-bundle ###
+  db_data:
+    ###< doctrine/doctrine-bundle ###
+    ###> symfony/mercure-bundle ###
+    ###< symfony/mercure-bundle ###
 
 
   composer:
