@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Security\Http\Firewall\AbstractListener;
 
-classCatalogPromotionExecutorListener extends AbstractListener implements AfterFixtureListenerInterface
+class CatalogPromotionExecutorListener extends AbstractListener implements AfterFixtureListenerInterface
 {
     public function __construct(
         private AllProductVariantsCatalogPromotionsProcessorInterface $allCatalogPromotionsProcessor,

@@ -3,15 +3,14 @@
 
 namespace App\DataFixtures\Fixture_Sylius;
 
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-
-
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract final class AbstractResourceFixture implements FixtureInterface
+abstract class AbstractResourceFixture implements FixtureInterface
 {
     private OptionsResolver $optionsResolver;
 
