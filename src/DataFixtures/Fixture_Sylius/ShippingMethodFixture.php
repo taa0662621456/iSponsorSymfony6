@@ -5,7 +5,7 @@ namespace App\DataFixtures\Fixture_Sylius;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class ShippingMethodFixture extends AbstractResourceFixture
+final class ShippingMethodFixture extends AbstractResourceFixture
 {
     public function getName(): string
     {

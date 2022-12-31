@@ -14,7 +14,7 @@ use SM\Factory\FactoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductReviewExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class ProductReviewExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

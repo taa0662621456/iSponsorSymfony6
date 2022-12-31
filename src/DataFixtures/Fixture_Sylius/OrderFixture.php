@@ -16,7 +16,7 @@ use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class OrderFixture extends AbstractFixture
+final class OrderFixture extends AbstractFixture
 {
     /** @var OrderExampleFactory */
     protected $orderExampleFactory;

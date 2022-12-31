@@ -11,7 +11,7 @@ namespace App\DataFixtures\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductAssociationExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class ProductAssociationExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private OptionsResolver $optionsResolver;
 
