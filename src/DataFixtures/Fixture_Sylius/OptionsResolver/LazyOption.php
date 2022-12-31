@@ -3,6 +3,7 @@
 
 namespace App\DataFixtures\Fixture_Sylius\OptionsResolver;
 
+use App\Interface\RepositoryInterface;
 use Doctrine\Common\Collections\Collection;
 
 use Symfony\Component\OptionsResolver\Options;
@@ -24,7 +25,7 @@ use Webmozart\Assert\Assert;
  *     - random one if user skipped that option ([])
  *     - specific one if user defined that option (['option' => 'CODE'])
  */
-classLazyOption
+class LazyOption
 {
     public static function randomOne(RepositoryInterface $repository, array $criteria = []): \Closure
     {
