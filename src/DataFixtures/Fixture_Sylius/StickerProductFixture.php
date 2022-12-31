@@ -12,7 +12,7 @@ use Faker\Generator;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class StickerProductFixture extends AbstractFixture
+final class StickerProductFixture extends AbstractFixture
 {
     private Generator $faker;
 

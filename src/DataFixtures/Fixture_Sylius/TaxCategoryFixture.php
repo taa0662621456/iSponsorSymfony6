@@ -5,7 +5,7 @@ namespace App\DataFixtures\Fixture_Sylius;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class TaxCategoryFixture extends AbstractResourceFixture
+final class TaxCategoryFixture extends AbstractResourceFixture
 {
     public function getName(): string
     {

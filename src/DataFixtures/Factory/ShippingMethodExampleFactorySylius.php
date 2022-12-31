@@ -7,7 +7,7 @@ use Faker\Generator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ShippingMethodExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
+final class ShippingMethodExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

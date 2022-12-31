@@ -5,7 +5,7 @@ namespace App\DataFixtures\Fixture_Sylius;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class ShopUserFixture extends AbstractResourceFixture
+final class ShopUserFixture extends AbstractResourceFixture
 {
     public function getName(): string
     {

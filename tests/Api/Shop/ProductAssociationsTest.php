@@ -1,10 +1,19 @@
 <?php
 
 
-namespace Shop;
+namespace App\Tests\Api\Shop;
 
+use App\Tests\Api\tests\Api\JsonApiTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
-use SyliusInterface $association */
+final class ProductAssociationsTest extends JsonApiTestCase
+{
+    /** @test */
+    public function it_gets_product_association(): void
+    {
+        $fixtures = $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
+
+        /** @var ProductAssociationInterface $association */
         $association = $fixtures['product_association'];
         $this->client->request('GET',
             sprintf('/api/v2/shop/product-associations/%s', $association->getId()),

@@ -1,10 +1,18 @@
 <?php
 
+namespace App\Tests\Api\Shop;
 
-namespace Shop;
+use App\Tests\Api\tests\Api\JsonApiTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
+final class ProductReviewsTest extends JsonApiTestCase
+{
+    /** @test */
+    public function it_gets_product_review(): void
+    {
+        $fixtures = $this->loadFixturesFromFile('product/product_review.yaml');
 
-use SyliusInterface $review */
+        /** @var ReviewInterface $review */
         $review = $fixtures['customer_review'];
 
         $this->client->request(

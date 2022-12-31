@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class ProductAttributeFixture extends AbstractResourceFixture
+final class ProductAttributeFixture extends AbstractResourceFixture
 {
     private array $attributeTypes;
 

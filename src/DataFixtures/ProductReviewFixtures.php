@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
+final class ProductReviewFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)

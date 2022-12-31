@@ -3,7 +3,7 @@
 
 namespace App\DataFixtures\Fixture_Sylius;
 
-@trigger_error('The "BookProductFixture" class is deprecated since Sylius 1.5 Use new product fixtures class located at "src/Sylius/Bundle/CoreBundle/Fixture/" instead.', \E_USER_DEPRECATED);
+@trigger_error('The "BookProductFixture" final class is deprecated since Sylius 1.5 Use new product fixtures final class located at "src/Sylius/Bundle/CoreBundle/Fixture/" instead.', \E_USER_DEPRECATED);
 
 use Faker\Factory;
 use Faker\Generator;
@@ -14,7 +14,7 @@ use Sylius\Component\Attribute\AttributeType\TextAttributeType;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BookProductFixture extends AbstractFixture
+final class BookProductFixture extends AbstractFixture
 {
     private Generator $faker;
 

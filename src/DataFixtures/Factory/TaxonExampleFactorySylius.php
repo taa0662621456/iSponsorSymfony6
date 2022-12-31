@@ -14,7 +14,7 @@ use Faker\Generator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TaxonExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class TaxonExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

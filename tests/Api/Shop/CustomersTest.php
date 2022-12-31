@@ -1,8 +1,22 @@
 <?php
 
-/*
- * This file is part of the SyliusInterface;
-use SyliusInterface $customer */
+namespace App\Tests\Api\Shop;
+
+use App\Tests\Api\tests\Api\JsonApiTestCase;
+use App\Tests\Api\Utils\ShopUserLoginTrait;
+use Symfony\Component\HttpFoundation\Response;
+
+final class CustomersTest extends JsonApiTestCase
+{
+    use ShopUserLoginTrait;
+
+    /** @test */
+    public function it_returns_small_amount_of_data_on_customer_update(): void
+    {
+        $loadedData = $this->loadFixturesFromFiles(['authentication/customer.yaml']);
+        $token = $this->logInShopUser('oliver@doe.com');
+
+        /** @var CustomerInterface $customer */
         $customer = $loadedData['customer_oliver'];
 
         $this->client->request(
@@ -40,7 +54,7 @@ use SyliusInterface $customer */
                 'firstName' => 'John',
                 'lastName' => 'Doe',
                 'email' => 'shop@example.com',
-                'password' => 'isponsor',
+                'password' => 'sylius',
                 'subscribedToNewsletter' => true,
             ])
         );
@@ -63,7 +77,7 @@ use SyliusInterface $customer */
             self::CONTENT_TYPE_HEADER,
             json_encode([
                 'email' => 'oliver@doe.com',
-                'password' => 'isponsor'
+                'password' => 'sylius'
             ])
         );
 

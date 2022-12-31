@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Filesystem\Filesystem;
 
-class VendorMediaFixtures extends Fixture implements DependentFixtureInterface
+final class VendorMediaFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
