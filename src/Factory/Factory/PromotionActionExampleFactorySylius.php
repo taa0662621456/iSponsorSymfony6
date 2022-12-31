@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
 use Faker\Factory;
 use Faker\Generator;
@@ -10,13 +10,13 @@ use Faker\Generator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class PromotionRuleExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class PromotionActionExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 
     private OptionsResolver $optionsResolver;
 
-    public function __construct(private PromotionRuleFactoryInterface $promotionRuleFactory)
+    public function __construct(private PromotionActionFactoryInterface $promotionActionFactory)
     {
         $this->faker = Factory::create();
         $this->optionsResolver = new OptionsResolver();
@@ -24,31 +24,39 @@ final class PromotionRuleExampleFactorySylius extends SyliusAbstractExampleFacto
         $this->configureOptions($this->optionsResolver);
     }
 
-    public function create(array $options = []): PromotionRuleInterface
+    public function create(array $options = []): PromotionActionInterface
     {
         $options = $this->optionsResolver->resolve($options);
 
-        /** @var PromotionRuleInterface $promotionRule */
-        $promotionRule = $this->promotionRuleFactory->createNew();
-        $promotionRule->setType($options['type']);
-        $promotionRule->setConfiguration($options['configuration']);
+        /** @var PromotionActionInterface $promotionAction */
+        $promotionAction = $this->promotionActionFactory->createNew();
+        $promotionAction->setType($options['type']);
+        $promotionAction->setConfiguration($options['configuration']);
 
-        return $promotionRule;
+        return $promotionAction;
     }
 
     protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
-            ->setDefault('type', CartQuantityRuleChecker::TYPE)
+            ->setDefault('type', PercentageDiscountPromotionActionCommand::TYPE)
             ->setAllowedTypes('type', 'string')
             ->setDefault('configuration', [
-                'count' => $this->faker->randomNumber(1),
+                'percentage' => $this->faker->randomNumber(2),
             ])
             ->setNormalizer('configuration', function (Options $options, array $configuration): array {
                 foreach ($configuration as $channelCode => $channelConfiguration) {
                     if (isset($channelConfiguration['amount'])) {
                         $configuration[$channelCode]['amount'] = (int) ($configuration[$channelCode]['amount'] * 100);
                     }
+
+                    if (isset($channelConfiguration['percentage'])) {
+                        $configuration[$channelCode]['percentage'] /= 100;
+                    }
+                }
+
+                if (isset($configuration['percentage'])) {
+                    $configuration['percentage'] /= 100;
                 }
 
                 return $configuration;

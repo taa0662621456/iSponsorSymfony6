@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
 use Faker\Factory;
 use Faker\Generator;
@@ -12,16 +12,15 @@ use Faker\Generator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class ProductAttributeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class ProductAssociationTypeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 
     private OptionsResolver $optionsResolver;
 
     public function __construct(
-        private AttributeFactoryInterface $productAttributeFactory,
+        private FactoryInterface $productAssociationTypeFactory,
         private RepositoryInterface $localeRepository,
-        private array $attributeTypes,
     ) {
         $this->faker = Factory::create();
         $this->optionsResolver = new OptionsResolver();
@@ -29,25 +28,22 @@ final class ProductAttributeExampleFactorySylius extends SyliusAbstractExampleFa
         $this->configureOptions($this->optionsResolver);
     }
 
-    public function create(array $options = []): ProductAttributeInterface
+    public function create(array $options = []): ProductAssociationTypeInterface
     {
         $options = $this->optionsResolver->resolve($options);
 
-        /** @var ProductAttributeInterface $productAttribute */
-        $productAttribute = $this->productAttributeFactory->createTyped($options['type']);
-        $productAttribute->setCode($options['code']);
-        $productAttribute->setTranslatable($options['translatable']);
+        /** @var ProductAssociationTypeInterface $productAssociationType */
+        $productAssociationType = $this->productAssociationTypeFactory->createNew();
+        $productAssociationType->setCode($options['code']);
 
         foreach ($this->getLocales() as $localeCode) {
-            $productAttribute->setCurrentLocale($localeCode);
-            $productAttribute->setFallbackLocale($localeCode);
+            $productAssociationType->setCurrentLocale($localeCode);
+            $productAssociationType->setFallbackLocale($localeCode);
 
-            $productAttribute->setName($options['name']);
+            $productAssociationType->setName($options['name']);
         }
 
-        $productAttribute->setConfiguration($options['configuration']);
-
-        return $productAttribute;
+        return $productAssociationType;
     }
 
     protected function configureOptions(OptionsResolver $resolver): void
@@ -59,11 +55,7 @@ final class ProductAttributeExampleFactorySylius extends SyliusAbstractExampleFa
 
                 return $words;
             })
-            ->setDefault('translatable', true)
             ->setDefault('code', fn (Options $options): string => StringInflector::nameToCode($options['name']))
-            ->setDefault('type', fn (Options $options): string => $this->faker->randomElement(array_keys($this->attributeTypes)))
-            ->setDefault('configuration', fn (Options $options): array => [])
-            ->setAllowedValues('type', array_keys($this->attributeTypes))
         ;
     }
 

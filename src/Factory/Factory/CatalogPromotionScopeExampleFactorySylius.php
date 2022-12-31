@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
 
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-classCatalogPromotionScopeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+class CatalogPromotionScopeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private OptionsResolver $optionsResolver;
 

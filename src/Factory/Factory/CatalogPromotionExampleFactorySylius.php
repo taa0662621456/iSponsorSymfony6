@@ -1,14 +1,14 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
+use App\Interface\ExampleFactoryInterface;
+use App\Interface\Factory\FactoryInterface;
+use App\Interface\RepositoryInterface;
+use App\Interface\Vendor\VendorRepositoryInterface;
 use Faker\Factory;
 use Faker\Generator;
-
-
-
-
 
 
 
@@ -22,11 +22,11 @@ final class CatalogPromotionExampleFactorySylius extends SyliusAbstractExampleFa
     private OptionsResolver $optionsResolver;
 
     public function __construct(
-        private FactoryInterface $catalogPromotionFactory,
-        private RepositoryInterface $localeRepository,
-        private ChannelRepositoryInterface $channelRepository,
-        private ExampleFactoryInterface $catalogPromotionScopeExampleFactory,
-        private ExampleFactoryInterface $catalogPromotionActionExampleFactory,
+        private readonly FactoryInterface           $catalogPromotionFactory,
+        private readonly RepositoryInterface        $localeRepository,
+        private readonly VendorRepositoryInterface $channelRepository,
+        private readonly ExampleFactoryInterface    $catalogPromotionScopeExampleFactory,
+        private readonly ExampleFactoryInterface    $catalogPromotionActionExampleFactory,
     ) {
         $this->faker = Factory::create();
         $this->optionsResolver = new OptionsResolver();
