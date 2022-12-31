@@ -1,18 +1,18 @@
 <?php
 
-
-namespace App\DataFixtures\Factory;
-
+namespace App\Factory\Factory;
 
 
+use App\Interface\ExampleFactoryInterface;
+use App\Interface\Factory\FactoryInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-classCatalogPromotionActionExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+class CatalogPromotionActionExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private OptionsResolver $optionsResolver;
 
-    public function __construct(private FactoryInterface $catalogPromotionActionFactory)
+    public function __construct(private readonly FactoryInterface $catalogPromotionActionFactory)
     {
         $this->optionsResolver = new OptionsResolver();
 
