@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Admin;
+namespace App\Tests\Api\Admin;
 
 use Sylius\Tests\Api\JsonApiTestCase;
 use Symfony\Component\HttpFoundation\Request;

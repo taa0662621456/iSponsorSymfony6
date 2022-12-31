@@ -1,11 +1,55 @@
 <?php
 
-/*
- * This file is part of the SyliusInterface;
-use SyliusInterface $customer */
+namespace App\Tests\Api\Shop;
+
+use App\Tests\Api\tests\Api\JsonApiTestCase;
+use App\Tests\Api\Utils\ShopUserLoginTrait;
+use Symfony\Component\HttpFoundation\Response;
+
+final class SendContactRequestTest extends JsonApiTestCase
+{
+    use ShopUserLoginTrait;
+
+    /** @test */
+    public function it_sends_contact_request(): void
+    {
+        self::getContainer();
+
+        $this->loadFixturesFromFiles(['channel.yaml']);
+
+        $this->client->request(
+            'POST',
+            '/api/v2/shop/contact-requests',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/ld+json',
+                'HTTP_ACCEPT' => 'application/ld+json',
+            ],
+            json_encode([
+                'email' => 'customer@email.com',
+                'message' => 'Example of message'
+            ])
+        );
+
+        $response = $this->client->getResponse();
+
+        $this->assertResponseCode($response, Response::HTTP_ACCEPTED);
+        self::assertEmailCount(1);
+        self::assertEmailAddressContains(self::getMailerMessage(), 'To', 'web@sylius.com');
+    }
+
+    /** @test */
+    public function it_sends_contact_request_as_logged_in_user(): void
+    {
+        self::getContainer();
+
+        $fixtures = $this->loadFixturesFromFiles(['channel.yaml', 'authentication/customer.yaml']);
+
+        /** @var CustomerInterface $customer */
         $customer = $fixtures['customer_oliver'];
 
-        $authorizationHeader = $this->getAuthorizationHeaderAsCustomer($customer->getEmailCanonical(), 'isponsor');
+        $authorizationHeader = $this->getAuthorizationHeaderAsCustomer($customer->getEmailCanonical(), 'sylius');
 
         $this->client->request(
             'POST',

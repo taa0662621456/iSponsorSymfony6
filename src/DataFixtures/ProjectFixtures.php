@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use JetBrains\PhpStorm\NoReturn;
 
-class ProjectFixtures extends Fixture implements DependentFixtureInterface
+final class ProjectFixtures extends Fixture implements DependentFixtureInterface
 {
 
     #[NoReturn]

@@ -5,7 +5,7 @@ namespace App\DataFixtures\Fixture_Sylius;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class PaymentMethodFixture extends AbstractResourceFixture
+final class PaymentMethodFixture extends AbstractResourceFixture
 {
     public function getName(): string
     {

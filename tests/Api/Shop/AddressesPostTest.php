@@ -1,11 +1,17 @@
 <?php
 
+namespace App\Tests\Api\Shop;
 
-namespace Shop;
+use App\Tests\Api\tests\Api\JsonApiTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
-
-
-use SyliusInterface $country */
+final class AddressesPostTest extends JsonApiTestCase
+{
+    /** @test */
+    public function it_denies_access_to_a_create_an_address_for_not_authenticated_user(): void
+    {
+        $fixtures = $this->loadFixturesFromFiles(['authentication/customer.yaml', 'country.yaml']);
+        /** @var CountryInterface $country */
         $country = $fixtures['country_US'];
 
         $bodyRequest = $this->createBodyRequest($country->getCode());
@@ -32,7 +38,7 @@ use SyliusInterface $country */
         /** @var CountryInterface $country */
         $country = $fixtures['country_US'];
 
-        $authorizationHeader = $this->getAuthorizationHeaderAsCustomer($customer->getEmailCanonical(), 'isponsor');
+        $authorizationHeader = $this->getAuthorizationHeaderAsCustomer($customer->getEmailCanonical(), 'sylius');
 
         $bodyRequest = $this->createBodyRequest($country->getCode());
 

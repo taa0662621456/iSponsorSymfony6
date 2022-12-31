@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Shop;
+namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
 

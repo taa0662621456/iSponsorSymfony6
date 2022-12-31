@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Webmozart\Assert\Assert;
 
-class ProductExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
+final class ProductExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

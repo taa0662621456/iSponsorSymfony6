@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Webmozart\Assert\Assert;
 
-class AddressExampleFactorySylius extends SyliusAbstractExampleFactory
+final class AddressExampleFactorySylius extends SyliusAbstractExampleFactory
 {
     private Generator $faker;
 

@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures\Fixture_Sylius\Listener;
 
-final class ImagesPurgerListener extends AbstractListener implements BeforeSuiteListenerInterface
+classImagesPurgerListener extends AbstractListener implements BeforeSuiteListenerInterface
 {
     public function __construct(private Filesystem $filesystem, private string $imagesDirectoryPath)
     {

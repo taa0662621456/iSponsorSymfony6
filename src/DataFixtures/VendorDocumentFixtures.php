@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\Filesystem\Filesystem;
 
-class VendorDocumentFixtures extends Fixture implements DependentFixtureInterface
+final class VendorDocumentFixtures extends Fixture implements DependentFixtureInterface
 {
 
     /**

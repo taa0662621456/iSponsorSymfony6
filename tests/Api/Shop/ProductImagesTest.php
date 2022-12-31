@@ -1,10 +1,17 @@
 <?php
 
+namespace App\Tests\Api\Shop;
 
-namespace Shop;
+use App\Tests\Api\tests\Api\JsonApiTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
-
-use SyliusInterface $productImage */
+final class ProductImagesTest extends JsonApiTestCase
+{
+    /** @test */
+    public function it_gets_one_product_image(): void
+    {
+        $fixtures = $this->loadFixturesFromFiles(['product/product_image.yaml', 'authentication/api_administrator.yaml']);
+        /** @var ProductImageInterface $productImage */
         $productImage = $fixtures["product_thumbnail"];
 
         $this->client->request(
@@ -29,7 +36,7 @@ use SyliusInterface $productImage */
         $this->client->request(
             'GET',
             sprintf('/api/v2/shop/product-images/%s', (string) $productImage->getId()),
-            ['filter' => 'small'],
+            ['filter' => 'sylius_small'],
             [],
             self::CONTENT_TYPE_HEADER
         );

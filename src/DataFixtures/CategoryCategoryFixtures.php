@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
-class CategoryCategoryFixtures extends Fixture implements DependentFixtureInterface
+final class CategoryCategoryFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)

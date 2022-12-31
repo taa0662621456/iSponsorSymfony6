@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdminUserExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class AdminUserExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

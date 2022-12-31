@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class LocaleFixture extends AbstractFixture
+final class LocaleFixture extends AbstractFixture
 {
     /**
      * @param string $baseLocaleCode
