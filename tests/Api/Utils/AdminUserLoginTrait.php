@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Utils;
+namespace App\Tests\Api\Utils;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 

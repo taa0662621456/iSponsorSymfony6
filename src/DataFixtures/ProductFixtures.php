@@ -9,7 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 
-class ProductFixtures extends Fixture implements DependentFixtureInterface
+final class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
 
 	public function load(ObjectManager $manager)

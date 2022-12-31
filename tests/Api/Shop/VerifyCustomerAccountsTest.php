@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Shop;
+namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
 use Sylius\Tests\Api\Utils\ShopUserLoginTrait;

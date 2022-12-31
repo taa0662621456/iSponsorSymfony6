@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PromotionExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
+final class PromotionExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

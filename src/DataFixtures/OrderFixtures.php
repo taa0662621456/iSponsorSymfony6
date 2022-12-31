@@ -10,7 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Faker\Factory;
 
-class OrderFixtures extends Fixture implements DependentFixtureInterface
+final class OrderFixtures extends Fixture implements DependentFixtureInterface
 {
     /**
      * @throws Exception

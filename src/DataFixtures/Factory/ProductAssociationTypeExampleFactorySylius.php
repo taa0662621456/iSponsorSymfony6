@@ -12,7 +12,7 @@ use Faker\Generator;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductAssociationTypeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+final class ProductAssociationTypeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private Generator $faker;
 

@@ -11,7 +11,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract class AbstractResourceFixture implements FixtureInterface
+abstract final class AbstractResourceFixture implements FixtureInterface
 {
     private OptionsResolver $optionsResolver;
 

@@ -7,7 +7,7 @@ namespace App\DataFixtures\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-final class CatalogPromotionScopeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
+classCatalogPromotionScopeExampleFactorySylius extends SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     private OptionsResolver $optionsResolver;
 

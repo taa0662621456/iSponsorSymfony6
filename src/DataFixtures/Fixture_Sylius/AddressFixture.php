@@ -5,7 +5,7 @@ namespace App\DataFixtures\Fixture_Sylius;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class AddressFixture extends AbstractResourceFixture
+final class AddressFixture extends AbstractResourceFixture
 {
     public function getName(): string
     {

@@ -10,7 +10,7 @@ use Faker\Generator;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SimilarProductAssociationFixture extends AbstractFixture
+final class SimilarProductAssociationFixture extends AbstractFixture
 {
     private Generator $faker;
 

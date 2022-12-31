@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 
-class BaseEmptyFixtures extends Fixture
+final class BaseEmptyFixtures extends Fixture
 {
     public const EMPTY_FIXTURE = 'emptyFixture';
     public const TOTAL_PROJECTS = 20;

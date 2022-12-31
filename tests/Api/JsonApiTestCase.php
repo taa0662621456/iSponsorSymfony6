@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Api;
+namespace App\Tests\Api\tests\Api;
 
 use ApiTestCase\JsonApiTestCase as BaseJsonApiTestCase;
 

@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-class CurrencyFixture extends AbstractFixture
+final class CurrencyFixture extends AbstractFixture
 {
     public function __construct(private FactoryInterface $currencyFactory, private ObjectManager $currencyManager)
     {

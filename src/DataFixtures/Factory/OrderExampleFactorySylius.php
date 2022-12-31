@@ -8,7 +8,7 @@ use Faker\Factory;
 use Faker\Generator;
 use SM\Factory\FactoryInterface as StateMachineFactoryInterface;
 
-class OrderExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
+final class OrderExampleFactorySylius extends AbstractExampleFactory implements ExampleFactoryInterface
 {
     /** @var OptionsResolver */
     protected $optionsResolver;

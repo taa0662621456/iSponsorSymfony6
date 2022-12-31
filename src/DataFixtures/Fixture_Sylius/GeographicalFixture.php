@@ -13,7 +13,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Intl\Countries;
 use Webmozart\Assert\Assert;
 
-class GeographicalFixture extends AbstractFixture
+final class GeographicalFixture extends AbstractFixture
 {
     public function __construct(
         private FactoryInterface $countryFactory,

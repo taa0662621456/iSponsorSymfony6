@@ -24,7 +24,7 @@ use Webmozart\Assert\Assert;
  *     - random one if user skipped that option ([])
  *     - specific one if user defined that option (['option' => 'CODE'])
  */
-final class LazyOption
+classLazyOption
 {
     public static function randomOne(RepositoryInterface $repository, array $criteria = []): \Closure
     {
