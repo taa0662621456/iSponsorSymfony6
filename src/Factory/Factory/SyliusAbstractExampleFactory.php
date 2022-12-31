@@ -1,11 +1,11 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract final class SyliusAbstractExampleFactory implements ExampleFactoryInterface
+abstract class SyliusAbstractExampleFactory implements ExampleFactoryInterface
 {
     abstract protected function configureOptions(OptionsResolver $resolver): void;
 }

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
 use App\DataFixtures\Fixture_Sylius\OptionsResolver\LazyOption;
 use App\Interface\CustomerInterface;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\DataFixtures\Factory;
+namespace App\Factory\Factory;
 
 use App\Interface\Factory\FactoryInterface;
 use Faker\Factory;
