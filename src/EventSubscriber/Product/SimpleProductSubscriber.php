@@ -1,8 +1,9 @@
 <?php
 
-
 namespace App\EventSubscriber\Product;
 
+use App\Form\Product\ProductBundle\ProductVariantType;
+use App\Interface\Product\ProductInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
@@ -12,7 +13,7 @@ use Webmozart\Assert\Assert;
 
 final class SimpleProductSubscriber implements EventSubscriberInterface
 {
-    #[ArrayShape([FormEvents::PRE_SET_DATA => "string", FormEvents::PRE_SUBMIT => "string"])]
+    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string', FormEvents::PRE_SUBMIT => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -25,7 +26,7 @@ final class SimpleProductSubscriber implements EventSubscriberInterface
     {
         $product = $event->getData();
 
-        /** @var ProductInterface $product */
+        /* @var ProductInterface $product */
         Assert::isInstanceOf($product, ProductInterface::class);
 
         if ($product->isSimple()) {

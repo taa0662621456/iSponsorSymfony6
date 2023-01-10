@@ -4,9 +4,9 @@
 namespace App\Entity\Order;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\OAuthTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\Product\Product;
 use App\Entity\Vendor\Vendor;
 use App\Repository\Order\OrderRepository;
@@ -22,8 +22,8 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(mercure: true)]
 class OrderItem
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
     #[ORM\Column(name: 'item_id', nullable: true)]
     private ?int $itemId = null;

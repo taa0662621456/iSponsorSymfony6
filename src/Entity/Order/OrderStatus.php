@@ -8,7 +8,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Repository\Order\OrderStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,7 +24,7 @@ use Symfony\Component\Uid\Uuid;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class OrderStatus
 {
-	use BaseTrait;
+	use ObjectBaseTrait;
 
 	#[ORM\Column(name: 'order_status_code', type: 'string', nullable: false, options: ['default' => ''])]
 	private string $orderStatusCode = '';

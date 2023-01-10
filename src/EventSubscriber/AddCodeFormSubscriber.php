@@ -2,27 +2,27 @@
 
 namespace App\EventSubscriber;
 
-
+use App\Interface\CodeAwareInterface;
+use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
-final class AddCodeFormSubscriber implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
+final class AddCodeFormSubscriber implements EventSubscriberInterface
 {
     private string $type;
 
     private array $options;
 
-    /**
-     * @param string $type
-     */
     public function __construct(?string $type = null, array $options = [])
     {
         $this->type = $type ?? TextType::class;
         $this->options = $options;
     }
 
+    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -48,5 +48,4 @@ final class AddCodeFormSubscriber implements \Symfony\Component\EventDispatcher\
             ['disabled' => $disabled],
         ));
     }
-
 }

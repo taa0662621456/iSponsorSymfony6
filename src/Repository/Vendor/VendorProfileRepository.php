@@ -2,7 +2,6 @@
 
 namespace App\Repository\Vendor;
 
-use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorProfile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -20,16 +19,14 @@ class VendorProfileRepository extends ServiceEntityRepository
         parent::__construct($registry, VendorProfile::class);
     }
 
-
     /**
      * @param $vendorId
-     * @return VendorProfile
      */
     public function findActiveVendorById($vendorId): VendorProfile
     {
         return $this->findOneBy([
             'id' => (int) $vendorId,
-            'iaActive' => true
+            'iaActive' => true,
         ]);
     }
 
@@ -37,13 +34,11 @@ class VendorProfileRepository extends ServiceEntityRepository
     {
         return $this->findOneBy([
             'apiToken' => $vendorId,
-            'isActive' => true
+            'isActive' => true,
         ]);
     }
 
     public function setIsActive(bool $true)
     {
     }
-
-
 }

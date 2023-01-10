@@ -5,7 +5,7 @@ use App\DataFixtures\Fixture_Sylius\OptionsResolver\LazyOption;
 use App\Form\Product\AttributeType\SelectAttributeType;
 use App\Interface\ExampleFactoryInterface;
 use App\Interface\Factory\FactoryInterface;
-use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductPropertyInterface;
 use App\Interface\Product\ProductVariantGeneratorInterface;
 use App\Interface\Product\ProductVariantInterface;
 use App\Interface\RepositoryInterface;
@@ -52,11 +52,11 @@ final class ProductExampleFactorySylius extends AbstractExampleFactory implement
         $this->configureOptions($this->optionsResolver);
     }
 
-    public function create(array $options = []): ProductInterface
+    public function create(array $options = []): ProductPropertyInterface
     {
         $options = $this->optionsResolver->resolve($options);
 
-        /** @var ProductInterface $product */
+        /** @var ProductPropertyInterface $product */
         $product = $this->productFactory->createNew();
         $product->setVariantSelectionMethod($options['variant_selection_method']);
         $product->setCode($options['code']);
@@ -140,7 +140,7 @@ final class ProductExampleFactorySylius extends AbstractExampleFactory implement
         }
     }
 
-    private function createTranslations(ProductInterface $product, array $options): void
+    private function createTranslations(ProductPropertyInterface $product, array $options): void
     {
         foreach ($this->getLocales() as $localeCode) {
             $product->setCurrentLocale($localeCode);
@@ -153,7 +153,7 @@ final class ProductExampleFactorySylius extends AbstractExampleFactory implement
         }
     }
 
-    private function createRelations(ProductInterface $product, array $options): void
+    private function createRelations(ProductPropertyInterface $product, array $options): void
     {
         foreach ($options['channels'] as $channel) {
             $product->addChannel($channel);
@@ -168,7 +168,7 @@ final class ProductExampleFactorySylius extends AbstractExampleFactory implement
         }
     }
 
-    private function createVariants(ProductInterface $product, array $options): void
+    private function createVariants(ProductPropertyInterface $product, array $options): void
     {
         try {
             $this->variantGenerator->generate($product);
@@ -210,7 +210,7 @@ final class ProductExampleFactorySylius extends AbstractExampleFactory implement
         $productVariant->addChannelPricing($channelPricing);
     }
 
-    private function createImages(ProductInterface $product, array $options): void
+    private function createImages(ProductPropertyInterface $product, array $options): void
     {
         foreach ($options['images'] as $image) {
             if (!array_key_exists('path', $image)) {
@@ -241,7 +241,7 @@ final class ProductExampleFactorySylius extends AbstractExampleFactory implement
         }
     }
 
-    private function createProductTaxons(ProductInterface $product, array $options): void
+    private function createProductTaxons(ProductPropertyInterface $product, array $options): void
     {
         foreach ($options['taxons'] as $taxon) {
             /** @var ProductTaxonInterface $productTaxon */

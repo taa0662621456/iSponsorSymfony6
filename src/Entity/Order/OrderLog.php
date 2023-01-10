@@ -4,8 +4,8 @@
 namespace App\Entity\Order;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Repository\Order\OrderRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,8 +19,8 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(mercure: true)]
 class OrderLog
 {
-	use BaseTrait;
-    use ObjectTrait;
+	use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
 	#[ORM\ManyToOne(targetEntity: OrderStatus::class)]
 	private OrderStatus $orderStatusCode;

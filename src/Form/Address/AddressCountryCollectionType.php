@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Form\Address;
 
-
-
-use Composer\Repository\RepositoryInterface;
+use App\Interface\Address\AddressCountryInterface;
+use App\Interface\Country\AddressCountryRepositoryInterface;
+use App\Interface\RepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -15,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressCountryCollectionType extends AbstractType
 {
-    public function __construct(private readonly RepositoryInterface $countryRepository)
+    public function __construct(private readonly AddressCountryRepositoryInterface $addressCountryRepository)
     {
     }
 
@@ -32,11 +31,11 @@ final class AddressCountryCollectionType extends AbstractType
             ->setDefaults([
                 'choice_filter' => null,
                 'choices' => function (Options $options): iterable {
-                    if ($options['enabled'] === true) {
-                        return  $this->countryRepository->findBy(['enabled' => $options['enabled']]);
+                    if (true === $options['enabled']) {
+                        return $this->addressCountryRepository->findBy(['enabled' => $options['enabled']]);
                     }
 
-                    return $this->countryRepository->findAll();
+                    return $this->addressCountryRepository->findAll();
                 },
                 'choice_value' => 'code',
                 'choice_label' => 'name',
@@ -51,7 +50,7 @@ final class AddressCountryCollectionType extends AbstractType
                     $countries = array_filter($countries, $options['choice_filter']);
                 }
 
-                usort($countries, static fn (CountryInterface $firstCountry, CountryInterface $secondCountry): int => $firstCountry->getName() <=> $secondCountry->getName());
+                usort($countries, static fn (AddressCountryInterface $firstCountry, AddressCountryInterface $secondCountry): int => $firstCountry->getName() <=> $secondCountry->getName());
 
                 return $countries;
             })

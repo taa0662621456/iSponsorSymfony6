@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 
 use App\Entity\Vendor\Vendor;
 use App\Repository\Order\OrderRepository;
@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class OrderStorage
 {
-	use BaseTrait;
+	use ObjectBaseTrait;
 	public const NUM_ITEMS = 10;
 
 	#[ORM\Column(name: 'order_number', nullable: true)]

@@ -2,7 +2,7 @@
 
 namespace App\Entity\Project;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Repository\Project\ProjectPlatformRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class ProjectPlatformReward
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectPlatformReward')]
     private Project $projectId;
 

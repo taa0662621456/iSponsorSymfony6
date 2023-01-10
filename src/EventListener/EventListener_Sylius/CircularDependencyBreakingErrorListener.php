@@ -35,56 +35,57 @@ use Symfony\Component\HttpKernel\EventListener\ErrorListener;
  *
  * @see \Symfony\Component\HttpKernel\EventListener\ErrorListener
  */
-final class CircularDependencyBreakingErrorListener extends ErrorListener
+final class CircularDependencyBreakingErrorListener
+//final class CircularDependencyBreakingErrorListener extends ErrorListener
 {
-    public function __construct(private ErrorListener $decoratedListener)
-    {
-    }
-
-    public function logKernelException(ExceptionEvent $event): void
-    {
-        $this->decoratedListener->logKernelException($event);
-    }
-
-    public function onKernelException(ExceptionEvent $event, string $eventName = null, EventDispatcherInterface $eventDispatcher = null): void
-    {
-        try {
-            /**
-             * @psalm-suppress TooManyArguments
-             * @phpstan-ignore-next-line
-             */
-            $this->decoratedListener->onKernelException($event, $eventName, $eventDispatcher);
-        } catch (\Throwable $throwable) {
-            $this->breakCircularDependency($throwable);
-
-            throw $throwable;
-        }
-    }
-
-    public function onControllerArguments(ControllerArgumentsEvent $event): void
-    {
-        $this->decoratedListener->onControllerArguments($event);
-    }
-
-    private function breakCircularDependency(\Throwable $throwable): void
-    {
-        $throwables = [];
-
-        do {
-            $throwables[] = $throwable;
-
-            if (in_array($throwable->getPrevious(), $throwables, true)) {
-                $this->removePreviousFromThrowable($throwable);
-            }
-
-            $throwable = $throwable->getPrevious();
-        } while (null !== $throwable);
-    }
-
-    private function removePreviousFromThrowable(\Throwable $throwable): void
-    {
-        $previous = new \ReflectionProperty($throwable instanceof \Exception ? \Exception::class : \Error::class, 'previous');
-        $previous->setAccessible(true);
-        $previous->setValue($throwable, null);
-    }
+//    public function __construct(private readonly ErrorListener $decoratedListener)
+//    {
+//    }
+//
+//    public function logKernelException(ExceptionEvent $event): void
+//    {
+//        $this->decoratedListener->logKernelException($event);
+//    }
+//
+//    public function onKernelException(ExceptionEvent $event, string $eventName = null, EventDispatcherInterface $eventDispatcher = null): void
+//    {
+//        try {
+//            /**
+//             * @psalm-suppress TooManyArguments
+//             * @phpstan-ignore-next-line
+//             */
+//            $this->decoratedListener->onKernelException($event, $eventName, $eventDispatcher);
+//        } catch (\Throwable $throwable) {
+//            $this->breakCircularDependency($throwable);
+//
+//            throw $throwable;
+//        }
+//    }
+//
+//    public function onControllerArguments(ControllerArgumentsEvent $event): void
+//    {
+//        $this->decoratedListener->onControllerArguments($event);
+//    }
+//
+//    private function breakCircularDependency(\Throwable $throwable): void
+//    {
+//        $throwables = [];
+//
+//        do {
+//            $throwables[] = $throwable;
+//
+//            if (in_array($throwable->getPrevious(), $throwables, true)) {
+//                $this->removePreviousFromThrowable($throwable);
+//            }
+//
+//            $throwable = $throwable->getPrevious();
+//        } while (null !== $throwable);
+//    }
+//
+//    private function removePreviousFromThrowable(\Throwable $throwable): void
+//    {
+//        $previous = new \ReflectionProperty($throwable instanceof \Exception ? \Exception::class : \Error::class, 'previous');
+//        $previous->setAccessible(true);
+//        $previous->setValue($throwable, null);
+//    }
 }

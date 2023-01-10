@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Entity\Product;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+
+use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\ProductLanguageTrait;
 use App\Repository\Product\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,19 +16,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'product_en_gb_idx')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
+
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
 #[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-    "productName" => "partial",
-    "productSDesc" => "partial",
-    "productDesc" => "partial",
+    'firstTitle' => 'partial',
+    'lastTitle' => 'partial',
+    'productName' => 'partial',
+    'productSDesc' => 'partial',
+    'productDesc' => 'partial',
 ])]
 class ProductEnGb
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
     use ProductLanguageTrait;
 }

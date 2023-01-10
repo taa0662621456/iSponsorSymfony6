@@ -6,8 +6,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Interface\Project\ProjectTypeInterface;
 use App\Repository\Type\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,8 +27,8 @@ use Symfony\Component\Uid\Uuid;
 ])]
 class ProjectType implements ProjectTypeInterface
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
     #[ORM\OneToMany(mappedBy: 'projectType', targetEntity: Project::class)]
     private Collection $projectTypeProject;

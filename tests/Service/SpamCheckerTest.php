@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Service;
 
-use App\Entity\Review\ProductReview;
+use App\Entity\Product\ProductReview;
 use App\Service\AkismetSpamChecker;
 use Exception;
 use PHPUnit\Framework\TestCase;

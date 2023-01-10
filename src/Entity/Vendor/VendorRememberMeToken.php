@@ -4,7 +4,7 @@
 namespace App\Entity\Vendor;
 
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class VendorRememberMeToken
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

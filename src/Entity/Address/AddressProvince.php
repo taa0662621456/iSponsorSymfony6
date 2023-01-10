@@ -2,7 +2,7 @@
 
 namespace App\Entity\Address;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -13,5 +13,5 @@ use Doctrine\ORM\Mapping as ORM;
 
 class AddressProvince
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 }

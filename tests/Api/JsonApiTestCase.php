@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Tests\Api\tests\Api;
+namespace App\Tests\Api;
 
-use ApiTestCase\JsonApiTestCase as BaseJsonApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseJsonApiTestCase;
 
 abstract class JsonApiTestCase extends BaseJsonApiTestCase
 {

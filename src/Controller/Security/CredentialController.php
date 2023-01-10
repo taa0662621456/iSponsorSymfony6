@@ -6,7 +6,7 @@ namespace App\Controller\Security;
 
 use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorSecurity;
-use App\Event\RegisteredEvent;
+use App\Event\Vendor\RegisteredEvent;
 use App\Service\ConfirmationCodeGenerator;
 use App\Service\SecurityForgot;
 use Doctrine\Persistence\ManagerRegistry;

@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\Extension;
 
-
+use Payum\Core\Bridge\Symfony\Form\Type\GatewayConfigType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -33,7 +32,7 @@ final class PaymentMethodTypeExtension extends AbstractTypeExtension
                 }
 
                 $gatewayConfig = $paymentMethod->getGatewayConfig();
-                /** @psalm-suppress DocblockTypeContradiction */
+                /* @psalm-suppress DocblockTypeContradiction */
                 if (null === $gatewayConfig->getGatewayName() && null !== $paymentMethod->getCode()) {
                     $gatewayConfig->setGatewayName(StringInflector::nameToLowercaseCode($paymentMethod->getCode()));
                 }

@@ -5,8 +5,8 @@ namespace App\Entity\Product;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,8 +24,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductTag implements JsonSerializable
 {
-	use BaseTrait;
-    use ObjectTrait;
+	use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'productTag')]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]

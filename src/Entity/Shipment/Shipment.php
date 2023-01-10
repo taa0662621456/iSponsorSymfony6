@@ -9,7 +9,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\CoreBundle\Doctrine\ORM\ShipmentRepository;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'shipment')]
@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class Shipment
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
 
 

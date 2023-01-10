@@ -6,9 +6,9 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\CategoryLanguageTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Repository\Category\CategoryRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,8 +29,8 @@ use Symfony\Component\Uid\Uuid;
 class CategoryEnGb
 {
     use CategoryLanguageTrait;
-    use ObjectTrait;
-    use BaseTrait;
+    use ObjectTitleTrait;
+    use ObjectBaseTrait;
 
     public function __construct()
     {

@@ -4,8 +4,8 @@
 namespace App\Entity\Vendor;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Repository\Vendor\VendorIbanRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -20,8 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource()]
 class VendorIban
 {
-	use BaseTrait;
-    use ObjectTrait;
+	use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
 	#[ORM\Column(name: 'iban', nullable: true, options: ['default' => '0'])]
 	#[Assert\Iban(message: 'Номер счета должен иметь международный формат. Например, для Украины: UA85 3996 2200 0000 0260 0123 3566 1')]

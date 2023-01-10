@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Form\Address;
 
 use App\EventSubscriber\AddCodeFormSubscriber;
@@ -8,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CountryType as SymfonyCountryType;
 
 final class AddressCountryType extends AbstractType
 {
@@ -17,21 +17,19 @@ final class AddressCountryType extends AbstractType
     protected array $validationGroups = [];
 
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass, array $validationGroups = [])
+    public function __construct(string $dataClass = 'data_class', array $validationGroups = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
     }
 
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->addEventSubscriber(new AddCodeFormSubscriber(\Symfony\Component\Form\Extension\Core\Type\CountryType::class))
+            ->addEventSubscriber(new AddCodeFormSubscriber(SymfonyCountryType::class))
             ->add('provinces', CollectionType::class, [
                 'entry_type' => AddressProvinceType::class,
                 'allow_add' => true,

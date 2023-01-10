@@ -2,26 +2,26 @@
 
 namespace App\Repository\Product;
 
-use App\Entity\Product\ProductPayment;
+use App\Entity\Product\ProductStorage;
+use App\Interface\Product\ProductOptionRepositoryInterface;
 use App\Service\AssociationHydrate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ProductPayment|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductPayment|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductPayment[]    findAll()
- * @method ProductPayment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductStorage|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductStorage|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductStorage[]    findAll()
+ * @method ProductStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductOptionRepository extends ServiceEntityRepository
+class ProductOptionRepository extends ServiceEntityRepository implements ProductOptionRepositoryInterface
 {
-    /** @var AssociationHydrate */
-    protected $associationHydrate;
+    protected AssociationHydrate $associationHydrate;
 
     public function __construct(ManagerRegistry $registry)
     {
-		parent::__construct($registry, ProductPayment::class);
+        parent::__construct($registry, ProductStorage::class);
 
 //        parent::__construct($entityManager, $class);
 //        $this->associationHydrate = new AssociationHydrate($entityManager, $class);

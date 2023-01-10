@@ -6,11 +6,11 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\Product\Product;
 use App\Entity\Project\Type;
 use App\Entity\Project\ProjectType;
@@ -39,8 +39,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 ])]
 class Project
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
     use MetaTrait;
 
     public const NUM_ITEMS = 10;

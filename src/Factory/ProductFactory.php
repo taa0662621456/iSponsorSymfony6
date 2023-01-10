@@ -2,7 +2,7 @@
 
 namespace App\Factory;
 
-use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductPropertyInterface;
 
 class ProductFactory
 {
@@ -10,16 +10,16 @@ class ProductFactory
     {
     }
 
-    public function createNew(): ProductInterface
+    public function createNew(): ProductPropertyInterface
     {
         return $this->factory->createNew();
     }
 
-    public function createWithVariant(): ProductInterface
+    public function createWithVariant(): ProductPropertyInterface
     {
         $variant = $this->variantFactory->createNew();
 
-        /** @var ProductInterface $product */
+        /** @var ProductPropertyInterface $product */
         $product = $this->factory->createNew();
         $product->addVariant($variant);
 

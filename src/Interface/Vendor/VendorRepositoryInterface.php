@@ -2,10 +2,10 @@
 
 namespace App\Interface\Vendor;
 
-use App\Entity\Vendor\Vendor;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 interface VendorRepositoryInterface
 {
-    public function findOneByEmail(string $email): Vendor;
+    public function findOneByEmail(string $email): ?UserInterface;
 
 }

@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\DataFixtures\Fixture_Sylius\OptionsResolver;
 
 use App\Interface\RepositoryInterface;
 use Doctrine\Common\Collections\Collection;
-
 use Symfony\Component\OptionsResolver\Options;
 use Webmozart\Assert\Assert;
 
@@ -36,7 +34,7 @@ class LazyOption
                 $objects = $objects->toArray();
             }
 
-            Assert::notEmpty($objects, 'No entities found of type ' . $repository->getClassName());
+            Assert::notEmpty($objects, 'No entities found of type '.$repository->getClassName());
 
             return $objects[array_rand($objects)];
         };
@@ -112,8 +110,12 @@ class LazyOption
     public static function findOneBy(RepositoryInterface $repository, string $field, array $criteria = []): \Closure
     {
         return
-            /** @param mixed $previousValue */
-            function (Options $options, $previousValue) use ($repository, $field, $criteria): ?object {
+            /**
+             * @param Options $options
+             * @param mixed $previousValue
+             * @return object|null
+             */
+            function (Options $options, mixed $previousValue) use ($repository, $field, $criteria): ?object {
                 if (null === $previousValue || [] === $previousValue) {
                     return null;
                 }
@@ -130,8 +132,12 @@ class LazyOption
     public static function getOneBy(RepositoryInterface $repository, string $field, array $criteria = []): \Closure
     {
         return
-            /** @param mixed $previousValue */
-            function (Options $options, $previousValue) use ($repository, $field, $criteria): ?object {
+            /**
+             * @param Options $options
+             * @param mixed $previousValue
+             * @return object|null
+             */
+            function (Options $options, mixed $previousValue) use ($repository, $field, $criteria): ?object {
                 if (null === $previousValue || [] === $previousValue) {
                     return null;
                 }
@@ -143,14 +149,7 @@ class LazyOption
                 $resource = $repository->findOneBy(array_merge($criteria, [$field => $previousValue]));
 
                 if (null === $resource) {
-                    throw new ResourceNotFoundException(
-                        sprintf(
-                            'The %s resource for field %s with value %s was not found',
-                            $repository->getClassName(),
-                            $field,
-                            $previousValue,
-                        ),
-                    );
+                    throw new ResourceNotFoundException(sprintf('The %s resource for field %s with value %s was not found', $repository->getClassName(), $field, $previousValue));
                 }
 
                 return $resource;

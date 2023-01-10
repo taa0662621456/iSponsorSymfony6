@@ -6,10 +6,10 @@ namespace App\Entity\Product;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
@@ -33,7 +33,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 class ProductAttribute
 {
 
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     public const ATTRIBUTE_TYPE_BOOLEAN = 'boolean';
 

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Service\RequestDispatcher;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Persistence\ObjectRepository;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +14,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[AsController]
 class ObjectCRUDsController extends AbstractController
 {
-
     #[NoReturn]
     public function __construct(private readonly RequestDispatcher $requestDispatcher,
                                 private readonly ManagerRegistry $managerRegistry)
@@ -31,7 +29,7 @@ class ObjectCRUDsController extends AbstractController
     //        return $object;
     //    }
 
-    # Index
+    // Index
     #[Route(path: 'vendor/', name: 'vendor_index', methods: ['GET'])]
     #[Route(path: 'vendor/folder', name: 'vendor_folder_index', methods: ['GET'])]
     #[Route(path: 'order/', name: 'order_index', methods: ['GET'])]
@@ -60,12 +58,12 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/', name: 'currency_index', methods: ['GET'])]
     #[Route(path: 'role/', name: 'role_index', methods: ['GET'])]
     #[Route(path: 'storage/', name: 'storage_index', methods: ['GET'])]
-    public function index() : Response
+    public function index(): Response
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
-        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer(): $object = $this->requestDispatcher->object();
+        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer() : $object = $this->requestDispatcher->object();
         $em = $this->managerRegistry->getManager();
-        //TODO: определяем уровень прав пользователя и если Юзер
+        // TODO: определяем уровень прав пользователя и если Юзер
         //        ($this->getUser()) ?
         //            $q = $em->getRepository($object)->findAll():
         //            $q = $em->getRepository($object)->findBy(
@@ -76,7 +74,7 @@ class ObjectCRUDsController extends AbstractController
         ]);
     }
 
-    # New
+    // New
     #[Route(path: 'vendor/new/', name: 'vendor_new', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/commission/new/', name: 'vendor_new_commission', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/profile/new/', name: 'vendor_new_profile', methods: ['GET', 'POST'])]
@@ -103,16 +101,16 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/new/', name: 'currency_new', methods: ['GET', 'POST'])]
     #[Route(path: 'role/new/', name: 'role_new', methods: ['GET', 'POST'])]
     #[Route(path: 'storage/new/', name: 'storage_new', methods: ['GET', 'POST'])]
-    public function new(Request $request) : Response
+    public function new(Request $request): Response
     {
         $object = $this->requestDispatcher->object();
-        $object = new $object;
+        $object = new $object();
 
 //        $objectEnGb = $this->requestDispatcher->objectEnGb(); //TODO: подменить/заменить мультиязычностью
 //        $objectEnGb = new $objectEnGb; //TODO: подменить/заменить мультиязычностью
 
         $objectAttachment = $this->requestDispatcher->objectAttachment();
-        $objectAttachment = new $objectAttachment;
+        $objectAttachment = new $objectAttachment();
 
         $form = $this->createForm($this->requestDispatcher->objectType(), $object);
         $form->handleRequest($request);
@@ -123,21 +121,22 @@ class ObjectCRUDsController extends AbstractController
             $em->flush();
 
             $route = $form->get('submitAndNew')->isClicked()
-                ? $object . '_new'
-                : $object . '_index';
+                ? $object.'_new'
+                : $object.'_index';
 
             return $this->redirectToRoute($route);
         }
+
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $this->requestDispatcher->object(),
             'form' => $form->createView(),
         ]);
     }
 
-    # Show
+    // Show
     /**
      * ********************************************
-     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
+     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only.
      * ********************************************
      */
     #[Route(path: 'vendor/{id<\d+>}', name: 'vendor_show_id', methods: ['GET'])]
@@ -174,7 +173,7 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'storage/{id<\d+>}', name: 'storage_show_id', methods: ['GET'])]
     /**
      * ********************************************
-     * Routes by 'slug' for Front-end and Back-end
+     * Routes by 'slug' for Front-end and Back-end.
      * ********************************************
      */
     #[Route(path: 'vendor/{slug}', name: 'vendor_show_slug', methods: ['GET'])]
@@ -210,7 +209,7 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/{slug}', name: 'currency_show_slug', methods: ['GET'])]
     #[Route(path: 'role/{slug}', name: 'role_show_slug', methods: ['GET'])]
     #[Route(path: 'storage/{slug}', name: 'storage_show_slug', methods: ['GET'])]
-    public function show(Request $request) : Response
+    public function show(Request $request): Response
     {
         //        return $this->render(
         //            'vendor/vendor_profile/profile.html.twig', array(
@@ -220,15 +219,16 @@ class ObjectCRUDsController extends AbstractController
         //            )
         //        );
         $object = $this->requestDispatcher->object();
+
         return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => new $object,
+            $this->requestDispatcher->route() => new $object(),
         ]);
     }
 
-    # Edit
+    // Edit
     /**
      * ********************************************
-     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
+     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only.
      * ********************************************
      */
     #[Route(path: 'vendor/edit/{id<\d+>}', name: 'vendor_edit_id', methods: ['GET', 'POST'])]
@@ -260,7 +260,7 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'storage/edit/{id<\d+>}', name: 'storage_edit_id', methods: ['GET', 'POST'])]
     /**
      * ********************************************
-     * Routes by 'slug' for Front-end and Back-end
+     * Routes by 'slug' for Front-end and Back-end.
      * ********************************************
      */
     #[Route(path: 'vendor/edit/{slug}', name: 'vendor_edit_slug', methods: ['GET', 'POST'])]
@@ -291,7 +291,7 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/edit/{slug}', name: 'currency_edit', methods: ['GET', 'POST'])]
     #[Route(path: 'role/edit/{slug}', name: 'role_edit', methods: ['GET', 'POST'])]
     #[Route(path: 'storage/edit/{slug}', name: 'storage_edit', methods: ['GET', 'POST'])]
-    public function edit(?int $id, ?string $slug) : Response
+    public function edit(?int $id, ?string $slug): Response
     {
         $object = $this->requestDispatcher->object();
         $form = $this->createForm($this->requestDispatcher->objectType(), $object);
@@ -301,16 +301,17 @@ class ObjectCRUDsController extends AbstractController
 
             return $this->redirectToRoute($object);
         }
+
         return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => new $object,
+            $this->requestDispatcher->route() => new $object(),
             'form' => $form->createView(),
         ]);
     }
 
-    # Delete
+    // Delete
     /**
      * ********************************************
-     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only
+     * WARNING! Routes by 'id' for Back-end or ^ROLE_ADMIN only.
      * ********************************************
      */
     #[Route(path: 'vendor/delete/{id<\d+>}', name: 'vendor_delete_id', methods: ['DELETE'])]
@@ -339,7 +340,7 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'storage/delete/{id<\d+>}', name: 'storage_delete_id', methods: ['DELETE'])]
     /**
      * ********************************************
-     * Routes by 'slug' for Front-end and Back-end
+     * Routes by 'slug' for Front-end and Back-end.
      * ********************************************
      */
     #[Route(path: 'vendor/delete/{slug}', name: 'vendor_delete_slug', methods: ['DELETE'])]
@@ -366,27 +367,27 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/delete/{slug}', name: 'currency_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'role/delete/{slug}', name: 'role_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'storage/delete/{slug}', name: 'storage_delete_slug', methods: ['DELETE'])]
-    public function delete(Request $request, ?int $id = null, ?string $slug = null) : Response
+    public function delete(Request $request, ?int $id = null, ?string $slug = null): Response
     {
         $typeId = null ? $id : $slug;
-        $typeId = gettype($typeId) == 'string' ? $this->requestDispatcher->objectFindBySlug($slug) : $this->requestDispatcher->objectFindById($id);
+        $typeId = 'string' == gettype($typeId) ? $this->requestDispatcher->objectFindBySlug($slug) : $this->requestDispatcher->objectFindById($id);
 
-        if ($this->isCsrfTokenValid('delete' . $typeId, $request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$typeId, $request->get('_token'))) {
             $entityManager = $this->managerRegistry->getManager();
-            $entityManager->remove((object)$this->requestDispatcher->object());
+            $entityManager->remove((object) $this->requestDispatcher->object());
             $entityManager->flush();
             $this->addFlash(
                 'notice',
                 'Success delete message!'
             );
         } else {
-                throw $this->createNotFoundException('The object does not exist');
+            throw $this->createNotFoundException('The object does not exist');
         }
 
         return $this->redirectToRoute($this->requestDispatcher->object());
     }
 
-    # Own
+    // Own
     #[Route(path: 'vendor/own', name: 'vendor_own', methods: ['GET'])]
     #[Route(path: 'vendor/folder/own/', name: 'vendor_folder_own', methods: ['GET'])]
     #[Route(path: 'vendor/payment/own/', name: 'vendor_folder_own_payment', methods: ['GET'])]
@@ -412,39 +413,39 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/own/', name: 'currency_own', methods: ['GET'])]
     #[Route(path: 'role/own/', name: 'role_own', methods: ['GET'])]
     #[Route(path: 'storage/own/', name: 'storage_own', methods: ['GET'])]
-    public function own() : Response
+    public function own(): Response
     {
         $localeFilter = $this->requestDispatcher->localeFilter();
-        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer(): $object = $this->requestDispatcher->object();
+        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer() : $object = $this->requestDispatcher->object();
         $em = $this->managerRegistry->getManager();
+
         return $this->render($this->requestDispatcher->layOutPath(), [
             $this->requestDispatcher->route() => $em->getRepository($object)->findBy(['createdBy' => $this->getUser()]),
         ]);
     }
 
-    # ThankYou
-    #[Route(path: 'vendor/thank',name: 'vendor_thank', methods: ['GET'])]
-    #[Route(path: 'order/thank',name: 'order_thank', methods: ['GET'])]
-    #[Route(path: 'event/thank',name: 'event_thank', methods: ['GET'])]
-    #[Route(path: 'folder/thank',name: 'folder_thank', methods: ['GET'])]
-    #[Route(path: 'product/thank',name: 'product_thank', methods: ['GET'])]
-    #[Route(path: 'product/price/thank',name: 'product_thank_price', methods: ['GET'])]
-    #[Route(path: 'project/thank',name: 'project_thank', methods: ['GET'])]
-    #[Route(path: 'commission/thank',name: 'commission_thank', methods: ['GET'])]
-    #[Route(path: 'category/thank',name: 'category_thank', methods: ['GET'])]
-    #[Route(path: 'attachment/thank',name: 'attachment_thank', methods: ['GET'])]
-    #[Route(path: 'review/thank',name: 'review_thank', methods: ['GET'])]
-    #[Route(path: 'shipment/thank',name: 'shipment_thank', methods: ['GET'])]
-    #[Route(path: 'payment/thank',name: 'payment_thank', methods: ['GET'])]
-    #[Route(path: 'taxation/thank',name: 'taxation_thank', methods: ['GET'])]
-    #[Route(path: 'cart/thank',name: 'cart_thank', methods: ['GET'])]
-    #[Route(path: 'coupon/thank',name: 'coupon_thank', methods: ['GET'])]
-    #[Route(path: 'currency/thank',name: 'currency_thank', methods: ['GET'])]
-    #[Route(path: 'role/thank',name: 'role_thank', methods: ['GET'])]
-    #[Route(path: 'storage/thank',name: 'storage_thank', methods: ['GET'])]
+    // ThankYou
+    #[Route(path: 'vendor/thank', name: 'vendor_thank', methods: ['GET'])]
+    #[Route(path: 'order/thank', name: 'order_thank', methods: ['GET'])]
+    #[Route(path: 'event/thank', name: 'event_thank', methods: ['GET'])]
+    #[Route(path: 'folder/thank', name: 'folder_thank', methods: ['GET'])]
+    #[Route(path: 'product/thank', name: 'product_thank', methods: ['GET'])]
+    #[Route(path: 'product/price/thank', name: 'product_thank_price', methods: ['GET'])]
+    #[Route(path: 'project/thank', name: 'project_thank', methods: ['GET'])]
+    #[Route(path: 'commission/thank', name: 'commission_thank', methods: ['GET'])]
+    #[Route(path: 'category/thank', name: 'category_thank', methods: ['GET'])]
+    #[Route(path: 'attachment/thank', name: 'attachment_thank', methods: ['GET'])]
+    #[Route(path: 'review/thank', name: 'review_thank', methods: ['GET'])]
+    #[Route(path: 'shipment/thank', name: 'shipment_thank', methods: ['GET'])]
+    #[Route(path: 'payment/thank', name: 'payment_thank', methods: ['GET'])]
+    #[Route(path: 'taxation/thank', name: 'taxation_thank', methods: ['GET'])]
+    #[Route(path: 'cart/thank', name: 'cart_thank', methods: ['GET'])]
+    #[Route(path: 'coupon/thank', name: 'coupon_thank', methods: ['GET'])]
+    #[Route(path: 'currency/thank', name: 'currency_thank', methods: ['GET'])]
+    #[Route(path: 'role/thank', name: 'role_thank', methods: ['GET'])]
+    #[Route(path: 'storage/thank', name: 'storage_thank', methods: ['GET'])]
     public function thankYou()
     {
-
     }
 
 //    /**
@@ -487,7 +488,7 @@ class ObjectCRUDsController extends AbstractController
 //    }
 //
 //
-    # Summery
+    // Summery
     #[Route(path: 'vendor/summery/', name: 'vendor_summery', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/commission/summery/', name: 'vendor_summery_commission', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/profile/summery/', name: 'vendor_summery_profile', methods: ['GET', 'POST'])]
@@ -518,7 +519,7 @@ class ObjectCRUDsController extends AbstractController
     {
     }
 
-    # Summery
+    // Summery
     #[Route(path: 'vendor/widget/', name: 'vendor_widget', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/commission/widget/', name: 'vendor_widget_commission', methods: ['GET', 'POST'])]
     #[Route(path: 'vendor/profile/widget/', name: 'vendor_widget_profile', methods: ['GET', 'POST'])]
@@ -550,5 +551,4 @@ class ObjectCRUDsController extends AbstractController
     public function widget()
     {
     }
-
 }

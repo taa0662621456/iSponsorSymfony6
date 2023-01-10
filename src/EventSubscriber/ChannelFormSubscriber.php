@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
@@ -10,7 +9,7 @@ use Symfony\Component\Form\FormEvents;
 
 final class ChannelFormSubscriber implements EventSubscriberInterface
 {
-    #[ArrayShape([FormEvents::PRE_SUBMIT => "string"])]
+    #[ArrayShape([FormEvents::PRE_SUBMIT => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [

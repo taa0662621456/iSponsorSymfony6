@@ -1,14 +1,13 @@
 <?php
 
-
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\AttachmentTrait;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Repository\Product\ProductAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,27 +15,27 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'product_attachment_idx')]
 #[ORM\Entity(repositoryClass: ProductAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
+
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
 class ProductAttachment
 {
-	use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
     use AttachmentTrait;
 
-	#[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachment')]
-	#[ORM\JoinColumn(onDelete: 'CASCADE')]
-	private Product $productAttachmentProduct;
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachment')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private Product $productAttachmentProduct;
 
-    # ManyToOne
-	public function getProductAttachmentProduct(): Product
+    // ManyToOne
+    public function getProductAttachmentProduct(): Product
     {
-		return $this->productAttachmentProduct;
-	}
-    public function setProductAttachmentProduct(Product $product): void
-    {
-            $this->productAttachmentProduct = $product;
+        return $this->productAttachmentProduct;
     }
 
+    public function setProductAttachmentProduct(Product $product): void
+    {
+        $this->productAttachmentProduct = $product;
+    }
 }

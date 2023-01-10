@@ -1,17 +1,16 @@
 <?php
 
-
 namespace App\Form\Address;
 
-
-use Composer\Repository\RepositoryInterface;
+use App\Interface\Country\AddressCountryRepositoryInterface;
+use App\Service\ResourceToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
 
 final class AddressCountryCodeCollectionType extends AbstractType
 {
-    public function __construct(private readonly RepositoryInterface $countryRepository)
+    public function __construct(private readonly AddressCountryRepositoryInterface $countryRepository)
     {
     }
 

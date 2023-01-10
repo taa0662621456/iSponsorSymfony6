@@ -4,8 +4,8 @@
 namespace App\Entity\Category;
 
 use App\Entity\AttachmentTrait;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Interface\CategoryInterface;
 use App\Repository\Category\CategoryAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,8 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 class CategoryAttachment
 {
-	use BaseTrait;
-    use ObjectTrait;
+	use ObjectBaseTrait;
+    use ObjectTitleTrait;
     use AttachmentTrait;
 
 	#[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachment')]

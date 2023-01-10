@@ -3,18 +3,18 @@
 
 namespace App\Model;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\Category\CategoryEnGb;
 use App\Entity\Featured\Featured;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectTitleTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 
 class CategoryModel
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
     private int $ordering = 1;
 

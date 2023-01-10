@@ -3,16 +3,18 @@
 namespace App\EventListener;
 
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Webmozart\Assert\Assert;
 
 final class UpdateUserEncoderListener
 {
     public function __construct(
-        private ObjectManager $objectManager,
-        private string $recommendedEncoderName,
-        private string $className,
-        private string $interfaceName,
-        private string $passwordParameter,
+        private readonly ObjectManager $objectManager,
+        private readonly string $recommendedEncoderName,
+        private readonly string $className,
+        private readonly string $interfaceName,
+        private readonly string $passwordParameter,
     ) {
     }
 

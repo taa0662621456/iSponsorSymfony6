@@ -7,7 +7,7 @@ namespace App\Entity\Product;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Repository\Product\ProductShipmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,6 +19,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductShipment
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
 }

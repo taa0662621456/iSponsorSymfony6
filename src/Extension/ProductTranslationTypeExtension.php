@@ -1,9 +1,11 @@
 <?php
 
-
 namespace App\Extension;
 
-
+use App\Form\Product\ProductBundle\ProductTranslationType;
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductTranslationTypeExtension extends AbstractTypeExtension
 {

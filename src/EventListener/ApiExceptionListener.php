@@ -3,7 +3,7 @@
 namespace App\EventListener;
 
 use App\Model\ErrorResponseModel;
-use App\Request\AttributeRequest;
+use App\Request\RequestAttribute;
 use App\Service\System\ExceptionMapping;
 use App\Service\System\ExceptionMappingResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +27,8 @@ class ApiExceptionListener
     private Logger $logger;
     private Serializer $serializer;
 
-    public function __constructor(ExceptionMappingResolver $exceptionMappingResolver, Logger $logger, Serializer $serializer): void
+    public function __constructor(ExceptionMappingResolver $exceptionMappingResolver,
+                                  Logger $logger, Serializer $serializer): void
     {
         $this->exceptionMappingResolver = $exceptionMappingResolver;
         $this->logger = $logger;
@@ -35,7 +36,7 @@ class ApiExceptionListener
     }
     public function __invoke(ExceptionEvent $event): void
     {
-        $isApiZone = $event->getRequest()->attributes->get(AttributeRequest::API_ZONE, true);
+        $isApiZone = $event->getRequest()->attributes->get(RequestAttribute::API_ZONE, true);
         if (!$isApiZone) {
             return;
         }

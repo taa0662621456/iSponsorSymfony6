@@ -3,11 +3,14 @@
 
 namespace App\Extension;
 
-
-
+use App\Form\Address\AddressCountryType;
+use App\Form\Address\AddressProvinceType;
+use App\Interface\Address\AddressCountryInterface;
+use App\Interface\Country\AddressCountryRepositoryInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -15,7 +18,7 @@ use Symfony\Component\Intl\Countries;
 
 final class CountryTypeExtension extends AbstractTypeExtension
 {
-    public function __construct(private RepositoryInterface $countryRepository)
+    public function __construct(private readonly AddressCountryRepositoryInterface $addressCountryRepository)
     {
     }
 
@@ -28,7 +31,7 @@ final class CountryTypeExtension extends AbstractTypeExtension
             ];
 
             $country = $event->getData();
-            if ($country instanceof CountryInterface && null !== $country->getCode()) {
+            if ($country instanceof AddressCountryInterface && null !== $country->getCode()) {
                 $options['disabled'] = true;
                 $options['choices'] = [$this->getCountryName($country->getCode()) => $country->getCode()];
             } else {
@@ -36,12 +39,12 @@ final class CountryTypeExtension extends AbstractTypeExtension
             }
 
             $form = $event->getForm();
-            $form->add('code', \Symfony\Component\Form\Extension\Core\Type\CountryType::class, $options);
+            $form->add('code', CountryType::class, $options);
         });
 
         $builder
             ->add('provinces', CollectionType::class, [
-                'entry_type' => ProvinceType::class,
+                'entry_type' => AddressProvinceType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
@@ -55,12 +58,12 @@ final class CountryTypeExtension extends AbstractTypeExtension
 
     public function getExtendedType(): string
     {
-        return CountryType::class;
+        return AddressCountryType::class;
     }
 
     public static function getExtendedTypes(): iterable
     {
-        return [CountryType::class];
+        return [AddressCountryType::class];
     }
 
     private function getCountryName(string $code): string
@@ -69,14 +72,14 @@ final class CountryTypeExtension extends AbstractTypeExtension
     }
 
     /**
-     * @return array|CountryInterface[]
+     * @return array|AddressCountryInterface[]
      */
     private function getAvailableCountries(): array
     {
         $availableCountries = Countries::getNames();
 
-        /** @var CountryInterface[] $definedCountries */
-        $definedCountries = $this->countryRepository->findAll();
+        /** @var AddressCountryInterface[] $definedCountries */
+        $definedCountries = $this->addressCountryRepository->findAll();
 
         foreach ($definedCountries as $country) {
             unset($availableCountries[$country->getCode()]);

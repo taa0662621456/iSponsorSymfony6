@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
  */
 final class DefaultUsernameORMListener
 {
-    public function onFlush(OnFlushEventArgs $onFlushEventArgs)
+    public function onFlush(OnFlushEventArgs $onFlushEventArgs): void
     {
         $entityManager = $onFlushEventArgs->getObjectManager();
         $unitOfWork = $entityManager->getUnitOfWork();

@@ -2,7 +2,7 @@
 
 namespace App\Repository\Product;
 
-use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductPropertyInterface;
 use App\Interface\Taxation\TaxationInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -45,7 +45,7 @@ class ProductVariantRepository extends EntityRepository
         ;
     }
 
-    public function findByNameAndProduct(string $name, string $locale, ProductInterface $product): array
+    public function findByNameAndProduct(string $name, string $locale, ProductPropertyInterface $product): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.translations', 'translation')

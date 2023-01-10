@@ -4,10 +4,10 @@
 namespace App\Entity\Category;
 
 use App\Entity\Attachment\Attachment;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\Project\Project;
 use App\Interface\CategoryAttachmentInterface;
 use App\Interface\CategoryInterface;
@@ -30,8 +30,8 @@ use DateTime;
 #[ORM\HasLifecycleCallbacks]
 class Category implements CategoryInterface
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
     use MetaTrait;
 
 
