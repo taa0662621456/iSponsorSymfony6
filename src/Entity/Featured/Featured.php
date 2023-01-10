@@ -3,7 +3,7 @@
 
 namespace App\Entity\Featured;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Product\Product;
 use App\Entity\Project\Project;
@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\HasLifecycleCallbacks]
 class Featured
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     #[ORM\Column(name: 'ordering', type: 'integer')]
     private int $ordering;

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Form\Address;
-
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractType;
@@ -19,13 +17,12 @@ final class AddressType extends AbstractType
     protected array $validationGroups = [];
 
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
-     * @param EventSubscriberInterface $buildAddressFormSubscriber
      */
-    public function __construct(string $dataClass,
-                                array $validationGroups,
-                                private readonly EventSubscriberInterface $buildAddressFormSubscriber)
+    // public function __construct(private readonly EventSubscriberInterface $buildAddressFormSubscriber,
+    public function __construct(array $validationGroups = [],
+                                string $dataClass = 'data_class')
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -61,7 +58,7 @@ final class AddressType extends AbstractType
             ->add('postcode', TextType::class, [
                 'label' => 'form.address.postcode',
             ])
-            ->addEventSubscriber($this->buildAddressFormSubscriber)
+            //->addEventSubscriber($this->buildAddressFormSubscriber)
         ;
     }
 

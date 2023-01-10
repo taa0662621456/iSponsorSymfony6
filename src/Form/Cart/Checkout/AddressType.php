@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Form\Cart\Checkout;
 
 use App\Form\Customer\CustomerCheckoutGuestType;
@@ -24,10 +23,10 @@ final class AddressType extends AbstractType
     protected array $validationGroups = [];
 
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass, array $validationGroups = [], ?AddressComparatorInterface $addressComparator = null)
+    public function __construct(string $dataClass = 'data_class', array $validationGroups = [], ?AddressComparatorInterface $addressComparator = null)
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -46,7 +45,7 @@ final class AddressType extends AbstractType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

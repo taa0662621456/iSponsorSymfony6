@@ -12,11 +12,11 @@ use Webmozart\Assert\Assert;
 
 final class AddUserFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly string $entryType)
+    public function __construct(private readonly string $entryType = 'Type')
     {
     }
 
-    #[ArrayShape([FormEvents::PRE_SET_DATA => "string", FormEvents::SUBMIT => "string"])]
+    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string', FormEvents::SUBMIT => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -41,8 +41,6 @@ final class AddUserFormSubscriber implements EventSubscriberInterface
         $data = $event->getData();
         $form = $event->getForm();
 
-        /** @var UserAwareInterface $data */
-        Assert::isInstanceOf($data, UserAwareInterface::class);
 
         if (null === $data->getUser()->getId() && null === $form->get('createUser')->getViewData()) {
             $data->setUser(null);

@@ -3,7 +3,7 @@
 namespace App\Entity\Currency;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(mercure: true)]
 class CurrencyExchange
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     protected $currencySource;
 

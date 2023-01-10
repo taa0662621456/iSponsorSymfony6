@@ -3,7 +3,7 @@
 namespace App\Entity\Vendor;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 class VendorCodeStorage
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     #[ORM\Column(name: 'phone', type: 'string')]
     protected string $phone;

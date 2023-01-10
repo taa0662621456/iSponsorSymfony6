@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Interface\CustomerInterface;
+use App\Interface\Vendor\VendorRepositoryInterface;
 use Composer\Repository\RepositoryInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -12,11 +13,11 @@ use Webmozart\Assert\Assert;
 
 final class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly RepositoryInterface $customerRepository)
+    public function __construct(private readonly VendorRepositoryInterface $vendorRepository)
     {
     }
 
-    #[ArrayShape([FormEvents::PRE_SUBMIT => "string"])]
+    #[ArrayShape([FormEvents::PRE_SUBMIT => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -36,12 +37,12 @@ final class CustomerRegistrationFormSubscriber implements EventSubscriberInterfa
         Assert::isInstanceOf($data, CustomerInterface::class);
 
         // if email is not filled in, go on
-        if (!isset($rawData['email']) || empty($rawData['email'])) {
+        if (empty($rawData['email'])) {
             return;
         }
 
         /** @var CustomerInterface|null $existingCustomer */
-        $existingCustomer = $this->customerRepository->findOneBy(['email' => $rawData['email']]);
+        $existingCustomer = $this->vendorRepository->findOneBy(['email' => $rawData['email']]);
         if (null === $existingCustomer || null !== $existingCustomer->getUser()) {
             return;
         }

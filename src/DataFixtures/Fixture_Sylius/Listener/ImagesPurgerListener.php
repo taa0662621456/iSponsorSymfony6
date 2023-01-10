@@ -3,6 +3,9 @@
 namespace App\DataFixtures\Fixture_Sylius\Listener;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\Security\Http\Firewall\AbstractListener;
 
 class ImagesPurgerListener extends AbstractListener implements BeforeSuiteListenerInterface
 {
@@ -20,5 +23,16 @@ class ImagesPurgerListener extends AbstractListener implements BeforeSuiteListen
     public function getName(): string
     {
         return 'images_purger';
+    }
+
+    public function supports(Request $request): ?bool
+    {
+        // TODO: Implement supports() method.
+        return true;
+    }
+
+    public function authenticate(RequestEvent $event)
+    {
+        // TODO: Implement authenticate() method.
     }
 }

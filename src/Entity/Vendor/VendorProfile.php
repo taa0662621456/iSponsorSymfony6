@@ -3,8 +3,8 @@
 namespace App\Entity\Vendor;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\VendorLanguageTrait;
 use App\Repository\Vendor\VendorProfileRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
 class VendorProfile
 {
     use VendorLanguageTrait;
-    use ObjectTrait;
-    use BaseTrait;
+    use ObjectTitleTrait;
+    use ObjectBaseTrait;
 }

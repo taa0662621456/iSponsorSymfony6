@@ -2,8 +2,8 @@
 
 namespace App\Entity\Module;
 
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -12,8 +12,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\Entity]
 class ModuleMenu
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
     public function __construct()
     {

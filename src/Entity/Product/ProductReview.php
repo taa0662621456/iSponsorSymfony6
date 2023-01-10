@@ -1,35 +1,34 @@
 <?php
 
-
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
-use App\Entity\ReviewTrait;
+use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectReviewTrait;
+use App\Interface\Product\ProductReviewInterface;
 use App\Repository\Review\ProductReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Table(name: 'product_review')]
 #[ORM\Index(columns: ['slug'], name: 'product_review_idx')]
 #[ORM\Entity(repositoryClass: ProductReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
+
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
 #[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
+    'firstTitle' => 'partial',
+    'lastTitle' => 'partial',
 ])]
-class ProductReview
+class ProductReview implements ProductReviewInterface
 {
-    use BaseTrait;
-    use ObjectTrait;
-    use ReviewTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
+    use ObjectReviewTrait;
 
     public const NUM_ROWS = 10;
 
@@ -40,6 +39,7 @@ class ProductReview
     {
         return $this->productId;
     }
+
     public function setProductId(?string $productId): void
     {
         $this->productId = $productId;
@@ -48,14 +48,15 @@ class ProductReview
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productReview')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Product $productReviewProduct;
-    # ManyToOne
+
+    // ManyToOne
     public function getProductReviewProduct(): Product
     {
         return $this->productReviewProduct;
     }
+
     public function setProductReviewProduct(Product $product): void
     {
         $this->productReviewProduct = $product;
     }
-
 }

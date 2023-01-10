@@ -3,8 +3,8 @@
 namespace App\Entity\Event;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Entity\Vendor\Vendor;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,8 +20,8 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(mercure: true)]
 class EventMember
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
     #[ORM\Column(name: 'event_id', type: 'integer', nullable: false, options: ['unsigned' => true])]
     private int $eventId;
 // TODO: не работает ассоциация

@@ -15,9 +15,14 @@ fa:
 cu:
 	composer update
 
+lc:
+	php bin/console lint:container
+
 ff:
 	clear
 	make cu
+	clear
+	make lc
 	clear
 	symfony console doctrine:schema:drop --force --env=dev --full-database -n
 	# force fixtures

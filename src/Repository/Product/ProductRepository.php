@@ -1,10 +1,10 @@
 <?php
 
-
 namespace App\Repository\Product;
 
 use App\Entity\Product\Product;
-use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductPropertyInterface;
+use App\Interface\Product\ProductRepositoryInterface;
 use App\Interface\Taxation\TaxationInterface;
 use App\Interface\Vendor\VendorInterface;
 use App\Service\AssociationHydrate;
@@ -15,22 +15,20 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
-
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductRepository extends ServiceEntityRepository
+class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {
     private AssociationHydrate $associationHydrate;
 
-	public function __construct(ManagerRegistry $registry, EntityManager $entityManager, ClassMetadata $class)
+    public function __construct(ManagerRegistry $registry, EntityManager $entityManager, ClassMetadata $class)
     {
         parent::__construct($registry, Product::class);
         $this->associationHydrate = new AssociationHydrate($entityManager, $class);
-
     }
 
     /**
@@ -48,7 +46,6 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-
 
     // /**
     //  * @return Products[] Returns an array of Products objects
@@ -78,10 +75,10 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
     */
-	public function findBySearchQuery($query, $limit)
-	{
-		//TODO
-	}
+    public function findBySearchQuery($query, $limit)
+    {
+        // TODO
+    }
 
     public function createListQueryBuilder(string $locale, $taxonId = null): QueryBuilder
     {
@@ -103,11 +100,11 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     public function createShopListQueryBuilder(
-        VendorInterface   $vendor,
+        VendorInterface $vendor,
         TaxationInterface $tax,
-        string            $locale,
-        array             $sorting = [],
-        bool              $includeAllDescendants = false,
+        string $locale,
+        array $sorting = [],
+        bool $includeAllDescendants = false,
     ): QueryBuilder {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('translation')
@@ -196,7 +193,7 @@ class ProductRepository extends ServiceEntityRepository
             ;
     }
 
-    public function findOneByVendorAndSlug(VendorInterface $vendor, string $locale, string $slug): ?ProductInterface
+    public function findOneByVendorAndSlug(VendorInterface $vendor, string $locale, string $slug): ?ProductPropertyInterface
     {
         $product = $this->createQueryBuilder('o')
             ->addSelect('translation')
@@ -225,7 +222,7 @@ class ProductRepository extends ServiceEntityRepository
         return $product;
     }
 
-    public function findOneByVendorAndCode(VendorInterface $vendor, string $code): ?ProductInterface
+    public function findOneByVendorAndCode(VendorInterface $vendor, string $code): ?ProductPropertyInterface
     {
         $product = $this->createQueryBuilder('o')
             ->where('o.code = :code')
@@ -251,7 +248,7 @@ class ProductRepository extends ServiceEntityRepository
         return $product;
     }
 
-    public function findOneByCode(string $code): ?ProductInterface
+    public function findOneByCode(string $code): ?ProductPropertyInterface
     {
         return $this->createQueryBuilder('o')
             ->where('o.code = :code')

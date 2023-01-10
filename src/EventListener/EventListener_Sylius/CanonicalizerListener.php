@@ -10,7 +10,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 final class CanonicalizerListener
 {
-    public function __construct(private CanonicalizerInterface $canonicalizer)
+    public function __construct(private readonly CanonicalizerInterface $canonicalizer)
     {
     }
 

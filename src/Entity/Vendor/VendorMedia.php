@@ -8,8 +8,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\AttachmentTrait;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Repository\Vendor\VendorMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -26,8 +26,8 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 class VendorMedia
 {
-	use BaseTrait;
-    use ObjectTrait;
+	use ObjectBaseTrait;
+    use ObjectTitleTrait;
     use AttachmentTrait;
 
 	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorMedia')]

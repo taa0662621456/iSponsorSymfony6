@@ -2,8 +2,8 @@
 
 namespace App\Entity\Order;
 
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -13,7 +13,7 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 class OrderShipment
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
 }

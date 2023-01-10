@@ -4,25 +4,26 @@ namespace App\EventListener;
 
 use App\Service\RequestDispatcher;
 use Doctrine\ORM\EntityManagerInterface;
+use function in_array;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Service\UrlContainerInterface;
 use Presta\SitemapBundle\Sitemap\Url\UrlConcrete;
-use Symfony\Component\Routing\RouterInterface;
-use function in_array;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SitemapListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly EntityManagerInterface $doctrine, private readonly UrlGeneratorInterface $router, private readonly RequestDispatcher $requestDispatcher)
+    public function __construct(private readonly EntityManagerInterface $doctrine,
+                                private readonly UrlGeneratorInterface $router,
+                                private readonly RequestDispatcher $requestDispatcher)
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    #[ArrayShape([SitemapPopulateEvent::ON_SITEMAP_POPULATE => "string"])]
+    #[ArrayShape([SitemapPopulateEvent::ON_SITEMAP_POPULATE => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -46,7 +47,7 @@ class SitemapListener implements EventSubscriberInterface
     {
         $object = $this->requestDispatcher->object();
         $entities = $this->doctrine->getRepository($object)->findAll();
-# v1
+        // v1
 //        foreach ($pages as $page) {
 //            $url->addUrl(
 //                $this->url(
@@ -57,7 +58,7 @@ class SitemapListener implements EventSubscriberInterface
 //            );
 //        }
 
-# v2
+// v2
 //        foreach ($projects as $project) {
 //            $url->addUrl(
 //                new UrlConcrete(
@@ -70,7 +71,6 @@ class SitemapListener implements EventSubscriberInterface
 //                'project'
 //            );
 //        }
-
     }
 
     private function entities(UrlContainerInterface $urlContainer): void
@@ -81,11 +81,11 @@ class SitemapListener implements EventSubscriberInterface
         /** @var $entity */
         foreach ($entities as $entity) {
             $url = $this->url(
-                $entities . 'show_slug',
+                $entities.'show_slug',
                 ['slug' => $entity->getSlug()]
             );
 
-# TODO: обработка медиаАттачмнтов
+            // TODO: обработка медиаАттачмнтов
 //            if (count($entity->getImages()) > 0) {
 //                $url = new GoogleImageUrlDecorator($url);
 //                foreach ($entity->getImages() as $idx => $image) {
@@ -116,6 +116,7 @@ class SitemapListener implements EventSubscriberInterface
     {
         $object = $this->requestDispatcher->object();
         $parameters = [];
+
         return new UrlConcrete(
             $this->router->generate($object, $parameters, UrlGeneratorInterface::ABSOLUTE_URL)
         );

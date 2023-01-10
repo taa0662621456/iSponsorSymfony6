@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormEvents;
 
 final class AddBaseCurrencySubscriber implements EventSubscriberInterface
 {
-    #[ArrayShape([FormEvents::PRE_SET_DATA => "string"])]
+    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [

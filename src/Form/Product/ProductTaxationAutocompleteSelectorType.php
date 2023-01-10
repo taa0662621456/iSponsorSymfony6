@@ -3,7 +3,7 @@
 namespace App\Form\Product;
 
 use App\Interface\Factory\FactoryInterface;
-use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductPropertyInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,7 +49,7 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
 
         $resolver
             ->setRequired('product')
-            ->setAllowedTypes('product', ProductInterface::class)
+            ->setAllowedTypes('product', ProductPropertyInterface::class)
         ;
     }
 

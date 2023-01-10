@@ -7,7 +7,7 @@ namespace Fixture;
 
 
 
-use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductPropertyInterface;
 use Fixture\FixtureRegistryInterface;
 use Fixture\ListenerRegistryInterface;
 use Fixture\Suite;
@@ -66,7 +66,7 @@ final class ProductAttributeFixturesTest extends KernelTestCase
 
         $productRepository = $container->get('repository.product');
 
-        /** @var ProductInterface $product */
+        /** @var ProductPropertyInterface $product */
         $product = $productRepository->findOneByCode('LOTR');
         $this->assertNotNull($product);
 
@@ -76,7 +76,7 @@ final class ProductAttributeFixturesTest extends KernelTestCase
         $this->assertValueOfAttributeWithCode($product, 'COVER', ['SOFT']);
     }
 
-    private function assertValueOfAttributeWithCode(ProductInterface $product, string $code, $value): void
+    private function assertValueOfAttributeWithCode(ProductPropertyInterface $product, string $code, $value): void
     {
         $productAttribute = $product->getAttributeByCodeAndLocale($code, 'en_US');
         $this->assertEquals($value, $productAttribute->getValue());

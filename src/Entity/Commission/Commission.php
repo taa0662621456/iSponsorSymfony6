@@ -4,16 +4,16 @@
 namespace App\Entity\Commission;
 
 
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use App\Factory\EntityFactory;
 use DateTime;
 use Symfony\Component\Uid\Uuid;
 
 class Commission
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
     //TODO: комиссии, налагаемые на способы доставки, оплаты и пр.
     /**
      * incrementCommission

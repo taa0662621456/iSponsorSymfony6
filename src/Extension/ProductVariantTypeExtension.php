@@ -4,6 +4,7 @@
 namespace App\Extension;
 
 
+use App\Form\Product\ProductBundle\ProductVariantType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

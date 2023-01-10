@@ -3,24 +3,26 @@
 namespace App\Repository\Promotion;
 
 use App\Entity\Vendor\Vendor;
-use App\Interface\PromotionRepositoryInterface;
 use App\Service\AssociationHydrate;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
-
 
 class PromotionRepository extends EntityManager
 {
     private AssociationHydrate $associationHydrate;
 
+    /**
+     * @throws MissingMappingDriverImplementation
+     */
     public function __construct(EntityManager $entityManager, ClassMetadata $class)
     {
         parent::__construct($entityManager, $class);
 
         $this->associationHydrate = new AssociationHydrate($entityManager, $class);
     }
+
     public function findActive(): array
     {
         return $this->filterByActive($this->createQueryBuilder('o'))

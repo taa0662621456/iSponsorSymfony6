@@ -2,10 +2,10 @@
 
 namespace App\Entity\Taxation;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 
 class TaxationRateValue
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
 }

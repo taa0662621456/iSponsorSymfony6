@@ -9,7 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressBillingType extends AbstractType
 {
-    public function __construct(private readonly string $dataClass)
+    protected string $dataClass;
+
+    public function __construct(string $dataClass = 'data_class')
     {
     }
 

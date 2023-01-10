@@ -15,13 +15,13 @@ class CartItemType
     protected array $validationGroups = [];
 
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
     public function __construct(
-        string                               $dataClass,
-        array                                $validationGroups,
+        array $validationGroups,
         private readonly DataMapperInterface $dataMapper,
+        string $dataClass = 'data_class',
     ) {
     }
 

@@ -4,8 +4,8 @@
 namespace App\Entity\Payment;
 
 
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use DateTime;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 class Payment
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     public function __construct()
     {

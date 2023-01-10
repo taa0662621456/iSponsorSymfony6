@@ -9,9 +9,9 @@ use ApiPlatform\Core\Annotation\ApiResource;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
-use App\Entity\ReviewTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectReviewTrait;
 use App\Repository\Review\ProjectReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,9 +33,9 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 class ProjectReview
 {
-    use BaseTrait;
-    use ObjectTrait;
-    use ReviewTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
+    use ObjectReviewTrait;
     public const NUM_ROWS = 10;
 
     #[ORM\Column(name: 'project_id', nullable: true)]

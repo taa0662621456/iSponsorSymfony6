@@ -5,6 +5,9 @@ namespace App\Extension;
 
 
 
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\FormBuilderInterface;
+
 final class PromotionFilterCollectionTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

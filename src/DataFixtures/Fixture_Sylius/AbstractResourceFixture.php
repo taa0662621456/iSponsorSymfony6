@@ -1,8 +1,8 @@
 <?php
 
-
 namespace App\DataFixtures\Fixture_Sylius;
 
+use App\Interface\ExampleFactoryInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -14,7 +14,8 @@ abstract class AbstractResourceFixture implements FixtureInterface
 {
     private OptionsResolver $optionsResolver;
 
-    public function __construct(private ObjectManager $objectManager, private ExampleFactoryInterface $exampleFactory)
+    public function __construct(private readonly ObjectManager $objectManager,
+                                private readonly ExampleFactoryInterface $exampleFactory)
     {
         $this->optionsResolver =
             (new OptionsResolver())
@@ -34,12 +35,12 @@ abstract class AbstractResourceFixture implements FixtureInterface
         ;
     }
 
-    final public function load(array $options): void
+    final public function load($manager): void
     {
-        $options = $this->optionsResolver->resolve($options);
+        $manager = $this->optionsResolver->resolve($manager);
 
         $i = 0;
-        foreach ($options['custom'] as $resourceOptions) {
+        foreach ($manager['custom'] as $resourceOptions) {
             $resource = $this->exampleFactory->create($resourceOptions);
 
             $this->objectManager->persist($resource);

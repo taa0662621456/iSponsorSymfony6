@@ -6,8 +6,8 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'order_shipment_en')]
@@ -23,7 +23,7 @@ use Doctrine\ORM\Mapping as ORM;
 ])]
 class OrderShipmentEnUs
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
 }

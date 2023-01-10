@@ -2,9 +2,9 @@
 
 namespace App\Entity\Address;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 
 class AddressStreetSecondLine
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 }

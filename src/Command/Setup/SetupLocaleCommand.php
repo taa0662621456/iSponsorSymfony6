@@ -4,7 +4,7 @@ namespace App\Command\Setup;
 
 use App\Entity\Locale\Locale;
 use App\Interface\Currency\CurrencyInterface;
-use App\Repository\LocaleRepository;
+use App\Repository\Locale\LocaleRepository;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;

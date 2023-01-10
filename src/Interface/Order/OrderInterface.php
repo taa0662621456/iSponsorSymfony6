@@ -32,7 +32,7 @@ interface OrderInterface
     public function setNotes(?string $notes): void;
 
     /**
-     * @return Collection|OrderItemInterface[]
+     * @return Collection
      *
      * @psalm-return Collection<array-key, OrderItemInterface>
      */

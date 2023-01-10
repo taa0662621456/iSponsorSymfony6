@@ -9,9 +9,10 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterfac
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
-class WsseListener
+final class WsseListener
 {
-    public function __construct(protected TokenStorageInterface $tokenStorage, protected AuthenticationManagerInterface $authenticationManager)
+    public function __construct(protected TokenStorageInterface $tokenStorage,
+                                protected AuthenticationManagerInterface $authenticationManager)
     {
     }
 
@@ -27,8 +28,8 @@ class WsseListener
         $token = new WsseUserToken();
         $token->setUser($matches['username']);
 
-        $token->digest  = $matches['digest'];
-        $token->nonce   = $matches['nonce'];
+        $token->digest = $matches['digest'];
+        $token->nonce = $matches['nonce'];
         $token->created = $matches['created'];
 
         try {
@@ -48,7 +49,7 @@ class WsseListener
             // return;
         }
 
-        // By default deny authorization
+        // By default, deny authorization
         $response = new Response();
         $response->setStatusCode(Response::HTTP_FORBIDDEN);
         $event->setResponse($response);

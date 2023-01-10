@@ -5,7 +5,7 @@ namespace App\Entity\Product;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -17,5 +17,5 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductTax
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 }

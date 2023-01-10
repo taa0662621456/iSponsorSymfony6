@@ -2,11 +2,11 @@
 
 namespace App\Entity\Coupon;
 
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 
 class Coupon
 {
-    use BaseTrait;
+    use ObjectBaseTrait;
 
     /** @var string|null */
     protected ?string $couponCode;

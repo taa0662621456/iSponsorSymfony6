@@ -6,7 +6,7 @@ namespace App\Entity\Product;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use App\Repository\Product\ProductFavouriteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
 class ProductFavourite
 {
-	use BaseTrait;
+	use ObjectBaseTrait;
 
 	#[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'productFavourite')]
 	private Product $productFavourite;

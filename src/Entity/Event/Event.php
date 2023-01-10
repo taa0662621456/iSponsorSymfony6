@@ -3,8 +3,8 @@
 namespace App\Entity\Event;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\BaseTrait;
-use App\Entity\ObjectTrait;
+use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectTitleTrait;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -19,8 +19,8 @@ use Symfony\Component\Uid\Uuid;
 #[ApiResource(mercure: true)]
 class Event
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use ObjectBaseTrait;
+    use ObjectTitleTrait;
 
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
     private int $parent;

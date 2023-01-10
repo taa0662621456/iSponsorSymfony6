@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class PaymentType extends AbstractType
 {
-    public function __construct(private readonly string $dataClass)
+    public function __construct(private readonly string $dataClass = 'data_class')
     {
     }
 

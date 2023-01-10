@@ -4,7 +4,7 @@ namespace App\Entity\Vendor;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\OAuthTrait;
-use App\Entity\BaseTrait;
+use App\Entity\ObjectBaseTrait;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
@@ -34,7 +34,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
-	use BaseTrait;
+	use ObjectBaseTrait;
 	use OAuthTrait;
 
 	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]

@@ -1,24 +1,22 @@
 <?php
 
-
 namespace App\Entity\Product;
 
-
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\BaseTrait;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectBaseTrait;
+use App\Interface\Product\ProductOptionInterface;
 use App\Repository\Product\ProductOptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'product_option')]
 #[ORM\Index(columns: ['slug'], name: 'product_option_idx')]
 #[ORM\Entity(repositoryClass: ProductOptionRepository::class)]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class ProductOption
-{
-    use BaseTrait;
 
+#[ApiResource]
+#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
+class ProductOption implements ProductOptionInterface
+{
+    use ObjectBaseTrait;
 }

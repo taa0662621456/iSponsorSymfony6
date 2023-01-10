@@ -2,26 +2,8 @@
 
 namespace App\Controller\Cart;
 
-use App\Entity\Order\OrderStorage;
-use App\Entity\Product\Product;
-use App\Entity\Product\ProductPrice;
-use App\Entity\Vendor\Vendor;
-use App\Event\OrderSubmitEvent;
-use App\Form\Order\OrderHistory;
-use App\Interface\Order\OrderRepositoryInterface;
-use App\Service\ProductUtilite;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\Exception\ORMException;
-use Doctrine\Persistence\ManagerRegistry;
-use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Form;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use Webmozart\Assert\Assert;
 
 #[AsController]
 class CartController extends AbstractController
