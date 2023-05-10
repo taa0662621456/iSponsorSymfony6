@@ -3,16 +3,15 @@
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\OAuthTrait;
-use App\Entity\ObjectTitleTrait;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Product\Product;
 use App\Entity\Vendor\Vendor;
+use App\Interface\Order\OrderItemInterface;
 use App\Repository\Order\OrderRepository;
 use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
+use App\Interface\Object\ObjectInterface;
 
 #[ORM\Table(name: 'order_item')]
 #[ORM\Index(columns: ['slug'], name: 'order_item_idx')]
@@ -20,11 +19,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource(mercure: true)]
-class OrderItem
+final class OrderItem extends ObjectSuperEntity implements ObjectInterface, OrderItemInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-
     #[ORM\Column(name: 'item_id', nullable: true)]
     private ?int $itemId = null;
 
@@ -37,19 +33,19 @@ class OrderItem
     #[ORM\Column(name: 'item_quantity', type: 'integer', nullable: false, options: ['default' => 1])]
     private int $itemQuantity = 1;
 
-    #[ORM\Column(name: 'item_price', type: 'decimal', nullable: true, precision: 7, scale: 2)]
+    #[ORM\Column(name: 'item_price', type: 'decimal', precision: 7, scale: 2, nullable: true)]
     private ?int $itemPrice = null;
 
-    #[ORM\Column(name: 'item_price_without_tax', type: 'decimal', nullable: true, precision: 7, scale: 2)]
+    #[ORM\Column(name: 'item_price_without_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
     private ?int $itemPriceWithoutTax = null;
 
-    #[ORM\Column(name: 'item_tax', type: 'decimal', nullable: true, precision: 7, scale: 2)]
+    #[ORM\Column(name: 'item_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
     private ?int $itemTax = null;
 
-    #[ORM\Column(name: 'item_base_price_with_tax', type: 'decimal', nullable: true, precision: 7, scale: 2)]
+    #[ORM\Column(name: 'item_base_price_with_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
     private ?int $itemBasePriceWithTax = null;
 
-    #[ORM\Column(name: 'item_discounted_price_without_tax', type: 'decimal', nullable: true, precision: 7, scale: 2)]
+    #[ORM\Column(name: 'item_discounted_price_without_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
     private ?int $itemDiscountedPriceWithoutTax = null;
 
     #[ORM\Column(name: 'item_final_price', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
@@ -83,13 +79,6 @@ class OrderItem
     public function __construct()
     {
         $t = new \DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
     }
     #
     public function getItemId(): ?int

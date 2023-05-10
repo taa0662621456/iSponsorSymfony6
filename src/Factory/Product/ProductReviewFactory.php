@@ -2,20 +2,16 @@
 
 namespace App\Factory\Product;
 
-use App\Entity\Product\ProductReview;
+use App\Service\Object\ObjectFactory;
 
-
-class ProductReviewFactory
+class ProductReviewFactory extends ObjectFactory
 {
-    public function __invoke(): ProductReviewFactory
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new ProductReviewFactory();
-    }
-
-
-    public static function create(): ProductReviewFactory
-    {
-        return new ProductReviewFactory();
+        return $this->create(__CLASS__, $options);
     }
 
 }

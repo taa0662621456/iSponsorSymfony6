@@ -2,24 +2,19 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Featured\Featured;
-use App\Entity\MetaTrait;
-use App\Entity\ObjectTitleTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Product\ProductInterface;
 use App\Interface\Product\ProductTypeInterface;
 use App\Repository\Product\ProductRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'product')]
@@ -27,13 +22,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 
-#[ApiResource(types: '')]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class Product
+final class Product extends ObjectSuperEntity implements ObjectInterface, ProductInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use MetaTrait;
 
     public const NUM_ITEMS = 10;
 
@@ -109,19 +99,12 @@ class Product
 
     public function __construct()
     {
-        $t = new DateTime();
-        $this->slug = (string) Uuid::v4();
-
+        parent::__construct();
         $this->productAttachment = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
         $this->productTag = new ArrayCollection();
         $this->productReview = new ArrayCollection();
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
     }
 
     // ManyToOne

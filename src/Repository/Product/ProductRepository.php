@@ -7,10 +7,7 @@ use App\Interface\Product\ProductPropertyInterface;
 use App\Interface\Product\ProductRepositoryInterface;
 use App\Interface\Taxation\TaxationInterface;
 use App\Interface\Vendor\VendorInterface;
-use App\Service\AssociationHydrate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -23,12 +20,14 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
 {
-    private AssociationHydrate $associationHydrate;
+    // private AssociationHydrate $associationHydrate;
 
-    public function __construct(ManagerRegistry $registry, EntityManager $entityManager, ClassMetadata $class)
-    {
+    public function __construct(ManagerRegistry $registry,
+                                // EntityManager $entityManager,
+                                // ClassMetadata $class
+    ) {
         parent::__construct($registry, Product::class);
-        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+        // $this->associationHydrate = new AssociationHydrate($entityManager, $class);
     }
 
     /**

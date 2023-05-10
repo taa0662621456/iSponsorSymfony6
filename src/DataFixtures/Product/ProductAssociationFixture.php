@@ -1,0 +1,29 @@
+<?php
+
+
+namespace App\DataFixtures\Product;
+
+use App\DataFixtures\AbstractDataFixture;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+
+final class ProductAssociationFixture extends AbstractDataFixture
+{
+    public function getName(): string
+    {
+        return 'product_association';
+    }
+
+    protected function configureResourceNode(ArrayNodeDefinition $resourceNode): void
+    {
+        $resourceNode
+            ->children()
+                ->scalarNode('type')->cannotBeEmpty()->end()
+                ->scalarNode('owner')->cannotBeEmpty()->end()
+                ->variableNode('associated_products')
+                    ->beforeNormalization()
+                        ->ifNull()->thenUnset()
+                    ->end()
+                ->end()
+        ;
+    }
+}

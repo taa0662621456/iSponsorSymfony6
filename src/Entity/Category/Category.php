@@ -1,40 +1,32 @@
 <?php
 
-
 namespace App\Entity\Category;
 
-use App\Entity\Attachment\Attachment;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\Currency\CategoryFeatured;
 use App\Entity\Featured\Featured;
-use App\Entity\MetaTrait;
-use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Project\Project;
-use App\Interface\CategoryAttachmentInterface;
-use App\Interface\CategoryInterface;
-use App\Interface\FeaturedInterface;
-use App\Interface\ProjectInterface;
+use App\Interface\Category\CategoryAttachmentInterface;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Featured\FeaturedInterface;
+use App\Interface\Object\ObjectApiResourceInterface;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Project\ProjectInterface;
 use App\Repository\Category\CategoryRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
-use JetBrains\PhpStorm\Pure;
-use DateTime;
-
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'category')]
 #[ORM\Index(columns: ['slug'], name: 'category_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Category implements CategoryInterface
+final class Category extends ObjectSuperEntity implements ObjectInterface, ObjectApiResourceInterface, CategoryInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use MetaTrait;
-
-
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
     private int $ordering = 1;
@@ -72,100 +64,111 @@ class Category implements CategoryInterface
     /**
      * @throws Exception
      */
-    #[Pure]
     public function __construct()
     {
         $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
         $this->categoryChildren = new ArrayCollection();
         $this->categoryProject = new ArrayCollection();
         $this->categoryAttachment = new ArrayCollection();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
     }
-    # OneToMany
+
+    // OneToMany
     public function getCategoryProject(): Collection
     {
         return $this->categoryProject;
     }
+
     public function setCategoryProject(Project $categoryProject): void
     {
-            $this->categoryProject = $categoryProject;
+        $this->categoryProject = $categoryProject;
     }
-    # OneToOne
+
+    // OneToOne
     public function getCategoryEnGb(): CategoryEnGb
     {
         return $this->categoryEnGb;
     }
+
     public function setCategoryEnGb(CategoryEnGb $categoryEnGb): void
     {
         $this->categoryEnGb = $categoryEnGb;
     }
-    #
+
     public function getOrdering(): int
     {
         return $this->ordering;
     }
+
     public function setOrdering(int $ordering): void
     {
         $this->ordering = $ordering;
     }
-    # OneToMany
+
+    // OneToMany
     public function getCategoryChildren(): Collection
     {
         return $this->categoryChildren;
     }
+
     public function addCategoryChildren(Category $categoryChildren): self
     {
         if (!$this->categoryChildren->contains($categoryChildren)) {
             $this->categoryChildren[] = $categoryChildren;
         }
+
         return $this;
     }
+
     public function removeCategoryChildren(Category $categoryChildren): self
     {
-        if ($this->categoryChildren->contains($categoryChildren)){
+        if ($this->categoryChildren->contains($categoryChildren)) {
             $this->categoryChildren->removeElement($categoryChildren);
         }
+
         return $this;
     }
-    # ManyToOne
+
+    // ManyToOne
     public function getCategoryParent(): Category
     {
         return $this->categoryParent;
     }
-    public function setCategoryParent(Category $categoryParent):void
+
+    public function setCategoryParent(Category $categoryParent): void
     {
         $this->categoryParent = $categoryParent;
     }
-    # OneToMany
+
+    // OneToMany
     public function getCategoryAttachment(): Collection
     {
         return $this->categoryAttachment;
     }
+
     public function addCategoryAttachment(CategoryAttachment $categoryAttachment): self
     {
         if (!$this->categoryAttachment->contains($categoryAttachment)) {
             $this->categoryAttachment[] = $categoryAttachment;
         }
+
         return $this;
     }
+
     public function removeCategoryAttachment(CategoryAttachment $categoryAttachment): self
     {
-        if ($this->categoryAttachment->contains($categoryAttachment)){
+        if ($this->categoryAttachment->contains($categoryAttachment)) {
             $this->categoryAttachment->removeElement($categoryAttachment);
         }
+
         return $this;
     }
-    # OneToOne
+
+    // OneToOne
     public function getCategoryFeatured(): Featured
     {
         return $this->categoryFeatured;
     }
+
     public function setCategoryFeatured(Featured $categoryFeatured): void
     {
         $this->categoryFeatured = $categoryFeatured;

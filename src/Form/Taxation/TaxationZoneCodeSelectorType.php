@@ -4,6 +4,8 @@
 namespace App\Form\Taxation;
 
 
+use App\Interface\Zone\ZoneRepositoryInterface;
+use App\Service\ResourceToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TaxationZoneCodeSelectorType extends AbstractType
 {
-    public function __construct(private readonly RepositoryInterface $zoneRepository)
+    public function __construct(private readonly ZoneRepositoryInterface $zoneRepository)
     {
     }
 

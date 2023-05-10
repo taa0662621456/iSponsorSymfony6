@@ -2,33 +2,16 @@
 
 namespace App\Factory\Project;
 
-use App\Entity\Project\Project;
-use App\Entity\Project\ProjectEnGb;
+use App\Service\Object\ObjectFactory;
 
-class ProjectEnGbFactory
+class ProjectEnGbFactory extends ObjectFactory
 {
-    public function __invoke(): Project
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new Project();
-    }
-
-
-    public static function createProjectEntity(string $firstTitle, string $lastTitle): ProjectEnGB
-    {
-
-        $project = new ProjectEnGB();
-        $project->setProjectTitle($firstTitle);
-        #
-        $project->setFirstTitle($firstTitle);
-        $project->setLastTitle($lastTitle);
-
-        return $project;
-    }
-
-
-    public static function createEmptyProjectEnGbEntity(): ProjectEnGB
-    {
-        return new ProjectEnGB();
+        return $this->create(__CLASS__, $options);
     }
 
 }

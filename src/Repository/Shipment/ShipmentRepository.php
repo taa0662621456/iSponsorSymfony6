@@ -1,24 +1,22 @@
 <?php
 
-
 namespace App\Repository\Shipment;
 
 use App\Interface\CustomerInterface;
+use App\Interface\Shipment\ShipmentCategoryRepositoryInterface;
+use App\Interface\Shipment\ShipmentInterface;
 use App\Interface\Vendor\VendorInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
 
-
-
-
-class ShipmentRepository extends EntityRepository
+class ShipmentRepository implements ShipmentCategoryRepositoryInterface
 {
     public function createListQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state != :state')
-            ->setParameter('state', ShipmentInterface::STATE_CART)
+//            ->setParameter('state', ShipmentInterface::STATE_CART)
         ;
     }
 

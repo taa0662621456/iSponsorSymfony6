@@ -2,11 +2,19 @@
 
 namespace App\Entity\Coupon;
 
+use App\Entity\ObjectSuperEntity;
 use App\Entity\ObjectBaseTrait;
+use App\Interface\Coupon\CouponInterface;
+use App\Interface\Object\ObjectInterface;
+use App\Repository\Coupon\CouponRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-class Coupon
+#[ORM\Table(name: 'coupon')]
+#[ORM\Entity(repositoryClass: CouponRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+
+final class Coupon extends ObjectSuperEntity implements ObjectInterface, CouponInterface
 {
-    use ObjectBaseTrait;
 
     /** @var string|null */
     protected ?string $couponCode;

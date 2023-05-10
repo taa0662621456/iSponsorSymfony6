@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Entity\Order;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Order\OrderBillingInterface;
+use App\Repository\Order\OrderBillingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -8,8 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'order_billing_idx')]
 #[ORM\Entity(repositoryClass: OrderBillingRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
-class OrderBilling
+final class OrderBilling extends ObjectSuperEntity implements ObjectInterface, OrderBillingInterface
 {
-
 }

@@ -2,13 +2,8 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Entity\ObjectReviewTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductReviewInterface;
 use App\Repository\Review\ProductReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,18 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-#[ApiFilter(SearchFilter::class, properties: [
-    'firstTitle' => 'partial',
-    'lastTitle' => 'partial',
-])]
-class ProductReview implements ProductReviewInterface
+final class ProductReview extends ObjectSuperEntity implements ObjectInterface, ProductReviewInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use ObjectReviewTrait;
-
     public const NUM_ROWS = 10;
 
     #[ORM\Column(name: 'product_id', nullable: true)]

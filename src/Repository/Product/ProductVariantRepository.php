@@ -3,11 +3,13 @@
 namespace App\Repository\Product;
 
 use App\Interface\Product\ProductPropertyInterface;
+use App\Interface\Product\ProductVariantInterface;
+use App\Interface\Product\ProductVariantRepositoryInterface;
 use App\Interface\Taxation\TaxationInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class ProductVariantRepository extends EntityRepository
+class ProductVariantRepository extends EntityRepository implements ProductVariantRepositoryInterface
 {
     public function createQueryBuilderByProductId(string $locale, $productId): QueryBuilder
     {
@@ -130,7 +132,7 @@ class ProductVariantRepository extends EntityRepository
                 'translation.name LIKE :phrase',
                 'o.code LIKE :phrase',
             ))
-            ->setParameter('phrase', '%' . $phrase . '%')
+            ->setParameter('phrase', '%'.$phrase.'%')
             ->setParameter('locale', $locale)
             ->setParameter('productCode', $productCode)
             ->getQuery()
@@ -148,7 +150,7 @@ class ProductVariantRepository extends EntityRepository
                 'translation.name LIKE :phrase',
                 'o.code LIKE :phrase',
             ))
-            ->setParameter('phrase', '%' . $phrase . '%')
+            ->setParameter('phrase', '%'.$phrase.'%')
             ->setParameter('locale', $locale)
             ->orderBy('o.product', 'ASC')
             ->addOrderBy('o.position', 'ASC')

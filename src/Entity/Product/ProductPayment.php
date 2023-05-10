@@ -2,11 +2,9 @@
 
 namespace App\Entity\Product;
 
-
-use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Product\ProductPaymentInterface;
 use App\Repository\Product\ProductPaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,9 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'product_payment_idx')]
 #[ORM\Entity(repositoryClass: ProductPaymentRepository::class)]
 
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class ProductPayment
+final class ProductPayment extends ObjectSuperEntity implements ObjectInterface, ProductPaymentInterface
 {
-    use ObjectBaseTrait;
 }

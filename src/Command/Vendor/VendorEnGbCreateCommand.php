@@ -2,9 +2,9 @@
 
 namespace App\Command\Vendor;
 
-use _PHPStan_582a9cb8b\Symfony\Component\Console\Attribute\AsCommand;
 use App\Factory\Vendor\VendorEnUsFactory;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,10 +21,9 @@ class VendorEnGbCreateCommand extends Command
 
     protected function configure()
     {
-
         $this
             ->addArgument('firstTitle', InputArgument::REQUIRED, 'Vendor first title/first name')
-            ->addArgument('lastTitle',InputArgument::REQUIRED, 'Vendor last title/last name')
+            ->addArgument('lastTitle', InputArgument::REQUIRED, 'Vendor last title/last name')
         ;
     }
 
@@ -47,7 +46,7 @@ class VendorEnGbCreateCommand extends Command
         $this->manager->persist($vendorEnUs);
         $this->manager->flush();
 
-        $io->success('Vendor is saved: ' . $vendorEnUs);
+        $io->success('Vendor is saved: '.$vendorEnUs);
 
         return Command::SUCCESS;
     }

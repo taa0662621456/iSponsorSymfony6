@@ -2,19 +2,16 @@
 
 namespace App\Factory\Vendor;
 
-use App\Entity\Vendor\VendorSecurity;
+use App\Service\Object\ObjectFactory;
 
-class VendorSecurityFactory
+class VendorSecurityFactory extends ObjectFactory
 {
-    public function __invoke(): VendorSecurity
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new VendorSecurity();
-    }
-
-
-    public static function create(): VendorSecurity
-    {
-        return new VendorSecurity();
+        return $this->create(__CLASS__, $options);
     }
 
 }

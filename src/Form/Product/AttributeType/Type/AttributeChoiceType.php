@@ -2,7 +2,7 @@
 
 namespace App\Form\Product\AttributeType\Type;
 
-use App\Interface\RepositoryInterface;
+use App\Interface\Product\ProductAttributeRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AttributeChoiceType extends AbstractType
 {
-    public function __construct(protected RepositoryInterface $attributeRepository)
+    public function __construct(protected ProductAttributeRepositoryInterface $attributeRepository)
     {
     }
 

@@ -2,46 +2,31 @@
 
 namespace App\Entity\Payment;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\ObjectBaseTrait;
-use Payum\Core\Security\CypherInterface;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Payment\PaymentGatewayInterface;
+use App\Repository\PaymentGatewayRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Payum\Core\Security\CypherInterface;
 
 #[ORM\Table(name: 'payment_gateway')]
 #[ORM\Index(columns: ['slug'], name: 'payment_gateway_idx')]
 #[ORM\Entity(repositoryClass: PaymentGatewayRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class PaymentGateway
+final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface, PaymentGatewayInterface
 {
-    use ObjectBaseTrait;
+
+    protected string $factoryName;
+
+    protected string $gatewayName;
+
+    protected array $config;
 
     /**
-     * @var string
+     * Note: This should not be persisted to database.
      */
-    protected $factoryName;
-
-    /**
-     * @var string
-     */
-    protected $gatewayName;
-
-    /**
-     * @var array
-     */
-    protected $config;
-
-    /**
-     * Note: This should not be persisted to database
-     *
-     * @var array
-     */
-    protected $decryptedConfig;
+    protected array $decryptedConfig;
 
     public function __construct()
     {
@@ -49,42 +34,29 @@ class PaymentGateway
         $this->decryptedConfig = [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFactoryName()
+
+    public function getFactoryName(): string
     {
         return $this->factoryName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function setFactoryName($factoryName)
+
+    public function setFactoryName($factoryName): void
     {
         $this->factoryName = $factoryName;
     }
 
-    /**
-     * @return string
-     */
-    public function getGatewayName()
+    public function getGatewayName(): string
     {
         return $this->gatewayName;
     }
 
-    /**
-     * @param string $gatewayName
-     */
-    public function setGatewayName($gatewayName)
+    public function setGatewayName(string $gatewayName): void
     {
         $this->gatewayName = $gatewayName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getConfig()
+    public function getConfig(): array
     {
         if (isset($this->config['encrypted'])) {
             return $this->decryptedConfig;
@@ -93,19 +65,13 @@ class PaymentGateway
         return $this->config;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function setConfig(array $config)
+    public function setConfig(array $config): void
     {
         $this->config = $config;
         $this->decryptedConfig = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function decrypt(CypherInterface $cypher)
+    public function decrypt(CypherInterface $cypher): void
     {
         if (empty($this->config['encrypted'])) {
             return;
@@ -122,10 +88,7 @@ class PaymentGateway
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function encrypt(CypherInterface $cypher)
+    public function encrypt(CypherInterface $cypher): void
     {
         $this->decryptedConfig['encrypted'] = true;
 

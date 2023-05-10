@@ -17,7 +17,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
 {
     private ManagerRegistry $managerRegistry;
 
-    public function __constructor(ManagerRegistry $managerRegistry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
@@ -61,7 +61,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
         return $user;
     }
 
-    public function connect(UserInterface $user, UserResponseInterface $response)
+    public function connect(UserInterface $user, UserResponseInterface $response): void
     {
         if (!$user instanceof VendorSecurity) {
             throw new UnsupportedUserException(sprintf('Expected an instance of App\Model\User, but got "%s".', get_class($user)));
@@ -108,7 +108,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
      * @param UserResponseInterface $response
      * @throws TypeError
      */
-    public function disconnect(UserInterface $user, UserResponseInterface $response)
+    public function disconnect(UserInterface $user, UserResponseInterface $response): void
     {
         $property = $this->getProperty($response);
         $accessor = PropertyAccess::createPropertyAccessor();
@@ -123,7 +123,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
      * @param UserInterface $user
      * @param UserResponseInterface $response
      */
-    private function updateUser(UserInterface $user, UserResponseInterface $response)
+    private function updateUser(UserInterface $user, UserResponseInterface $response): void
     {
         $user->setEmail($response->getData()['email']);
         // TODO: Add more fields?!

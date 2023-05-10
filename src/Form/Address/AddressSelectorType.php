@@ -2,6 +2,7 @@
 
 namespace App\Form\Address;
 
+use App\Interface\Address\AddressRepositoryInterface;
 use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -10,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressSelectorType extends AbstractType
 {
-    public function __construct(private readonly RepositoryInterface $addressRepository)
+    public function __construct(private readonly AddressRepositoryInterface $addressRepository)
     {
     }
 

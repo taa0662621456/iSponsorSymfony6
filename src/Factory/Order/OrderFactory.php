@@ -2,20 +2,16 @@
 
 namespace App\Factory\Order;
 
+use App\Service\Object\ObjectFactory;
 
-use App\Entity\Product\Order;
-
-class OrderFactory
+class OrderFactory extends ObjectFactory
 {
-    public function __invoke(): Order
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new Order();
-    }
-
-
-    public static function create(): Order
-    {
-        return new Order();
+        return $this->create(__CLASS__, $options);
     }
 
 }

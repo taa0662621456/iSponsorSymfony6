@@ -2,21 +2,16 @@
 
 namespace App\Entity\Taxation;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Taxation\TaxationCategoryInterface;
+use App\Repository\TaxationCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'taxation_category')]
 #[ORM\Index(columns: ['slug'], name: 'taxation_category_idx')]
 #[ORM\Entity(repositoryClass: TaxationCategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource()]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class TaxationCategory
+final class TaxationCategory extends ObjectSuperEntity implements ObjectInterface, TaxationCategoryInterface
 {
-    use ObjectBaseTrait;
-
 }

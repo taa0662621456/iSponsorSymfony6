@@ -2,6 +2,7 @@
 
 namespace App\Interface\Currency;
 
-class CurrencyInterface
+interface CurrencyInterface
 {
+    public function setCode(mixed $currencyCode): void;
 }

@@ -1,19 +1,16 @@
 <?php
 
-
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
 use DateTime;
-use App\Entity\ObjectBaseTrait;
 use App\Repository\Order\OrderStatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Order\OrderStatusInterface;
 
 #[ORM\Table(name: 'order_status')]
 #[ORM\Index(columns: ['slug'], name: 'order_status_idx')]
@@ -21,11 +18,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource(mercure: true)]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class OrderStatus
+final class OrderStatus extends ObjectSuperEntity implements ObjectInterface, OrderStatusInterface
 {
-	use ObjectBaseTrait;
-
 	#[ORM\Column(name: 'order_status_code', type: 'string', nullable: false, options: ['default' => ''])]
 	private string $orderStatusCode = '';
 
@@ -52,14 +46,8 @@ class OrderStatus
 	public function __construct()
 	{
         $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
         $this->orderStatusStorage = new ArrayCollection();
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
 	}
 	public function getOrderStatusCode(): string
 	{

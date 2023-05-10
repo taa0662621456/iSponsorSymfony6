@@ -2,7 +2,7 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\OAuthTrait;
 use App\Entity\ObjectBaseTrait;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
@@ -19,22 +19,16 @@ use Serializable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use App\Interface\Object\ObjectInterface;
 use Symfony\Component\Validator\Constraints\Length;
 
 #[ORM\Table(name: 'vendor_security')]
 #[ORM\Index(columns: ['slug', 'email', 'phone'], name: 'vendor_security_idx')]
 #[ORM\Entity(repositoryClass: VendorSecurityRepository::class)]
 #[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
-//#[UniqueEntity(errorPath: 'email', message: 'email.already.use')]
-//#[UniqueEntity(errorPath: 'phone', message: 'phone.already.use')]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource()]
-
-class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
+final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface, Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
-	use ObjectBaseTrait;
 	use OAuthTrait;
 
 	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
@@ -115,11 +109,9 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
     {
         $t = new DateTime();
         $uuid = (string)Uuid::v4();
-        $this->slug = $uuid;
         $this->username = $uuid;
         $codeGenerator = new ConfirmationCodeGenerator;
         $this->activationCode = $codeGenerator->getConfirmationCode();
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
     }
     public function getUser(): string

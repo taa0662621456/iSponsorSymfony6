@@ -2,24 +2,17 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductStorageInterface;
 use App\Repository\Product\ProductStorageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'product_storage')]
 #[ORM\Index(columns: ['slug'], name: 'product_storage_idx')]
 #[ORM\Entity(repositoryClass: ProductStorageRepository::class)]
-
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class ProductStorage implements ProductStorageInterface
+final class ProductStorage extends ObjectSuperEntity implements ObjectInterface, ProductStorageInterface
 {
-    use ObjectBaseTrait;
 
     #[ORM\Column(name: 'product_sku', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productSku = 0;
@@ -65,15 +58,10 @@ class ProductStorage implements ProductStorageInterface
 
     public function __construct()
     {
+        parent::__construct();
         $t = new \DateTime();
-        $this->slug = (string) Uuid::v4();
         $this->productAvailableDate = $t->format('Y-m-d H:i:s');
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
     }
 
     /**

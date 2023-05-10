@@ -1,24 +1,24 @@
 <?php
 
-
 namespace App\Entity\Featured;
 
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Category\Category;
+use App\Entity\ObjectBaseTrait;
 use App\Entity\Product\Product;
 use App\Entity\Project\Project;
 use App\Entity\Vendor\Vendor;
+use App\Interface\Featured\FeaturedInterface;
+use App\Interface\Object\ObjectInterface;
 use App\Repository\Featured\FeaturedRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-
 #[ORM\Table(name: 'feature')]
 #[ORM\Entity(repositoryClass: FeaturedRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Featured
+final class Featured extends ObjectSuperEntity implements ObjectInterface, FeaturedInterface
 {
-    use ObjectBaseTrait;
 
     #[ORM\Column(name: 'ordering', type: 'integer')]
     private int $ordering;
@@ -42,60 +42,67 @@ class Featured
     #[Ignore]
     private ?Vendor $vendorFeatured = null;
 
-    public function setOrdering($ordering): static
+    public function setOrdering(int $ordering): void
     {
-     $this->ordering = $ordering;
-     return $this;
+        $this->ordering = $ordering;
     }
+
     public function getOrdering(): int
     {
-     return $this->ordering;
+        return $this->ordering;
     }
-    #
+
     public function getFeaturedType(): string
     {
-     return $this->featuredType;
+        return $this->featuredType;
     }
+
     public function setFeaturedType(string $featuredType): void
     {
-     $this->featuredType = $featuredType;
+        $this->featuredType = $featuredType;
     }
-    # OneToOne
+
+    // OneToOne
     public function getProjectFeatured(): ?Project
     {
-     return $this->projectFeatured;
+        return $this->projectFeatured;
     }
+
     public function setProjectFeatured(?Project $projectFeatured): void
     {
-     $this->projectFeatured = $projectFeatured;
+        $this->projectFeatured = $projectFeatured;
     }
-    # OneToOne
+
+    // OneToOne
     public function getProductFeatured(): ?Product
     {
-     return $this->productFeatured;
+        return $this->productFeatured;
     }
+
     public function setProductFeatured(?Product $productFeatured): void
     {
-     $this->productFeatured = $productFeatured;
+        $this->productFeatured = $productFeatured;
     }
-    # OneToOne
+
+    // OneToOne
     public function getCategoryFeatured(): ?Category
     {
-     return $this->categoryFeatured;
+        return $this->categoryFeatured;
     }
+
     public function setCategoryFeatured(?Category $categoryFeatured): void
     {
-     $this->categoryFeatured = $categoryFeatured;
+        $this->categoryFeatured = $categoryFeatured;
     }
-    # OneToOne
+
+    // OneToOne
     public function getVendorFeatured(): ?Vendor
     {
-     return $this->vendorFeatured;
+        return $this->vendorFeatured;
     }
+
     public function setVendorFeatured(?Vendor $vendorFeatured): void
     {
-     $this->vendorFeatured = $vendorFeatured;
+        $this->vendorFeatured = $vendorFeatured;
     }
-
-
 }

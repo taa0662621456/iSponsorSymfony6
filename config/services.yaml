@@ -12,6 +12,7 @@ parameters:
     app_default_target_path: profile
     app_logged_out_target_route: homepage
     # Localisation
+    google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     app_locales: en|ru|uk
 #    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
     app_locale: 'en'
@@ -68,11 +69,11 @@ parameters:
           client1: pass1
           client2: pass2
 
-
 services:
-    App\Factory\Vendor\VendorFactory:
-        class: App\Factory\Vendor\VendorFactory
-        factory: 'VendorSecurityFactory'
+
+    App\Service\FakeGenerator:
+        arguments:
+            $fakerFactory: '@Faker\Factory::create'
 
 #    App\Factory\Vendor\VendorFactory:
 #        factory: ['App\Factory\Vendor\VendorFactory', 'create']
@@ -130,9 +131,9 @@ services:
         class: App\Security\HWIOAuthAuthenticator
         arguments:
             - '@doctrine'
-            - 'App\\Entity\\Vendor\\VendorSecurity'
+            - 'App\Entity\Vendor\VendorSecurity'
             - [facebook: facebookId, google: googleId, github: githubId]
-#            - postgres
+
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:
             - '@Redis'

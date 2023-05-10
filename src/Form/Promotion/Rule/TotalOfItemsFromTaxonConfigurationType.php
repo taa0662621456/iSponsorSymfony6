@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Form\Promotion\Rule;
 
-
 use App\Form\Product\ProductTaxationAutocompleteSelectorType;
-use Composer\Repository\RepositoryInterface;
+use App\Interface\Taxation\TaxationRepositoryInterface;
+use App\Service\ResourceToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
 {
-    public function __construct(private readonly RepositoryInterface $taxonRepository)
+    public function __construct(private readonly TaxationRepositoryInterface $taxationRepository)
     {
     }
 
@@ -31,7 +30,7 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
         ;
 
         $builder->get('taxon')->addModelTransformer(
-            new ReversedTransformer(new ResourceToIdentifierTransformer($this->taxonRepository, 'code')),
+            new ReversedTransformer(new ResourceToIdentifierTransformer($this->taxationRepository, 'code')),
         );
     }
 

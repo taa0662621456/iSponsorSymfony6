@@ -2,12 +2,10 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\AttachmentTrait;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Product\ProductAttachmentInterface;
 use App\Repository\Product\ProductAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,13 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'product_attachment_idx')]
 #[ORM\Entity(repositoryClass: ProductAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class ProductAttachment
+final class ProductAttachment extends ObjectSuperEntity implements ObjectInterface, ProductAttachmentInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
     use AttachmentTrait;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productAttachment')]

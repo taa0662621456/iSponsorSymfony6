@@ -2,20 +2,17 @@
 
 namespace App\Factory\Vendor;
 
-use App\Entity\Vendor\Vendor;
-use App\Interface\Vendor\VendorFactoryInterface;
 
-class VendorFactory implements VendorFactoryInterface
+use App\Service\Object\ObjectFactory;
+
+class VendorFactory extends ObjectFactory
 {
-    public function __invoke(): Vendor
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new Vendor();
-    }
-
-
-    public static function create(): Vendor
-    {
-        return new Vendor();
+        return $this->create(__CLASS__, $options);
     }
 
 }

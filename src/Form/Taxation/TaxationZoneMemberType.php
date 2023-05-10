@@ -8,16 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TaxationZoneMemberType extends AbstractType
 {
-    protected string $dataClass;
+    protected string $dataClass = 'data_class';
 
     /** @var string[] */
     protected array $validationGroups = [];
 
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass, array $validationGroups = [])
+    public function __construct(string $dataClass = 'data_class', array $validationGroups = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -44,5 +44,4 @@ final class TaxationZoneMemberType extends AbstractType
     {
         return 'zone_member';
     }
-
 }

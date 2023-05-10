@@ -12,7 +12,7 @@ final class CalculatorChoiceType extends AbstractType
     /**
      * @param array $calculators
      */
-    public function __construct(private $calculators)
+    public function __construct(private readonly array $calculators = [])
     {
     }
 

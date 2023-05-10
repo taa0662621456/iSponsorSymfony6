@@ -1,4 +1,15 @@
 api_platform:
-    resource: .
-    type: api_platform
+#    title: 'iSponsor API'
+#    description: 'iSponsor API documentation'
+#    version: '0.0.0'
+
+#    enable_swagger: true
+#    enable_swagger_ui: true
+#    enable_re_doc: true
+#    enable_entrypoint: true
+#    enable_docs: true
+
+    resource: ~
+    path: /
+##    type: api_platform
     prefix: /api

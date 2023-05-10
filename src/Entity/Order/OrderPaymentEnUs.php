@@ -2,29 +2,21 @@
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Object\ObjectTileInterface;
+use App\Repository\OrderPaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'order_payment')]
 #[ORM\Index(columns: ['slug'], name: 'order_payment_idx')]
 #[ORM\Entity(repositoryClass: OrderPaymentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
-class OrderPaymentEnUs
-{
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
 
+final class OrderPaymentEnUs extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
+{
 }

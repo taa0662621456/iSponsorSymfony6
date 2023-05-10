@@ -1,37 +1,32 @@
 <?php
 
-
 namespace App\Entity\Category;
 
-use App\Entity\AttachmentTrait;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Interface\CategoryInterface;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Category\CategoryAttachmentInterface;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Object\ObjectInterface;
 use App\Repository\Category\CategoryAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'category_attachment')]
-#[ORM\Index(columns: ['slug'], name: 'category_attachment_idx')]
 #[ORM\Entity(repositoryClass: CategoryAttachmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class CategoryAttachment
+final class CategoryAttachment extends ObjectSuperEntity implements ObjectInterface, CategoryAttachmentInterface
 {
-	use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use AttachmentTrait;
+    #[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachment')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private Category $categoryAttachmentCategory;
 
-	#[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachment')]
-	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-	private Category $categoryAttachmentCategory;
-
-    # ManyToOne
+    // ManyToOne
     public function getCategoryAttachmentCategory(): Category
     {
-		return $this->categoryAttachmentCategory;
-	}
-	public function setCategoryAttachmentCategory(Category $category): void
-	{
-        $this->categoryAttachmentCategory = $category;
-	}
+        return $this->categoryAttachmentCategory;
+    }
+
+    public function setCategoryAttachmentCategory(Category $categoryAttachment): void
+    {
+        $this->categoryAttachmentCategory = $categoryAttachment;
+    }
 
 }

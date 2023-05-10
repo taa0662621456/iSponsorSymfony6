@@ -1,21 +1,22 @@
 <?php
 
-
 namespace App\Entity\Commission;
 
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Commission\CommissionInterface;
+use App\Interface\Object\ObjectInterface;
+use App\Repository\Commission\CommissionRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Factory\EntityFactory;
-use DateTime;
-use Symfony\Component\Uid\Uuid;
+#[ORM\Table(name: 'commission')]
+#[ORM\Index(columns: ['slug'], name: 'commission_idx')]
+#[ORM\Entity(repositoryClass: CommissionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 
-class Commission
+final class Commission extends ObjectSuperEntity implements ObjectInterface, CommissionInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    //TODO: комиссии, налагаемые на способы доставки, оплаты и пр.
-    /**
+    // TODO: комиссии, налагаемые на способы доставки, оплаты и пр.
+    /*
      * incrementCommission
      * decrementCommission
      * additionCommission
@@ -37,16 +38,4 @@ class Commission
      *
      *
      */
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
-
 }

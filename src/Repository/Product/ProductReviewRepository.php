@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\Repository\Product;
 
-use App\Interface\ProductReviewInterface;
+use App\Interface\Product\ProductReviewInterface;
 use App\Interface\Vendor\VendorInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -11,7 +10,8 @@ use Doctrine\ORM\QueryBuilder;
 
 class ProductReviewRepository extends EntityRepository
 {
-    const STATUS_ACCEPTED = '';
+    public const STATUS_ACCEPTED = '';
+
     public function findLatestByProductId($productId, int $count): array
     {
         return $this->createQueryBuilder('o')

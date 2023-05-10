@@ -2,7 +2,8 @@
 
 namespace App\Form\Shipment\TypeSylius;
 
-
+use App\Interface\Shipment\ShipmentSubjectInterface;
+use Ramsey\Uuid\Math\CalculatorInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
@@ -16,9 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 final class ShippingMethodChoiceType extends AbstractType
 {
     public function __construct(
-        private readonly ShippingMethodsResolverInterface $shippingMethodsResolver,
-        private readonly ServiceRegistryInterface         $calculators,
-        private readonly RepositoryInterface              $repository,
+/*        private readonly ShipmentMethodResolverInterface $shippingMethodsResolver,
+        private readonly ServiceRegistryInterface $calculators,
+        private readonly RepositoryInterface $repository,*/
     ) {
     }
 
@@ -47,7 +48,7 @@ final class ShippingMethodChoiceType extends AbstractType
             ->setDefined([
                 'subject',
             ])
-            ->setAllowedTypes('subject', ShippingSubjectInterface::class)
+            ->setAllowedTypes('subject', ShipmentSubjectInterface::class)
         ;
     }
 
@@ -66,8 +67,8 @@ final class ShippingMethodChoiceType extends AbstractType
         foreach ($view->vars['choices'] as $choiceView) {
             $method = $choiceView->data;
 
-            if (!$method instanceof ShippingMethodInterface) {
-                throw new UnexpectedTypeException($method, ShippingMethodInterface::class);
+            if (!$method instanceof ShipmentMethodInterface) {
+                throw new UnexpectedTypeException($method, ShipmentMethodInterface::class);
             }
 
             /** @var CalculatorInterface $calculator */

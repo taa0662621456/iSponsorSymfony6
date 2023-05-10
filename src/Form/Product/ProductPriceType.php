@@ -14,18 +14,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductPriceType extends AbstractType
 {
-    protected string $dataClass;
+    protected string $dataClass = 'data_class';
 
     /** @var string[] */
     protected array $validationGroups = [];
 
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
     public function __construct(
-        string           $dataClass,
-        array            $validationGroups,
+        array $validationGroups = [],
+        string $dataClass = 'data_class',
 //        private readonly $pricingRepository = null,
     ) {
         $this->dataClass = $dataClass;
@@ -60,10 +60,10 @@ final class ProductPriceType extends AbstractType
                 return;
             }
 
-            if ($vendorPricing->getPrice() === null && $vendorPricing->getOriginalPrice() === null) {
+            if (null === $vendorPricing->getPrice() && null === $vendorPricing->getOriginalPrice()) {
                 $event->setData(null);
 
-                if ($vendorPricing->getId() !== null) {
+                if (null !== $vendorPricing->getId()) {
                     $this->vendorPricingRepository->remove($vendorPricing);
                 }
 

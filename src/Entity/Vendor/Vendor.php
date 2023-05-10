@@ -5,12 +5,11 @@ namespace App\Entity\Vendor;
 use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Featured\Featured;
-use App\Entity\MetaTrait;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Order\OrderStorage;
+use App\Interface\Object\ObjectInterface;
 use App\Interface\Vendor\VendorInterface;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,7 +19,6 @@ use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'vendor')]
@@ -35,11 +33,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => 'read'],
     denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']])]
 #[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class Vendor implements VendorInterface, \JsonSerializable
+final class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorInterface, \JsonSerializable
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use MetaTrait;
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
@@ -130,8 +125,7 @@ class Vendor implements VendorInterface, \JsonSerializable
      */
     public function __construct()
     {
-        $t = new \DateTime();
-        $this->slug = (string) Uuid::v4();
+        parent::__construct();
         $this->vendorMessage = new ArrayCollection();
         $this->vendorItem = new ArrayCollection();
         $this->vendorOrder = new ArrayCollection();
@@ -140,12 +134,6 @@ class Vendor implements VendorInterface, \JsonSerializable
         $this->vendorFriend = new ArrayCollection();
         $this->vendorMyFriend = new ArrayCollection();
         $this->isActive = true;
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
     }
 
     public function isActive(): bool

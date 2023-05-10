@@ -2,15 +2,17 @@
 
 namespace App\Form\Product;
 
-use App\Interface\Factory\FactoryInterface;
+use App\Form\ResourceAutocompleteChoiceType;
 use App\Interface\Product\ProductPropertyInterface;
+use App\Interface\Taxation\TaxationRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductTaxationAutocompleteSelectorType extends AbstractType
 {
-    public function __construct(private readonly FactoryInterface $productTaxonFactory, private readonly RepositoryInterface $productTaxonRepository)
+    public function __construct(
+                                private readonly TaxationRepositoryInterface $taxationRepository)
     {
     }
 
@@ -19,9 +21,9 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
         if ($options['multiple']) {
             $builder->addModelTransformer(
                 new RecursiveTransformer(
-                    new ProductTaxonToTaxonTransformer(
+                    new ProductTaxToTaxTransformer(
                         $this->productTaxonFactory,
-                        $this->productTaxonRepository,
+                        $this->taxationRepository,
                         $options['product'],
                     ),
                 ),
@@ -30,9 +32,9 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
 
         if (!$options['multiple']) {
             $builder->addModelTransformer(
-                new ProductTaxonToTaxonTransformer(
+                new ProductTaxToTaxTransformer(
                     $this->productTaxonFactory,
-                    $this->productTaxonRepository,
+                    $this->taxationRepository,
                     $options['product'],
                 ),
             );

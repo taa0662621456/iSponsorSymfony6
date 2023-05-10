@@ -2,19 +2,16 @@
 
 namespace App\Factory\Category;
 
+use App\Service\Object\ObjectFactory;
 
-use App\Entity\Category\Category;
-
-class CategoryFactory
+class CategoryFactory extends ObjectFactory
 {
-    public function __invoke(): Category
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new Category();
-    }
-
-    public static function create(): Category
-    {
-        return new Category();
+        return $this->create(__CLASS__, $options);
     }
 
 }

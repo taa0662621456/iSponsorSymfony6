@@ -15,4 +15,7 @@ interface ProductReviewInterface
 //    public function getProductSlug(): ?string;
 //
 //    public function setProductSlug(?string $productSlug): void;
+    public const STATUS_NEW = 'new';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_REJECTED = 'rejected';
 }

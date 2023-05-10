@@ -2,8 +2,10 @@
 
 namespace App\Form\Taxation;
 
-use App\AddressingBundle\Form\Type\TaxationZoneTypeSelectorType;
 use App\EventSubscriber\AddCodeFormSubscriber;
+use App\Form\Address\AddressCountryCodeCollectionType;
+use App\Form\Address\AddressProvinceCodeSelectorType;
+use App\Interface\Zone\ZoneFactoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -20,12 +22,13 @@ final class TaxationZoneType extends AbstractType
     /** @var string[] */
     protected array $validationGroups = [];
 
-
     /**
      * @param string[] $validationGroups
      * @param string[] $scopeChoices
      */
-    public function __construct(string $dataClass, array $validationGroups, private readonly array $scopeChoices = [])
+    public function __construct(array $validationGroups = [],
+                                string $dataClass = 'data_class',
+                                private readonly array $scopeChoices = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -55,7 +58,7 @@ final class TaxationZoneType extends AbstractType
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
-            /** @var ZoneInterface $zone */
+            /** @var ZoneFactoryInterface $zone */
             $zone = $event->getData();
 
             $entryOptions = [
@@ -63,9 +66,9 @@ final class TaxationZoneType extends AbstractType
                 'entry_options' => $this->getZoneMemberEntryOptions($zone->getType()),
             ];
 
-            if ($zone->getType() === ZoneInterface::TYPE_ZONE) {
-                $entryOptions['entry_options']['choice_filter'] = static fn (?ZoneInterface $subZone): bool => $subZone !== null && $zone->getId() !== $subZone->getId();
-            }
+//            if (ZoneInterface::TYPE_ZONE === $zone->getType()) {
+//                $entryOptions['entry_options']['choice_filter'] = static fn (?ZoneInterface $subZone): bool => null !== $subZone && $zone->getId() !== $subZone->getId();
+//            }
 
             $event->getForm()->add('members', CollectionType::class, [
                 'entry_type' => TaxationZoneMemberType::class,
@@ -89,9 +92,9 @@ final class TaxationZoneType extends AbstractType
     private function getZoneMemberEntryType(string $zoneMemberType): string
     {
         $zoneMemberEntryTypes = [
-            ZoneInterface::TYPE_COUNTRY => AddressCountryCodeCollectionType::class,
-            ZoneInterface::TYPE_PROVINCE => AddressProvinceCodeSelectorType::class,
-            ZoneInterface::TYPE_ZONE => TaxationZoneCodeSelectorType::class,
+//            ZoneInterface::TYPE_COUNTRY => AddressCountryCodeCollectionType::class,
+//            ZoneInterface::TYPE_PROVINCE => AddressProvinceCodeSelectorType::class,
+//            ZoneInterface::TYPE_ZONE => TaxationZoneCodeSelectorType::class,
         ];
 
         return $zoneMemberEntryTypes[$zoneMemberType];
@@ -100,13 +103,13 @@ final class TaxationZoneType extends AbstractType
     private function getZoneMemberEntryOptions(string $zoneMemberType): array
     {
         $zoneMemberEntryOptions = [
-            ZoneInterface::TYPE_COUNTRY => [
-                'label' => 'form.zone.types.country',
-                'enabled' => false,
-                'attr' => ['class' => 'country_search_dropdown ui fluid search selection dropdown'],
-            ],
-            ZoneInterface::TYPE_PROVINCE => ['label' => 'form.zone.types.province'],
-            ZoneInterface::TYPE_ZONE => ['label' => 'form.zone.types.zone'],
+//            ZoneInterface::TYPE_COUNTRY => [
+//                'label' => 'form.zone.types.country',
+//                'enabled' => false,
+//                'attr' => ['class' => 'country_search_dropdown ui fluid search selection dropdown'],
+//            ],
+//            ZoneInterface::TYPE_PROVINCE => ['label' => 'form.zone.types.province'],
+//            ZoneInterface::TYPE_ZONE => ['label' => 'form.zone.types.zone'],
         ];
 
         return $zoneMemberEntryOptions[$zoneMemberType];

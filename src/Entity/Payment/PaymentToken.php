@@ -2,29 +2,27 @@
 
 namespace App\Entity\Payment;
 
-use Payum\Core\Security\Util\Random;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Payment\PaymentTokenInterface;
+use App\Repository\Payment\PaymentTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Payum\Core\Security\Util\Random;
 
 #[ORM\Table(name: 'payment_token')]
 #[ORM\Index(columns: ['slug'], name: 'payment_token_idx')]
 #[ORM\Entity(repositoryClass: PaymentTokenRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
-class PaymentToken implements PaymentSecurityTokenInterface
+final class PaymentToken extends ObjectSuperEntity implements ObjectInterface, PaymentTokenInterface
 {
-    /** @var string */
     protected string $hash;
 
-    /** @var object|null */
-    protected ?object $details;
+    protected ?ObjectSuperEntity $details;
 
-    /** @var string|null */
     protected ?string $afterUrl;
 
-    /** @var string|null */
     protected ?string $targetUrl;
 
-    /** @var string|null */
     protected ?string $gatewayName;
 
     public function __construct()
@@ -32,7 +30,7 @@ class PaymentToken implements PaymentSecurityTokenInterface
         $this->hash = Random::generateToken();
     }
 
-    public function getId(): string
+    public function getId(): int
     {
         return $this->hash;
     }
@@ -42,7 +40,7 @@ class PaymentToken implements PaymentSecurityTokenInterface
         $this->details = $details;
     }
 
-    public function getDetails(): ?object
+    public function getDetails(): ?ObjectSuperEntity
     {
         return $this->details;
     }

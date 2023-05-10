@@ -4,6 +4,7 @@
 namespace App\Form\Shipment\TypeSylius;
 
 
+use App\Interface\Shipment\ShipmentCategoryRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -13,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShippingCategoryChoiceType extends AbstractType
 {
-    public function __construct(private RepositoryInterface $shippingCategoryRepository)
+    public function __construct(private readonly ShipmentCategoryRepositoryInterface $shippingCategoryRepository)
     {
     }
 

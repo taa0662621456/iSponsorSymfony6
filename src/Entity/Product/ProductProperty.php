@@ -2,10 +2,8 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductPropertyInterface;
 use App\Repository\Product\ProductOptionRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,13 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 #[ORM\Table(name: 'product_property')]
 #[ORM\Index(columns: ['slug'], name: 'product_property_idx')]
 #[ORM\Entity(repositoryClass: ProductOptionRepository::class)]
-
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class ProductProperty implements ProductPropertyInterface
+final class ProductProperty extends ObjectSuperEntity implements ObjectInterface, ProductPropertyInterface
 {
-    use ObjectBaseTrait;
-
     #[ORM\Column(name: 'product_weight', type: 'float', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
     private NumberType|float|null $productWeight;
 
