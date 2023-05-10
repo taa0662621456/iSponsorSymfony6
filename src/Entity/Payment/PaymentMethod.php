@@ -1,40 +1,63 @@
 <?php
 
-
 namespace App\Entity\Payment;
 
-
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Payment\PaymentMethodInterface;
 use App\Repository\Payment\PaymentMethodRepository;
-use DateTime;
-use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'payment_method')]
 #[ORM\Index(columns: ['slug'], name: 'payment_method_idx')]
 #[ORM\Entity(repositoryClass: PaymentMethodRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class PaymentMethod
+
+final class PaymentMethod extends ObjectSuperEntity implements ObjectInterface, PaymentMethodInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
 
-    public function __construct()
+    public function getGatewayConfig()
     {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
+        // TODO: Implement getGatewayConfig() method.
+    }
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
+    public function setCode(mixed $code)
+    {
+        // TODO: Implement setCode() method.
+    }
+
+    public function setEnabled(mixed $enabled)
+    {
+        // TODO: Implement setEnabled() method.
+    }
+
+    public function setCurrentLocale(mixed $localeCode)
+    {
+        // TODO: Implement setCurrentLocale() method.
+    }
+
+    public function setFallbackLocale(mixed $localeCode)
+    {
+        // TODO: Implement setFallbackLocale() method.
+    }
+
+    public function setName(mixed $name)
+    {
+        // TODO: Implement setName() method.
+    }
+
+    public function setDescription(mixed $description)
+    {
+        // TODO: Implement setDescription() method.
+    }
+
+    public function setInstructions(mixed $instructions)
+    {
+        // TODO: Implement setInstructions() method.
+    }
+
+    public function addChannel(mixed $channel)
+    {
+        // TODO: Implement addChannel() method.
     }
 }

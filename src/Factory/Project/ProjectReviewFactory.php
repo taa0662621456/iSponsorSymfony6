@@ -2,20 +2,16 @@
 
 namespace App\Factory\Project;
 
-use App\Entity\Project\ProjectReview;
+use App\Service\Object\ObjectFactory;
 
-
-class ProjectReviewFactory
+class ProjectReviewFactory extends ObjectFactory
 {
-    public function __invoke(): ProjectReview
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new ProjectReview();
-    }
-
-
-    public static function create(): ProjectReview
-    {
-        return new ProjectReview();
+        return $this->create(__CLASS__, $options);
     }
 
 }

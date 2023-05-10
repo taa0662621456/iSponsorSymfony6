@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShippingMethodRuleChoiceType extends AbstractType
 {
-    public function __construct(private array $rules)
+    public function __construct(private readonly array $rules = [])
     {
     }
 

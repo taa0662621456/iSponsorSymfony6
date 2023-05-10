@@ -3,8 +3,7 @@
 namespace App\Service\Cart;
 
 use App\Exception\CartNotFoundException;
-use App\Interface\CartContextInterface;
-use App\OrderInterface;
+use App\Interface\Cart\CartContextInterface;
 
 class CartContext implements CartContextInterface
 {

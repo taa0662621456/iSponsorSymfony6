@@ -2,47 +2,27 @@
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\ObjectBaseTrait;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
-use App\Entity\MetaTrait;
-use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Product\Product;
-use App\Entity\Project\Type;
-use App\Entity\Project\ProjectType;
-use App\Interface\ProjectTypeInterface;
-use App\Interface\CategoryInterface;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Project\ProjectInterface;
+use App\Interface\Project\ProjectTypeInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use JetBrains\PhpStorm\Pure;
-use phpDocumentor\Reflection\Types\Self_;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'project')]
 #[ORM\Index(columns: ['slug'], name: 'project_idx')]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
-class Project
+final class Project extends ObjectSuperEntity implements ObjectInterface, ProjectInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use MetaTrait;
-
     public const NUM_ITEMS = 10;
 
     #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
@@ -77,7 +57,7 @@ class Project
     #[Ignore]
     private Featured $projectFeatured;
 
-    #[ORM\ManyToMany(targetEntity: ProjectTag::class, cascade: ['persist'], inversedBy: 'projectTagProject')]
+    #[ORM\ManyToMany(targetEntity: ProjectTag::class, inversedBy: 'projectTagProject', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\OrderBy(['firstTitle' => 'ASC'])]
     #[Assert\Count(max: 4, maxMessage: 'project.too_many_tags')]
@@ -96,172 +76,202 @@ class Project
     #[ORM\JoinColumn(nullable: true)]
     private Collection $projectReview;
 
-    #[Pure]
     public function __construct()
     {
         $t = new \DateTime();
-        $this->slug = (string)Uuid::v4();
-        #
+
         $this->projectAttachment = new ArrayCollection();
         $this->projectTag = new ArrayCollection();
         $this->projectProduct = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
         $this->projectReview = new ArrayCollection();
-        #
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
     }
-    # ManyToOne
-    public function getProjectCategory():Collection
+
+    // ManyToOne
+    public function getProjectCategory(): Category
     {
         return $this->projectCategory;
     }
+
     public function setProjectCategory(Category $projectCategory): void
     {
         $this->projectCategory = $projectCategory;
     }
-    # ManyToOne
+
+    // ManyToOne
     public function getProjectType(): ProjectType
     {
         return $this->projectType;
     }
+
     public function setProjectType(ProjectType $projectType): void
     {
         $this->projectType = $projectType;
     }
-    # ManyToMany
+
+    // ManyToMany
     public function getProjectTag(): Collection
     {
         return $this->projectTag;
     }
+
     public function addProjectTag(ProjectTag $projectTag): self
     {
-        if (!$this->projectTag->contains($projectTag)){
+        if (!$this->projectTag->contains($projectTag)) {
             $this->projectTag[] = $projectTag;
         }
+
         return $this;
     }
+
     public function removeProjectTag(ProjectTag $projectTag): self
     {
-        if ($this->projectTag->contains($projectTag)){
+        if ($this->projectTag->contains($projectTag)) {
             $this->projectTag->removeElement($projectTag);
         }
+
         return $this;
     }
-    # OneToMany
+
+    // OneToMany
     public function getProjectAttachment(): Collection
     {
         return $this->projectAttachment;
     }
+
     public function addProjectAttachment(ProjectAttachment $projectAttachment): self
     {
         if (!$this->projectAttachment->contains($projectAttachment)) {
             $this->projectAttachment[] = $projectAttachment;
         }
+
         return $this;
     }
+
     public function removeProjectAttachment(ProjectAttachment $projectAttachment): self
     {
-        if ($this->projectAttachment->contains($projectAttachment)){
+        if ($this->projectAttachment->contains($projectAttachment)) {
             $this->projectAttachment->removeElement($projectAttachment);
         }
+
         return $this;
     }
-    # OneToMany
+
+    // OneToMany
     public function getProjectProduct(): Collection
     {
         return $this->projectProduct;
     }
+
     public function addProjectProduct(Product $product): self
     {
         if (!$this->projectProduct->contains($product)) {
             $this->projectProduct[] = $product;
         }
+
         return $this;
     }
+
     public function removeProjectProduct(Product $product): self
     {
         if ($this->projectProduct->contains($product)) {
             $this->projectProduct->removeElement($product);
         }
+
         return $this;
     }
-    # OneToMany
+
+    // OneToMany
     public function getProjectPlatformReward(): Collection
     {
         return $this->projectPlatformReward;
     }
+
     public function addProjectPlatformReward(ProjectPlatformReward $projectPlatformReward): self
     {
         if (!$this->projectPlatformReward->contains($projectPlatformReward)) {
             $this->projectPlatformReward[] = $projectPlatformReward;
         }
+
         return $this;
     }
+
     public function removeProjectPlatformReward(ProjectPlatformReward $projectPlatformReward): self
     {
-        if ($this->projectPlatformReward->contains($projectPlatformReward)){
+        if ($this->projectPlatformReward->contains($projectPlatformReward)) {
             $this->projectPlatformReward->removeElement($projectPlatformReward);
         }
+
         return $this;
     }
-    # OneToOne
+
+    // OneToOne
     public function getProjectEnGb(): ProjectEnGb
     {
         return $this->projectEnGb;
     }
+
     public function setProjectEnGb(ProjectEnGb $projectEnGb): void
     {
         $this->projectEnGb = $projectEnGb;
     }
-    # ManyToMany
+
+    // ManyToMany
     public function getProjectFavourite(): Collection
     {
         return $this->projectFavourite;
     }
+
     public function addProjectFavorite(ProjectFavourite $projectFavourite): self
     {
         if (!$this->projectFavourite->contains($projectFavourite)) {
             $this->projectFavourite[] = $projectFavourite;
         }
+
         return $this;
     }
+
     public function removeProjectFavourite(ProjectFavourite $projectFavourite): self
     {
         if ($this->projectFavourite->contains($projectFavourite)) {
             $this->projectFavourite->remove($projectFavourite);
         }
+
         return $this;
     }
-    # OneToOne
+
+    // OneToOne
     public function getProjectFeatured(): Featured
     {
         return $this->projectFeatured;
     }
+
     public function setProjectFeatured(Featured $projectFeatured): void
     {
         $this->projectFeatured = $projectFeatured;
     }
-    # OneToMeny
+
+    // OneToMeny
     public function getProjectReview(): Collection
     {
         return $this->projectReview;
     }
+
     public function addProjectReview(ProjectReview $projectReview): self
     {
-        if (!$this->projectReview->contains($projectReview)){
+        if (!$this->projectReview->contains($projectReview)) {
             $this->projectReview[] = $projectReview;
         }
+
         return $this;
     }
+
     public function removeProjectReview(ProjectReview $projectReview): self
     {
-        if ($this->projectReview->contains($projectReview)){
+        if ($this->projectReview->contains($projectReview)) {
             $this->projectReview->removeElement($projectReview);
         }
+
         return $this;
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Command;
 
-use App\Interface\CouponGeneratorInterface;
-use App\Interface\PromotionInterface;
+use App\Interface\Coupon\CouponGeneratorInstructionInterface;
+use App\Interface\Coupon\CouponGeneratorInterface;
+use App\Interface\Promotion\PromotionInterface;
 use App\Repository\Promotion\PromotionRepository;
+use App\Service\Coupon\CouponGeneratorInstruction;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +15,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class CouponGenerateCommand extends Command
 {
-    protected static $defaultName = 'promotion:coupon-generator';
+    protected static $defaultName = 'coupon:coupon-generator';
 
     public function __construct(
-        private readonly PromotionRepository      $promotionRepository,
-        private readonly CouponGeneratorInterface $couponGenerator,
+        private readonly PromotionRepository $promotionRepository,
+        private readonly CouponGeneratorInterface $couponGenerator
     ) {
         parent::__construct();
     }
@@ -40,7 +42,7 @@ final class CouponGenerateCommand extends Command
         /** @var PromotionInterface|null $promotion */
         $promotion = $this->promotionRepository->findOneBy(['code' => $promotionCode]);
 
-        if ($promotion === null) {
+        if (null === $promotion) {
             $output->writeln('<error>No promotion found with this code</error>');
 
             return 1;
@@ -60,7 +62,7 @@ final class CouponGenerateCommand extends Command
         try {
             $this->couponGenerator->generate($promotion, $instruction);
         } catch (\Exception $exception) {
-            $output->writeln('<error>' . $exception->getMessage() . '</error>');
+            $output->writeln('<error>'.$exception->getMessage().'</error>');
 
             return 1;
         }
@@ -70,12 +72,13 @@ final class CouponGenerateCommand extends Command
         return 0;
     }
 
-//    public function getGeneratorInstructions(int $count, int $codeLength): PromotionCouponGeneratorInstructionInterface
-//    {
-//        $instruction = new PromotionCouponGeneratorInstruction();
-//        $instruction->setAmount($count);
-//        $instruction->setCodeLength($codeLength);
-//
-//        return $instruction;
-//    }
+    public function getGeneratorInstructions(int $count, int $codeLength): CouponGeneratorInstructionInterface
+    {
+        $instruction = new CouponGeneratorInstruction();
+        $instruction->setAmount($count);
+        $instruction->setCodeLength($codeLength);
+
+        return $instruction;
+    }
+
 }

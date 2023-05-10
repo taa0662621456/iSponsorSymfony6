@@ -2,14 +2,11 @@
 
 namespace App\Entity\Project;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\ObjectBaseTrait;
-
-use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\ProjectLanguageTrait;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Object\ObjectTileInterface;
+use App\Interface\Project\ProjectTitleInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,19 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'project_en_gb_idx')]
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-    "projectTitle" => "partial",
-    "projectSDesc" => "partial",
-    "projectDesc" => "partial",
-])]
-class ProjectEnGb
+
+final class ProjectEnGb extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface, ProjectTitleInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
     use ProjectLanguageTrait;
 }

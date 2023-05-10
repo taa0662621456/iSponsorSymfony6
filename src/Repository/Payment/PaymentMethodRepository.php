@@ -2,12 +2,12 @@
 
 namespace App\Repository\Payment;
 
-
+use App\Interface\Payment\PaymentMethodRepositoryInterface;
 use App\Interface\Vendor\VendorInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class PaymentMethodRepository extends EntityRepository
+class PaymentMethodRepository extends EntityRepository implements PaymentMethodRepositoryInterface
 {
     public function findByName(string $name, string $locale): array
     {

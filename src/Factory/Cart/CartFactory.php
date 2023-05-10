@@ -2,17 +2,16 @@
 
 namespace App\Factory\Cart;
 
-class CartFactory
+use App\Service\Object\ObjectFactory;
+
+class CartFactory extends ObjectFactory
 {
-    public function __invoke(): Cart
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
     {
-        return new Cart();
-    }
-
-
-    public static function create(): Cart
-    {
-        return new Cart();
+        return $this->create(__CLASS__, $options);
     }
 
 }

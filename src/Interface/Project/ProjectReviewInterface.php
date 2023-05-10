@@ -4,16 +4,16 @@ namespace App\Interface\Project;
 
 interface ProjectReviewInterface
 {
-    public function getProjectId(): ?string;
+    public function getProjectReviewId(): ?string;
 
-    public function setProjectId(?string $projectId): void;
+    public function setProjectReviewId(?string $projectReviewId): void;
 
-    public function getProjectUuid(): ?string;
+    public function getProjectReviewUuid(): ?string;
 
-    public function setProjectUuid(?string $projectUuid): void;
+    public function setProjectReviewUuid(?string $projectReviewUuid): void;
 
-    public function getProjectSlug(): ?string;
+    public function getProjectReviewSlug(): ?string;
 
-    public function setProjectSlug(?string $projectSlug): void;
+    public function setProjectReviewSlug(?string $projectReviewSlug): void;
 
 }

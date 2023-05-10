@@ -2,7 +2,6 @@
 
 namespace App\EventSubscriber\Product;
 
-use App\Interface\Factory\FactoryInterface;
 use App\Interface\Locale\LocaleInterface;
 use App\Interface\Product\ProductAttributeValueInterface;
 use App\Interface\Product\ProductInterface;
@@ -15,7 +14,6 @@ use Webmozart\Assert\Assert;
 final class BuildAttributeFormSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly FactoryInterface $attributeValueFactory,
         private readonly LocaleInterface $locale,
     ) {
     }

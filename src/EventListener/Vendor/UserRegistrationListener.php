@@ -2,7 +2,7 @@
 
 namespace App\EventListener\Vendor;
 
-use App\Interface\GeneratorInterface;
+use App\Interface\SecurityGeneratorInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -11,12 +11,12 @@ use Webmozart\Assert\Assert;
 final class UserRegistrationListener
 {
     public function __construct(
-        private readonly ObjectManager $userManager,
-        private readonly GeneratorInterface $tokenGenerator,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ChannelContextInterface $channelContext,
-        private readonly UserLoginInterface $userLogin,
-        private readonly string $firewallContextName,
+        private readonly ObjectManager              $userManager,
+        private readonly SecurityGeneratorInterface $tokenGenerator,
+        private readonly EventDispatcherInterface   $eventDispatcher,
+        private readonly ChannelContextInterface    $channelContext,
+        private readonly UserLoginInterface         $userLogin,
+        private readonly string                     $firewallContextName,
     ) {
     }
 

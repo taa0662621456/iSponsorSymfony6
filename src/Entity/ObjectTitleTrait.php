@@ -3,24 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 trait ObjectTitleTrait
 {
     #[ORM\Column(name: 'first_title', type: 'string', nullable: false, options: ['default' => 'first_title'])]
-    #[Assert\NotBlank(message: 'object.en.gb.blank')]
-    #[Assert\Length(min: 6, minMessage: 'object.en.gb.too.short')]
-    private string $firstTitle = 'first_title';
+    protected string $firstTitle = 'first_title';
 
     #[ORM\Column(name: 'middle_title', type: 'text', nullable: false, options: ['default' => 'middle_title'])]
-    #[Assert\NotBlank(message: 'object.en.gb.blank')]
-    #[Assert\Length(min: 10, minMessage: 'object.en.gb.too.short')]
-    private string $middleTitle = 'middle_title';
+    protected string $middleTitle = 'middle_title';
 
     #[ORM\Column(name: 'last_title', type: 'text', nullable: false, options: ['default' => 'last_title'])]
-    #[Assert\NotBlank(message: 'object.en.gb.blank')]
-    #[Assert\Length(min: 6, minMessage: 'object.en.gb.too.short')]
-    private string $lastTitle = 'last_title';
+    protected string $lastTitle = 'last_title';
 
     public function getFirstTitle(): string
     {
@@ -51,9 +44,4 @@ trait ObjectTitleTrait
     {
         $this->lastTitle = $lastTitle;
     }
-
-//    public function __toString(): string
-//    {
-//        return $this->firstTitle;
-//    }
 }

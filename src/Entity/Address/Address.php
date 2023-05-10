@@ -2,27 +2,56 @@
 
 namespace App\Entity\Address;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
 use App\Interface\Address\AddressInterface;
+use App\Interface\Object\ObjectApiResourceInterface;
+use App\Interface\Object\ObjectInterface;
 use App\Repository\Address\AddressCountryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'address')]
-#[ORM\Index(columns: ['slug'], name: 'address_idx')]
 #[ORM\Entity(repositoryClass: AddressCountryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-#[ApiFilter(SearchFilter::class, properties: [
-    'firstTitle' => 'partial',
-    'lastTitle' => 'partial',
-])]
-class Address implements AddressInterface
+final class Address extends ObjectSuperEntity implements ObjectInterface, ObjectApiResourceInterface, AddressInterface
 {
-    use ObjectBaseTrait;
+
+    public function setFirstName(mixed $first_name)
+    {
+        // TODO: Implement setFirstName() method.
+    }
+
+    public function setLastName(mixed $last_name)
+    {
+        // TODO: Implement setLastName() method.
+    }
+
+    public function setPhoneNumber(mixed $phone_number)
+    {
+        // TODO: Implement setPhoneNumber() method.
+    }
+
+    public function setCompany(mixed $company)
+    {
+        // TODO: Implement setCompany() method.
+    }
+
+    public function setStreet(mixed $street)
+    {
+        // TODO: Implement setStreet() method.
+    }
+
+    public function setCity(mixed $city)
+    {
+        // TODO: Implement setCity() method.
+    }
+
+    public function setPostcode(mixed $postcode)
+    {
+        // TODO: Implement setPostcode() method.
+    }
+
+    public function setCountryCode(mixed $country_code)
+    {
+        // TODO: Implement setCountryCode() method.
+    }
 }

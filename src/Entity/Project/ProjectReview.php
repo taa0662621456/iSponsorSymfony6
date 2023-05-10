@@ -1,17 +1,9 @@
 <?php
 
-
 namespace App\Entity\Project;
-
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-
-
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Entity\ObjectReviewTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Project\ProjectReviewInterface;
 use App\Repository\Review\ProjectReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,47 +11,57 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'project_review_idx')]
 #[ORM\Entity(repositoryClass: ProjectReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource(
-    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'project:list']]],
-    itemOperations: ['get' => ['normalization_context' => ['groups' => 'project:item']]],
-    order: ['createdAt' => 'DESC'],
-    paginationEnabled: true
-)]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
-class ProjectReview
+final class ProjectReview extends ObjectSuperEntity implements ObjectInterface, ProjectReviewInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use ObjectReviewTrait;
     public const NUM_ROWS = 10;
 
     #[ORM\Column(name: 'project_id', nullable: true)]
-    private ?string $projectId = null;
+    private ?string $projectReviewId = null;
 
-    public function getProjectId(): ?string
+    public function getProjectReviewId(): ?string
     {
-        return $this->projectId;
+        return $this->projectReviewId;
     }
-    public function setProjectId(?string $projectId): void
+
+    public function setProjectReviewId(?string $projectReviewId): void
     {
-        $this->projectId = $projectId;
+        $this->projectReviewId = $projectReviewId;
     }
 
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectReview')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Project $projectReviewProject;
-    # ManyToOne
+
+    // ManyToOne
     public function getProjectReviewProject(): Project
     {
         return $this->projectReviewProject;
     }
+
     public function setProjectReviewProject(Project $project): void
     {
         $this->projectReviewProject = $project;
+    }
+
+    public function getProjectReviewUuid(): ?string
+    {
+        // TODO: Implement getProjectReviewUuid() method.
+        return '';
+    }
+
+    public function setProjectReviewUuid(?string $projectReviewUuid): void
+    {
+        // TODO: Implement setProjectReviewUuid() method.
+    }
+
+    public function getProjectReviewSlug(): ?string
+    {
+        // TODO: Implement getProjectReviewSlug() method.
+        return '';
+    }
+
+    public function setProjectReviewSlug(?string $projectReviewSlug): void
+    {
+        // TODO: Implement setProjectReviewSlug() method.
     }
 }

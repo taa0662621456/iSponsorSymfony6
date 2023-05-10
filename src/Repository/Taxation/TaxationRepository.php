@@ -2,10 +2,12 @@
 
 namespace App\Repository\Taxation;
 
+use App\Interface\Taxation\TaxationInterface;
+use App\Interface\Taxation\TaxationRepositoryInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-class TaxationRepository extends EntityRepository implements TaxonRepositoryInterface
+class TaxationRepository implements TaxationRepositoryInterface
 {
     public function findChildren(string $parentCode, ?string $locale = null): array
     {
@@ -21,7 +23,7 @@ class TaxationRepository extends EntityRepository implements TaxonRepositoryInte
         ;
     }
 
-    public function findChildrenByChannelMenuTaxon(?TaxonInterface $menuTaxon = null, ?string $locale = null): array
+    public function findChildrenByChannelMenuTaxon(?TaxationInterface $menuTaxon = null, ?string $locale = null): array
     {
         return $this->createTranslationBasedQueryBuilder($locale)
             ->addSelect('child')
@@ -30,14 +32,14 @@ class TaxationRepository extends EntityRepository implements TaxonRepositoryInte
             ->andWhere('o.enabled = :enabled')
             ->andWhere('parent.code = :parentCode')
             ->addOrderBy('o.position')
-            ->setParameter('parentCode', ($menuTaxon !== null) ? $menuTaxon->getCode() : 'category')
+            ->setParameter('parentCode', (null !== $menuTaxon) ? $menuTaxon->getCode() : 'category')
             ->setParameter('enabled', true)
             ->getQuery()
             ->getResult()
         ;
     }
 
-    public function findOneBySlug(string $slug, string $locale): ?TaxonInterface
+    public function findOneBySlug(string $slug, string $locale): ?TaxationInterface
     {
         return $this->createQueryBuilder('o')
             ->addSelect('translation')
@@ -79,10 +81,10 @@ class TaxationRepository extends EntityRepository implements TaxonRepositoryInte
 
     public function findByNamePart(string $phrase, ?string $locale = null, ?int $limit = null): array
     {
-        /** @var TaxonInterface[] $results */
+        /** @var TaxationInterface[] $results */
         $results = $this->createTranslationBasedQueryBuilder($locale)
             ->andWhere('translation.name LIKE :name')
-            ->setParameter('name', '%' . $phrase . '%')
+            ->setParameter('name', '%'.$phrase.'%')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult()

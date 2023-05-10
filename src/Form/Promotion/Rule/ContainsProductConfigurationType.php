@@ -4,6 +4,9 @@
 namespace App\Form\Promotion\Rule;
 
 
+use App\Form\Product\ProductBundle\ProductAutocompleteChoiceType;
+use App\Interface\Product\ProductRepositoryInterface;
+use App\Service\ResourceToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
@@ -12,7 +15,7 @@ use Symfony\Component\Validator\Constraints\Type;
 
 final class ContainsProductConfigurationType extends AbstractType
 {
-    public function __construct(private RepositoryInterface $productRepository)
+    public function __construct(private readonly ProductRepositoryInterface $productRepository)
     {
     }
 

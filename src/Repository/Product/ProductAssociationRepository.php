@@ -3,6 +3,7 @@
 
 namespace App\Repository\Product;
 
+use App\Interface\Product\ProductAssociationInterface;
 use App\Interface\Vendor\VendorInterface;
 use Doctrine\ORM\EntityRepository;
 

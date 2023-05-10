@@ -2,26 +2,21 @@
 
 namespace App\Entity\Event;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use DateTime;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Event\EventInterface;
+use App\Interface\Object\ObjectInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'event')]
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
 #[ORM\Index(columns: ['type'], name: 'event_idx_type')]
-#[ORM\Index(columns: ['published'], name: 'event_idx_published')]
 #[ORM\Index(columns: ['cat_id'], name: 'event_idx_cat_id')]
 #[ORM\Entity]
-#
-#[ApiResource(mercure: true)]
-class Event
-{
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
 
+#[ApiResource(mercure: true)]
+class Event extends ObjectSuperEntity implements ObjectInterface, EventInterface
+{
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
     private int $parent;
 
@@ -93,15 +88,4 @@ class Event
     #[ORM\Column(name: 'repeat_end', type: 'string', nullable: false)]
     private string $repeatEnd;
 
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
 }

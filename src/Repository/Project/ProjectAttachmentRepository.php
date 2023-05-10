@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Repository\Project;
 
-
-use App\Entity\Project\ProductAttachment;
+use App\Entity\Product\ProductAttachment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

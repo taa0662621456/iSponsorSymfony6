@@ -7,7 +7,8 @@ namespace App\Repository;
 
 
 
-use App\Interface\CustomerInterface;
+use App\Interface\Address\AddressInterface;
+use App\Interface\Customer\CustomerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 

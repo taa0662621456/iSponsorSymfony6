@@ -1,15 +1,11 @@
 <?php
 
-
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\AttachmentTrait;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Vendor\VendorMediaInterface;
 use App\Repository\Vendor\VendorMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,30 +13,23 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'vendor_media_idx')]
 #[ORM\Entity(repositoryClass: VendorMediaRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource(mercure: true)]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
-class VendorMedia
+final class VendorMedia extends ObjectSuperEntity implements ObjectInterface, VendorMediaInterface
 {
-	use ObjectBaseTrait;
-    use ObjectTitleTrait;
+
     use AttachmentTrait;
 
-	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorMedia')]
-	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-	private Vendor $vendorMediaVendor;
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorMedia')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private Vendor $vendorMediaVendor;
 
-    # ManyToOne
-	public function getVendorMediaVendor(): Vendor
+    // ManyToOne
+    public function getVendorMediaVendor(): Vendor
     {
-		return $this->vendorMediaVendor;
-	}
-	public function setVendorMediaVendor(Vendor $vendorMediaVendor): void
-	{
-		$this->vendorMediaVendor = $vendorMediaVendor;
-	}
+        return $this->vendorMediaVendor;
+    }
+
+    public function setVendorMediaVendor(Vendor $vendorMediaVendor): void
+    {
+        $this->vendorMediaVendor = $vendorMediaVendor;
+    }
 }

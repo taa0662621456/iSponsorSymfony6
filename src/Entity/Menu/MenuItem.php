@@ -2,25 +2,17 @@
 
 namespace App\Entity\Menu;
 
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use DateTime;
-use Symfony\Component\Uid\Uuid;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Menu\MenuItemInterface;
+use App\Interface\Object\ObjectInterface;
+use App\Repository\Menu\MenuItemRepository;
+use Doctrine\ORM\Mapping as ORM;
 
-class MenuItem
+#[ORM\Table(name: 'menu_item')]
+#[ORM\Index(columns: ['slug'], name: 'menu_item_idx')]
+#[ORM\Entity(repositoryClass: MenuItemRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+final class MenuItem extends ObjectSuperEntity implements ObjectInterface, MenuItemInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
 
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
 }

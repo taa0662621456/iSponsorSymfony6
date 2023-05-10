@@ -2,13 +2,10 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Entity\ProductLanguageTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Object\ObjectTileInterface;
+use App\Interface\Product\ProductTitleInterface;
 use App\Repository\Product\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,18 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-#[ApiFilter(SearchFilter::class, properties: [
-    'firstTitle' => 'partial',
-    'lastTitle' => 'partial',
-    'productName' => 'partial',
-    'productSDesc' => 'partial',
-    'productDesc' => 'partial',
-])]
-class ProductEnGb
+final class ProductEnGb extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface, ProductTitleInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-    use ProductLanguageTrait;
+
 }

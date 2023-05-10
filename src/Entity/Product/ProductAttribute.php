@@ -1,40 +1,20 @@
 <?php
 
-
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\Featured\Featured;
-use App\Entity\MetaTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Entity\Order\OrderItem;
-use App\Entity\Project\Project;
-use App\Entity\Project\ProjectFavourite;
-
-use App\Repository\Product\ProductRepository;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Product\ProductAttributeInterface;
+use App\Repository\Product\ProductProductAttributeRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 #[ORM\Table(name: 'product_attribute')]
 #[ORM\Index(columns: ['slug'], name: 'product_attribute_idx')]
-#[ORM\Entity(repositoryClass: ProductAttributeRepository::class)]
+#[ORM\Entity(repositoryClass: ProductProductAttributeRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class ProductAttribute
+
+final class ProductAttribute extends ObjectSuperEntity implements ObjectInterface, ProductAttributeInterface
 {
-
-    use ObjectBaseTrait;
-
     public const ATTRIBUTE_TYPE_BOOLEAN = 'boolean';
 
     public const ATTRIBUTE_TYPE_DATE = 'date';
@@ -51,26 +31,22 @@ class ProductAttribute
 
     public const NUM_ITEMS = 10;
 
-
-    /** @var string|null */
     private ?string $text;
 
-    /** @var bool|null */
     private ?bool $boolean;
 
-    /** @var int|null */
     private ?int $integer;
 
-    /** @var float|null */
     private ?float $float;
 
-    /** @var \DateTimeInterface|null */
     private ?\DateTimeInterface $datetime;
 
-    /** @var \DateTimeInterface|null */
     private ?\DateTimeInterface $date;
 
-    /** @var array|null */
     private ?array $json;
 
+    public function getType()
+    {
+        // TODO: Implement getType() method.
+    }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Entity\Storage;
 
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Storage\StorageInterface;
+use App\Repository\StorageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'storage')]
@@ -10,8 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: StorageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 
-class Storage
+final class Storage extends ObjectSuperEntity implements ObjectInterface, StorageInterface
 {
-    use ObjectBaseTrait;
     // TODO: склад товаров
 }

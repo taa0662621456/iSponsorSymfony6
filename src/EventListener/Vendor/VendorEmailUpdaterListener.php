@@ -4,7 +4,7 @@ namespace App\EventListener\Vendor;
 
 use App\Event\VendorEvent;
 use App\Interface\CustomerInterface;
-use App\Interface\GeneratorInterface;
+use App\Interface\SecurityGeneratorInterface;
 use App\Provider\FlashBagProvider;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -19,11 +19,11 @@ use Webmozart\Assert\Assert;
 final class VendorEmailUpdaterListener
 {
     public function __construct(
-        private readonly GeneratorInterface $tokenGenerator,
-        private readonly ChannelContextInterface $channelContext,
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly SecurityGeneratorInterface    $tokenGenerator,
+        private readonly ChannelContextInterface       $channelContext,
+        private readonly EventDispatcherInterface      $eventDispatcher,
         private readonly RequestStack|SessionInterface $requestStackOrSession,
-        private readonly TokenStorageInterface $tokenStorage,
+        private readonly TokenStorageInterface         $tokenStorage,
     ) {
     }
 

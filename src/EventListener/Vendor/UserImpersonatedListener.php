@@ -2,7 +2,9 @@
 
 namespace App\EventListener\Vendor;
 
-use App\Interface\Cart\ProductStorageInterface;
+use App\Interface\Channel\ChannelContextInterface;
+use App\Interface\Order\OrderRepositoryInterface;
+use App\Interface\Product\ProductStorageInterface;
 use HWI\Bundle\OAuthBundle\Event\UserEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
 

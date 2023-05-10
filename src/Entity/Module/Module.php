@@ -2,19 +2,15 @@
 
 namespace App\Entity\Module;
 
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use DateTime;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Module\ModuleInterface;
+use App\Interface\Object\ObjectInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
-
 
 #[ORM\Table(name: 'module')]
 #[ORM\Entity]
-class Module
+final class Module extends ObjectSuperEntity implements ObjectInterface, ModuleInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
 
     #[ORM\Column(name: 'asset_id', type: 'integer', nullable: false, options: ['comment' => 'FK to the #__assets table.'])]
     private int $assetId;
@@ -64,15 +60,4 @@ class Module
     #[ORM\Column(name: 'language', type: 'string', nullable: false)]
     private string $language;
 
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
 }

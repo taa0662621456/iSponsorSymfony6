@@ -5,7 +5,6 @@ namespace App\Form\Product\ProductBundle;
 use App\EventSubscriber\AddCodeFormSubscriber;
 use App\EventSubscriber\Product\ProductOptionFieldSubscriber;
 use App\EventSubscriber\Product\SimpleProductSubscriber;
-use App\Interface\Factory\FactoryInterface;
 use App\Interface\Locale\LocaleInterface;
 use App\Interface\Product\ProductVariantResolverInterface;
 use Symfony\Component\Form\AbstractType;
@@ -20,7 +19,6 @@ final class ProductType extends AbstractType
      */
     public function __construct(
         private readonly ProductVariantResolverInterface $variantResolver,
-        private readonly FactoryInterface $attributeValueFactory,
         private readonly LocaleInterface $locale,
         string $dataClass = 'data_class',
         array $validationGroups = [],

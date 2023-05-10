@@ -4,14 +4,10 @@
 namespace Functional;
 
 use Doctrine\Persistence\ObjectManager;
-use Fidry\AliceDataFixtures\LoaderInterface;
-use Fidry\AliceDataFixtures\Persistence\PurgeMode;
 use HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\AbstractResourceOwner;
 use HWI\Bundle\OAuthBundle\OAuth\Response\AbstractUserResponse;
 use PHPUnit\Framework\Assert;
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Client;
 
 final class UpdatingUserPasswordEncoderTest extends WebTestCase
 {

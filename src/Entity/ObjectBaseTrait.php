@@ -7,8 +7,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
+
 
 trait ObjectBaseTrait
 {
@@ -24,7 +23,6 @@ trait ObjectBaseTrait
     private string $slug;
 
     #[ORM\Column(name: 'created_at', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    #[Assert\DateTime(format: 'Y-m-d H:i:s', message: 'Штамп должен соответствовать формату Y-m-d H:i:s')]
     private string $createdAt = 'Y-m-d H:i:s';
 
     #[ORM\Column(name: 'created_by', type: 'integer', nullable: false, options: ['default' => 1])]
@@ -47,27 +45,12 @@ trait ObjectBaseTrait
     #[ORM\Column(name: 'locked_by', type: 'integer', nullable: false, options: ['default' => 1])]
     private int $lockedBy = 1;
 
-    #[ORM\Column(name: 'work_flow', type: 'string', nullable: false, options: ['default' => 'submitted', 'comment' => 'Submitted, Spam and Published stats'])]
-    private string $workFlow = 'submitted';
+    #[ORM\Column(name: 'current_state', type: 'string', nullable: false, options: ['default' => 'submitted', 'comment' => 'Submitted, Spam and Published stats'])]
+    private string $currentState = 'submitted';
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Version]
     protected int $version;
-
-    /**
-     * @throws \Exception
-     */
-    public function __construct()
-    {
-        $t = new \DateTime();
-        $this->slug = (string) Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
 
     public function getId(): int
     {
@@ -173,14 +156,14 @@ trait ObjectBaseTrait
         $this->lockedBy = $lockedBy;
     }
 
-    public function getWorkFlow(): string
+    public function getCurrentState(): string
     {
-        return $this->workFlow;
+        return $this->currentState;
     }
 
-    public function setWorkFlow(string $workFlow): void
+    public function setCurrentState(string $currentState): void
     {
-        $this->workFlow = $workFlow ?? 'submitted';
+        $this->currentState = $currentState ?? 'submitted';
     }
 
     public function getVersion(): int

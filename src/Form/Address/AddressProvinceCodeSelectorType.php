@@ -2,7 +2,7 @@
 
 namespace App\Form\Address;
 
-use App\Interface\Address\AddressProvinceRepositoryInterface;
+use App\Interface\Address\AddressProvinceInterface;
 use App\Service\ResourceToIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\ReversedTransformer;
 
 final class AddressProvinceCodeSelectorType extends AbstractType
 {
-    public function __construct(private readonly AddressProvinceRepositoryInterface $addressProvinceRepository)
+    public function __construct(private readonly AddressProvinceInterface $addressProvinceRepository)
     {
     }
 

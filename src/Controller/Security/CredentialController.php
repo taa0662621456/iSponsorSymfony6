@@ -8,7 +8,7 @@ use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorSecurity;
 use App\Event\Vendor\RegisteredEvent;
 use App\Service\ConfirmationCodeGenerator;
-use App\Service\SecurityForgot;
+use App\Service\SecurityGenerator;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use ReCaptcha\ReCaptcha;
@@ -43,7 +43,7 @@ class CredentialController extends AbstractController
         $vendor = new Vendor();
         $vendorSecurity = new VendorSecurity();
         $vendorCurrent = $this->getUser();
-        $form = $this->createForm(SecurityForgot::class);
+        $form = $this->createForm(SecurityGenerator::class);
         $form->handleRequest($request);
         if (!$resp->isSuccess()) {
             foreach ($resp->getErrorCodes() as $errorCode) {

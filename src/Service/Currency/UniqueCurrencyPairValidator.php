@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Service\Currency;
 
-
-
-
+use App\Interface\Currency\CurrencyInterface;
+use App\Interface\Exchange\ExchangeRateInterface;
+use App\Interface\Exchange\ExchangeRateRepositoryInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -13,13 +12,13 @@ use Webmozart\Assert\Assert;
 
 class UniqueCurrencyPairValidator extends ConstraintValidator
 {
-    public function __construct(private ExchangeRateRepositoryInterface $exchangeRateRepository)
+    public function __construct(private readonly ExchangeRateRepositoryInterface $exchangeRateRepository)
     {
     }
 
     public function validate($value, Constraint $constraint)
     {
-        /** @var UniqueCurrencyPair $constraint */
+        /* @var UniqueCurrencyPair $constraint */
         Assert::isInstanceOf($constraint, UniqueCurrencyPair::class);
 
         if (!$value instanceof ExchangeRateInterface) {

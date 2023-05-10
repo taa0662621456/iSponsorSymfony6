@@ -2,9 +2,17 @@
 
 namespace App\Factory\Product;
 
-use App\Interface\Product\ProductVariantInterface;
 
-class ProductVariantFactory implements ProductVariantInterface
+use App\Service\Object\ObjectFactory;
+
+class ProductVariantFactory extends ObjectFactory
 {
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
+    {
+        return $this->create(__CLASS__, $options);
+    }
 
 }

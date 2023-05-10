@@ -9,19 +9,20 @@ use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\QueryBuilder;
 
-class PromotionRepository extends EntityManager
+class PromotionRepository
 {
-    private AssociationHydrate $associationHydrate;
+   // private AssociationHydrate $associationHydrate;
 
     /**
-     * @throws MissingMappingDriverImplementation
      */
-    public function __construct(EntityManager $entityManager, ClassMetadata $class)
-    {
-        parent::__construct($entityManager, $class);
-
-        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
-    }
+//    public function __construct(
+//        // EntityManager $entityManager,
+//        // ClassMetadata $class
+//    ) {
+//        // parent::__construct($entityManager, $class);
+//
+//        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+//    }
 
     public function findActive(): array
     {

@@ -2,6 +2,9 @@
 
 namespace App\Service\Product;
 
+use App\Interface\Product\ProductInterface;
+use App\Interface\Product\ProductOptionValueInterface;
+use App\Interface\Product\ProductVariantInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
@@ -47,10 +50,6 @@ final class ProductVariantToProductOptionsTransformer implements DataTransformer
         return $this->matches(is_array($value) ? $value : iterator_to_array($value));
     }
 
-    /**
-     * @param array $optionValues
-     * @return ProductVariantInterface
-     */
     private function matches(array $optionValues): ProductVariantInterface
     {
         foreach ($this->product->getVariants() as $variant) {
@@ -63,10 +62,6 @@ final class ProductVariantToProductOptionsTransformer implements DataTransformer
             return $variant;
         }
 
-        throw new TransformationFailedException(sprintf(
-            'Variant "%s" not found for product %s',
-            !empty($optionValues[0]) ? $optionValues[0]->getCode() : '',
-            $this->product->getCode(),
-        ));
+        throw new TransformationFailedException(sprintf('Variant "%s" not found for product %s', !empty($optionValues[0]) ? $optionValues[0]->getCode() : '', $this->product->getCode()));
     }
 }

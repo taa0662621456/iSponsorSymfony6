@@ -3,9 +3,12 @@
 namespace App\Entity\Vendor;
 
 use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\AttachmentTrait;
 use App\Entity\ObjectBaseTrait;
 use App\Entity\ObjectTitleTrait;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Vendor\VendorDocumentInterface;
 use App\Repository\Vendor\VendorDocumentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,10 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 
 #[ApiResource(mercure: true)]
-class VendorDocument
+final class VendorDocument extends ObjectSuperEntity implements ObjectInterface, VendorDocumentInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
     use AttachmentTrait;
 
     #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorDocument')]

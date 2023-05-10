@@ -5,10 +5,11 @@ namespace App\Repository\Address;
 use App\Interface\Address\AddressInterface;
 use App\Interface\Country\AddressCountryRepositoryInterface;
 use App\Interface\CustomerInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
-class AddressCountryRepository extends EntityRepository implements AddressCountryRepositoryInterface
+class AddressCountryRepository implements AddressCountryRepositoryInterface
 {
     public function findByCustomer(CustomerInterface $customer): array
     {

@@ -2,9 +2,16 @@
 
 namespace App\Factory\Product;
 
-use App\Interface\Factory\FactoryInterface;
+use App\Service\Object\ObjectFactory;
 
-class ProductAttributeFactory implements FactoryInterface
+class ProductAttributeFactory extends ObjectFactory
 {
+    /**
+     * @throws \Exception
+     */
+    public function __invoke(array $options = []): object
+    {
+        return $this->create(__CLASS__, $options);
+    }
 
 }

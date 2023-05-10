@@ -2,29 +2,24 @@
 
 namespace App\Entity\Event;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
-use App\Entity\Vendor\Vendor;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Event\EventMemberInterface;
+use App\Interface\Object\ObjectInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'event_member')]
 #[ORM\Index(columns: ['event_id', 'event_permission'], name: 'idx_permission')]
 #[ORM\Index(columns: ['event_id'], name: 'idx_event_id')]
 #[ORM\Index(columns: ['event_invited_by'], name: 'idx_invite_by')]
 #[ORM\Entity]
-#
+
 #[ApiResource(mercure: true)]
-class EventMember
+final class EventMember extends ObjectSuperEntity implements ObjectInterface, EventMemberInterface
 {
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
     #[ORM\Column(name: 'event_id', type: 'integer', nullable: false, options: ['unsigned' => true])]
     private int $eventId;
-// TODO: не работает ассоциация
+    // TODO: не работает ассоциация
 //    #[ORM\OneToMany(mappedBy: 'event_member_id', targetEntity: Vendor::class)]
 //    private ArrayCollection $eventMemberId;
 
@@ -38,20 +33,8 @@ class EventMember
     private ?int $eventInvitedBy = null;
     /**
      * @var bool|null
-     * TODO: сомнительное свойство
+     *                TODO: сомнительное свойство
      */
     #[ORM\Column(name: 'event_approval', type: 'boolean', options: ['comment' => '0 - no approval required, 1 - required admin approval'])]
     private ?bool $eventApproval = false;
-
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
 }

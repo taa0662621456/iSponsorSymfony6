@@ -2,12 +2,9 @@
 
 namespace App\Entity\Role;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Role\RoleInterface;
 use App\Repository\Role\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,17 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(columns: ['slug'], name: 'role_idx')]
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource()]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
-class Role
+
+final class Role extends ObjectSuperEntity implements ObjectInterface, RoleInterface
 {
-
-    use ObjectBaseTrait;
-    use ObjectTitleTrait;
-
 }

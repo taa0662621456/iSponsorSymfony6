@@ -4,7 +4,7 @@ namespace App\EventSubscriber\Product;
 
 use App\Exception\VariantWithNoOptionsValuesException;
 use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductVariantInterface;
+use App\Interface\Product\ProductVariantGeneratorInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
@@ -17,7 +17,7 @@ use Webmozart\Assert\Assert;
 final class ProductVariantSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ProductVariantInterface $productVariant,
+        private readonly ProductVariantGeneratorInterface $productVariant,
         private readonly RequestStack $requestStackOrSession
     ) {
         if ($requestStackOrSession instanceof SessionInterface) {

@@ -2,24 +2,16 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Product\ProductPriceInterface;
 use App\Repository\Product\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name: 'product_price')]
-#[ORM\Index(columns: ['slug'], name: 'product_price_idx')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
-class ProductPrice
+final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, ProductPriceInterface
 {
-    use ObjectBaseTrait;
 
     #[ORM\Column(name: 'product_id', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productId = 0;
@@ -29,11 +21,6 @@ class ProductPrice
 
     #[ORM\OneToOne(inversedBy: 'productPrice', targetEntity: Product::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    #[Assert\Range(
-        minMessage: 'The price must be superior to 0',
-        maxMessage: 'The price can\'t be more than 1M',
-        min: 0, max: 1000000)]
-    #[Ignore]
     private Product|float $productPrice = -1.0;
 
     #[ORM\Column(name: 'override')]

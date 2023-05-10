@@ -1,28 +1,18 @@
 <?php
 
-
 namespace App\Entity\Shipment;
 
-
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use App\CoreBundle\Doctrine\ORM\ShipmentRepository;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Shipment\ShipmentInterface;
+use App\Repository\Shipment\ShipmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Table(name: 'shipment')]
 #[ORM\Index(columns: ['slug'], name: 'shipment_idx')]
 #[ORM\Entity(repositoryClass: ShipmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource()]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-class Shipment
+
+final class Shipment extends ObjectSuperEntity implements ObjectInterface, ShipmentInterface
 {
-    use ObjectBaseTrait;
-
-
-
 }

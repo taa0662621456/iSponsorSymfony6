@@ -3,6 +3,7 @@
 namespace App\Form\Address;
 
 use App\Interface\Address\AddressCountryInterface;
+use App\Interface\Address\AddressProvinceRepositoryInterface;
 use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressProvinceSelectorType extends AbstractType
 {
-    public function __construct(private readonly RepositoryInterface $provinceRepository)
+    public function __construct(private readonly AddressProvinceRepositoryInterface $provinceRepository)
     {
     }
 

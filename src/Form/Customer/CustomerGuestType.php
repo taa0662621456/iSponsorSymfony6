@@ -3,7 +3,7 @@
 namespace App\Form\Customer;
 
 use App\Interface\CustomerInterface;
-use App\Interface\Factory\FactoryInterface;
+use App\Interface\Fixture\FixtureFactoryInterface;
 use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
