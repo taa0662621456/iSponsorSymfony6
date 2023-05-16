@@ -2,20 +2,14 @@
 
 namespace App\Entity\Payment;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Payment\PaymentMethodInterface;
-use App\Repository\Payment\PaymentMethodRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'payment_method')]
-#[ORM\Index(columns: ['slug'], name: 'payment_method_idx')]
-#[ORM\Entity(repositoryClass: PaymentMethodRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class PaymentMethod extends ObjectSuperEntity implements ObjectInterface, PaymentMethodInterface
 {
-
     public function getGatewayConfig()
     {
         // TODO: Implement getGatewayConfig() method.

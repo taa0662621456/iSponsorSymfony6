@@ -3,14 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Vendor\VendorSecurity;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-final class VendorSecurityFixtures extends Fixture implements DependentFixtureInterface
+final class VendorSecurityFixtures extends AbstractDataFixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $faker = Factory::create();
 
@@ -31,6 +30,7 @@ final class VendorSecurityFixtures extends Fixture implements DependentFixtureIn
             $this->addReference('vendorSecurity_' . $i, $vendorSecurity);
         }
         $manager->flush();
+        $manager->clear();
 
     }
 

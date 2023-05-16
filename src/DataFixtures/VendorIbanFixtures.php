@@ -8,7 +8,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-final class VendorIbanFixtures extends Fixture implements DependentFixtureInterface
+final class VendorIbanFixtures extends AbstractDataFixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)

@@ -2,18 +2,14 @@
 
 namespace App\Entity\Vendor;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Vendor\VendorConversationInterface;
-use App\Repository\Vendor\VendorConversationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Interface\Vendor\VendorConversationInterface;
 
-#[ORM\Table(name: 'vendor_conversation')]
-#[ORM\Entity(repositoryClass: VendorConversationRepository::class)]
-
-
+#[ORM\Entity]
 final class VendorConversation extends ObjectSuperEntity implements ObjectInterface, VendorConversationInterface
 {
     #[ORM\OneToMany(mappedBy: 'vendorMessageConversation', targetEntity: VendorMessage::class)]

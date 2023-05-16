@@ -2,17 +2,12 @@
 
 namespace App\Entity\Product;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductAttributeInterface;
-use App\Repository\Product\ProductProductAttributeRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'product_attribute')]
-#[ORM\Index(columns: ['slug'], name: 'product_attribute_idx')]
-#[ORM\Entity(repositoryClass: ProductProductAttributeRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class ProductAttribute extends ObjectSuperEntity implements ObjectInterface, ProductAttributeInterface
 {
     public const ATTRIBUTE_TYPE_BOOLEAN = 'boolean';

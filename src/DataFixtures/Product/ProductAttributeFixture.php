@@ -3,21 +3,11 @@
 namespace App\DataFixtures\Product;
 
 use App\DataFixtures\AbstractDataFixture;
-use App\Interface\FixtureFactoryInterface;
-use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class ProductAttributeFixture extends AbstractDataFixture
 {
-    private array $attributeTypes;
-
-    public function __construct(ObjectManager $objectManager, FixtureFactoryInterface $exampleFactory, array $attributeTypes)
-    {
-        parent::__construct($objectManager, $exampleFactory);
-
-        $this->attributeTypes = array_keys($attributeTypes);
-    }
-
     public function getName(): string
     {
         return 'product_attribute';
@@ -27,11 +17,34 @@ final class ProductAttributeFixture extends AbstractDataFixture
     {
         $resourceNode
             ->children()
-                ->scalarNode('name')->cannotBeEmpty()->end()
-                ->scalarNode('code')->cannotBeEmpty()->end()
-                ->booleanNode('translatable')->defaultTrue()->end()
-                ->enumNode('type')->values($this->attributeTypes)->cannotBeEmpty()->end()
-                ->variableNode('configuration')->end()
+            ->scalarNode('name')->cannotBeEmpty()->end()
+            ->scalarNode('code')->cannotBeEmpty()->end()
+            ->booleanNode('translatable')->defaultTrue()->end()
+            ->enumNode('type')->values(['text', 'number', 'boolean'])->cannotBeEmpty()->end()
+            ->variableNode('configuration')->end()
         ;
+    }
+
+    public function load($manager): void
+    {
+        parent::load($manager);
+
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 10; $i++) {
+            $resourceOptions = [
+                'name' => $faker->word,
+                'code' => $faker->unique()->word,
+                'translatable' => $faker->boolean,
+                'type' => $faker->randomElement(['text', 'number', 'boolean']),
+                'configuration' => null,
+            ];
+
+            $resource = $this->exampleFactory->create((string) $resourceOptions);
+
+            $this->objectManager->persist($resource);
+        }
+
+        $this->objectManager->flush();
     }
 }

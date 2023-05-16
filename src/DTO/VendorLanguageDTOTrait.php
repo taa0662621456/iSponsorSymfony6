@@ -62,7 +62,7 @@ trait VendorLanguageDTOTrait
     private ?string $vendorParams = null;
 
     #[Ignore]
-    private Vendor $vendorEnGbVendor;
+    private Vendor $vendorEnGbVendorDTO;
 
     public function getVendorPhone(): string
     {

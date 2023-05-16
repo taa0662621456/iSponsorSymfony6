@@ -2,16 +2,13 @@
 
 namespace App\Entity\Category;
 
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Category\CategoryAttachmentInterface;
-use App\Interface\Category\CategoryInterface;
-use App\Interface\Object\ObjectInterface;
-use App\Repository\Category\CategoryAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Category\CategoryAttachmentInterface;
 
-#[ORM\Table(name: 'category_attachment')]
-#[ORM\Entity(repositoryClass: CategoryAttachmentRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class CategoryAttachment extends ObjectSuperEntity implements ObjectInterface, CategoryAttachmentInterface
 {
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachment')]
@@ -28,5 +25,4 @@ final class CategoryAttachment extends ObjectSuperEntity implements ObjectInterf
     {
         $this->categoryAttachmentCategory = $categoryAttachment;
     }
-
 }

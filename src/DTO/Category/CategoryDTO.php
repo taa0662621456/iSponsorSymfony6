@@ -3,6 +3,7 @@
 namespace App\DTO\Category;
 
 use App\DTO\Abstraction\ObjectDTO;
+use App\DTO\Featured\FeaturedDTO;
 use App\Entity\Featured\Featured;
 use App\Interface\Object\ObjectApiResourceInterface;
 use Doctrine\Common\Collections\Collection;
@@ -13,23 +14,23 @@ final class CategoryDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
     private int $ordering = 1;
 
-    private Collection $categoryChildren;
+    private CategoryDTO $categoryChildrenDTO;
 
-    private Collection $categoryParent;
+    private CategoryDTO $categoryParentDTO;
 
-    private Collection $categoryProject;
+    private CategoryDTO $categoryProjectDTO;
 
-    #[Assert\Type(type: CategoryEnGb::class)]
+    #[Assert\Type(type: CategoryEnGbDTO::class)]
     #[Assert\Valid]
     #[Ignore]
-    private CategoryEnGb $categoryEnGb;
+    private CategoryEnGbDTO $categoryEnGbDTO;
 
-    private Collection $categoryAttachment;
+    private Collection $categoryAttachmentDTO;
 
-    #[Assert\Type(type: CategoryFeatured::class)]
+    #[Assert\Type(type: CategoryFeaturedDTO::class)]
     #[Assert\Valid]
     #[Ignore]
-    private Featured $categoryFeatured;
+    private FeaturedDTO $categoryFeaturedDTO;
 
 
 

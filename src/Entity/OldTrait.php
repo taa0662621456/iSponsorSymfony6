@@ -2,13 +2,12 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints\Length;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait OldTrait
 {
-
     #[ORM\Column(name: 'vendor_first_name', type: 'string', nullable: false, options: ['default' => 'vendor_first_name'])]
     #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
     #[Length(min: 6, minMessage: 'vendors.en.gb.too.short')]
@@ -28,6 +27,7 @@ trait OldTrait
     {
         return $this->vendorFirstName;
     }
+
     public function setVendorFirstName(string $vendorFirstName): void
     {
         $this->vendorFirstName = $vendorFirstName;
@@ -37,6 +37,7 @@ trait OldTrait
     {
         return $this->vendorLastName;
     }
+
     public function setVendorLastName(string $lastName): void
     {
         $this->vendorLastName = $lastName;
@@ -46,6 +47,7 @@ trait OldTrait
     {
         return $this->vendorMiddleName;
     }
+
     public function setVendorMiddleName(string $vendorMiddleName): void
     {
         $this->vendorMiddleName = $vendorMiddleName;

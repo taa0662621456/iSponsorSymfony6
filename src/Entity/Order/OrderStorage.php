@@ -2,20 +2,16 @@
 
 namespace App\Entity\Order;
 
-use App\Entity\ObjectSuperEntity;
 use App\Entity\Vendor\Vendor;
-use App\Interface\Object\ObjectInterface;
-use App\Interface\Order\OrderStorageInterface;
-use App\Repository\Order\OrderRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use Doctrine\Common\Collections\Collection;
+use App\Interface\Order\OrderStorageInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Table(name: 'order_storage')]
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class OrderStorage extends ObjectSuperEntity implements ObjectInterface, OrderStorageInterface
 {
     public const NUM_ITEMS = 10;
@@ -129,7 +125,6 @@ final class OrderStorage extends ObjectSuperEntity implements ObjectInterface, O
         $t = new \DateTime();
         $this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
         $this->orderItem = new ArrayCollection();
-
     }
 
     public function getOrderId(): int

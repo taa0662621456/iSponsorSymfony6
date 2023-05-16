@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProductTypeFixtures extends Fixture implements DependentFixtureInterface
+final class ProductTypeFixtures extends AbstractDataFixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)

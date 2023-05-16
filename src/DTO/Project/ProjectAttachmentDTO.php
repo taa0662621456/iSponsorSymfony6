@@ -7,7 +7,7 @@ use App\Interface\Object\ObjectApiResourceInterface;
 
 final class ProjectAttachmentDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Project $projectAttachmentProject;
+    private Project $projectAttachmentProjectDTO;
 
     // ManyToOne
     public function getProjectAttachmentProject(): Project

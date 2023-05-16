@@ -2,20 +2,16 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Object\ObjectInterface;
-use App\Interface\Vendor\VendorFavouriteInterface;
-use App\Repository\Vendor\VendorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
-#[ORM\Table(name: 'vendor_favourite')]
-#[ORM\Index(columns: ['slug'], name: 'vendor_favourite_idx')]
-#[ORM\Entity(repositoryClass: VendorRepository::class)]
+use App\Entity\ObjectSuperEntity;
+use ApiPlatform\Metadata\ApiResource;
+use App\Interface\Object\ObjectInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Interface\Vendor\VendorFavouriteInterface;
 
 #[ApiResource(mercure: true)]
+#[ORM\Entity]
 final class VendorFavourite extends ObjectSuperEntity implements ObjectInterface, VendorFavouriteInterface
 {
     #[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorFavourite')]

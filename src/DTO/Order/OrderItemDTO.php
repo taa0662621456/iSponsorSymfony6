@@ -42,11 +42,11 @@ final class OrderItemDTO extends ObjectDTO implements ObjectApiResourceInterface
 
     private ?string $itemHash = null;
 
-    private Vendor $orderItemsVendor;
+    private Vendor $orderItemsVendorDTO;
 
-    private OrderStorage $orderItem;
+    private OrderStorage $orderItemDTO;
 
-    private Product $productOrdered;
+    private Product $productOrderedDTO;
 
     public function getItemId(): ?int
     {

@@ -2,22 +2,14 @@
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Metadata\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Order\OrderLogInterface;
-use App\Repository\Order\OrderRepository;
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'order_log')]
-#[ORM\Index(columns: ['slug'], name: 'order_log_idx')]
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-#[ApiResource(mercure: true)]
+#[ORM\Entity]
 final class OrderLog extends ObjectSuperEntity implements ObjectInterface, OrderLogInterface
 {
-
     #[ORM\ManyToOne(targetEntity: OrderStatus::class)]
     private OrderStatus $orderStatusCode;
 

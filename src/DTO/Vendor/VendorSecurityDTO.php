@@ -25,11 +25,11 @@ final class VendorSecurityDTO extends ObjectDTO implements ObjectApiResourceInte
     #[Assert\NotBlank(message: 'vendor.message.error.phone')]
     #[Length(min: 9, minMessage: 'vendor.security.too.short.phone')]
     #[Length(max: 13, maxMessage: 'vendor.security.too.long.phone')]
-    private string $phone;
+    private string $phoneDTO;
 
     #[Assert\Length(min: 3, minMessage: 'vendor.security.too.short.username')]
     #[Assert\Length(max: 64, maxMessage: 'vendor.security.too.long.username')]
-    private string $username;
+    private string $usernameDTO;
 
     #[Assert\NotBlank(message: 'vendors.message.error.password')]
     #[Assert\Length(min: 8, minMessage: 'vendor.security.too.short.password')]
@@ -46,7 +46,7 @@ final class VendorSecurityDTO extends ObjectDTO implements ObjectApiResourceInte
 
     private ?bool $sendEmail = false;
 
-    private string $activationCode;
+    private string $activationCodeDTO;
 
     #[Assert\Locale(message: 'Код локали должен соответствовать стандарту языка ISO 639-1 или с применением стардарта кода страны  ISO 3166-1 alpha-2', canonicalize: true)]
     private string $locale = 'en';
@@ -55,19 +55,19 @@ final class VendorSecurityDTO extends ObjectDTO implements ObjectApiResourceInte
 
     private string $params = 'params';
 
-    private string $lastResetTime;
+    private string $lastResetTimeDTO;
 
     private ?int $resetCount = 0;
 
-    private string $totpKey;
+    private string $totpKeyDTO;
 
-    private string $otep;
+    private string $otepDTO;
 
     private int|bool $requireReset = 0;
 
     private string $apiKey = 'api_key';
 
-    private Vendor $vendorSecurity;
+    private Vendor $vendorSecurityDTO;
 
     private string $salt = '0';
 

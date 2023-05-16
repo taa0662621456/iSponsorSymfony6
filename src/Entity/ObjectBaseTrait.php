@@ -2,12 +2,10 @@
 
 namespace App\Entity;
 
-use App\Entity\Vendor\Vendor;
-use DateTime;
-use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Pure;
+use App\Entity\Vendor\Vendor;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-
 
 trait ObjectBaseTrait
 {
@@ -85,7 +83,7 @@ trait ObjectBaseTrait
     #[ORM\PrePersist]
     public function setCreatedAt(): void
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->createdAt = $t->format('Y-m-d H:i:s');
     }
 
@@ -97,7 +95,7 @@ trait ObjectBaseTrait
     public function setLastRequestDate(string $lastRequestDate): void
     {
         // TODO: must be setting date owner request only
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
     }
 
@@ -119,7 +117,7 @@ trait ObjectBaseTrait
     #[ORM\PreUpdate]
     public function setModifiedAt(): void
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
     }
 
@@ -142,7 +140,7 @@ trait ObjectBaseTrait
     #[ORM\PreUpdate]
     public function setLockedAt(): void
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->lockedAt = $t->format('Y-m-d H:i:s');
     }
 

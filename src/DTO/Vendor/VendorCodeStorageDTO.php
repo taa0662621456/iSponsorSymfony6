@@ -9,7 +9,7 @@ final class VendorCodeStorageDTO extends ObjectDTO implements ObjectApiResourceI
 {
     protected string $phone;
 
-    private int $code;
+    private int $codeDTO;
 
     protected bool $isLogin;
 

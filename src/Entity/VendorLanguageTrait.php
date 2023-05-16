@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Entity;
-
 
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait VendorLanguageTrait
 {
@@ -16,10 +14,8 @@ trait VendorLanguageTrait
      * TODO: добавить свойства: Обложка профиля и аватар c отношением к МедиаАттачментам
      * $vendorCover
      * $vendorAvatar
-     * возможно определить данные свойства в BaseTrait
+     * возможно определить данные свойства в BaseTrait.
      */
-
-
     #[ORM\Column(name: 'vendor_phone', unique: true, nullable: true)]
     #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
     #[Length(min: 10, minMessage: 'vendors.en.gb.too.short')]
@@ -83,12 +79,11 @@ trait VendorLanguageTrait
     #[Ignore]
     private Vendor $vendorEnGbVendor;
 
-
-
     public function getVendorPhone(): string
     {
         return $this->vendorPhone;
     }
+
     public function setVendorPhone(string $vendorPhone): void
     {
         $this->vendorPhone = $vendorPhone;
@@ -98,6 +93,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorSecondPhone;
     }
+
     public function setVendorSecondPhone(string $vendorSecondPhone): void
     {
         $this->vendorSecondPhone = $vendorSecondPhone;
@@ -107,6 +103,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorFax;
     }
+
     public function setVendorFax(string $fax): void
     {
         $this->vendorFax = $fax;
@@ -116,6 +113,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorAddress;
     }
+
     public function setVendorAddress(string $address): void
     {
         $this->vendorAddress = $address;
@@ -125,6 +123,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorAddress;
     }
+
     public function setVendorAddressSecond(string $vendorSecondAddress): void
     {
         $this->vendorSecondAddress = $vendorSecondAddress;
@@ -134,6 +133,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorCity;
     }
+
     public function setVendorCity(string $vendorCity): void
     {
         $this->vendorCity = $vendorCity;
@@ -143,6 +143,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorStateId;
     }
+
     public function setVendorStateId(int $vendorStateId): void
     {
         $this->vendorStateId = $vendorStateId;
@@ -152,6 +153,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorCountryId;
     }
+
     public function setVendorCountryId(string $vendorCountryId): void
     {
         $this->vendorCountryId = $vendorCountryId;
@@ -161,6 +163,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorZip;
     }
+
     public function setVendorZip(int $vendorZip): void
     {
         $this->vendorZip = $vendorZip;
@@ -170,6 +173,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorCurrency;
     }
+
     public function setVendorCurrency(string $vendorCurrency): void
     {
         $this->vendorCurrency = $vendorCurrency;
@@ -179,6 +183,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorAcceptedCurrencies;
     }
+
     public function setVendorAcceptedCurrencies(string $vendorAcceptedCurrencies): void
     {
         $this->vendorAcceptedCurrencies = $vendorAcceptedCurrencies;
@@ -188,6 +193,7 @@ trait VendorLanguageTrait
     {
         return $this->vendorParams;
     }
+
     public function setVendorParams(string $vendorParams): void
     {
         $this->vendorParams = $vendorParams;
@@ -197,10 +203,9 @@ trait VendorLanguageTrait
     {
         return $this->vendorEnGbVendor;
     }
+
     public function setVendorEnGbVendor(Vendor $vendor): void
     {
         $this->vendorEnGbVendor = $vendor;
     }
-
-
 }

@@ -2,16 +2,12 @@
 
 namespace App\Entity\Project;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Project\ProjectPlatformRewardInterface;
-use App\Repository\Project\ProjectPlatformRewardRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'reward')]
-#[ORM\Index(columns: ['slug'], name: 'commission_idx')]
-#[ORM\Entity(repositoryClass: ProjectPlatformRewardRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class ProjectPlatformReward extends ObjectSuperEntity implements ObjectInterface, ProjectPlatformRewardInterface
 {
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectPlatformReward')]

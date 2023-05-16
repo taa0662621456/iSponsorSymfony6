@@ -36,29 +36,29 @@ final class VendorDTO extends ObjectDTO implements ObjectApiResourceInterface
     #[Assert\Type(type: VendorIban::class)]
     #[Assert\Valid]
     #[Ignore]
-    private VendorIban $vendorIban;
+    private VendorIban $vendorIbanDTO;
 
     #[Assert\Type(type: VendorEnUS::class)]
     #[Assert\Valid]
     #[Ignore]
-    private VendorEnUS $vendorEnUs;
+    private VendorEnUS $vendorEnUsDTO;
 
     #[Assert\Type(type: Featured::class)]
     #[Assert\Valid]
     #[Ignore]
-    private Featured $vendorFeatured;
+    private Featured $vendorFeaturedDTO;
 
-    private Collection $vendorDocument;
+    private Collection $vendorDocumentDTO;
 
-    private Collection $vendorOrder;
+    private Collection $vendorOrderDTO;
 
-    private Collection $vendorItem;
+    private Collection $vendorItemDTO;
 
-    private Collection $vendorFavourite;
+    private Collection $vendorFavouriteDTO;
 
-    private Collection $vendorConversation;
+    private Collection $vendorConversationDTO;
 
-    private Collection $vendorFriend;
+    private Collection $vendorFriendDTO;
 
     public function isActive(): bool
     {

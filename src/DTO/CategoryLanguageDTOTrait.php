@@ -15,7 +15,7 @@ trait CategoryLanguageDTOTrait
     #[Assert\Length(min: 10, minMessage: 'categories.en.gb.too.short')]
     private string $categoryDesc = 'category_desc';
 
-    private CategoryEnGbDTO $categoryEnGb;
+    private CategoryEnGbDTO $categoryEnGbDTO;
 
 
     public function __construct(string $categoryName, string $categoryDesc, CategoryEnGbDTO $categoryEnGb)

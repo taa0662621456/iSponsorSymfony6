@@ -7,11 +7,11 @@ use App\Interface\Object\ObjectApiResourceInterface;
 
 final class ProjectPlatformRewardDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Project $projectId;
+    private Project $projectIdDTO;
 
-    private string $commissionStartTime;
+    private string $commissionStartTimeDTO;
 
-    private string $commissionEndTime;
+    private string $commissionEndTimeDTO;
 
     public function getProjectId(): Project
     {

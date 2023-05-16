@@ -79,11 +79,11 @@ final class OrderStorageDTO extends ObjectDTO implements ObjectApiResourceInterf
 
     #[Assert\Type(type: 'App\Entity\Order\OrderStorage')]
     #[Assert\Valid]
-    private Collection $orderItem;
+    private Collection $orderItemDTO;
 
-    private OrderStatus $orderStatus;
+    private OrderStatus $orderStatusDTO;
 
-    private Vendor $orderVendor;
+    private Vendor $orderVendorDTO;
 
     public function __construct()
     {

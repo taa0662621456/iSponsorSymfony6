@@ -20,7 +20,7 @@ final class VendorIbanDTO extends ObjectDTO implements ObjectApiResourceInterfac
     private ?int $signatureCode = 0;
 
     #[Ignore]
-    private Vendor $vendorIbanVendor;
+    private Vendor $vendorIbanVendorDTO;
 
     public function getIban(): ?string
     {

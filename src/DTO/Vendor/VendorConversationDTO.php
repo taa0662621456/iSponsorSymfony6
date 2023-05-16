@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Collection;
 #[ApiResource(mercure: true)]
 final class VendorConversationDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Collection $vendorConversationMessage;
+    private Collection $vendorConversationMessageDTO;
 
-    private Collection $vendorConversationVendor;
+    private Collection $vendorConversationVendorDTO;
 }

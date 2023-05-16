@@ -27,7 +27,7 @@ final class ProjectReviewDTO extends ObjectDTO implements ObjectApiResourceInter
         $this->projectReviewId = $projectReviewId;
     }
 
-    private Project $projectReviewProject;
+    private Project $projectReviewProjectDTO;
 
     // ManyToOne
     public function getProjectReviewProject(): Project

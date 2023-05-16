@@ -2,17 +2,12 @@
 
 namespace App\Entity\Product;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductReviewInterface;
-use App\Repository\Review\ProductReviewRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'product_review')]
-#[ORM\Index(columns: ['slug'], name: 'product_review_idx')]
-#[ORM\Entity(repositoryClass: ProductReviewRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class ProductReview extends ObjectSuperEntity implements ObjectInterface, ProductReviewInterface
 {
     public const NUM_ROWS = 10;

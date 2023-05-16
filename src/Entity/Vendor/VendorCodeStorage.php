@@ -2,18 +2,16 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Metadata\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Vendor\VendorCodeStorageInterface;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'vendor_sms_code_send_storage')]
 #[ORM\Index(columns: ['phone'], name: 'sms_code_send_storage_idx')]
-#[ORM\HasLifecycleCallbacks]
+
+#[ORM\Entity]
 final class VendorCodeStorage extends ObjectSuperEntity implements ObjectInterface, VendorCodeStorageInterface
 {
-
     #[ORM\Column(name: 'phone', type: 'string')]
     protected string $phone;
 

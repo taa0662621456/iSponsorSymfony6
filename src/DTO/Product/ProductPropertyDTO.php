@@ -15,11 +15,11 @@ final class ProductPropertyDTO extends ObjectDTO implements ObjectApiResourceInt
 
     private NumberType|float|null $productWidthUom = null;
 
-    private float $productHeight;
+    private float $productHeightDTO;
 
     private NumberType|float|null $productHeightUom = null;
 
-    private float $productLength;
+    private float $productLengthDTO;
 
     private NumberType|float|null $productLengthUom = null;
 

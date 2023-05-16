@@ -2,19 +2,15 @@
 
 namespace App\Entity\Event;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Event\EventMemberInterface;
-use App\Interface\Object\ObjectInterface;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Event\EventMemberInterface;
 
-#[ORM\Table(name: 'event_member')]
 #[ORM\Index(columns: ['event_id', 'event_permission'], name: 'idx_permission')]
 #[ORM\Index(columns: ['event_id'], name: 'idx_event_id')]
 #[ORM\Index(columns: ['event_invited_by'], name: 'idx_invite_by')]
 #[ORM\Entity]
-
-#[ApiResource(mercure: true)]
 final class EventMember extends ObjectSuperEntity implements ObjectInterface, EventMemberInterface
 {
     #[ORM\Column(name: 'event_id', type: 'integer', nullable: false, options: ['unsigned' => true])]
@@ -31,6 +27,7 @@ final class EventMember extends ObjectSuperEntity implements ObjectInterface, Ev
 
     #[ORM\Column(name: 'event_invited_by', options: ['unsigned' => true])]
     private ?int $eventInvitedBy = null;
+
     /**
      * @var bool|null
      *                TODO: сомнительное свойство

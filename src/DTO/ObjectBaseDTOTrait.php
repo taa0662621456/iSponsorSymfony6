@@ -12,7 +12,7 @@ trait ObjectBaseDTOTrait
 
     private bool $published = true;
 
-    private string $slug;
+    private string $slugDTO;
 
     #[Assert\DateTime(format: 'Y-m-d H:i:s', message: 'Штамп должен соответствовать формату Y-m-d H:i:s')]
     private string $createdAt = 'Y-m-d H:i:s';

@@ -15,9 +15,9 @@ final class LocaleFixture extends AbstractDataFixture
      * @param ObjectManager    $localeManager
      * @param string           $baseLocaleCode
      */
-    public function __construct(private FactoryInterface $localeFactory,
-                                private ObjectManager $localeManager,
-                                private string $baseLocaleCode)
+    public function __construct(private readonly FactoryInterface $localeFactory,
+                                private readonly ObjectManager    $localeManager,
+                                private readonly string           $baseLocaleCode)
     {
         parent::__construct();
     }

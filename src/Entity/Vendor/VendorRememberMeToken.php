@@ -2,17 +2,12 @@
 
 namespace App\Entity\Vendor;
 
-use App\Entity\ObjectSuperEntity;
-use App\Entity\ObjectBaseTrait;
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
 
-#[ORM\Table(name: 'remember_me_token')]
 #[ORM\Entity]
-#[ORM\HasLifecycleCallbacks]
 final class VendorRememberMeToken extends ObjectSuperEntity
 {
-
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $series = 0;
@@ -31,7 +26,7 @@ final class VendorRememberMeToken extends ObjectSuperEntity
 
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->lastUsed = $t->format('Y-m-d H:i:s');
     }
 
@@ -62,7 +57,7 @@ final class VendorRememberMeToken extends ObjectSuperEntity
 
     public function setLastUsed(string $lastUsed): void
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->lastUsed = $t->format('Y-m-d H:i:s');
     }
 

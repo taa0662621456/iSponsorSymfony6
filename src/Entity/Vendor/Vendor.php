@@ -2,40 +2,31 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Doctrine\Odm\Filter\BooleanFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
-use App\Entity\Featured\Featured;
 use App\Entity\Order\OrderItem;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Featured\Featured;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Order\OrderStorage;
+use JetBrains\PhpStorm\ArrayShape;
+use ApiPlatform\Metadata\ApiResource;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Vendor\VendorInterface;
-use App\Repository\Vendor\VendorRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use JetBrains\PhpStorm\ArrayShape;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
-
-#[ORM\Table(name: 'vendor')]
-#[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
-#[ORM\Entity(repositoryClass: VendorRepository::class)]
-#[ORM\HasLifecycleCallbacks]
 
 #[ApiResource(
 //    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'vendor:list']]],
 //    itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']], 'put', 'delete',
 //        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class'], ],
     normalizationContext: ['groups' => 'read'],
-    denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']])]
-#[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
+    denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']]
+)]
+#[ORM\Entity]
 final class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorInterface, \JsonSerializable
 {
-
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
     private int|bool $isActive;
@@ -112,16 +103,16 @@ final class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorI
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMessage;
 
-    #[ORM\ManyToMany(targetEntity: Vendor::class, mappedBy: 'vendorMyFriend')]
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'vendorMyFriend')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorFriend;
 
-    #[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorFriend')]
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'vendorFriend')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMyFriend;
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct()
     {

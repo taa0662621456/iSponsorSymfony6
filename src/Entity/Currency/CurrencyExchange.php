@@ -2,24 +2,24 @@
 
 namespace App\Entity\Currency;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Currency\CurrencyExchangeInterface;
-use App\Interface\Object\ObjectInterface;
-use App\Repository\CurrencyExchangeRepository;
 use Doctrine\ORM\Mapping as ORM;
-
-#[ORM\Table(name: 'currency_exchange')]
-#[ORM\Index(columns: ['slug'], name: 'currency_exchange_idx')]
-#[ORM\Entity(repositoryClass: CurrencyExchangeRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+use App\Entity\ObjectSuperEntity;
+use ApiPlatform\Metadata\ApiResource;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Currency\CurrencyExchangeInterface;
 
 #[ApiResource(mercure: true)]
+#[ORM\Entity]
 final class CurrencyExchange extends ObjectSuperEntity implements ObjectInterface, CurrencyExchangeInterface
 {
-    protected $currencySource;
+    #[ORM\ManyToOne(targetEntity: Currency::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $currencySource;
 
-    protected $currencyTarget;
+    #[ORM\ManyToOne(targetEntity: Currency::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $currencyTarget;
 
-    protected $currencyRatio;
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    private $currencyRatio;
 }

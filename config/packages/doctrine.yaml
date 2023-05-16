@@ -2,9 +2,7 @@ doctrine:
     dbal:
         types:
             uuid: Symfony\Bridge\Doctrine\Types\UuidType
-        #        url: '%env(resolve:PLATFORM_DATA_DATABASE)%'
-#        mapping_types:
-#            enum: string
+
         default_connection: postgres
         connections:
             postgres:
@@ -30,26 +28,20 @@ doctrine:
                 driver: 'pdo_sqlite'
                 server_version: '3.21'
                 charset: utf8mb4
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '13'
     orm:
         resolve_target_entities:
-            App\Interface\CategoryInterface: App\Entity\Category\Category
-            App\Interface\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
+            App\Interface\Category\CategoryInterface: App\Entity\Category\Category
+            App\Interface\Category\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
             #
-            App\Interface\ProjectInterface: App\Entity\Project\Project
+            App\Interface\Project\ProjectInterface: App\Entity\Project\Project
             #
-            App\Interface\ProjectTypeInterface: App\Entity\Project\ProjectType
-            App\Interface\ProductTypeInterface: App\Entity\Product\ProductType
+            App\Interface\Project\ProjectTypeInterface: App\Entity\Project\ProjectType
+            App\Interface\Product\ProductTypeInterface: App\Entity\Product\ProductType
             #
-            App\Interface\FeaturedInterface: App\Entity\Featured\Featured
+            App\Interface\Featured\FeaturedInterface: App\Entity\Featured\Featured
             #
-            App\Interface\ProductReviewInterface: App\Entity\Product\ProductReview
-            App\Interface\ProjectReviewInterface: App\Entity\Project\ProjectReview
-        #        auto_generate_proxy_classes: true
-        #        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        #        auto_mapping: true
+            App\Interface\Product\ProductReviewInterface: App\Entity\Product\ProductReview
+            App\Interface\Product\ProjectReviewInterface: App\Entity\Project\ProjectReview
 
         default_entity_manager: postgres
         entity_managers:
@@ -152,11 +144,11 @@ doctrine:
             sqlite:
                 connection: sqlite
                 mappings:
-#                    Menu:
-#                        is_bundle: false
-#                        dir: '%kernel.project_dir%/src/Entity/Menu'
-#                        prefix: 'App\Entity\Menu'
-#                        alias: Menu
+                    Menu:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity/Menu'
+                        prefix: 'App\Entity\Menu'
+                        alias: Menu
                     Module:
                         is_bundle: false
                         type: attribute
@@ -181,8 +173,55 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/Product'
                         prefix: 'App\Entity\Product'
                         alias: ProductType
+                    Locale:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Locale'
+                        prefix: 'App\Entity\Locale'
+                        alias: Locale
+                    Zone:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Zone'
+                        prefix: 'App\Entity\Zone'
+                        alias: Zone
+                    Exchange:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Exchange'
+                        prefix: 'App\Entity\Exchange'
+                        alias: Exchange
+                    Currency:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Currency'
+                        prefix: 'App\Entity\Currency'
+                        alias: Currency
+                    Taxation:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Taxation'
+                        prefix: 'App\Entity\Taxation'
+                        alias: Taxation
+                    Coupon:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Coupon'
+                        prefix: 'App\Entity\Coupon'
+                        alias: Coupon
+                    Payment:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Payment'
+                        prefix: 'App\Entity\Payment'
+                        alias: Payment
+                    Association:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Association'
+                        prefix: 'App\Entity\Association'
+                        alias: Association
         auto_generate_proxy_classes: true
-
 when@test:
     doctrine:
         dbal:

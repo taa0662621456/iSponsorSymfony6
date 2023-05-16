@@ -2,7 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Interface\FixtureFactoryInterface;
+use App\Interface\Fixture\FixtureFactoryInterface;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -10,16 +11,14 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-abstract class AbstractDataFixture implements FixtureInterface
+abstract class AbstractDataFixture extends Fixture implements FixtureInterface
 {
     private OptionsResolver $optionsResolver;
 
 
-    public function __construct(private ObjectManager $objectManager,
-                                private FixtureFactoryInterface $exampleFactory)
+    public function __construct(protected readonly ObjectManager           $objectManager,
+                                protected readonly FixtureFactoryInterface $exampleFactory)
     {
-        $this->objectManager = $objectManager;
-        $this->exampleFactory = $exampleFactory;
 
         $this->optionsResolver = (new OptionsResolver())
             ->setDefault('random', 0)

@@ -2,19 +2,16 @@
 
 namespace App\Entity\Event;
 
-use ApiPlatform\Metadata\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Event\EventInterface;
 use App\Interface\Object\ObjectInterface;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'event')]
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
 #[ORM\Index(columns: ['type'], name: 'event_idx_type')]
 #[ORM\Index(columns: ['cat_id'], name: 'event_idx_cat_id')]
 #[ORM\Entity]
 
-#[ApiResource(mercure: true)]
 class Event extends ObjectSuperEntity implements ObjectInterface, EventInterface
 {
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
@@ -82,10 +79,10 @@ class Event extends ObjectSuperEntity implements ObjectInterface, EventInterface
 
     #[ORM\Column(name: 'all_day', type: 'boolean', nullable: false)]
     private int|bool $allDay = 0;
+
     #[ORM\Column(name: 'repeat', length: 50, options: ['comment' => 'null,daily,weekly,monthly'])]
     private ?string $repeat = null;
 
     #[ORM\Column(name: 'repeat_end', type: 'string', nullable: false)]
     private string $repeatEnd;
-
 }

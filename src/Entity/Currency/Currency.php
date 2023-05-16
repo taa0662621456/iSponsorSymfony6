@@ -2,17 +2,12 @@
 
 namespace App\Entity\Currency;
 
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Currency\CurrencyInterface;
-use App\Interface\Object\ObjectInterface;
-use App\Repository\Currency\CurrencyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Currency\CurrencyInterface;
 
-#[ORM\Table(name: 'currency')]
-#[ORM\Index(columns: ['slug'], name: 'currency_idx')]
-#[ORM\Entity(repositoryClass: CurrencyRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class Currency extends ObjectSuperEntity implements ObjectInterface, CurrencyInterface
 {
     public function setCode(mixed $currencyCode): void

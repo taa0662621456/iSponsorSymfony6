@@ -2,17 +2,13 @@
 
 namespace App\Entity\Payment;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
+use Payum\Core\Security\Util\Random;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Payment\PaymentTokenInterface;
-use App\Repository\Payment\PaymentTokenRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Payum\Core\Security\Util\Random;
 
-#[ORM\Table(name: 'payment_token')]
-#[ORM\Index(columns: ['slug'], name: 'payment_token_idx')]
-#[ORM\Entity(repositoryClass: PaymentTokenRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class PaymentToken extends ObjectSuperEntity implements ObjectInterface, PaymentTokenInterface
 {
     protected string $hash;

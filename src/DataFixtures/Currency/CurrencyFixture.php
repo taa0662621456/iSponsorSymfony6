@@ -10,7 +10,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class CurrencyFixture extends AbstractDataFixture
 {
-    public function __construct(private FixtureFactoryInterface $currencyFactory, private ObjectManager $currencyManager)
+    public function __construct(private readonly FixtureFactoryInterface $currencyFactory, private readonly ObjectManager $currencyManager)
     {
         parent::__construct();
     }

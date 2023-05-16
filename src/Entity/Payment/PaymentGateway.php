@@ -2,21 +2,15 @@
 
 namespace App\Entity\Payment;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
-use App\Entity\ObjectBaseTrait;
+use Payum\Core\Security\CypherInterface;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Payment\PaymentGatewayInterface;
-use App\Repository\PaymentGatewayRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Payum\Core\Security\CypherInterface;
 
-#[ORM\Table(name: 'payment_gateway')]
-#[ORM\Index(columns: ['slug'], name: 'payment_gateway_idx')]
-#[ORM\Entity(repositoryClass: PaymentGatewayRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface, PaymentGatewayInterface
 {
-
     protected string $factoryName;
 
     protected string $gatewayName;
@@ -34,12 +28,10 @@ final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface,
         $this->decryptedConfig = [];
     }
 
-
     public function getFactoryName(): string
     {
         return $this->factoryName;
     }
-
 
     public function setFactoryName($factoryName): void
     {
@@ -78,7 +70,7 @@ final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface,
         }
 
         foreach ($this->config as $name => $value) {
-            if ('encrypted' == $name || is_bool($value)) {
+            if ('encrypted' == $name || \is_bool($value)) {
                 $this->decryptedConfig[$name] = $value;
 
                 continue;
@@ -93,7 +85,7 @@ final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface,
         $this->decryptedConfig['encrypted'] = true;
 
         foreach ($this->decryptedConfig as $name => $value) {
-            if ('encrypted' == $name || is_bool($value)) {
+            if ('encrypted' == $name || \is_bool($value)) {
                 $this->config[$name] = $value;
 
                 continue;

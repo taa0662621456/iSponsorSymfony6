@@ -6,7 +6,7 @@ namespace App\DTO\Vendor;
 final class VendorMessageDTO
 {
 
-    private mixed $messageMine;
+    private mixed $messageMineDTO;
 
     public function getMessageMine(): mixed
     {

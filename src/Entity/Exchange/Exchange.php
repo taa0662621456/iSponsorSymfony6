@@ -2,18 +2,26 @@
 
 namespace App\Entity\Exchange;
 
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Exchange\ExchangeInterface;
-use App\Interface\Object\ObjectInterface;
-use App\Repository\Exchange\ExchangeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Currency\Currency;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Exchange\ExchangeInterface;
 
-#[ORM\Table(name: 'exchange')]
-#[ORM\Index(columns: ['slug'], name: 'exchange_idx')]
-#[ORM\Entity(repositoryClass: ExchangeRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class Exchange extends ObjectSuperEntity implements ObjectInterface, ExchangeInterface
 {
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    private $rate;
 
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: Currency::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $sourceCurrency;
+
+    #[ORM\ManyToOne(targetEntity: Currency::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private $targetCurrency;
 }
-

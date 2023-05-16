@@ -21,19 +21,19 @@ final class ProductEnGbDTO extends ObjectDTO implements ObjectApiResourceInterfa
     #[Assert\NotNull(message: 'product.name.null')]
     #[Assert\Length(min: 56, minMessage: 'product.name.too.short')]
     #[Assert\Length(max: 255, maxMessage: 'product.name.too.long.')]
-    private string $productName;
+    private string $productNameDTO;
 
     #[Assert\NotBlank(message: 'product.s.description.blank')]
     #[Assert\NotNull(message: 'product.s.description.null')]
     #[Assert\Length(min: 56, minMessage: 'product.s.description.too.short')]
     #[Assert\Length(max: 15000, maxMessage: 'product.s.description.too.long.')]
-    private string $productSDesc;
+    private string $productSDescDTO;
 
     #[Assert\NotBlank(message: 'product.description.blank')]
     #[Assert\NotNull(message: 'product.description.null')]
     #[Assert\Length(min: 56, minMessage: 'product.description.too.short')]
     #[Assert\Length(max: 15000, maxMessage: 'product.description.too.long.')]
-    private string $productDesc;
+    private string $productDescDTO;
 
     public function __construct(string $productName, string $productSDesc, string $productDesc)
     {

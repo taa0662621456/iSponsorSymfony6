@@ -2,18 +2,14 @@
 
 namespace App\Entity\Product;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductFavouriteInterface;
-use App\Repository\Product\ProductFavouriteRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'product_favourite')]
-#[ORM\Index(columns: ['slug'], name: 'product_favourite_idx')]
-#[ORM\Entity(repositoryClass: ProductFavouriteRepository::class)]
+#[ORM\Entity]
 final class ProductFavourite extends ObjectSuperEntity implements ObjectInterface, ProductFavouriteInterface
 {
-
     #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'productFavourite')]
     private Product $productFavourite;
 
