@@ -32,7 +32,7 @@ trait ProjectLanguageDTOTrait
     private string $projectProductDesc = 'project_product_desc';
 
     #[Ignore]
-    private Project $projectEnGb;
+    private Project $projectEnGbDTO;
 
 //    #[Pure]
 //    public function __toString()

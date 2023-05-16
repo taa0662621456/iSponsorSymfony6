@@ -15,9 +15,6 @@ trait ObjectReviewTrait
     #[ORM\Column(name: 'review_type', nullable: true)]
     private ?string $reviewType = null;
 
-    /**
-     * @var int
-     */
     #[ORM\Column(name: 'favorite', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $favourite = 0;
 

@@ -2,23 +2,18 @@
 
 namespace App\Entity\Product;
 
+use JsonSerializable;
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
+use Doctrine\Common\Collections\Collection;
 use App\Interface\Product\ProductTagInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-#[ORM\Table(name: 'product_tag')]
-#[ORM\Index(columns: ['slug'], name: 'product_tag_idx')]
-#[ORM\HasLifecycleCallbacks]
-
-final class ProductTag extends ObjectSuperEntity implements ObjectInterface, ProductTagInterface, JsonSerializable
+final class ProductTag extends ObjectSuperEntity implements ObjectInterface, ProductTagInterface, \JsonSerializable
 {
-
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'productTag')]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]
     private Collection $productTagProduct;
@@ -26,7 +21,6 @@ final class ProductTag extends ObjectSuperEntity implements ObjectInterface, Pro
     public function __construct()
     {
         $this->productTagProduct = new ArrayCollection();
-
     }
 
     // ManyToMany

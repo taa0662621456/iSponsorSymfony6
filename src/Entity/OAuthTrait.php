@@ -4,60 +4,55 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-
 trait OAuthTrait
 {
-/**
-    #[ORM\Column(name: 'email_auth', type: 'string', nullable: true)]
-    private ?string $emailAuth = null;
+    /**
+        #[ORM\Column(name: 'email_auth', type: 'string', nullable: true)]
+        private ?string $emailAuth = null;
 
-    #[ORM\Column(name: 'email_auth_code', type: 'string', nullable: true)]
-    private ?string $emailAuthCode = null;
-**/
-
+        #[ORM\Column(name: 'email_auth_code', type: 'string', nullable: true)]
+        private ?string $emailAuthCode = null;
+     **/
     #[ORM\Column(name: 'facebook_id', type: 'string', nullable: true)]
     private ?string $facebookId = null;
-
 
     #[ORM\Column(name: 'facebook_access_token', type: 'string', length: 510, nullable: true)]
     private ?string $facebookAccessToken = null;
 
-
     #[ORM\Column(name: 'github_id', type: 'string', nullable: true)]
     private ?string $githubId = null;
 
-
     #[ORM\Column(name: 'github_access_token', type: 'string', length: 510, nullable: true)]
     private ?string $githubAccessToken = null;
-
 
     #[ORM\Column(name: 'google_id', type: 'string', nullable: true)]
     private ?string $googleId = null;
 
     #[ORM\Column(name: 'google_access_token', type: 'string', length: 510, nullable: true)]
     private ?string $googleAccessToken = null;
-/**
-    public function isEmailAuthEnabled(): bool
-    {
-        return true; // This can be a persisted field to switch email code authentication on/off
-    }
-    public function getEmailAuthRecipient(): string
-    {
-        return $this->email;
-    }
-    public function getEmailAuthCode(): string
-    {
-        if (null === $this->emailAuthCode) {
-            throw new \LogicException('The email authentication code was not set');
-        }
 
-        return $this->emailAuthCode;
-    }
-    public function setEmailAuthCode(string $emailAuthCode): void
-    {
-        $this->emailAuthCode = $emailAuthCode;
-    }
-*/
+    /**
+        public function isEmailAuthEnabled(): bool
+        {
+            return true; // This can be a persisted field to switch email code authentication on/off
+        }
+        public function getEmailAuthRecipient(): string
+        {
+            return $this->email;
+        }
+        public function getEmailAuthCode(): string
+        {
+            if (null === $this->emailAuthCode) {
+                throw new \LogicException('The email authentication code was not set');
+            }
+
+            return $this->emailAuthCode;
+        }
+        public function setEmailAuthCode(string $emailAuthCode): void
+        {
+            $this->emailAuthCode = $emailAuthCode;
+        }
+     */
     public function getFacebookId(): string
     {
         return $this->facebookId;
@@ -127,5 +122,4 @@ trait OAuthTrait
     {
         return $this->username;
     }
-
 }

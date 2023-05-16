@@ -1,16 +1,13 @@
 <?php
 
 namespace App\Entity\Project;
+
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Project\ProjectReviewInterface;
-use App\Repository\Review\ProjectReviewRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'project_review')]
-#[ORM\Index(columns: ['slug'], name: 'project_review_idx')]
-#[ORM\Entity(repositoryClass: ProjectReviewRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class ProjectReview extends ObjectSuperEntity implements ObjectInterface, ProjectReviewInterface
 {
     public const NUM_ROWS = 10;

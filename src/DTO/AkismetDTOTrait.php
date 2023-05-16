@@ -6,7 +6,7 @@ trait AkismetDTOTrait
 {
     // TODO: скорее всего эти свойства перенести в ReviewDTOTrait
 
-    private string $state;
+    private string $stateDTO;
 
 
     public function getState(): string

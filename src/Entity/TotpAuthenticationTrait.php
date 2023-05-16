@@ -13,7 +13,7 @@ trait TotpAuthenticationTrait
 
     public function isTotpAuthenticationEnabled(): bool
     {
-        return (bool)$this->totpSecret;
+        return (bool) $this->totpSecret;
     }
 
     public function getTotpAuthenticationUsername(): string

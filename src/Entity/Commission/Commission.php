@@ -2,17 +2,12 @@
 
 namespace App\Entity\Commission;
 
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Commission\CommissionInterface;
-use App\Interface\Object\ObjectInterface;
-use App\Repository\Commission\CommissionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Commission\CommissionInterface;
 
-#[ORM\Table(name: 'commission')]
-#[ORM\Index(columns: ['slug'], name: 'commission_idx')]
-#[ORM\Entity(repositoryClass: CommissionRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class Commission extends ObjectSuperEntity implements ObjectInterface, CommissionInterface
 {
     // TODO: комиссии, налагаемые на способы доставки, оплаты и пр.

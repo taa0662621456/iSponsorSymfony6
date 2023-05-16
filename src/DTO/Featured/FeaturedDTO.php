@@ -12,9 +12,9 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 
 final class FeaturedDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private int $ordering;
+    private int $orderingDTO;
 
-    private string $featuredType;
+    private string $featuredTypeDTO;
 
     #[Ignore]
     private ?Project $projectFeatured = null;

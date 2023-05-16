@@ -7,7 +7,7 @@ use App\Interface\Object\ObjectApiResourceInterface;
 
 final class ProductFavouriteDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private ProductDTO $productFavourite;
+    private ProductDTO $productFavouriteDTO;
 
     public function getProductFavourite(): ProductDTO
     {

@@ -2,17 +2,14 @@
 
 namespace App\Entity\Product;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductPriceInterface;
-use App\Repository\Product\ProductRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'product_price')]
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Entity]
 final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, ProductPriceInterface
 {
-
     #[ORM\Column(name: 'product_id', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productId = 0;
 
@@ -65,9 +62,6 @@ final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, P
         return $this->productPrice;
     }
 
-    /**
-     * @param $productPrice
-     */
     public function setProductPrice($productPrice): void
     {
         $this->productPrice = $productPrice;
@@ -88,9 +82,6 @@ final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, P
         return $this->productOverridePrice;
     }
 
-    /**
-     * @param $productOverridePrice
-     */
     public function setProductOverridePrice($productOverridePrice): void
     {
         $this->productOverridePrice = $productOverridePrice;
@@ -131,9 +122,6 @@ final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, P
         return $this->productPricePublishUp;
     }
 
-    /**
-     * @param $productPricePublishUp
-     */
     public function setProductPricePublishUp($productPricePublishUp): void
     {
         $this->productPricePublishUp = $productPricePublishUp;
@@ -144,9 +132,6 @@ final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, P
         return $this->productPricePublishDown;
     }
 
-    /**
-     * @param $productPricePublishDown
-     */
     public function setProductPricePublishDown($productPricePublishDown): void
     {
         $this->productPricePublishDown = $productPricePublishDown;

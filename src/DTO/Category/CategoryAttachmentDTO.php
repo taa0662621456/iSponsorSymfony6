@@ -7,15 +7,15 @@ use App\Interface\Object\ObjectApiResourceInterface;
 
 final class CategoryAttachmentDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Category $categoryAttachmentCategory;
+    private CategoryDTO $categoryAttachmentCategoryDTO;
 
     // ManyToOne
-    public function getCategoryAttachmentCategory(): Category
+    public function getCategoryAttachmentCategory(): CategoryDTO
     {
         return $this->categoryAttachmentCategory;
     }
 
-    public function setCategoryAttachmentCategory(Category $categoryAttachment): void
+    public function setCategoryAttachmentCategory(CategoryDTO $categoryAttachment): void
     {
         $this->categoryAttachmentCategory = $categoryAttachment;
     }

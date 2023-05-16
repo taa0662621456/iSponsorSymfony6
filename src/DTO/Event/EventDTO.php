@@ -9,25 +9,25 @@ use App\Interface\Object\ObjectApiResourceInterface;
 #[ApiResource(mercure: true)]
 final class EventDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private int $parent;
+    private int $parentDTO;
 
-    private int $catId;
+    private int $catIdDTO;
 
     private ?int $contentId = null;
 
     private string $type = 'profile';
 
-    private string $location;
+    private string $locationDTO;
 
-    private bool $unlisted;
+    private bool $unlistedDTO;
 
-    private string $startDate;
+    private string $startDateDTO;
 
-    private string $endDate;
+    private string $endDateDTO;
 
     private int|bool $permission = 0;
 
-    private string $cover;
+    private string $coverDTO;
 
     private ?int $invitedCount = null;
 
@@ -55,5 +55,5 @@ final class EventDTO extends ObjectDTO implements ObjectApiResourceInterface
 
     private ?string $repeat = null;
 
-    private string $repeatEnd;
+    private string $repeatEndDTO;
 }

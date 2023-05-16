@@ -10,7 +10,7 @@ use App\Interface\Object\ObjectApiResourceInterface;
 #[ApiResource(mercure: true)]
 final class OrderLogDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private OrderStatus $orderStatusCode;
+    private OrderStatus $orderStatusCodeDTO;
 
     private bool $customerNotified = false;
 

@@ -19,7 +19,7 @@ final class ProductStorageDTO extends ObjectDTO implements ObjectApiResourceInte
 
     private int $lowStockNotification = 0;
 
-    private string $productAvailableDate;
+    private string $productAvailableDateDTO;
 
     private bool $productAvailability = false;
 

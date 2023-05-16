@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Repository\Product;
+namespace App\Repository\Association;
 
 use App\Interface\Product\ProductAssociationInterface;
 use App\Interface\Vendor\VendorInterface;
 use Doctrine\ORM\EntityRepository;
 
-class ProductAssociationRepository extends EntityRepository
+class AssociationRepository extends EntityRepository
 {
     public function findWithProductsWithinVendor($associationId, VendorInterface $vendor): ProductAssociationInterface
     {

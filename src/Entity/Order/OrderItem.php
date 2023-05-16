@@ -1,24 +1,16 @@
 <?php
 
-
 namespace App\Entity\Order;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
-use App\Entity\Product\Product;
 use App\Entity\Vendor\Vendor;
-use App\Interface\Order\OrderItemInterface;
-use App\Repository\Order\OrderRepository;
-use Doctrine\DBAL\Types\TextType;
+use App\Entity\Product\Product;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use Doctrine\DBAL\Types\TextType;
 use App\Interface\Object\ObjectInterface;
+use App\Interface\Order\OrderItemInterface;
 
-#[ORM\Table(name: 'order_item')]
-#[ORM\Index(columns: ['slug'], name: 'order_item_idx')]
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-#
-#[ApiResource(mercure: true)]
+#[ORM\Entity]
 final class OrderItem extends ObjectSuperEntity implements ObjectInterface, OrderItemInterface
 {
     #[ORM\Column(name: 'item_id', nullable: true)]
@@ -80,164 +72,185 @@ final class OrderItem extends ObjectSuperEntity implements ObjectInterface, Orde
     {
         $t = new \DateTime();
     }
-    #
+
     public function getItemId(): ?int
     {
         return $this->itemId;
     }
+
     public function setItemId(?int $itemId): void
     {
         $this->itemId = $itemId;
     }
-    #
+
     public function getItemSku(): int
     {
-     return $this->itemSku;
+        return $this->itemSku;
     }
+
     public function setItemSku(?int $itemSku): void
     {
-     $this->itemSku = $itemSku;
+        $this->itemSku = $itemSku;
     }
-    #
+
     public function getItemName(): string
     {
-     return $this->itemName;
+        return $this->itemName;
     }
+
     public function setItemName(?string $itemName): void
     {
-     $this->itemName = $itemName;
+        $this->itemName = $itemName;
     }
-    #
+
     public function getItemQuantity(): ?int
     {
-     return $this->itemQuantity;
+        return $this->itemQuantity;
     }
+
     public function setItemQuantity(?int $itemQuantity): void
     {
-     $this->itemQuantity = $itemQuantity;
+        $this->itemQuantity = $itemQuantity;
     }
-    #
+
     public function getItemPrice(): ?int
     {
-     return $this->itemPrice;
+        return $this->itemPrice;
     }
+
     public function setItemPrice($itemPrice): void
     {
-     $this->itemPrice = $itemPrice;
+        $this->itemPrice = $itemPrice;
     }
-    #
+
     public function getItemPriceWithoutTax(): ?int
     {
-     return $this->itemPriceWithoutTax;
+        return $this->itemPriceWithoutTax;
     }
+
     public function setItemPriceWithoutTax($itemPriceWithoutTax): void
     {
-     $this->itemPriceWithoutTax = $itemPriceWithoutTax;
+        $this->itemPriceWithoutTax = $itemPriceWithoutTax;
     }
-    #
+
     public function getItemTax(): ?int
     {
-     return $this->itemTax;
+        return $this->itemTax;
     }
+
     public function setItemTax($itemTax): void
     {
-     $this->itemTax = $itemTax;
+        $this->itemTax = $itemTax;
     }
-    #
+
     public function getItemBasePriceWithTax(): ?int
     {
-     return $this->itemBasePriceWithTax;
+        return $this->itemBasePriceWithTax;
     }
+
     public function setItemBasePriceWithTax($itemBasePriceWithTax): void
     {
-     $this->itemBasePriceWithTax = $itemBasePriceWithTax;
+        $this->itemBasePriceWithTax = $itemBasePriceWithTax;
     }
-    #
+
     public function getItemDiscountedPriceWithoutTax(): ?int
     {
-     return $this->itemDiscountedPriceWithoutTax;
+        return $this->itemDiscountedPriceWithoutTax;
     }
+
     public function setItemDiscountedPriceWithoutTax($itemDiscountedPriceWithoutTax): void
     {
-     $this->itemDiscountedPriceWithoutTax = $itemDiscountedPriceWithoutTax;
+        $this->itemDiscountedPriceWithoutTax = $itemDiscountedPriceWithoutTax;
     }
-    #
+
     public function getItemFinalPrice(): string
     {
-     return $this->itemFinalPrice;
+        return $this->itemFinalPrice;
     }
+
     public function setItemFinalPrice($itemFinalPrice): void
     {
-     $this->itemFinalPrice = $itemFinalPrice;
+        $this->itemFinalPrice = $itemFinalPrice;
     }
-    #
+
     public function getItemSubtotalDiscount(): string
     {
-     return $this->itemSubtotalDiscount;
+        return $this->itemSubtotalDiscount;
     }
+
     public function setItemSubtotalDiscount($itemSubtotalDiscount): void
     {
-     $this->itemSubtotalDiscount = $itemSubtotalDiscount;
+        $this->itemSubtotalDiscount = $itemSubtotalDiscount;
     }
-    #
+
     public function getItemSubtotalWithTax(): string
     {
-     return $this->itemSubtotalWithTax;
+        return $this->itemSubtotalWithTax;
     }
+
     public function setItemSubtotalWithTax($itemSubtotalWithTax): void
     {
-     $this->itemSubtotalWithTax = $itemSubtotalWithTax;
+        $this->itemSubtotalWithTax = $itemSubtotalWithTax;
     }
-    #
+
     public function getItemOrderCurrency(): ?int
     {
-     return $this->itemOrderCurrency;
+        return $this->itemOrderCurrency;
     }
+
     public function setItemOrderCurrency(?int $itemOrderCurrency): void
     {
-     $this->itemOrderCurrency = $itemOrderCurrency;
+        $this->itemOrderCurrency = $itemOrderCurrency;
     }
-    #
+
     public function getItemAttribute(): string
     {
-     return $this->itemAttribute;
+        return $this->itemAttribute;
     }
+
     public function setItemAttribute(?TextType $itemAttribute): void
     {
         $this->itemAttribute = $itemAttribute;
     }
-    #
+
     public function getItemHash(): ?string
     {
         return $this->itemHash;
     }
+
     public function setItemHash(?string $itemHash): void
     {
         $this->itemHash = $itemHash;
     }
-    # ManyToOne
+
+    // ManyToOne
     public function getOrderItemsVendor(): Vendor
     {
         return $this->orderItemsVendor;
     }
+
     public function setOrderItemsVendor(Vendor $orderItemsVendor): void
     {
         $this->orderItemsVendor = $orderItemsVendor;
     }
-    # ManyToOne
+
+    // ManyToOne
     public function getOrderItem(): OrderStorage
     {
         return $this->orderItem;
     }
+
     public function setOrderItem(OrderStorage $orderItem): void
     {
         $this->orderItem = $orderItem;
     }
-    # ManyToOne
+
+    // ManyToOne
     public function getProductOrdered(): Product
     {
         return $this->productOrdered;
     }
+
     public function setProductOrdered(Product $productOrdered): void
     {
         $this->productOrdered = $productOrdered;

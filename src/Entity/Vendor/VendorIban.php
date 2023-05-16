@@ -2,18 +2,17 @@
 
 namespace App\Entity\Vendor;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Vendor\VendorIbanInterface;
-use App\Repository\Vendor\VendorIbanRepository;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Table(name: 'vendor_iban')]
 #[UniqueEntity('iban')]
-#[ORM\Entity(repositoryClass: VendorIbanRepository::class)]
+
+#[ORM\Entity]
 final class VendorIban extends ObjectSuperEntity implements ObjectInterface, VendorIbanInterface
 {
     #[ORM\Column(name: 'iban', nullable: true, options: ['default' => '0'])]

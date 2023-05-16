@@ -2,17 +2,12 @@
 
 namespace App\Entity\Role;
 
-use App\Entity\ObjectSuperEntity;
-use App\Interface\Object\ObjectInterface;
-use App\Interface\Role\RoleInterface;
-use App\Repository\Role\RoleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Role\RoleInterface;
+use App\Interface\Object\ObjectInterface;
 
-#[ORM\Table(name: 'role')]
-#[ORM\Index(columns: ['slug'], name: 'role_idx')]
-#[ORM\Entity(repositoryClass: RoleRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class Role extends ObjectSuperEntity implements ObjectInterface, RoleInterface
 {
 }

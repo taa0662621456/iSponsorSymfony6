@@ -2,17 +2,14 @@
 
 namespace App\Entity\Project;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Project\ProjectTypeInterface;
-use App\Repository\Type\TypeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use App\Interface\Project\ProjectTypeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
-#[ORM\Table(name: 'project_type')]
-#[ORM\Index(columns: ['slug'], name: 'project_type_idx')]
-#[ORM\Entity(repositoryClass: TypeRepository::class)]
+#[ORM\Entity]
 final class ProjectType extends ObjectSuperEntity implements ObjectInterface, ProjectTypeInterface
 {
     #[ORM\OneToMany(mappedBy: 'projectType', targetEntity: Project::class)]
@@ -23,7 +20,6 @@ final class ProjectType extends ObjectSuperEntity implements ObjectInterface, Pr
      */
     public function __construct()
     {
-        parent::__construct();
         $this->projectTypeProject = new ArrayCollection();
     }
 

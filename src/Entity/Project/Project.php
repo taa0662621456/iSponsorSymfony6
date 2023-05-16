@@ -2,49 +2,37 @@
 
 namespace App\Entity\Project;
 
+use App\Entity\Product\Product;
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
 use App\Entity\ObjectSuperEntity;
-use App\Entity\Product\Product;
-use App\Interface\Category\CategoryInterface;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Project\ProjectInterface;
-use App\Interface\Project\ProjectTypeInterface;
-use App\Repository\Project\ProjectRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Project\ProjectTypeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Table(name: 'project')]
-#[ORM\Index(columns: ['slug'], name: 'project_idx')]
-#[ORM\Entity(repositoryClass: ProjectRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class Project extends ObjectSuperEntity implements ObjectInterface, ProjectInterface
 {
     public const NUM_ITEMS = 10;
 
     #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
-    #[Assert\Valid]
     private ProjectType $projectType;
 
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProject')]
-    #[Assert\Valid]
     private Category $projectCategory;
 
     #[ORM\OneToOne(mappedBy: 'projectEnGb', targetEntity: ProjectEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: 'App\Entity\Project\ProjectEnGb')]
-    #[Assert\Valid]
-    #[Ignore]
     private ProjectEnGb $projectEnGb;
 
     #[ORM\OneToMany(mappedBy: 'projectAttachmentProject', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
-    #[Assert\Count(max: 8, maxMessage: 'project.too_many_files')]
-    #[Assert\Valid]
     private Collection $projectAttachment;
 
     #[ORM\ManyToMany(targetEntity: ProjectFavourite::class, mappedBy: 'projectFavourite')]
@@ -52,15 +40,11 @@ final class Project extends ObjectSuperEntity implements ObjectInterface, Projec
 
     #[ORM\OneToOne(mappedBy: 'projectFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: 'App\Entity\Project\projectFeatured')]
-    #[Assert\Valid]
-    #[Ignore]
     private Featured $projectFeatured;
 
     #[ORM\ManyToMany(targetEntity: ProjectTag::class, inversedBy: 'projectTagProject', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true)]
     #[ORM\OrderBy(['firstTitle' => 'ASC'])]
-    #[Assert\Count(max: 4, maxMessage: 'project.too_many_tags')]
     private Collection $projectTag;
 
     #[ORM\OneToMany(mappedBy: 'productProject', targetEntity: Product::class, cascade: ['persist'], orphanRemoval: true)]
@@ -69,7 +53,6 @@ final class Project extends ObjectSuperEntity implements ObjectInterface, Projec
 
     #[ORM\OneToMany(mappedBy: 'projectId', targetEntity: ProjectPlatformReward::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
-    #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private Collection $projectPlatformReward;
 
     #[ORM\OneToMany(mappedBy: 'projectReviewProject', targetEntity: ProjectReview::class, cascade: ['persist', 'remove'], orphanRemoval: true)]

@@ -11,7 +11,7 @@ use App\Interface\Object\ObjectApiResourceInterface;
 final class VendorDocumentDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
 
-    private Vendor $vendorDocumentVendor;
+    private Vendor $vendorDocumentVendorDTO;
 
     // ManyToOne
     public function getVendorDocumentVendor(): Vendor

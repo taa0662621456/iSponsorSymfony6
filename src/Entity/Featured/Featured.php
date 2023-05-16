@@ -2,24 +2,19 @@
 
 namespace App\Entity\Featured;
 
-use App\Entity\ObjectSuperEntity;
-use App\Entity\Category\Category;
-use App\Entity\ObjectBaseTrait;
+use App\Entity\Vendor\Vendor;
 use App\Entity\Product\Product;
 use App\Entity\Project\Project;
-use App\Entity\Vendor\Vendor;
-use App\Interface\Featured\FeaturedInterface;
-use App\Interface\Object\ObjectInterface;
-use App\Repository\Featured\FeaturedRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Category\Category;
+use App\Entity\ObjectSuperEntity;
+use App\Interface\Object\ObjectInterface;
+use App\Interface\Featured\FeaturedInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-#[ORM\Table(name: 'feature')]
-#[ORM\Entity(repositoryClass: FeaturedRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class Featured extends ObjectSuperEntity implements ObjectInterface, FeaturedInterface
 {
-
     #[ORM\Column(name: 'ordering', type: 'integer')]
     private int $ordering;
 

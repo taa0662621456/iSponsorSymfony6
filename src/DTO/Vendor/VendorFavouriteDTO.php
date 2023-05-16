@@ -10,5 +10,5 @@ use Doctrine\Common\Collections\Collection;
 #[ApiResource(mercure: true)]
 final class VendorFavouriteDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Collection $vendorFavourite;
+    private Collection $vendorFavouriteDTO;
 }

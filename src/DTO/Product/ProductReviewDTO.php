@@ -21,7 +21,7 @@ final class ProductReviewDTO extends ObjectDTO implements ObjectApiResourceInter
         $this->productId = $productId;
     }
 
-    private Product $productReviewProduct;
+    private Product $productReviewProductDTO;
 
     // ManyToOne
     public function getProductReviewProduct(): Product

@@ -11,7 +11,7 @@ use App\Interface\Order\OrderInterface;
 use App\Interface\Order\OrderItemInterface;
 use App\Interface\Order\OrderItemQuantityModifierInterface;
 use App\Interface\Order\OrderPaymentMethodSelectionRequirementCheckerInterface;
-use App\Interface\Order\OrderShippingMethodSelectionRequirementCheckerInterface;
+use App\Interface\Order\OrderShipmentMethodSelectionRequirementCheckerInterface;
 use App\Interface\Payment\PaymentMethodRepositoryInterface;
 use App\Interface\Product\ProductInterface;
 use App\Interface\Product\ProductRepositoryInterface;
@@ -36,18 +36,18 @@ final class OrderFixtureFactory extends AbstractFixtureFactory implements Fixtur
     public function __construct(
         protected FactoryInterface $orderFactory,
         protected FactoryInterface $orderItemFactory,
-        protected OrderItemQuantityModifierInterface $orderItemQuantityModifier,
-        protected ObjectManager $orderManager,
-        protected RepositoryInterface $channelRepository,
-        protected RepositoryInterface $customerRepository,
-        protected ProductRepositoryInterface $productRepository,
-        protected RepositoryInterface $countryRepository,
-        protected PaymentMethodRepositoryInterface $paymentMethodRepository,
-        protected ShippingMethodRepositoryInterface $shippingMethodRepository,
-        protected FactoryInterface $addressFactory,
-        protected StateMachineFactoryInterface $stateMachineFactory,
-        protected OrderShippingMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
-        protected OrderPaymentMethodSelectionRequirementCheckerInterface $orderPaymentMethodSelectionRequirementChecker,
+        protected OrderItemQuantityModifierInterface                      $orderItemQuantityModifier,
+        protected ObjectManager                                           $orderManager,
+        protected RepositoryInterface                                     $channelRepository,
+        protected RepositoryInterface                                     $customerRepository,
+        protected ProductRepositoryInterface                              $productRepository,
+        protected RepositoryInterface                                     $countryRepository,
+        protected PaymentMethodRepositoryInterface                        $paymentMethodRepository,
+        protected ShippingMethodRepositoryInterface                       $shippingMethodRepository,
+        protected FactoryInterface                                        $addressFactory,
+        protected StateMachineFactoryInterface                            $stateMachineFactory,
+        protected OrderShipmentMethodSelectionRequirementCheckerInterface $orderShippingMethodSelectionRequirementChecker,
+        protected OrderPaymentMethodSelectionRequirementCheckerInterface  $orderPaymentMethodSelectionRequirementChecker,
     ) {
         parent::__construct();
         $this->optionsResolver = new OptionsResolver();

@@ -14,9 +14,9 @@ use App\Interface\Object\ObjectApiResourceInterface;
 final class AddressDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
 
-    private string $firstAddressLine;
-    private string $secondAddressLine;
-    private string $nameAddressLine;
+    private string $firstAddressLineDTO;
+    private string $secondAddressLineDTO;
+    private string $nameAddressLineDTO;
 
 
     public function __construct(string $firstAddressLine, string $secondAddressLine, string $nameAddressLine)

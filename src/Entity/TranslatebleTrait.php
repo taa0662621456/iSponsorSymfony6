@@ -29,5 +29,4 @@ trait TranslatebleTrait
 
         $translatable?->addTranslation($this);
     }
-
 }

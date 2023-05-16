@@ -2,22 +2,13 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
 use App\Entity\AttachmentTrait;
-use App\Entity\ObjectBaseTrait;
-use App\Entity\ObjectTitleTrait;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Vendor\VendorDocumentInterface;
-use App\Repository\Vendor\VendorDocumentRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'vendor_document')]
-#[ORM\Index(columns: ['slug'], name: 'vendor_document_idx')]
-#[ORM\Entity(repositoryClass: VendorDocumentRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
-#[ApiResource(mercure: true)]
+#[ORM\Entity]
 final class VendorDocument extends ObjectSuperEntity implements ObjectInterface, VendorDocumentInterface
 {
     use AttachmentTrait;

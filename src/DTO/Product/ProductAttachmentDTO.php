@@ -8,7 +8,7 @@ use App\Interface\Object\ObjectApiResourceInterface;
 
 final class ProductAttachmentDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Product $productAttachmentProduct;
+    private Product $productAttachmentProductDTO;
 
     // ManyToOne
     public function getProductAttachmentProduct(): Product

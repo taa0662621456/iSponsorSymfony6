@@ -8,5 +8,5 @@ use Doctrine\Common\Collections\Collection;
 
 final class ProjectTagDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Collection $projectTagProject;
+    private Collection $projectTagProjectDTO;
 }

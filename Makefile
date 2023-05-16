@@ -18,7 +18,12 @@ cu:
 lc:
 	php bin/console lint:container
 
+myunit:
+	bin/phpunit --filter RoutingTest
+
 ff:
+	clear
+	make appfixer
 	clear
 	make cu
 	clear
@@ -79,6 +84,8 @@ sso:
 	symfony open:local
 	clear
 
+appfixer:
+	php vendor/friendsofphp/php-cs-fixer/php-cs-fixer fix src/entity
 
 linter:
 	# Linter

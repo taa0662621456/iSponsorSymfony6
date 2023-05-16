@@ -11,10 +11,10 @@ use App\Interface\Object\ObjectApiResourceInterface;
 final class EventMemberDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
 
-    private int $eventId;
+    private int $eventIdDTO;
     // TODO: не работает ассоциация
 
-//    private ArrayCollection $eventMemberId;
+//    private ArrayCollection $eventMemberIdDTO;
 
     private bool|string $eventMemberStatus = '0';
 

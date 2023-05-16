@@ -2,30 +2,25 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Vendor\VendorMessageInterface;
-use App\Repository\Vendor\VendorMessageRepository;
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * Class VendorMessage.
  */
-#[ORM\Table(name: 'vendor_message')]
-#[ORM\Index(columns: ['slug'], name: 'vendor_message_idx')]
-#[ORM\Entity(repositoryClass: VendorMessageRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
 #[ApiResource(mercure: ['private' => true])]
 #[ApiFilter(BooleanFilter::class, properties: ['isPublished'])]
 #[ApiFilter(SearchFilter::class, properties: [
     'vendor_message' => 'partial',
     'vendor_message_conversation' => 'partial',
 ])]
+#[ORM\Entity]
 final class VendorMessage extends ObjectSuperEntity implements ObjectInterface, VendorMessageInterface
 {
     #[ORM\Column(type: 'text')]

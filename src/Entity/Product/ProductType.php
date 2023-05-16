@@ -2,20 +2,16 @@
 
 namespace App\Entity\Product;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Product\ProductTypeInterface;
-use App\Repository\Type\TypeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use App\Interface\Product\ProductTypeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
-#[ORM\Table(name: 'product_type')]
-#[ORM\Entity(repositoryClass: TypeRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class ProductType extends ObjectSuperEntity implements ObjectInterface, ProductTypeInterface
 {
-
     #[ORM\OneToMany(mappedBy: 'productType', targetEntity: Product::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $productTypeProduct;
 

@@ -2,17 +2,13 @@
 
 namespace App\Entity\Product;
 
-use App\Entity\ObjectSuperEntity;
 use App\Entity\AttachmentTrait;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductAttachmentInterface;
-use App\Repository\Product\ProductAttachmentRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'product_attachment')]
-#[ORM\Index(columns: ['slug'], name: 'product_attachment_idx')]
-#[ORM\Entity(repositoryClass: ProductAttachmentRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class ProductAttachment extends ObjectSuperEntity implements ObjectInterface, ProductAttachmentInterface
 {
     use AttachmentTrait;

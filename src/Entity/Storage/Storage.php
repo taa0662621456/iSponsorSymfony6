@@ -2,17 +2,12 @@
 
 namespace App\Entity\Storage;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Storage\StorageInterface;
-use App\Repository\StorageRepository;
-use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table(name: 'storage')]
-#[ORM\Index(columns: ['slug'], name: 'storage_idx')]
-#[ORM\Entity(repositoryClass: StorageRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class Storage extends ObjectSuperEntity implements ObjectInterface, StorageInterface
 {
     // TODO: склад товаров

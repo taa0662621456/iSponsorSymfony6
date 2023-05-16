@@ -32,9 +32,9 @@ final class ProductPriceDTO extends ObjectDTO implements ObjectApiResourceInterf
 
     private ?int $productCurrency = null;
 
-    private string $productPricePublishUp;
+    private string $productPricePublishUpDTO;
 
-    private string $productPricePublishDown;
+    private string $productPricePublishDownDTO;
 
     private int $priceQuantityStart = 0;
 

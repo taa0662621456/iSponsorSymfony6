@@ -9,5 +9,5 @@ use Doctrine\Common\Collections\Collection;
 
 final class ProductTypeDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private Collection $productTypeProduct;
+    private Collection $productTypeProductDTO;
 }

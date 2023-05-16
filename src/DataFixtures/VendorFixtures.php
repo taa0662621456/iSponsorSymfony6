@@ -12,7 +12,7 @@ use Faker\Factory;
 use App\DataFixtures\VendorSecurityFixtures;
 
 
-final class VendorFixtures extends Fixture implements DependentFixtureInterface
+final class VendorFixtures extends AbstractDataFixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
 	{

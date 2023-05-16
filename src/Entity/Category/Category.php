@@ -2,29 +2,20 @@
 
 namespace App\Entity\Category;
 
-use App\Entity\Currency\CategoryFeatured;
+use App\Entity\Project\Project;
+use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Featured\Featured;
 use App\Entity\ObjectSuperEntity;
-use App\Entity\Project\Project;
-use App\Interface\Category\CategoryAttachmentInterface;
-use App\Interface\Category\CategoryInterface;
-use App\Interface\Featured\FeaturedInterface;
-use App\Interface\Object\ObjectApiResourceInterface;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Project\ProjectInterface;
-use App\Repository\Category\CategoryRepository;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Exception;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Featured\FeaturedInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Interface\Object\ObjectApiResourceInterface;
+use App\Interface\Category\CategoryAttachmentInterface;
 
-#[ORM\Table(name: 'category')]
-#[ORM\Index(columns: ['slug'], name: 'category_idx')]
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity]
 final class Category extends ObjectSuperEntity implements ObjectInterface, ObjectApiResourceInterface, CategoryInterface
 {
     #[ORM\GeneratedValue]
@@ -45,9 +36,6 @@ final class Category extends ObjectSuperEntity implements ObjectInterface, Objec
 
     #[ORM\OneToOne(mappedBy: 'categoryEnGbCategory', targetEntity: CategoryEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    #[Assert\Type(type: CategoryEnGb::class)]
-    #[Assert\Valid]
-    #[Ignore]
     private CategoryEnGb $categoryEnGb;
 
     #[ORM\OneToMany(mappedBy: 'categoryAttachmentCategory', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -56,17 +44,14 @@ final class Category extends ObjectSuperEntity implements ObjectInterface, Objec
 
     #[ORM\OneToOne(mappedBy: 'categoryFeatured', targetEntity: FeaturedInterface::class)]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    #[Assert\Type(type: CategoryFeatured::class)]
-    #[Assert\Valid]
-    #[Ignore]
     private Featured $categoryFeatured;
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTime();
         $this->categoryChildren = new ArrayCollection();
         $this->categoryProject = new ArrayCollection();
         $this->categoryAttachment = new ArrayCollection();
@@ -110,7 +95,7 @@ final class Category extends ObjectSuperEntity implements ObjectInterface, Objec
         return $this->categoryChildren;
     }
 
-    public function addCategoryChildren(Category $categoryChildren): self
+    public function addCategoryChildren(self $categoryChildren): self
     {
         if (!$this->categoryChildren->contains($categoryChildren)) {
             $this->categoryChildren[] = $categoryChildren;
@@ -119,7 +104,7 @@ final class Category extends ObjectSuperEntity implements ObjectInterface, Objec
         return $this;
     }
 
-    public function removeCategoryChildren(Category $categoryChildren): self
+    public function removeCategoryChildren(self $categoryChildren): self
     {
         if ($this->categoryChildren->contains($categoryChildren)) {
             $this->categoryChildren->removeElement($categoryChildren);
@@ -129,12 +114,12 @@ final class Category extends ObjectSuperEntity implements ObjectInterface, Objec
     }
 
     // ManyToOne
-    public function getCategoryParent(): Category
+    public function getCategoryParent(): self
     {
         return $this->categoryParent;
     }
 
-    public function setCategoryParent(Category $categoryParent): void
+    public function setCategoryParent(self $categoryParent): void
     {
         $this->categoryParent = $categoryParent;
     }

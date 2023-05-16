@@ -7,7 +7,7 @@ use App\Interface\Object\ObjectApiResourceInterface;
 
 final class ModuleDTO extends ObjectDTO implements ObjectApiResourceInterface
 {
-    private int $assetId;
+    private int $assetIdDTO;
 
     private string $title = '';
 
@@ -33,9 +33,9 @@ final class ModuleDTO extends ObjectDTO implements ObjectApiResourceInterface
 
     private bool $showTitle = true;
 
-    private string $params;
+    private string $paramsDTO;
 
     private int|bool $clientId = 0;
 
-    private string $language;
+    private string $languageDTO;
 }

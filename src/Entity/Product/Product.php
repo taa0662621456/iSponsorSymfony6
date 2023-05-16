@@ -2,29 +2,23 @@
 
 namespace App\Entity\Product;
 
-use App\Entity\ObjectSuperEntity;
-use App\Entity\Featured\Featured;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
+use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Featured\Featured;
+use App\Entity\ObjectSuperEntity;
 use App\Entity\Project\ProjectFavourite;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductTypeInterface;
-use App\Repository\Product\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use App\Interface\Product\ProductTypeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Table(name: 'product')]
-#[ORM\Index(columns: ['slug'], name: 'product_idx')]
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-
+#[ORM\Entity]
 final class Product extends ObjectSuperEntity implements ObjectInterface, ProductInterface
 {
-
     public const NUM_ITEMS = 10;
 
     #[ORM\ManyToOne(targetEntity: ProductTypeInterface::class, inversedBy: 'productTypeProduct')]
@@ -104,7 +98,6 @@ final class Product extends ObjectSuperEntity implements ObjectInterface, Produc
         $this->productOrdered = new ArrayCollection();
         $this->productTag = new ArrayCollection();
         $this->productReview = new ArrayCollection();
-
     }
 
     // ManyToOne
@@ -141,7 +134,6 @@ final class Product extends ObjectSuperEntity implements ObjectInterface, Produc
 
         return $this;
     }
-
 
     public function getProductCategory(): ?int
     {

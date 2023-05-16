@@ -16,34 +16,34 @@ final class ProjectDTO extends ObjectDTO implements ObjectApiResourceInterface
 
     #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
     #[Assert\Valid]
-    private ProjectType $projectType;
+    private ProjectType $projectTypeDTO;
 
     #[Assert\Valid]
-    private Category $projectCategory;
+    private Category $projectCategoryDTO;
 
     #[Assert\Type(type: 'App\Entity\Project\ProjectEnGb')]
     #[Assert\Valid]
     #[Ignore]
-    private ProjectEnGb $projectEnGb;
+    private ProjectEnGb $projectEnGbDTO;
 
     #[Assert\Count(max: 8, maxMessage: 'project.too_many_files')]
     #[Assert\Valid]
-    private Collection $projectAttachment;
+    private Collection $projectAttachmentDTO;
 
-    private Collection $projectFavourite;
+    private Collection $projectFavouriteDTO;
 
     #[Assert\Type(type: 'App\Entity\Project\projectFeatured')]
     #[Assert\Valid]
     #[Ignore]
-    private Featured $projectFeatured;
+    private Featured $projectFeaturedDTO;
 
     #[Assert\Count(max: 4, maxMessage: 'project.too_many_tags')]
-    private Collection $projectTag;
+    private Collection $projectTagDTO;
 
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_files')]
-    private Collection $projectProduct;
+    private Collection $projectProductDTO;
 
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
 
-    private Collection $projectReview;
+    private Collection $projectReviewDTO;
 }

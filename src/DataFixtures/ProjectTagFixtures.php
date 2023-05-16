@@ -9,7 +9,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProjectTagFixtures extends Fixture implements DependentFixtureInterface
+final class ProjectTagFixtures extends AbstractDataFixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
 	{

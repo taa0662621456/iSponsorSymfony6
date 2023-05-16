@@ -27,7 +27,7 @@ final class ProductDTO extends ObjectDTO implements ObjectApiResourceInterface
 
     #[Assert\Type(type: 'App\Entity\Product\ProductType')]
     #[Assert\Valid]
-    private ProductType $productType;
+    private ProductType $productTypeDTO;
 
     private int $productCategory = 0;
 
@@ -39,41 +39,41 @@ final class ProductDTO extends ObjectDTO implements ObjectApiResourceInterface
 
     private string $productCountryOrigin = 'product_country_origin';
 
-    private Project $productProject;
+    private Project $productProjectDTO;
 
-    private Collection $productOrdered;
+    private Collection $productOrderedDTO;
 
     #[Assert\Type(type: 'App\Entity\Product\ProductsEnGb')]
     #[Assert\Valid]
     #[Ignore]
-    private ProductEnGb $productEnGb;
+    private ProductEnGb $productEnGbDTO;
 
     #[Assert\Type(type: 'App\Entity\Product\ProductProperty')]
     #[Assert\Valid]
     #[Ignore]
-    private ProductProperty $productProperty;
+    private ProductProperty $productPropertyDTO;
 
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]
-    private Collection $productTag;
+    private Collection $productTagDTO;
 
     #[Assert\Type(type: 'App\Entity\Product\ProductsPrice')]
     #[Assert\Valid]
     #[Ignore]
-    private ProductPrice $productPrice;
+    private ProductPrice $productPriceDTO;
 
     #[Assert\Type(type: 'App\Entity\Product\ProductStorage')]
     #[Assert\Valid]
     #[Ignore]
-    private ProductStorage $productStorage;
+    private ProductStorage $productStorageDTO;
 
-    private Collection $productFavourite;
+    private Collection $productFavouriteDTO;
 
     #[Ignore]
-    private Featured $productFeatured;
+    private Featured $productFeaturedDTO;
 
-    private Collection $productAttachment;
+    private Collection $productAttachmentDTO;
 
-    private Collection $productReview;
+    private Collection $productReviewDTO;
 
     public function __construct()
     {

@@ -27,7 +27,7 @@ final class OrderStatusDTO extends ObjectDTO implements ObjectApiResourceInterfa
     /**
      * @var ArrayCollection
      */
-    private Collection $orderStatusStorage;
+    private Collection $orderStatusStorageDTO;
 
     public function __construct()
     {
