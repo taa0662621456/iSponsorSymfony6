@@ -2,7 +2,7 @@
 
 namespace App\Form\Product\AttributeType\Configuration;
 
-use App\Interface\Locale\LocaleInterface;
+use App\EntityInterface\Locale\LocaleInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

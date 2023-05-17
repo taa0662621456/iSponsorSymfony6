@@ -5,9 +5,9 @@ namespace App\Entity\Zone;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Zone\ZoneFactoryInterface;
+use App\EntityInterface\Zone\ZoneInterface;
 
 #[ORM\Entity]
-final class Zone extends ObjectSuperEntity implements ObjectInterface, ZoneFactoryInterface
+class Zone extends ObjectSuperEntity implements ObjectInterface, ZoneInterface
 {
 }

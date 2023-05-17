@@ -29,13 +29,13 @@ trait ProductLanguageTrait
     #[Assert\Length(max: 15000, maxMessage: 'product.description.too.long.')]
     private string $productDesc = 'product_desc';
 
-//    /**
-//     * @return string
-//     */
-//    #[Pure]
-//    public function __toString() {
-//        return $this->getProductName();
-//    }
+    //    /**
+    //     * @return string
+    //     */
+    //    #[Pure]
+    //    public function __toString() {
+    //        return $this->getProductName();
+    //    }
 
     public function getProductSDesc(): string
     {

@@ -3,7 +3,6 @@
 namespace App\Form\Product\ProductBundle;
 
 use App\EventSubscriber\AddCodeFormSubscriber;
-use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;

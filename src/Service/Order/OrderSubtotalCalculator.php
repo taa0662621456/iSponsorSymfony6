@@ -2,6 +2,8 @@
 
 namespace App\Service\Order;
 
+use App\EntityInterface\Order\OrderInterface;
+
 final class OrderSubtotalCalculator implements OrderItemsSubtotalCalculatorInterface
 {
     public function getSubtotal(OrderInterface $order): int

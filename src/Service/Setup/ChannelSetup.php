@@ -2,7 +2,12 @@
 
 namespace App\Service\Setup;
 
+use App\EntityInterface\Currency\CurrencyInterface;
+use App\EntityInterface\Locale\LocaleInterface;
+use App\Interface\FactoryInterface;
+use Composer\Repository\RepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Notifier\Channel\ChannelInterface;
 
 final class ChannelSetup implements ChannelSetupInterface
 {

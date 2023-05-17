@@ -2,15 +2,21 @@
 
 namespace App\Repository\Shipment;
 
-use App\Interface\CustomerInterface;
-use App\Interface\Shipment\ShipmentCategoryRepositoryInterface;
-use App\Interface\Shipment\ShipmentInterface;
+use App\Entity\Shipment\Shipment;
+use App\EntityInterface\Customer\CustomerInterface;
+use App\EntityInterface\Shipment\ShipmentInterface;
+use App\RepositoryInterface\Shipment\ShipmentCategoryRepositoryInterface;
 use App\Interface\Vendor\VendorInterface;
-use Doctrine\ORM\EntityRepository;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-
-class ShipmentRepository implements ShipmentCategoryRepositoryInterface
+/**
+ * @method Shipment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Shipment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Shipment[]    findAll()
+ * @method Shipment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class ShipmentRepository extends EntityRepository implements ShipmentCategoryRepositoryInterface
 {
     public function createListQueryBuilder(): QueryBuilder
     {

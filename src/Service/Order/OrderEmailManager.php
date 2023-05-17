@@ -2,9 +2,8 @@
 
 namespace App\Service\Order;
 
-use App\Interface\CustomerInterface;
-use App\Interface\Order\OrderEmailManagerInterface;
-use App\Interface\Order\OrderInterface;
+use App\EntityInterface\Order\OrderEmailManagerInterface;
+use App\EntityInterface\Order\OrderInterface;
 use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 use Webmozart\Assert\Assert;
 

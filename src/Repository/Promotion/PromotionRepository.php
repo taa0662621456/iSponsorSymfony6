@@ -2,14 +2,18 @@
 
 namespace App\Repository\Promotion;
 
+use App\Entity\Promotion\Promotion;
 use App\Entity\Vendor\Vendor;
-use App\Service\AssociationHydrate;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
-use Doctrine\ORM\Mapping\ClassMetadata;
+use App\RepositoryInterface\Promotion\PromotionRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-
-class PromotionRepository
+/**
+ * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Promotion[]    findAll()
+ * @method Promotion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class PromotionRepository extends EntityRepository implements PromotionRepositoryInterface
 {
    // private AssociationHydrate $associationHydrate;
 

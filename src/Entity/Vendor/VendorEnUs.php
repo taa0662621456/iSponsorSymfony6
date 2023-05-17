@@ -28,7 +28,7 @@ use App\Interface\Object\ObjectTileInterface;
     paginationEnabled: false
 )]
 #[ORM\Entity]
-final class VendorEnUs extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
+class VendorEnUs extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
 {
     use VendorLanguageTrait;
 }

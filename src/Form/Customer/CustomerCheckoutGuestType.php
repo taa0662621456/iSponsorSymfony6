@@ -2,13 +2,7 @@
 
 namespace App\Form\Customer;
 
-use App\Interface\CustomerInterface;
-use App\Interface\Vendor\VendorFactoryInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 final class CustomerCheckoutGuestType extends AbstractType
 {

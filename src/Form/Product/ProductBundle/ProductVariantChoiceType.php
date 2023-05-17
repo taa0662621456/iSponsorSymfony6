@@ -2,8 +2,9 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductVariantInterface;
+use App\Dto\Product\ProductVariantDTO;
+use App\EntityInterface\Product\ProductInterface;
+use App\EntityInterface\Product\ProductVariantInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,6 +31,7 @@ final class ProductVariantChoiceType extends AbstractType
                 'choice_translation_domain' => false,
                 'multiple' => false,
                 'expanded' => true,
+                'data_class' => ProductVariantDTO::class,
             ])
             ->setRequired([
                 'product',

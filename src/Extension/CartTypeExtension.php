@@ -4,13 +4,15 @@
 namespace App\Extension;
 
 
+use App\Form\Cart\CartType;
+use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CartTypeExtension extends AbstractTypeExtension
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('shippingAddress', AddressType::class)

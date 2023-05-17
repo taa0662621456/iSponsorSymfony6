@@ -5,7 +5,7 @@ use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnUS;
 use App\Entity\Vendor\VendorSecurity;
 use App\Form\Vendor\VendorSecurityType;
-use App\Service\EmailConfirmation;
+use App\Service\EmailService;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
@@ -36,7 +36,7 @@ class RegistrationController extends AbstractController
     public function __construct(private readonly Environment                 $twig,
                                 private readonly UserPasswordHasherInterface $passwordHasher,
                                 private readonly FormFactoryInterface        $formFactory,
-                                private readonly EmailConfirmation           $emailConfirmation,
+                                private readonly EmailService                $emailConfirmation,
                                 private readonly LoggerInterface             $logger,
                                 ManagerRegistry                              $managerRegistry)
     {

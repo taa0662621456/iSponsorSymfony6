@@ -3,31 +3,34 @@
 namespace App\Service\Object;
 
 use App\Interface\Object\ObjectFactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ObjectFactory implements ObjectFactoryInterface
 {
-    private ContainerInterface $container;
+    private array $factories;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(array $factories = [])
     {
-        $this->container = $container;
+        $this->factories = $factories;
     }
 
     public function create(string $className, array $options = []): object
     {
-        $factory = $this->resolveFactory($className);
-        $this->setProperties($factory, $options);
-        return $factory;
-    }
+        $factoryName = $this->getFactoryName($className);
 
-    private function resolveFactory(string $className): object
-    {
-        if ($this->container->has($className)) {
-            return $this->container->get($className);
+        if (isset($this->factories[$factoryName])) {
+            $factory = $this->factories[$factoryName];
+            $this->setProperties($factory, $options);
+            return $factory;
         }
 
         throw new \RuntimeException(sprintf('Factory for class "%s" not found.', $className));
+    }
+
+    private function getFactoryName(string $className): string
+    {
+        $namespaceParts = explode('\\', $className);
+        $className = end($namespaceParts);
+        return $className . 'Factory';
     }
 
     private function setProperties(object $object, array $options): void

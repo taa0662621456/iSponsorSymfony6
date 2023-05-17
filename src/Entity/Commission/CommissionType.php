@@ -5,10 +5,10 @@ namespace App\Entity\Commission;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Commission\CommissionInterface;
+use App\EntityInterface\Commission\CommissionInterface;
 
 #[ORM\Entity]
-final class CommissionType extends ObjectSuperEntity implements ObjectInterface, CommissionInterface
+class CommissionType extends ObjectSuperEntity implements ObjectInterface, CommissionInterface
 {
     #[ORM\Column(type: 'string', length: 255)]
     public $incrementCommission;

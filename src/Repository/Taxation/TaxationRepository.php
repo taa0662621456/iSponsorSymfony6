@@ -2,12 +2,19 @@
 
 namespace App\Repository\Taxation;
 
+use App\Entity\Taxation\Taxation;
+use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 use App\Interface\Taxation\TaxationInterface;
-use App\Interface\Taxation\TaxationRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use App\Repository\EntityRepository;
 
-class TaxationRepository implements TaxationRepositoryInterface
+use Doctrine\ORM\QueryBuilder;
+/**
+ * @method Taxation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Taxation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Taxation[]    findAll()
+ * @method Taxation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class TaxationRepository extends EntityRepository implements TaxationRepositoryInterface
 {
     public function findChildren(string $parentCode, ?string $locale = null): array
     {

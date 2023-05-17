@@ -2,6 +2,8 @@
 
 namespace App\Service\Order;
 
+use App\EntityInterface\Order\OrderInterface;
+
 final class OrderNumberAssigner implements OrderNumberAssignerInterface
 {
     public function __construct(private readonly OrderNumberGeneratorInterface $numberGenerator)

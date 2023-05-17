@@ -2,12 +2,21 @@
 
 namespace App\Repository\Association;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Association\AssociationProductType;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Association\AssociationProductTypeRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
 
-
-class AssociationProductTypeRepository extends EntityRepository
+/**
+ * @method AssociationProductType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AssociationProductType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AssociationProductType[]    findAll()
+ * @method AssociationProductType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class AssociationProductTypeRepository extends EntityRepository implements AssociationProductTypeRepositoryInterface
 {
+
     public function createListQueryBuilder(string $locale): QueryBuilder
     {
         return $this->createQueryBuilder('o')

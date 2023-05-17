@@ -4,8 +4,9 @@
 namespace App\Form\Taxation;
 
 
-use App\Interface\Zone\ZoneRepositoryInterface;
-use App\Service\ResourceToIdentifierTransformer;
+use App\Dto\Taxation\TaxationZoneCodeDTO;
+use App\EntityInterface\Zone\ZoneRepositoryInterface;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +22,7 @@ final class TaxationZoneCodeSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(new ReversedTransformer(new ResourceToIdentifierTransformer($this->zoneRepository, 'code')));
+        $builder->addModelTransformer(new ReversedTransformer(new ResourceIdentifierTransformer($this->zoneRepository, 'code')));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -42,6 +43,7 @@ final class TaxationZoneCodeSelectorType extends AbstractType
                 'choice_translation_domain' => false,
                 'label' => 'form.zone.types.zone',
                 'placeholder' => 'form.zone.select',
+                'data_class' => TaxationZoneCodeDTO::class,
             ])
         ;
     }

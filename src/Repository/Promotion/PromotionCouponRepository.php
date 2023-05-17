@@ -2,9 +2,16 @@
 
 namespace App\Repository\Promotion;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Promotion\Promotion;
+use App\RepositoryInterface\Promotion\PromotionCouponRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-
+/**
+ * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Promotion[]    findAll()
+ * @method Promotion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class PromotionCouponRepository extends EntityRepository implements PromotionCouponRepositoryInterface
 {
     public function createQueryBuilderByPromotionId($promotionId): QueryBuilder

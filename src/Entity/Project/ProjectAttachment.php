@@ -5,7 +5,7 @@ namespace App\Entity\Project;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Project\ProjectAttachmentInterface;
+use App\EntityInterface\Project\ProjectAttachmentInterface;
 
 #[ORM\Entity]
 class ProjectAttachment extends ObjectSuperEntity implements ObjectInterface, ProjectAttachmentInterface
@@ -14,14 +14,4 @@ class ProjectAttachment extends ObjectSuperEntity implements ObjectInterface, Pr
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private Project $projectAttachmentProject;
 
-    // ManyToOne
-    public function getProjectAttachmentProject(): Project
-    {
-        return $this->projectAttachmentProject;
-    }
-
-    public function setProjectAttachmentProject(Project $attachment): void
-    {
-        $this->projectAttachmentProject = $attachment;
-    }
 }

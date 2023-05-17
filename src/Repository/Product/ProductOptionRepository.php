@@ -3,9 +3,9 @@
 namespace App\Repository\Product;
 
 use App\Entity\Product\ProductStorage;
-use App\Interface\Product\ProductOptionRepositoryInterface;
-use App\Service\AssociationHydrate;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Product\ProductOptionRepositoryInterface;
+use App\Service\EntityAssociationHydrator;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,17 +15,9 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ProductStorage[]    findAll()
  * @method ProductStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductOptionRepository extends ServiceEntityRepository implements ProductOptionRepositoryInterface
+class ProductOptionRepository extends EntityRepository implements ProductOptionRepositoryInterface
 {
-    protected AssociationHydrate $associationHydrate;
-
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProductStorage::class);
-
-//        parent::__construct($entityManager, $class);
-//        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
-    }
+    protected EntityAssociationHydrator $associationHydrate;
 
     // /**
     //  * @return ProductOption[] Returns an array of ProductOption objects

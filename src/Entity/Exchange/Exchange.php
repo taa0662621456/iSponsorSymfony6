@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Currency\Currency;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Exchange\ExchangeInterface;
+use App\EntityInterface\Exchange\ExchangeInterface;
 
 #[ORM\Entity]
-final class Exchange extends ObjectSuperEntity implements ObjectInterface, ExchangeInterface
+class Exchange extends ObjectSuperEntity implements ObjectInterface, ExchangeInterface
 {
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $rate;

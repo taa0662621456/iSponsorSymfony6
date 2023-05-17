@@ -4,9 +4,11 @@ namespace App\Entity\Property;
 
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Property\PropertyValueInterface;
+use App\EntityInterface\Property\PropertyValueInterface;
+use Doctrine\ORM\Mapping as ORM;
+
 
 #[ORM\Entity]
-final class PropertyValue extends ObjectSuperEntity implements ObjectInterface, PropertyValueInterface
+class PropertyValue extends ObjectSuperEntity implements ObjectInterface, PropertyValueInterface
 {
 }

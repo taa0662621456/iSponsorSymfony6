@@ -5,6 +5,8 @@ namespace App\Form\Shipment\TypeSylius;
 
 
 
+use Symfony\Component\Form\FormBuilderInterface;
+
 final class ShippingCategoryType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

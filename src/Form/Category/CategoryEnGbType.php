@@ -2,7 +2,7 @@
 
 namespace App\Form\Category;
 
-use App\Entity\Category\CategoryUkUa;
+use App\Dto\Category\CategoryUkUaDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -74,7 +74,7 @@ class CategoryEnGbType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => CategoryUkUa::class,
+                'data_class' => CategoryUkUaDTO::class,
             ]
         );
     }

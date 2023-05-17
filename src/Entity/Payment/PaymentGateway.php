@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use Payum\Core\Security\CypherInterface;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Payment\PaymentGatewayInterface;
+use App\EntityInterface\Payment\PaymentGatewayInterface;
 
 #[ORM\Entity]
-final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface, PaymentGatewayInterface
+class PaymentGateway extends ObjectSuperEntity implements ObjectInterface, PaymentGatewayInterface
 {
     protected string $factoryName;
 
@@ -17,36 +17,15 @@ final class PaymentGateway extends ObjectSuperEntity implements ObjectInterface,
 
     protected array $config;
 
-    /**
-     * Note: This should not be persisted to database.
-     */
     protected array $decryptedConfig;
 
     public function __construct()
     {
+        parent::__construct();
         $this->config = [];
         $this->decryptedConfig = [];
     }
 
-    public function getFactoryName(): string
-    {
-        return $this->factoryName;
-    }
-
-    public function setFactoryName($factoryName): void
-    {
-        $this->factoryName = $factoryName;
-    }
-
-    public function getGatewayName(): string
-    {
-        return $this->gatewayName;
-    }
-
-    public function setGatewayName(string $gatewayName): void
-    {
-        $this->gatewayName = $gatewayName;
-    }
 
     public function getConfig(): array
     {

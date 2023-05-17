@@ -5,11 +5,11 @@
 namespace App\Repository;
 
 
-use Doctrine\ORM\EntityRepository;
+use App\RepositoryInterface\Object\ObjectDefaultRepositoryInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 
-class ObjectDefaultRepository extends EntityRepository
+class ObjectDefaultRepository extends EntityRepository implements ObjectDefaultRepositoryInterface
 {
     /**
      * @throws ToolsException

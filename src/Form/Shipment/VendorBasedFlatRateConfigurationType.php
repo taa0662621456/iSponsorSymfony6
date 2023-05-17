@@ -2,7 +2,7 @@
 
 namespace App\Form\Shipment;
 
-use App\Form\Type\Calculator\FlatRateConfigurationType;
+use App\Form\Shipment\Calculator\FlatRateConfigurationType;
 use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

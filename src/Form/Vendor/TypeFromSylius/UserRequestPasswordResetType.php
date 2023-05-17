@@ -5,6 +5,8 @@ namespace App\Form\Vendor\TypeFromSylius;
 
 
 
+use Symfony\Component\Form\FormBuilderInterface;
+
 final class UserRequestPasswordResetType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

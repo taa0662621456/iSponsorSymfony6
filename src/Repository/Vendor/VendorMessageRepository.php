@@ -4,7 +4,8 @@ namespace App\Repository\Vendor;
 
 
 use App\Entity\Vendor\VendorMessage;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Vendor\VendorMessageRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method VendorMessage[]    findAll()
  * @method VendorMessage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorMessageRepository extends ServiceEntityRepository
+class VendorMessageRepository extends EntityRepository implements VendorMessageRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

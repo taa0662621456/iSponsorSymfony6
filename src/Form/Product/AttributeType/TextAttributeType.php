@@ -9,6 +9,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TextAttributeType extends AbstractType
 {
+    const TYPE = 'text';
+
     public function getParent(): string
     {
         return TextType::class;

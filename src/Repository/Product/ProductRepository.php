@@ -3,11 +3,9 @@
 namespace App\Repository\Product;
 
 use App\Entity\Product\Product;
-use App\Interface\Product\ProductPropertyInterface;
-use App\Interface\Product\ProductRepositoryInterface;
-use App\Interface\Taxation\TaxationInterface;
+use App\RepositoryInterface\Product\ProductRepositoryInterface;
 use App\Interface\Vendor\VendorInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
+class ProductRepository extends EntityRepository implements ProductRepositoryInterface
 {
     // private AssociationHydrate $associationHydrate;
 
@@ -269,5 +267,10 @@ class ProductRepository extends ServiceEntityRepository implements ProductReposi
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function getClassName()
+    {
+        // TODO: Implement getClassName() method.
     }
 }

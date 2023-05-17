@@ -2,7 +2,7 @@
 
 namespace App\Form\Product\AttributeType;
 
-use App\Interface\Locale\LocaleInterface;
+use App\EntityInterface\Locale\LocaleInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class SelectAttributeType extends AbstractType
 {
+    const TYPE = 'select';
     private string $defaultLocaleCode;
 
     public function __construct(LocaleInterface $locale)

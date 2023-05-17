@@ -3,7 +3,8 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorProfile;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Vendor\VendorProfileRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -12,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method VendorProfile[]    findAll()
  * @method VendorProfile[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorProfileRepository extends ServiceEntityRepository
+class VendorProfileRepository extends EntityRepository implements VendorProfileRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

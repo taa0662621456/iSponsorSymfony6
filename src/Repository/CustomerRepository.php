@@ -3,9 +3,16 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
-class CustomerRepository extends EntityRepository
+use App\Entity\Vendor\VendorShipment;
+use App\RepositoryInterface\Customer\CustomerRepositoryInterface;
+use App\Repository\EntityRepository;
+/**
+ * @method VendorShipment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VendorShipment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VendorShipment[]    findAll()
+ * @method VendorShipment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class CustomerRepository extends EntityRepository implements CustomerRepositoryInterface
 {
     public function countCustomer(): int
     {

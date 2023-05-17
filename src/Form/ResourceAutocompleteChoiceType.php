@@ -6,7 +6,7 @@ use App\Interface\RepositoryInterface;
 use App\Interface\ServiceRegistryInterface;
 use App\Service\CollectionToStringTransformer;
 use App\Service\RecursiveTransformer;
-use App\Service\ResourceToIdentifierTransformer;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;

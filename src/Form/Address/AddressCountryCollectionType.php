@@ -2,9 +2,8 @@
 
 namespace App\Form\Address;
 
-use App\Interface\Address\AddressCountryInterface;
-use App\Interface\Country\AddressCountryRepositoryInterface;
-use App\Interface\RepositoryInterface;
+use App\Dto\Address\AddressCountryDTO;
+use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,6 +42,7 @@ final class AddressCountryCollectionType extends AbstractType
                 'enabled' => true,
                 'label' => 'form.address.country',
                 'placeholder' => 'form.country.select',
+                'data_class' => AddressCountryDTO::class,
             ])
             ->setAllowedTypes('choice_filter', ['null', 'callable'])
             ->setNormalizer('choices', static function (Options $options, array $countries): array {

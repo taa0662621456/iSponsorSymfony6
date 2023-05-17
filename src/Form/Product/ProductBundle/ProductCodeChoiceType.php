@@ -2,8 +2,8 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\Interface\Product\ProductRepositoryInterface;
-use App\Service\ResourceToIdentifierTransformer;
+use App\RepositoryInterface\Product\ProductRepositoryInterface;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\ReversedTransformer;
@@ -17,7 +17,7 @@ final class ProductCodeChoiceType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(
-            new ReversedTransformer(new ResourceToIdentifierTransformer($this->productRepository, 'code')),
+            new ReversedTransformer(new ResourceIdentifierTransformer($this->productRepository, 'code')),
         );
     }
 

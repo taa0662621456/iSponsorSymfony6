@@ -2,24 +2,26 @@
 
 namespace App\Repository\Order;
 
-use App\Entity\Order\OrderStorage;
+use Doctrine\ORM\QueryBuilder;
 use App\Entity\Project\Project;
 
-use App\Interface\CustomerInterface;
-use App\Interface\Vendor\VendorInterface;
-use App\Interface\Order\OrderInterface;
-use App\Service\AssociationHydrate;
-use DateTime;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\NonUniqueResultException;
+use App\Entity\Order\OrderStorage;
+use App\Service\EntityAssociationHydrator;
 use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\Workflow\Registry;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use App\Repository\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use App\EntityInterface\Order\OrderInterface;
+use App\EntityInterface\Vendor\VendorInterface;
 use Laminas\Code\Reflection\DocBlock\TagManager;
-use function count;
+use App\EntityInterface\Order\OrderItemInterface;
+use Symfony\Component\Workflow\WorkflowInterface;
+use App\EntityInterface\Customer\CustomerInterface;
+use Symfony\Component\Console\Exception\LogicException;
+use App\EntityInterface\Promotion\PromotionCouponInterface;
+use App\RepositoryInterface\Order\OrderItemRepositoryInterface;
 
 /**
  * @method OrderStorage|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,25 +29,18 @@ use function count;
  * @method OrderStorage[]    findAll()
  * @method OrderStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OrderRepository extends EntityRepository
-//class OrderRepository extends ServiceEntityRepository
+class OrderRepository extends EntityRepository implements OrderItemRepositoryInterface
 {
-    /** @var AssociationHydrate */
-    protected AssociationHydrate $associationHydrate;
+    protected EntityAssociationHydrator $entityAssociationHydrator;
 
-    /**
-     * ProjectsRepository constructor.
-     */
-    public function __construct(ManagerRegistry $registry, EntityManager $entityManager, ClassMetadata $class)
+    private Registry $workflowRegistry;
+
+    public function __construct(ManagerRegistry $registry, Registry $workflowRegistry, EntityAssociationHydrator $associationHydrate)
     {
-        parent::__construct();
-
-        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+        parent::__construct($registry);
+        $this->workflowRegistry = $workflowRegistry;
+        $this->entityAssociationHydrator = $associationHydrate;
     }
-
-    /**
-     *
-     */
 
     public function createListQueryBuilder(): QueryBuilder
     {
@@ -53,8 +48,7 @@ class OrderRepository extends EntityRepository
             ->addSelect('customer')
             ->leftJoin('o.customer', 'customer')
             ->andWhere('o.state != :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
-            ;
+            ->setParameter('state', OrderInterface::STATE_CART);
     }
 
     public function createSearchListQueryBuilder(): QueryBuilder
@@ -62,16 +56,14 @@ class OrderRepository extends EntityRepository
         return $this->createListQueryBuilder()
             ->leftJoin('o.items', 'item')
             ->leftJoin('item.variant', 'variant')
-            ->leftJoin('variant.product', 'product')
-            ;
+            ->leftJoin('variant.product', 'product');
     }
 
     public function createByCustomerIdQueryBuilder($customerId): QueryBuilder
     {
         return $this->createListQueryBuilder()
             ->andWhere('o.customer = :customerId')
-            ->setParameter('customerId', $customerId)
-            ;
+            ->setParameter('customerId', $customerId);
     }
 
     public function createByCustomerAndChannelIdQueryBuilder($customerId, $vendorId): QueryBuilder
@@ -82,16 +74,14 @@ class OrderRepository extends EntityRepository
             ->andWhere('o.state != :state')
             ->setParameter('customerId', $customerId)
             ->setParameter('vendorId', $vendorId)
-            ->setParameter('state', OrderInterface::STATE_CART)
-            ;
+            ->setParameter('state', OrderInterface::STATE_CART);
     }
 
     public function findByCustomer(CustomerInterface $customer): array
     {
         return $this->createByCustomerIdQueryBuilder($customer->getId())
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findForCustomerStatistics(CustomerInterface $customer): array
@@ -102,8 +92,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('customerId', $customer->getId())
             ->setParameter('state', OrderInterface::STATE_FULFILLED)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findOneForPayment($id): ?OrderInterface
@@ -116,8 +105,7 @@ class OrderRepository extends EntityRepository
             ->andWhere('o.id = :id')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     /**
@@ -129,9 +117,9 @@ class OrderRepository extends EntityRepository
         PromotionCouponInterface $coupon,
         bool $includeCancelled = false,
     ): int {
-        $states = [OrderInterface::STATE_CART];
+        $states = ['cart'];
         if ($coupon->isReusableFromCancelledOrders()) {
-            $states[] = OrderInterface::STATE_CANCELLED;
+            $states[] = 'cancelled';
         }
 
         return (int) $this->createQueryBuilder('o')
@@ -143,8 +131,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('coupon', $coupon)
             ->setParameter('states', $states)
             ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->getSingleScalarResult();
     }
 
     public function countByCustomer(CustomerInterface $customer): int
@@ -156,8 +143,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('customer', $customer)
             ->setParameter('states', [OrderInterface::STATE_CART, OrderInterface::STATE_CANCELLED])
             ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->getSingleScalarResult();
     }
 
     public function findOneByNumberAndCustomer(string $number, CustomerInterface $customer): ?OrderInterface
@@ -168,8 +154,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('customer', $customer)
             ->setParameter('number', $number)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findCartByChannel($id, VendorInterface $vendor): ?OrderInterface
@@ -182,8 +167,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('vendor', $vendor)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findLatestCartByChannelAndCustomer(VendorInterface $vendor, CustomerInterface $customer): ?OrderInterface
@@ -198,8 +182,7 @@ class OrderRepository extends EntityRepository
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findLatestNotEmptyCartByChannelAndCustomer(
@@ -219,8 +202,7 @@ class OrderRepository extends EntityRepository
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function getTotalSalesForChannel(VendorInterface $vendor): int
@@ -232,41 +214,73 @@ class OrderRepository extends EntityRepository
             ->setParameter('vendor', $vendor)
             ->setParameter('state', OrderInterface::STATE_FULFILLED)
             ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->getSingleScalarResult();
     }
 
-    public function getTotalPaidSalesForChannel(VendorInterface $vendor): int
+    public function getTotalPaidSalesForChannel(VendorInterface $vendor, WorkflowInterface $workflow): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('SUM(o.total)')
-            ->andWhere('o.vendor = :vendor')
-            ->andWhere('o.paymentState = :state')
-            ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderPaymentStates::STATE_PAID)
-            ->getQuery()
-            ->getSingleScalarResult()
-            ;
+        try {
+            $queryBuilder = $this->createQueryBuilder('o');
+
+            $queryBuilder
+                ->select('SUM(o.total)')
+                ->andWhere('o.vendor = :vendor')
+                ->andWhere('o.paymentState = :state')
+                ->setParameter('vendor', $vendor)
+                ->setParameter('state', 'payment_confirmed');
+
+            $orders = $queryBuilder->getQuery()->getResult();
+
+            $totalPaidSales = 0;
+
+            foreach ($orders as $order) {
+                if ($workflow->can($order, 'payment_confirmation')) {
+                    $totalPaidSales += $order->getTotal();
+                }
+            }
+
+            return (int) $totalPaidSales;
+        } catch (LogicException $e) {
+            // Обработка ошибок рабочего процесса
+        }
+
+        return 0;
     }
 
     public function getTotalPaidSalesForChannelInPeriod(
         VendorInterface $vendor,
         \DateTimeInterface $startDate,
         \DateTimeInterface $endDate,
+        WorkflowInterface $workflow
     ): int {
-        return (int) $this->createQueryBuilder('o')
-            ->select('SUM(o.total)')
-            ->andWhere('o.vendor = :vendor')
-            ->andWhere('o.paymentState = :state')
-            ->andWhere('o.checkoutCompletedAt >= :startDate')
-            ->andWhere('o.checkoutCompletedAt <= :endDate')
-            ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderPaymentStates::STATE_PAID)
-            ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate)
-            ->getQuery()
-            ->getSingleScalarResult()
-            ;
+        try {
+            $queryBuilder = $this->createQueryBuilder('o');
+
+            $queryBuilder
+                ->select('SUM(o.total)')
+                ->andWhere('o.vendor = :vendor')
+                ->andWhere('o.checkoutCompletedAt >= :startDate')
+                ->andWhere('o.checkoutCompletedAt <= :endDate')
+                ->setParameter('vendor', $vendor)
+                ->setParameter('startDate', $startDate)
+                ->setParameter('endDate', $endDate);
+
+            $orders = $queryBuilder->getQuery()->getResult();
+
+            $totalPaidSales = 0;
+
+            foreach ($orders as $order) {
+                if ($workflow->can($order, 'payment_confirmation')) {
+                    $totalPaidSales += $order->getTotal();
+                }
+            }
+
+            return (int) $totalPaidSales;
+        } catch (LogicException $e) {
+            // Обработка ошибок рабочего процесса
+        }
+
+        return 0;
     }
 
     public function countFulfilledByChannel(VendorInterface $vendor): int
@@ -278,21 +292,39 @@ class OrderRepository extends EntityRepository
             ->setParameter('vendor', $vendor)
             ->setParameter('state', OrderInterface::STATE_FULFILLED)
             ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->getSingleScalarResult();
     }
 
     public function countPaidByChannel(VendorInterface $vendor): int
     {
-        return (int) $this->createQueryBuilder('o')
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        $queryBuilder
             ->select('COUNT(o.id)')
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.paymentState = :state')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderPaymentStates::STATE_PAID)
-            ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->setParameter('state', $this->getPaymentStateByName('paid'));
+
+        // Добавляем workflow-фильтр для состояния заказа
+        $queryBuilder->andWhere('o.workflowPlace = :workflowPlace')
+            ->setParameter('workflowPlace', $this->getWorkflowPlaceByName('paid'));
+
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+    }
+
+    private function getPaymentStateByName(string $name): int
+    {
+        // Здесь нужно реализовать логику для получения ID состояния по его имени из YAML-файла
+        // Возвращаем ID состояния или выбрасываем исключение, если состояние не найдено
+        return 0;
+    }
+
+    private function getWorkflowPlaceByName(string $name): string
+    {
+        // Здесь нужно реализовать логику для получения названия места в workflow по его имени из YAML-файла
+        // Возвращаем название места или выбрасываем исключение, если место не найдено
+        return 'paid';
     }
 
     public function countPaidForChannelInPeriod(
@@ -300,19 +332,24 @@ class OrderRepository extends EntityRepository
         \DateTimeInterface $startDate,
         \DateTimeInterface $endDate,
     ): int {
-        return (int) $this->createQueryBuilder('o')
+        $queryBuilder = $this->createQueryBuilder('o');
+
+        $queryBuilder
             ->select('COUNT(o.id)')
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.paymentState = :state')
             ->andWhere('o.checkoutCompletedAt >= :startDate')
             ->andWhere('o.checkoutCompletedAt <= :endDate')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderPaymentStates::STATE_PAID)
+            ->setParameter('state', $this->getPaymentStateByName('paid'))
             ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate)
-            ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->setParameter('endDate', $endDate);
+
+        // Добавляем workflow-фильтр для состояния заказа
+        $queryBuilder->andWhere('o.workflowPlace = :workflowPlace')
+            ->setParameter('workflowPlace', $this->getWorkflowPlaceByName('paid'));
+
+        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
     }
 
     public function findLatestInChannel(int $count, VendorInterface $vendor): array
@@ -325,27 +362,35 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
-    public function findOrdersUnpaidSince(\DateTimeInterface $terminalDate): array
+    public function findOrdersUnpaidSince(\DateTimeInterface $date): array
     {
-        return $this->createQueryBuilder('o')
-            ->where('o.checkoutState = :checkoutState')
-            ->andWhere('o.paymentState = :paymentState')
-            ->andWhere('o.state = :orderState')
-            ->andWhere('o.checkoutCompletedAt < :terminalDate')
-            ->setParameter('checkoutState', OrderCheckoutStates::STATE_COMPLETED)
-            ->setParameter('paymentState', OrderPaymentStates::STATE_AWAITING_PAYMENT)
-            ->setParameter('orderState', OrderInterface::STATE_NEW)
-            ->setParameter('terminalDate', $terminalDate)
-            ->getQuery()
-            ->getResult()
-            ;
+        try {
+            $orders = $this->createQueryBuilder('o')
+                ->where('o.updatedAt < :date')
+                ->setParameter('date', $date)
+                ->getQuery()
+                ->getResult();
+
+            $unpaidOrders = [];
+
+            foreach ($orders as $order) {
+                if ($this->workflow->can($order, 'checkout')) {
+                    $unpaidOrders[] = $order;
+                }
+            }
+
+            return $unpaidOrders;
+        } catch (LogicException $e) {
+            // Обработка ошибок рабочего процесса
+        }
+
+        return [];
     }
 
-    public function findCartForSummary($id): ?OrderInterface
+    public function findCartForSummary($id): void
     {
         /** @var OrderInterface $order */
         $order = $this->createQueryBuilder('o')
@@ -354,10 +399,9 @@ class OrderRepository extends EntityRepository
             ->setParameter('id', $id)
             ->setParameter('state', OrderInterface::STATE_CART)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
 
-        $this->associationHydrate->hydrateAssociations($order, [
+        $this->entityAssociationHydrator->hydrateAssociations($order, [
             'adjustments',
             'items',
             'items.adjustments',
@@ -372,8 +416,6 @@ class OrderRepository extends EntityRepository
             'items.variant.product.options',
             'items.variant.product.options.translations',
         ]);
-
-        return $order;
     }
 
     public function findCartForAddressing($id): ?OrderInterface
@@ -385,10 +427,9 @@ class OrderRepository extends EntityRepository
             ->setParameter('id', $id)
             ->setParameter('state', OrderInterface::STATE_CART)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
 
-        $this->associationHydrate->hydrateAssociations($order, [
+        $this->entityAssociationHydrator->hydrateAssociations($order, [
             'items',
             'items.variant',
             'items.variant.product',
@@ -407,10 +448,9 @@ class OrderRepository extends EntityRepository
             ->setParameter('id', $id)
             ->setParameter('state', OrderInterface::STATE_CART)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
 
-        $this->associationHydrate->hydrateAssociations($order, [
+        $this->entityAssociationHydrator->hydrateAssociations($order, [
             'items',
             'items.variant',
             'items.variant.product',
@@ -429,10 +469,9 @@ class OrderRepository extends EntityRepository
             ->setParameter('id', $id)
             ->setParameter('state', OrderInterface::STATE_CART)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
 
-        $this->associationHydrate->hydrateAssociations($order, [
+        $this->entityAssociationHydrator->hydrateAssociations($order, [
             'items',
             'items.variant',
             'items.variant.product',
@@ -450,8 +489,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('tokenValue', $tokenValue)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findCartByTokenValueAndChannel(string $tokenValue, VendorInterface $vendor): ?OrderInterface
@@ -464,15 +502,9 @@ class OrderRepository extends EntityRepository
             ->setParameter('tokenValue', $tokenValue)
             ->setParameter('vendor', $vendor)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
-
-
-    /**
-     *
-     */
     public function countPlacedOrders(): int
     {
         return (int) $this->createQueryBuilder('o')
@@ -480,8 +512,7 @@ class OrderRepository extends EntityRepository
             ->andWhere('o.state != :state')
             ->setParameter('state', OrderInterface::STATE_CART)
             ->getQuery()
-            ->getSingleScalarResult()
-            ;
+            ->getSingleScalarResult();
     }
 
     public function createCartQueryBuilder(): QueryBuilder
@@ -492,8 +523,7 @@ class OrderRepository extends EntityRepository
             ->innerJoin('o.vendor', 'vendor')
             ->leftJoin('o.customer', 'customer')
             ->andWhere('o.state = :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
-            ;
+            ->setParameter('state', OrderInterface::STATE_CART);
     }
 
     public function findLatest(int $count): array
@@ -504,8 +534,7 @@ class OrderRepository extends EntityRepository
             ->addOrderBy('o.checkoutCompletedAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findLatestCart(): ?OrderInterface
@@ -515,8 +544,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->addOrderBy('o.checkoutCompletedAt', 'DESC')
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByNumber(string $number): ?OrderInterface
@@ -527,8 +555,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('number', $number)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByTokenValue(string $tokenValue): ?OrderInterface
@@ -539,8 +566,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('tokenValue', $tokenValue)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findCartById($id): ?OrderInterface
@@ -551,8 +577,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findCartsNotModifiedSince(\DateTimeInterface $terminalDate): array
@@ -563,8 +588,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('state', OrderInterface::STATE_CART)
             ->setParameter('terminalDate', $terminalDate)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findAllExceptCarts(): array
@@ -573,36 +597,25 @@ class OrderRepository extends EntityRepository
             ->andWhere('o.state != :state')
             ->setParameter('state', OrderInterface::STATE_CART)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
-    /**
-     *
-     */
-
-
-    /**
-     * @param TagManager|null $tag
-     */
     public function findLatestSyl(int $page = 1, TagManager $tag = null): Paginator
     {
-
         $qb = $this->createQueryBuilder('p')
             ->addSelect('a', 't')
             ->innerJoin('p.vendorId', 'a')
             ->leftJoin('p.tags', 't')
             ->where('p.createdAt <= :now')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameter('now', new DateTime())
-        ;
+            ->setParameter('now', new \DateTime());
 
         if (null !== $tag) {
             $qb->andWhere(':tag MEMBER OF p.tags')
                 ->setParameter('tag', $tag);
         }
-        return (new Paginator($qb))->paginate($page);
 
+        return (new Paginator($qb))->paginate($page);
     }
 
     /**
@@ -610,26 +623,24 @@ class OrderRepository extends EntityRepository
      */
     public function findBySearchQuery(string $rawQuery, int $limit = OrderStorage::NUM_ITEMS): array
     {
-
         $query = $this->sanitizeSearchQuery($rawQuery);
         $searchTerms = $this->extractSearchTerms($query);
-        if (0 === count($searchTerms)) {
+        if (0 === \count($searchTerms)) {
             return [];
         }
         $queryBuilder = $this->createQueryBuilder('p');
         foreach ($searchTerms as $key => $term) {
             $queryBuilder
                 ->orWhere('p.name LIKE :t_'.$key)
-                ->setParameter('t_'.$key, '%'.$term.'%')
-            ;
+                ->setParameter('t_'.$key, '%'.$term.'%');
         }
+
         return $queryBuilder
             ->orderBy('p.createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
-
 
     /**
      * Removes all non-alphanumeric characters except whitespaces.
@@ -645,14 +656,10 @@ class OrderRepository extends EntityRepository
     private function extractSearchTerms(string $searchQuery): array
     {
         $terms = array_unique(explode(' ', $searchQuery));
-        return array_filter($terms, static fn($term) => 2 <= mb_strlen($term));
+
+        return array_filter($terms, static fn ($term) => 2 <= mb_strlen($term));
     }
 
-
-    // /**
-    //  * @return Orders[] Returns an array of Orders objects
-    //  */
-    /*
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('p')
@@ -664,12 +671,8 @@ class OrderRepository extends EntityRepository
             ->getResult()
         ;
     }
-    */
 
-
-
-    /*
-    public function findOneBySomeField($value): ?Orders
+    public function findOneBySomeField($value): ?OrderStorage
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')
@@ -678,24 +681,9 @@ class OrderRepository extends EntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
 
-    #MustBe:
-    #TODO: findByVendorId
-    #TODO: findBySessionId
-
-    public function findLatestSyli(int $count): array
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state != :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
-            ->addOrderBy('o.checkoutCompletedAt', 'DESC')
-            ->setMaxResults($count)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
+    // MustBe:
+    // TODO: findBySessionId
     public function findOneByCustomer($id, CustomerInterface $customer): ?OrderItemUnitInterface
     {
         return $this->createQueryBuilder('o')
@@ -707,8 +695,7 @@ class OrderRepository extends EntityRepository
             ->setParameter('id', $id)
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByIdAndCustomer($id, CustomerInterface $customer): ?OrderItemInterface
@@ -721,9 +708,6 @@ class OrderRepository extends EntityRepository
             ->setParameter('id', $id)
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
     }
-
-
 }

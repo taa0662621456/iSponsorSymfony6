@@ -2,7 +2,10 @@
 
 namespace App\Repository\Product;
 
-class ProductStorageRepository
+use App\RepositoryInterface\Product\ProductStorageRepositoryInterface;
+use App\Repository\EntityRepository;
+
+class ProductStorageRepository extends EntityRepository implements ProductStorageRepositoryInterface
 {
 
 }

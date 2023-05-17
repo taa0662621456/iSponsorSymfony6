@@ -4,7 +4,7 @@
 namespace App\Form\Shipment\TypeSylius;
 
 
-use App\Form\Type\Core\AbstractConfigurationCollectionType;
+use App\Form\Shipment\Core\AbstractConfigurationCollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShippingMethodRuleCollectionType extends AbstractConfigurationCollectionType

@@ -4,9 +4,10 @@
 namespace App\Repository\Review;
 
 
-use App\Entity\Review\ProjectReview;
+use App\Entity\Project\ProjectReview;
+use App\RepositoryInterface\Review\ProjectReviewRepositoryInterface;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -20,15 +21,10 @@ use Exception;
  * @method ProjectReview[]    findAll()
  * @method ProjectReview[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectReviewRepository extends ServiceEntityRepository
+class ProjectReviewRepository extends EntityRepository implements ProjectReviewRepositoryInterface
 {
     public const DAYS_BEFORE_REJECTED_REMOVAL = 7;
     public const REVIEWS_PER_PAGE = 10;
-
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProjectReview::class);
-    }
 
     public function getReviewsPerPage(ProjectReview $projectReviews, int $offset): Paginator
     {

@@ -2,9 +2,9 @@
 
 namespace App\Service\Product;
 
-use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductOptionValueInterface;
-use App\Interface\Product\ProductVariantInterface;
+use App\EntityInterface\Product\ProductInterface;
+use App\EntityInterface\Product\ProductOptionValueInterface;
+use App\EntityInterface\Product\ProductVariantInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;

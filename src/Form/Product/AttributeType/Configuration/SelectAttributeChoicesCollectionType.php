@@ -3,7 +3,7 @@
 
 namespace App\Form\Product\AttributeType\Configuration;
 
-use App\Interface\Locale\LocaleInterface;
+use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
 use Ramsey\Uuid\Uuid;
 
 use Symfony\Component\Form\AbstractType;
@@ -16,7 +16,7 @@ class SelectAttributeChoicesCollectionType extends AbstractType
 {
     private string $defaultLocaleCode;
 
-    public function __construct(LocaleInterface $localeProvider)
+    public function __construct(LocaleProviderServiceInterface $localeProvider)
     {
         $this->defaultLocaleCode = $localeProvider->getDefaultLocaleCode();
     }

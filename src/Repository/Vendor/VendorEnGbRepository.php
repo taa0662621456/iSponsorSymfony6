@@ -3,7 +3,8 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorEnUS;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Vendor\VendorEnGbRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method VendorEnUS[]    findAll()
  * @method VendorEnUS[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorEnGbRepository extends ServiceEntityRepository
+class VendorEnGbRepository extends EntityRepository implements VendorEnGbRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

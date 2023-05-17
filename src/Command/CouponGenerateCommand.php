@@ -2,9 +2,8 @@
 
 namespace App\Command;
 
-use App\Interface\Coupon\CouponGeneratorInstructionInterface;
-use App\Interface\Coupon\CouponGeneratorInterface;
-use App\Interface\Promotion\PromotionInterface;
+use App\EntityInterface\Coupon\CouponGeneratorInstructionInterface;
+use App\EntityInterface\Coupon\CouponGeneratorInterface;
 use App\Repository\Promotion\PromotionRepository;
 use App\Service\Coupon\CouponGeneratorInstruction;
 use Symfony\Component\Console\Command\Command;

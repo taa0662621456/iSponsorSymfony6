@@ -16,10 +16,10 @@ framework:
     form:
         legacy_error_messages: false
     validation:
-#        mapping:
-#            paths:
-#                - "%kernel.project_dir%/config/validation/"
-        not_compromised_password: false # in prod must by of true
+        mapping:
+            paths:
+                - "%kernel.project_dir%/config/validation/"
+        not_compromised_password: true # in prod must by of true
 #         validator.mapping.cache.doctrine.apc  # Симфони кеш
 #    error_controller: App\Controller\ExceptionController::exception
     # Enables session support. Note that the session will ONLY be started if you read or write from it.

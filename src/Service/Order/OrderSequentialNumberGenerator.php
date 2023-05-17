@@ -2,18 +2,16 @@
 
 namespace App\Service\Order;
 
-
-
-
-
+use App\Interface\FactoryInterface;
+use App\EntityInterface\Order\OrderInterface;
 
 final class OrderSequentialNumberGenerator implements OrderNumberGeneratorInterface
 {
     public function __construct(
         private readonly RepositoryInterface $sequenceRepository,
-        private readonly FactoryInterface    $sequenceFactory,
-        private readonly int                 $startNumber = 1,
-        private readonly int                 $numberLength = 9,
+        private readonly FactoryInterface $sequenceFactory,
+        private readonly int $startNumber = 1,
+        private readonly int $numberLength = 9,
     ) {
     }
 

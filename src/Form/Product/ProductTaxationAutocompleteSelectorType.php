@@ -2,18 +2,18 @@
 
 namespace App\Form\Product;
 
-use App\Form\ResourceAutocompleteChoiceType;
-use App\Interface\Product\ProductPropertyInterface;
-use App\Interface\Taxation\TaxationRepositoryInterface;
+use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
+use App\Form\ResourceAutocompleteChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use App\Interface\Product\ProductPropertyInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductTaxationAutocompleteSelectorType extends AbstractType
 {
     public function __construct(
-                                private readonly TaxationRepositoryInterface $taxationRepository)
-    {
+        private readonly TaxationRepositoryInterface $taxationRepository
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -51,8 +51,7 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
 
         $resolver
             ->setRequired('product')
-            ->setAllowedTypes('product', ProductPropertyInterface::class)
-        ;
+            ->setAllowedTypes('product', ProductPropertyInterface::class);
     }
 
     public function getParent(): string

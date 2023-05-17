@@ -70,13 +70,20 @@ parameters:
           client2: pass2
 
 services:
+    Doctrine\Persistence\ObjectManager: '@doctrine.orm.postgres_entity_manager'
+    App\RepositoryInterface\EntityRepositoryInterface: '@App\Repository\EntityRepository'
+    App\Interface\DataFixturesInterface\DataFixturesFactoryInterface: '@App\Service\DataFixtures\DataFixturesFactory'
+    Symfony\Component\OptionsResolver\OptionsResolver: ~
+    Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface: '@validator.mapping.factory.default'
 
-    App\Service\FakeGenerator:
-        arguments:
-            $fakerFactory: '@Faker\Factory::create'
+    #
+    App\Doctrine\EntityNamingStrategy:
+        tags: [ 'doctrine.orm.naming_strategy' ]
 
-#    App\Factory\Vendor\VendorFactory:
-#        factory: ['App\Factory\Vendor\VendorFactory', 'create']
+
+
+    Faker\Generator:
+        factory: ['Faker\Factory', 'create']
 
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

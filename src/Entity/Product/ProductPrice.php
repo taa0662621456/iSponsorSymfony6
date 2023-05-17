@@ -5,10 +5,10 @@ namespace App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Product\ProductPriceInterface;
+use App\EntityInterface\Product\ProductPriceInterface;
 
 #[ORM\Entity]
-final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, ProductPriceInterface
+class ProductPrice extends ObjectSuperEntity implements ObjectInterface, ProductPriceInterface
 {
     #[ORM\Column(name: 'product_id', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productId = 0;
@@ -46,114 +46,4 @@ final class ProductPrice extends ObjectSuperEntity implements ObjectInterface, P
 
     #[ORM\Column(name: 'price_quantity_end', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $priceQuantityEnd = 0;
-
-    public function getShopperGroupId(): int
-    {
-        return $this->shopperGroupId;
-    }
-
-    public function setShopperGroupId(int $shopperGroupId): void
-    {
-        $this->shopperGroupId = $shopperGroupId;
-    }
-
-    public function getProductPrice(): int
-    {
-        return $this->productPrice;
-    }
-
-    public function setProductPrice($productPrice): void
-    {
-        $this->productPrice = $productPrice;
-    }
-
-    public function getOverride(): ?bool
-    {
-        return $this->override;
-    }
-
-    public function setOverride(?bool $override): void
-    {
-        $this->override = $override;
-    }
-
-    public function getProductOverridePrice(): ?int
-    {
-        return $this->productOverridePrice;
-    }
-
-    public function setProductOverridePrice($productOverridePrice): void
-    {
-        $this->productOverridePrice = $productOverridePrice;
-    }
-
-    public function getProductTaxId(): ?int
-    {
-        return $this->productTaxId;
-    }
-
-    public function setProductTaxId(?int $productTaxId): void
-    {
-        $this->productTaxId = $productTaxId;
-    }
-
-    public function getProductDiscountId(): ?int
-    {
-        return $this->productDiscountId;
-    }
-
-    public function setProductDiscountId(?int $productDiscountId): void
-    {
-        $this->productDiscountId = $productDiscountId;
-    }
-
-    public function getProductCurrency(): ?int
-    {
-        return $this->productCurrency;
-    }
-
-    public function setProductCurrency(?int $productCurrency): void
-    {
-        $this->productCurrency = $productCurrency;
-    }
-
-    public function getProductPricePublishUp(): string
-    {
-        return $this->productPricePublishUp;
-    }
-
-    public function setProductPricePublishUp($productPricePublishUp): void
-    {
-        $this->productPricePublishUp = $productPricePublishUp;
-    }
-
-    public function getProductPricePublishDown(): string
-    {
-        return $this->productPricePublishDown;
-    }
-
-    public function setProductPricePublishDown($productPricePublishDown): void
-    {
-        $this->productPricePublishDown = $productPricePublishDown;
-    }
-
-    public function getPriceQuantityStart(): int
-    {
-        return $this->priceQuantityStart;
-    }
-
-    public function setPriceQuantityStart(int $priceQuantityStart): void
-    {
-        $this->priceQuantityStart = $priceQuantityStart;
-    }
-
-    public function getPriceQuantityEnd(): int
-    {
-        return $this->priceQuantityEnd;
-    }
-
-    public function setPriceQuantityEnd(int $priceQuantityEnd): void
-    {
-        $this->priceQuantityEnd = $priceQuantityEnd;
-    }
 }

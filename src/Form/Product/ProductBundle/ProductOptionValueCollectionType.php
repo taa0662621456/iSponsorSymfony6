@@ -3,6 +3,7 @@
 
 namespace App\Form\Product\ProductBundle;
 
+use App\Interface\Product\ProductOptionInterface;
 use Doctrine\Common\Collections\Collection;
 
 

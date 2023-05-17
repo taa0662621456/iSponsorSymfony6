@@ -2,7 +2,8 @@
 namespace App\Repository\Project;
 
 use App\Entity\Project\ProjectTag;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Project\ProjectTagRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,11 +12,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ProjectTag[]    findAll()
  * @method ProjectTag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectTagRepository extends ServiceEntityRepository
+class ProjectTagRepository extends EntityRepository implements ProjectTagRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProjectTag::class);
-    }
 
 }

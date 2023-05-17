@@ -3,7 +3,7 @@
 namespace App\Service\Product;
 
 
-use App\Interface\Product\ProductReviewRatingInterface;
+use App\EntityInterface\Product\ProductReviewRatingInterface;
 
 class ProductReviewRatingCalculator implements ProductReviewRatingInterface
 {

@@ -4,11 +4,11 @@ namespace App\Entity\Module;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
-use App\Interface\Module\ModuleInterface;
 use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Module\ModuleInterface;
 
 #[ORM\Entity]
-final class Module extends ObjectSuperEntity implements ObjectInterface, ModuleInterface
+class Module extends ObjectSuperEntity implements ObjectInterface, ModuleInterface
 {
     #[ORM\Column(name: 'asset_id', type: 'integer', nullable: false, options: ['comment' => 'FK to the #__assets table.'])]
     private int $assetId;

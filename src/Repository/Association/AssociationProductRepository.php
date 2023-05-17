@@ -3,12 +3,25 @@
 
 namespace App\Repository\Association;
 
-use App\Interface\Product\ProductAssociationInterface;
-use App\Interface\Vendor\VendorInterface;
-use Doctrine\ORM\EntityRepository;
 
-class AssociationProductRepository extends EntityRepository
+use App\Entity\Association\AssociationProduct;
+use App\EntityInterface\Vendor\VendorInterface;
+use App\RepositoryInterface\Association\AssociationProductRepositoryInterface;
+use App\Repository\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+
+/**
+ * @method AssociationProduct|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AssociationProduct|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AssociationProduct[]    findAll()
+ * @method AssociationProduct[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class AssociationProductRepository extends EntityRepository implements AssociationProductRepositoryInterface
 {
+
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findWithProductsWithinVendor($associationId, VendorInterface $vendor): ProductAssociationInterface
     {
         return $this->createQueryBuilder('o')

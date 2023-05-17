@@ -5,7 +5,8 @@
 
 	use App\Entity\Vendor\Vendor;
 	use App\Entity\Vendor\VendorMedia;
-	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+    use App\RepositoryInterface\Vendor\VendorMediaRepositoryInterface;
+    use App\Repository\EntityRepository;
 	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
@@ -15,7 +16,7 @@
 	 * @method VendorMedia[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
 	 */
 	class VendorMediaRepository
-		extends ServiceEntityRepository
+		extends EntityRepository implements VendorMediaRepositoryInterface
 	{
 		public function __construct(ManagerRegistry $registry)
 		{

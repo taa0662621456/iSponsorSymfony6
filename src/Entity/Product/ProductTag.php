@@ -7,12 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
-use App\Interface\Product\ProductTagInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\EntityInterface\Product\ProductTagInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-final class ProductTag extends ObjectSuperEntity implements ObjectInterface, ProductTagInterface, \JsonSerializable
+class ProductTag extends ObjectSuperEntity implements ObjectInterface, ProductTagInterface, \JsonSerializable
 {
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'productTag')]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]
@@ -20,29 +20,8 @@ final class ProductTag extends ObjectSuperEntity implements ObjectInterface, Pro
 
     public function __construct()
     {
+        parent::__construct();
         $this->productTagProduct = new ArrayCollection();
-    }
-
-    // ManyToMany
-    public function getProductTagProduct(): Collection
-    {
-        return $this->productTagProduct;
-    }
-
-    public function addProductTagProduct(Product $product): void
-    {
-        if (!$this->productTagProduct->contains($product)) {
-            $this->productTagProduct[] = $product;
-        }
-    }
-
-    public function removeProductTagProduct(Product $product): self
-    {
-        if ($this->productTagProduct->removeElement($product)) {
-            $product->removeProductTag($this);
-        }
-
-        return $this;
     }
 
     public function jsonSerialize(): string

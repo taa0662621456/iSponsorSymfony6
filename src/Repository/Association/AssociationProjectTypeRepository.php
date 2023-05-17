@@ -2,12 +2,20 @@
 
 namespace App\Repository\Association;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Association\AssociationProjectType;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Association\AssociationProjectTypeRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
 
-
-class AssociationProjectTypeRepository extends EntityRepository
+/**
+ * @method AssociationProjectType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AssociationProjectType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AssociationProjectType[]    findAll()
+ * @method AssociationProjectType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class AssociationProjectTypeRepository extends EntityRepository implements AssociationProjectTypeRepositoryInterface
 {
+
     public function createListQueryBuilder(string $locale): QueryBuilder
     {
         return $this->createQueryBuilder('o')

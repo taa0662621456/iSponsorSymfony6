@@ -10,22 +10,21 @@ use App\Entity\Order\OrderStorage;
 use JetBrains\PhpStorm\ArrayShape;
 use ApiPlatform\Metadata\ApiResource;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Vendor\VendorInterface;
 use Doctrine\Common\Collections\Collection;
+use App\EntityInterface\Vendor\VendorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
-//    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'vendor:list']]],
-//    itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']], 'put', 'delete',
-//        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class'], ],
+    //    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'vendor:list']]],
+    //    itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']], 'put', 'delete',
+    //        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class'], ],
     normalizationContext: ['groups' => 'read'],
     denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']]
 )]
 #[ORM\Entity]
-final class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorInterface, \JsonSerializable
+class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorInterface, \JsonSerializable
 {
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
@@ -49,29 +48,21 @@ final class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorI
 
     #[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: VendorSecurity::class)]
-    #[Assert\Valid]
     #[Ignore]
     private array|VendorSecurity $vendorSecurity;
 
     #[ORM\OneToOne(mappedBy: 'vendorIbanVendor', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: VendorIban::class)]
-    #[Assert\Valid]
     #[Ignore]
     private VendorIban $vendorIban;
 
     #[ORM\OneToOne(mappedBy: 'vendorEnUsVendor', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: VendorEnUS::class)]
-    #[Assert\Valid]
     #[Ignore]
     private VendorEnUS $vendorEnUs;
 
     #[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Assert\Type(type: Featured::class)]
-    #[Assert\Valid]
     #[Ignore]
     private Featured $vendorFeatured;
 
@@ -127,259 +118,6 @@ final class Vendor extends ObjectSuperEntity implements ObjectInterface, VendorI
         $this->isActive = true;
     }
 
-    public function isActive(): bool
-    {
-        return $this->isActive;
-    }
-
-    public function setIsActive(bool $isActive = false): void
-    {
-        $this->isActive = $isActive;
-    }
-
-    public function getLocale(): ?string
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale): void
-    {
-        $this->locale = $locale;
-    }
-
-    public function getResetCount(): int
-    {
-        return $this->resetCount;
-    }
-
-    public function setResetCount(int $resetCount): self
-    {
-        $this->resetCount = $resetCount;
-
-        return $this;
-    }
-
-    public function getOtpKey(): string
-    {
-        return $this->otpKey;
-    }
-
-    public function setOtpKey(string $otpKey): self
-    {
-        $this->otpKey = $otpKey;
-
-        return $this;
-    }
-
-    public function getOtep(): string
-    {
-        return $this->otep;
-    }
-
-    public function setOtep(string $otep): self
-    {
-        $this->otep = $otep;
-
-        return $this;
-    }
-
-    public function isRequireReset(): bool
-    {
-        return $this->requireReset;
-    }
-
-    public function setRequireReset(bool $requireReset): self
-    {
-        $this->requireReset = $requireReset;
-
-        return $this;
-    }
-
-    // OneToOne
-    public function getVendorSecurity(): VendorSecurity
-    {
-        return $this->vendorSecurity;
-    }
-
-    public function setVendorSecurity(VendorSecurity $vendorSecurity): void
-    {
-        $this->vendorSecurity = $vendorSecurity;
-    }
-
-    // OneToOne
-    public function getVendorEnUs(): VendorEnUS
-    {
-        return $this->vendorEnUs;
-    }
-
-    public function setVendorEnUs(VendorEnUS $vendorEnUs): void
-    {
-        $this->vendorEnUs = $vendorEnUs;
-    }
-
-    // OneToMany
-    public function getVendorDocument(): ArrayCollection
-    {
-        return $this->vendorDocument;
-    }
-
-    public function addVendorDocument(VendorDocument $vendorDocument): self
-    {
-        $this->vendorDocument[] = $vendorDocument;
-
-        return $this;
-    }
-
-    public function removeVendorDocument(VendorDocument $vendorDocument): self
-    {
-        if ($this->vendorDocument->contains($vendorDocument)) {
-            $this->vendorDocument->removeElement($vendorDocument);
-        }
-
-        return $this;
-    }
-
-    // OneToMany
-    public function getVendorMedia(): Collection
-    {
-        return $this->vendorMedia;
-    }
-
-    public function addVendorMedia(VendorMedia $vendorMedia): self
-    {
-        if (!$this->vendorMedia->contains($vendorMedia)) {
-            $this->vendorMedia[] = $vendorMedia;
-        }
-
-        return $this;
-    }
-
-    public function removeVendorMedia(VendorMedia $vendorMedia): self
-    {
-        if ($this->vendorMedia->contains($vendorMedia)) {
-            $this->vendorMedia->removeElement($vendorMedia);
-        }
-
-        return $this;
-    }
-
-    // OneToOne
-    public function getVendorIban(): VendorIban
-    {
-        return $this->vendorIban;
-    }
-
-    public function setVendorIban(VendorIban $vendorIban): void
-    {
-        $this->vendorIban = $vendorIban;
-    }
-
-    // OneToMany
-    public function getVendorOrder(): ArrayCollection
-    {
-        return $this->vendorOrder;
-    }
-
-    public function addVendorOrder(OrderStorage $vendorOrder): self
-    {
-        if (!$this->vendorOrder->contains($vendorOrder)) {
-            $this->vendorOrder[] = $vendorOrder;
-        }
-
-        return $this;
-    }
-
-    public function removeVendorOrder(OrderStorage $vendorOrder): self
-    {
-        if ($this->vendorOrder->contains($vendorOrder)) {
-            $this->vendorOrder->removeElement($vendorOrder);
-        }
-
-        return $this;
-    }
-
-    // ManyToMany
-    public function getVendorFavourite(): Collection
-    {
-        return $this->vendorFavourite;
-    }
-
-    public function addVendorFavourite(VendorFavourite $vendorFavourite): self
-    {
-        if (!$this->vendorFavourite->contains($vendorFavourite)) {
-            $this->vendorFavourite[] = $vendorFavourite;
-        }
-
-        return $this;
-    }
-
-    public function removeVendorFavourite(VendorFavourite $vendorFavourite): self
-    {
-        if ($this->vendorFavourite->contains($vendorFavourite)) {
-            $this->vendorFavourite->removeElement($vendorFavourite);
-        }
-
-        return $this;
-    }
-
-    // OneToOne
-    public function getVendorFeatured(): Featured
-    {
-        return $this->vendorFeatured;
-    }
-
-    public function setVendorFeatured(Featured $vendorFeatured): void
-    {
-        $this->vendorFeatured = $vendorFeatured;
-    }
-
-    // OneToMany
-    public function getVendorItem(): Collection
-    {
-        return $this->vendorItem;
-    }
-
-    public function addVendorItem(OrderItem $vendorItem): self
-    {
-        if (!$this->vendorItem->contains($vendorItem)) {
-            $this->vendorItem[] = $vendorItem;
-        }
-
-        return $this;
-    }
-
-    public function removeVendorItem(OrderItem $vendorItem): self
-    {
-        if ($this->vendorItem->contains($vendorItem)) {
-            $this->vendorItem->removeElement($vendorItem);
-        }
-
-        return $this;
-    }
-
-    // OneToMany
-    public function getVendorMessage(): Collection
-    {
-        return $this->vendorMessage;
-    }
-
-    public function addVendorMessage(VendorMessage $vendorMessage): self
-    {
-        if (!$this->vendorMessage->contains($vendorMessage)) {
-            $this->vendorMessage[] = $vendorMessage;
-        }
-
-        return $this;
-    }
-
-    public function removeVendorMessage(VendorMessage $vendorMessage): self
-    {
-        if ($this->vendorMessage->contains($vendorMessage)) {
-            $this->vendorMessage->removeElement($vendorMessage);
-        }
-
-        return $this;
-    }
 
     #[ArrayShape(['firstTitle' => 'string', 'lastTitle' => 'string'])]
     public function jsonSerialize(): array
