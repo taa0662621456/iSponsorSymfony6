@@ -5,7 +5,11 @@ namespace App\Entity;
 use JetBrains\PhpStorm\Pure;
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Workflow\Transition;
+use Symfony\Component\Workflow\StateMachine;
+use Symfony\Component\Workflow\DefinitionBuilder;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
 
 trait ObjectBaseTrait
 {
@@ -44,40 +48,31 @@ trait ObjectBaseTrait
     private int $lockedBy = 1;
 
     #[ORM\Column(name: 'current_state', type: 'string', nullable: false, options: ['default' => 'submitted', 'comment' => 'Submitted, Spam and Published stats'])]
-    private string $currentState = 'submitted';
+    protected string $currentState = 'submitted';
 
     #[ORM\Column(type: 'integer')]
     #[ORM\Version]
     protected int $version;
 
+    public function __construct()
+    {
+        $definitionBuilder = new DefinitionBuilder();
+        $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
+            ->addTransition(new Transition('transition1', 'state1', 'state2'))
+            ->addTransition(new Transition('transition2', 'state2', 'state3'))
+            ->build();
+
+        $workflow = new StateMachine(
+            $definition,
+            new MethodMarkingStore(true)
+        );
+
+        // Другая логика конструктора...
+    }
+
     public function getId(): int
     {
         return $this->id;
-    }
-
-    public function isPublished(): bool
-    {
-        return $this->published;
-    }
-
-    public function setPublished(bool $published): void
-    {
-        $this->published = $published;
-    }
-
-    public function getSlug(): string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): void
-    {
-        $this->slug = $slug;
-    }
-
-    public function getCreatedAt(): string
-    {
-        return $this->createdAt;
     }
 
     #[ORM\PrePersist]
@@ -87,31 +82,11 @@ trait ObjectBaseTrait
         $this->createdAt = $t->format('Y-m-d H:i:s');
     }
 
-    public function getLastRequestDate(): string
-    {
-        return $this->lastRequestDate;
-    }
-
     public function setLastRequestDate(string $lastRequestDate): void
     {
         // TODO: must be setting date owner request only
         $t = new \DateTime();
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-    }
-
-    public function getCreatedBy(): int
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(int $createdBy): void
-    {
-        $this->createdBy = $createdBy;
-    }
-
-    public function getModifiedAt(): string
-    {
-        return $this->modifiedAt;
     }
 
     #[ORM\PreUpdate]
@@ -121,37 +96,12 @@ trait ObjectBaseTrait
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
     }
 
-    public function getModifiedBy(): int
-    {
-        return $this->modifiedBy;
-    }
-
-    public function setModifiedBy(int $modifiedBy): void
-    {
-        $this->modifiedBy = $modifiedBy;
-    }
-
-    public function getLockedAt(): string
-    {
-        return $this->lockedAt;
-    }
-
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function setLockedAt(): void
     {
         $t = new \DateTime();
         $this->lockedAt = $t->format('Y-m-d H:i:s');
-    }
-
-    public function getLockedBy(): int
-    {
-        return $this->lockedBy;
-    }
-
-    public function setLockedBy(int $lockedBy): void
-    {
-        $this->lockedBy = $lockedBy;
     }
 
     public function getCurrentState(): string
@@ -164,9 +114,40 @@ trait ObjectBaseTrait
         $this->currentState = $currentState ?? 'submitted';
     }
 
-    public function getVersion(): int
+    public function applyTransition($transition)
     {
-        return $this->version;
+        $definitionBuilder = new DefinitionBuilder();
+        $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
+            ->addTransition(new Transition('transition1', 'state1', 'state2'))
+            ->addTransition(new Transition('transition2', 'state2', 'state3'))
+            ->build();
+
+        $workflow = new StateMachine(
+            $definition,
+            new MethodMarkingStore(true)
+        );
+
+        // Проверяем, допустим ли переход
+        if ($workflow->can($this, $transition)) {
+            // Применяем переход
+            $workflow->apply($this, $transition);
+        }
+    }
+
+    public function getAvailableTransitions()
+    {
+        $definitionBuilder = new DefinitionBuilder();
+        $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
+            ->addTransition(new Transition('transition1', 'state1', 'state2'))
+            ->addTransition(new Transition('transition2', 'state2', 'state3'))
+            ->build();
+
+        $workflow = new StateMachine(
+            $definition,
+            new MethodMarkingStore(true)
+        );
+
+        return $workflow->getEnabledTransitions($this);
     }
 
     public function setVersion(int $version): void

@@ -3,7 +3,8 @@
 namespace App\Repository\Project;
 
 use App\Entity\Product\ProductAttachment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Project\ProjectAttachmentRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -12,10 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ProductAttachment[]    findAll()
  * @method ProductAttachment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectAttachmentRepository extends ServiceEntityRepository
+class ProjectAttachmentRepository extends EntityRepository implements ProjectAttachmentRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProductAttachment::class);
-    }
 }

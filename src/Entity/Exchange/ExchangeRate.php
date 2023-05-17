@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Entity\Currency\CurrencyExchange;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Exchange\ExchangeRateInterface;
+use App\EntityInterface\Exchange\ExchangeRateInterface;
 
 #[ORM\Entity]
-final class ExchangeRate extends ObjectSuperEntity implements ObjectInterface, ExchangeRateInterface
+class ExchangeRate extends ObjectSuperEntity implements ObjectInterface, ExchangeRateInterface
 {
     #[ORM\ManyToOne(targetEntity: CurrencyExchange::class)]
     #[ORM\JoinColumn(nullable: false)]

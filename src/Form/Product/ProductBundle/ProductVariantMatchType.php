@@ -2,8 +2,9 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductOptionInterface;
+use App\Dto\Product\ProductOptionValueDTO;
+use App\EntityInterface\Product\ProductInterface;
+use App\EntityInterface\Product\ProductOptionInterface;
 use App\Service\Product\ProductVariantToProductOptionsTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,6 +36,7 @@ final class ProductVariantMatchType extends AbstractType
                     'only_available_values' => true,
                     'product' => $options['product'],
                 ],
+                'data_class' => ProductOptionValueDTO::class
             ])
 
             ->setRequired('product')

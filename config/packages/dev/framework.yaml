@@ -5,6 +5,9 @@ framework:
     profiler: true
     default_locale: '%app_locale%'
 
+    validation:
+        not_compromised_password: false
+
 #    http_client:
 #        default_options:
 #            max_redirects: 7

@@ -5,7 +5,9 @@ namespace App\Repository\Product;
 
 use App\Entity\Product\ProductFavourite;
 use App\Entity\Vendor\VendorFavourite;
-use Doctrine\ORM\EntityRepository;
+use App\RepositoryInterface\Product\ProductFavouriteRepositoryInterface;
+use App\Repository\EntityRepository;
+
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,12 +18,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ProductFavourite[]    findAll()
  * @method ProductFavourite[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductFavouriteRepository extends EntityRepository
+class ProductFavouriteRepository extends EntityRepository implements ProductFavouriteRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProductFavourite::class);
-    }
     /**
      * @param VendorFavourite $vendor
      * @param integer $productId

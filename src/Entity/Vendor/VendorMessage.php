@@ -7,9 +7,9 @@ use App\Entity\ObjectSuperEntity;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Vendor\VendorMessageInterface;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use App\EntityInterface\Vendor\VendorMessageInterface;
 
 /**
  * Class VendorMessage.
@@ -21,7 +21,7 @@ use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
     'vendor_message_conversation' => 'partial',
 ])]
 #[ORM\Entity]
-final class VendorMessage extends ObjectSuperEntity implements ObjectInterface, VendorMessageInterface
+class VendorMessage extends ObjectSuperEntity implements ObjectInterface, VendorMessageInterface
 {
     #[ORM\Column(type: 'text')]
     private mixed $messageMine;
@@ -32,35 +32,4 @@ final class VendorMessage extends ObjectSuperEntity implements ObjectInterface, 
     #[ORM\ManyToOne(targetEntity: VendorConversation::class, inversedBy: 'vendorConversationMessage')]
     private VendorConversation $vendorMessageConversation;
 
-    public function getMessageMine(): mixed
-    {
-        return $this->messageMine;
-    }
-
-    public function setMessageMine($messageMine): void
-    {
-        $this->messageMine = $messageMine;
-    }
-
-    // ManyToOne
-    public function getVendorMessageConversation(): VendorConversation
-    {
-        return $this->vendorMessageConversation;
-    }
-
-    public function setVendorMessageConversation(VendorConversation $vendorMessageConversation): void
-    {
-        $this->vendorMessageConversation = $vendorMessageConversation;
-    }
-
-    // ManyToOne
-    public function getVendorMessage(): Vendor
-    {
-        return $this->vendorMessage;
-    }
-
-    public function cetVendorMessage(Vendor $vendorMessage): void
-    {
-        $this->vendorMessage = $vendorMessage;
-    }
 }

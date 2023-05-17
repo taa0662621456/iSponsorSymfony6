@@ -2,10 +2,9 @@
 
 namespace App\Service\Product;
 
-use App\Interface\Fixture\FixtureFactoryInterface;
-use App\Interface\Product\ProductAssociationTypeRepositoryInterface;
-use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductRepositoryInterface;
+use App\RepositoryInterface\Product\ProductAssociationTypeRepositoryInterface;
+use App\RepositoryInterface\Product\ProductRepositoryInterface;
+use App\Interface\DataFixturesInterface\DataFixturesFactoryInterface;
 use App\Interface\RepositoryInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,9 +20,9 @@ final class ProductsToProductAssociationsTransformer implements DataTransformerI
     private Collection|ProductAssociationTypeRepositoryInterface $productAssociations;
 
     public function __construct(
-        private readonly FixtureFactoryInterface    $productAssociationFactory,
-        private readonly ProductRepositoryInterface $productRepository,
-        private readonly RepositoryInterface        $productAssociationTypeRepository,
+        private readonly DataFixturesFactoryInterface $productAssociationFactory,
+        private readonly ProductRepositoryInterface   $productRepository,
+        private readonly RepositoryInterface          $productAssociationTypeRepository,
     ) {
     }
 

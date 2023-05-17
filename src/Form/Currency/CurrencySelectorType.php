@@ -2,10 +2,7 @@
 
 namespace App\Form\Currency;
 
-use App\Entity\Currency\Currency;
-use App\Interface\CurrencyRepositoryInterface;
 use App\Repository\Currency\CurrencyRepository;
-use Composer\Repository\RepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

@@ -5,61 +5,36 @@ namespace App\Entity\Payment;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Payment\PaymentInterface;
+use App\EntityInterface\Payment\PaymentInterface;
+use Payum\Core\Model\CreditCard;
 
 /**
  * @method array getDetails()
  */
 #[ORM\Entity]
-final class Payment extends ObjectSuperEntity implements ObjectInterface, PaymentInterface
+class Payment extends ObjectSuperEntity implements ObjectInterface, PaymentInterface
 {
-    public function getCreditCard(): void
-    {
-        // TODO: Implement getCreditCard() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private string $number;
 
-    public function setDetails(object $details): void
-    {
-        // TODO: Implement setDetails() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private string $description;
 
-    public function getNumber(): string
-    {
-        // TODO: Implement getNumber() method.
-        return '';
-    }
+    #[ORM\Column(type: 'string')]
+    private string $clientEmail;
 
-    public function getDescription(): string
-    {
-        // TODO: Implement getDescription() method.
-        return '';
-    }
+    #[ORM\Column(type: 'integer')]
+    private int $totalAmount;
 
-    public function getClientEmail(): string
-    {
-        // TODO: Implement getClientEmail() method.
-        return '';
-    }
+    #[ORM\Column(type: 'string')]
+    private string $currencyCode;
 
-    public function getClientId(): void
-    {
-        // TODO: Implement getClientId() method.
-    }
+    #[ORM\Embedded(class: 'CreditCard')]
+    private ?CreditCard $creditCard;
 
-    public function getTotalAmount(): int
-    {
-        // TODO: Implement getTotalAmount() method.
-        return 1;
-    }
+    #[ORM\Column(type: 'json')]
+    private ?array $details;
 
-    public function getCurrencyCode(): string
-    {
-        // TODO: Implement getCurrencyCode() method.
-        return '';
-    }
-
-    public function __call(string $name, array $arguments)
-    {
-        // TODO: Implement @method array getDetails()
-    }
+    #[ORM\Column(type: 'string')]
+    private ?string $clientId;
 }

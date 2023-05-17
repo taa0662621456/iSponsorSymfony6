@@ -5,10 +5,10 @@ namespace App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Product\ProductAttributeInterface;
+use App\EntityInterface\Product\ProductAttributeInterface;
 
 #[ORM\Entity]
-final class ProductAttribute extends ObjectSuperEntity implements ObjectInterface, ProductAttributeInterface
+class ProductAttribute extends ObjectSuperEntity implements ObjectInterface, ProductAttributeInterface
 {
     public const ATTRIBUTE_TYPE_BOOLEAN = 'boolean';
 
@@ -40,8 +40,4 @@ final class ProductAttribute extends ObjectSuperEntity implements ObjectInterfac
 
     private ?array $json;
 
-    public function getType()
-    {
-        // TODO: Implement getType() method.
-    }
 }

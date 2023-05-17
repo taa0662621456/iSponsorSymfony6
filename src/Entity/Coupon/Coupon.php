@@ -4,11 +4,11 @@ namespace App\Entity\Coupon;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
-use App\Interface\Coupon\CouponInterface;
 use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Coupon\CouponInterface;
 
 #[ORM\Entity]
-final class Coupon extends ObjectSuperEntity implements ObjectInterface, CouponInterface
+class Coupon extends ObjectSuperEntity implements ObjectInterface, CouponInterface
 {
     protected ?string $couponCode;
 

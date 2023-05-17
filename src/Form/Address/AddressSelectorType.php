@@ -2,7 +2,8 @@
 
 namespace App\Form\Address;
 
-use App\Interface\Address\AddressRepositoryInterface;
+use App\Dto\Address\AddressDTO;
+use App\EntityInterface\Address\AddressRepositoryInterface;
 use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,6 +31,7 @@ final class AddressSelectorType extends AbstractType
             'customer' => null,
             'label' => false,
             'placeholder' => false,
+            'data_class' => AddressDTO::class,
         ]);
     }
 

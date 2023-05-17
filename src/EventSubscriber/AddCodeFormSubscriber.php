@@ -12,13 +12,13 @@ use Symfony\Component\Form\FormEvents;
 
 final class AddCodeFormSubscriber implements EventSubscriberInterface
 {
-    private string $type;
+    private string $currencyType;
 
     private array $options;
 
-    public function __construct(?string $type = null, array $options = [])
+    public function __construct(string $currencyType = null, array $options = [])
     {
-        $this->type = $type ?? TextType::class;
+        $this->currencyType = $currencyType ?? TextType::class;
         $this->options = $options;
     }
 
@@ -42,7 +42,7 @@ final class AddCodeFormSubscriber implements EventSubscriberInterface
         }
 
         $form = $event->getForm();
-        $form->add('code', $this->type, array_merge(
+        $form->add('code', $this->currencyType, array_merge(
             ['label' => 'ui.code'],
             $this->options,
             ['disabled' => $disabled],

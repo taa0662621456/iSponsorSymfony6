@@ -2,11 +2,10 @@
 
 namespace App\Service\Locale;
 
-use App\Interface\Locale\LocaleInterface;
-use App\Interface\Locale\LocaleProviderInterface;
-use App\Interface\Locale\LocaleRepositoryInterface;
+use App\EntityInterface\Locale\LocaleInterface;
+use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
 
-final class Locale implements LocaleProviderInterface, LocaleInterface
+final class Locale implements LocaleProviderServiceInterface, LocaleInterface
 {
 /*    private string $defaultLocaleCode;
 

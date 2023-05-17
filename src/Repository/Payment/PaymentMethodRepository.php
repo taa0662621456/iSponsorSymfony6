@@ -2,11 +2,17 @@
 
 namespace App\Repository\Payment;
 
-use App\Interface\Payment\PaymentMethodRepositoryInterface;
-use App\Interface\Vendor\VendorInterface;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Payment\Payment;
+use App\EntityInterface\Vendor\VendorInterface;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Payment\PaymentMethodRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
-
+/**
+ * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Payment[]    findAll()
+ * @method Payment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class PaymentMethodRepository extends EntityRepository implements PaymentMethodRepositoryInterface
 {
     public function findByName(string $name, string $locale): array

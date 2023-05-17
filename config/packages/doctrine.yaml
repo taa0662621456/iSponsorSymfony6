@@ -30,21 +30,22 @@ doctrine:
                 charset: utf8mb4
     orm:
         resolve_target_entities:
-            App\Interface\Category\CategoryInterface: App\Entity\Category\Category
-            App\Interface\Category\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
+            App\EntityInterface\Category\CategoryInterface: App\Entity\Category\Category
+            App\EntityInterface\Category\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
             #
-            App\Interface\Project\ProjectInterface: App\Entity\Project\Project
+            App\EntityInterface\Project\ProjectInterface: App\Entity\Project\Project
             #
-            App\Interface\Project\ProjectTypeInterface: App\Entity\Project\ProjectType
-            App\Interface\Product\ProductTypeInterface: App\Entity\Product\ProductType
+            App\EntityInterface\Project\ProjectTypeInterface: App\Entity\Project\ProjectType
+            App\EntityInterface\Product\ProductTypeInterface: App\Entity\Product\ProductType
             #
-            App\Interface\Featured\FeaturedInterface: App\Entity\Featured\Featured
+            App\EntityInterface\Featured\FeaturedInterface: App\Entity\Featured\Featured
             #
-            App\Interface\Product\ProductReviewInterface: App\Entity\Product\ProductReview
-            App\Interface\Product\ProjectReviewInterface: App\Entity\Project\ProjectReview
-
+            App\EntityInterface\Product\ProductReviewInterface: App\Entity\Product\ProductReview
+            App\EntityInterface\Product\ProjectReviewInterface: App\Entity\Project\ProjectReview
         default_entity_manager: postgres
         entity_managers:
+            default:
+                naming_strategy: App\Doctrine\EntityNamingStrategy
             postgres:
                 connection: postgres
                 mappings:
@@ -54,6 +55,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity'
                         prefix: 'App\Entity'
                         alias: App
+                    Address:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Address'
+                        prefix: 'App\Entity\Address'
+                        alias: Address
                     Vendor:
                         is_bundle: false
                         type: attribute

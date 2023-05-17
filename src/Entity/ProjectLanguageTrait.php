@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
-use JetBrains\PhpStorm\Pure;
 use App\Entity\Project\Project;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Project\ProjectEnGb;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -44,19 +44,13 @@ trait ProjectLanguageTrait
     #[Ignore]
     private Project $projectEnGb;
 
-//    #[Pure]
-//    public function __toString()
-//    {
-//        return $this->getProjectTitle();
-//    }
-
     public function getProjectTitle(): string
     {
         return $this->projectTitle;
     }
 
     /**
-     * @return ProjectLanguageTrait
+     * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectTitle(string $projectTitle): self
     {
@@ -71,7 +65,7 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return ProjectLanguageTrait
+     * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectSDesc(string $projectSDesc): self
     {
@@ -86,7 +80,7 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return ProjectLanguageTrait
+     * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectDesc(string $projectDesc): self
     {
@@ -101,7 +95,7 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return ProjectLanguageTrait
+     * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectProductName(string $projectProductName): self
     {
@@ -116,7 +110,7 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return ProjectLanguageTrait
+     * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectProductSDesc(string $projectProductSDesc): self
     {
@@ -131,7 +125,7 @@ trait ProjectLanguageTrait
     }
 
     /**
-     * @return ProjectLanguageTrait
+     * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectProductDesc(string $projectProductDesc): self
     {

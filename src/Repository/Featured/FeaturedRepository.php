@@ -4,7 +4,8 @@
 namespace App\Repository\Featured;
 
 use App\Entity\Featured\Featured;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Featured\FeaturedRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,14 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
 * @method Featured[]    findAll()
 * @method Featured[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
 */
-class FeaturedRepository extends ServiceEntityRepository
+class FeaturedRepository extends EntityRepository implements FeaturedRepositoryInterface
 {
-    /**
-     * ProjectsRepository constructor.
-     */
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Featured::class);
-    }
 
 }

@@ -4,11 +4,7 @@
 namespace App\Form\Promotion;
 
 
-use App\ProductBundle\Form\Type\ProductAutocompleteChoiceType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class PromotionProductScopeType extends AbstractType
 {

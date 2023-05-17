@@ -4,10 +4,9 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorConversation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method VendorConversation|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,7 +14,7 @@ use function Doctrine\ORM\QueryBuilder;
  * @method VendorConversation[]    findAll()
  * @method VendorConversation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorConversationRepository extends ServiceEntityRepository
+class VendorConversationRepository extends EntityRepository implements VendorConversationRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

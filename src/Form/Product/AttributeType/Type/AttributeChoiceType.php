@@ -2,7 +2,7 @@
 
 namespace App\Form\Product\AttributeType\Type;
 
-use App\Interface\Product\ProductAttributeRepositoryInterface;
+use App\RepositoryInterface\Product\ProductAttributeRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

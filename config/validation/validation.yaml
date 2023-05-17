@@ -1,0 +1,9 @@
+validation:
+  App\Entity\Vendor:
+    properties:
+      propertyName:
+          - Symfony\Component\Validator\Constraints\NotBlank: ~
+      anotherProperty:
+        - Symfony\Component\Validator\Constraints\Length:
+            min: 3
+            max: 255

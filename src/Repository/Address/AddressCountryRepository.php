@@ -2,15 +2,24 @@
 
 namespace App\Repository\Address;
 
-use App\Interface\Address\AddressInterface;
-use App\Interface\Country\AddressCountryRepositoryInterface;
-use App\Interface\CustomerInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Address\Address;
+use App\Entity\Address\AddressCountry;
+use App\EntityInterface\Address\AddressInterface;
+use App\EntityInterface\Customer\CustomerInterface;
+use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
-class AddressCountryRepository implements AddressCountryRepositoryInterface
+/**
+ * @method Address|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Address|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Address[]    findAll()
+ * @method Address[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class AddressCountryRepository extends EntityRepository implements AddressCountryRepositoryInterface
 {
+
     public function findByCustomer(CustomerInterface $customer): array
     {
         return $this->createQueryBuilder('o')

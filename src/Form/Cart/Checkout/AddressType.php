@@ -2,9 +2,8 @@
 
 namespace App\Form\Cart\Checkout;
 
+use App\EntityInterface\Address\AddressComparatorInterface;
 use App\Form\Customer\CustomerCheckoutGuestType;
-use App\Interface\Order\OrderInterface;
-use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -152,7 +151,7 @@ final class AddressType extends AbstractType
 
     public function getBlockPrefix(): string
     {
-        return 'sylius_checkout_address';
+        return 'checkout_address';
     }
 
     private function areAddressesDifferent(?AddressInterface $firstAddress, ?AddressInterface $secondAddress): bool

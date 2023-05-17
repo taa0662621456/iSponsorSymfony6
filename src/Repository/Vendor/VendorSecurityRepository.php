@@ -3,7 +3,8 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorSecurity;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Vendor\VendorSecurityRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method VendorSecurity[]    findAll()
  * @method VendorSecurity[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorSecurityRepository extends ServiceEntityRepository
+class VendorSecurityRepository extends EntityRepository implements VendorSecurityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

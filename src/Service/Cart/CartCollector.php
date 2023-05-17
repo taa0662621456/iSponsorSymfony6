@@ -2,10 +2,7 @@
 
 namespace App\Service\Cart;
 
-use App\Exception\CartNotFoundException;
-use App\Interface\Cart\CartContextInterface;
-use App\Interface\Order\OrderInterface;
-use App\Interface\Order\OrderItemInterface;
+use App\ServiceInterface\Cart\CartContextServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
@@ -15,7 +12,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
  */
 final class CartCollector extends DataCollector
 {
-    public function __construct(private readonly CartContextInterface $cart)
+    public function __construct(private readonly CartContextServiceInterface $cart)
     {
         $this->data = [];
     }

@@ -4,7 +4,8 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorIban;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Vendor\VendorIbanRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method VendorIban[]    findAll()
  * @method VendorIban[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorIbanRepository extends ServiceEntityRepository
+class VendorIbanRepository extends EntityRepository implements VendorIbanRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

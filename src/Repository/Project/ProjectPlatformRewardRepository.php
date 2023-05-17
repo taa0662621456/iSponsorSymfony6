@@ -3,7 +3,8 @@
 namespace App\Repository\Project;
 
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Project\ProjectPlatformRewardRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Project\ProjectPlatformReward;
 
@@ -13,10 +14,6 @@ use App\Entity\Project\ProjectPlatformReward;
  * @method ProjectPlatformReward[]    findAll()
  * @method ProjectPlatformReward[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectPlatformRewardRepository extends ServiceEntityRepository
+class ProjectPlatformRewardRepository extends EntityRepository implements ProjectPlatformRewardRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProjectPlatformReward::class);
-    }
 }

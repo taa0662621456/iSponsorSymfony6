@@ -4,7 +4,8 @@
 	namespace App\Repository\Vendor;
 
 	use App\Entity\Vendor\VendorDocument;
-	use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+    use App\RepositoryInterface\Vendor\VendorDocumentRepositoryInterface;
+    use App\Repository\EntityRepository;
 	use Doctrine\Persistence\ManagerRegistry;
 
 	/**
@@ -14,7 +15,7 @@
 	 * @method VendorDocument[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
 	 */
 	class VendorDocumentRepository
-		extends ServiceEntityRepository
+		extends EntityRepository implements VendorDocumentRepositoryInterface
 	{
 		public function __construct(ManagerRegistry $registry)
 		{

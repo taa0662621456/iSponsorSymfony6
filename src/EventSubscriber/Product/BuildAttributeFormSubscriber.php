@@ -2,9 +2,10 @@
 
 namespace App\EventSubscriber\Product;
 
-use App\Interface\Locale\LocaleInterface;
-use App\Interface\Product\ProductAttributeValueInterface;
-use App\Interface\Product\ProductInterface;
+use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
+
+use App\EntityInterface\Product\ProductAttributeValueInterface;
+use App\EntityInterface\Product\ProductInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
@@ -14,7 +15,7 @@ use Webmozart\Assert\Assert;
 final class BuildAttributeFormSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly LocaleInterface $locale,
+        private readonly LocaleProviderServiceInterface $locale,
     ) {
     }
 

@@ -4,7 +4,8 @@
 namespace App\Repository\Project;
 
 use App\Entity\Project\ProjectEnGb;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Project\ProjectEnGbRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,12 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ProjectEnGb[]    findAll()
  * @method ProjectEnGb[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProjectEnGbRepository extends ServiceEntityRepository
+class ProjectEnGbRepository extends EntityRepository implements ProjectEnGbRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, ProjectEnGb::class);
-    }
 
     // /**
     //  * @return ProjectsEnGb[] Returns an array of ProjectsEnGb objects

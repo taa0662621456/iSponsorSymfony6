@@ -1,15 +1,28 @@
 parameters:
-  symfony:
-    container_xml_path: var/cache/dev/App_KernelDevDebugContainer.xml
-  level: 8
-  fileExtensions:
-    - php
-  paths:
-    - src
-    - tests
-  autoload_files:
-      - bin/.phpunit/phpunit/vendor/autoload.php
+    level: 8
+    paths:
+        - src
+        - tests
+        - vendor/symfony/framework-bundle
+services:
+    -
+        class: Symfony\Bridge\PhpStan\Type\Symfony\SymfonyContainerTypeExtension
+        tags:
+            - phpstan.broker.customMethodsExtension
+
+    -
+        class: Symfony\Bridge\PhpStan\Type\Symfony\ServiceLocatorDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
+    -
+        class: Symfony\Bridge\PhpStan\Type\Symfony\ServiceSubscriberDynamicReturnTypeExtension
+        tags:
+            - phpstan.broker.dynamicMethodReturnTypeExtension
+            - phpstan.broker.dynamicStaticMethodReturnTypeExtension
+
 includes:
-  - vendor/phpstan/phpstan-symfony/extension.neon
-  - vendor/phpstan/phpstan-symfony/rules.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    # Добавьте сюда другие включаемые файлы или расширения PHPStan
 

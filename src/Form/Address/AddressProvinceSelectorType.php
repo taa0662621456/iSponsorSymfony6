@@ -2,9 +2,9 @@
 
 namespace App\Form\Address;
 
-use App\Interface\Address\AddressCountryInterface;
-use App\Interface\Address\AddressProvinceRepositoryInterface;
-use App\Interface\RepositoryInterface;
+use App\Dto\Address\AddressProvinceDTO;
+use App\EntityInterface\Address\AddressCountryInterface;
+use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
@@ -32,6 +32,8 @@ final class AddressProvinceSelectorType extends AbstractType
             'country' => null,
             'label' => 'form.address.province',
             'placeholder' => 'form.province.select',
+            'data_class' => AddressProvinceDTO::class,
+
         ]);
         $resolver->addAllowedTypes('country', ['null', AddressCountryInterface::class]);
     }

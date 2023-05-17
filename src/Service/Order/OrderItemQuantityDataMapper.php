@@ -2,6 +2,7 @@
 
 namespace App\Service\Order;
 
+use App\Interface\Order\OrderItemQuantityModifierInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataMapperInterface;
 

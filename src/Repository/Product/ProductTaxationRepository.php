@@ -3,11 +3,17 @@
 
 namespace App\Repository\Product;
 
-use App\Interface\Product\ProductTaxationInterface;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Product\ProductTaxation;
+use App\EntityInterface\Product\ProductTaxationInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-
-class ProductTaxationRepository extends EntityRepository
+/**
+ * @method ProductTaxation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductTaxation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductTaxation[]    findAll()
+ * @method ProductTaxation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class ProductTaxationRepository extends EntityRepository implements ProductTaxationInterface
 {
     /**
      * @throws NonUniqueResultException

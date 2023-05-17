@@ -2,11 +2,11 @@
 
 namespace App\Form\Product\ProductBundle;
 
+use App\EntityInterface\Locale\LocaleInterface;
 use App\EventSubscriber\AddCodeFormSubscriber;
 use App\EventSubscriber\Product\ProductOptionFieldSubscriber;
 use App\EventSubscriber\Product\SimpleProductSubscriber;
-use App\Interface\Locale\LocaleInterface;
-use App\Interface\Product\ProductVariantResolverInterface;
+use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -18,12 +18,11 @@ final class ProductType extends AbstractType
      * @param array|string[] $validationGroups
      */
     public function __construct(
-        private readonly ProductVariantResolverInterface $variantResolver,
+        private readonly ProductVariantResolverServiceInterface $variantResolver,
         private readonly LocaleInterface $locale,
         string $dataClass = 'data_class',
         array $validationGroups = [],
     ) {
-        parent::__construct($dataClass, $validationGroups);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

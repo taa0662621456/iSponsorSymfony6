@@ -3,14 +3,14 @@
 namespace Vendor;
 
 
-use App\Factory\Vendor\VendorEnUsFactory;
+use App\Factory\Vendor\VendorEnUsFixtureFactory;
 use PHPUnit\Framework\TestCase;
 
 class VendorEnTest extends TestCase
 {
     public function vendorTest()
     {
-        $vendorEn = VendorEnUsFactory::createVendorEnUsEntity('Mike', 'Douglas');
+        $vendorEn = VendorEnUsFixtureFactory::createVendorEnUsEntity('Mike', 'Douglas');
 
         $this->assertEquals('test firstTitle', $vendorEn->getFirstTitle());
         $this->assertEquals('test lastTitle', $vendorEn->getLastTitle());

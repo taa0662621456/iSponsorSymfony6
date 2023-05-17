@@ -3,14 +3,21 @@
 
 namespace App\Repository\Payment;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Payment\Payment;
+use App\EntityInterface\Customer\CustomerInterface;
+use App\EntityInterface\Payment\PaymentInterface;
+use App\RepositoryInterface\Payment\PaymentRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
-
-
-
-class PaymentRepository extends EntityRepository
+/**
+ * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Payment[]    findAll()
+ * @method Payment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class PaymentRepository extends EntityRepository implements PaymentRepositoryInterface
 {
     public function createListQueryBuilder(): QueryBuilder
     {

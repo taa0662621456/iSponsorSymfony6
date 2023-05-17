@@ -1,14 +1,22 @@
 <?php
 
-
 namespace App\Repository\Association;
 
-use App\Interface\Product\ProductAssociationInterface;
-use App\Interface\Vendor\VendorInterface;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Association\AssociationProject;
+use App\EntityInterface\Product\ProductAssociationInterface;
+use App\EntityInterface\Vendor\VendorInterface;
+use App\RepositoryInterface\Association\AssociationProjectRepositoryInterface;
+use App\Repository\EntityRepository;
 
-class AssociationProjectRepository extends EntityRepository
+/**
+ * @method AssociationProject|null find($id, $lockMode = null, $lockVersion = null)
+ * @method AssociationProject|null findOneBy(array $criteria, array $orderBy = null)
+ * @method AssociationProject[]    findAll()
+ * @method AssociationProject[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class AssociationProjectRepository extends EntityRepository implements AssociationProjectRepositoryInterface
 {
+
     public function findWithProductsWithinVendor($associationId, VendorInterface $vendor): ProductAssociationInterface
     {
         return $this->createQueryBuilder('o')

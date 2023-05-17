@@ -225,7 +225,7 @@ trait AttachmentTrait
         return $this->file;
     }
 
-    public function setFile(?File $file = null): void
+    public function setFile(File $file = null): void
     {
         $this->file = $file;
     }

@@ -2,9 +2,9 @@
 
 namespace App\EventSubscriber;
 
-use App\Interface\CustomerInterface;
-use App\Interface\Vendor\VendorRepositoryInterface;
-use Composer\Repository\RepositoryInterface;
+use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
+
+use App\Interface\Customer\CustomerInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;

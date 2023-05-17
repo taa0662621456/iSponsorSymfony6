@@ -7,6 +7,7 @@ namespace App\Form\Product\AttributeType\Type;
 
 
 
+use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;

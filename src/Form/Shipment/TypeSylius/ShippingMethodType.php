@@ -38,7 +38,7 @@ final class ShippingMethodType extends AbstractResourceType
                 'required' => false,
                 'label' => 'form.shipping_method.position',
             ])
-            ->add('category', ShippingCategoryChoiceType::class, [
+            ->add('category', ShipmentCategoryChoiceType::class, [
                 'required' => false,
                 'placeholder' => 'ui.no_requirement',
                 'label' => 'form.shipping_method.category',

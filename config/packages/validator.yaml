@@ -1,17 +1,8 @@
 framework:
     validation:
         email_validation_mode: html5
+        enable_annotations: true
 
-        # Enables validator auto-mapping support.
-        # For instance, basic validation constraints will be inferred from Doctrine's metadata.
-        #auto_mapping:
-        #    App\Entity\: []
-
-
-# https://question-it.com/questions/3145815/proverka-ogranichenij-symfony-5-nastrojka-soobschenija-ob-oshibke
-#    App\Entity\User:
-#        constraints:
-#            - App\Validator\Constraints\ConstraintPassword: ~
-#        properties:
-#            plainPassword:
-#                - Symfony\Component\Validator\Constraints\NotCompromisedPassword: ~
+        auto_mapping:
+            App\Entity\: ['src/Entity']
+            App\Dto\: ['src/Dto']

@@ -4,6 +4,7 @@
 namespace App\Service\Product\Constraints;
 
 
+use App\Form\Product\AttributeType\SelectAttributeType;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Webmozart\Assert\Assert;

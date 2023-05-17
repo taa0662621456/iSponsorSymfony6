@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\Interface\Object\ObjectApiResourceInterface;
-use App\Interface\Address\AddressStreetSecondLineInterface;
+use App\EntityInterface\Address\AddressStreetSecondLineInterface;
 
 #[ORM\Entity]
-final class AddressStreetSecondLine extends ObjectSuperEntity implements ObjectInterface, ObjectApiResourceInterface, AddressStreetSecondLineInterface
+class AddressStreetSecondLine extends ObjectSuperEntity implements ObjectInterface, ObjectApiResourceInterface, AddressStreetSecondLineInterface
 {
 }

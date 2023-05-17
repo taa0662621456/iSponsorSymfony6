@@ -3,7 +3,7 @@
 namespace Vendor;
 
 
-use App\Factory\Vendor\VendorEnUsFactory;
+use App\Factory\Vendor\VendorEnUsFixtureFactory;
 use App\Repository\Vendor\VendorEnGbRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -15,7 +15,7 @@ class VendorEnRepositoryTest extends KernelTestCase
 
     public function vendorEnCreateTest()
     {
-        $vendorEn = VendorEnUsFactory::createVendorEnUsEntity('Mike', 'Douglas');
+        $vendorEn = VendorEnUsFixtureFactory::createVendorEnUsEntity('Mike', 'Douglas');
 
         $this->entityManager->persist($vendorEn);
         $this->entityManager->flush();

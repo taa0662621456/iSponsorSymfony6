@@ -5,6 +5,8 @@ namespace App\Form\Product\ProductBundle;
 
 
 
+use Symfony\Component\Form\FormBuilderInterface;
+
 final class ProductOptionValueTranslationType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

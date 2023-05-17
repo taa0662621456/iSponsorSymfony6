@@ -5,6 +5,9 @@ namespace App\Form\Shipment\TypeSylius;
 
 
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+
 final class ShipmentShipType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 
 #[ORM\Entity]
-final class VendorRememberMeToken extends ObjectSuperEntity
+class VendorRememberMeToken extends ObjectSuperEntity
 {
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
@@ -26,58 +26,8 @@ final class VendorRememberMeToken extends ObjectSuperEntity
 
     public function __construct()
     {
+        parent::__construct();
         $t = new \DateTime();
         $this->lastUsed = $t->format('Y-m-d H:i:s');
-    }
-
-    public function getSeries(): int
-    {
-        return $this->series;
-    }
-
-    public function setSeries(int $series): void
-    {
-        $this->series = $series;
-    }
-
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    public function setValue(string $value): void
-    {
-        $this->value = $value;
-    }
-
-    public function getLastUsed(): string
-    {
-        return $this->lastUsed;
-    }
-
-    public function setLastUsed(string $lastUsed): void
-    {
-        $t = new \DateTime();
-        $this->lastUsed = $t->format('Y-m-d H:i:s');
-    }
-
-    public function getClass(): string
-    {
-        return $this->class;
-    }
-
-    public function setClass(string $class): void
-    {
-        $this->class = $class;
-    }
-
-    public function getUsername(): string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): void
-    {
-        $this->username = $username;
     }
 }

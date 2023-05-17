@@ -3,7 +3,7 @@
 
 namespace App\Form\Project;
 
-use App\Entity\Project\ProductAttachment;
+use App\Entity\Product\ProductAttachment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;

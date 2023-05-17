@@ -5,10 +5,10 @@ namespace App\Entity\Project;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Project\ProjectPlatformRewardInterface;
+use App\EntityInterface\Project\ProjectPlatformRewardInterface;
 
 #[ORM\Entity]
-final class ProjectPlatformReward extends ObjectSuperEntity implements ObjectInterface, ProjectPlatformRewardInterface
+class ProjectPlatformReward extends ObjectSuperEntity implements ObjectInterface, ProjectPlatformRewardInterface
 {
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectPlatformReward')]
     private Project $projectId;
@@ -19,33 +19,11 @@ final class ProjectPlatformReward extends ObjectSuperEntity implements ObjectInt
     #[ORM\Column(name: 'commission_end_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private string $commissionEndTime;
 
-    public function getProjectId(): Project
+    public function __construct()
     {
-        return $this->projectId;
-    }
+        parent::__construct();
+        $this->commissionStartTime = date('Y-m-d H:i:s');
+        $this->commissionEndTime = date('Y-m-d H:i:s');
 
-    public function setProjectId($projectId): void
-    {
-        $this->projectId = $projectId;
-    }
-
-    public function getCommissionStartTime(): string
-    {
-        return $this->commissionStartTime;
-    }
-
-    public function setCommissionStartTime(string $commissionStartTime): void
-    {
-        $this->commissionStartTime = $commissionStartTime;
-    }
-
-    public function getCommissionEndTime(): string
-    {
-        return $this->commissionEndTime;
-    }
-
-    public function setCommissionEndTime(string $commissionEndTime): void
-    {
-        $this->commissionEndTime = $commissionEndTime;
     }
 }

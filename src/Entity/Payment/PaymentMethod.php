@@ -5,53 +5,37 @@ namespace App\Entity\Payment;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Payment\PaymentMethodInterface;
+use App\EntityInterface\Payment\PaymentMethodInterface;
 
 #[ORM\Entity]
-final class PaymentMethod extends ObjectSuperEntity implements ObjectInterface, PaymentMethodInterface
+class PaymentMethod extends ObjectSuperEntity implements ObjectInterface, PaymentMethodInterface
 {
-    public function getGatewayConfig()
-    {
-        // TODO: Implement getGatewayConfig() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private mixed $code;
 
-    public function setCode(mixed $code)
-    {
-        // TODO: Implement setCode() method.
-    }
+    #[ORM\Column(type: 'boolean')]
+    private mixed $enabled;
 
-    public function setEnabled(mixed $enabled)
-    {
-        // TODO: Implement setEnabled() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private mixed $currentLocale;
 
-    public function setCurrentLocale(mixed $localeCode)
-    {
-        // TODO: Implement setCurrentLocale() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private mixed $fallbackLocale;
 
-    public function setFallbackLocale(mixed $localeCode)
-    {
-        // TODO: Implement setFallbackLocale() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private mixed $name;
 
-    public function setName(mixed $name)
-    {
-        // TODO: Implement setName() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private mixed $description;
 
-    public function setDescription(mixed $description)
-    {
-        // TODO: Implement setDescription() method.
-    }
+    #[ORM\Column(type: 'string')]
+    private mixed $instructions;
 
-    public function setInstructions(mixed $instructions)
-    {
-        // TODO: Implement setInstructions() method.
-    }
+    #[ORM\ManyToMany(targetEntity: 'Channel')]
+    private mixed $channels;
 
-    public function addChannel(mixed $channel)
-    {
-        // TODO: Implement addChannel() method.
-    }
+    #[ORM\Embedded(class: 'GatewayConfig')]
+    private mixed $gatewayConfig;
+
+
 }

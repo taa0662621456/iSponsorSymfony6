@@ -2,7 +2,7 @@
 
 namespace App\Command\Vendor;
 
-use App\Factory\Vendor\VendorEnUsFactory;
+use App\Factory\Vendor\VendorEnUsFixtureFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -42,7 +42,7 @@ class VendorEnGbCreateCommand extends Command
             $io->note(sprintf('Content: %s', $lastTitle));
         }
 
-        $vendorEnUs = VendorEnUsFactory::createVendorEnUsEntity($firstTitle, $lastTitle);
+        $vendorEnUs = VendorEnUsFixtureFactory::createVendorEnUsEntity($firstTitle, $lastTitle);
         $this->manager->persist($vendorEnUs);
         $this->manager->flush();
 

@@ -7,8 +7,8 @@ use App\Entity\Vendor\VendorDocument;
 use App\Entity\Vendor\VendorEnUS;
 use App\Entity\Vendor\VendorFavourite;
 use App\Entity\Vendor\VendorIban;
-use App\Interface\Vendor\VendorRepositoryInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method Vendor[]    findAll()
  * @method Vendor[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorRepository extends ServiceEntityRepository implements VendorRepositoryInterface
+class VendorRepository extends EntityRepository implements VendorRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

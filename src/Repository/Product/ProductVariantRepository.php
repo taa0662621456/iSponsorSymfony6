@@ -2,13 +2,21 @@
 
 namespace App\Repository\Product;
 
-use App\Interface\Product\ProductPropertyInterface;
-use App\Interface\Product\ProductVariantInterface;
-use App\Interface\Product\ProductVariantRepositoryInterface;
-use App\Interface\Taxation\TaxationInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use App\Entity\Product\Product;
 
+use App\EntityInterface\Product\ProductPropertyInterface;
+use App\EntityInterface\Product\ProductVariantInterface;
+use App\EntityInterface\Promotion\PromotionCatalogInterface;
+use App\EntityInterface\Taxation\TaxationInterface;
+use App\RepositoryInterface\Product\ProductVariantRepositoryInterface;
+use App\Repository\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
+/**
+ * @method Product|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Product|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Product[]    findAll()
+ * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class ProductVariantRepository extends EntityRepository implements ProductVariantRepositoryInterface
 {
     public function createQueryBuilderByProductId(string $locale, $productId): QueryBuilder
@@ -194,7 +202,7 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
 
     public function createCatalogPromotionListQueryBuilder(
         string $locale,
-        CatalogPromotionInterface $catalogPromotion,
+        PromotionCatalogInterface $catalogPromotion,
     ): QueryBuilder {
         return $this->createQueryBuilder('o')
             ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')

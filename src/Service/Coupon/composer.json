@@ -1,0 +1,14 @@
+{
+  "name": "vendor_name/Coupon",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Admin",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+  }
+}

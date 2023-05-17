@@ -2,7 +2,7 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\Interface\Product\ProductOptionRepositoryInterface;
+use App\RepositoryInterface\Product\ProductOptionRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

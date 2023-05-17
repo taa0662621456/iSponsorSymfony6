@@ -2,13 +2,18 @@
 
 namespace App\Repository\Product;
 
-use App\Interface\Product\ProductReviewInterface;
-use App\Interface\Vendor\VendorInterface;
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Product\ProductReview;
+use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
-
-class ProductReviewRepository extends EntityRepository
+/**
+ * @method ProductReview|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductReview|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductReview[]    findAll()
+ * @method ProductReview[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+class ProductReviewRepository extends EntityRepository implements ProductReviewRepositoryInterface
 {
     public const STATUS_ACCEPTED = '';
 

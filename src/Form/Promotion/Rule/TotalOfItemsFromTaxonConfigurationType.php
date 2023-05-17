@@ -2,9 +2,9 @@
 
 namespace App\Form\Promotion\Rule;
 
+use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 use App\Form\Product\ProductTaxationAutocompleteSelectorType;
-use App\Interface\Taxation\TaxationRepositoryInterface;
-use App\Service\ResourceToIdentifierTransformer;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,7 +30,7 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
         ;
 
         $builder->get('taxon')->addModelTransformer(
-            new ReversedTransformer(new ResourceToIdentifierTransformer($this->taxationRepository, 'code')),
+            new ReversedTransformer(new ResourceIdentifierTransformer($this->taxationRepository, 'code')),
         );
     }
 

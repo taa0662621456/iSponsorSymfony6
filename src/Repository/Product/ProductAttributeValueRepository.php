@@ -2,17 +2,24 @@
 
 namespace App\Repository\Product;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\Product\ProductAttachment;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Product\ProductAttributeValueRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
 
-
+/**
+ * @method ProductAttachment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductAttachment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductAttachment[]    findAll()
+ * @method ProductAttachment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class ProductAttributeValueRepository extends EntityRepository implements ProductAttributeValueRepositoryInterface
 {
-    public function findByJsonChoiceKey(string $choiceKey): array
+    public function findByJsonChoiceKey($key): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.json LIKE :key')
-            ->setParameter('key', '%"' . $choiceKey . '"%')
+            ->setParameter('key', '%"' . $key . '"%')
             ->getQuery()
             ->getResult()
         ;

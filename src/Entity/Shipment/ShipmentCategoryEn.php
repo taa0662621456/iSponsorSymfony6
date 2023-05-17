@@ -8,6 +8,6 @@ use App\Interface\Object\ObjectInterface;
 use App\Interface\Object\ObjectTileInterface;
 
 #[ORM\Entity]
-final class ShipmentCategoryEn extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
+class ShipmentCategoryEn extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
 {
 }

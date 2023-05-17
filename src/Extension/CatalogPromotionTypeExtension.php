@@ -5,9 +5,11 @@ namespace App\Extension;
 
 
 
+use Symfony\Component\Form\AbstractTypeExtension;
+
 final class CatalogPromotionTypeExtension extends AbstractTypeExtension
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('channels', ChannelChoiceType::class, [

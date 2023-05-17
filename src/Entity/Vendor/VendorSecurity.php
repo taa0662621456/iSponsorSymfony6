@@ -2,6 +2,7 @@
 
 namespace App\Entity\Vendor;
 
+use Faker\Factory;
 use App\Entity\OAuthTrait;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,15 +20,15 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 #[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
 
 #[ORM\Entity]
-final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface, \Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
+class VendorSecurity extends ObjectSuperEntity implements ObjectInterface, \Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
     use OAuthTrait;
 
     #[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
-    private string $email = 'exemple@domail.com';
+    private string $email;
 
-    #[ORM\Column(name: 'phone', type: 'string', unique: true, nullable: false)]
-    private string $phone;
+    #[ORM\Column(name: 'phone', type: 'string', unique: false, nullable: true)]
+    private string $phone = '0 000 00 00';
 
     #[ORM\Column(name: 'username', type: 'string', length: 255)]
     private string $username;
@@ -82,171 +83,25 @@ final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface,
      */
     public function __construct()
     {
+        parent::__construct();
+
+        $faker = Factory::create();
+
         $t = new \DateTime();
         $uuid = (string) Uuid::v4();
         $this->username = $uuid;
+
+        $this->email = $faker->unique()->email;
+        $this->phone = $faker->unique()->phoneNumber;
+
         $codeGenerator = new ConfirmationCodeGenerator();
         $this->activationCode = $codeGenerator->getConfirmationCode();
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
     }
 
-    public function getUser(): string
-    {
-        return $this->username;
-    }
-
-    public function getUsername(): string
-    {
-        return $this->email;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
-
-    public function getApiKey(): string
-    {
-        return $this->apiKey;
-    }
-
-    public function setApiKey(string $apiKey): self
-    {
-        $this->apiKey = $apiKey;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPhone(): string
-    {
-        return $this->phone;
-    }
-
     public function setPhone(string $phone): self
     {
         $this->phone = preg_replace("/[\'^£$%&*()}{@#~?><>,|=_+¬-]/", '', $phone);
-
-        return $this;
-    }
-
-    public function getSendEmail(): ?bool
-    {
-        return $this->sendEmail;
-    }
-
-    public function setSendEmail(?bool $sendEmail): self
-    {
-        $this->sendEmail = $sendEmail;
-
-        return $this;
-    }
-
-    public function getActivationCode(): string
-    {
-        return $this->activationCode;
-    }
-
-    public function setActivationCode(string $activationCode): self
-    {
-        $this->activationCode = $activationCode;
-
-        return $this;
-    }
-
-    public function getLocale(): string
-    {
-        return $this->locale;
-    }
-
-    public function setLocale(string $locale): self
-    {
-        $this->locale = $locale;
-
-        return $this;
-    }
-
-    public function getParams(): string
-    {
-        return $this->params;
-    }
-
-    public function setParams(string $params): self
-    {
-        $this->params = $params;
-
-        return $this;
-    }
-
-    public function getLastResetTime(): string
-    {
-        return $this->lastResetTime;
-    }
-
-    public function setLastResetTime(string $lastResetTime): self
-    {
-        $this->lastResetTime = $lastResetTime;
-
-        return $this;
-    }
-
-    public function getResetCount(): int
-    {
-        return $this->resetCount;
-    }
-
-    public function setResetCount(int $resetCount): self
-    {
-        $this->resetCount = $resetCount;
-
-        return $this;
-    }
-
-    public function getOtpKey(): string
-    {
-        return $this->otpKey;
-    }
-
-    public function setOtpKey(string $otpKey): self
-    {
-        $this->otpKey = $otpKey;
-
-        return $this;
-    }
-
-    public function getOtep(): string
-    {
-        return $this->otep;
-    }
-
-    public function setOtep(string $otep): self
-    {
-        $this->otep = $otep;
-
-        return $this;
-    }
-
-    public function isRequireReset(): bool
-    {
-        return $this->requireReset;
-    }
-
-    public function setRequireReset(bool $requireReset): self
-    {
-        $this->requireReset = $requireReset;
 
         return $this;
     }
@@ -259,12 +114,6 @@ final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface,
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
 
     public function getPassword(): string
     {
@@ -288,18 +137,6 @@ final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface,
     public function isPasswordMail(): bool
     {
         return $this->email !== $this->plainPassword;
-    }
-
-    public function getPlainPassword(): string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(string $password): self
-    {
-        $this->plainPassword = $password;
-
-        return $this;
     }
 
     public function eraseCredentials(): self
@@ -326,19 +163,6 @@ final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface,
             $this->email,
             $this->password
         ] = unserialize($data, ['allowed_class' => false]);
-    }
-
-    // OneToOne
-    public function getVendorSecurity(): Vendor
-    {
-        return $this->vendorSecurity;
-    }
-
-    public function setVendorSecurity(Vendor $vendorSecurity): self
-    {
-        $this->vendorSecurity = $vendorSecurity;
-
-        return $this;
     }
 
     public function getSalt()
@@ -370,11 +194,6 @@ final class VendorSecurity extends ObjectSuperEntity implements ObjectInterface,
     public function isTotpAuthenticationEnabled(): bool
     {
         return $this->totpKey ? true : false;
-    }
-
-    public function getTotpAuthenticationUsername(): string
-    {
-        return $this->username;
     }
 
     public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface

@@ -5,10 +5,10 @@ namespace App\Entity\Product;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Product\ProductStorageInterface;
+use App\EntityInterface\Product\ProductStorageInterface;
 
 #[ORM\Entity]
-final class ProductStorage extends ObjectSuperEntity implements ObjectInterface, ProductStorageInterface
+class ProductStorage extends ObjectSuperEntity implements ObjectInterface, ProductStorageInterface
 {
     #[ORM\Column(name: 'product_sku', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productSku = 0;
@@ -57,146 +57,5 @@ final class ProductStorage extends ObjectSuperEntity implements ObjectInterface,
         parent::__construct();
         $t = new \DateTime();
         $this->productAvailableDate = $t->format('Y-m-d H:i:s');
-    }
-
-    public function getProductSku(): int
-    {
-        return $this->productSku;
-    }
-
-    public function setProductSku(int $productSku): void
-    {
-        $this->productSku = $productSku;
-    }
-
-    public function getProductGtin(): int
-    {
-        return $this->productGtin;
-    }
-
-    public function setProductGtin(int $productGtin): void
-    {
-        $this->productGtin = $productGtin;
-    }
-
-    public function getProductMpn(): int
-    {
-        return $this->productMpn;
-    }
-
-    public function setProductMpn(int $productMpn): void
-    {
-        $this->productMpn = $productMpn;
-    }
-
-    public function getProductInStock(): int
-    {
-        return $this->productInStock;
-    }
-
-    public function setProductInStock(int $productInStock): void
-    {
-        $this->productInStock = $productInStock;
-    }
-
-    public function getProductStockHandle(): string
-    {
-        return $this->productStockHandle;
-    }
-
-    public function setProductStockHandle(string $productStockHandle): void
-    {
-        $this->productStockHandle = $productStockHandle;
-    }
-
-    public function getLowStockNotification(): int
-    {
-        return $this->lowStockNotification;
-    }
-
-    public function setLowStockNotification(int $lowStockNotification): void
-    {
-        $this->lowStockNotification = $lowStockNotification;
-    }
-
-    public function getProductAvailableDate(): string
-    {
-        return $this->productAvailableDate;
-    }
-
-    public function setProductAvailableDate(string $productAvailableDate): void
-    {
-        $t = new \DateTime();
-        $this->productAvailableDate = $t->format('Y-m-d H:i:s');
-    }
-
-    public function isProductAvailability(): bool
-    {
-        return $this->productAvailability;
-    }
-
-    public function setProductAvailability(bool $productAvailability): void
-    {
-        $this->productAvailability = $productAvailability;
-    }
-
-    public function isProductSpecial(): bool
-    {
-        return $this->productSpecial;
-    }
-
-    public function setProductSpecial(bool $productSpecial): void
-    {
-        $this->productSpecial = $productSpecial;
-    }
-
-    public function isProductDiscontinued(): bool
-    {
-        return $this->productDiscontinued;
-    }
-
-    public function setProductDiscontinued(bool $productDiscontinued): void
-    {
-        $this->productDiscontinued = $productDiscontinued;
-    }
-
-    public function getProductSales(): int
-    {
-        return $this->productSales;
-    }
-
-    public function setProductSales(int $productSales): void
-    {
-        $this->productSales = $productSales;
-    }
-
-    public function getProductUnit(): int
-    {
-        return $this->productUnit;
-    }
-
-    public function setProductUnit(int $productUnit): void
-    {
-        $this->productUnit = $productUnit;
-    }
-
-    public function getProductPackaging(): ?int
-    {
-        return $this->productPackaging;
-    }
-
-    public function setProductPackaging(?int $productPackaging): void
-    {
-        $this->productPackaging = $productPackaging;
-    }
-
-    public function getProductParam(): string
-    {
-        return $this->productParam;
-    }
-
-    public function setProductParam(?string $productParam): void
-    {
-        $this->productParam = $productParam;
     }
 }

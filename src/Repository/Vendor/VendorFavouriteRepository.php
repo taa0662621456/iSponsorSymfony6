@@ -4,7 +4,9 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorFavourite;
-use Doctrine\ORM\EntityRepository;
+use App\RepositoryInterface\Vendor\VendorFavouriteRepositoryInterface;
+use App\Repository\EntityRepository;
+
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -15,7 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method VendorFavourite[]    findAll()
  * @method VendorFavourite[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorFavouriteRepository extends EntityRepository
+class VendorFavouriteRepository extends EntityRepository implements VendorFavouriteRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

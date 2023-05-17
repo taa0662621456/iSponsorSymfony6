@@ -2,35 +2,33 @@
 
 namespace App\Form\Currency;
 
-
+use App\Dto\Currency\CurrencyTypeDTO;
+use App\RepositoryInterface\Currency\CurrencyTypeRepositoryInterface;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\Form\Extension\Core\Type\CurrencyType as SymfonyCurrencyType;
 
 final class CurrencyType extends AbstractType
 {
-    protected string $dataClass;
 
     /** @var string[] */
-    protected array $validationGroups = [];
+    protected array $validationGroup = [];
 
-    /**
-     * @param string $dataClass FQCN
-     * @param string[] $validationGroups
-     */
-    public function __construct(string $dataClass, array $validationGroups = [])
+    public function __construct(private CurrencyTypeRepositoryInterface $currencyTypeRepository, array $validationGroup = [])
     {
-        $this->dataClass = $dataClass;
-        $this->validationGroups = $validationGroups;
+        $this->validationGroup = $validationGroup;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => $this->dataClass,
-            'validation_groups' => $this->validationGroups,
+            'validation_groups' => $this->validationGroup,
+            'data_class' => CurrencyTypeDTO::class
         ]);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->addEventSubscriber(new AddCodeFormSubscriber(SymfonyCurrencyType::class, [

@@ -2,7 +2,7 @@
 
 namespace App\EventListener\Listener_Sylius;
 
-use App\DataFixtures\Promotion\CatalogPromotionFixture;
+use App\DataFixtures\Promotion\PromotionCatalogFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -20,7 +20,7 @@ class CatalogPromotionExecutorListener extends AbstractListener implements After
 
     public function afterFixture(FixtureEvent $fixtureEvent, array $options): void
     {
-        if (!$fixtureEvent->fixture() instanceof CatalogPromotionFixture) {
+        if (!$fixtureEvent->fixture() instanceof PromotionCatalogFixtures) {
             return;
         }
 

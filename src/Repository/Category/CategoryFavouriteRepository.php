@@ -3,7 +3,8 @@
 namespace App\Repository\Category;
 
 use App\Entity\Category\Category;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Category\CategoryFavouriteRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -12,10 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Category[]    findAll()
  * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryFavouriteRepository extends ServiceEntityRepository
+class CategoryFavouriteRepository extends EntityRepository implements CategoryFavouriteRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Category::class);
-    }
 }

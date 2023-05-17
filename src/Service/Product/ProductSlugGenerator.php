@@ -2,7 +2,9 @@
 
 namespace App\Service\Product;
 
-use Behat\Transliterator\Transliterator;
+
+use App\Interface\SlugGeneratorInterface;
+use Transliterator;
 
 final class ProductSlugGenerator implements SlugGeneratorInterface
 {
@@ -12,5 +14,11 @@ final class ProductSlugGenerator implements SlugGeneratorInterface
         $name = str_replace('\'', '-', $name);
 
         return Transliterator::transliterate($name);
+    }
+
+    public function generateSlug(string $text): string
+    {
+        // TODO: Implement generateSlug() method.
+        return '';
     }
 }

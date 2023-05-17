@@ -4,7 +4,8 @@
 namespace App\Repository\Type;
 
 use App\Entity\Project\ProjectType;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\RepositoryInterface\Type\TypeRepositoryInterface;
+use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\InputBag;
 
@@ -14,7 +15,7 @@ use Symfony\Component\HttpFoundation\InputBag;
  * @method ProjectType[]    findAll()
  * @method ProjectType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TypeRepository extends ServiceEntityRepository
+class TypeRepository extends EntityRepository implements TypeRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

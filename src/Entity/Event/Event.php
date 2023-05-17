@@ -4,8 +4,8 @@ namespace App\Entity\Event;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\ObjectSuperEntity;
-use App\Interface\Event\EventInterface;
 use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Event\EventInterface;
 
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
 #[ORM\Index(columns: ['type'], name: 'event_idx_type')]
