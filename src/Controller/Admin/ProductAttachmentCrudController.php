@@ -1,19 +1,18 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
-use App\Entity\Product\ProductAttachment;
 use App\Form\Attachment\AttachmentType;
-use App\Form\Product\ProductAttachmentType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use App\Entity\Product\ProductAttachment;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProductAttachmentCrudController extends AbstractCrudController
 {
+    use ConfigureFiltersTrait;
+
     public static function getEntityFqcn(): string
     {
         return ProductAttachment::class;
@@ -29,12 +28,10 @@ class ProductAttachmentCrudController extends AbstractCrudController
             CollectionField::new('productAttachment')
                 ->setEntryType(AttachmentType::class)
                 ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
+                ->onlyOnForms(),
             CollectionField::new('productAttachment')
                 ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail()
-            ,
+                ->onlyOnDetail(),
 //            ImageField::new('firstTitle')
 //                ->setBasePath('/upload/product/thumbnail')
 //                ->setUploadDir('/upload/product/thumbnail')
@@ -42,6 +39,4 @@ class ProductAttachmentCrudController extends AbstractCrudController
 //            ,
         ];
     }
-
-    use ConfigureFiltersTrait;
 }

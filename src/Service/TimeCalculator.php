@@ -2,14 +2,13 @@
 
 namespace App\Service;
 
-use DateTimeInterface;
 use Symfony\Component\Messenger\Stamp\DelayStamp;
 
 final class TimeCalculator
 {
-    public function calculate(?DateTimeInterface $currentTime, ?DateTimeInterface $targetTime): DelayStamp
+    public function calculate(?\DateTimeInterface $currentTime, ?\DateTimeInterface $targetTime): DelayStamp
     {
-        if ($targetTime === null) {
+        if (null === $targetTime) {
             return new DelayStamp(0);
         }
 

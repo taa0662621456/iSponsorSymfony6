@@ -1,15 +1,14 @@
 <?php
 
-
-namespace App\Form\Product\AttributeType;;
+namespace App\Form\Product\AttributeType;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class TextAttributeType extends AbstractType
 {
-    const TYPE = 'text';
+    public const TYPE = 'text';
 
     public function getParent(): string
     {
@@ -23,8 +22,7 @@ final class TextAttributeType extends AbstractType
                 'label' => false,
             ])
             ->setRequired('configuration')
-            ->setDefined('locale_code')
-        ;
+            ->setDefined('locale_code');
     }
 
     public function getBlockPrefix(): string

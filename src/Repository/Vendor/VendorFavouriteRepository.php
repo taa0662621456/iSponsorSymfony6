@@ -1,15 +1,14 @@
 <?php
 
-
 namespace App\Repository\Vendor;
 
-use App\Entity\Vendor\VendorFavourite;
-use App\RepositoryInterface\Vendor\VendorFavouriteRepositoryInterface;
-use App\Repository\EntityRepository;
-
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use App\Repository\EntityRepository;
+use App\Entity\Vendor\VendorFavourite;
+
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use App\RepositoryInterface\Vendor\VendorFavouriteRepositoryInterface;
 
 /**
  * @method VendorFavourite|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,11 +22,8 @@ class VendorFavouriteRepository extends EntityRepository implements VendorFavour
     {
         parent::__construct($registry, VendorFavourite::class);
     }
+
     /**
-     * @param VendorFavourite $vendor
-     * @param integer $vendorId
-     *
-     * @return bool|null
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -36,14 +32,14 @@ class VendorFavouriteRepository extends EntityRepository implements VendorFavour
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('count(f.id)')
-			->from(VendorFavourite::class, 'f')
+            ->from(VendorFavourite::class, 'f')
             ->innerJoin('f.vendor', 'v')
             ->innerJoin('f.vendor', 'p')
             ->where('v = :vendor')
             ->andWhere('p.id = :vendor_id')
             ->setParameters([
                 'vendor_id' => $vendorId,
-                'vendor' => $vendor
+                'vendor' => $vendor,
             ]);
 
         if ($qb->getQuery()->getSingleScalarResult()) {

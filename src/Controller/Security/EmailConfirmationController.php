@@ -1,19 +1,17 @@
 <?php
 
-
 namespace App\Controller\Security;
 
-
 use App\Entity\Vendor\VendorSecurity;
-use App\Repository\Vendor\VendorSecurityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use App\Repository\Vendor\VendorSecurityRepository;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 #[AsController]
 class EmailConfirmationController extends AbstractController
@@ -26,7 +24,7 @@ class EmailConfirmationController extends AbstractController
     }
 
     #[Route(path: '/confirmation/email', name: 'confirmation_email')]
-    public function confirmationEngine(Request $request, VendorSecurityRepository $vendorSecurityRepository) : Response
+    public function confirmationEngine(Request $request, VendorSecurityRepository $vendorSecurityRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var VendorSecurity $user */
@@ -43,7 +41,6 @@ class EmailConfirmationController extends AbstractController
         try {
             $this->verifyEmailHelper->validateEmailConfirmation($request->getUri(), $user->getId(), $user->getEmail());
         } catch (VerifyEmailExceptionInterface $exception) {
-
             $this->addFlash('error', $exception->getReason());
 
             return $this->redirectToRoute('registration');
@@ -54,6 +51,7 @@ class EmailConfirmationController extends AbstractController
         $em->persist($vendorSecurity);
         $em->flush();
         $this->addFlash('success', 'Your email address has been verified.');
+
         return $this->redirectToRoute('homepage');
     }
 }

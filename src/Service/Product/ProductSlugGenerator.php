@@ -2,9 +2,8 @@
 
 namespace App\Service\Product;
 
-
-use App\Interface\SlugGeneratorInterface;
 use Transliterator;
+use App\Interface\SlugGeneratorInterface;
 
 final class ProductSlugGenerator implements SlugGeneratorInterface
 {
@@ -13,7 +12,7 @@ final class ProductSlugGenerator implements SlugGeneratorInterface
         // Manually replacing apostrophes since Transliterator started removing them at v1.2.
         $name = str_replace('\'', '-', $name);
 
-        return Transliterator::transliterate($name);
+        return \Transliterator::transliterate($name);
     }
 
     public function generateSlug(string $text): string

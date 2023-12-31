@@ -2,11 +2,9 @@
 
 namespace App\Repository\Project;
 
-
-use App\RepositoryInterface\Project\ProjectPlatformRewardRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Project\ProjectPlatformReward;
+use App\RepositoryInterface\Project\ProjectPlatformRewardRepositoryInterface;
 
 /**
  * @method ProjectPlatformReward|null find($id, $lockMode = null, $lockVersion = null)

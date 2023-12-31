@@ -1,23 +1,22 @@
 <?php
 
-
 namespace App\Controller\Admin;
-
 
 use App\Entity\Vendor\VendorMedia;
 use App\Form\Vendor\VendorMediaType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-use Vich\UploaderBundle\VichUploaderBundle;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class VendorMediaCrudController extends AbstractCrudController
 {
+    use ConfigureFiltersTrait;
+
     public static function getEntityFqcn(): string
     {
         return VendorMedia::class;
@@ -25,14 +24,12 @@ class VendorMediaCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
-
-//        $thumbnailFile = ImageField::new('thumbnailFile')->setFormType(VichImageType::class);
-//        $thumbnail = ImageField::new('thumbnail')->setBasePath('/upload/vendor/image/thumbnail');
+        //        $thumbnailFile = ImageField::new('thumbnailFile')->setFormType(VichImageType::class);
+        //        $thumbnail = ImageField::new('thumbnail')->setBasePath('/upload/vendor/image/thumbnail');
 
         //        ($pageName == Crud::PAGE_INDEX || $pageName == Crud::PAGE_DETAIL) ?
-//            $fields[] = $thumbnail :
-//            $fields[] = $thumbnailFile;
+        //            $fields[] = $thumbnail :
+        //            $fields[] = $thumbnailFile;
 
         return [
             TextField::new('first_title'),
@@ -51,12 +48,10 @@ class VendorMediaCrudController extends AbstractCrudController
             CollectionField::new('vendorMediaAttachment')
                 ->setEntryType(VendorMediaType::class)
                 ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
+                ->onlyOnForms(),
             CollectionField::new('vendorMediaAttachment')
                 ->setTemplatePath('admin/images.html.twig')
-                ->onlyOnDetail()
-            ,
+                ->onlyOnDetail(),
 //            ImageField::new('fileName')
 //                ->setBasePath('/upload/vendor/thumbnail')
 //                ->setUploadDir('/upload/vendor/thumbnail')
@@ -64,10 +59,4 @@ class VendorMediaCrudController extends AbstractCrudController
 //            ,
         ];
     }
-
-
-    use ConfigureFiltersTrait;
-
-
-
 }

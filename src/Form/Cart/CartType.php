@@ -2,9 +2,9 @@
 
 namespace App\Form\Cart;
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class CartType
 {
@@ -32,8 +32,7 @@ class CartType
                 'allow_delete' => false,
                 'by_reference' => false,
                 'label' => 'form.cart.items',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

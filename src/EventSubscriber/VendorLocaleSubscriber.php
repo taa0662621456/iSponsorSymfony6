@@ -3,8 +3,8 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class VendorLocaleSubscriber implements EventSubscriberInterface
@@ -27,9 +27,9 @@ class VendorLocaleSubscriber implements EventSubscriberInterface
 
     #[ArrayShape(['response' => 'string'])]
     public static function getSubscribedEvents(): array
- {
-     // TODO: Implement getSubscribedEvents() method.
-     // return ['response' => 'onInteractiveLogin'];
-     return ['response' => ['onInteractiveLogin', -255]];
- }
+    {
+        // TODO: Implement getSubscribedEvents() method.
+        // return ['response' => 'onInteractiveLogin'];
+        return ['response' => ['onInteractiveLogin', -255]];
+    }
 }

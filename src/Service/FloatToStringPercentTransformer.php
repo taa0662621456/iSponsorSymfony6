@@ -8,14 +8,14 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\PercentToLocalizedStri
 final class FloatToStringPercentTransformer extends PercentToLocalizedStringTransformer
 {
     /**
-     * Transforms between a percentage value into a float
+     * Transforms between a percentage value into a float.
      *
      * @param string $value Percentage value
      *
-     * @return float Normalized value
-     *
      * @throws TransformationFailedException if the given value is not a string or
      *                                       if the value could not be transformed
+     *
+     * @return float Normalized value
      */
     public function reverseTransform(mixed $value): int|float|null
     {

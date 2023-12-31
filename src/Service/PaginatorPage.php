@@ -2,15 +2,18 @@
 
 namespace App\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use JetBrains\PhpStorm\Pure;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class PaginatorPage
 {
     private Collection $content;
+
     private int $totalElements;
+
     private int $offset;
+
     private int $limit;
 
     #[Pure]
@@ -19,10 +22,9 @@ class PaginatorPage
         $this->content = new ArrayCollection();
     }
 
-
-    public static function of(Collection $content, int $totalElements, int $offset = 0, int $limit = 20): PaginatorPage
+    public static function of(Collection $content, int $totalElements, int $offset = 0, int $limit = 20): self
     {
-        $page = new PaginatorPage();
+        $page = new self();
         $page->setContent($content)
             ->setTotalElements($totalElements)
             ->setOffset($offset)
@@ -31,16 +33,8 @@ class PaginatorPage
         return $page;
     }
 
-    /**
-     * @return ArrayCollection|Collection
-     */
     public function getContent(): ArrayCollection|Collection
     {
         return $this->content;
     }
-
-
-
-
-
 }

@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 final class StockChecker implements AvailabilityCheckerInterface
 {
     public function isStockAvailable(StockableInterface $stockable): bool

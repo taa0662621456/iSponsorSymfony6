@@ -2,14 +2,14 @@
 
 namespace App\Form\Promotion\Rule;
 
-use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
-use App\Form\Product\ProductTaxationAutocompleteSelectorType;
-use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use App\Form\Product\ProductTaxationAutocompleteSelectorType;
+use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 
 final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
 {
@@ -26,8 +26,7 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
             ->add('amount', MoneyType::class, [
                 'label' => 'form.promotion_rule.total_of_items_from_taxon.amount',
                 'currency' => $options['currency'],
-            ])
-        ;
+            ]);
 
         $builder->get('taxon')->addModelTransformer(
             new ReversedTransformer(new ResourceIdentifierTransformer($this->taxationRepository, 'code')),
@@ -38,8 +37,7 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
     {
         $resolver
             ->setRequired('currency')
-            ->setAllowedTypes('currency', 'string')
-        ;
+            ->setAllowedTypes('currency', 'string');
     }
 
     public function getBlockPrefix(): string

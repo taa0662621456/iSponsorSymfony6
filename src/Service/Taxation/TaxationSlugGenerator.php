@@ -2,12 +2,12 @@
 
 namespace App\Service\Taxation;
 
-use Behat\Transliterator\Transliterator;
 use Webmozart\Assert\Assert;
+use Behat\Transliterator\Transliterator;
 
 final class TaxationSlugGenerator
 {
-    public function generate($taxon, ?string $locale = null): string
+    public function generate($taxon, string $locale = null): string
     {
         $name = $taxon->getTranslation($locale)->getName();
 
@@ -22,7 +22,7 @@ final class TaxationSlugGenerator
 
         $parentSlug = $parentTaxon->getTranslation($locale)->getSlug() ?: $this->generate($parentTaxon, $locale);
 
-        return $parentSlug . '/' . $slug;
+        return $parentSlug.'/'.$slug;
     }
 
     private function transliterate(string $string): string

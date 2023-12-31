@@ -41,8 +41,7 @@ final class ProductAssociationType extends AbstractType
                 'label' => 'form.product_association.product',
                 'property_path' => 'associatedProducts',
                 'multiple' => true,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

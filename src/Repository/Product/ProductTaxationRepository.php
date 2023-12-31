@@ -1,12 +1,12 @@
 <?php
 
-
 namespace App\Repository\Product;
 
-use App\Entity\Product\ProductTaxation;
-use App\EntityInterface\Product\ProductTaxationInterface;
 use App\Repository\EntityRepository;
+use App\Entity\Product\ProductTaxation;
 use Doctrine\ORM\NonUniqueResultException;
+use App\EntityInterface\Product\ProductTaxationInterface;
+
 /**
  * @method ProductTaxation|null find($id, $lockMode = null, $lockVersion = null)
  * @method ProductTaxation|null findOneBy(array $criteria, array $orderBy = null)
@@ -28,7 +28,6 @@ class ProductTaxationRepository extends EntityRepository implements ProductTaxat
             ->andWhere('tax.code = :taxCode')
             ->setParameter('taxCode', $taxCode)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

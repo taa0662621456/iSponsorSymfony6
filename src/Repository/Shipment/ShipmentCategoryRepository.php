@@ -2,10 +2,11 @@
 
 namespace App\Repository\Shipment;
 
-use App\Entity\Shipment\Shipment;
-use App\RepositoryInterface\Shipment\ShipmentCategoryRepositoryInterface;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Shipment\Shipment;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Shipment\ShipmentCategoryRepositoryInterface;
+
 /**
  * @method Shipment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Shipment|null findOneBy(array $criteria, array $orderBy = null)
@@ -14,10 +15,8 @@ use Doctrine\ORM\QueryBuilder;
  */
 class ShipmentCategoryRepository extends EntityRepository implements ShipmentCategoryRepositoryInterface
 {
-
     public function createListQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('o');
     }
-
 }

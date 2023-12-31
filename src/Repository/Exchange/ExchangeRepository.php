@@ -3,8 +3,9 @@
 namespace App\Repository\Exchange;
 
 use App\Entity\Exchange\Exchange;
-use App\RepositoryInterface\Exchange\ExchangeRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Exchange\ExchangeRepositoryInterface;
+
 /**
  * @method Exchange|null find($id, $lockMode = null, $lockVersion = null)
  * @method Exchange|null findOneBy(array $criteria, array $orderBy = null)
@@ -13,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class ExchangeRepository extends EntityRepository implements ExchangeRepositoryInterface
 {
-
 }

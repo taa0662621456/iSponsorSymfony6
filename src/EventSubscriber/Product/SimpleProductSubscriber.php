@@ -2,14 +2,14 @@
 
 namespace App\EventSubscriber\Product;
 
-use App\Form\Product\ProductBundle\ProductVariantType;
-use App\Interface\Product\ProductInterface;
+use Webmozart\Assert\Assert;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use App\Interface\Product\ProductInterface;
 use Symfony\Component\Validator\Constraints\Valid;
-use Webmozart\Assert\Assert;
+use App\Form\Product\ProductBundle\ProductVariantType;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class SimpleProductSubscriber implements EventSubscriberInterface
 {
@@ -46,10 +46,10 @@ final class SimpleProductSubscriber implements EventSubscriberInterface
     {
         $data = $event->getData();
 
-        if (!empty($data) && array_key_exists('variant', $data) && array_key_exists('code', $data)) {
+        if (!empty($data) && \array_key_exists('variant', $data) && \array_key_exists('code', $data)) {
             $data['variant']['code'] = $data['code'];
         }
-        if (!empty($data) && array_key_exists('variant', $data) && array_key_exists('enabled', $data)) {
+        if (!empty($data) && \array_key_exists('variant', $data) && \array_key_exists('enabled', $data)) {
             $data['variant']['enabled'] = $data['enabled'];
         }
 

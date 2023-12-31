@@ -1,18 +1,13 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Type;
 
-
-
-
-
-use App\Interface\RepositoryInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
 
 abstract class AttributeValueType extends AbstractResourceType
 {
@@ -61,8 +56,7 @@ abstract class AttributeValueType extends AbstractResourceType
                 }
 
                 $this->addValueField($event->getForm(), $attribute);
-            })
-        ;
+            });
 
         $builder->get('localeCode')->addModelTransformer(
             new ReversedTransformer(new ResourceToIdentifierTransformer($this->localeRepository, 'code')),
@@ -72,7 +66,7 @@ abstract class AttributeValueType extends AbstractResourceType
     protected function addValueField(
         FormInterface $form,
         AttributeInterface $attribute,
-        ?string $localeCode = null,
+        string $localeCode = null,
     ): void {
         $form->add('value', $this->formTypeRegistry->get($attribute->getType(), 'default'), [
             'auto_initialize' => false,

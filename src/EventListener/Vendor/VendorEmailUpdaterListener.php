@@ -3,33 +3,32 @@
 namespace App\EventListener\Vendor;
 
 use App\Event\VendorEvent;
+use Webmozart\Assert\Assert;
+use App\Provider\FlashBagProvider;
 use App\Interface\CustomerInterface;
 use App\Interface\SecurityGeneratorInterface;
-use App\Provider\FlashBagProvider;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Webmozart\Assert\Assert;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 // TODO: нужно поработать над єтим классом
 
 final class VendorEmailUpdaterListener
 {
     public function __construct(
-        private readonly SecurityGeneratorInterface    $tokenGenerator,
-        private readonly ChannelContextInterface       $channelContext,
-        private readonly EventDispatcherInterface      $eventDispatcher,
+        private readonly SecurityGeneratorInterface $tokenGenerator,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly EventDispatcherInterface $eventDispatcher,
         private readonly RequestStack|SessionInterface $requestStackOrSession,
-        private readonly TokenStorageInterface         $tokenStorage,
+        private readonly TokenStorageInterface $tokenStorage,
     ) {
     }
 
     public function eraseVerification(GenericEvent $event): void
     {
-
         $customer = $event->getSubject();
 
         /* @var CustomerInterface $customer */
@@ -59,7 +58,6 @@ final class VendorEmailUpdaterListener
 
     public function sendVerificationEmail(GenericEvent $event): void
     {
-
         $customer = $event->getSubject();
 
         /* @var CustomerInterface $customer */

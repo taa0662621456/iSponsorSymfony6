@@ -10,29 +10,25 @@ class ExceptionListener
 {
     public function onKernelException(GetResponseForExceptionEvent $event): void
     {
-        // Вы получаете объект исключения из полученного события
-        $exception = $event->getException();
+
+        $throwable = $event->getThrowable();
         $message = sprintf(
             'My Error says: %s with code: %s',
-            $exception->getMessage(),
-            $exception->getCode()
+            $throwable->getMessage(),
+            $throwable->getCode()
         );
 
-        // Настройте ваш объект ответа, чтобы он отображал детали исключений
+
         $response = new Response();
         $response->setContent($message);
 
-        // HttpExceptionInterface - это специальный тип исключения, который
-        // содержит статус кода и детали заголовка
-        if ($exception instanceof HttpExceptionInterface) {
-            $response->setStatusCode($exception->getStatusCode());
-            $response->headers->replace($exception->getHeaders());
+        if ($throwable instanceof HttpExceptionInterface) {
+            $response->setStatusCode($throwable->getStatusCode());
+            $response->headers->replace($throwable->getHeaders());
         } else {
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        // Отправляет изменённый объект ответа событию
         $event->setResponse($response);
     }
-
 }

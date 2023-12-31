@@ -2,11 +2,9 @@
 
 namespace App\Repository\Currency;
 
-use App\Entity\Coupon\Coupon;
 use App\Entity\Currency\Currency;
-use App\RepositoryInterface\Address\CurrencyEnRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Address\CurrencyEnRepositoryInterface;
 
 /**
  * @method Currency|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CurrencyEnRepository extends EntityRepository implements CurrencyEnRepositoryInterface
 {
-
 }

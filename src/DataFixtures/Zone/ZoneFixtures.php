@@ -2,27 +2,21 @@
 
 namespace App\DataFixtures\Zone;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use Faker\Factory;
 
-use App\DataFixtures\DataFixtures;
-
+use Webmozart\Assert\Assert;
 
 use JetBrains\PhpStorm\NoReturn;
-
+use App\DataFixtures\DataFixtures;
+use Symfony\Component\Intl\Countries;
+use Doctrine\Persistence\ObjectManager;
+use App\FactoryInterface\Zone\ZoneFactoryInterface;
 use App\EntityInterface\Address\AddressCountryInterface;
 use App\EntityInterface\Address\AddressProvinceInterface;
-use App\FactoryInterface\Zone\ZoneFactoryInterface;
-use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Component\Intl\Countries;
-use Webmozart\Assert\Assert;
 
 final class ZoneFixtures extends DataFixtures
 {
-
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {
@@ -40,7 +34,6 @@ final class ZoneFixtures extends DataFixtures
         parent::load($manager, $property, $n);
     }
 
-
     protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNodeBuilder = $optionsNode->children();
@@ -49,29 +42,25 @@ final class ZoneFixtures extends DataFixtures
             ->arrayNode('countries')
                 ->performNoDeepMerging()
                 ->defaultValue(array_keys(Countries::getNames()))
-                ->scalarPrototype()
-        ;
+                ->scalarPrototype();
 
         $provinceNode = $optionsNodeBuilder
             ->arrayNode('provinces')
                 ->normalizeKeys(false)
                 ->useAttributeAsKey('code')
-                ->arrayPrototype()
-        ;
+                ->arrayPrototype();
 
         $provinceNode
             ->performNoDeepMerging()
             ->normalizeKeys(false)
             ->useAttributeAsKey('code')
-            ->scalarPrototype()
-        ;
+            ->scalarPrototype();
 
         $zoneNode = $optionsNodeBuilder
             ->arrayNode('zones')
                 ->normalizeKeys(false)
                 ->useAttributeAsKey('code')
-                ->arrayPrototype()
-        ;
+                ->arrayPrototype();
 
         $zoneNode
             ->performNoDeepMerging()
@@ -80,8 +69,7 @@ final class ZoneFixtures extends DataFixtures
                 ->arrayNode('countries')->scalarPrototype()->end()->end()
                 ->arrayNode('zones')->scalarPrototype()->end()->end()
                 ->arrayNode('provinces')->scalarPrototype()->end()->end()
-                ->scalarNode('scope')->end()
-        ;
+                ->scalarNode('scope')->end();
 
         $zoneNode
             ->validate()
@@ -93,8 +81,7 @@ final class ZoneFixtures extends DataFixtures
 
                     return 1 !== $filledTypes;
                 })
-                ->thenInvalid('Zone must have only one type of members ("countries", "zones", "provinces")')
-        ;
+                ->thenInvalid('Zone must have only one type of members ("countries", "zones", "provinces")');
     }
 
     private function loadCountriesWithProvinces(array $countriesCodes, array $countriesProvinces): void
@@ -169,9 +156,9 @@ final class ZoneFixtures extends DataFixtures
     private function getZoneType(array $zoneOptions): string
     {
         return match (true) {
-            count($zoneOptions['countries']) > 0 => ZoneFactoryInterface::TYPE_COUNTRY,
-            count($zoneOptions['provinces']) > 0 => ZoneFactoryInterface::TYPE_PROVINCE,
-            count($zoneOptions['zones']) > 0 => ZoneFactoryInterface::TYPE_ZONE,
+            \count($zoneOptions['countries']) > 0 => ZoneFactoryInterface::TYPE_COUNTRY,
+            \count($zoneOptions['provinces']) > 0 => ZoneFactoryInterface::TYPE_PROVINCE,
+            \count($zoneOptions['zones']) > 0 => ZoneFactoryInterface::TYPE_ZONE,
             default => throw new \InvalidArgumentException('Cannot resolve zone type!'),
         };
     }
@@ -192,7 +179,7 @@ final class ZoneFixtures extends DataFixtures
     {
         $memberValidators = [
             ZoneFactoryInterface::TYPE_COUNTRY => function (string $countryCode) use ($options): void {
-                if (in_array($countryCode, $options['countries'], true)) {
+                if (\in_array($countryCode, $options['countries'], true)) {
                     return;
                 }
 
@@ -228,5 +215,4 @@ final class ZoneFixtures extends DataFixtures
             }
         };
     }
-
 }

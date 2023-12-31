@@ -1,18 +1,13 @@
 <?php
 
-
 namespace App\Service;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 
 class ProductUtilite
 {
     /**
-     * return sorting name param from request
-     *
-     * @param Request $request
-     * @return string
+     * return sorting name param from request.
      */
     public function getSortingParamName(Request $request): string
     {
@@ -26,10 +21,7 @@ class ProductUtilite
     }
 
     /**
-     * return last seen products from cookies
-     *
-     * @param Request $request
-     * @return bool
+     * return last seen products from cookies.
      */
     public function getLastSeenProducts(Request $request): bool
     {
@@ -38,11 +30,11 @@ class ProductUtilite
         if (isset($cookies['last-seen'])) {
             $productLspArray = json_decode($cookies['last-seen'], true);
 
-            if (is_bool($productLspArray) && !empty($productLspArray)) {
+            if (\is_bool($productLspArray) && !empty($productLspArray)) {
                 return true;
             }
         }
+
         return false;
     }
-
 }

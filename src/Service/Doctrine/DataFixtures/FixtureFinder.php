@@ -32,4 +32,3 @@ class FixtureFinder
         return $fixtures;
     }
 }
-

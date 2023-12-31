@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Configuration;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class SelectAttributeConfigurationType extends AbstractType
 {
@@ -34,8 +33,7 @@ class SelectAttributeConfigurationType extends AbstractType
             ->add('max', NumberType::class, [
                 'label' => 'form.attribute_type_configuration.select.max',
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

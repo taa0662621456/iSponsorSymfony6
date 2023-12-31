@@ -3,9 +3,9 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorProfile;
-use App\RepositoryInterface\Vendor\VendorProfileRepositoryInterface;
 use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Vendor\VendorProfileRepositoryInterface;
 
 /**
  * @method VendorProfile|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,9 +20,6 @@ class VendorProfileRepository extends EntityRepository implements VendorProfileR
         parent::__construct($registry, VendorProfile::class);
     }
 
-    /**
-     * @param $vendorId
-     */
     public function findActiveVendorById($vendorId): VendorProfile
     {
         return $this->findOneBy([

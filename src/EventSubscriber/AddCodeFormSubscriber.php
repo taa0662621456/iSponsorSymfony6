@@ -2,13 +2,13 @@
 
 namespace App\EventSubscriber;
 
-use App\Interface\CodeAwareInterface;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Interface\CodeAwareInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class AddCodeFormSubscriber implements EventSubscriberInterface
 {

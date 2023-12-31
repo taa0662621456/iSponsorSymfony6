@@ -1,13 +1,10 @@
 <?php
 
-
 namespace App\Service\Handler;
 
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\Persistence\ObjectManager;
-
-
 
 final class ResourceUpdateHandler implements ResourceUpdateHandlerInterface
 {

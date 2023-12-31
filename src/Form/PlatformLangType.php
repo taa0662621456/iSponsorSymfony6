@@ -11,7 +11,7 @@ class PlatformLangType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            //->add('assetId')
+            // ->add('assetId')
             ->add('langCode')
             ->add('title')
             ->add('titleNative')
@@ -21,16 +21,15 @@ class PlatformLangType extends AbstractType
             ->add('metakey')
             ->add('metadesc')
             ->add('sitename')
-            ->add('published')
-            //->add('access')
-            //->add('ordering')
-        ;
+            ->add('published');
+        // ->add('access')
+        // ->add('ordering')
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            //'data_class' => PlatformLang::class,//TODO: сущность еще не создана. Необховдима для хранения в базе поддерживаемых локализаций
+            // 'data_class' => PlatformLang::class,//TODO: сущность еще не создана. Необховдима для хранения в базе поддерживаемых локализаций
         ]);
     }
 }

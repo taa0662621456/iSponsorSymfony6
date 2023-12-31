@@ -1,20 +1,10 @@
 <?php
 
-
 namespace App\DataFixtures\Product;
-
-
-use App\DataFixtures\Project\ProjectTypeFixtures;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 
 use App\DataFixtures\DataFixtures;
 
-
-use JetBrains\PhpStorm\NoReturn;
-
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-
 
 final class ProductOptionFixtures extends DataFixtures
 {
@@ -28,8 +18,6 @@ final class ProductOptionFixtures extends DataFixtures
                     ->requiresAtLeastOneElement()
                     ->useAttributeAsKey('code')
                     ->scalarPrototype()
-                ->end()
-        ;
+                ->end();
     }
-
 }

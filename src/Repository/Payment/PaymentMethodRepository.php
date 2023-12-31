@@ -2,11 +2,12 @@
 
 namespace App\Repository\Payment;
 
-use App\Entity\Payment\Payment;
-use App\EntityInterface\Vendor\VendorInterface;
-use App\Repository\EntityRepository;
-use App\RepositoryInterface\Payment\PaymentMethodRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Payment\Payment;
+use App\Repository\EntityRepository;
+use App\EntityInterface\Vendor\VendorInterface;
+use App\RepositoryInterface\Payment\PaymentMethodRepositoryInterface;
+
 /**
  * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
@@ -24,15 +25,13 @@ class PaymentMethodRepository extends EntityRepository implements PaymentMethodR
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function createPaginator(array $criteria = [], array $sorting = []): iterable
     {
         $queryBuilder = $this->createQueryBuilder('o')
-            ->leftJoin('o.translations', 'translation')
-        ;
+            ->leftJoin('o.translations', 'translation');
 
         $this->applyCriteria($queryBuilder, $criteria);
         $this->applySorting($queryBuilder, $sorting);
@@ -45,8 +44,7 @@ class PaymentMethodRepository extends EntityRepository implements PaymentMethodR
         return $this->createQueryBuilder('o')
             ->leftJoin('o.gatewayConfig', 'gatewayConfig')
             ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ;
+            ->setParameter('locale', $locale);
     }
 
     public function findEnabledForVendor(VendorInterface $vendor): array
@@ -58,7 +56,6 @@ class PaymentMethodRepository extends EntityRepository implements PaymentMethodR
             ->setParameter('enabled', true)
             ->addOrderBy('o.position')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

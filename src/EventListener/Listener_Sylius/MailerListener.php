@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
-use App\EntityInterface\Channel\ChannelContextInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use App\EntityInterface\Channel\ChannelContextInterface;
+use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 
 final class MailerListener
 {

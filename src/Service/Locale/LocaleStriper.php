@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Service\Locale;
 
-use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 
 final class LocaleStriper implements RouterInterface, WarmableInterface
 {

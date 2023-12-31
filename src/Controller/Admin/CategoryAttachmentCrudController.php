@@ -1,22 +1,19 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
-use App\Entity\Category\CategoryAttachment;
 use App\Form\Attachment\AttachmentType;
-use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use App\Entity\Category\CategoryAttachment;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CategoryAttachmentCrudController extends AbstractCrudController
 {
+    use ConfigureFiltersTrait;
+
     public static function getEntityFqcn(): string
     {
         return CategoryAttachment::class;
@@ -32,12 +29,10 @@ class CategoryAttachmentCrudController extends AbstractCrudController
             CollectionField::new('categoryAttachment')
                 ->setEntryType(AttachmentType::class)
                 ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
+                ->onlyOnForms(),
             CollectionField::new('categoryAttachment')
                 ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail()
-            ,
+                ->onlyOnDetail(),
 //            ImageField::new('firstTitle')
 //                ->setBasePath('/upload/category/thumbnail')
 //                ->setUploadDir('/upload/category/thumbnail')
@@ -45,7 +40,4 @@ class CategoryAttachmentCrudController extends AbstractCrudController
 //            ,
         ];
     }
-
-
-    use ConfigureFiltersTrait;
 }

@@ -2,11 +2,11 @@
 
 namespace App\Form\Address;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType as SymfonyCountryType;
 
 final class AddressCountryType extends AbstractType
@@ -36,8 +36,7 @@ final class AddressCountryType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'button_add_label' => 'form.country.add_province',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

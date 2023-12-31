@@ -2,22 +2,15 @@
 
 namespace App\DataFixtures\Address;
 
-
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-
 
 final class AddressCityFixtures extends DataFixtures
 {
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {
@@ -30,5 +23,4 @@ final class AddressCityFixtures extends DataFixtures
 
         parent::load($manager, $property, $n);
     }
-
 }

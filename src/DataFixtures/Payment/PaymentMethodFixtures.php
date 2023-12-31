@@ -2,19 +2,12 @@
 
 namespace App\DataFixtures\Payment;
 
-use App\Entity\Currency\Currency;
-use App\Entity\Payment\PaymentMethod;
-use App\Entity\Shipment\ShipmentMethod;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class PaymentMethodFixtures extends DataFixtures
@@ -54,5 +47,4 @@ final class PaymentMethodFixtures extends DataFixtures
 
         parent::load($manager, $property, $n);
     }
-
 }

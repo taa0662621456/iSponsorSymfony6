@@ -15,11 +15,10 @@ class AssetCommand extends Command
         $this
             ->setDescription('Installs all assets.')
             ->setHelp(
-                <<<EOT
+                <<<'EOT'
 The <info>%command.name%</info> command downloads and installs all Sylius media assets.
 EOT
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -31,12 +30,11 @@ EOT
             $environment,
         ));
 
-
         try {
             $publicDir = $this->getApplication()->get('core.public_dir');
 
             $this->directoryChecker($publicDir, $output);
-            $this->directoryChecker($publicDir . '/bundles/', $output);
+            $this->directoryChecker($publicDir.'/bundles/', $output);
         } catch (\RuntimeException $exception) {
             $output->writeln($exception->getMessage());
 
@@ -47,7 +45,7 @@ EOT
             'asset:install' => ['target' => $publicDir],
         ];
 
-//        $this->runCommands($commands, $output); //TODO autowire service/command/ commandRunner
+        //        $this->runCommands($commands, $output); //TODO autowire service/command/ commandRunner
 
         return 0;
     }

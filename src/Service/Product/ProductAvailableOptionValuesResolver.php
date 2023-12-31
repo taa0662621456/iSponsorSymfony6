@@ -2,10 +2,10 @@
 
 namespace App\Service\Product;
 
-use App\EntityInterface\Product\ProductAvailableOptionValuesResolverInterface;
+use Doctrine\Common\Collections\Collection;
 use App\EntityInterface\Product\ProductInterface;
 use App\EntityInterface\Product\ProductOptionInterface;
-use Doctrine\Common\Collections\Collection;
+use App\EntityInterface\Product\ProductAvailableOptionValuesResolverInterface;
 
 final class ProductAvailableOptionValuesResolver implements ProductAvailableOptionValuesResolverInterface
 {

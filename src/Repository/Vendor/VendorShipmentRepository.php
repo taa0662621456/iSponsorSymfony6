@@ -2,10 +2,9 @@
 
 namespace App\Repository\Vendor;
 
+use App\Repository\EntityRepository;
 use App\Entity\Vendor\VendorShipment;
 use App\RepositoryInterface\Vendor\VendorShipmentRepositoryInterface;
-use App\Repository\EntityRepository;
-
 
 /**
  * @method VendorShipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,6 +35,4 @@ class VendorShipmentRepository extends EntityRepository implements VendorShipmen
         ;
     }
     */
-
-
 }

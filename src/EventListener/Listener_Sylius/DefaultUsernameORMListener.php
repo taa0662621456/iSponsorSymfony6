@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
+use Doctrine\ORM\UnitOfWork;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\UnitOfWork;
 
 /**
  * Keeps user's username synchronized with email.

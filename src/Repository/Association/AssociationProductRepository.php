@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Repository\Association;
 
-
+use App\Repository\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use App\Entity\Association\AssociationProduct;
 use App\EntityInterface\Vendor\VendorInterface;
 use App\RepositoryInterface\Association\AssociationProductRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method AssociationProduct|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,7 +16,6 @@ use Doctrine\ORM\NonUniqueResultException;
  */
 class AssociationProductRepository extends EntityRepository implements AssociationProductRepositoryInterface
 {
-
     /**
      * @throws NonUniqueResultException
      */
@@ -32,7 +29,6 @@ class AssociationProductRepository extends EntityRepository implements Associati
             ->setParameter('associationId', $associationId)
             ->setParameter('vendor', $vendor)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

@@ -12,12 +12,11 @@
 namespace App\Form\Type;
 
 use App\Utils\MomentFormatConverter;
-use Locale;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 /**
  * Defines the custom form field type used to manipulate datetime values across
@@ -33,18 +32,12 @@ class DateTimePickerType extends AbstractType
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['attr']['data-date-format'] = $this->formatConverter->convert($options['format']);
-        $view->vars['attr']['data-date-locale'] = mb_strtolower(str_replace('_', '-', Locale::getDefault()));
+        $view->vars['attr']['data-date-locale'] = mb_strtolower(str_replace('_', '-', \Locale::getDefault()));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -55,9 +48,6 @@ class DateTimePickerType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return DateTimeType::class;

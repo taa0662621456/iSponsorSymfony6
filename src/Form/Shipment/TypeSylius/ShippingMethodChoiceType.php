@@ -2,24 +2,24 @@
 
 namespace App\Form\Shipment\TypeSylius;
 
-use App\Interface\Shipment\ShipmentSubjectInterface;
-use Ramsey\Uuid\Math\CalculatorInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\AbstractType;
+use Ramsey\Uuid\Math\CalculatorInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Interface\Shipment\ShipmentSubjectInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 
 final class ShippingMethodChoiceType extends AbstractType
 {
     public function __construct(
-/*        private readonly ShipmentMethodResolverInterface $shippingMethodsResolver,
-        private readonly ServiceRegistryInterface $calculators,
-        private readonly RepositoryInterface $repository,*/
+        /*        private readonly ShipmentMethodResolverInterface $shippingMethodsResolver,
+                private readonly ServiceRegistryInterface $calculators,
+                private readonly RepositoryInterface $repository,*/
     ) {
     }
 
@@ -48,8 +48,7 @@ final class ShippingMethodChoiceType extends AbstractType
             ->setDefined([
                 'subject',
             ])
-            ->setAllowedTypes('subject', ShipmentSubjectInterface::class)
-        ;
+            ->setAllowedTypes('subject', ShipmentSubjectInterface::class);
     }
 
     /**

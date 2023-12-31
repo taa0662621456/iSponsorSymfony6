@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Command\User;
+namespace App\Command\Security;
 
-use App\Interface\VendorRepositoryInterface;
+use App\Command\User\UserInterface;
+use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
@@ -10,29 +11,29 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserInterface as VendorInterface;
 use Webmozart\Assert\Assert;
 
-abstract class AbstractRoleCommand extends Command
+abstract class AbstractVendorRoleCommand extends Command
 {
     /**
      * @throws \Exception
      */
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
-        $availableUserTypes = $this->getAvailableUserTypes();
-        if (empty($availableUserTypes)) {
-            throw new \Exception(sprintf('At least one user type should implement %s', UserInterface::class));
+        $availableVendorType = $this->getAvailableVendorTypes();
+        if (empty($availableVendorType)) {
+            throw new \Exception(sprintf('At least one user type should implement %s', VendorInterface::class));
         }
 
         $helper = $this->getHelper('question');
         Assert::isInstanceOf($helper, QuestionHelper::class);
         if (!$input->getOption('user-type')) {
-            // Do not ask if there's only 1 user type configured
-            if (count($availableUserTypes) === 1) {
-                $input->setOption('user-type', $availableUserTypes[0]);
+
+            if (1 === \count($availableVendorType)) {
+                $input->setOption('user-type', $availableVendorType[0]);
             } else {
-                $question = new ChoiceQuestion('Please enter the user type:', $availableUserTypes, 1);
+                $question = new ChoiceQuestion('Please enter the user type:', $availableVendorType, 1);
                 $question->setErrorMessage('Choice %s is invalid.');
                 $userType = $helper->ask($input, $output, $question);
                 $input->setOption('user-type', $userType);
@@ -80,7 +81,6 @@ abstract class AbstractRoleCommand extends Command
             $securityRoles[] = 'ROLE_ADMINISTRATION_ACCESS';
         }
 
-        /** @var UserInterface $user */
         $user = $this->findUserByEmail($email, $userType);
 
         $this->executeRoleCommand($input, $output, $user, $securityRoles);
@@ -91,10 +91,10 @@ abstract class AbstractRoleCommand extends Command
     /**
      * @throws \InvalidArgumentException
      */
-    protected function findUserByEmail(string $email, string $userType): UserInterface
+    protected function findUserByEmail(string $email, string $userType): VendorInterface
     {
-        /** @var UserInterface|null $user */
-        $user = $this->getUserRepository($userType)->findOneByEmail($email);
+        /** @var VendorInterface|null $user */
+        $user = $this->getVendorRepository($userType)->findOneByEmail($email);
 
         if (null === $user) {
             throw new \InvalidArgumentException(sprintf('Could not find user identified by email "%s"', $email));
@@ -110,18 +110,17 @@ abstract class AbstractRoleCommand extends Command
         return $this->getContainer()->get('doctrine')->getManagerForClass($class);
     }
 
-    protected function getUserRepository(string $userType): VendorRepositoryInterface
+    protected function getVendorRepository(string $userType): VendorRepositoryInterface
     {
         $class = $this->getUserModelClass($userType);
 
         return $this->getEntityManager($userType)->getRepository($class);
     }
 
-    protected function getAvailableUserTypes(): array
+    protected function getAvailableVendorTypes(): array
     {
         $config = $this->getContainer()->getParameter('user.users');
 
-        // Keep only users types which implement \SyliusInterface
         $userTypes = array_filter($config, fn (array $userTypeConfig): bool => isset($userTypeConfig['user']['classes']['model']) && is_a($userTypeConfig['user']['classes']['model'], UserInterface::class, true));
 
         return array_keys($userTypes);

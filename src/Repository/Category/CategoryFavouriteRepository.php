@@ -3,9 +3,8 @@
 namespace App\Repository\Category;
 
 use App\Entity\Category\Category;
-use App\RepositoryInterface\Category\CategoryFavouriteRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Category\CategoryFavouriteRepositoryInterface;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)

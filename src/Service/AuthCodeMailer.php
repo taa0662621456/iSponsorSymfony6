@@ -13,5 +13,4 @@ class AuthCodeMailer implements AuthCodeMailerInterface
         // TODO: Send email
         // https://symfony.com/bundles/SchebTwoFactorBundle/current/providers/email.html#installation
     }
-
 }

@@ -1,22 +1,20 @@
 <?php
 
-
 namespace App\Service\Product\Constraints;
 
-
-use App\Form\Product\AttributeType\TextAttributeType;
+use Webmozart\Assert\Assert;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Webmozart\Assert\Assert;
+use App\Form\Product\AttributeType\TextAttributeType;
 
 final class ValidTextAttributeConfigurationValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint): void
     {
-        /** @var AttributeInterface $value */
+        /* @var AttributeInterface $value */
         Assert::isInstanceOf($value, AttributeInterface::class);
 
-        /** @var ValidTextAttributeConfiguration $constraint */
+        /* @var ValidTextAttributeConfiguration $constraint */
         Assert::isInstanceOf($constraint, ValidTextAttributeConfiguration::class);
 
         if (TextAttributeType::TYPE !== $value->getType()) {

@@ -2,10 +2,10 @@
 
 namespace App\EventListener\Listener_Sylius;
 
-use App\DataFixtures\Promotion\PromotionCatalogFixtures;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Messenger\MessageBusInterface;
+use App\DataFixtures\Promotion\PromotionCatalogFixtures;
 use Symfony\Component\Security\Http\Firewall\AbstractListener;
 
 class CatalogPromotionExecutorListener extends AbstractListener implements AfterFixtureListenerInterface

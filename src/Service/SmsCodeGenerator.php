@@ -1,16 +1,13 @@
 <?php
 
-
 namespace App\Service;
 
-
 use App\Entity\Vendor\VendorCodeStorage;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SmsCodeGenerator
 {
@@ -19,7 +16,6 @@ class SmsCodeGenerator
     public function __constructor(ManagerRegistry $managerRegistry): void
     {
         $this->managerRegistry = $managerRegistry;
-
     }
 
     public function smsCodeGenerator(Request $request, EntityManagerInterface $em): Response
@@ -36,14 +32,14 @@ class SmsCodeGenerator
         $em->flush();
 
         // Эта строка отправляет смс. Чтобы отправка заработала, необходимо зарегистрироваться на сайте и указать параметры
-        //file_get_contents('<a href="https://smsc.ru" class="ext" target="_blank">https://smsc.ru<span
+        // file_get_contents('<a href="https://smsc.ru" class="ext" target="_blank">https://smsc.ru<span
         // class="ext"><span class="element-invisible"> (link is external)</span></span></a>');
 
         return new JsonResponse(
             [
                 'success' => 1,
-                'error'   => 0,
-                'code'    => $rand,
+                'error' => 0,
+                'code' => $rand,
             ]
         );
     }
@@ -56,12 +52,11 @@ class SmsCodeGenerator
             ->getRepository(VendorCodeStorage::class)
             ->findOneBy(
                 [
-                    'phone'   => $formData['phone'],
-                    'code'    => $formData['code'],
+                    'phone' => $formData['phone'],
+                    'code' => $formData['code'],
                     'isLogin' => null,
                 ]
-            )
-        ;
+            );
 
         // Если такого кода в базе нет, возвращаем ошибку
         if (empty($codeFromDataBase)) {
@@ -72,7 +67,7 @@ class SmsCodeGenerator
 
         // Проверка, не просрочен ли код
         $createCodeTime = $codeFromDataBase->getcreatedAt();
-        $checkTime = (new DateTime())->modify('-5 minutes'); // время действия кода - 5 минут
+        $checkTime = (new \DateTime())->modify('-5 minutes'); // время действия кода - 5 минут
 
         if ($checkTime > $createCodeTime) {
             $data['error'] = 'Данный SMS-код уже недействителен. Запросите новый код.';
@@ -84,8 +79,7 @@ class SmsCodeGenerator
         $codeFromDataBase->setIsLogin(true);
 
         $em = $this->managerRegistry
-            ->getManager()
-        ;
+            ->getManager();
         $em->persist($codeFromDataBase);
         $em->flush();
 

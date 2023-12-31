@@ -26,5 +26,4 @@ class UniquePinGenerator
 
         return $pin;
     }
-
 }

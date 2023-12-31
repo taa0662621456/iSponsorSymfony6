@@ -2,12 +2,11 @@
 
 namespace App\Repository\Product;
 
-use App\Entity\Product\ProductStorage;
-use App\RepositoryInterface\Product\ProductOptionRepositoryInterface;
-use App\Service\EntityAssociationHydrator;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\EntityRepository;
+use App\Entity\Product\ProductStorage;
+use App\Service\EntityAssociationHydrator;
+use App\RepositoryInterface\Product\ProductOptionRepositoryInterface;
 
 /**
  * @method ProductStorage|null find($id, $lockMode = null, $lockVersion = null)
@@ -53,8 +52,7 @@ class ProductOptionRepository extends EntityRepository implements ProductOptionR
         return $this->createQueryBuilder('o')
             ->innerJoin('o.translations', 'translation')
             ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ;
+            ->setParameter('locale', $locale);
     }
 
     public function findByName(string $name, string $locale): array
@@ -66,8 +64,7 @@ class ProductOptionRepository extends EntityRepository implements ProductOptionR
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
 //    public function findAll(): array

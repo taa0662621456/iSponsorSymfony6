@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Twig\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 final class CurrencySwitchController
 {
     public function __construct(
-        private readonly Environment              $templatingEngine,
+        private readonly Environment $templatingEngine,
         private readonly CurrencyContextInterface $currencyContext,
         private readonly CurrencyStorageInterface $currencyStorage,
-        private readonly ChannelContextInterface  $channelContext,
+        private readonly ChannelContextInterface $channelContext,
     ) {
     }
 

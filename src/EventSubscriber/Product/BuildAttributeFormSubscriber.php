@@ -2,15 +2,15 @@
 
 namespace App\EventSubscriber\Product;
 
-use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
+use Webmozart\Assert\Assert;
 
-use App\EntityInterface\Product\ProductAttributeValueInterface;
-use App\EntityInterface\Product\ProductInterface;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Webmozart\Assert\Assert;
+use App\EntityInterface\Product\ProductInterface;
+use App\EntityInterface\Product\ProductAttributeValueInterface;
+use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class BuildAttributeFormSubscriber implements EventSubscriberInterface
 {

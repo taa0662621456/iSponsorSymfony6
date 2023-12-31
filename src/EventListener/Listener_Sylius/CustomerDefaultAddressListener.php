@@ -10,7 +10,7 @@ final class CustomerDefaultAddressListener
     {
         $address = $event->getSubject();
 
-        /** @var AddressInterface $address */
+        /* @var AddressInterface $address */
         Assert::isInstanceOf($address, AddressInterface::class);
 
         $this->setAddressAsDefault($address);

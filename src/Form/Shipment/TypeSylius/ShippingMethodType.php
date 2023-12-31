@@ -2,25 +2,25 @@
 
 namespace App\Form\Shipment\TypeSylius;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
-use App\Interface\ServiceRegistryInterface;
-use Ramsey\Uuid\Math\CalculatorInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Ramsey\Uuid\Math\CalculatorInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormView;
+use App\Interface\ServiceRegistryInterface;
+use App\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 final class ShippingMethodType extends AbstractResourceType
 {
     public function __construct(
-        string                                     $dataClass,
-        array                                      $validationGroups,
-        private readonly string                    $shippingMethodTranslationType,
-        private readonly ServiceRegistryInterface  $calculatorRegistry,
+        string $dataClass,
+        array $validationGroups,
+        private readonly string $shippingMethodTranslationType,
+        private readonly ServiceRegistryInterface $calculatorRegistry,
         private readonly FormTypeRegistryInterface $formTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
@@ -76,13 +76,12 @@ final class ShippingMethodType extends AbstractResourceType
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $data = $event->getData();
 
-                if (empty($data) || !array_key_exists('calculator', $data)) {
+                if (empty($data) || !\array_key_exists('calculator', $data)) {
                     return;
                 }
 
                 $this->addConfigurationField($event->getForm(), $data['calculator']);
-            })
-        ;
+            });
 
         $prototypes = [];
         foreach ($this->calculatorRegistry->all() as $name => $calculator) {
@@ -111,7 +110,7 @@ final class ShippingMethodType extends AbstractResourceType
         $view->vars['prototypes'] = [];
         foreach ($form->getConfig()->getAttribute('prototypes') as $group => $prototypes) {
             foreach ($prototypes as $type => $prototype) {
-                $view->vars['prototypes'][$group . '_' . $type] = $prototype->createView($view);
+                $view->vars['prototypes'][$group.'_'.$type] = $prototype->createView($view);
             }
         }
     }

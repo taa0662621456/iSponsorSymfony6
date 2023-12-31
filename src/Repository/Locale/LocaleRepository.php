@@ -3,8 +3,8 @@
 namespace App\Repository\Locale;
 
 use App\Entity\Locale\Locale;
-use App\RepositoryInterface\Locale\LocaleRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Locale\LocaleRepositoryInterface;
 
 /**
  * @method Locale|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class LocaleRepository extends EntityRepository implements LocaleRepositoryInterface
 {
-
 }

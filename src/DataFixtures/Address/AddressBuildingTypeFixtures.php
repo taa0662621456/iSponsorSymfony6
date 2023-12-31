@@ -2,19 +2,15 @@
 
 namespace App\DataFixtures\Address;
 
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-
 
 final class AddressBuildingTypeFixtures extends DataFixtures
 {
-
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 2): void
     {
@@ -24,8 +20,6 @@ final class AddressBuildingTypeFixtures extends DataFixtures
             'firstTitle' => $faker->realText(),
             'lastTitle' => $faker->realText(7000),
         ];
-
-
 
         parent::load($manager, $property);
     }

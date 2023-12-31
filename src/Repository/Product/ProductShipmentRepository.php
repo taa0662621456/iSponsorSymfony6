@@ -2,10 +2,9 @@
 
 namespace App\Repository\Product;
 
+use App\Repository\EntityRepository;
 use App\Entity\Product\ProductShipment;
 use App\RepositoryInterface\Product\ProductShipmentRepositoryInterface;
-use App\Repository\EntityRepository;
-
 
 /**
  * @method ProductShipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class ProductShipmentRepository extends EntityRepository implements ProductShipmentRepositoryInterface
 {
-
 }

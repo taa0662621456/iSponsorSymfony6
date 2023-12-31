@@ -2,14 +2,12 @@
 
 namespace App\Controller\Security;
 
+use JetBrains\PhpStorm\NoReturn;
 use App\Controller\BaseController;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\NoReturn;
-use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-
-
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 
 class TwoFactorController extends BaseController
 {
@@ -24,5 +22,4 @@ class TwoFactorController extends BaseController
         }
         dd($user);
     }
-
 }

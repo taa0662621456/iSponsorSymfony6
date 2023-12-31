@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Form\Shipment;
 
-
-use App\Form\Shipment\Calculator\PerUnitRateConfigurationType;
-use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
+use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\Shipment\Calculator\PerUnitRateConfigurationType;
 
 final class VendorBasedPerUnitRateConfigurationType extends AbstractType
 {

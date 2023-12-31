@@ -7,7 +7,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DirectoryChecker extends Command
 {
-
     protected static $defaultName = 'directory-checker';
 
     protected function directoryChecker(string $directory, OutputInterface $output): void
@@ -18,5 +17,4 @@ class DirectoryChecker extends Command
         $checker->ensureDirectoryExists($directory, $output);
         $checker->ensureDirectoryIsWritable($directory, $output);
     }
-
 }

@@ -3,9 +3,9 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class ChannelFormSubscriber implements EventSubscriberInterface
 {
@@ -28,14 +28,12 @@ final class ChannelFormSubscriber implements EventSubscriberInterface
         $data['locales'] = $this->resolveLocales(
             $data['locales'] ?? [],
             $data['defaultLocale'],
-        )
-        ;
+        );
 
         $data['currencies'] = $this->resolveCurrencies(
             $data['currencies'] ?? [],
             $data['baseCurrency'],
-        )
-        ;
+        );
 
         $event->setData($data);
     }
@@ -51,7 +49,7 @@ final class ChannelFormSubscriber implements EventSubscriberInterface
             return [$defaultLocale];
         }
 
-        if (!in_array($defaultLocale, $locales)) {
+        if (!\in_array($defaultLocale, $locales)) {
             $locales[] = $defaultLocale;
         }
 
@@ -69,7 +67,7 @@ final class ChannelFormSubscriber implements EventSubscriberInterface
             return [$baseCurrency];
         }
 
-        if (!in_array($baseCurrency, $currencies)) {
+        if (!\in_array($baseCurrency, $currencies)) {
             $currencies[] = $baseCurrency;
         }
 

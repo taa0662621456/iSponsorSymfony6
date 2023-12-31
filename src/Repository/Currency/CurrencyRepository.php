@@ -3,10 +3,8 @@
 namespace App\Repository\Currency;
 
 use App\Entity\Currency\Currency;
-use App\Entity\Currency\CurrencyExchange;
-use App\EntityInterface\Currency\CurrencyRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\EntityInterface\Currency\CurrencyRepositoryInterface;
 
 /**
  * @method Currency|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CurrencyRepository extends EntityRepository implements CurrencyRepositoryInterface
 {
-
 }

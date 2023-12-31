@@ -2,17 +2,17 @@
 
 namespace App\EventListener\Vendor;
 
-use App\Interface\Channel\ChannelContextInterface;
-use App\Interface\Order\OrderRepositoryInterface;
-use App\Interface\Product\ProductStorageInterface;
 use HWI\Bundle\OAuthBundle\Event\UserEvent;
+use App\Interface\Order\OrderRepositoryInterface;
+use App\Interface\Channel\ChannelContextInterface;
+use App\Interface\Product\ProductStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserImpersonatedListener
 {
     public function __construct(
-        private readonly ProductStorageInterface  $cartStorage,
-        private readonly ChannelContextInterface  $channelContext,
+        private readonly ProductStorageInterface $cartStorage,
+        private readonly ChannelContextInterface $channelContext,
         private readonly OrderRepositoryInterface $orderRepository,
     ) {
     }

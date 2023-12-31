@@ -25,7 +25,7 @@ final class ChannelDeletionListener
 
         $results = $this->channelRepository->findBy(['enabled' => true]);
 
-        if (!$results || (1 === count($results) && current($results) === $channel)) {
+        if (!$results || (1 === \count($results) && current($results) === $channel)) {
             $event->stop('sylius.channel.delete_error');
         }
     }

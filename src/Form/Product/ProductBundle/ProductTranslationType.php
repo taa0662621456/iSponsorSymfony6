@@ -3,9 +3,9 @@
 namespace App\Form\Product\ProductBundle;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 final class ProductTranslationType extends AbstractType
 {
@@ -29,8 +29,7 @@ final class ProductTranslationType extends AbstractType
             ->add('metaDescription', TextType::class, [
                 'required' => false,
                 'label' => 'form.product.meta_description',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

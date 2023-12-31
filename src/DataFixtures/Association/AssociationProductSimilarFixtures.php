@@ -2,28 +2,16 @@
 
 namespace App\DataFixtures\Association;
 
-
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use Faker\Generator;
 
 use App\DataFixtures\DataFixtures;
 
-
 use Doctrine\Persistence\ObjectManager;
-use JetBrains\PhpStorm\NoReturn;
-
-use App\DataFixtures\Product\ProductFixtures;
-use App\DataFixtures\Product\ProductTypeFixtures;
-use App\Entity\Association\AssociationProduct;
 use App\EntityInterface\Product\ProductInterface;
-use Faker\Generator;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-
 
 final class AssociationProductSimilarFixtures extends DataFixtures
 {
-
     private Generator $faker;
 
     public function load(ObjectManager $manager, $property = [], $n = 1): void
@@ -32,13 +20,11 @@ final class AssociationProductSimilarFixtures extends DataFixtures
         parent::load($manager, $property, $n);
     }
 
-
     protected function configureOptionsNode(ArrayNodeDefinition $optionsNode): void
     {
         $optionsNode
             ->children()
-                ->integerNode('amount')->isRequired()->min(0)->end()
-        ;
+                ->integerNode('amount')->isRequired()->min(0)->end();
     }
 
     /**
@@ -57,5 +43,4 @@ final class AssociationProductSimilarFixtures extends DataFixtures
 
         return $associatedProducts;
     }
-
 }

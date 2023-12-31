@@ -3,8 +3,8 @@
 namespace App\EventListener;
 
 use App\Request\RequestAttribute;
-use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpFoundation\RequestMatcherInterface;
 
 final class ZoneMatcherListener
 {

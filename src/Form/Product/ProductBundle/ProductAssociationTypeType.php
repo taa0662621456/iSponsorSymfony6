@@ -2,8 +2,8 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\AbstractType;
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductAssociationTypeType extends AbstractType
@@ -15,8 +15,7 @@ final class ProductAssociationTypeType extends AbstractType
                 'entry_type' => ProductAssociationTypeTranslationType::class,
                 'label' => 'form.product_association_type.translations',
             ])
-            ->addEventSubscriber(new AddCodeFormSubscriber())
-        ;
+            ->addEventSubscriber(new AddCodeFormSubscriber());
     }
 
     public function getBlockPrefix(): string

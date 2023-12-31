@@ -1,16 +1,14 @@
 <?php
 
-
 namespace App\Repository\Product;
 
-use App\Entity\Product\ProductFavourite;
-use App\Entity\Vendor\VendorFavourite;
-use App\RepositoryInterface\Product\ProductFavouriteRepositoryInterface;
+use Doctrine\ORM\NoResultException;
 use App\Repository\EntityRepository;
+use App\Entity\Vendor\VendorFavourite;
+use App\Entity\Product\ProductFavourite;
 
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Product\ProductFavouriteRepositoryInterface;
 
 /**
  * @method ProductFavourite|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,25 +18,19 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductFavouriteRepository extends EntityRepository implements ProductFavouriteRepositoryInterface
 {
-    /**
-     * @param VendorFavourite $vendor
-     * @param integer $productId
-     *
-     * @return bool|null
-     */
     public function checkIsLiked(VendorFavourite $vendor, int $productId): ?bool
     {
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select('count(f.id)')
-			->from(ProductFavourite::class, 'f')
+            ->from(ProductFavourite::class, 'f')
             ->innerJoin('f.vendor', 'v')
             ->innerJoin('f.product', 'p')
             ->where('v = :vendor')
             ->andWhere('p.id = :product_id')
             ->setParameters([
                 'product_id' => $productId,
-                'vendor' => $vendor
+                'vendor' => $vendor,
             ]);
 
         try {

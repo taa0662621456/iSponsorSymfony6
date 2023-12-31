@@ -2,10 +2,10 @@
 
 namespace App\Form\Cart\Checkout;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShipmentType extends AbstractType
@@ -27,8 +27,7 @@ final class ShipmentType extends AbstractType
                     'subject' => $shipment,
                     'expanded' => true,
                 ]);
-            })
-        ;
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -36,8 +35,7 @@ final class ShipmentType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => $this->dataClass,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

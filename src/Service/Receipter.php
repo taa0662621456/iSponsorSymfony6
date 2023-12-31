@@ -1,22 +1,15 @@
 <?php
 
-
 namespace App\Service;
 
 use App\Entity\Order\Orders;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Environment as TwigEnvironment;
-
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Receipter
 {
-    /**
-     * @var \Twig\Environment
-     */
     protected TwigEnvironment $twig;
-    /**
-     * @var \Symfony\Component\DependencyInjection\ContainerInterface
-     */
+
     protected ContainerInterface $container;
 
     public function __construct(ContainerInterface $container, TwigEnvironment $twig)
@@ -25,10 +18,6 @@ class Receipter
         $this->twig = $twig;
     }
 
-    /**
-     * @param Orders $order
-     * @return array
-     */
     public function createReceipt(Orders $order): array
     {
         $receipt = [];
@@ -37,10 +26,10 @@ class Receipter
                 // TODO: RoboKassa
                 break;
             default:// YandexMoney
-                //TODO: YandexMoney
+                // TODO: YandexMoney
                 break;
         }
+
         return $receipt;
     }
-
 }

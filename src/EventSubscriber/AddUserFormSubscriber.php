@@ -3,12 +3,11 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\Valid;
-use Webmozart\Assert\Assert;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class AddUserFormSubscriber implements EventSubscriberInterface
 {
@@ -40,7 +39,6 @@ final class AddUserFormSubscriber implements EventSubscriberInterface
     {
         $data = $event->getData();
         $form = $event->getForm();
-
 
         if (null === $data->getUser()->getId() && null === $form->get('createUser')->getViewData()) {
             $data->setUser(null);

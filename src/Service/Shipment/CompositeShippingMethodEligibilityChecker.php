@@ -8,12 +8,9 @@ final class CompositeShippingMethodEligibilityChecker
 {
     private array $eligibilityCheckers;
 
-    /**
-     * @param array $eligibilityCheckers
-     */
     public function __construct(array $eligibilityCheckers)
     {
-//        Assert::allIsInstanceOf($eligibilityCheckers, ShippingMethodEligibilityCheckerInterface::class);
+        //        Assert::allIsInstanceOf($eligibilityCheckers, ShippingMethodEligibilityCheckerInterface::class);
 
         $this->eligibilityCheckers = $eligibilityCheckers;
     }

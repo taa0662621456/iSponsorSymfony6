@@ -2,19 +2,19 @@
 
 namespace App\Service\Setup;
 
-use App\EntityInterface\Currency\CurrencyInterface;
-use App\EntityInterface\Locale\LocaleInterface;
 use App\Interface\FactoryInterface;
-use Composer\Repository\RepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
+use Composer\Repository\RepositoryInterface;
+use App\EntityInterface\Locale\LocaleInterface;
+use App\EntityInterface\Currency\CurrencyInterface;
 use Symfony\Component\Notifier\Channel\ChannelInterface;
 
 final class ChannelSetup implements ChannelSetupInterface
 {
     public function __construct(
         private readonly RepositoryInterface $channelRepository,
-        private readonly FactoryInterface    $channelFactory,
-        private readonly ObjectManager       $channelManager,
+        private readonly FactoryInterface $channelFactory,
+        private readonly ObjectManager $channelManager,
     ) {
     }
 

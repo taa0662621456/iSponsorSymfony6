@@ -2,9 +2,8 @@
 
 namespace App\Repository\Category;
 
-use Doctrine\Persistence\ManagerRegistry;
-use App\Entity\Category\CategoryAttachment;
 use App\Repository\EntityRepository;
+use App\Entity\Category\CategoryAttachment;
 use App\RepositoryInterface\Category\CategoryAttachmentRepositoryInterface;
 
 /**

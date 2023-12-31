@@ -1,15 +1,8 @@
 <?php
 
-
 namespace App\DataFixtures\Promotion;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
 use App\DataFixtures\DataFixtures;
-
-
-use JetBrains\PhpStorm\NoReturn;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
@@ -59,7 +52,6 @@ final class PromotionFixtures extends DataFixtures
                         ->booleanNode('reusable_from_cancelled_orders')->defaultTrue()->end()
                         ->integerNode('usage_limit')->defaultNull()->end()
                     ->end()
-                ->end()
-        ;
+                ->end();
     }
 }

@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Repository\Vendor;
 
-use App\Entity\Vendor\VendorConversation;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
+use App\Repository\EntityRepository;
+use App\Entity\Vendor\VendorConversation;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -33,8 +32,8 @@ class VendorConversationRepository extends EntityRepository implements VendorCon
                     $qb->expr()->eq('p.user', ':otherUser')
                 )
 
-            /*$qb->expr()->eq('p.user', ':my'),
-            $qb->expr()->eq('p.user', ':otherUser')*/
+                /*$qb->expr()->eq('p.user', ':my'),
+                $qb->expr()->eq('p.user', ':otherUser')*/
             )
             ->groupBy('p.conversation')
             ->having(
@@ -44,7 +43,7 @@ class VendorConversationRepository extends EntityRepository implements VendorCon
                 )
                     ->setParameters([
                         'me' => $currentUserId,
-                        'otherUser' => $otherUserId
+                        'otherUser' => $otherUserId,
                     ])
             );
 
@@ -84,11 +83,9 @@ class VendorConversationRepository extends EntityRepository implements VendorCon
             )
             ->setParameters([
                 'conversationId' => $conversationId,
-                'userId' => $userId
+                'userId' => $userId,
             ]);
 
         return $qb->getQuery()->getOneOrNullResult();
-
     }
-
 }

@@ -1,16 +1,13 @@
 <?php
 
-
 namespace App\Controller\Admin;
-
 
 use App\Entity\Attachment\Attachment;
 use App\Form\Attachment\AttachmentType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class AttachmentCrudController extends AbstractCrudController
 {
@@ -29,8 +26,7 @@ class AttachmentCrudController extends AbstractCrudController
 //                ->setFormType(AttachmentType::class)
                 ->setBasePath('/upload/category/thumbnail')
                 ->setUploadDir('/upload/category/thumbnail')
-                ->onlyOnIndex()
-            ,
+                ->onlyOnIndex(),
         ];
     }
 }

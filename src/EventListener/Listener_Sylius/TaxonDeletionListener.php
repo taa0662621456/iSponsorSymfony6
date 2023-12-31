@@ -2,11 +2,11 @@
 
 namespace App\EventListener\Listener_Sylius;
 
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 final class TaxonDeletionListener
 {
@@ -31,7 +31,7 @@ final class TaxonDeletionListener
         Assert::isInstanceOf($taxon, TaxonInterface::class);
 
         $channel = $this->channelRepository->findOneBy(['menuTaxon' => $taxon]);
-        if ($channel !== null) {
+        if (null !== $channel) {
             /** @var FlashBagInterface $flashes */
             $flashes = FlashBagProvider::getFlashBag($this->requestStackOrSession);
             $flashes->add('error', 'sylius.taxon.menu_taxon_delete');
@@ -65,7 +65,7 @@ final class TaxonDeletionListener
         $taxon = $event->getSubject();
         Assert::isInstanceOf($taxon, TaxonInterface::class);
 
-        if ($taxon->getPosition() === 0) {
+        if (0 === $taxon->getPosition()) {
             $taxon->setPosition(-1);
         }
     }

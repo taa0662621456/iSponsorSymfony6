@@ -2,12 +2,12 @@
 
 namespace App\EventSubscriber;
 
+use JetBrains\PhpStorm\ArrayShape;
 use App\Interface\SectionProviderInterface;
 use App\Service\ShopCustomerAccountSubSection;
-use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class ShopCustomerAccountSubSectionCacheControlSubscriber implements EventSubscriberInterface
 {

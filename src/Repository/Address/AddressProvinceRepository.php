@@ -3,11 +3,8 @@
 namespace App\Repository\Address;
 
 use App\Entity\Address\Address;
-use App\Entity\Address\AddressCountry;
-use App\Entity\Address\AddressProvince;
-use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
 
 /**
  * @method Address|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AddressProvinceRepository extends EntityRepository implements AddressProvinceRepositoryInterface
 {
-
 }

@@ -2,15 +2,15 @@
 
 namespace App\Command;
 
-use App\EntityInterface\Coupon\CouponGeneratorInstructionInterface;
-use App\EntityInterface\Coupon\CouponGeneratorInterface;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputOption;
 use App\Repository\Promotion\PromotionRepository;
 use App\Service\Coupon\CouponGeneratorInstruction;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use App\EntityInterface\Coupon\CouponGeneratorInterface;
+use App\EntityInterface\Coupon\CouponGeneratorInstructionInterface;
 
 final class CouponGenerateCommand extends Command
 {
@@ -29,8 +29,7 @@ final class CouponGenerateCommand extends Command
             ->setDescription('Generates coupons for a given promotion')
             ->addArgument('promotion-code', InputArgument::REQUIRED, 'Code of the promotion')
             ->addArgument('count', InputArgument::REQUIRED, 'Amount of coupons to generate')
-            ->addOption('length', 'len', InputOption::VALUE_OPTIONAL, 'Length of the coupon code (default 10)', '10')
-        ;
+            ->addOption('length', 'len', InputOption::VALUE_OPTIONAL, 'Length of the coupon code (default 10)', '10');
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -79,5 +78,4 @@ final class CouponGenerateCommand extends Command
 
         return $instruction;
     }
-
 }

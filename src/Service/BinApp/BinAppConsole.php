@@ -1,10 +1,12 @@
 <?php
-//https://qwertybox.ru/articles/22530/
+
+// https://qwertybox.ru/articles/22530/
+
 namespace App\Service\BinApp;
 
-use Symfony\Bundle\FrameworkBundle\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Command\ListCommand;
+use Symfony\Bundle\FrameworkBundle\Console\Application as BaseApplication;
 
 class BinAppConsole extends BaseApplication
 {
@@ -31,5 +33,4 @@ class BinAppConsole extends BaseApplication
 //
 //        return parent::add($command);
 //    }
-
 }

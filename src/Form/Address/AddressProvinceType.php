@@ -2,11 +2,11 @@
 
 namespace App\Form\Address;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class AddressProvinceType extends AbstractType
 {
@@ -35,8 +35,7 @@ final class AddressProvinceType extends AbstractType
             ->add('abbreviation', TextType::class, [
                 'label' => 'form.province.abbreviation',
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

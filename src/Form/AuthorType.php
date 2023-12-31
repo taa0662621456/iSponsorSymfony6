@@ -16,14 +16,13 @@ class AuthorType extends AbstractType
             ->add('ordering')
             ->add('categoryKey')
             ->add('projectEnGb')
-            ->add('tags')
-        ;
+            ->add('tags');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Author::class, //TODO: нет такой сущности...
+            'data_class' => Author::class, // TODO: нет такой сущности...
         ]);
     }
 }

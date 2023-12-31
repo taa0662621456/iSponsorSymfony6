@@ -1,18 +1,16 @@
 <?php
 
-
 namespace App\Form\Taxation;
 
-
-use App\Dto\Taxation\TaxationZoneCodeDTO;
-use App\EntityInterface\Zone\ZoneRepositoryInterface;
-use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\ReversedTransformer;
+use App\Dto\Taxation\TaxationZoneCodeDTO;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\EntityInterface\Zone\ZoneRepositoryInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class TaxationZoneCodeSelectorType extends AbstractType
 {
@@ -44,8 +42,7 @@ final class TaxationZoneCodeSelectorType extends AbstractType
                 'label' => 'form.zone.types.zone',
                 'placeholder' => 'form.zone.select',
                 'data_class' => TaxationZoneCodeDTO::class,
-            ])
-        ;
+            ]);
     }
 
     public function getParent(): string

@@ -2,11 +2,12 @@
 
 namespace App\Repository\Shipment;
 
-use App\Entity\Shipment\Shipment;
-use App\RepositoryInterface\Shipment\ShipmentMethodRepositoryInterface;
-use App\Interface\Vendor\VendorInterface;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Shipment\Shipment;
+use App\Repository\EntityRepository;
+use App\Interface\Vendor\VendorInterface;
+use App\RepositoryInterface\Shipment\ShipmentMethodRepositoryInterface;
+
 /**
  * @method Shipment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Shipment|null findOneBy(array $criteria, array $orderBy = null)
@@ -19,16 +20,14 @@ class ShipmentMethodRepository extends EntityRepository implements ShipmentMetho
     {
         return $this->createQueryBuilder('o')
             ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
-            ->setParameter('locale', $locale)
-            ;
+            ->setParameter('locale', $locale);
     }
 
     public function findEnabledForChannel(VendorInterface $vendor): array
     {
         return $this->createEnabledForChannelQueryBuilder($vendor)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findEnabledForZonesAndChannel(array $zones, VendorInterface $vendor): array
@@ -38,8 +37,7 @@ class ShipmentMethodRepository extends EntityRepository implements ShipmentMetho
             ->setParameter('zones', $zones)
             ->addOrderBy('o.position', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     protected function createEnabledForChannelQueryBuilder(VendorInterface $vendor): QueryBuilder
@@ -49,8 +47,7 @@ class ShipmentMethodRepository extends EntityRepository implements ShipmentMetho
             ->andWhere('o.archivedAt IS NULL')
             ->andWhere(':vendor MEMBER OF o.vendors')
             ->setParameter('vendor', $vendor)
-            ->setParameter('enabled', true)
-            ;
+            ->setParameter('enabled', true);
     }
 
     public function findByName(string $name, string $locale): array
@@ -62,8 +59,6 @@ class ShipmentMethodRepository extends EntityRepository implements ShipmentMetho
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
-
 }

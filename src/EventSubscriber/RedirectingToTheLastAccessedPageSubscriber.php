@@ -3,11 +3,11 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class RedirectingToTheLastAccessedPageSubscriber implements EventSubscriberInterface
 {

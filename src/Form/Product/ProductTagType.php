@@ -1,16 +1,15 @@
 <?php
 
-
 namespace App\Form\Product;
 
 use App\Tool\ProductTagTransformer;
-use App\Repository\Tag\TagRepository;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use App\Repository\Tag\TagRepository;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 
 class ProductTagType extends AbstractType
 {
@@ -18,9 +17,6 @@ class ProductTagType extends AbstractType
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -29,22 +25,15 @@ class ProductTagType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new ProductTagTransformer($this->tags), true)
-        ;
+            ->addModelTransformer(new ProductTagTransformer($this->tags), true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['tags'] = $this->tags->findAll();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent():?string
+    public function getParent(): ?string
     {
         return TextType::class;
     }

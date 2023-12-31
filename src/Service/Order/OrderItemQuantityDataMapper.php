@@ -2,9 +2,9 @@
 
 namespace App\Service\Order;
 
-use App\Interface\Order\OrderItemQuantityModifierInterface;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\ServiceInterface\Order\OrderQuantityModifierInterface;
 use Symfony\Component\Form\DataMapperInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @internal
@@ -12,8 +12,8 @@ use Symfony\Component\Form\DataMapperInterface;
 class OrderItemQuantityDataMapper implements DataMapperInterface
 {
     public function __construct(
-        private readonly OrderItemQuantityModifierInterface $orderItemQuantityModifier,
-        private readonly DataMapperInterface                $propertyPathDataMapper,
+        private readonly OrderQuantityModifierInterface $orderItemQuantityModifier,
+        private readonly DataMapperInterface $propertyPathDataMapper,
     ) {
     }
 

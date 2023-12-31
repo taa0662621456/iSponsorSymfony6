@@ -2,30 +2,15 @@
 
 namespace App\DataFixtures\Category;
 
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
-
-use App\DataFixtures\Vendor\VendorDocumentFixtures;
-use App\DataFixtures\Vendor\VendorEnGbFixtures;
-use App\DataFixtures\Vendor\VendorFixtures;
-use App\DataFixtures\Vendor\VendorIbanFixtures;
-use App\DataFixtures\Vendor\VendorMediaFixtures;
-use App\DataFixtures\Vendor\VendorSecurityFixtures;
-
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-
 
 final class CategoryAttachmentFixtures extends DataFixtures
 {
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {
@@ -43,8 +28,8 @@ final class CategoryAttachmentFixtures extends DataFixtures
         parent::load($manager, $property, $n);
     }
 
-	public function getOrder(): int
+    public function getOrder(): int
     {
-		return 8;
-	}
+        return 8;
+    }
 }

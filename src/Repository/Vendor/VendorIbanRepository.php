@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorIban;
-use App\RepositoryInterface\Vendor\VendorIbanRepositoryInterface;
 use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Vendor\VendorIbanRepositoryInterface;
 
 /**
  * @method VendorIban|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,8 +19,4 @@ class VendorIbanRepository extends EntityRepository implements VendorIbanReposit
     {
         parent::__construct($registry, VendorIban::class);
     }
-
-
-
-
 }

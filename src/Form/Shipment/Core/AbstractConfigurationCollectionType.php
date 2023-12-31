@@ -1,16 +1,14 @@
 <?php
 
-
 namespace App\Form\Shipment\Core;
 
-
-use App\Interface\ServiceRegistryInterface;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
+use App\Interface\ServiceRegistryInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 abstract class AbstractConfigurationCollectionType extends AbstractType
 {
@@ -45,7 +43,7 @@ abstract class AbstractConfigurationCollectionType extends AbstractType
         $view->vars['prototypes'] = [];
 
         foreach ($form->getConfig()->getAttribute('prototypes') as $type => $prototype) {
-            /** @var FormInterface $prototype */
+            /* @var FormInterface $prototype */
             $view->vars['prototypes'][$type] = $prototype->createView($view);
         }
     }

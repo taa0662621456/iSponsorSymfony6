@@ -1,24 +1,18 @@
 <?php
 
+namespace App\Service;
 
-	namespace App\Service;
+class StorageCRUDsMethods
+{
+    public function updateRemainder(): void
+    {
+    }
 
-	use Doctrine\ORM\EntityManager;
+    public function decrementRemainder(): void
+    {
+    }
 
-
-	class StorageCRUDsMethods
-	{
-        public function updateRemainder(): void
-        {
-
-		}
-        public function decrementRemainder(): void
-        {
-
-		}
-        public function incrementRemainder(): void
-        {
-
-		}
-
-	}
+    public function incrementRemainder(): void
+    {
+    }
+}

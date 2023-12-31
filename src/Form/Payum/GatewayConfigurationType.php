@@ -2,11 +2,11 @@
 
 namespace App\Form\Payum;
 
-use Payum\Core\Model\GatewayConfigInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Payum\Core\Model\GatewayConfigInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class GatewayConfigurationType extends AbstractResourceType
 {
@@ -44,8 +44,7 @@ final class GatewayConfigurationType extends AbstractResourceType
                     'label' => false,
                     'auto_initialize' => false,
                 ]);
-            })
-        ;
+            });
     }
 
     public function getBlockPrefix(): string

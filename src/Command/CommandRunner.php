@@ -2,12 +2,11 @@
 
 namespace App\Command;
 
-use App\Command\CommandExecutor;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CommandRunner extends Command
@@ -29,10 +28,10 @@ class CommandRunner extends Command
      */
     protected function go(array $commands, OutputInterface $output, bool $displayProgress = true): void
     {
-        $progress = $this->createProgressBar($displayProgress ? $output : new NullOutput(), count($commands));
+        $progress = $this->createProgressBar($displayProgress ? $output : new NullOutput(), \count($commands));
 
         foreach ($commands as $key => $value) {
-            if (is_string($key)) {
+            if (\is_string($key)) {
                 $command = $key;
                 $parameter = $value;
             } else {

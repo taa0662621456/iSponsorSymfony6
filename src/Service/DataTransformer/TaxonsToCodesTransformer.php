@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Service\DataTransformer;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Webmozart\Assert\Assert;
 use Doctrine\Common\Collections\Collection;
 
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
-use Webmozart\Assert\Assert;
 
 final class TaxonsToCodesTransformer implements DataTransformerInterface
 {

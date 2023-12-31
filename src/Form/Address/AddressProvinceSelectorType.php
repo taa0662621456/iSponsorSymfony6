@@ -3,12 +3,12 @@
 namespace App\Form\Address;
 
 use App\Dto\Address\AddressProvinceDTO;
-use App\EntityInterface\Address\AddressCountryInterface;
-use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\EntityInterface\Address\AddressCountryInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
 
 final class AddressProvinceSelectorType extends AbstractType
 {

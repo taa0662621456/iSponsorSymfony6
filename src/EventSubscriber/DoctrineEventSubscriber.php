@@ -2,18 +2,15 @@
 
 namespace App\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Events;
 use JetBrains\PhpStorm\ArrayShape;
+use Doctrine\Common\EventSubscriber;
 
 class DoctrineEventSubscriber implements EventSubscriber
 {
     // TODO: слушаем доктрину, чтобы в соответствии с CRUD-операциями в БД выполнять
     // CRUD-операции над связанными файлами
 
-    /**
-     * @return array
-     */
     #[ArrayShape([
         Events::preRemove => 'string',
         Events::postRemove => 'string',

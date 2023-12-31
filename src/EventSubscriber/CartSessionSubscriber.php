@@ -2,14 +2,14 @@
 
 namespace App\EventSubscriber;
 
-use App\ServiceInterface\Cart\CartContextServiceInterface;
-use App\EntityInterface\Order\OrderInterface;
-use App\Exception\CartNotFoundException;
-use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use Symfony\Component\HttpKernel\KernelEvents;
 use Webmozart\Assert\Assert;
+use JetBrains\PhpStorm\ArrayShape;
+use App\Exception\CartNotFoundException;
+use App\EntityInterface\Order\OrderStorageInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use App\ServiceInterface\Cart\CartContextServiceInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class CartSessionSubscriber implements EventSubscriberInterface
 {
@@ -27,7 +27,7 @@ final class CartSessionSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        if (\method_exists($event, 'isMainRequest')) {
+        if (method_exists($event, 'isMainRequest')) {
             $isMainRequest = $event->isMainRequest();
         } else {
             /** @phpstan-ignore-next-line */
@@ -46,10 +46,9 @@ final class CartSessionSubscriber implements EventSubscriberInterface
         try {
             $cart = $this->cartContext->getCart();
 
-            Assert::isInstanceOf($cart, OrderInterface::class);
+            Assert::isInstanceOf($cart, OrderStorageInterface::class);
         } catch (CartNotFoundException) {
             return;
         }
-
     }
 }

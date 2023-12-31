@@ -6,5 +6,4 @@ use App\DataFixtures\DataFixtures;
 
 class AssociationFixtures extends DataFixtures
 {
-
 }

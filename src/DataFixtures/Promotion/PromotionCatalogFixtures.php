@@ -1,22 +1,13 @@
 <?php
 
-
 namespace App\DataFixtures\Promotion;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
 use App\DataFixtures\DataFixtures;
-
-
-use Doctrine\Persistence\ObjectManager;
-use JetBrains\PhpStorm\NoReturn;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class PromotionCatalogFixtures extends DataFixtures
 {
-
     protected function configureResourceNode(ArrayNodeDefinition $resourceNode): void
     {
         $resourceNode
@@ -53,8 +44,6 @@ final class PromotionCatalogFixtures extends DataFixtures
                             ->variableNode('configuration')->end()
                         ->end()
                     ->end()
-                ->end()
-        ;
+                ->end();
     }
-
 }

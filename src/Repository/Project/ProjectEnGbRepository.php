@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Repository\Project;
 
 use App\Entity\Project\ProjectEnGb;
-use App\RepositoryInterface\Project\ProjectEnGbRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Project\ProjectEnGbRepositoryInterface;
 
 /**
  * @method ProjectEnGb|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +14,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProjectEnGbRepository extends EntityRepository implements ProjectEnGbRepositoryInterface
 {
-
     // /**
     //  * @return ProjectsEnGb[] Returns an array of ProjectsEnGb objects
     //  */

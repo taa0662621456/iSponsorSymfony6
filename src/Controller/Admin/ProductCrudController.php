@@ -1,22 +1,19 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
 use App\Entity\Product\Product;
-use App\Form\Product\ProductAttachmentType;
 use App\Form\Product\ProductType;
-use App\Form\Vendor\VendorMediaType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProductCrudController extends AbstractCrudController
 {
+    use ConfigureFiltersTrait;
+
     public static function getEntityFqcn(): string
     {
         return Product::class;
@@ -32,12 +29,10 @@ class ProductCrudController extends AbstractCrudController
             CollectionField::new('productAttachment')
                 ->setEntryType(ProductType::class)
                 ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
+                ->onlyOnForms(),
             CollectionField::new('productAttachment')
                 ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail()
-            ,
+                ->onlyOnDetail(),
 //            ImageField::new('firstTitle')
 //                ->setBasePath('/upload/product/thumbnail')
 //                ->setUploadDir('/upload/product/thumbnail')
@@ -45,7 +40,4 @@ class ProductCrudController extends AbstractCrudController
 //            ,
         ];
     }
-
-    use ConfigureFiltersTrait;
-
 }

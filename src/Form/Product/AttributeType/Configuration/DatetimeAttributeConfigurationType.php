@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Configuration;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class DatetimeAttributeConfigurationType extends AbstractType
 {
@@ -15,8 +14,7 @@ final class DatetimeAttributeConfigurationType extends AbstractType
             ->add('format', TextType::class, [
                 'label' => 'form.attribute_type_configuration.datetime.format',
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

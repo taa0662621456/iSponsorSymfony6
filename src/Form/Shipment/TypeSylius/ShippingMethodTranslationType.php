@@ -15,8 +15,7 @@ final class ShippingMethodTranslationType extends AbstractResourceType
             ->add('description', TextareaType::class, [
                 'label' => 'form.shipping_method.description',
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

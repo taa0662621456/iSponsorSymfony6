@@ -2,11 +2,13 @@
 
 namespace App\Service\Order;
 
-use App\EntityInterface\Order\OrderInterface;
+use App\EntityInterface\Order\OrderItemInterface;
+use App\EntityInterface\Order\OrderStorageInterface;
+use App\ServiceInterface\Order\OrderSubtotalCalculatorInterface;
 
-final class OrderSubtotalCalculator implements OrderItemsSubtotalCalculatorInterface
+final class OrderSubtotalCalculator implements OrderSubtotalCalculatorInterface
 {
-    public function getSubtotal(OrderInterface $order): int
+    public function getSubtotal(OrderStorageInterface $order): int
     {
         return array_reduce(
             $order->getItems()->toArray(),

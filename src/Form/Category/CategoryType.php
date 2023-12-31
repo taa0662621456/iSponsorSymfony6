@@ -4,14 +4,14 @@ namespace App\Form\Category;
 
 use App\Entity\Category\Category;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class CategoryType extends AbstractType
 {
@@ -19,20 +19,22 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add(
-            $builder
-                ->create('step-1', FormType::class, [
-                    'inherit_data' => true,
-                    'label' => false,
-                    'row_attr' => [
-                        'id' => 'step-1',
-                    ],
-                ])
-            ->add(
-                'categoryEnGb', CategoryEnGbType::class, [
-                    'translation_domain' => 'category',
-                    'label' => 'category.engb.label',
-                ]
-            )
+                $builder
+                    ->create('step-1', FormType::class, [
+                        'inherit_data' => true,
+                        'label' => false,
+                        'row_attr' => [
+                            'id' => 'step-1',
+                        ],
+                    ])
+                ->add(
+                    'categoryEnGb',
+                    CategoryEnGbType::class,
+                    [
+                        'translation_domain' => 'category',
+                        'label' => 'category.engb.label',
+                    ]
+                )
             )
             ->add(
                 $builder
@@ -44,7 +46,9 @@ class CategoryType extends AbstractType
                         ],
                     ])
             ->add(
-                'categoryAttachments', CollectionType::class, [
+                'categoryAttachments',
+                CollectionType::class,
+                [
                     'entry_type' => CategoryAttachmentType::class,
                     'translation_domain' => 'category',
                     'label' => 'category.attachment.label',
@@ -74,20 +78,23 @@ class CategoryType extends AbstractType
                         ],
                     ])
             ->add('id', HiddenType::class)
-            ->add('published', CheckboxType::class, [
+            ->add(
+                'published',
+                CheckboxType::class,
+                [
                     'translation_domain' => 'category',
                     'label' => 'category.published.label',
                     'required' => false,
                 ]
             )
-            /*				->add('parent', CheckboxType::class, array(
-                                    'label' => 'categories.parent',
-                                    'class'        => Categories::class,
-                                    'required'     => false,
-                                    'multiple'     => false,
-                                    'choice_label' => 'id'
-                                )
-                            )*/
+                /*				->add('parent', CheckboxType::class, array(
+                                        'label' => 'categories.parent',
+                                        'class'        => Categories::class,
+                                        'required'     => false,
+                                        'multiple'     => false,
+                                        'choice_label' => 'id'
+                                    )
+                                )*/
             )
             ->add(
                 $builder
@@ -99,7 +106,9 @@ class CategoryType extends AbstractType
                         ],
                     ])
                 ->add(
-                    'previous', ButtonType::class, [
+                    'previous',
+                    ButtonType::class,
+                    [
                         'label' => 'button.label.previous',
                         'translation_domain' => 'button m-1',
                         'attr' => [
@@ -109,7 +118,9 @@ class CategoryType extends AbstractType
                     ]
                 )
                 ->add(
-                    'next', ButtonType::class, [
+                    'next',
+                    ButtonType::class,
+                    [
                         'label' => 'button.label.next',
                         'translation_domain' => 'button',
                         'attr' => [
@@ -129,7 +140,9 @@ class CategoryType extends AbstractType
                         ],
                     ])
                 ->add(
-                    'back', ButtonType::class, [
+                    'back',
+                    ButtonType::class,
+                    [
                         'label' => 'button.label.back',
                         'translation_domain' => 'button',
                         'attr' => [
@@ -139,7 +152,9 @@ class CategoryType extends AbstractType
                     ]
                 )
                 ->add(
-                    'submitAndNew', SubmitType::class, [
+                    'submitAndNew',
+                    SubmitType::class,
+                    [
                         'label' => 'button.label.submitAndNew',
                         'translation_domain' => 'button',
                         'attr' => [
@@ -148,7 +163,9 @@ class CategoryType extends AbstractType
                     ]
                 ) // TODO: добавить в контролер по этой доке https://symfony.com/doc/current/form/multiple_buttons.html
                 ->add(
-                    'submit', SubmitType::class, [
+                    'submit',
+                    SubmitType::class,
+                    [
                         'label' => 'button.label.submit',
                         'translation_domain' => 'button',
                         'attr' => [
@@ -156,8 +173,7 @@ class CategoryType extends AbstractType
                         ],
                     ]
                 )
-            )
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

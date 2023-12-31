@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Form\Shipment\TypeSylius;
-
-
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -19,8 +16,7 @@ final class ShippingCategoryType extends AbstractResourceType
             ->add('description', TextareaType::class, [
                 'required' => false,
                 'label' => 'form.shipping_category.description',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

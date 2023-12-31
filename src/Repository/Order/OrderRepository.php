@@ -6,14 +6,14 @@ use Doctrine\ORM\QueryBuilder;
 use App\Entity\Project\Project;
 
 use App\Entity\Order\OrderStorage;
-use App\Service\EntityAssociationHydrator;
 use Doctrine\ORM\NoResultException;
+use App\Repository\EntityRepository;
 use Symfony\Component\Workflow\Registry;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\EntityAssociationHydrator;
 use Doctrine\ORM\NonUniqueResultException;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use App\EntityInterface\Order\OrderInterface;
+use App\EntityInterface\Order\OrderStorageInterface;
 use App\EntityInterface\Vendor\VendorInterface;
 use Laminas\Code\Reflection\DocBlock\TagManager;
 use App\EntityInterface\Order\OrderItemInterface;
@@ -48,7 +48,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->addSelect('customer')
             ->leftJoin('o.customer', 'customer')
             ->andWhere('o.state != :state')
-            ->setParameter('state', OrderInterface::STATE_CART);
+            ->setParameter('state', OrderStorageInterface::STATE_CART);
     }
 
     public function createSearchListQueryBuilder(): QueryBuilder
@@ -74,7 +74,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.state != :state')
             ->setParameter('customerId', $customerId)
             ->setParameter('vendorId', $vendorId)
-            ->setParameter('state', OrderInterface::STATE_CART);
+            ->setParameter('state', OrderStorageInterface::STATE_CART);
     }
 
     public function findByCustomer(CustomerInterface $customer): array
@@ -90,12 +90,12 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.customer = :customerId')
             ->andWhere('o.state = :state')
             ->setParameter('customerId', $customer->getId())
-            ->setParameter('state', OrderInterface::STATE_FULFILLED)
+            ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
             ->getQuery()
             ->getResult();
     }
 
-    public function findOneForPayment($id): ?OrderInterface
+    public function findOneForPayment($id): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->addSelect('payments')
@@ -141,12 +141,12 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.customer = :customer')
             ->andWhere('o.state NOT IN (:states)')
             ->setParameter('customer', $customer)
-            ->setParameter('states', [OrderInterface::STATE_CART, OrderInterface::STATE_CANCELLED])
+            ->setParameter('states', [OrderStorageInterface::STATE_CART, OrderStorageInterface::STATE_CANCELLED])
             ->getQuery()
             ->getSingleScalarResult();
     }
 
-    public function findOneByNumberAndCustomer(string $number, CustomerInterface $customer): ?OrderInterface
+    public function findOneByNumberAndCustomer(string $number, CustomerInterface $customer): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.customer = :customer')
@@ -157,26 +157,26 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->getOneOrNullResult();
     }
 
-    public function findCartByChannel($id, VendorInterface $vendor): ?OrderInterface
+    public function findCartByChannel($id, VendorInterface $vendor): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.id = :id')
             ->andWhere('o.state = :state')
             ->andWhere('o.vendor = :vendor')
             ->setParameter('id', $id)
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('vendor', $vendor)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function findLatestCartByChannelAndCustomer(VendorInterface $vendor, CustomerInterface $customer): ?OrderInterface
+    public function findLatestCartByChannelAndCustomer(VendorInterface $vendor, CustomerInterface $customer): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.customer = :customer')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('vendor', $vendor)
             ->setParameter('customer', $customer)
             ->addOrderBy('o.createdAt', 'DESC')
@@ -188,14 +188,14 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
     public function findLatestNotEmptyCartByChannelAndCustomer(
         VendorInterface $vendor,
         CustomerInterface $customer,
-    ): ?OrderInterface {
+    ): ?OrderStorageInterface {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.customer = :customer')
             ->andWhere('o.items IS NOT EMPTY')
             ->andWhere('o.createdByGuest = :createdByGuest')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('vendor', $vendor)
             ->setParameter('customer', $customer)
             ->setParameter('createdByGuest', false)
@@ -212,7 +212,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.state = :state')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderInterface::STATE_FULFILLED)
+            ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -290,7 +290,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.state = :state')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderInterface::STATE_FULFILLED)
+            ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -359,7 +359,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.state != :state')
             ->addOrderBy('o.checkoutCompletedAt', 'DESC')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setMaxResults($count)
             ->getQuery()
             ->getResult();
@@ -392,12 +392,12 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function findCartForSummary($id): void
     {
-        /** @var OrderInterface $order */
+        /** @var OrderStorageInterface $order */
         $order = $this->createQueryBuilder('o')
             ->andWhere('o.id = :id')
             ->andWhere('o.state = :state')
             ->setParameter('id', $id)
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -418,14 +418,14 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         ]);
     }
 
-    public function findCartForAddressing($id): ?OrderInterface
+    public function findCartForAddressing($id): ?OrderStorageInterface
     {
-        /** @var OrderInterface $order */
+        /** @var OrderStorageInterface $order */
         $order = $this->createQueryBuilder('o')
             ->andWhere('o.id = :id')
             ->andWhere('o.state = :state')
             ->setParameter('id', $id)
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -439,14 +439,14 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         return $order;
     }
 
-    public function findCartForSelectingShipping($id): ?OrderInterface
+    public function findCartForSelectingShipping($id): ?OrderStorageInterface
     {
-        /** @var OrderInterface $order */
+        /** @var OrderStorageInterface $order */
         $order = $this->createQueryBuilder('o')
             ->andWhere('o.id = :id')
             ->andWhere('o.state = :state')
             ->setParameter('id', $id)
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -460,14 +460,14 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         return $order;
     }
 
-    public function findCartForSelectingPayment($id): ?OrderInterface
+    public function findCartForSelectingPayment($id): ?OrderStorageInterface
     {
-        /** @var OrderInterface $order */
+        /** @var OrderStorageInterface $order */
         $order = $this->createQueryBuilder('o')
             ->andWhere('o.id = :id')
             ->andWhere('o.state = :state')
             ->setParameter('id', $id)
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->getQuery()
             ->getOneOrNullResult();
 
@@ -481,24 +481,24 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         return $order;
     }
 
-    public function findCartByTokenValue(string $tokenValue): ?OrderInterface
+    public function findCartByTokenValue(string $tokenValue): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
             ->andWhere('o.tokenValue = :tokenValue')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('tokenValue', $tokenValue)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function findCartByTokenValueAndChannel(string $tokenValue, VendorInterface $vendor): ?OrderInterface
+    public function findCartByTokenValueAndChannel(string $tokenValue, VendorInterface $vendor): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
             ->andWhere('o.tokenValue = :tokenValue')
             ->andWhere('o.vendor = :vendor')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('tokenValue', $tokenValue)
             ->setParameter('vendor', $vendor)
             ->getQuery()
@@ -510,7 +510,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
             ->andWhere('o.state != :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -523,58 +523,58 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->innerJoin('o.vendor', 'vendor')
             ->leftJoin('o.customer', 'customer')
             ->andWhere('o.state = :state')
-            ->setParameter('state', OrderInterface::STATE_CART);
+            ->setParameter('state', OrderStorageInterface::STATE_CART);
     }
 
     public function findLatest(int $count): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state != :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->addOrderBy('o.checkoutCompletedAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
             ->getResult();
     }
 
-    public function findLatestCart(): ?OrderInterface
+    public function findLatestCart(): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->addOrderBy('o.checkoutCompletedAt', 'DESC')
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function findOneByNumber(string $number): ?OrderInterface
+    public function findOneByNumber(string $number): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state != :state')
             ->andWhere('o.number = :number')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('number', $number)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function findOneByTokenValue(string $tokenValue): ?OrderInterface
+    public function findOneByTokenValue(string $tokenValue): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state != :state')
             ->andWhere('o.tokenValue = :tokenValue')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('tokenValue', $tokenValue)
             ->getQuery()
             ->getOneOrNullResult();
     }
 
-    public function findCartById($id): ?OrderInterface
+    public function findCartById($id): ?OrderStorageInterface
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.id = :id')
             ->andWhere('o.state = :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
@@ -585,7 +585,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
             ->andWhere('o.updatedAt < :terminalDate')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->setParameter('terminalDate', $terminalDate)
             ->getQuery()
             ->getResult();
@@ -595,7 +595,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state != :state')
-            ->setParameter('state', OrderInterface::STATE_CART)
+            ->setParameter('state', OrderStorageInterface::STATE_CART)
             ->getQuery()
             ->getResult();
     }
@@ -668,8 +668,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findOneBySomeField($value): ?OrderStorage
@@ -678,8 +677,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     // MustBe:

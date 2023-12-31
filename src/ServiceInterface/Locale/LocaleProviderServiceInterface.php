@@ -4,5 +4,4 @@ namespace App\ServiceInterface\Locale;
 
 interface LocaleProviderServiceInterface
 {
-
 }

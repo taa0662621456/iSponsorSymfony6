@@ -2,18 +2,17 @@
 
 namespace App\Controller\Vendor;
 
-use App\Repository\Vendor\VendorSecurityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use LogicException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Component\Notifier\NotifierInterface;
-use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+use Symfony\Component\Notifier\NotifierInterface;
+use App\Repository\Vendor\VendorSecurityRepository;
+use Symfony\Component\Notifier\Recipient\Recipient;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
 #[AsController]
 class VendorLinkAuthenticatorController extends AbstractController
@@ -21,21 +20,18 @@ class VendorLinkAuthenticatorController extends AbstractController
     #[Route(path: '/link_authenticator', name: 'link_authenticator')]
     public function linkAuthenticator()
     {
-        throw new LogicException('This function code should never be reached');
+        throw new \LogicException('This function code should never be reached');
     }
 
     /**
      * @throws NonUniqueResultException
      */
     #[Route(path: '/link_authenticator_page', name: 'link_authenticator_page')]
-    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $VendorSecurityRepository, Request $request) : Response
+    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $VendorSecurityRepository, Request $request): Response
     {
         // Helper https://symfony.com.ua/doc/current/security/login_link.html
         // check if login form is submitted
         if ($request->isMethod('POST')) {
-
-
-
             // load the user in some way (e.g. using the form input)
             $email = $request->request->get('email');
             $user = $VendorSecurityRepository->findOneBySomeField($email);
@@ -52,7 +48,7 @@ class VendorLinkAuthenticatorController extends AbstractController
             // create a notification based on the login link details
             $notification = new LoginLinkNotification(
                 $loginLinkDetails,
-                'Welcome to project!' . $loginLink
+                'Welcome to project!'.$loginLink
             );
             // create a recipient for this user
             $recipient = new Recipient($user->getEmail());
@@ -63,14 +59,10 @@ class VendorLinkAuthenticatorController extends AbstractController
             // render a "Login link is sent!" page
             return $this->render('security/linkAuthenticatorSent.html.twig');
 
-
-
-
-            //TODO: email sending
+            // TODO: email sending
             // ... send the link and return a response (see next section)
         }
         // if it's not submitted, render the "login" form
         return $this->render('security/linkAuthenticatorPage.html.twig');
     }
-
 }

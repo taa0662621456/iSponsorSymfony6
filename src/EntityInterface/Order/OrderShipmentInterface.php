@@ -6,6 +6,5 @@ interface OrderShipmentInterface
 {
     public const GRAPH = 'order_shipment';
 
-    const ORDER_SHIP = 'ship';
-
+    public const ORDER_SHIP = 'ship';
 }

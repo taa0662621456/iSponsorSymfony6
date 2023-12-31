@@ -2,46 +2,15 @@
 
 namespace App\DataFixtures\Order;
 
-
-
-use App\DataFixtures\Category\CategoryAttachmentFixtures;
-use App\DataFixtures\Category\CategoryEnGbFixtures;
-use App\DataFixtures\Category\CategoryFixtures;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
-use App\DataFixtures\Product\ProductAttachmentFixtures;
-use App\DataFixtures\Product\ProductEnGbFixtures;
-use App\DataFixtures\Product\ProductFixtures;
-use App\DataFixtures\Product\ProductReviewFixtures;
-use App\DataFixtures\Product\ProductTagFixtures;
-use App\DataFixtures\Product\ProductTypeFixtures;
-use App\DataFixtures\Project\ProjectAttachmentFixtures;
-use App\DataFixtures\Project\ProjectEnGbFixtures;
-use App\DataFixtures\Project\ProjectFixtures;
-use App\DataFixtures\Project\ProjectPlatformRewardFixtures;
-use App\DataFixtures\Project\ProjectReviewFixtures;
-use App\DataFixtures\Project\ProjectTagFixtures;
-use App\DataFixtures\Project\ProjectTypeFixtures;
-use App\DataFixtures\Vendor\VendorDocumentFixtures;
-use App\DataFixtures\Vendor\VendorEnGbFixtures;
-use App\DataFixtures\Vendor\VendorFixtures;
-use App\DataFixtures\Vendor\VendorIbanFixtures;
-use App\DataFixtures\Vendor\VendorMediaFixtures;
-use App\DataFixtures\Vendor\VendorSecurityFixtures;
-use App\Entity\Order\OrderStatus;
-
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
 final class OrderStatusFixtures extends DataFixtures
 {
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {
@@ -95,5 +64,4 @@ final class OrderStatusFixtures extends DataFixtures
     {
         return 24;
     }
-
 }

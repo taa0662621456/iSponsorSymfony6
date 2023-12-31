@@ -1,13 +1,11 @@
 <?php
 
-
 namespace App\Repository\Project;
 
 use App\Entity\Project\ProjectType;
-use App\RepositoryInterface\Project\ProjectTypeRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\InputBag;
+use App\RepositoryInterface\Project\ProjectTypeRepositoryInterface;
 
 /**
  * @method ProjectType|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,9 +15,8 @@ use Symfony\Component\HttpFoundation\InputBag;
  */
 class ProjectTypeRepository extends EntityRepository implements ProjectTypeRepositoryInterface
 {
-
     public function findBySearchQuery(float|InputBag|bool|int|string|null $query, float|InputBag|bool|int|string|null $limit)
     {
-        //TODO:
+        // TODO:
     }
 }

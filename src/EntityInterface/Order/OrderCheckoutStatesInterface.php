@@ -17,5 +17,4 @@ interface OrderCheckoutStatesInterface
     public const ORDER_STATE_SHIPPING_SELECTED = 'shipping_selected';
 
     public const ORDER_STATE_SHIPPING_SKIPPED = 'shipping_skipped';
-
 }

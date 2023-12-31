@@ -2,17 +2,17 @@
 
 namespace App\EventSubscriber\Product;
 
-use App\Exception\VariantWithNoOptionsValuesException;
-use App\EntityInterface\Product\ProductInterface;
-use App\ServiceInterface\Product\ProductVariantGeneratorServiceInterface;
+use Webmozart\Assert\Assert;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use App\EntityInterface\Product\ProductInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use App\Exception\VariantWithNoOptionsValuesException;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Session\SessionBagInterface;
+use App\ServiceInterface\Product\ProductVariantGeneratorServiceInterface;
 
 final class ProductVariantSubscriber implements EventSubscriberInterface
 {

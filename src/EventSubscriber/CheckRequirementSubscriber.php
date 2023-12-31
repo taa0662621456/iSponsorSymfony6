@@ -3,9 +3,9 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheckRequirementSubscriber implements EventSubscriberInterface
 {
@@ -28,16 +28,13 @@ class CheckRequirementSubscriber implements EventSubscriberInterface
         $data['locales'] = $this->resolveLocales(
             $data['locales'] ?? [],
             $data['defaultLocale'],
-        )
-        ;
+        );
 
         $data['currencies'] = $this->resolveCurrencies(
             $data['currencies'] ?? [],
             $data['baseCurrency'],
-        )
-        ;
+        );
 
         $event->setData($data);
     }
-
 }

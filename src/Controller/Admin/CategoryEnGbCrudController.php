@@ -1,22 +1,18 @@
 <?php
 
-
 namespace App\Controller\Admin;
-
 
 use App\Entity\Category\CategoryEnGb;
 
-use App\Form\Category\CategoryAttachmentType;
-use App\Form\Category\CategoryEnGbType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class CategoryEnGbCrudController extends AbstractCrudController
 {
+    use ConfigureFiltersTrait;
+
     private AdminUrlGenerator $adminUrlGenerator;
 
     public function __construct(AdminUrlGenerator $adminUrlGenerator)
@@ -31,7 +27,6 @@ class CategoryEnGbCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
         return [
             TextField::new('firstTitle'),
             TextEditorField::new('middle_title'),
@@ -39,8 +34,4 @@ class CategoryEnGbCrudController extends AbstractCrudController
             TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
         ];
     }
-
-    use ConfigureFiltersTrait;
-
-
 }

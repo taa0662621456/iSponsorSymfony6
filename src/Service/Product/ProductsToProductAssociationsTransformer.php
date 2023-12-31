@@ -2,27 +2,25 @@
 
 namespace App\Service\Product;
 
-use App\RepositoryInterface\Product\ProductAssociationTypeRepositoryInterface;
+use App\Interface\RepositoryInterface;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\DataTransformerInterface;
 use App\RepositoryInterface\Product\ProductRepositoryInterface;
 use App\Interface\DataFixturesInterface\DataFixturesFactoryInterface;
-use App\Interface\RepositoryInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Form\DataTransformerInterface;
+use App\RepositoryInterface\Product\ProductAssociationTypeRepositoryInterface;
 
 final class ProductsToProductAssociationsTransformer implements DataTransformerInterface
 {
     /**
-     * @var Collection|ProductAssociationTypeRepositoryInterface
-     *
      * @psalm-var Collection<array-key, ProductAssociationInterface>
      */
     private Collection|ProductAssociationTypeRepositoryInterface $productAssociations;
 
     public function __construct(
         private readonly DataFixturesFactoryInterface $productAssociationFactory,
-        private readonly ProductRepositoryInterface   $productRepository,
-        private readonly RepositoryInterface          $productAssociationTypeRepository,
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly RepositoryInterface $productAssociationTypeRepository,
     ) {
     }
 
@@ -48,7 +46,7 @@ final class ProductsToProductAssociationsTransformer implements DataTransformerI
 
     public function reverseTransform($value): ?Collection
     {
-        if (null === $value || '' === $value || !is_array($value)) {
+        if (null === $value || '' === $value || !\is_array($value)) {
             return null;
         }
 
@@ -110,7 +108,7 @@ final class ProductsToProductAssociationsTransformer implements DataTransformerI
 
     private function setAssociatedProductsByProductCodes(
         ProductAssociationTypeRepositoryInterface $productAssociation,
-        string                                    $productCodes,
+        string $productCodes,
     ): void {
         $products = $this->productRepository->findBy(['code' => explode(',', $productCodes)]);
 

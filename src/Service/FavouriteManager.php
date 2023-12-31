@@ -1,56 +1,35 @@
 <?php
 
+namespace App\Service;
 
-	namespace App\Service;
+use Doctrine\ORM\EntityManagerInterface;
 
-	use Doctrine\ORM\EntityManagerInterface;
-	use Symfony\Component\DependencyInjection\ContainerInterface;
+class FavouriteManager
+{
+    private EntityManagerInterface $entityManager;
 
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
-	class FavouriteManager
-	{
-		/**
-		 * @var EntityManagerInterface
-		 */
-		private EntityManagerInterface $entityManager;
+    public function setFavourite(string $entity, object $createdBy): void
+    {
+        // TODO
+    }
 
-		public function __construct(EntityManagerInterface $entityManager)
-		{
-			$this->entityManager = $entityManager;
-		}
+    public function getFavourites(string $entity, object $createdBy): array
+    {
+        $repository = $this->entityManager->getRepository($entity);
 
-		/**
-		 * @param string $entity
-		 * @param object $createdBy
-		 *
-		 * @return void
-		 */
-		public function setFavourite(string $entity, object $createdBy): void
-        {
-			//TODO
-		}
+        return $repository->findBy([
+            'createdBy' => $createdBy,
+        ], [
+            'createdAt' => 'ASC',
+        ], 12, null);
+    }
 
-
-		/**
-		 * @param string $entity
-		 * @param object $createdBy
-		 *
-		 * @return array
-		 */
-		public function getFavourites(string $entity, object $createdBy): array
-        {
-
-			$repository = $this->entityManager->getRepository($entity);
-
-			return $repository->findBy(array(
-				'createdBy' => $createdBy
-			), array(
-				'createdAt' => 'ASC'
-			), 12, null);
-		}
-
-		public function removeFavourite(): void
-        {
-
-		}
-	}
+    public function removeFavourite(): void
+    {
+    }
+}

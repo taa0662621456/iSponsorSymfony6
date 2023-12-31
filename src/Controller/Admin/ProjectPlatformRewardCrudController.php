@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
 use App\Entity\Project\ProjectPlatformReward;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProjectPlatformRewardCrudController extends AbstractCrudController
 {
@@ -19,7 +17,6 @@ class ProjectPlatformRewardCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
         return [
             TextField::new('commission_start_time'),
             TextEditorField::new('commission_end_time'),

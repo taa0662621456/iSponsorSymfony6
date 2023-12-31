@@ -2,13 +2,12 @@
 
 namespace App\EntityInterface\Category;
 
-use App\Entity\Category\Category;
-use App\Entity\Category\CategoryAttachment;
-use App\Entity\Category\CategoryEnGb;
-use App\Entity\Featured\Featured;
-use App\Entity\Project\Project;
+use App\EntityInterface\Project\ProjectInterface;
 use Doctrine\Common\Collections\Collection;
 
 interface CategoryInterface
 {
+    public function getCategoryProject(): Collection;
+    public function addCategoryProject(ProjectInterface $project): void;
+    public function removeCategoryProject(ProjectInterface $project): void;
 }

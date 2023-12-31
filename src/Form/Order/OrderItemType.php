@@ -3,9 +3,9 @@
 namespace App\Form\Order;
 
 use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class OrderItemType
 {
@@ -13,13 +13,14 @@ final class OrderItemType
 
     /** @var string[] */
     protected array $validationGroups = [];
+
     /**
-     * @param string $dataClass FQCN
+     * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
     public function __construct(
-        string                               $dataClass,
-        array                                $validationGroups,
+        string $dataClass,
+        array $validationGroups,
         private readonly DataMapperInterface $dataMapper,
     ) {
     }
@@ -31,8 +32,7 @@ final class OrderItemType
                 'attr' => ['min' => 1],
                 'label' => 'ui.quantity',
             ])
-            ->setDataMapper($this->dataMapper)
-        ;
+            ->setDataMapper($this->dataMapper);
     }
 
     public function getBlockPrefix(): string

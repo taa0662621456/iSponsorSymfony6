@@ -2,7 +2,6 @@
 
 namespace App\Service\Shipment;
 
-
 final class ShippingMethodRulesEligibilityChecker
 {
     public function __construct(private ServiceRegistryInterface $ruleRegistry)

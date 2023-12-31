@@ -2,7 +2,6 @@
 
 namespace App\Service\Coupon;
 
-
 use App\EntityInterface\Coupon\CouponGeneratorInterface;
 use App\RepositoryInterface\Coupon\CouponRepositoryInterface;
 
@@ -36,6 +35,4 @@ class CouponGenerator implements CouponGeneratorInterface
         // В данном примере используется простая генерация случайного кода из чисел и букв
         return substr(md5(uniqid()), 0, 8);
     }
-
-
 }

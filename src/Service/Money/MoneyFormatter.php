@@ -6,7 +6,7 @@ use Webmozart\Assert\Assert;
 
 final class MoneyFormatter implements MoneyFormatterInterface
 {
-    public function format(int $amount, string $currencyCode, ?string $locale = null): string
+    public function format(int $amount, string $currencyCode, string $locale = null): string
     {
         $formatter = new \NumberFormatter($locale ?? 'en', \NumberFormatter::CURRENCY);
 
@@ -14,9 +14,9 @@ final class MoneyFormatter implements MoneyFormatterInterface
         Assert::notSame(
             false,
             $result,
-            sprintf('The amount "%s" of type %s cannot be formatted to currency "%s".', $amount, gettype($amount), $currencyCode),
+            sprintf('The amount "%s" of type %s cannot be formatted to currency "%s".', $amount, \gettype($amount), $currencyCode),
         );
 
-        return $amount >= 0 ? $result : '-' . $result;
+        return $amount >= 0 ? $result : '-'.$result;
     }
 }

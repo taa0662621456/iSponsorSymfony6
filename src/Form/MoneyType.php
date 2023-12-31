@@ -2,10 +2,10 @@
 
 namespace App\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class MoneyType extends AbstractType
@@ -19,8 +19,7 @@ final class MoneyType extends AbstractType
                 $options['grouping'],
                 null,
                 $options['divisor'],
-            ))
-        ;
+            ));
     }
 
     /**
@@ -41,8 +40,7 @@ final class MoneyType extends AbstractType
         $resolver
             ->setDefaults([
                 'divisor' => 100,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

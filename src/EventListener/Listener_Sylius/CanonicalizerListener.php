@@ -1,12 +1,8 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
-
-
-
 
 final class CanonicalizerListener
 {

@@ -2,8 +2,8 @@
 
 namespace App\EventListener\Product;
 
-use App\Interface\Product\ProductReviewInterface;
-use App\Interface\Product\ProductReviewRatingInterface;
+use App\EntityInterface\Product\ProductReviewInterface;
+use App\EntityInterface\Product\ProductReviewRatingInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 
 final class ProductReviewListener

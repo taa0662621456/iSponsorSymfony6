@@ -2,15 +2,13 @@
 
 namespace App\Service;
 
-use Karser\Recaptcha3Bundle\Services\IpResolverInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Karser\Recaptcha3Bundle\Services\IpResolverInterface;
 
 class CloudflareIpResolver implements IpResolverInterface
 {
-    /** @var IpResolverInterface */
     private IpResolverInterface $decorated;
 
-    /** @var RequestStack */
     private RequestStack $requestStack;
 
     public function __construct(IpResolverInterface $decorated, RequestStack $requestStack)
@@ -27,6 +25,7 @@ class CloudflareIpResolver implements IpResolverInterface
     private function doResolveIp(): ?string
     {
         $request = $this->requestStack->getCurrentRequest();
+
         return $request?->server->get('HTTP_CF_CONNECTING_IP');
     }
 }

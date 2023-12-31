@@ -2,7 +2,6 @@
 
 namespace App\Service\Promotion;
 
-
 final class PromotionUsageLimitEligibilityChecker
 {
     public function isEligible(PromotionSubjectInterface $promotionSubject, PromotionInterface $promotion): bool

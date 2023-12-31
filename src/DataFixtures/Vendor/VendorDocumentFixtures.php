@@ -2,29 +2,18 @@
 
 namespace App\DataFixtures\Vendor;
 
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
-
-use App\Entity\Vendor\VendorDocument;
-
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Symfony\Component\Filesystem\Filesystem;
 
 final class VendorDocumentFixtures extends DataFixtures
 {
-
     /**
      * @throws \Exception
      */
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {
@@ -41,5 +30,4 @@ final class VendorDocumentFixtures extends DataFixtures
 
         parent::load($manager, $property, $n);
     }
-
 }

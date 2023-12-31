@@ -3,8 +3,8 @@
 namespace App\Service;
 
 use App\Exception\ExistingServiceException;
-use App\Exception\NonExistingServiceException;
 use App\Interface\ServiceRegistryInterface;
+use App\Exception\NonExistingServiceException;
 
 class ServiceRegistry implements ServiceRegistryInterface
 {
@@ -17,15 +17,11 @@ class ServiceRegistry implements ServiceRegistryInterface
 
     /**
      * Interface or parent class which is required by all services.
-     *
-     * @var string
      */
     private string $className;
 
     /**
      * Human-readable context for these services, e.g. "grid field".
-     *
-     * @var string
      */
     private string $context;
 
@@ -47,7 +43,7 @@ class ServiceRegistry implements ServiceRegistryInterface
         }
 
         if (!$service instanceof $this->className) {
-            throw new \InvalidArgumentException(sprintf('%s needs to be of type "%s", "%s" given.', ucfirst($this->context), $this->className, get_class($service)));
+            throw new \InvalidArgumentException(sprintf('%s needs to be of type "%s", "%s" given.', ucfirst($this->context), $this->className, $service::class));
         }
 
         $this->services[$identifier] = $service;

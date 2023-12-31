@@ -23,7 +23,7 @@ class EntityAssociationHydrator
     public function __construct(
         EntityManagerInterface $entityManager,
         private readonly ClassMetadata $classMetadata,
-        ?PropertyAccessor $propertyAccessor = null
+        PropertyAccessor $propertyAccessor = null
     ) {
         $this->entityManager = $entityManager;
         $this->propertyAccessor = $propertyAccessor ?? PropertyAccess::createPropertyAccessor();
@@ -121,7 +121,7 @@ class EntityAssociationHydrator
      */
     private function getEntityIdentifier(object $entity): mixed
     {
-        $classMetadata = $this->entityManager->getClassMetadata(\get_class($entity));
+        $classMetadata = $this->entityManager->getClassMetadata($entity::class);
         $identifier = $classMetadata->getIdentifierValues($entity);
 
         return 1 === \count($identifier) ? reset($identifier) : $identifier;

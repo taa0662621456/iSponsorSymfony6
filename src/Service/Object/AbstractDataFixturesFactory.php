@@ -2,14 +2,15 @@
 
 namespace App\Service\Object;
 
-use App\Interface\DataFixturesInterface\DataFixturesFactoryInterface;
 use Faker\Factory;
 use Faker\Generator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Interface\DataFixturesInterface\DataFixturesFactoryInterface;
 
 abstract class AbstractDataFixturesFactory implements DataFixturesFactoryInterface
 {
     protected Generator $faker;
+
     protected OptionsResolver $optionsResolver;
 
     public function __construct()
@@ -27,6 +28,6 @@ abstract class AbstractDataFixturesFactory implements DataFixturesFactoryInterfa
      */
     protected function getRandomStatus(array $statuses): string
     {
-        return $statuses[random_int(0, count($statuses) - 1)];
+        return $statuses[random_int(0, \count($statuses) - 1)];
     }
 }

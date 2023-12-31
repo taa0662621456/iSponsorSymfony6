@@ -8,7 +8,9 @@ use Doctrine\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
 class ClassMetadata implements ClassMetadataInterface
 {
     private string $name;
+
     private array $fieldMappings;
+
     private ClassMetadataInfo $classMetadataInfo;
 
     public function __construct(array $fieldMappings = [], ?string $name = 'class')
@@ -22,6 +24,7 @@ class ClassMetadata implements ClassMetadataInterface
     {
         try {
             $reflectionClass = new \ReflectionClass($this->name);
+
             return $reflectionClass->getShortName();
         } catch (\ReflectionException $e) {
             return 'null class name';
@@ -58,14 +61,12 @@ class ClassMetadata implements ClassMetadataInterface
         if ($this->hasField($fieldName)) {
             return $this->fieldMappings[$fieldName]['type'];
         }
-
-        return null;
     }
 
     public function isIdentifier(string $fieldName): bool
     {
         // Проверяем, является ли поле идентификатором
-        return $fieldName === 'id';
+        return 'id' === $fieldName;
     }
 
     public function hasAssociation(string $fieldName): bool

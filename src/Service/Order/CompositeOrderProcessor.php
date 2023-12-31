@@ -2,17 +2,19 @@
 
 namespace App\Service\Order;
 
-use Laminas\Stdlib\PriorityQueue;
 
+use App\Service\PriorityQueue;
+use App\ServiceInterface\Order\OrderProcessorInterface;
+use App\EntityInterface\Order\OrderStorageInterface;
 
 final class CompositeOrderProcessor implements OrderProcessorInterface
 {
     /**
-     * @var PriorityQueue|OrderProcessorInterface[]
+     * @var OrderProcessorInterface[]|PriorityQueue
      *
      * @psalm-var PriorityQueue<OrderProcessorInterface>
      */
-    private PriorityQueue $orderProcessors;
+    private PriorityQueue|array $orderProcessors;
 
     public function __construct()
     {
@@ -24,7 +26,7 @@ final class CompositeOrderProcessor implements OrderProcessorInterface
         $this->orderProcessors->insert($orderProcessor, $priority);
     }
 
-    public function process(OrderInterface $order): void
+    public function process(OrderStorageInterface $order): void
     {
         foreach ($this->orderProcessors as $orderProcessor) {
             $orderProcessor->process($order);

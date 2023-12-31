@@ -2,11 +2,10 @@
 
 namespace App\Repository\Promotion;
 
-
-use App\Entity\Project\ProjectType;
 use App\Entity\Promotion\Promotion;
-use App\RepositoryInterface\Promotion\PromotionCategoryRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Promotion\PromotionCategoryRepositoryInterface;
+
 /**
  * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
  * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
@@ -32,7 +31,6 @@ class PromotionCategoryRepository extends EntityRepository implements PromotionC
             ->orderBy('o.exclusive', 'desc')
             ->addOrderBy('o.priority', 'desc')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

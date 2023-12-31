@@ -4,11 +4,11 @@ namespace App\Form\Forgot;
 
 use App\Entity\Vendor\VendorSecurity;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class ForgotPasswordType extends AbstractType
 {
@@ -17,13 +17,13 @@ class ForgotPasswordType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'invalid_message' => 'The email address is invalid.',
-                'label'           => 'forgot.email.label',
-                'label_attr'      => [
+                'label' => 'forgot.email.label',
+                'label_attr' => [
                     'class' => 'sr-only',
-                    'value' => 'last_username'
+                    'value' => 'last_username',
                 ],
-                'required'        => false,
-                'constraints'     => [
+                'required' => false,
+                'constraints' => [
                     new NotBlank([
                         'message' => 'Пожалуйста введите email Вашей учетной записи',
                     ]),
@@ -33,29 +33,28 @@ class ForgotPasswordType extends AbstractType
                         'max' => 64,
                     ]),
                 ],
-                'attr'            => [
-                    'id'          => 'email',
-                    'name'        => '_email',
-                    'class'       => '',
+                'attr' => [
+                    'id' => 'email',
+                    'name' => '_email',
+                    'class' => '',
                     'placeholder' => 'forgot.email.placeholder',
-                    'tabindex'    => '101',
-                    'required'    => null
-                ]
+                    'tabindex' => '101',
+                    'required' => null,
+                ],
 
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'         => VendorSecurity::class,
+            'data_class' => VendorSecurity::class,
             'translation_domain' => 'forgot',
             'validation_groups' => false,
             'attr' => [
                 'class' => 'needs-validation',
                 'novalidate' => null,
-            ]
+            ],
         ]);
     }
 }

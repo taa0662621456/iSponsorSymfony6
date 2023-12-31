@@ -4,8 +4,6 @@ namespace App\EntityInterface\Vendor;
 
 interface VendorChannelInterface
 {
-
-
     public function setDefaultTaxZone(mixed $default_tax_zone);
 
     public function setTaxCalculationStrategy(mixed $tax_calculation_strategy);

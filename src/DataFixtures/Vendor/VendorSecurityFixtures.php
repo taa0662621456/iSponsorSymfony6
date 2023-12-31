@@ -2,10 +2,10 @@
 
 namespace App\DataFixtures\Vendor;
 
-use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-
 use App\DataFixtures\DataFixtures;
+
+use Doctrine\Persistence\ObjectManager;
 
 final class VendorSecurityFixtures extends DataFixtures
 {

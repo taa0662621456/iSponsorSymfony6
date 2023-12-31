@@ -3,15 +3,14 @@
 namespace App\Form\Currency;
 
 use App\Dto\Currency\CurrencyTypeDTO;
-use App\RepositoryInterface\Currency\CurrencyTypeRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\RepositoryInterface\Currency\CurrencyTypeRepositoryInterface;
 use Symfony\Component\Form\Extension\Core\Type\CurrencyType as SymfonyCurrencyType;
 
 final class CurrencyType extends AbstractType
 {
-
     /** @var string[] */
     protected array $validationGroup = [];
 
@@ -24,7 +23,7 @@ final class CurrencyType extends AbstractType
     {
         $resolver->setDefaults([
             'validation_groups' => $this->validationGroup,
-            'data_class' => CurrencyTypeDTO::class
+            'data_class' => CurrencyTypeDTO::class,
         ]);
     }
 
@@ -33,8 +32,7 @@ final class CurrencyType extends AbstractType
         $builder
             ->addEventSubscriber(new AddCodeFormSubscriber(SymfonyCurrencyType::class, [
                 'label' => 'form.currency.code',
-            ]))
-        ;
+            ]));
     }
 
     public function getBlockPrefix(): string

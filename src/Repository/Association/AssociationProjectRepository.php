@@ -2,11 +2,11 @@
 
 namespace App\Repository\Association;
 
-use App\Entity\Association\AssociationProject;
-use App\EntityInterface\Product\ProductAssociationInterface;
-use App\EntityInterface\Vendor\VendorInterface;
-use App\RepositoryInterface\Association\AssociationProjectRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\Entity\Association\AssociationProject;
+use App\EntityInterface\Vendor\VendorInterface;
+use App\EntityInterface\Product\ProductAssociationInterface;
+use App\RepositoryInterface\Association\AssociationProjectRepositoryInterface;
 
 /**
  * @method AssociationProject|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,7 +16,6 @@ use App\Repository\EntityRepository;
  */
 class AssociationProjectRepository extends EntityRepository implements AssociationProjectRepositoryInterface
 {
-
     public function findWithProductsWithinVendor($associationId, VendorInterface $vendor): ProductAssociationInterface
     {
         return $this->createQueryBuilder('o')
@@ -27,7 +26,6 @@ class AssociationProjectRepository extends EntityRepository implements Associati
             ->setParameter('associationId', $associationId)
             ->setParameter('vendor', $vendor)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

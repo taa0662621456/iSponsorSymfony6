@@ -1,20 +1,18 @@
 <?php
 
-
 namespace App\Service\Inventory;
 
-use App\Interface\Order\OrderInterface;
 use Doctrine\DBAL\LockMode;
+use App\Interface\Order\OrderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\PessimisticLockException;
-
 
 final class OrderInventoryOperator implements OrderInventoryOperatorInterface
 {
     public function __construct(
         private readonly OrderInventoryOperatorInterface $decoratedOperator,
-        private readonly EntityManagerInterface          $productVariantManager,
+        private readonly EntityManagerInterface $productVariantManager,
     ) {
     }
 

@@ -5,23 +5,24 @@ namespace App\Command;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 
 final class CommandExecutor
 {
-    public function __construct(private readonly InputInterface  $input,
-                                private readonly OutputInterface $output,
-                                private readonly Application     $application)
-    {
+    public function __construct(
+        private readonly InputInterface $input,
+        private readonly OutputInterface $output,
+        private readonly Application $application
+    ) {
     }
 
     /**
      * @throws \Exception
      */
-    public function runCommand(string $command, array $parameters = [], ?OutputInterface $output = null): self
+    public function runCommand(string $command, array $parameters = [], OutputInterface $output = null): self
     {
         $parameters = array_merge(
             ['command' => $command],
@@ -48,7 +49,7 @@ final class CommandExecutor
         return $this;
     }
 
-    #[ArrayShape(['--no-debug' => "bool", '--verbose' => "bool", '--no-interaction' => "bool", '--env' => "mixed|string"])]
+    #[ArrayShape(['--no-debug' => 'bool', '--verbose' => 'bool', '--no-interaction' => 'bool', '--env' => 'mixed|string'])]
     private function getDefaultParameters(): array
     {
         $defaultParameters = ['--no-debug' => true];

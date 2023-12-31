@@ -2,16 +2,16 @@
 
 namespace App\Form\Taxation;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\Form\FormEvent;
 
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
+use App\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TaxationZoneType extends AbstractType
 {
@@ -24,10 +24,11 @@ final class TaxationZoneType extends AbstractType
      * @param string[] $validationGroups
      * @param string[] $scopeChoices
      */
-    public function __construct(array $validationGroups = [],
-                                string $dataClass = 'data_class',
-                                private readonly array $scopeChoices = [])
-    {
+    public function __construct(
+        array $validationGroups = [],
+        string $dataClass = 'data_class',
+        private readonly array $scopeChoices = []
+    ) {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
     }
@@ -41,8 +42,7 @@ final class TaxationZoneType extends AbstractType
             ])
             ->add('type', TaxationZoneTypeSelectorType::class, [
                 'disabled' => true,
-            ])
-        ;
+            ]);
 
         if (!empty($this->scopeChoices)) {
             $builder
@@ -51,8 +51,7 @@ final class TaxationZoneType extends AbstractType
                     'label' => 'form.zone.scope',
                     'placeholder' => 'form.zone.select_scope',
                     'required' => false,
-                ])
-            ;
+                ]);
         }
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event): void {
@@ -64,9 +63,9 @@ final class TaxationZoneType extends AbstractType
                 'entry_options' => $this->getZoneMemberEntryOptions($zone->getType()),
             ];
 
-//            if (ZoneInterface::TYPE_ZONE === $zone->getType()) {
-//                $entryOptions['entry_options']['choice_filter'] = static fn (?ZoneInterface $subZone): bool => null !== $subZone && $zone->getId() !== $subZone->getId();
-//            }
+            //            if (ZoneInterface::TYPE_ZONE === $zone->getType()) {
+            //                $entryOptions['entry_options']['choice_filter'] = static fn (?ZoneInterface $subZone): bool => null !== $subZone && $zone->getId() !== $subZone->getId();
+            //            }
 
             $event->getForm()->add('members', CollectionType::class, [
                 'entry_type' => TaxationZoneMemberType::class,

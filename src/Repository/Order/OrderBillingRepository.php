@@ -3,8 +3,9 @@
 namespace App\Repository\Order;
 
 use App\Entity\Order\OrderStorage;
-use App\RepositoryInterface\Order\OrderBillingRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Order\OrderBillingRepositoryInterface;
+
 /**
  * @method OrderStorage|null find($id, $lockMode = null, $lockVersion = null)
  * @method OrderStorage|null findOneBy(array $criteria, array $orderBy = null)
@@ -13,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class OrderBillingRepository extends EntityRepository implements OrderBillingRepositoryInterface
 {
-
 }

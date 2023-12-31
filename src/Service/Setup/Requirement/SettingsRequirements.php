@@ -39,14 +39,13 @@ final class SettingsRequirements extends RequirementCollection
                 !$this->isOn('session.auto_start'),
                 false,
                 $translator->trans('installer.setting.session.auto_start_help'),
-            ))
-        ;
+            ));
     }
 
     private function isOn(string $key): bool
     {
-        $value = ini_get($key);
+        $value = \ini_get($key);
 
-        return !empty($value) && strtolower($value) !== 'off';
+        return !empty($value) && 'off' !== strtolower($value);
     }
 }

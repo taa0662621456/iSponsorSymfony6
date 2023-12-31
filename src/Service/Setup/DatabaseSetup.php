@@ -2,18 +2,19 @@
 
 namespace App\Service\Setup;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use App\ServiceInterface\Setup\DatabaseSetupCommandProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class DatabaseSetup implements DatabaseSetupCommandsProviderInterface
+
+final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
 {
-    public function __construct(private readonly Registry $doctrineRegistry)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 
@@ -45,7 +46,7 @@ final class DatabaseSetup implements DatabaseSetupCommandsProviderInterface
         try {
             $schemaManager = $this->getSchemaManager();
 
-            return in_array($databaseName, $schemaManager->listDatabases());
+            return \in_array($databaseName, $schemaManager->listDatabases());
         } catch (\Exception $exception) {
             $message = $exception->getMessage();
 
@@ -94,32 +95,28 @@ final class DatabaseSetup implements DatabaseSetupCommandsProviderInterface
 
     private function isSchemaPresent(): bool
     {
-        return 0 !== count($this->getSchemaManager()->listTableNames());
+        return 0 !== \count($this->getSchemaManager()->listTableNames());
     }
 
     private function getDatabaseName(): string
     {
-        return $this->getEntityManager()->getConnection()->getDatabase();
+        return $this->entityManager->getConnection()->getDatabase();
     }
 
     private function getSchemaManager(): AbstractSchemaManager
     {
-        $connection = $this->getEntityManager()->getConnection();
+        $connection = $this->entityManager->getConnection();
 
         if (method_exists($connection, 'createSchemaManager')) {
             return $connection->createSchemaManager();
         }
 
         if (method_exists($connection, 'getSchemaManager')) {
-            /** @psalm-suppress DeprecatedMethod */
-            return $connection->getSchemaManager();
+            return $connection->createSchemaManager();
         }
 
         throw new \RuntimeException('Unable to get schema manager.');
     }
 
-    private function getEntityManager(): EntityManagerInterface
-    {
-        return $this->doctrineRegistry->getManager();
-    }
+
 }

@@ -15,8 +15,7 @@ class CancelUnpaidOrderCommand extends Command
         $this
             ->setDescription(
                 'Removes order that have been unpaid for a configured period. Configuration parameter - order.order_expiration_period.',
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

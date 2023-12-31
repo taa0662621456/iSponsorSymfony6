@@ -2,8 +2,8 @@
 
 namespace App\Form\Discount;
 
-use App\EntityInterface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
+use App\EntityInterface\Vendor\VendorInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class VendorBasedFixedDiscountType extends AbstractType

@@ -1,15 +1,8 @@
 <?php
 
-
 namespace App\DataFixtures\Taxation;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
 use App\DataFixtures\DataFixtures;
-
-
-use JetBrains\PhpStorm\NoReturn;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
@@ -24,8 +17,6 @@ final class TaxationFixtures extends DataFixtures
                 ->scalarNode('slug')->cannotBeEmpty()->end()
                 ->scalarNode('description')->cannotBeEmpty()->end()
                 ->variableNode('translations')->cannotBeEmpty()->defaultValue([])->end()
-                ->variableNode('children')->cannotBeEmpty()->defaultValue([])->end()
-        ;
+                ->variableNode('children')->cannotBeEmpty()->defaultValue([])->end();
     }
-
 }

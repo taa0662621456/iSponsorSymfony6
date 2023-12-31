@@ -3,12 +3,12 @@
 namespace App\Form\Shipment\Calculator;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
 final class FlatRateConfigurationType extends AbstractType
 {
@@ -23,8 +23,7 @@ final class FlatRateConfigurationType extends AbstractType
                     new Type(['type' => 'integer', 'groups' => ['isponsor']]),
                 ],
                 'currency' => $options['currency'],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -34,8 +33,7 @@ final class FlatRateConfigurationType extends AbstractType
                 'data_class' => null,
             ])
             ->setRequired('currency')
-            ->setAllowedTypes('currency', 'string')
-        ;
+            ->setAllowedTypes('currency', 'string');
     }
 
     public function getBlockPrefix(): string
