@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
 
 use App\Tests\Api\tests\Api\JsonApiTestCase;
@@ -8,14 +7,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductAssociationsTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_product_association(): void
+    public function testItGetsProductAssociation(): void
     {
         $fixtures = $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
 
         /** @var ProductAssociationInterface $association */
         $association = $fixtures['product_association'];
-        $this->client->request('GET',
+        $this->client->request(
+            'GET',
             sprintf('/api/v2/shop/product-associations/%s', $association->getId()),
             [],
             [],
@@ -29,12 +28,12 @@ final class ProductAssociationsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_nothing_if_association_not_found(): void
+    public function testItReturnsNothingIfAssociationNotFound(): void
     {
         $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
 
-        $this->client->request('GET',
+        $this->client->request(
+            'GET',
             sprintf('/api/v2/shop/product-associations/%s', 'wrong input'),
             [],
             [],

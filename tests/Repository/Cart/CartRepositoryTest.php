@@ -8,5 +8,4 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class CartRepositoryTest extends KernelTestCase
 {
     use ObjectRepositoryTestTrait;
-
 }

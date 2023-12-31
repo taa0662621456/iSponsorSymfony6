@@ -1,20 +1,13 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
-
-
-
-
-
 
 final class OrdersTest extends JsonApiTestCase
 {
-    use ShopUserLoginTrait;
     use OrderPlacerTrait;
+    use ShopUserLoginTrait;
 
-    /** @test */
-    public function it_gets_an_order(): void
+    public function testItGetsAnOrder(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -49,8 +42,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_an_order_as_a_guest_with_a_customer_that_is_already_registered(): void
+    public function testItGetsAnOrderAsAGuestWithACustomerThatIsAlreadyRegistered(): void
     {
         $this->loadFixturesFromFiles(['authentication/customer.yaml', 'channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -89,8 +81,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_order_items(): void
+    public function testItGetsOrderItems(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -107,15 +98,13 @@ final class OrdersTest extends JsonApiTestCase
         $addItemToCartCommand->setOrderTokenValue($tokenValue);
         $commandBus->dispatch($addItemToCartCommand);
 
-
         $this->client->request('GET', '/api/v2/shop/orders/nAWw2jewpA/items', [], [], self::CONTENT_TYPE_HEADER);
         $response = $this->client->getResponse();
 
         $this->assertResponse($response, 'shop/get_order_items_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_order_adjustments(): void
+    public function testItGetsOrderAdjustments(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -138,8 +127,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_adjustments_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_order_item_adjustments(): void
+    public function testItGetsOrderItemAdjustments(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -177,8 +165,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_item_adjustments_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_allows_to_add_items_to_order(): void
+    public function testItAllowsToAddItemsToOrder(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -200,8 +187,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/add_item_response', Response::HTTP_CREATED);
     }
 
-    /** @test */
-    public function it_does_not_get_orders_collection_for_guest(): void
+    public function testItDoesNotGetOrdersCollectionForGuest(): void
     {
         $this->client->request('GET', '/api/v2/shop/orders', [], [], self::CONTENT_TYPE_HEADER);
         $response = $this->client->getResponse();
@@ -209,14 +195,13 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/error/jwt_token_not_found', Response::HTTP_UNAUTHORIZED);
     }
 
-    /** @test */
-    public function it_allows_to_patch_orders_payment_method(): void
+    public function testItAllowsToPatchOrdersPaymentMethod(): void
     {
         $this->loadFixturesFromFiles(['authentication/customer.yaml', 'channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
         $loginData = $this->logInShopUser('oliver@doe.com');
         $authorizationHeader = self::$kernel->getContainer()->getParameter('api.authorization_header');
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $loginData;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$loginData;
         $header = array_merge($header, self::CONTENT_TYPE_HEADER);
 
         $tokenValue = 'nAWw2jewpA';
@@ -228,15 +213,15 @@ final class OrdersTest extends JsonApiTestCase
 
         $this->client->request(
             'PATCH',
-            sprintf('/api/v2/shop/account/orders/nAWw2jewpA/payments/%s',$orderResponse['payments'][0]['id']),
+            sprintf('/api/v2/shop/account/orders/nAWw2jewpA/payments/%s', $orderResponse['payments'][0]['id']),
             [],
             [],
             [
                 'CONTENT_TYPE' => 'application/merge-patch+json',
-                'HTTP_Authorization' => sprintf('Bearer %s', $loginData)
+                'HTTP_Authorization' => sprintf('Bearer %s', $loginData),
             ],
-                json_encode([
-                    'paymentMethod' => '/api/v2/shop/payment-methods/CASH_ON_DELIVERY',
+            json_encode([
+                'paymentMethod' => '/api/v2/shop/payment-methods/CASH_ON_DELIVERY',
             ])
         );
         $response = $this->client->getResponse();
@@ -244,8 +229,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/updated_payment_method_on_order_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_creates_empty_cart_with_provided_locale(): void
+    public function testItCreatesEmptyCartWithProvidedLocale(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml']);
 
@@ -262,8 +246,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/create_cart_response', Response::HTTP_CREATED);
     }
 
-    /** @test */
-    public function it_creates_empty_cart_with_default_locale(): void
+    public function testItCreatesEmptyCartWithDefaultLocale(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml']);
 
@@ -280,8 +263,7 @@ final class OrdersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/create_cart_with_default_locale_response', Response::HTTP_CREATED);
     }
 
-    /** @test */
-    public function it_allows_to_patch_orders_address(): void
+    public function testItAllowsToPatchOrdersAddress(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml', 'payment_method.yaml']);
 
@@ -301,14 +283,14 @@ final class OrdersTest extends JsonApiTestCase
         $country = $fixtures['country_US'];
 
         $billingAddress = [
-            'firstName'=> 'Jane',
-            'lastName'=> 'Doe',
-            'phoneNumber'=> '666111333',
-            'company'=> 'Potato Corp.',
-            'countryCode'=> $country->getCode(),
-            'street'=> 'Top secret',
-            'city'=> 'Nebraska',
-            'postcode'=> '12343'
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
+            'phoneNumber' => '666111333',
+            'company' => 'Potato Corp.',
+            'countryCode' => $country->getCode(),
+            'street' => 'Top secret',
+            'city' => 'Nebraska',
+            'postcode' => '12343',
         ];
 
         $this->client->request(

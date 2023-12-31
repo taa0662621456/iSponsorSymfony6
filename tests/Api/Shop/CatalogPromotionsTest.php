@@ -10,8 +10,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
 {
     use AdminUserLoginTrait;
 
-    /** @test */
-    public function it_gets_catalog_promotion(): void
+    public function testItGetsCatalogPromotion(): void
     {
         $catalogPromotion = $this->loadFixturesAndGetCatalogPromotion();
         $this->client->request(

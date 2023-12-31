@@ -4,6 +4,10 @@ framework:
     trusted_hosts: ['%env(TRUSTED_HOSTS)%', '127.0.0.1', 'localhost', 'smartresponsor.com']
     profiler: true
     default_locale: '%app_locale%'
+#    translator:
+#        default_path: '%kernel.project_dir%/translations'
+#        fallbacks:
+#            - 'en'
 
     validation:
         not_compromised_password: false

@@ -1,13 +1,12 @@
 <?php
 
-
 namespace Functional;
 
-use Doctrine\Persistence\ObjectManager;
-use HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\AbstractResourceOwner;
-use HWI\Bundle\OAuthBundle\OAuth\Response\AbstractUserResponse;
 use PHPUnit\Framework\Assert;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use HWI\Bundle\OAuthBundle\OAuth\Response\AbstractUserResponse;
+use HWI\Bundle\OAuthBundle\OAuth\ResourceOwner\AbstractResourceOwner;
 
 final class UpdatingUserPasswordEncoderTest extends WebTestCase
 {
@@ -23,9 +22,9 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
         $fixtureLoader = $this->client->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine');
         $fixtureLoader->load(
             [
-                __DIR__ . '/../DataFixtures/ORM/resources/channels.yml',
-                __DIR__ . '/../DataFixtures/ORM/resources/customers.yml',
-                __DIR__ . '/../DataFixtures/ORM/resources/admin_users.yml',
+                __DIR__.'/../DataFixtures/ORM/resources/channels.yml',
+                __DIR__.'/../DataFixtures/ORM/resources/customers.yml',
+                __DIR__.'/../DataFixtures/ORM/resources/admin_users.yml',
             ],
             [],
             [],
@@ -33,8 +32,7 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
         );
     }
 
-    /** @test */
-    public function it_updates_the_encoder_when_the_shop_user_logs_in(): void
+    public function testItUpdatesTheEncoderWhenTheShopUserLogsIn(): void
     {
         /** @var UserRepositoryInterface $shopUserRepository */
         $shopUserRepository = $this->client->getContainer()->get('repository.shop_user');
@@ -64,8 +62,7 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
         Assert::assertSame('argon2i', $shopUserRepository->findOneByEmail('oliver@doe.com')->getEncoderName());
     }
 
-    /** @test */
-    public function it_updates_the_encoder_when_the_admin_user_logs_in(): void
+    public function testItUpdatesTheEncoderWhenTheAdminUserLogsIn(): void
     {
         /** @var UserRepositoryInterface $adminUserRepository */
         $adminUserRepository = $this->client->getContainer()->get('repository.admin_user');
@@ -92,8 +89,7 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
         Assert::assertSame('argon2i', $adminUserRepository->findOneByEmail('user@example.com')->getEncoderName());
     }
 
-    /** @test */
-    public function oauth_user_factory_is_not_overridden(): void
+    public function testOauthUserFactoryIsNotOverridden(): void
     {
         if (!$this->client->getContainer()->has('oauth.user_provider')) {
             $this->markTestSkipped('HWIOAuthBundle not installed');

@@ -2,15 +2,13 @@
 
 namespace Helpers;
 
-use App\Entity\Vendor\VendorSecurity;
 use Faker\Factory;
-
+use App\Entity\Vendor\VendorSecurity;
 
 trait VendorSecurityEntityCreator
 {
     public function makeVendorSecurityEntity(): VendorSecurity
     {
-
         $faker = Factory::create();
 
         $vendorSecurity = new VendorSecurity();

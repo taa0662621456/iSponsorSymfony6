@@ -1,24 +1,24 @@
 <?php
 
 use Api\JsonApiTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Utils\AdminUserLoginTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 final class ProductTest extends JsonApiTestCase
 {
     use AdminUserLoginTrait;
 
-    /** @test */
-    public function it_returns_products_collection(): void
+    public function testItReturnsProductsCollection(): void
     {
         $this->loadFixturesFromFiles(['product/product_variant_with_original_price.yaml', 'authentication/api_administrator.yaml']);
 
         $token = $this->logInAdminUser('api@example.com');
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
         $header = array_merge($header, self::CONTENT_TYPE_HEADER);
 
-        $this->client->request('GET',
+        $this->client->request(
+            'GET',
             '/api/v2/admin/products',
             [],
             [],
@@ -32,20 +32,20 @@ final class ProductTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_product_item(): void
+    public function testItReturnsProductItem(): void
     {
         $this->loadFixturesFromFile('authentication/api_administrator.yaml');
         $fixtures = $this->loadFixturesFromFile('product/product_variant_with_original_price.yaml');
 
         $token = $this->logInAdminUser('api@example.com');
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
         $header = array_merge($header, self::CONTENT_TYPE_HEADER);
 
         /** @var ProductInterface $product */
         $product = $fixtures['product_mug'];
-        $this->client->request('GET',
+        $this->client->request(
+            'GET',
             sprintf('/api/v2/admin/products/%s', $product->getCode()),
             [],
             [],

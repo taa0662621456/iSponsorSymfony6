@@ -15,6 +15,12 @@ fa:
 cu:
 	composer update
 
+cda:
+	clear
+	composer dump-autoload
+	composer clear-cache
+	composer install
+
 lc:
 	php bin/console lint:container
 
@@ -25,6 +31,7 @@ ff:
 	clear
 	make appfixer
 	clear
+	make cda
 	make cu
 	clear
 	make lc
@@ -41,7 +48,7 @@ ff:
 	make cc
 	clear
 	# process...
-	symfony console doctrine:schema:update --force --env=dev
+	symfony console doctrine:schema:update --complete --force
 	clear
 	# process...
 	symfony console doctrine:fixtures:load --purge-with-truncate -n
@@ -53,6 +60,10 @@ ff:
 	clear
 	make rr
 .PHONY: forcefixturesdev
+
+slpl:
+	symfony local:php:list
+	# process...
 
 rr:
 	clear
@@ -77,6 +88,8 @@ sso:
 	# process...
 	symfony server:stop
 	clear
+	# process...
+	symfony server:ca:install
 	# process...
 	symfony server:start -d
 	#symfony server:log --no-follow --no-tail --no-server-logs --no-app-logs
@@ -231,3 +244,19 @@ install:
 frontend:
 	yarn install --pure-lockfile
 	yarn encore production
+
+# Menu Run / PowerCycle menu
+server:
+	bash sh/server.sh
+
+route:
+	bash sh/route.sh
+
+menu:
+	bash sh/menu.sh
+
+schema:
+	bash sh/schema.sh
+
+test:
+	bash sh/test.sh

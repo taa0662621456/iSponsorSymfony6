@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
 
 final class ProductOptionTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_returns_product_option(): void
+    public function testItReturnsProductOption(): void
     {
         $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
 
@@ -18,8 +16,7 @@ final class ProductOptionTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/product/get_product_option');
     }
 
-    /** @test */
-    public function it_returns_product_option_value(): void
+    public function testItReturnsProductOptionValue(): void
     {
         $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
 

@@ -1,10 +1,9 @@
 ARG DOCKER_PHP_VERSION
 
-FROM php:${DOCKER_PHP_VERSION}-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 ARG TZ='UTC'
 
-# https://wiki.alpinelinux.org/wiki/Setting_the_timezone
 RUN echo "${TZ}" && apk --update add tzdata && \
     cp /usr/share/zoneinfo/$TZ /etc/localtime && \
     echo $TZ > /etc/timezone && \
@@ -41,15 +40,9 @@ RUN apk add --update --no-cache --virtual build-essentials \
     docker-php-ext-install zip && \
     apk del build-essentials && rm -rf /usr/src/php*
 
-RUN apk add --no-cache $PHPIZE_DEPS
-RUN pecl install -o -f redis mongodb \
-    &&  rm -rf /tmp/pear \
-    &&  docker-php-ext-enable redis \
-    &&  docker-php-ext-enable mongodb
-
-# Enable Xdebug
-RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS
-RUN pecl install xdebug-3.0.0 \
+RUN apk add --no-cache $PHPIZE_DEPS \
+    && pecl install -o -f redis mongodb xdebug-3.0.0 \
+    && docker-php-ext-enable redis mongodb \
 #    && docker-php-ext-enable xdebug \
     && apk del -f .build-deps \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -maxdepth 2 -type f -name xdebug.so)" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -67,21 +60,17 @@ RUN pecl install xdebug-3.0.0 \
     && echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && php -m;
 
-
 # Clean
 RUN rm -rf /var/cache/apk/* && docker-php-source delete
 
 USER root
 
 # Composer
-RUN curl -sS https://getcomposer.org/installer | php
-RUN mv composer.phar /usr/local/bin/composer
-RUN /usr/local/bin/composer self-update
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/composer \
+    && /usr/local/bin/composer self-update
+
 
 USER www-data:www-data
 
 WORKDIR /var/www/
-#RUN composer install
-
-#WORKDIR /var/www/book/dev
-#RUN composer install

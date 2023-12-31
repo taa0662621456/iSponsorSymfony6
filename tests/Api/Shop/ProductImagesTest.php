@@ -7,12 +7,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductImagesTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_one_product_image(): void
+    public function testItGetsOneProductImage(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['product/product_image.yaml', 'authentication/api_administrator.yaml']);
         /** @var ProductImageInterface $productImage */
-        $productImage = $fixtures["product_thumbnail"];
+        $productImage = $fixtures['product_thumbnail'];
 
         $this->client->request(
             'GET',
@@ -26,12 +25,11 @@ final class ProductImagesTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/product/get_product_image_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_one_filtered_product_image(): void
+    public function testItGetsOneFilteredProductImage(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['product/product_image.yaml', 'authentication/api_administrator.yaml']);
         /** @var ProductImageInterface $productImage */
-        $productImage = $fixtures["product_thumbnail"];
+        $productImage = $fixtures['product_thumbnail'];
 
         $this->client->request(
             'GET',

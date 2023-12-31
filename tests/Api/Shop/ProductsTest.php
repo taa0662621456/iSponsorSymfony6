@@ -7,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductsTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_preserves_query_param_when_redirecting_from_product_slug_to_product_code(): void
+    public function testItPreservesQueryParamWhenRedirectingFromProductSlugToProductCode(): void
     {
         $this->loadFixturesFromFile('product/product_variant_with_original_price.yaml');
 
@@ -19,8 +18,7 @@ final class ProductsTest extends JsonApiTestCase
         $this->assertResponseCode($response, Response::HTTP_MOVED_PERMANENTLY);
     }
 
-    /** @test */
-    public function it_returns_product_with_translations_in_default_locale(): void
+    public function testItReturnsProductWithTranslationsInDefaultLocale(): void
     {
         $fixtures = $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
 
@@ -41,8 +39,7 @@ final class ProductsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_product_with_translations_in_locale_from_header(): void
+    public function testItReturnsProductWithTranslationsInLocaleFromHeader(): void
     {
         $fixtures = $this->loadFixturesFromFile('product/product_with_many_locales.yaml');
 
@@ -63,8 +60,7 @@ final class ProductsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_products_collection(): void
+    public function testItReturnsProductsCollection(): void
     {
         $this->loadFixturesFromFiles(['product/product_variant_with_original_price.yaml']);
 
@@ -83,8 +79,7 @@ final class ProductsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_product_attributes_collection_with_translations_in_locale_from_header(): void
+    public function testItReturnsProductAttributesCollectionWithTranslationsInLocaleFromHeader(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'product/product_attribute.yaml']);
 
@@ -102,8 +97,7 @@ final class ProductsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_paginated_attributes_collection(): void
+    public function testItReturnsPaginatedAttributesCollection(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'product/product_attribute.yaml']);
 

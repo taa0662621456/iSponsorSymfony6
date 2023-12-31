@@ -1,0 +1,89 @@
+doctrine:
+  orm:
+    entity_managers:
+      sqlite:
+        connection: sqlite
+        mappings:
+          Menu:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Entity/Menu'
+            prefix: 'App\Entity\Menu'
+            alias: Menu
+          Module:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Module'
+            prefix: 'App\Entity\Module'
+            alias: Module
+          Category:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Category'
+            prefix: 'App\Entity\Category'
+            alias: Category
+          ProjectType:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Project'
+            prefix: 'App\Entity\Project'
+            alias: ProjectType
+          ProductType:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Product'
+            prefix: 'App\Entity\Product'
+            alias: ProductType
+          Locale:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Locale'
+            prefix: 'App\Entity\Locale'
+            alias: Locale
+          Zone:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Zone'
+            prefix: 'App\Entity\Zone'
+            alias: Zone
+          Exchange:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Exchange'
+            prefix: 'App\Entity\Exchange'
+            alias: Exchange
+          Currency:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Currency'
+            prefix: 'App\Entity\Currency'
+            alias: Currency
+          Taxation:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Taxation'
+            prefix: 'App\Entity\Taxation'
+            alias: Taxation
+          Coupon:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Coupon'
+            prefix: 'App\Entity\Coupon'
+            alias: Coupon
+          Payment:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Payment'
+            prefix: 'App\Entity\Payment'
+            alias: Payment
+          Association:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Association'
+            prefix: 'App\Entity\Association'
+            alias: Association
+          Tag:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Tag'
+            prefix: 'App\Entity\Tag'
+            alias: Tag

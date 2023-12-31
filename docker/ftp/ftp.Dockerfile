@@ -1,3 +1,3 @@
-FROM stilliard/pure-ftpd
+FROM stilliard/pure-ftpd:latest
 
 WORKDIR /var/www/

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
@@ -8,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductAttributesTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_returns_product_attribute_with_translations_in_default_locale(): void
+    public function testItReturnsProductAttributeWithTranslationsInDefaultLocale(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'product/product_attribute.yaml']);
 
@@ -28,8 +26,7 @@ final class ProductAttributesTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_returns_product_attribute_with_translations_in_locale_from_header(): void
+    public function testItReturnsProductAttributeWithTranslationsInLocaleFromHeader(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'product/product_attribute.yaml']);
 

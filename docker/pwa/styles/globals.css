@@ -15,7 +15,7 @@
 @layer utilities {
     .bg-spider-cover {
         @apply bg-cyan-700 bg-center bg-no-repeat;
-        background-image: url("../public/api-platform/web.svg");
+        background-image: url("web.svg");
         background-size: 110%;
     }
     .ribbon {

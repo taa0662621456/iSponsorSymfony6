@@ -15,6 +15,8 @@ return [
     'GOOGLE_AUTH_SECRET' => null,
     'GOOGLE_RECAPTCHA_KEY' => null,
     'GOOGLE_RECAPTCHA_SECRET' => null,
+    'GPT_API_SECRET' => null,
+    'GPT_API_URL' => null,
     'MAILER_DSN' => null,
     'OBJECT_REVIEW_DATABASE' => null,
     'PLATFORM_DATA_DATABASE' => null,

@@ -1,18 +1,12 @@
 <?php
 
-
 namespace Functional;
 
-use Fidry\AliceDataFixtures\LoaderInterface;
-use Fidry\AliceDataFixtures\Persistence\PurgeMode;
-
-
-
-
-
-
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\BrowserKit\Client;
+use Fidry\AliceDataFixtures\LoaderInterface;
+
+use Fidry\AliceDataFixtures\Persistence\PurgeMode;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class SalesDataProviderTest extends WebTestCase
 {
@@ -27,7 +21,7 @@ final class SalesDataProviderTest extends WebTestCase
         /** @var LoaderInterface $fixtureLoader */
         $fixtureLoader = self::$kernel->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine');
 
-        $fixtureLoader->load([__DIR__ . '/../DataFixtures/ORM/resources/year_sales.yml'], [], [], PurgeMode::createDeleteMode());
+        $fixtureLoader->load([__DIR__.'/../DataFixtures/ORM/resources/year_sales.yml'], [], [], PurgeMode::createDeleteMode());
 
         /** @var OrderInterface[] $orders */
         $orders = self::$kernel->getContainer()->get('repository.order')->findAll();
@@ -41,8 +35,7 @@ final class SalesDataProviderTest extends WebTestCase
         self::$kernel->getContainer()->get('manager.order')->flush();
     }
 
-    /** @test */
-    public function it_provides_year_sales_summary_grouped_by_year(): void
+    public function testItProvidesYearSalesSummaryGroupedByYear(): void
     {
         $startDate = new \DateTime('2019-01-01 00:00:01');
         $endDate = new \DateTime('2020-12-31 23:59:59');
@@ -56,8 +49,7 @@ final class SalesDataProviderTest extends WebTestCase
         $this->assertSame(['20.00', '110.00'], $salesSummary->getSales());
     }
 
-    /** @test */
-    public function it_provides_year_sales_summary_in_chosen_year(): void
+    public function testItProvidesYearSalesSummaryInChosenYear(): void
     {
         $startDate = new \DateTime('2020-01-01 00:00:01');
         $endDate = new \DateTime('2020-12-31 23:59:59');
@@ -71,8 +63,7 @@ final class SalesDataProviderTest extends WebTestCase
         $this->assertSame(['110.00'], $salesSummary->getSales());
     }
 
-    /** @test */
-    public function it_provides_year_sales_summary_grouped_per_month(): void
+    public function testItProvidesYearSalesSummaryGroupedPerMonth(): void
     {
         $startDate = new \DateTime('2020-01-01 00:00:01');
         $endDate = new \DateTime('2020-12-31 23:59:59');
@@ -88,8 +79,7 @@ final class SalesDataProviderTest extends WebTestCase
         );
     }
 
-    /** @test */
-    public function it_provides_years_sales_summary_grouped_per_month(): void
+    public function testItProvidesYearsSalesSummaryGroupedPerMonth(): void
     {
         $startDate = new \DateTime('2019-01-01 00:00:01');
         $endDate = new \DateTime('2020-12-31 23:59:59');
@@ -108,8 +98,7 @@ final class SalesDataProviderTest extends WebTestCase
         );
     }
 
-    /** @test */
-    public function it_provides_different_data_for_each_channel_and_only_paid_orders(): void
+    public function testItProvidesDifferentDataForEachChannelAndOnlyPaidOrders(): void
     {
         $startDate = new \DateTime('2019-01-01 00:00:01');
         $endDate = new \DateTime('2019-12-31 23:59:59');

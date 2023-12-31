@@ -19,8 +19,7 @@ final class VerifyCustomerAccountsTest extends JsonApiTestCase
 {
     use ShopUserLoginTrait;
 
-    /** @test */
-    public function it_resends_account_verification_token(): void
+    public function testItResendsAccountVerificationToken(): void
     {
         self::getContainer();
 
@@ -35,7 +34,7 @@ final class VerifyCustomerAccountsTest extends JsonApiTestCase
             [
                 'CONTENT_TYPE' => 'application/ld+json',
                 'HTTP_ACCEPT' => 'application/ld+json',
-                'HTTP_Authorization' => sprintf('Bearer %s', $token)
+                'HTTP_Authorization' => sprintf('Bearer %s', $token),
             ],
             '{}'
         );
@@ -47,8 +46,7 @@ final class VerifyCustomerAccountsTest extends JsonApiTestCase
         self::assertEmailAddressContains(self::getMailerMessage(), 'To', 'oliver@doe.com');
     }
 
-    /** @test */
-    public function it_does_not_allow_to_resend_token_for_not_logged_in_users(): void
+    public function testItDoesNotAllowToResendTokenForNotLoggedInUsers(): void
     {
         self::getContainer();
 

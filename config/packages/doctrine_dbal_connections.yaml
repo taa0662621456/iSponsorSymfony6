@@ -1,0 +1,26 @@
+doctrine:
+  dbal:
+    connections:
+      postgres:
+        # configure these for your database server
+        # these connectors for all project's information
+        url: '%env(PLATFORM_DATA_DATABASE)%'
+        driver: 'pdo_pgsql'
+        server_version: '11.2'
+        charset: utf8
+        default_table_options:
+          charset: utf8mb4
+          collate: utf8mb4_unicode_ci
+        schema_filter: '~^(?!messenger_messages)~'
+      review:
+        url: '%env(resolve:OBJECT_REVIEW_DATABASE)%'
+        driver: 'pdo_pgsql'
+        server_version: '11.2'
+        charset: utf8
+      sqlite:
+        # configure these for your database server
+        # this connector for all modules, menus, parameters of system
+        url: '%env(resolve:PLATFORM_SYSTEM_DATABASE)%'
+        driver: 'pdo_sqlite'
+        server_version: '3.21'
+        charset: utf8mb4

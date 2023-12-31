@@ -8,5 +8,4 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class CategoryRepositoryTest extends KernelTestCase
 {
     use ObjectRepositoryTestTrait;
-
 }

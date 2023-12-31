@@ -1,11 +1,8 @@
 <?php
 
-
 namespace App\Tests\Api\Utils;
 
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
-
-
 
 trait AdminUserLoginTrait
 {

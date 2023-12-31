@@ -1,67 +1,49 @@
 version: '3.5'
-# https://gitlab.com/dev-coach/myapp/-/blob/master/back/Dockerfile
 
 services:
-  ######################################
-#  nginx:
-#    build:
-#      context: .
-#      dockerfile: docker/nginx/nginx.Dockerfile
-#      args:
-#        DOCKER_IMAGE: ${DOCKER_IMAGE}
-#    container_name: nginx
-#    ports:
-#      - "${NGINX_PORT}:${NGINX_PORT}"
-#      - "433:433"
-#    links:
-#      - php-cli
-#      - php-fpm
-#      - postgres
-#      - redis
-##      - mongo
-#    volumes:
-#      - ./docker/www:/var/www
-#      - ./public:/var/www/book
-#      - ./src:/var/www/book/src
-#      - ./:/var/www/book/dev
-#      - ./docker/nginx/conf.d:/etc/nginx/conf.d
-#      - ./docker/nginx/logs:/var/log/nginx/
-#    depends_on:
-#      - redis
-##      - mongo
-#      - postgres
-#      - php-fpm
-#      - php-cli
-#      - rabbitmq
-#    environment:
-#      TZ: ${WORKSPACE_TIMEZONE}
-#      APP_ENV: 'dev'
-#      APP_DEBUG: 'true'
-#    networks:
-#      - dev
-  ######################################
-  php-fpm:
+  #####################################
+  nginx:
+    profiles: ["web"]
     build:
       context: .
-      dockerfile: docker/php/php-fpm.Dockerfile
-      args:
-        DOCKER_IMAGE: ${DOCKER_IMAGE}
+      dockerfile: docker/nginx/nginx.Dockerfile
+    container_name: nginx
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
+    volumes:
+      - ./public:/var/www
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/logs:/var/log/nginx/
+    depends_on:
+      - redis
+      - postgres
+      - php-fpm
+      - php-cli
+      - rabbitmq
+    environment:
+      TZ: ${WORKSPACE_TIMEZONE}
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: 'true'
+    networks:
+      - ${APP_ENV}
+  #####################################
+  php-fpm:
+    profiles: [ "web" ]
+    build:
+      context: .
+      dockerfile: docker/php/8.1/php-fpm.Dockerfile
     restart: unless-stopped
     healthcheck:
         interval: 10s
         timeout: 3s
         retries: 3
         start_period: 30s
-    links:
-      - postgres
-      - redis
-      - rabbitmq
-      - elasticsearch
     environment:
       ELASTICSEARCH_HOST: 'elasticsearch:9200'
-      APP_ENV: 'prod'
+      APP_ENV: ${APP_ENV}
       APP_DEBUG: 'false'
-      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-!ChangeMe!}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-14}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-postgres}@database:5432/${POSTGRES_DB:-app}?serverVersion=${POSTGRES_VERSION:-14}
       TRUSTED_PROXIES: ${TRUSTED_PROXIES:-127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16}
       TRUSTED_HOSTS: ^${SERVER_NAME:-example\.com|localhost}|caddy$$
       MERCURE_URL: ${CADDY_MERCURE_URL:-http://caddy/.well-known/mercure}
@@ -71,89 +53,76 @@ services:
     tty: true
     working_dir: /var/www
     container_name: php-fpm
-#    volumes:
-#      - ./.ssh:/home/www-data/.ssh
-#      - ./docker/www:/var/www/
-#      - ./public:/var/www/book/
-#      - ./src:/var/www/book/src/
-#      - ./:/var/www/book/dev/
-#      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-#      - ./php-workers/supervisor.d:/etc/supervisor.d
-#      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-#      - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-#      - ./docker/php/conf.d/opcache.ini://usr/local/etc/php/conf.d/opcache.ini
-#        entrypoint: "php -S 0.0.0.0:8000"
-#  - php_socket:/var/run/php
-#    depends_on:
-#      - postgres
-#      - redis
-#      - rabbitmq
-#      - redis-queue
-    #        - storage
-    ports:
-#      - "127.0.0.1:8080:8080"
-      - "${PHP_7_4_PORT}:${PHP_7_4_PORT}"
-#      - "${PHP_8_0_PORT}:${PHP_8_0_PORT}"
+    volumes:
+      - ./.ssh:/home/www-data/.ssh
+      - ./public:/var/www/
+      - ./docker/php/8.1/php.ini:/usr/local/etc/php/php.ini
+      - ./php-workers/supervisor.d:/etc/supervisor.d
+      - ./docker/php/8.1/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./docker/php/8.1/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ./docker/php/8.1/conf.d/opcache.ini://usr/local/etc/php/conf.d/opcache.ini
+    entrypoint: php -S 0.0.0.0:8000
+      - php_socket:/var/run/php
+    depends_on:
+      - postgres
+      - redis
+      - rabbitmq
+      - redis-queue
+      - storage
     logging:
       driver: "json-file"
       options:
         max-size: "1024k"
         max-file: "2"
     extra_hosts:
-      - 'book.localhost:93.73.44.251'
+      - 'localhost:93.73.44.251'
     networks:
-      - dev
+      - ${APP_ENV}
   ######################################
-  pwa:
-      build:
-          context: ./pwa
-          target: prod
-      environment:
-          NEXT_PUBLIC_ENTRYPOINT: http://caddy
+  # PWA has a problem !!!!!!!!!!!!!!!!!!
+#  pwa:
+#      build:
+#        context: .
+#        dockerfile: docker/pwa/pwa.Dockerfile
+#      volumes:
+#        - ./docker/pwa/pnpm-lock.yaml:/pnpm-lock.yaml
+#      environment:
+#          NEXT_PUBLIC_ENTRYPOINT: http://caddy\
   ######################################
-  caddy:
-      build:
-          context: api/
-          target: app_caddy
-      depends_on:
-          - php
-          - pwa
-      environment:
-          PWA_UPSTREAM: pwa:3000
-          SERVER_NAME: ${SERVER_NAME:-localhost}, caddy:80
-          MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-          MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-      restart: unless-stopped
-      volumes:
-          - php_socket:/var/run/php
-          - caddy_data:/data
-          - caddy_config:/config
+#  caddy:
+#      build:
+#          context: .
+#          dockerfile: docker/caddy/caddy.Dockerfile
+#      depends_on:
+#          - php-fpm
+#          - php-cli
+#          - pwa
+#      environment:
+#          PWA_UPSTREAM: pwa:3000
+#          SERVER_NAME: ${SERVER_NAME:-localhost}, caddy:80
+#          MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+#          MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+#      restart: unless-stopped
+#      volumes:
+#          - php_socket:/var/run/php
+#          - caddy_data:/data
+#          - caddy_config:/config
 #      ports:
-          # HTTP
-#          - target: 80
-#              published: ${HTTP_PORT:-80}
-#              protocol: tcp
-          # HTTPS
-#          -   target: 443
-#              published: ${HTTPS_PORT:-443}
-#              protocol: tcp
-          # HTTP/3
-#          -   target: 443
-#              published: ${HTTP3_PORT:-443}
-#              protocol: udp
+#        - target: 80
+#          published: "${CADDY_HTTP_PORT}:80"
+#          protocol: tcp
+#        - target: 443
+#          published: "${CADDY_HTTPS_PORT}:443"
+#          protocol: tcp
+#        - target: 443
+#          published: "${CADDY_HTTP3_PORT}:8443"
+#          protocol: udp
   ######################################
-
   php-cli:
+    profiles: [ "web" ]
     build:
       context: .
-      dockerfile: docker/php/php-cli.Dockerfile
-      args:
-        DOCKER_IMAGE: ${DOCKER_IMAGE}
-    links:
-      - postgres
-      - redis
-      - rabbitmq
-      - elasticsearch
+      dockerfile: docker/php/8.1/php-cli.Dockerfile
     environment:
       ELASTICSEARCH_HOSTS: 'elasticsearch:9200'
       TZ: ${WORKSPACE_TIMEZONE}
@@ -162,39 +131,36 @@ services:
     container_name: php-cli
     volumes:
       - ./.ssh:/home/www-data/.ssh
-      - ./docker/www:/var/www/
-      - ./:/var/www/book/
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-#      - ./php-workers/supervisor.d:/etc/supervisor.d
-      - ./docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ./docker/php/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ./public:/var/www/
+      - ./docker/php/8.1/${APP_ENV}/php.ini:/usr/local/etc/php/php.ini
+      - ./php-workers/supervisor.d:/etc/supervisor.d
+      - ./docker/php/8.1/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ./docker/php/8.1/conf.d/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
       - composer:/root/.composer/cache
     entrypoint: "php -S 0.0.0.0:8000"
     depends_on:
       - postgres
       - redis
-#      - redis-queue
-#      - storage
+      - redis-queue
+      - storage
     ports:
-#      - "127.0.0.1:8074:8074"
-#      - "${PHP_7_4_PORT}:${PHP_7_4_PORT}"
-      - "${PHP_8_0_PORT}:${PHP_8_0_PORT}"
+      - "127.0.0.1:8074:8074"
+      - "${PHP_PORT}:${PHP_PORT}"
     logging:
       driver: "json-file"
       options:
         max-size: "1024k"
         max-file: "2"
-    #      extra_hosts:
-    #        - 'book.localhost:93.73.44.251'
+    extra_hosts:
+      - "localhost:93.73.44.251"
     networks:
-      - dev
+      - ${APP_ENV}
   ######################################
   redis:
+    profiles: [ "web" ]
     build:
       context: .
       dockerfile: docker/redis/redis.Dockerfile
-      args:
-        DOCKER_IMAGE: ${DOCKER_IMAGE}
     ports:
       - "${REDIS_PORT}:6379"
     container_name: redis
@@ -211,168 +177,160 @@ services:
     environment:
       TZ: ${WORKSPACE_TIMEZONE}
     networks:
-      - dev
+      - ${APP_ENV}
   ######################################
   redis-queue:
-    #    build:
-    #      context: .
-    #      dockerfile: docker/redis/redis.Dockerfile
-    image: redis:latest
+    profiles: [ "web" ]
+    build:
+      context: .
+      dockerfile: docker/redis-queue/queue.Dockerfile
+    ports:
+      - "${REDIS_QUEUE_PORT}:6379"
     volumes:
-      - ./docker/redis/queue:/var/www/queue
+      - ./docker/redis-queue/queue:/var/www/queue
     container_name: redis-queue
     networks:
-      - dev
+      - ${APP_ENV}
   ######################################
-  # https://habr.com/ru/post/578744/
   postgres:
-#    image: postgres:${POSTGRES_VERSION:-14}-alpine
-    image: postgres:13.3
-#    build:
-#      context: .
-#      dockerfile: docker/postgres/postgres.Dockerfile
-#      args:
-#        DOCKER_IMAGE: ${DOCKER_IMAGE}
+    profiles: [ "web" ]
+    build:
+      context: .
+      dockerfile: docker/postgres/postgres.Dockerfile
     volumes:
-#      - .:/docker-entrypoint-initdb.d
-      - ./docker/postgres/data:/var/lib/postgresql/data
       - ./docker/postgres/dump:/var/dump
-#      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     environment:
-#      POSTGRES_DB: ${POSTGRES_DB:-app}
       POSTGRES_DB: ${POSTGRES_DB}
-#      POSTGRES_USER: ${POSTGRES_USER:-app}
       POSTGRES_USER: ${POSTGRES_USER}
-#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       TZ: ${WORKSPACE_TIMEZONE}
       PGDATA: "/var/lib/postgresql/data/pgdata"
     container_name: postgres
     networks:
-      - dev
+      - ${APP_ENV}
   ######################################
-#  mongo:
-#    build:
-#      context: .
-#      dockerfile: docker/mongo/mongo.Dockerfile
-#      args:
-#        DOCKER_IMAGE: ${DOCKER_IMAGE}
-##    volumes:
-##      - ./docker/www:/var/www/
-##      - ./public:/var/www/book/
-##      - ./src:/var/www/book/src/
-##      - ./:/var/www/book/dev/
-#    container_name: mongo
-#    networks:
-#      - dev
+  mongo:
+    build:
+      context: .
+      dockerfile: docker/mongo/mongo.Dockerfile
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    volumes:
+      - mongo_data:/data/db
+    container_name: mongo
+    networks:
+      - ${APP_ENV}
   ######################################
-#  node:
-#    build:
-#      context: .
-#      dockerfile: docker/node/node.Dockerfile
-#    volumes:
-#      - ./docker/www:/var/www/
-#      - ./:/var/www/book/
-#    tty: true
-#    container_name: node
-#    networks:
-#      - dev
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/node.Dockerfile
+    volumes:
+      - ./public:/var/www/
+    tty: true
+    container_name: node
+    networks:
+      - ${APP_ENV}
   ######################################
-#  node-watch:
-#    build:
-#      context: .
-#      dockerfile: docker/node/node.Dockerfile
-#    volumes:
-#      - ./:/var/www/book/
-#    container_name: node-watch
-#    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
-#    networks:
-#      - dev
+  node-watch:
+    build:
+      context: .
+      dockerfile: docker/node-watch/watch.Dockerfile
+    volumes:
+      - ./public:/var/www/
+    container_name: node-watch
+    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run watch"
+    networks:
+      - ${APP_ENV}
   ######################################
-#  elasticsearch:
-#    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
-#    environment:
-#      - bootstrap.memory_lock=true
-#      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
-#    ulimits:
-#      memlock:
-#        soft: -1
-#        hard: -1
-#    volumes:
-#      - ./docker/storage/elasticsearch:/var/usr/share/elasticsearch/data
-#    container_name: elasticsearch
-#    ports:
-#      - "9201:9200"
-#    networks:
-#      - dev
+  elasticsearch:
+    profiles: [ "web" ]
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms128m -Xmx128m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./docker/storage/elasticsearch:/var/usr/share/elasticsearch/data
+    container_name: elasticsearch
+    ports:
+      - "${ELASTICSEARCH_PORT}:9200"
+      - "9300:9300"
+    networks:
+      - ${APP_ENV}
   ######################################
-  #  storage:
-  #    build:
-  #      context: ./docker/storage/development
-  #      dockerfile: nginx.docker
-  #    volumes:
-  #      - ./storage:/app
-  #    ports:
-  #      - "8081:80"
-  #    networks:
-  #      - dev
+  storage:
+    build:
+      context: .
+      dockerfile: docker/storage/storage.Dockerfile
+    volumes:
+      - ./public/upload:/app/upload
+    ports:
+      - "8081:80"
+    networks:
+      - ${APP_ENV}
   ######################################
-#  ftp:
-#    #    build:
-#    #      context: .
-#    #      dockerfile: docker/ftp/ftp.Dockerfile
-#    image: stilliard/pure-ftpd
-#    environment:
-#      FTP_USER_NAME: app
-#      FTP_USER_PASS: secret
-#      FTP_USER_HOME: /app
-#    volumes:
-#      - ./docker/ftp/public:/var
-#    networks:
-#      - dev
-#  ######################################
-#  rabbitmq:
-#    #    build:
-#    #      context: .
-#    #      dockerfile: docker/ftp/ftp.Dockerfile
-#    image: rabbitmq:3-management
-#    environment:
-#      RABBITMQ_ERLANG_COOKIE: SWQOKODSQALRPCLNMEQG
-#      RABBITMQ_DEFAULT_USER: rabbit
-#      RABBITMQ_DEFAULT_PASS: rabbit
-#    container_name: rabbitmq
-#    ports:
-#      - "8085:15672"
-#      - "5672:5672"
-#    volumes:
-#      - ./docker/rabbitmq/enabled_plugins:/var/etc/rabbitmq/enabled_plugins
-#    networks:
-#      - dev
+  ftp:
+    build:
+      context: .
+      dockerfile: docker/ftp/ftp.Dockerfile
+    environment:
+      FTP_USER_NAME: app
+      FTP_USER_PASS: secret
+      FTP_USER_HOME: /app
+    volumes:
+      - ./public:/app/public
+      - ftp_data:/app
+    networks:
+      - ${APP_ENV}
+    ports:
+      - "21:21"
+      - "30000-30009:30000-30009"
   ######################################
-
-
-
+  rabbitmq:
+    profiles: [ "web" ]
+    build:
+      context: .
+      dockerfile: docker/rabbitmq/rabbitmq.Dockerfile
+    environment:
+      RABBITMQ_ERLANG_COOKIE: SWQOKODSQALRPCLNMEQG
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: rabbit
+    container_name: rabbitmq
+    ports:
+      - "8085:15672"
+      - "5672:5672"
+    volumes:
+      - ./docker/rabbitmq/enabled_plugins:/var/etc/rabbitmq/enabled_plugins
+    networks:
+      - ${APP_ENV}
+  ######################################
 volumes:
   postgres:
   php_socket:
   caddy_data:
   caddy_config:
-#  redis:
-#  redis-queue:
-    ###> doctrine/doctrine-bundle ###
+  redis:
+  redis-queue:
   db_data:
-    ###< doctrine/doctrine-bundle ###
-    ###> symfony/mercure-bundle ###
-    ###< symfony/mercure-bundle ###
-
-
   composer:
+  ftp_data:
+  mongo_data:
 
 networks:
   dev:
     driver: bridge
-
-
-    # https://prototype.php.net/versions/7.4/install/docker
+  prod:
+    driver: bridge
+  local:
+    driver: bridge

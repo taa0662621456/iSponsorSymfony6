@@ -2,16 +2,15 @@
 
 namespace App\Tests\Api\Shop;
 
-use App\Tests\Api\tests\Api\JsonApiTestCase;
 use App\Tests\Api\Utils\ShopUserLoginTrait;
+use App\Tests\Api\tests\Api\JsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 final class SendContactRequestTest extends JsonApiTestCase
 {
     use ShopUserLoginTrait;
 
-    /** @test */
-    public function it_sends_contact_request(): void
+    public function testItSendsContactRequest(): void
     {
         self::getContainer();
 
@@ -28,7 +27,7 @@ final class SendContactRequestTest extends JsonApiTestCase
             ],
             json_encode([
                 'email' => 'customer@email.com',
-                'message' => 'Example of message'
+                'message' => 'Example of message',
             ])
         );
 
@@ -39,8 +38,7 @@ final class SendContactRequestTest extends JsonApiTestCase
         self::assertEmailAddressContains(self::getMailerMessage(), 'To', 'web@sylius.com');
     }
 
-    /** @test */
-    public function it_sends_contact_request_as_logged_in_user(): void
+    public function testItSendsContactRequestAsLoggedInUser(): void
     {
         self::getContainer();
 
@@ -59,7 +57,7 @@ final class SendContactRequestTest extends JsonApiTestCase
             array_merge($authorizationHeader, self::CONTENT_TYPE_HEADER),
             json_encode([
                 'email' => 'customer@email.com',
-                'message' => 'Example of message'
+                'message' => 'Example of message',
             ])
         );
 

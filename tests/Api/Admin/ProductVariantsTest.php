@@ -5,8 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductVariantsTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_denies_access_to_a_products_list_for_not_authenticated_user(): void
+    public function testItDeniesAccessToAProductsListForNotAuthenticatedUser(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'product/product_variant.yaml']);
 
@@ -16,8 +15,7 @@ final class ProductVariantsTest extends JsonApiTestCase
         $this->assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    /** @test */
-    public function it_gets_all_product_variants(): void
+    public function testItGetsAllProductVariants(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'product/product_variant.yaml', 'authentication/api_administrator.yaml']);
 
@@ -33,7 +31,7 @@ final class ProductVariantsTest extends JsonApiTestCase
         $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
 
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
 
         $this->client->request(
             'GET',
@@ -47,8 +45,7 @@ final class ProductVariantsTest extends JsonApiTestCase
         $this->assertResponse($response, 'admin/get_product_variants_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_updates_channel_pricing_of_product_variant(): void
+    public function testItUpdatesChannelPricingOfProductVariant(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['channel.yaml', 'product/product_variant.yaml', 'authentication/api_administrator.yaml']);
 
@@ -64,7 +61,7 @@ final class ProductVariantsTest extends JsonApiTestCase
         $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
 
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
 
         /** @var ProductVariantInterface $productVariant */
         $productVariant = $fixtures['product_variant'];
@@ -82,8 +79,8 @@ final class ProductVariantsTest extends JsonApiTestCase
                     '@id' => sprintf('/api/v2/admin/channel-pricings/%s', $productVariant->getChannelPricingForChannel($channel)->getId()),
                     'price' => 3000,
                     'originalPrice' => 4000,
-                ]]
-            ], JSON_THROW_ON_ERROR)
+                ]],
+            ], \JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -93,8 +90,7 @@ final class ProductVariantsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_creates_product_variant(): void
+    public function testItCreatesProductVariant(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['channel.yaml', 'product/product_variant.yaml', 'authentication/api_administrator.yaml']);
 
@@ -110,7 +106,7 @@ final class ProductVariantsTest extends JsonApiTestCase
         $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
 
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
 
         /** @var ProductInterface $product */
         $product = $fixtures['product'];
@@ -130,8 +126,8 @@ final class ProductVariantsTest extends JsonApiTestCase
                     'price' => 4000,
                     'originalPrice' => 5000,
                     'minimumPrice' => 2000,
-                ]]
-            ], JSON_THROW_ON_ERROR)
+                ]],
+            ], \JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(

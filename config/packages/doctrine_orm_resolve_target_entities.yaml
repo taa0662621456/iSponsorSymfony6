@@ -1,0 +1,16 @@
+doctrine:
+  orm:
+    resolve_target_entities:
+      App\EntityInterface\Category\CategoryInterface: App\Entity\Category\Category
+      App\EntityInterface\Category\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
+      #
+      App\EntityInterface\Project\ProjectInterface: App\Entity\Project\Project
+      App\EntityInterface\Project\ProjectTypeInterface: App\Entity\Project\ProjectType
+      App\EntityInterface\Project\ProjectReviewInterface: App\Entity\Project\ProjectReview
+      #
+      App\EntityInterface\Featured\FeaturedInterface: App\Entity\Featured\Featured
+      #
+      App\EntityInterface\Product\ProductTypeInterface: App\Entity\Product\ProductType
+      App\EntityInterface\Product\ProductReviewInterface: App\Entity\Product\ProductReview
+      #
+      App\EntityInterface\Tag\TagInterface: App\Entity\Tag\Tag

@@ -28,3 +28,8 @@ app.swagger:
 
 api_login_check:
     path: /api/login_check
+
+api_doc:
+  path: 'https://www.google.com'
+  schemes: [ 'https' ]
+  host: 'www.google.com'

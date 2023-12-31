@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Controller;
 
 use ApiTestCase\JsonApiTestCase;
-use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 
 abstract class SessionAwareAjaxTest extends JsonApiTestCase
 {
