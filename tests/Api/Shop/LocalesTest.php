@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
@@ -8,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class LocalesTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_locales(): void
+    public function testItGetsLocales(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml']);
 
@@ -19,8 +17,7 @@ final class LocalesTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_locales_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_locale(): void
+    public function testItGetsLocale(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml']);
 

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use App\Form\Vendor\VendorDocumentType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
@@ -16,7 +16,7 @@ class VendorDocumentCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return VendorDocument::class;
+        return VendorDocumentAttachment::class;
     }
 
     public function configureFields(string $pageName): iterable

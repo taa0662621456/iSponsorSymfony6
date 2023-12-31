@@ -1,14 +1,10 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
-
-
 
 final class PaymentMethodsTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_available_payment_methods_from_payments(): void
+    public function testItGetsAvailablePaymentMethodsFromPayments(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'payment_method.yaml']);
 
@@ -40,8 +36,7 @@ final class PaymentMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/payment_method/get_payment_methods_for_cart_and_payment_response');
     }
 
-    /** @test */
-    public function it_gets_empty_response_if_only_payment_id_is_set_in_filter(): void
+    public function testItGetsEmptyResponseIfOnlyPaymentIdIsSetInFilter(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'payment_method.yaml']);
 
@@ -73,8 +68,7 @@ final class PaymentMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/payment_method/get_payment_methods_for_uncompleted_filters_response');
     }
 
-    /** @test */
-    public function it_gets_empty_response_if_only_cart_token_is_set_in_filter(): void
+    public function testItGetsEmptyResponseIfOnlyCartTokenIsSetInFilter(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'payment_method.yaml']);
 
@@ -103,8 +97,7 @@ final class PaymentMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/payment_method/get_payment_methods_for_uncompleted_filters_response');
     }
 
-    /** @test */
-    public function it_gets_all_enabled_payment_methods_when_filters_are_not_set(): void
+    public function testItGetsAllEnabledPaymentMethodsWhenFiltersAreNotSet(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'payment_method.yaml']);
 

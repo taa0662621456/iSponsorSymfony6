@@ -51,6 +51,7 @@
         "masonry": "0.0.2",
         "masonry-layout": "^4.2.2",
         "node-sass": "*",
+        "openai": "^4.24.1",
         "popper": "^1.0.1",
         "popper.js": "^1.15.0",
         "prop-types": "^15.7.2",

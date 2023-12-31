@@ -1,0 +1,92 @@
+doctrine:
+  orm:
+    entity_managers:
+      postgres:
+        connection: postgres
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        mappings:
+          App:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity'
+            prefix: 'App\Entity'
+            alias: App
+          Address:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Address'
+            prefix: 'App\Entity\Address'
+            alias: Address
+          Vendor:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Vendor'
+            prefix: 'App\Entity\Vendor'
+            alias: Vendor
+          Project:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Project'
+            prefix: 'App\Entity\Project'
+            alias: Project
+          Product:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Product'
+            prefix: 'App\Entity\Product'
+            alias: Product
+          Order:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Order'
+            prefix: 'App\Entity\Order'
+            alias: Order
+          Folder:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Folder'
+            prefix: 'App\Entity\Folder'
+            alias: Folder
+          Commission:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Commission'
+            prefix: 'App\Entity\Commission'
+            alias: Commission
+          Payment:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Payment'
+            prefix: 'App\Entity\Payment'
+            alias: Payment
+          Shipment:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Shipment'
+            prefix: 'App\Entity\Shipment'
+            alias: Shipment
+          Storage:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Storage'
+            prefix: 'App\Entity\Storage'
+            alias: Storage
+          Event:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Event'
+            prefix: 'App\Entity\Event'
+            alias: Event
+          Featured:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Featured'
+            prefix: 'App\Entity\Featured'
+            alias: Featured
+          Tag:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Tag'
+            prefix: 'App\Entity\Tag'
+            alias: Tag
+

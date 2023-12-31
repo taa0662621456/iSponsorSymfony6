@@ -2,6 +2,7 @@
 
 namespace App\Entity\Vendor;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -12,6 +13,10 @@ use App\EntityInterface\Vendor\VendorConversationInterface;
 #[ORM\Entity]
 class VendorConversation extends RootEntity implements ObjectInterface, VendorConversationInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\OneToMany(mappedBy: 'vendorMessageConversation', targetEntity: VendorMessage::class)]
     private Collection $vendorConversationMessage;
 

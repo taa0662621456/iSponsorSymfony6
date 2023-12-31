@@ -2,6 +2,7 @@
 
 namespace App\Entity\Vendor;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -12,6 +13,10 @@ use App\EntityInterface\Vendor\VendorCodeStorageInterface;
 #[ORM\Entity]
 class VendorCodeStorage extends RootEntity implements ObjectInterface, VendorCodeStorageInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'phone', type: 'string')]
     protected string $phone;
 

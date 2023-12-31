@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
@@ -8,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ChannelsTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_collection_with_single_default_channel(): void
+    public function testItGetsCollectionWithSingleDefaultChannel(): void
     {
         $this->loadFixturesFromFile('channel.yaml');
 
@@ -19,8 +17,7 @@ final class ChannelsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_channels_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_error_if_no_channel_found(): void
+    public function testItGetsErrorIfNoChannelFound(): void
     {
         $this->client->request('GET', '/api/v2/shop/channels', [], [], self::CONTENT_TYPE_HEADER);
         $response = $this->client->getResponse();
@@ -28,8 +25,7 @@ final class ChannelsTest extends JsonApiTestCase
         $this->assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
-    /** @test */
-    public function it_gets_channel_by_code(): void
+    public function testItGetsChannelByCode(): void
     {
         $this->loadFixturesFromFile('channel.yaml');
 

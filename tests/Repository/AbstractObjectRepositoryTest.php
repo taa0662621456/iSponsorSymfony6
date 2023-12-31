@@ -10,7 +10,7 @@ class AbstractObjectRepositoryTest extends KernelTestCase
     // TODO: взять имя класса потомка и на его основе сэтапить тесты
     public static function getCalledClass(): string
     {
-        return get_called_class();
+        return static::class;
     }
 
     private EntityManager $entityManager;
@@ -30,8 +30,7 @@ class AbstractObjectRepositoryTest extends KernelTestCase
         $object = new $object();
         $project = $this->entityManager
             ->getRepository($object)
-            ->findOneBy(['id' => 1])
-        ;
+            ->findOneBy(['id' => 1]);
 
         $this->assertSame(1, $project->getId());
     }

@@ -2,7 +2,7 @@
 
 namespace App\Form\Vendor;
 
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -45,7 +45,7 @@ class VendorDocumentType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => VendorDocument::class,
+                'data_class' => VendorDocumentAttachment::class,
                 'translation_domain' => 'vendor',
             ]
         );

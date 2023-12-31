@@ -1,0 +1,16 @@
+parameters:
+  exceptions:
+    App\Exception\Vendor\VendorNotFoundException: { code: 404, hidden: false }
+    App\Exception\Vendor\VendorPaymentNotFoundException: { code: 404, hidden: false }
+    App\Exception\Vendor\VendorShipmentNotFoundException: { code: 404, hidden: false }
+    App\Exception\CategoryNotFoundException: { code: 404, hidden: false }
+    App\Exception\Project\ProjectNotFoundException: { code: 404, hidden: false }
+    App\Exception\Product\NotFoundException: { code: 404, hidden: false }
+    App\Exception\Product\ProductPaymentNotFoundException: { code: 404, hidden: false }
+    App\Exception\Product\ProductShipmentNotFoundException: { code: 404, hidden: false }
+    App\Exception\AttachmentNotFoundException: { code: 404, hidden: false }
+    App\Exception\EventNotFoundException: { code: 404, hidden: false }
+    App\Exception\TypeNotFoundException: { code: 404, hidden: false }
+    tokens:
+      client1: pass1
+      client2: pass2

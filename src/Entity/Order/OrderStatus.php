@@ -2,6 +2,7 @@
 
 namespace App\Entity\Order;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -12,6 +13,10 @@ use App\EntityInterface\Order\OrderStatusInterface;
 #[ORM\Entity]
 class OrderStatus extends RootEntity implements ObjectInterface, OrderStatusInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'order')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'order_status_code', type: 'string', nullable: false, options: ['default' => ''])]
     private string $orderStatusCode = '';
 
@@ -33,7 +38,7 @@ class OrderStatus extends RootEntity implements ObjectInterface, OrderStatusInte
     /**
      * @var ArrayCollection
      */
-    #[ORM\OneToMany(mappedBy: 'orderStatus', targetEntity: OrderStorage::class)]
+    #[ORM\OneToMany(mappedBy: 'orderStorageStatus', targetEntity: OrderStorage::class)]
     private Collection $orderStatusStorage;
 
     public function __construct()

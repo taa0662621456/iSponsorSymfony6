@@ -2,23 +2,23 @@
 
 namespace App\MessageHandler\Admin\Account;
 
-use App\Interface\VendorRepositoryInterface;
 use App\Message\MailNotificationMap;
 use App\Message\PasswordReset\PasswordResponseConstructor;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
+use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 use Webmozart\Assert\Assert;
 
-final class ResetPasswordEmailHandler implements MessageHandlerInterface
+final class ResetPasswordEmailHandler
 {
     public function __construct(
-//        private readonly VendorRepositoryInterface $vendorRepository,
-//        private readonly SenderInterface           $sender,
+        private readonly VendorRepositoryInterface $vendorRepository,
+        private readonly SenderInterface           $sender,
     ) {
     }
 
     public function __invoke(PasswordResponseConstructor $sendResetPasswordEmail): void
     {
-        $vendor = $this->vendorRepository->findOneByEmail($sendResetPasswordEmail->email);
+        $vendor = $this->vendorRepository->findOneBy(['mail' => $sendResetPasswordEmail->email]);
         Assert::notNull($vendor);
 
         $this->sender->send(

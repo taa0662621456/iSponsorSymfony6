@@ -10,9 +10,9 @@ use App\Entity\Project\Project;
 use App\Entity\Category\Category;
 use App\Entity\Product\ProductTag;
 use App\Entity\Project\ProjectTag;
-use App\Entity\Vendor\VendorMedia;
+use App\Entity\Vendor\VendorMediaAttachment;
 use App\Entity\Product\ProductPrice;
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use App\Entity\Product\ProductAttachment;
 use App\Entity\Project\ProjectAttachment;
 use App\Entity\Category\CategoryAttachment;
@@ -75,8 +75,8 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('User|Vendor');
         yield MenuItem::linkToCrud('Vendors', 'fa fa-tags', Vendor::class);
-        yield MenuItem::linkToCrud('VendorMedia', 'fa fa-tags', VendorMedia::class);
-        yield MenuItem::linkToCrud('VendorDocument', 'fa fa-tags', VendorDocument::class);
+        yield MenuItem::linkToCrud('VendorMedia', 'fa fa-tags', VendorMediaAttachment::class);
+        yield MenuItem::linkToCrud('VendorDocument', 'fa fa-tags', VendorDocumentAttachment::class);
 
         yield MenuItem::section('Category');
         yield MenuItem::linkToCrud('Categories', 'fa fa-tags', Category::class);

@@ -1,19 +1,14 @@
 <?php
 
-
 namespace Controller;
 
-use ApiTestCase\JsonApiTestCase;
 use Symfony\Component\BrowserKit\Cookie;
-use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 final class AdminProductVariantAjaxTest extends SessionAwareAjaxTest
 {
-    /** @test */
-    public function it_denies_access_to_product_variants_for_not_authenticated_user(): void
+    public function testItDeniesAccessToProductVariantsForNotAuthenticatedUser(): void
     {
         $this->client->request('GET', '/admin/ajax/product-variants/search-all');
 
@@ -22,8 +17,7 @@ final class AdminProductVariantAjaxTest extends SessionAwareAjaxTest
         $this->assertEquals($response->getStatusCode(), Response::HTTP_FOUND);
     }
 
-    /** @test */
-    public function it_returns_only_specified_part_of_all_product_variants_for_empty_phrase(): void
+    public function testItReturnsOnlySpecifiedPartOfAllProductVariantsForEmptyPhrase(): void
     {
         $this->loadFixturesFromFile('authentication/administrator.yml');
         $this->loadFixturesFromFiles(['resources/product_variants.yml']);
@@ -37,8 +31,7 @@ final class AdminProductVariantAjaxTest extends SessionAwareAjaxTest
         $this->assertResponse($response, 'ajax/product_variant/index_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_throws_type_error_when_phrase_is_not_specified(): void
+    public function testItThrowsTypeErrorWhenPhraseIsNotSpecified(): void
     {
         $this->loadFixturesFromFile('authentication/administrator.yml');
         $this->loadFixturesFromFiles(['resources/product_variants.yml']);
@@ -50,8 +43,7 @@ final class AdminProductVariantAjaxTest extends SessionAwareAjaxTest
         $this->client->request('GET', '/admin/ajax/product-variants/search-all');
     }
 
-    /** @test */
-    public function it_returns_specific_product_variants_for_given_phrase(): void
+    public function testItReturnsSpecificProductVariantsForGivenPhrase(): void
     {
         $this->loadFixturesFromFile('authentication/administrator.yml');
         $this->loadFixturesFromFiles(['resources/product_variants.yml']);
@@ -76,7 +68,7 @@ final class AdminProductVariantAjaxTest extends SessionAwareAjaxTest
         $firewallName = 'admin';
         $firewallContext = 'admin';
 
-        /** @deprecated parameter credential was deprecated in Symfony 5.4, so in Sylius 1.11 too, in Sylius 2.0 providing 4 arguments will be prohibited. */
+        /* @deprecated parameter credential was deprecated in Symfony 5.4, so in Sylius 1.11 too, in Sylius 2.0 providing 4 arguments will be prohibited. */
         if (3 === (new \ReflectionClass(UsernamePasswordToken::class))->getConstructor()->getNumberOfParameters()) {
             $token = new UsernamePasswordToken($user, $firewallName, $user->getRoles());
         } else {

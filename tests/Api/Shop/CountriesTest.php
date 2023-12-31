@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
@@ -8,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class CountriesTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_countries(): void
+    public function testItGetsCountries(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'country.yaml']);
 
@@ -19,8 +17,7 @@ final class CountriesTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_countries_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_a_country(): void
+    public function testItGetsACountry(): void
     {
         $this->loadFixturesFromFiles(['country.yaml']);
 

@@ -6,14 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait ObjectTitleTrait
 {
-    #[ORM\Column(name: 'first_title', type: 'string', nullable: false, options: ['default' => 'first_title'])]
-    protected string $firstTitle = 'first_title';
+    #[ORM\Column(name: 'first_title', type: 'string', nullable: true, options: ['default' => 'first_title'])]
+    protected ?string $firstTitle;
 
-    #[ORM\Column(name: 'middle_title', type: 'text', nullable: false, options: ['default' => 'middle_title'])]
-    protected string $middleTitle = 'middle_title';
+    #[ORM\Column(name: 'middle_title', type: 'text', nullable: true, options: ['default' => 'middle_title'])]
+    protected ?string $middleTitle;
 
-    #[ORM\Column(name: 'last_title', type: 'text', nullable: false, options: ['default' => 'last_title'])]
-    protected string $lastTitle = 'last_title';
+    #[ORM\Column(name: 'last_title', type: 'text', nullable: true, options: ['default' => 'last_title'])]
+    protected ?string $lastTitle;
 
     /**
      * @return string
@@ -24,9 +24,9 @@ trait ObjectTitleTrait
     }
 
     /**
-     * @param string $firstTitle
+     * @param string|null $firstTitle
      */
-    public function setFirstTitle(string $firstTitle): void
+    public function setFirstTitle(?string $firstTitle): void
     {
         $this->firstTitle = $firstTitle;
     }
@@ -40,9 +40,9 @@ trait ObjectTitleTrait
     }
 
     /**
-     * @param string $middleTitle
+     * @param string|null $middleTitle
      */
-    public function setMiddleTitle(string $middleTitle): void
+    public function setMiddleTitle(?string $middleTitle): void
     {
         $this->middleTitle = $middleTitle;
     }
@@ -56,9 +56,9 @@ trait ObjectTitleTrait
     }
 
     /**
-     * @param string $lastTitle
+     * @param string|null $lastTitle
      */
-    public function setLastTitle(string $lastTitle): void
+    public function setLastTitle(?string $lastTitle): void
     {
         $this->lastTitle = $lastTitle;
     }

@@ -1,19 +1,12 @@
 <?php
 
-
 namespace App\Tests\Api\Shop;
-
-
-
-
-
 
 final class ShippingMethodsTest extends JsonApiTestCase
 {
     use ShopUserLoginTrait;
 
-    /** @test */
-    public function it_gets_all_available_shipping_methods_by_default_in_given_channel(): void // Cover case of shipping methods in other channel
+    public function testItGetsAllAvailableShippingMethodsByDefaultInGivenChannel(): void // Cover case of shipping methods in other channel
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml']);
 
@@ -29,8 +22,7 @@ final class ShippingMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_shipping_methods_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_shipping_methods_available_for_given_shipment_and_order(): void
+    public function testItGetsShippingMethodsAvailableForGivenShipmentAndOrder(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'cart.yaml', 'country.yaml', 'shipping_method.yaml']);
 
@@ -53,8 +45,7 @@ final class ShippingMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_shipping_methods_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_returns_list_of_available_shipping_methods_of_assigned_cart_for_visitor(): void
+    public function testItReturnsListOfAvailableShippingMethodsOfAssignedCartForVisitor(): void
     {
         $this->loadFixturesFromFiles([
             'authentication/customer.yaml',
@@ -87,8 +78,7 @@ final class ShippingMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_shipping_methods_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_returns_list_of_available_shipping_methods_of_assigned_cart_for_other_users_if_shipment_id_and_cart_provided(): void
+    public function testItReturnsListOfAvailableShippingMethodsOfAssignedCartForOtherUsersIfShipmentIdAndCartProvided(): void
     {
         $this->loadFixturesFromFiles([
             'authentication/customer.yaml',
@@ -124,8 +114,7 @@ final class ShippingMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_order_shipping_methods_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_returns_empty_list_of_available_shipping_methods_for_not_existent_shipment(): void
+    public function testItReturnsEmptyListOfAvailableShippingMethodsForNotExistentShipment(): void
     {
         $this->loadFixturesFromFiles([
             'authentication/customer.yaml',
@@ -147,8 +136,7 @@ final class ShippingMethodsTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/get_empty_order_shipping_methods_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_returns_empty_list_of_available_shipping_methods_for_not_existent_order(): void
+    public function testItReturnsEmptyListOfAvailableShippingMethodsForNotExistentOrder(): void
     {
         $this->loadFixturesFromFiles([
             'authentication/customer.yaml',

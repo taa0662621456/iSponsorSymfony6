@@ -1,12 +1,16 @@
 {% extends 'base.html.twig' %}
+{% block body %}
     {% if error %}
         <div class="alert alert-danger">
-        {{ error.message }}
-        {{ error.messageKey|trans(error.messageData, 'security') }}
-    </div>
-{% endif %}
+            {{ error.message }}
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
     {{ form(form) }}
     {{ form_errors (form) }}
+{% endblock %}
+
 {% block flash %}{{ include('_flashes.html.twig') }}{% endblock %}
 {% block footer %}{% endblock %}
 {% block javascripts %}

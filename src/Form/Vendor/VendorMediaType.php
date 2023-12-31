@@ -2,7 +2,7 @@
 
 namespace App\Form\Vendor;
 
-use App\Entity\Vendor\VendorMedia;
+use App\Entity\Vendor\VendorMediaAttachment;
 use Symfony\Component\Form\AbstractType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -45,7 +45,7 @@ class VendorMediaType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => VendorMedia::class,
+                'data_class' => VendorMediaAttachment::class,
                 'translation_domain' => 'vendor',
             ]
         );

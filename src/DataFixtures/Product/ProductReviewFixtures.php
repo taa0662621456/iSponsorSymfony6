@@ -2,9 +2,6 @@
 
 namespace App\DataFixtures\Product;
 
-use Faker\Factory;
-
-use JetBrains\PhpStorm\NoReturn;
 
 use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
@@ -12,21 +9,16 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class ProductReviewFixtures extends DataFixtures
 {
-    #[NoReturn]
-    public function load(ObjectManager $manager, $property = [], $n = 1): void
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $faker = Factory::create();
 
-        $property = [];
-
-        $i = 1;
 
         $property = [
-            'firstTitle' => $faker->realText(),
-            'lastTitle' => $faker->realText(7000),
+            'firstTitle' => fn($faker, $i) => $faker->realText(),
+            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
         ];
 
-        parent::load($manager, $property, $n);
+        parent::load($manager, $property);
     }
 
     public function getOrder(): int
@@ -34,15 +26,4 @@ final class ProductReviewFixtures extends DataFixtures
         return 19;
     }
 
-    protected function configureResourceNode(ArrayNodeDefinition $resourceNode): void
-    {
-        $resourceNode
-            ->children()
-            ->scalarNode('title')->cannotBeEmpty()->end()
-            ->scalarNode('rating')->cannotBeEmpty()->end()
-            ->scalarNode('comment')->cannotBeEmpty()->end()
-            ->scalarNode('author')->cannotBeEmpty()->end()
-            ->scalarNode('product')->cannotBeEmpty()->end()
-            ->scalarNode('status')->end();
-    }
 }

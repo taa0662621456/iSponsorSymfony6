@@ -2,12 +2,16 @@
 
 namespace App\Entity\Vendor;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 class VendorRememberMeToken extends RootEntity
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    private ObjectProperty $objectProperty;
+
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     private int $series = 0;

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Vendor\VendorMedia;
+use App\Entity\Vendor\VendorMediaAttachment;
 use App\Form\Vendor\VendorMediaType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -19,7 +19,7 @@ class VendorMediaCrudController extends AbstractCrudController
 
     public static function getEntityFqcn(): string
     {
-        return VendorMedia::class;
+        return VendorMediaAttachment::class;
     }
 
     public function configureFields(string $pageName): iterable

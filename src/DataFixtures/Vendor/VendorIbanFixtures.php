@@ -2,40 +2,22 @@
 
 namespace App\DataFixtures\Vendor;
 
-use Faker\Factory;
-
-use JetBrains\PhpStorm\NoReturn;
 
 use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
 
 final class VendorIbanFixtures extends DataFixtures
 {
-    #[NoReturn]
-    public function load(ObjectManager $manager, $property = [], $n = 1): void
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $faker = Factory::create();
 
-        $property = [];
-
-        $i = 1;
 
         $property = [
-            'firstTitle' => $faker->realText(),
-            'lastTitle' => $faker->realText(7000),
+            'iban' => fn($faker, $i) => $faker->iban(),
+            'lastTitle' => fn($faker, $i) => $faker->country(),
         ];
 
-        parent::load($manager, $property, $n);
+        parent::load($manager, $property);
     }
 
-/*    public function getDependencies(): array
-    {
-        return [
-
-            VendorMediaFixture::class,
-            VendorDocumentFixture::class,
-            VendorSecurityFixture::class,
-
-        ];
-    }*/
 }

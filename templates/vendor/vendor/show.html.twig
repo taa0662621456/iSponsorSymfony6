@@ -10,76 +10,76 @@
         <tbody>
             <tr>
                 <th>FirstName</th>
-                <td>{{ vendor_en_gb.firstTitle }}</td>
+                <td>{{ vendor_en_us.firstTitle }}</td>
             </tr>
             <tr>
                 <th>LastName</th>
-                <td>{{ vendor_en_gb.lastTitle }}</td>
+                <td>{{ vendor_en_us.lastTitle }}</td>
             </tr>
             <tr>
                 <th>MiddleName</th>
-                <td>{{ vendor_en_gb.middleTitle }}</td>
+                <td>{{ vendor_en_us.middleTitle }}</td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td>{{ vendor_en_gb.phone }}</td>
+                <td>{{ vendor_en_us.phone }}</td>
             </tr>
             <tr>
                 <th>PhoneSecond</th>
-                <td>{{ vendor_en_gb.phoneSecond }}</td>
+                <td>{{ vendor_en_us.phoneSecond }}</td>
             </tr>
             <tr>
                 <th>Fax</th>
-                <td>{{ vendor_en_gb.fax }}</td>
+                <td>{{ vendor_en_us.fax }}</td>
             </tr>
             <tr>
                 <th>Address</th>
-                <td>{{ vendor_en_gb.address }}</td>
+                <td>{{ vendor_en_us.address }}</td>
             </tr>
             <tr>
                 <th>AddressSecond</th>
-                <td>{{ vendor_en_gb.addressSecond }}</td>
+                <td>{{ vendor_en_us.addressSecond }}</td>
             </tr>
             <tr>
                 <th>City</th>
-                <td>{{ vendor_en_gb.city }}</td>
+                <td>{{ vendor_en_us.city }}</td>
             </tr>
             <tr>
                 <th>StateId</th>
-                <td>{{ vendor_en_gb.stateId }}</td>
+                <td>{{ vendor_en_us.stateId }}</td>
             </tr>
             <tr>
                 <th>CountryId</th>
-                <td>{{ vendor_en_gb.countryId }}</td>
+                <td>{{ vendor_en_us.countryId }}</td>
             </tr>
             <tr>
                 <th>Zip</th>
-                <td>{{ vendor_en_gb.zip }}</td>
+                <td>{{ vendor_en_us.zip }}</td>
             </tr>
             <tr>
                 <th>VendorCurrency</th>
-                <td>{{ vendor_en_gb.vendorCurrency }}</td>
+                <td>{{ vendor_en_us.vendorCurrency }}</td>
             </tr>
             <tr>
                 <th>VendorAcceptedCurrencies</th>
-                <td>{{ vendor_en_gb.vendorAcceptedCurrencies }}</td>
+                <td>{{ vendor_en_us.vendorAcceptedCurrencies }}</td>
             </tr>
             <tr>
                 <th>VendorParams</th>
-                <td>{{ vendor_en_gb.vendorParams }}</td>
+                <td>{{ vendor_en_us.vendorParams }}</td>
             </tr>
             <tr>
                 <th>MetaRobot</th>
-                <td>{{ vendor_en_gb.metaRobot }}</td>
+                <td>{{ vendor_en_us.metaRobot }}</td>
             </tr>
             <tr>
                 <th>MetaAuthor</th>
-                <td>{{ vendor_en_gb.metaAuthor }}</td>
+                <td>{{ vendor_en_us.metaAuthor }}</td>
             </tr>
         </tbody>
     </table>
 {% endblock %}
 {% block article_footer %}
-    <a href="{{ path('vendors_edit', {'id': vendor_en_gb.id}) }}">edit</a>
-    {{ include('vendors/_delete_form.html.twig') }}
+    <a href="{{ path('vendor_edit', {'id': vendor_en_us.id}) }}">edit</a>
+    {{ include('vendor/vendor/_delete_form.html.twig') }}
 {% endblock %}

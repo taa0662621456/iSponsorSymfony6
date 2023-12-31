@@ -5,8 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductImagesTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_denies_access_to_a_product_images_list_for_not_authenticated_user(): void
+    public function testItDeniesAccessToAProductImagesListForNotAuthenticatedUser(): void
     {
         $this->loadFixturesFromFile('product/product_image.yaml');
 
@@ -16,8 +15,7 @@ final class ProductImagesTest extends JsonApiTestCase
         $this->assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    /** @test */
-    public function it_gets_all_product_images(): void
+    public function testItGetsAllProductImages(): void
     {
         $this->loadFixturesFromFiles(['product/product_image.yaml', 'authentication/api_administrator.yaml']);
 
@@ -33,7 +31,7 @@ final class ProductImagesTest extends JsonApiTestCase
         $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
 
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
 
         $this->client->request(
             'GET',
@@ -47,12 +45,11 @@ final class ProductImagesTest extends JsonApiTestCase
         $this->assertResponse($response, 'admin/get_product_images_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_gets_one_product_image(): void
+    public function testItGetsOneProductImage(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['product/product_image.yaml', 'authentication/api_administrator.yaml']);
         /** @var ProductImageInterface $productImage */
-        $productImage = $fixtures["product_thumbnail"];
+        $productImage = $fixtures['product_thumbnail'];
 
         $this->client->request(
             'POST',
@@ -66,7 +63,7 @@ final class ProductImagesTest extends JsonApiTestCase
         $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
 
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
 
         $this->client->request(
             'GET',

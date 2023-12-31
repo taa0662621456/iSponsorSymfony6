@@ -2,6 +2,7 @@
 
 namespace App\EntityInterface\Order;
 
+use App\Entity\Order\OrderItem;
 use Doctrine\Common\Collections\Collection;
 
 interface OrderStorageInterface
@@ -15,30 +16,25 @@ interface OrderStorageInterface
     public const STATE_FULFILLED = 'fulfilled';
 
 //    public function getCheckoutCompletedAt(): ?\DateTimeInterface;
-
+//
 //    public function setCheckoutCompletedAt(?\DateTimeInterface $checkoutCompletedAt): void;
-
+//
 //    public function isCheckoutCompleted(): bool;
 //
 //    public function completeCheckout(): void;
 
-//    public function setNumber(?string $number): void;
-//
-//    public function getNotes(): ?string;
-//
-//    public function setNotes(?string $notes): void;
+    public function setOrderNumber(?string $orderNumber): void;
 
-//    /**
-//     * @psalm-return Collection<array-key, OrderItemInterface>
-//     */
-//    public function getItems(): Collection;
+    public function getOrderItem(): Collection;
+    public function setOrderItem(OrderItemInterface $orderItem): void;
+    public function addOrderItem(OrderItemInterface $orderItem): void;
 
 //    public function clearItems(): void;
 //
 //    public function countItems(): int;
 
 //    public function addItem(OrderItemInterface $item): void;
-
+//
 //    public function removeItem(OrderItemInterface $item): void;
 
 //    public function hasItem(OrderItemInterface $item): bool;
@@ -46,10 +42,8 @@ interface OrderStorageInterface
 //    public function getItemsTotal(): int;
 //
 //    public function recalculateItemsTotal(): void;
-//
-//    public function getTotal(): int;
-//
-//    public function getTotalQuantity(): int;
+
+    public function getOrderTotal(): int;
 
 //    public function getState(): string;
 //
@@ -57,11 +51,6 @@ interface OrderStorageInterface
 //
 //    public function isEmpty(): bool;
 
-//    /**
-//     * @return Collection
-//     *
-//     * @psalm-return Collection<array-key, AdjustmentInterface>
-//     */
 //    public function getAdjustmentsRecursively(string $type = null): Collection;
 //
 //    public function getAdjustmentsTotalRecursively(string $type = null): int;

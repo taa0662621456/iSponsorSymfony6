@@ -2,6 +2,7 @@
 
 namespace App\Entity\Property;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -11,4 +12,8 @@ use App\EntityInterface\Property\PropertyInterface;
 #[ORM\Entity]
 class Property extends RootEntity implements ObjectInterface, PropertyInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'object')]
+    private ObjectProperty $objectProperty;
+
+
 }

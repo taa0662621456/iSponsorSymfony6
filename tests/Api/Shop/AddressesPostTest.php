@@ -7,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class AddressesPostTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_denies_access_to_a_create_an_address_for_not_authenticated_user(): void
+    public function testItDeniesAccessToACreateAnAddressForNotAuthenticatedUser(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['authentication/customer.yaml', 'country.yaml']);
         /** @var CountryInterface $country */
@@ -29,8 +28,7 @@ final class AddressesPostTest extends JsonApiTestCase
         $this->assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
     }
 
-    /** @test */
-    public function it_creates_new_address_for_logged_customer(): void
+    public function testItCreatesNewAddressForLoggedCustomer(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['authentication/customer.yaml', 'country.yaml']);
         /** @var CustomerInterface $customer */
@@ -59,16 +57,16 @@ final class AddressesPostTest extends JsonApiTestCase
     private function createBodyRequest(string $countryCode): array
     {
         return [
-            'firstName'=> 'TEST',
-            'lastName'=> 'TEST',
-            'phoneNumber'=> '666111333',
-            'company'=> 'Potato Corp.',
-            'countryCode'=> $countryCode,
-            'provinceCode'=> null,
-            'provinceName'=> null,
-            'street'=> 'Top secret',
-            'city'=> 'Nebraska',
-            'postcode'=> '12343'
+            'firstName' => 'TEST',
+            'lastName' => 'TEST',
+            'phoneNumber' => '666111333',
+            'company' => 'Potato Corp.',
+            'countryCode' => $countryCode,
+            'provinceCode' => null,
+            'provinceName' => null,
+            'street' => 'Top secret',
+            'city' => 'Nebraska',
+            'postcode' => '12343',
         ];
     }
 }

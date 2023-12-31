@@ -1,22 +1,15 @@
 <?php
 
-
 namespace Functional\Bundles\ApiBundle\CommandHandler;
 
 use Prophecy\Prophecy\ObjectProphecy;
 
-
-
-
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class SendAccountRegistrationEmailHandlerTest extends KernelTestCase
 {
-    /**
-     * @test
-     */
-    public function it_sends_account_registration_email_with_hostname(): void
+    public function testItSendsAccountRegistrationEmailWithHostname(): void
     {
         $container = self::getContainer();
 
@@ -48,10 +41,10 @@ final class SendAccountRegistrationEmailHandlerTest extends KernelTestCase
 
         $sendAccountRegistrationEmailHandler(
             new SendAccountRegistrationEmail(
-            'user@example.com',
-            'en_US',
-            'CHANNEL_CODE'
-        )
+                'user@example.com',
+                'en_US',
+                'CHANNEL_CODE'
+            )
         );
 
         self::assertEmailCount(1);
@@ -63,10 +56,7 @@ final class SendAccountRegistrationEmailHandlerTest extends KernelTestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function it_sends_account_registration_email_without_hostname(): void
+    public function testItSendsAccountRegistrationEmailWithoutHostname(): void
     {
         $container = self::getContainer();
 
@@ -98,10 +88,10 @@ final class SendAccountRegistrationEmailHandlerTest extends KernelTestCase
 
         $sendAccountRegistrationEmailHandler(
             new SendAccountRegistrationEmail(
-            'user@example.com',
-            'en_US',
-            'CHANNEL_CODE'
-        )
+                'user@example.com',
+                'en_US',
+                'CHANNEL_CODE'
+            )
         );
 
         self::assertEmailCount(1);

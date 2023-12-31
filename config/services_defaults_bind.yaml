@@ -1,0 +1,24 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    bind:
+      string $locales: '%app_locales%'
+      string $locale: '%app_locale%'
+      #
+      string $entityNamespace: 'App\Entity\'
+      string $repositoryNamespace: 'App\Repository\'
+      string $typeNamespace: 'App\Form\'
+      #
+      string $pathToLogin: '%app_login_route%'
+      string $pathToLoginSuccess: '%app_login_route%'
+      string $token: '%app_csrf_token%'
+      # $emailSender: '%app_email_sender%'
+      string $akismetKey: "%env(AKISMET_KEY)%"
+    # $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
+    # string $projectImageAttachmentsPath: "%app_project_images_directory%"
+    # string $productImageAttachmentsPath: "%app_product_images_directory%"
+    # string $categoryImageAttachmentsPath: "%app_category_images_directory%"
+      string $vendorProfileAvatarPath: "%app_vendor_profile_avatar_directory%"
+      string $vendorProfileCoverPath: "%app_vendor_profile_avatar_directory%"
+    # string $daysBeforeRemoveRejectedReview: ""

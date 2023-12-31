@@ -18,6 +18,6 @@ final class OrderNumberAssigner implements OrderNumberAssignerInterface
             return;
         }
 
-        $order->setNumber($this->numberGenerator->generate($order));
+        $order->setOrderNumber($this->numberGenerator->generate($order));
     }
 }

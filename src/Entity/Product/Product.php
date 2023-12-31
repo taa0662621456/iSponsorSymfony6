@@ -2,6 +2,7 @@
 
 namespace App\Entity\Product;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
@@ -19,6 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product extends RootEntity implements ObjectInterface, ProductInterface
 {
     public const NUM_ITEMS = 10;
+
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    private ObjectProperty $objectProperty;
+
 
     #[ORM\ManyToOne(targetEntity: ProductTypeInterface::class, inversedBy: 'productTypeProduct')]
     #[Assert\Type(type: 'App\Entity\Product\ProductType')]
@@ -43,7 +48,7 @@ class Product extends RootEntity implements ObjectInterface, ProductInterface
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectProduct')]
     private Project $productProject;
 
-    #[ORM\OneToMany(mappedBy: 'productOrdered', targetEntity: OrderItem::class)]
+    #[ORM\OneToMany(mappedBy: 'orderItemOrdered', targetEntity: OrderItem::class)]
     private Collection $productOrdered;
 
     #[ORM\OneToOne(targetEntity: ProductEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]

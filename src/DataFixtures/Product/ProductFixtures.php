@@ -2,31 +2,28 @@
 
 namespace App\DataFixtures\Product;
 
-use Faker\Factory;
-
-use JetBrains\PhpStorm\NoReturn;
 
 use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 final class ProductFixtures extends DataFixtures
 {
-    #[NoReturn]
-    public function load(ObjectManager $manager, $property = [], $n = 1): void
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $faker = Factory::create();
+        $this->titleFixtureEngine('data/ProductDataFixtures/ProductDataFixtures.json');
 
-        $property = [];
-
-        $i = 1;
-
-        $property = [
-            'firstTitle' => $faker->realText(),
-            'lastTitle' => $faker->realText(7000),
-        ];
-
-        parent::load($manager, $property, $n);
+        parent::load($manager, $property);
     }
 
     public function getOrder(): int
@@ -34,29 +31,4 @@ final class ProductFixtures extends DataFixtures
         return 23;
     }
 
-    protected function configureResourceNode(ArrayNodeDefinition $resourceNode): void
-    {
-        $resourceNode
-            ->children()
-            ->scalarNode('name')->cannotBeEmpty()->end()
-            ->scalarNode('code')->cannotBeEmpty()->end()
-            ->booleanNode('enabled')->end()
-            ->booleanNode('tracked')->end()
-            ->scalarNode('slug')->end()
-            ->scalarNode('short_description')->cannotBeEmpty()->end()
-            ->scalarNode('description')->cannotBeEmpty()->end()
-            ->scalarNode('main_taxon')->cannotBeEmpty()->end()
-            ->arrayNode('taxons')->scalarPrototype()->end()->end()
-            ->variableNode('channels')
-            ->beforeNormalization()
-            ->ifNull()->thenUnset()
-            ->end()
-            ->end()
-            ->scalarNode('variant_selection_method')->end()
-            ->arrayNode('product_attributes')->variablePrototype()->end()->end()
-            ->arrayNode('product_options')->scalarPrototype()->end()->end()
-            ->arrayNode('images')->variablePrototype()->end()->end()
-            ->booleanNode('shipping_required')->end()
-            ->scalarNode('tax_category')->end();
-    }
 }

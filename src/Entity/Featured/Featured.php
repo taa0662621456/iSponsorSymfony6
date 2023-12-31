@@ -2,6 +2,7 @@
 
 namespace App\Entity\Featured;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Product\Product;
@@ -15,6 +16,10 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Entity]
 class Featured extends RootEntity implements ObjectInterface, FeaturedInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'featured')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'ordering', type: 'integer')]
     private int $ordering = 0;
 

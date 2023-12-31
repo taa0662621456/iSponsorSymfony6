@@ -2,6 +2,7 @@
 
 namespace App\Entity\Vendor;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
@@ -23,6 +24,9 @@ use App\EntityInterface\Vendor\VendorMessageInterface;
 #[ORM\Entity]
 class VendorMessage extends RootEntity implements ObjectInterface, VendorMessageInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    private ObjectProperty $objectProperty;
+
     #[ORM\Column(type: 'text')]
     private mixed $messageMine;
 

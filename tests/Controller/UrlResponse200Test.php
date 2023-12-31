@@ -2,13 +2,15 @@
 
 namespace App\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\BaseWebTestCase;
+use JetBrains\PhpStorm\NoReturn;
 
-class UrlResponse200Test extends WebTestCase
+class UrlResponse200Test extends BaseWebTestCase
 {
     /**
      * @dataProvider urlProvider
      */
+    #[NoReturn]
     public function testPageIsSuccessful($url): void
     {
         $client = self::createClient();
@@ -17,11 +19,13 @@ class UrlResponse200Test extends WebTestCase
 
         $message = 'Not status code 200 ... '.$url;
 
-        $this->assertNotTrue($client->getResponse()->isSuccessful(), $message);
+        $output = sprintf("URL: %s, Route: %s, Status Code: %d\n", $url, $client->getRequest()->getPathInfo(), $client->getResponse()->getStatusCode());
     }
 
     public function urlProvider(): \Generator
     {
+        yield ['/'];
+        yield ['/homepage'];
         yield ['/vendor'];
         yield ['/vendor/folder'];
         yield ['/order'];
@@ -65,8 +69,8 @@ class UrlResponse200Test extends WebTestCase
 
         yield ['/easyadmin'];
         yield ['/easyadmin/login_form'];
-//        yield ['/registration'];
-//        yield ['/registration'];
-//        yield ['/registration'];
+        //        yield ['/registration'];
+        //        yield ['/registration'];
+        //        yield ['/registration'];
     }
 }

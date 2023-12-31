@@ -2,33 +2,32 @@
 
 namespace App\Entity\Category;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Featured\Featured;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
-use App\Repository\Category\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Project\ProjectInterface;
 use App\EntityInterface\Category\CategoryInterface;
-use App\EntityInterface\Featured\FeaturedInterface;
 use App\Interface\Object\ObjectApiResourceInterface;
 use App\EntityInterface\Category\CategoryAttachmentInterface;
+use App\Embeddable\Category\Category as ObjectCategory;
 
 #[ORM\Entity]
 class Category extends RootEntity implements ObjectInterface, ObjectApiResourceInterface, CategoryInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'category')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
     private int $ordering = 1;
 
-    #[ORM\OneToMany(mappedBy: 'categoryParent', targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY')]
-    #[ORM\JoinColumn(nullable: true)]
-    private Collection $categoryChildren;
-
-    #[ORM\ManyToOne(targetEntity: CategoryInterface::class, cascade: ['persist'], inversedBy: 'categoryChildren')]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?CategoryInterface $categoryParent = null;
+    #[ORM\Embedded(class: 'Category')]
+    private ObjectCategory $category;
 
     #[ORM\OneToMany(mappedBy: 'projectCategory', targetEntity: ProjectInterface::class)]
     #[ORM\JoinColumn(nullable: true)]
@@ -41,10 +40,6 @@ class Category extends RootEntity implements ObjectInterface, ObjectApiResourceI
     #[ORM\OneToMany(mappedBy: 'categoryAttachmentCategory', targetEntity: CategoryAttachmentInterface::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
     private Collection $categoryAttachment;
-
-    #[ORM\OneToOne(mappedBy: 'categoryFeatured', targetEntity: FeaturedInterface::class)]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private Featured $categoryFeatured;
 
     /**
      * @throws \Exception

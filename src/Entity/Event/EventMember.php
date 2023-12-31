@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -13,6 +14,10 @@ use App\EntityInterface\Event\EventMemberInterface;
 #[ORM\Entity]
 class EventMember extends RootEntity implements ObjectInterface, EventMemberInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'event')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'event_id', type: 'integer', nullable: false, options: ['unsigned' => true])]
     private int $eventId;
 

@@ -2,13 +2,14 @@
 
 namespace App\DataFixtures;
 
+use App\Service\DataFixtures\RandomImagePicker;
+use App\Service\OpenAi\OpenAiImageGenerator;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\Vendor\VendorFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use App\DataFixtures\Address\AddressFixtures;
 use App\DataFixtures\Product\ProductFixtures;
 use App\DataFixtures\Project\ProjectFixtures;
-use Symfony\Component\OptionsResolver\Options;
 use App\DataFixtures\Category\CategoryFixtures;
 use App\DataFixtures\Order\OrderStatusFixtures;
 use App\DataFixtures\Shipment\ShipmentFixtures;
@@ -17,7 +18,7 @@ use App\DataFixtures\Vendor\VendorIbanFixtures;
 use App\DataFixtures\Order\OrderStorageFixtures;
 use App\DataFixtures\Product\ProductTagFixtures;
 use App\DataFixtures\Project\ProjectTagFixtures;
-use App\DataFixtures\Vendor\VendorMediaFixtures;
+use App\DataFixtures\Vendor\VendorMediaAttachmentFixtures;
 use App\DataFixtures\Address\AddressCityFixtures;
 use App\DataFixtures\Product\ProductEnGbFixtures;
 use App\DataFixtures\Product\ProductTypeFixtures;
@@ -28,14 +29,13 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use App\DataFixtures\Category\CategoryEnGbFixtures;
 use App\DataFixtures\Product\ProductReviewFixtures;
 use App\DataFixtures\Project\ProjectReviewFixtures;
-use App\DataFixtures\Vendor\VendorDocumentFixtures;
+use App\DataFixtures\Vendor\VendorDocumentAttachmentFixtures;
 use App\DataFixtures\Vendor\VendorSecurityFixtures;
 use App\DataFixtures\Address\AddressCountryFixtures;
 use App\DataFixtures\Address\AddressZipcodeFixtures;
 use App\DataFixtures\Address\AddressProvinceFixtures;
 use App\DataFixtures\Association\AssociationFixtures;
 use App\DataFixtures\Shipment\ShipmentMethodFixtures;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\DataFixtures\Address\AddressStreetLineFixtures;
 use App\DataFixtures\Product\ProductAttachmentFixtures;
 use App\DataFixtures\Project\ProjectAttachmentFixtures;
@@ -44,105 +44,63 @@ use App\DataFixtures\Promotion\PromotionCatalogFixtures;
 use App\DataFixtures\Category\CategoryAttachmentFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\DataFixtures\Association\AssociationProductFixtures;
-use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-
-use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use App\DataFixtures\Address\AddressStreetSecondLineFixtures;
 use App\DataFixtures\Association\AssociationProductTypeFixtures;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Faker\Factory;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 abstract class DataFixtures extends Fixture implements FixtureInterface, DependentFixtureInterface
 {
     public const DATA_FIXTURES = 20;
-//
-//    private OptionsResolver $optionsResolver;
-//
-//    public function __construct()
-//    {
-//        $this->optionsResolver = new OptionsResolver();
-//        $this->configureOptions($this->optionsResolver);
-//    }
-//
-    public function load(ObjectManager $manager, ?array $property = [], ?int $n = self::DATA_FIXTURES): void
+
+    public function __construct(private readonly OpenAiImageGenerator $aiImageGenerator)
     {
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function load(ObjectManager $manager, ?array $property = []): void
+    {
+
+        $faker = Factory::create();
+
         $entityClass = $this->getEntityClass();
-        $fixtureGroup = $this->getGroups();
 
-        for ($i = 1; $i <= $n; $i++) {
-            $resource = new $entityClass($property);
+        for ($i = 1; $i <= self::DATA_FIXTURES; $i++) {
+            $entity = new $entityClass();
 
-            $manager->persist($resource);
-            $this->setReference($this->getReferenceName().'_'.$i, $resource);
+            foreach ($property as $propName => $propData) {
+
+                if (is_callable($propData)) {
+                    $propValue = $propData($faker, $i);
+                } else {
+                    $propValue = $propData;
+                }
+
+                $setMethod = 'set' . ucfirst($propName);
+                if (method_exists($entity, $setMethod)) {
+                    $entity->$setMethod($propValue);
+                }
+            }
+
+            $manager->persist($entity);
+            $this->setReference($this->getReferenceName() . '_' . $i, $entity);
 
             if (0 === $i % 10) {
                 $manager->flush();
             }
         }
         $manager->flush();
+
     }
-//
-//    public function getConfigTreeBuilder(): TreeBuilder
-//    {
-//        $treeBuilder = new TreeBuilder($this->getName());
-//
-//        /** @var ArrayNodeDefinition $optionsNode */
-//        $optionsNode = $treeBuilder->getRootNode();
-//
-//        $class = $this->getEntityClass();
-//        $classMetadata = $this->manager->getClassMetadata($class);
-//        $this->configureEntityFields($optionsNode, $classMetadata->getFieldNames(), $classMetadata->getAssociationNames());
-//
-//        return $treeBuilder;
-//    }
-//
-//    protected function configureEntityFields(ArrayNodeDefinition $node, array $fields, array $associations): void
-//    {
-//        $class = $this->getEntityClass();
-//        $classMetadata = $this->manager->getClassMetadata($class);
-//
-//        foreach ($fields as $field) {
-//            $defaultValue = $classMetadata->getFieldValue($this->getReference(static::class), $field);
-//            $node->scalarNode($field)->defaultValue($defaultValue)->end();
-//        }
-//
-//        $this->addAssociation($node, $associations);
-//    }
-//
-//    protected function addAssociation(NodeBuilder $node, array $associations): void
-//    {
-//        foreach ($associations as $association) {
-//            $node->arrayNode($association)
-//                ->prototype('scalar')->end()
-//                ->end();
-//        }
-//    }
-//
-//    protected function configureOptions(OptionsResolver $resolver): void
-//    {
-//        $resolver->setDefault('random', 0);
-//        $resolver->setAllowedTypes('random', 'int');
-//        $resolver->setDefault('prototype', []);
-//        $resolver->setAllowedTypes('prototype', 'array');
-//        $resolver->setDefault('custom', []);
-//        $resolver->setAllowedTypes('custom', 'array');
-//        $resolver->setNormalizer('custom', function (Options $options, array $custom) {
-//            if ($options['random'] <= 0) {
-//                return $custom;
-//            }
-//
-//            return array_merge($custom, array_fill(0, $options['random'], $options['prototype']));
-//        });
-//    }
-//
-//    public function getName(): string
-//    {
-//        $className = static::class;
-//        $lastSeparator = strrpos($className, '\\');
-//        $shortClassName = (false !== $lastSeparator) ? substr($className, $lastSeparator + 1) : $className;
-//
-//        return preg_replace('/\W.*$/', '', $shortClassName);
-//    }
-//
+
     protected function getEntityClass(): string
     {
         $className = static::class;
@@ -154,7 +112,7 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
 
         return implode('', $words);
     }
-//
+
     public static function getGroups(): array
     {
         $className = static::class;
@@ -191,8 +149,8 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
             ShipmentMethodFixtures::class,
             ShipmentFixtures::class,
 
-            VendorMediaFixtures::class,
-            VendorDocumentFixtures::class,
+            VendorMediaAttachmentFixtures::class,
+            VendorDocumentAttachmentFixtures::class,
             VendorSecurityFixtures::class,
             VendorIbanFixtures::class,
             VendorEnGbFixtures::class,
@@ -240,5 +198,76 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
         $resourceName = new \ReflectionClass(static::class);
 
         return $resourceName->getShortName();
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function imageFixtureEngine(?array $property, ?string $size, ?string $path = ''): array
+    {
+        $randomImagePicked = (new RandomImagePicker())->getRandomImage();
+
+        if (!$randomImagePicked) {
+            $aiImage = $this->aiImageGenerator->getOpenAiImageGenerated(
+                'аватарка пользователя',
+                $path,
+                $size);
+
+            $aiImageProperty = [
+                'fileName' => $aiImage['name'],
+                'fileSize' => $aiImage['size'],
+                'filePath' => $aiImage['path'],
+            ];
+
+            return array_merge($property, $aiImageProperty);
+
+        }
+
+        $aiImageProperty = [
+            'fileName' => $randomImagePicked['name'],
+            'fileSize' => $randomImagePicked['size'],
+            'filePath' => $randomImagePicked['path'],
+        ];
+
+        return array_merge($property, $aiImageProperty);
+
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function titleFixtureEngine(string $resource, ?array $property = []): array
+    {
+        if (!file_exists($resource)) {
+            throw new \Exception("Файл '$resource' не найден.");
+        }
+
+        $jsonContent = file_get_contents($resource);
+        if ($jsonContent === false) {
+            throw new \Exception("Не удалось прочитать файл '$resource'.");
+        }
+
+        $projects = json_decode($jsonContent, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception("Ошибка декодирования JSON: " . json_last_error_msg());
+        }
+
+        $projectProperty = [];
+        if (!empty($projects)) {
+
+            $project = $projects[array_rand($projects)];
+
+            if (isset($project['firstTitle'], $project['middleTitle'])) {
+                $projectProperty = [
+                    'firstTitle' => $project['firstTitle'],
+                    'middleTitle' => $project['middleTitle'],
+                ];
+            }
+        }
+
+        return array_merge($property, $projectProperty);
     }
 }

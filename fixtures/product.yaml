@@ -1,0 +1,4 @@
+App\Entity\Product\Product:
+  product_{1..30}:
+    name: <productName()>
+    category: '@category_<numberBetween(1, 10)>'

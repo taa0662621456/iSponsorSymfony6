@@ -2,6 +2,7 @@
 
 namespace App\Entity\Project;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -11,6 +12,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 #[ORM\Entity]
 class ProjectTag extends RootEntity implements ObjectInterface, \JsonSerializable
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'project')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'projectTag')]
     private Collection $projectTagProject;
 

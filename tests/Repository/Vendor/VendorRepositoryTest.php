@@ -8,9 +8,6 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class VendorRepositoryTest extends KernelTestCase
 {
-    /**
-     * @var EntityManager
-     */
     private EntityManager $entityManager;
 
     protected function setUp(): void
@@ -26,8 +23,7 @@ class VendorRepositoryTest extends KernelTestCase
     {
         $product = $this->entityManager
             ->getRepository(Vendor::class)
-            ->findOneBy(['id' => 1])
-        ;
+            ->findOneBy(['id' => 1]);
 
         $this->assertSame(1, $product->getId());
     }

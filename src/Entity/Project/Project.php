@@ -2,6 +2,7 @@
 
 namespace App\Entity\Project;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Product\Product;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Project extends RootEntity implements ObjectInterface, ProjectInterface
 {
     public const NUM_ITEMS = 10;
+
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'project')]
+    private ObjectProperty $objectProperty;
+
 
     #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
@@ -105,9 +110,22 @@ class Project extends RootEntity implements ObjectInterface, ProjectInterface
         return $this->projectAttachment;
     }
 
-    public function setProjectAttachment(Collection $projectAttachment): void
+    public function setProjectAttachment($projectAttachment): void
     {
-        $this->projectAttachment = $projectAttachment;
+        $this->addProjectAttachment($projectAttachment);
+    }
+
+    public function addProjectAttachment($projectAttachment): void
+    {
+        if ($projectAttachment instanceof ProjectAttachment) {
+            if (!$this->projectAttachment->contains($projectAttachment)) {
+                $this->projectAttachment->add($projectAttachment);
+            }
+        } elseif ($projectAttachment instanceof Collection) {
+            foreach ($projectAttachment as $attachment) {
+                $this->addProjectAttachment($attachment);
+            }
+        }
     }
 
     public function getProjectFavourite(): Collection
@@ -135,9 +153,22 @@ class Project extends RootEntity implements ObjectInterface, ProjectInterface
         return $this->projectTag;
     }
 
-    public function setProjectTag(Collection $projectTag): void
+    public function setProjectTag($projectTag): void
     {
-        $this->projectTag = $projectTag;
+        $this->addProjectTag($projectTag);
+    }
+
+    public function addProjectTag($projectTag): void
+    {
+        if ($projectTag instanceof ProjectTag) {
+            if (!$this->projectTag->contains($projectTag)) {
+                $this->projectTag->add($projectTag);
+            }
+        } elseif ($projectTag instanceof Collection) {
+            foreach ($projectTag as $tag) {
+                $this->addProjectTag($tag);
+            }
+        }
     }
 
     public function getProjectProduct(): Collection
@@ -165,8 +196,21 @@ class Project extends RootEntity implements ObjectInterface, ProjectInterface
         return $this->projectReview;
     }
 
-    public function setProjectReview(Collection $projectReview): void
+    public function setProjectReview($projectReview): void
     {
-        $this->projectReview = $projectReview;
+        $this->addProjectReview($projectReview);
+    }
+
+    public function addProjectReview($projectReview): void
+    {
+        if ($projectReview instanceof ProjectReview) {
+            if (!$this->projectReview->contains($projectReview)) {
+                $this->projectReview->add($projectReview);
+            }
+        } elseif ($projectReview instanceof Collection) {
+            foreach ($projectReview as $attachment) {
+                $this->addProjectReview($attachment);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Product;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -10,6 +11,10 @@ use App\EntityInterface\Product\ProductStorageInterface;
 #[ORM\Entity]
 class ProductStorage extends RootEntity implements ObjectInterface, ProductStorageInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'product_sku', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productSku = 0;
 

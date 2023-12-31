@@ -1,0 +1,21 @@
+<?php
+
+namespace App\DataFixtures\Vendor;
+
+
+use App\DataFixtures\DataFixtures;
+use Doctrine\Persistence\ObjectManager;
+
+final class VendorProfileFixtures extends DataFixtures
+{
+    public function load(ObjectManager $manager, ?array $property = []): void
+    {
+
+        $property = [
+            'firstTitle' => fn($faker, $i) => $faker->name(),
+            'lastTitle' => fn($faker, $i) => $faker->lastName(),
+        ];
+
+        parent::load($manager, $property);
+    }
+}

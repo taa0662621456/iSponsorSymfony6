@@ -4,17 +4,13 @@ framework:
     http_method_override: false
     default_locale: '%app_locale%'
     translator:
-#        enabled_locales: [ 'en', 'ru' ]
-        fallbacks: ['en']
+        fallbacks: [ 'en', 'ru' ]
         cache_dir: null
 
-    #    hinclude_default_template: # См. Как встраивать асинхронный контент с помощью hinclude.js для получения дополнительной информации о hinclude.
     secrets:
         vault_directory: '%kernel.project_dir%/config/secrets/%kernel.environment%'
         local_dotenv_file: '%kernel.project_dir%/.env.%kernel.environment%.local'
         decryption_env_var: 'base64:default::SYMFONY_DECRYPTION_SECRET'
-    form:
-        legacy_error_messages: false
     validation:
         mapping:
             paths:
@@ -22,8 +18,6 @@ framework:
         not_compromised_password: true # in prod must by of true
 #         validator.mapping.cache.doctrine.apc  # Симфони кеш
 #    error_controller: App\Controller\ExceptionController::exception
-    # Enables session support. Note that the session will ONLY be started if you read or write from it.
-    # Remove or comment this section to explicitly disable session support.
     session:
         enabled: true
         handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler
@@ -32,17 +26,6 @@ framework:
         storage_factory_id: session.storage.factory.native
 
     esi: true
-    #fragments: true
     php_errors:
         log: true
 
-
-#    workflows:
-#        my_workflow:
-        # ...
-
-when@test:
-    framework:
-        test: true
-        session:
-            storage_factory_id: session.storage.factory.mock_file

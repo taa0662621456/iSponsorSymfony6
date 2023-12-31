@@ -2,6 +2,7 @@
 
 namespace App\Entity\Currency;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
@@ -12,6 +13,10 @@ use App\EntityInterface\Currency\CurrencyExchangeInterface;
 #[ORM\Entity]
 class CurrencyExchange extends RootEntity implements ObjectInterface, CurrencyExchangeInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'currency')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\ManyToOne(targetEntity: Currency::class)]
     #[ORM\JoinColumn(nullable: false)]
     private $currencySource;

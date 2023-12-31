@@ -2,6 +2,7 @@
 
 namespace App\Entity\Vendor;
 
+use App\Embeddable\Object\ObjectProperty;
 use Faker\Factory;
 use App\Entity\OAuthTrait;
 use App\Entity\RootEntity;
@@ -24,6 +25,9 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
 {
     use OAuthTrait;
 
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    private ObjectProperty $objectProperty;
+
     #[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
     private string $email;
 
@@ -44,17 +48,17 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
     #[ORM\Column(name: 'send_email', nullable: false, options: ['default' => false])]
     private ?bool $sendEmail = false;
 
-    #[ORM\Column(name: 'activation_code', type: 'string', nullable: false, options: ['default' => 'activation_code'])]
-    private string $activationCode;
+    #[ORM\Column(name: 'activation_code', type: 'string', nullable: true, options: ['default' => 'activation_code'])]
+    private ?string $activationCode;
+
+    #[ORM\Column(name: 'password_reset_token', type: 'string', nullable: true, options: ['default' => 'password_reset_token'])]
+    private ?string $passwordResetToken;
 
     #[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
     private string $locale = 'en';
 
     #[ORM\Column(name: 'params', type: 'string', nullable: false, options: ['default' => 'params'])]
     private string $params = 'params';
-
-    #[ORM\Column(name: 'last_reset_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP', 'comment' => 'Date of last password reset'])]
-    private string $lastResetTime;
 
     #[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets'])]
     private ?int $resetCount = 0;
@@ -68,8 +72,8 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
     #[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['comment' => 'Require user to reset'])]
     private int|bool $requireReset = 0;
 
-    #[ORM\Column(name: 'api_key', type: 'string', nullable: false, options: ['comment' => 'API key'])]
-    private string $apiKey = 'api_key';
+    #[ORM\Column(name: 'api_token', type: 'string', nullable: false, options: ['comment' => 'API key'])]
+    private string $apiToken = 'api_token';
 
     #[ORM\OneToOne(inversedBy: 'vendorSecurity', targetEntity: Vendor::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
@@ -97,6 +101,22 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
         $codeGenerator = new ConfirmationCodeGenerator();
         $this->activationCode = $codeGenerator->getConfirmationCode();
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
+    }
+
+    /**
+     * @param string|null $passwordResetToken
+     */
+    public function setPasswordResetToken(?string $passwordResetToken): void
+    {
+        $this->passwordResetToken = $passwordResetToken;
     }
 
     public function setPhone(string $phone): self
@@ -338,22 +358,6 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
     }
 
     /**
-     * @return string
-     */
-    public function getLastResetTime(): string
-    {
-        return $this->lastResetTime;
-    }
-
-    /**
-     * @param string $lastResetTime
-     */
-    public function setLastResetTime(string $lastResetTime): void
-    {
-        $this->lastResetTime = $lastResetTime;
-    }
-
-    /**
      * @return int|null
      */
     public function getResetCount(): ?int
@@ -420,17 +424,17 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
     /**
      * @return string
      */
-    public function getApiKey(): string
+    public function getApiToken(): string
     {
-        return $this->apiKey;
+        return $this->apiToken;
     }
 
     /**
-     * @param string $apiKey
+     * @param string $apiToken
      */
-    public function setApiKey(string $apiKey): void
+    public function setApiToken(string $apiToken): void
     {
-        $this->apiKey = $apiKey;
+        $this->apiToken = $apiToken;
     }
 
     /**

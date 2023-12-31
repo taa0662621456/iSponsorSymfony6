@@ -6,10 +6,10 @@ use Cocur\Slugify\Slugify;
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\EntityManager;
 use App\Entity\Vendor\VendorEnUS;
-use App\Entity\Vendor\VendorMedia;
+use App\Entity\Vendor\VendorMediaAttachment;
 use App\Form\Vendor\VendorAddType;
 use App\Form\Vendor\VendorEditType;
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use App\Repository\Vendor\VendorRepository;
@@ -47,11 +47,11 @@ class VendorController extends AbstractController
         $vendor = new Vendor();
         $vendorEnGb = new VendorEnUS();
         // костыль, чтобы вывести пустую форму коллекции
-        $vendorMediaAttachment = new VendorMedia();
+        $vendorMediaAttachment = new VendorMediaAttachment();
         $vendorMediaAttachment->setFileClass('');
         $vendor->getVendorMedia()->add($vendorMediaAttachment);
         // костыль, чтобы вывести пустую форму коллекции
-        $vendorDocAttachment = new VendorDocument();
+        $vendorDocAttachment = new VendorDocumentAttachment();
         $vendorDocAttachment->setFileClass('');
         $vendor->getVendorDocument()->add($vendorDocAttachment);
         $form = $this->createForm(VendorAddType::class, $vendor);

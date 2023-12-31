@@ -2,31 +2,37 @@
 
 namespace App\MessageHandler\Admin\Account;
 
+use App\Interface\DateTimeProviderInterface;
 use App\Interface\SecurityGeneratorInterface;
 use App\Message\PasswordReset\PasswordRequestConstructor;
 use App\Message\PasswordReset\PasswordResponseConstructor;
 use App\Repository\Vendor\VendorSecurityRepository;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\DispatchAfterCurrentBusStamp;
 
-final class RequestResetPasswordEmailHandler implements MessageHandlerInterface
+final class RequestResetPasswordEmailHandler
 {
     public function __construct(
-        private readonly VendorSecurityRepository $vendorSecurityRepository,
+        private readonly VendorSecurityRepository   $vendorSecurityRepository,
         private readonly SecurityGeneratorInterface $generator,
-//        private readonly DateTimeProviderInterface $calendar,
-//        private readonly MessageBusInterface       $commandBus,
-    ) {
+        private readonly MessageBusInterface        $commandBus,
+        private readonly LoggerInterface            $logger
+    )
+    {
     }
 
-    public function __invoke(PasswordRequestConstructor $requestResetPasswordEmail)
+    public function __invoke(PasswordRequestConstructor $requestResetPasswordEmail):void
     {
-        $vendorSecurity = $this->vendorSecurityRepository->findOneByEmail($requestResetPasswordEmail->email);
+        $vendorSecurity = $this->vendorSecurityRepository->findOneBy(['email' => $requestResetPasswordEmail->email]);
         if (null === $vendorSecurity) {
+            $this->logger->info('Password reset requested for a non-existing account.', [
+                'email' => $requestResetPasswordEmail->email,
+            ]);
+
             return;
         }
 
-        $vendorSecurity->setPasswordRequestedAt($this->calendar->now());
         $vendorSecurity->setPasswordResetToken($this->generator->generate());
 
         $this->commandBus->dispatch(

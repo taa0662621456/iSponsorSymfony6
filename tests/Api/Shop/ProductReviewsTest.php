@@ -7,8 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ProductReviewsTest extends JsonApiTestCase
 {
-    /** @test */
-    public function it_gets_product_review(): void
+    public function testItGetsProductReview(): void
     {
         $fixtures = $this->loadFixturesFromFile('product/product_review.yaml');
 
@@ -30,10 +29,9 @@ final class ProductReviewsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_gets_product_reviews(): void
+    public function testItGetsProductReviews(): void
     {
-        $this->loadFixturesFromFile('product/product_review.yaml');;
+        $this->loadFixturesFromFile('product/product_review.yaml');
 
         $this->client->request('GET', '/api/v2/shop/product-reviews', [], [], self::CONTENT_TYPE_HEADER);
 

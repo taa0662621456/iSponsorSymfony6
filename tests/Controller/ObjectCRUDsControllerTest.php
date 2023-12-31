@@ -1,6 +1,6 @@
 <?php
 
-namespace Controller;
+namespace App\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -15,7 +15,7 @@ class ObjectCRUDsControllerTest extends WebTestCase
 
         $client->request('GET', $url);
 
-        $message = 'Not status code 200 ... ' . $url;
+        $message = 'Not status code 200 ... '.$url;
 
         $this->assertNotTrue($client->getResponse()->isSuccessful(), $message);
     }

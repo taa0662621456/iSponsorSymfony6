@@ -2,29 +2,22 @@
 
 namespace App\DataFixtures\Vendor;
 
-use Faker\Factory;
-
-use JetBrains\PhpStorm\NoReturn;
 
 use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
 
 final class VendorEnGbFixtures extends DataFixtures
 {
-    #[NoReturn]
-    public function load(ObjectManager $manager, $property = [], $n = 1): void
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $faker = Factory::create();
 
-        $property = [];
-
-        $i = 1;
 
         $property = [
-            'firstTitle' => $faker->realText(),
-            'lastTitle' => $faker->realText(7000),
+            'firstTitle' => fn($faker, $i) => $faker->firstName(),
+            'lastTitle' => fn($faker, $i) => $faker->lastName(),
+            'phone_number' => fn($faker, $i) => $faker->phoneNumber(),
         ];
 
-        parent::load($manager, $property, $n);
+        parent::load($manager, $property);
     }
 }

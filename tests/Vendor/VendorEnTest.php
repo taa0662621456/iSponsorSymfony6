@@ -2,9 +2,8 @@
 
 namespace Vendor;
 
-
-use App\Factory\Vendor\VendorEnUsFixtureFactory;
 use PHPUnit\Framework\TestCase;
+use App\Factory\Vendor\VendorEnUsFixtureFactory;
 
 class VendorEnTest extends TestCase
 {
@@ -16,5 +15,4 @@ class VendorEnTest extends TestCase
         $this->assertEquals('test lastTitle', $vendorEn->getLastTitle());
         $this->assertNotNull($vendorEn->getCreatedAt());
     }
-
 }

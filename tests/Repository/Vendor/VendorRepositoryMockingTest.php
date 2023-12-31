@@ -3,8 +3,8 @@
 namespace App\Tests\Repository\Vendor;
 
 use App\Entity\Vendor\Vendor;
-use Doctrine\Persistence\ObjectRepository;
 use PHPUnit\Framework\TestCase;
+use Doctrine\Persistence\ObjectRepository;
 
 class VendorRepositoryMockingTest extends TestCase
 {

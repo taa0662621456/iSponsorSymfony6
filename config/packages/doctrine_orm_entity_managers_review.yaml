@@ -1,0 +1,17 @@
+doctrine:
+  orm:
+    entity_managers:
+      review:
+        connection: review
+        mappings:
+          ProductReview:
+            is_bundle: false
+            dir: '%kernel.project_dir%/src/Entity/Product'
+            prefix: 'App\Entity\Product'
+            alias: ProductReview
+          ProjectReview:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Project'
+            prefix: 'App\Entity\Project'
+            alias: ProjectReview

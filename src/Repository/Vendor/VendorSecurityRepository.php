@@ -23,36 +23,16 @@ class VendorSecurityRepository extends EntityRepository implements VendorSecurit
         parent::__construct($registry, VendorSecurity::class);
     }
 
-                /**
-                 * Used to upgrade (rehash) the user's password automatically over time.
-                 */
-                public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
-                {
-                    if (!$user instanceof VendorSecurity) {
-                        throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
-                    }
+    public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
+    {
+        if (!$user instanceof VendorSecurity) {
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $user::class));
+        }
 
-                    $user->setPassword($newEncodedPassword);
-                    $this->_em->persist($user);
-                    $this->_em->flush();
-                }
-
-    // /**
-    //  * @return Vendors[] Returns an array of VendorSecurity objects
-    //  */
-    /*
-                public function findByExampleField($value)
-                {
-                    return $this->createQueryBuilder('p')
-                        ->andWhere('p.exampleField = :val')
-                        ->setParameter('val', $value)
-                        ->orderBy('p.id', 'ASC')
-                        ->setMaxResults(10)
-                        ->getQuery()
-                        ->getResult()
-                    ;
-                }
-                */
+        $user->setPassword($newEncodedPassword);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
 
     /**
      * @throws NonUniqueResultException
@@ -65,4 +45,10 @@ class VendorSecurityRepository extends EntityRepository implements VendorSecurit
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function findOneByApiToken($apiToken): ?VendorSecurity
+    {
+        return $this->findOneBy(['apiToken' => $apiToken]);
+    }
+
 }

@@ -2,16 +2,15 @@
 
 namespace App\Tests\Api\Shop;
 
-use App\Tests\Api\tests\Api\JsonApiTestCase;
 use App\Tests\Api\Utils\ShopUserLoginTrait;
+use App\Tests\Api\tests\Api\JsonApiTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 final class CustomersTest extends JsonApiTestCase
 {
     use ShopUserLoginTrait;
 
-    /** @test */
-    public function it_returns_small_amount_of_data_on_customer_update(): void
+    public function testItReturnsSmallAmountOfDataOnCustomerUpdate(): void
     {
         $loadedData = $this->loadFixturesFromFiles(['authentication/customer.yaml']);
         $token = $this->logInShopUser('oliver@doe.com');
@@ -21,16 +20,16 @@ final class CustomersTest extends JsonApiTestCase
 
         $this->client->request(
             'PUT',
-            '/api/v2/shop/customers/' . $customer->getId(),
+            '/api/v2/shop/customers/'.$customer->getId(),
             [],
             [],
             [
                 'CONTENT_TYPE' => 'application/ld+json',
                 'HTTP_ACCEPT' => 'application/ld+json',
-                'HTTP_Authorization' => sprintf('Bearer %s', $token)
+                'HTTP_Authorization' => sprintf('Bearer %s', $token),
             ],
             json_encode([
-                'firstName' => 'John'
+                'firstName' => 'John',
             ])
         );
 
@@ -39,8 +38,7 @@ final class CustomersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/update_customer_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_registers_customers(): void
+    public function testItRegistersCustomers(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml']);
 
@@ -64,8 +62,7 @@ final class CustomersTest extends JsonApiTestCase
         $this->assertResponseCode($response, Response::HTTP_NO_CONTENT);
     }
 
-    /** @test */
-    public function it_allows_customer_to_log_in(): void
+    public function testItAllowsCustomerToLogIn(): void
     {
         $this->loadFixturesFromFiles(['authentication/customer.yaml']);
 
@@ -77,7 +74,7 @@ final class CustomersTest extends JsonApiTestCase
             self::CONTENT_TYPE_HEADER,
             json_encode([
                 'email' => 'oliver@doe.com',
-                'password' => 'sylius'
+                'password' => 'sylius',
             ])
         );
 
@@ -86,8 +83,7 @@ final class CustomersTest extends JsonApiTestCase
         $this->assertResponse($response, 'shop/log_in_customer_response', Response::HTTP_OK);
     }
 
-    /** @test */
-    public function it_allows_customer_to_update_its_data(): void
+    public function testItAllowsCustomerToUpdateItsData(): void
     {
         $loadedData = $this->loadFixturesFromFiles(['authentication/customer.yaml']);
         $token = $this->logInShopUser('oliver@doe.com');
@@ -97,20 +93,20 @@ final class CustomersTest extends JsonApiTestCase
 
         $this->client->request(
             'PUT',
-            '/api/v2/shop/customers/' . $customer->getId(),
+            '/api/v2/shop/customers/'.$customer->getId(),
             [],
             [],
             [
                 'CONTENT_TYPE' => 'application/ld+json',
                 'HTTP_ACCEPT' => 'application/ld+json',
-                'HTTP_Authorization' => sprintf('Bearer %s', $token)
+                'HTTP_Authorization' => sprintf('Bearer %s', $token),
             ],
             json_encode([
                 'email' => 'john.wick@tarasov.mob',
                 'firstName' => 'John',
                 'lastName' => 'Wick',
                 'gender' => 'm',
-                'subscribedToNewsletter' => true
+                'subscribedToNewsletter' => true,
             ])
         );
 

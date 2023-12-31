@@ -3,21 +3,21 @@
 namespace App\Repository\Vendor;
 
 use App\Repository\EntityRepository;
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use Doctrine\Persistence\ManagerRegistry;
 use App\RepositoryInterface\Vendor\VendorDocumentRepositoryInterface;
 
 /**
- * @method VendorDocument|null find($id, $lockMode = null, $lockVersion = null)
- * @method VendorDocument|null findOneBy(array $criteria, array $orderBy = null)
- * @method VendorDocument[]    findAll()
- * @method VendorDocument[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method VendorDocumentAttachment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method VendorDocumentAttachment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method VendorDocumentAttachment[]    findAll()
+ * @method VendorDocumentAttachment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class VendorDocumentRepository extends EntityRepository implements VendorDocumentRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, VendorDocument::class);
+        parent::__construct($registry, VendorDocumentAttachment::class);
     }
 
     // /**

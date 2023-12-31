@@ -2,19 +2,18 @@
 
 namespace App\DataFixtures\Vendor;
 
-use Faker\Factory;
 use App\DataFixtures\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
+use function _PHPStan_39fe102d2\RingCentral\Psr7\str;
 
 final class VendorSecurityFixtures extends DataFixtures
 {
-    public function load(ObjectManager $manager, $property = [], $n = 20): void
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $faker = Factory::create();
-
         $property = [
-            'email' => $faker->unique()->email,
+            'email' => fn($faker, $i) => $faker->unique()->email(),
+            'password' => fn($faker, $i) => $faker->password(8, 12)
         ];
 
         parent::load($manager, $property);

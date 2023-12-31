@@ -1,0 +1,7 @@
+#api_platform:
+#  error_formats:
+#    json: true
+#  enable_swagger: true
+#  enable_swagger_ui: true
+#  enable_docs: true
+#  enable_entrypoint: true

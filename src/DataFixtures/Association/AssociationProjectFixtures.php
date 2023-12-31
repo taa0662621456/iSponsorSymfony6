@@ -8,9 +8,9 @@ use Doctrine\Persistence\ObjectManager;
 
 final class AssociationProjectFixtures extends DataFixtures
 {
-    public function load(ObjectManager $manager, $property = [], $n = 1): void
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
         // TODO: Implement load() method.
-        parent::load($manager, $property, $n);
+        parent::load($manager, $property);
     }
 }

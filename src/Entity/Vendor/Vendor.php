@@ -2,6 +2,9 @@
 
 namespace App\Entity\Vendor;
 
+use App\Embeddable\Object\ObjectProperty;
+use App\Embeddable\Title\ObjectTitle;
+use App\Entity\Project\ProjectAttachment;
 use App\Entity\RootEntity;
 use App\Entity\Order\OrderItem;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,16 +19,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-#[ApiResource(
-    //    collectionOperations: ['get' => ['normalization_context' => ['groups' => 'vendor:list']]],
-    //    itemOperations: ['get' => ['normalization_context' => ['groups' => 'conference:item']], 'put', 'delete',
-    //        'get_by_slug' => ['method' => 'GET', 'path' => 'vendor/{slug}', 'controller' => 'Vendor::class'], ],
-    normalizationContext: ['groups' => 'read'],
-    denormalizationContext: ['groups' => ['write', 'vendorEn', 'vendorSecurity', 'vendorIban']]
-)]
 #[ORM\Entity]
 class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \JsonSerializable
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]    private
+ ObjectProperty $objectProperty;
+
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
     private bool $isActive;
@@ -46,12 +45,15 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
     #[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['default' => 0, 'comment' => 'Require user to reset password on next login'])]
     private int|bool $requireReset = false;
 
+    #[ORM\Embedded(class: "ObjectTitle")]
+    private ObjectTitle $vendorTitle;
+
     #[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
     private VendorSecurity $vendorSecurity;
 
-    #[ORM\OneToOne(mappedBy: 'vendorIbanVendor', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'vendorIban', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
     private VendorIban $vendorIban;
@@ -59,38 +61,41 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
     #[ORM\OneToOne(mappedBy: 'vendorEnUs', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
-    private ?VendorEnUS $vendorEnUs = null;
+    private VendorEnUS $vendorEnUs;
 
     #[ORM\OneToOne(mappedBy: 'vendorEnGb', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
-    private ?VendorEnUS $vendorEnGb = null;
-
-    #[ORM\OneToOne(mappedBy: 'vendorShop', targetEntity: VendorShopUser::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Ignore]
-    private ?VendorShopUser $vendorShop = null;
+    private VendorEnUS $vendorEnGb;
 
     #[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
     private Featured $vendorFeatured;
 
-    #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'vendorDocumentAttachment', targetEntity: VendorDocumentAttachment::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorDocument;
+    private Collection $vendorDocumentAttachment;
 
-    #[ORM\OneToMany(mappedBy: 'vendorMediaVendor', targetEntity: VendorMedia::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'vendorMediaAttachment', targetEntity: VendorMediaAttachment::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorMedia;
+    private Collection $vendorMediaAttachment;
 
-    #[ORM\OneToMany(mappedBy: 'orderVendor', targetEntity: OrderStorage::class)]
+    #[ORM\OneToMany(mappedBy: 'vendorProfileAvatar', targetEntity: VendorProfileAvatar::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private Collection $vendorProfileAvatar;
+
+    #[ORM\OneToMany(mappedBy: 'vendorProfileCover', targetEntity: VendorProfileCover::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private Collection $vendorProfileCover;
+
+    #[ORM\OneToMany(mappedBy: 'orderStorageVendor', targetEntity: OrderStorage::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorOrder;
 
-    #[ORM\OneToMany(mappedBy: 'orderItemsVendor', targetEntity: OrderItem::class)]
+    #[ORM\OneToMany(mappedBy: 'orderItem', targetEntity: OrderItem::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorItem;
+    private Collection $vendorOrderItem;
 
     #[ORM\ManyToMany(targetEntity: VendorFavourite::class, mappedBy: 'vendorFavourite')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
@@ -113,10 +118,7 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
     private Collection $vendorMyFriend;
 
     #[ORM\OneToOne(mappedBy: 'vendorProfile', targetEntity: VendorProfile::class)]
-    private ?VendorProfile $vendorProfile = null;
-
-    #[ORM\OneToOne(mappedBy: 'vendorUser', targetEntity: VendorUser::class)]
-    private ?VendorProfile $vendorUser = null;
+    private VendorProfile $vendorProfile;
 
     /**
      * @throws \Exception
@@ -127,8 +129,10 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
         $this->vendorMessage = new ArrayCollection();
         $this->vendorItem = new ArrayCollection();
         $this->vendorOrder = new ArrayCollection();
-        $this->vendorDocument = new ArrayCollection();
-        $this->vendorMedia = new ArrayCollection();
+        $this->vendorDocumentAttachment = new ArrayCollection();
+        $this->vendorMediaAttachment = new ArrayCollection();
+        $this->vendorProfileAvatar = new ArrayCollection();
+        $this->vendorProfileCover = new ArrayCollection();
         $this->vendorFriend = new ArrayCollection();
         $this->vendorMyFriend = new ArrayCollection();
         $this->isActive = true;
@@ -243,24 +247,95 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
         $this->vendorFeatured = $vendorFeatured;
     }
 
-    public function getVendorDocument(): Collection
+    public function getVendorDocumentAttachment(): Collection
     {
-        return $this->vendorDocument;
+        return $this->vendorDocumentAttachment;
     }
 
-    public function setVendorDocument(Collection $vendorDocument): void
+    public function setVendorDocument($vendorDocumentAttachment): void
     {
-        $this->vendorDocument = $vendorDocument;
+        $this->addVendorDocumentAttachment($vendorDocumentAttachment);
     }
 
-    public function getVendorMedia(): Collection
+    public function addVendorDocumentAttachment($vendorDocumentAttachment): void
     {
-        return $this->vendorMedia;
+        if ($vendorDocumentAttachment instanceof VendorMediaAttachment) {
+            if (!$this->vendorDocumentAttachment->contains($vendorDocumentAttachment)) {
+                $this->vendorDocumentAttachment->add($vendorDocumentAttachment);
+            }
+        } elseif ($vendorDocumentAttachment instanceof Collection) {
+            foreach ($vendorDocumentAttachment as $attachment) {
+                $this->addVendorMediaAttachment($attachment);
+            }
+        }
     }
 
-    public function setVendorMedia(Collection $vendorMedia): void
+    public function getVendorMediaAttachment(): Collection
     {
-        $this->vendorMedia = $vendorMedia;
+        return $this->vendorMediaAttachment;
+    }
+
+    public function setVendorMediaAttachment($vendorMediaAttachment): void
+    {
+        $this->addVendorMediaAttachment($vendorMediaAttachment);
+    }
+
+    public function addVendorMediaAttachment($vendorMediaAttachment): void
+    {
+        if ($vendorMediaAttachment instanceof VendorMediaAttachment) {
+            if (!$this->vendorMediaAttachment->contains($vendorMediaAttachment)) {
+                $this->vendorMediaAttachment->add($vendorMediaAttachment);
+            }
+        } elseif ($vendorMediaAttachment instanceof Collection) {
+            foreach ($vendorMediaAttachment as $attachment) {
+                $this->addVendorMediaAttachment($attachment);
+            }
+        }
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVendorProfileAvatar(): Collection
+    {
+        return $this->vendorProfileAvatar;
+    }
+
+    /**
+     * @param $vendorProfileAvatar
+     */
+    public function setVendorProfileAvatar($vendorProfileAvatar): void
+    {
+        $this->vendorProfileAvatar = $vendorProfileAvatar;
+    }
+
+    public function addVendorProfileAvatar($vendorProfileAvatar): void
+    {
+        if ($vendorProfileAvatar instanceof VendorProfileAvatar) {
+            if (!$this->vendorProfileAvatar->contains($vendorProfileAvatar)) {
+                $this->vendorProfileAvatar->add($vendorProfileAvatar);
+            }
+        } elseif ($vendorProfileAvatar instanceof Collection) {
+            foreach ($vendorProfileAvatar as $avatar) {
+                $this->addVendorProfileAvatar($avatar);
+            }
+        }
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVendorProfileCover(): Collection
+    {
+        return $this->vendorProfileCover;
+    }
+
+    /**
+     * @param Collection $vendorProfileCover
+     */
+    public function setVendorProfileCover(Collection $vendorProfileCover): void
+    {
+        $this->vendorProfileCover = $vendorProfileCover;
     }
 
     public function getVendorOrder(): Collection
@@ -273,14 +348,14 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
         $this->vendorOrder = $vendorOrder;
     }
 
-    public function getVendorItem(): Collection
+    public function getVendorOrderItem(): Collection
     {
-        return $this->vendorItem;
+        return $this->vendorOrderItem;
     }
 
-    public function setVendorItem(Collection $vendorItem): void
+    public function setVendorOrderItem(Collection $vendorOrderItem): void
     {
-        $this->vendorItem = $vendorItem;
+        $this->vendorOrderItem = $vendorOrderItem;
     }
 
     public function getVendorFavourite(): Collection

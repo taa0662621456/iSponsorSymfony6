@@ -1,24 +1,14 @@
 <?php
 
-
 namespace Fixture;
 
-
-
-
-
 use App\Interface\Product\ProductPropertyInterface;
-use Fixture\FixtureRegistryInterface;
-use Fixture\ListenerRegistryInterface;
-use Fixture\Suite;
-use Fixture\SuiteLoaderInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 final class ProductAttributeFixturesTest extends KernelTestCase
 {
-    /** @test */
-    public function fixtures_are_loaded_properly(): void
+    public function testFixturesAreLoadedProperly(): void
     {
         $kernel = static::bootKernel();
         $container = $kernel->getContainer()->get('test.service_container', ContainerInterface::NULL_ON_INVALID_REFERENCE) ?? $kernel->getContainer();

@@ -7,8 +7,7 @@ final class ChannelsTest extends JsonApiTestCase
 {
     use AdminUserLoginTrait;
 
-    /** @test */
-    public function it_creates_a_channel(): void
+    public function testItCreatesAChannel(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'currency.yaml', 'locale.yaml']);
         $header = $this->getLoggedHeader();
@@ -27,7 +26,7 @@ final class ChannelsTest extends JsonApiTestCase
                 'taxCalculationStrategy' => 'order_items_based',
                 'shippingAddressInCheckoutRequired' => true,
 
-            ], JSON_THROW_ON_ERROR)
+            ], \JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -37,8 +36,7 @@ final class ChannelsTest extends JsonApiTestCase
         );
     }
 
-    /** @test */
-    public function it_updates_an_existing_channel(): void
+    public function testItUpdatesAnExistingChannel(): void
     {
         $fixtures = $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml']);
 
@@ -49,13 +47,13 @@ final class ChannelsTest extends JsonApiTestCase
 
         $this->client->request(
             'PUT',
-            '/api/v2/admin/channels/' . $channel->getCode(),
+            '/api/v2/admin/channels/'.$channel->getCode(),
             [],
             [],
             $header,
             json_encode([
                 'shippingAddressInCheckoutRequired' => true,
-            ], JSON_THROW_ON_ERROR)
+            ], \JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -69,7 +67,7 @@ final class ChannelsTest extends JsonApiTestCase
     {
         $token = $this->logInAdminUser('api@example.com');
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
-        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
+        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
 
         return array_merge($header, self::CONTENT_TYPE_HEADER);
     }

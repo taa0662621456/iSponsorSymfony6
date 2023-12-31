@@ -2,15 +2,15 @@
 
 namespace Vendor;
 
-
-use App\Factory\Vendor\VendorEnUsFixtureFactory;
-use App\Repository\Vendor\VendorEnGbRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Vendor\VendorEnGbRepository;
+use App\Factory\Vendor\VendorEnUsFixtureFactory;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class VendorEnRepositoryTest extends KernelTestCase
 {
     private EntityManagerInterface $entityManager;
+
     private VendorEnGbRepository $vendorEnGbRepository;
 
     public function vendorEnCreateTest()
@@ -28,24 +28,19 @@ class VendorEnRepositoryTest extends KernelTestCase
         $this->assertEquals('test VendorEn lastTitle', $findVendorEnById->getLastTitle());
     }
 
-
-
-    public function setup(): void
+    protected function setup(): void
     {
-
         // first step: boot the Symfony kernel
         $kernel = self::bootKernel();
 
         $this->assertSame('test', $kernel->getEnvironment());
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
 
         // second step: get VendorEnRepository from container
-        $container = static :: getContainer();
+        $container = static::getContainer();
         $this->vendorEnGbRepository = $container->get(VendorEnGbRepository::class);
-
     }
 
     protected function tearDown(): void
@@ -53,7 +48,4 @@ class VendorEnRepositoryTest extends KernelTestCase
         parent::tearDown();
         $this->entityManager->close();
     }
-
-
-
 }

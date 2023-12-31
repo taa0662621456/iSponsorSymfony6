@@ -8,7 +8,7 @@ trait ObjectRepositoryTestTrait
 {
     public static function getClass(): string
     {
-        return get_class();
+        return __CLASS__;
     }
 
     private EntityManager $entityManager;
@@ -28,8 +28,7 @@ trait ObjectRepositoryTestTrait
         $object = new $object();
         $project = $this->entityManager
             ->getRepository($object)
-            ->findOneBy(['id' => 1])
-        ;
+            ->findOneBy(['id' => 1]);
 
         $this->assertSame(1, $project->getId());
     }
@@ -42,5 +41,4 @@ trait ObjectRepositoryTestTrait
         $this->entityManager->close();
         $this->entityManager = null;
     }
-
 }

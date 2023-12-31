@@ -6,7 +6,7 @@ use App\Entity\Vendor\Vendor;
 use App\Entity\Vendor\VendorEnUS;
 use App\Entity\Vendor\VendorIban;
 use App\Repository\EntityRepository;
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use App\Entity\Vendor\VendorFavourite;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
@@ -26,7 +26,7 @@ class VendorRepository extends EntityRepository implements VendorRepositoryInter
         parent::__construct($registry, Vendor::class);
     }
 
-    public function findActiveVendorById($vendorId): VendorIban|Vendor|VendorDocument|VendorEnUS|VendorFavourite|null
+    public function findActiveVendorById($vendorId): VendorIban|Vendor|VendorDocumentAttachment|VendorEnUS|VendorFavourite|null
     {
         return $this->findOneBy([
             'id' => (int) $vendorId,
@@ -34,7 +34,7 @@ class VendorRepository extends EntityRepository implements VendorRepositoryInter
         ]);
     }
 
-    public function findActiveVendorByApiToken($vendorId): VendorIban|Vendor|VendorDocument|VendorEnUS|VendorFavourite|null
+    public function findActiveVendorByApiToken($vendorId): VendorIban|Vendor|VendorDocumentAttachment|VendorEnUS|VendorFavourite|null
     {
         return $this->findOneBy([
             'apiToken' => $vendorId,

@@ -11,6 +11,5 @@ docker
 .gitignore
 composer.lock
 docker-compose.yaml
-Dockerfile
 Makefile
 symfony.lock

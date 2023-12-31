@@ -6,8 +6,8 @@ use JetBrains\PhpStorm\NoReturn;
 use App\Controller\BaseController;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TwoFactorController extends BaseController
 {

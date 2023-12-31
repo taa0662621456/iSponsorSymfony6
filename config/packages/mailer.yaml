@@ -3,3 +3,4 @@ framework:
         dsn: '%env(MAILER_DSN)%'
         envelope:
             recipients: [ 'taa0662621456@gmail.com' ]
+            # noreply@smartresponsor.com

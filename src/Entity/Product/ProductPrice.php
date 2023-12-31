@@ -2,6 +2,7 @@
 
 namespace App\Entity\Product;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -10,6 +11,10 @@ use App\EntityInterface\Product\ProductPriceInterface;
 #[ORM\Entity]
 class ProductPrice extends RootEntity implements ObjectInterface, ProductPriceInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'product_id', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productId = 0;
 

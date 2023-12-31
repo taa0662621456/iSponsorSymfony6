@@ -8,7 +8,16 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\MappedSuperclass]
 abstract class RootEntity
 {
-    use ObjectBaseTrait;
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id = null;
+
     use ObjectMetaDataTrait;
-    use ObjectTitleTrait;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Category;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\AttachmentTrait;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +13,10 @@ use App\EntityInterface\Category\CategoryAttachmentInterface;
 #[ORM\Entity]
 class CategoryAttachment extends RootEntity implements ObjectInterface, CategoryAttachmentInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'category')]
+    private ObjectProperty $objectProperty;
+
+
     use AttachmentTrait;
 
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, inversedBy: 'categoryAttachment')]

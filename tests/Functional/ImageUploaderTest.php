@@ -1,29 +1,27 @@
 <?php
 
-
 namespace Functional;
 
 use PHPUnit\Framework\Assert;
+use Symfony\Component\BrowserKit\Client;
 use Sylius\Component\Core\Model\ProductImage;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\BrowserKit\Client;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class ImageUploaderTest extends WebTestCase
 {
     /** @var Client */
     private static $client;
 
-    /** @test */
-    public function it_sanitizes_file_content_if_it_is_svg_mime_type(): void
+    public function testItSanitizesFileContentIfItIsSvgMimeType(): void
     {
         self::$client = static::createClient();
 
         $imageUploader = self::$kernel->getContainer()->get('image_uploader');
-        $fileSystem =  self::$kernel->getContainer()->get('gaufrette.sylius_image_filesystem');
+        $fileSystem = self::$kernel->getContainer()->get('gaufrette.sylius_image_filesystem');
 
-        $file = new UploadedFile(__DIR__ . '/../Resources/xss.svg', 'xss.svg');
+        $file = new UploadedFile(__DIR__.'/../Resources/xss.svg', 'xss.svg');
         Assert::assertStringContainsString('<script', $this->getContent($file));
 
         $image = new ProductImage();

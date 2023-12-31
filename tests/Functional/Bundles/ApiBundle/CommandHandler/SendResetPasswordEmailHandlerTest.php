@@ -1,22 +1,15 @@
 <?php
 
-
 namespace Functional\Bundles\ApiBundle\CommandHandler;
 
 use Prophecy\Prophecy\ObjectProphecy;
 
-
-
-
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 final class SendResetPasswordEmailHandlerTest extends KernelTestCase
 {
-    /**
-     * @test
-     */
-    public function it_sends_password_reset_token_email_without_hostname(): void
+    public function testItSendsPasswordResetTokenEmailWithoutHostname(): void
     {
         $container = self::getContainer();
 
@@ -61,10 +54,7 @@ final class SendResetPasswordEmailHandlerTest extends KernelTestCase
         );
     }
 
-    /**
-     * @test
-     */
-    public function it_sends_password_reset_token_email_with_hostname(): void
+    public function testItSendsPasswordResetTokenEmailWithHostname(): void
     {
         $container = self::getContainer();
 

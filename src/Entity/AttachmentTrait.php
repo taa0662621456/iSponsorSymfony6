@@ -69,8 +69,8 @@ trait AttachmentTrait
     private string $fileClass = 'file_class';
 
     #[Assert\NotBlank(message: 'Please, upload a file.')]
-    #[ORM\Column(name: 'file_mime_type', type: 'string', nullable: false, options: ['default' => 'file_mime_type'])]
-    private string $fileMimeType;
+    #[ORM\Column(name: 'file_mime_type', type: 'string', nullable: true, options: ['default' => 'file_mime_type'])]
+    private ?string $fileMimeType;
 
     #[ORM\Column(name: 'file_layout_position', nullable: true)]
     private ?string $fileLayoutPosition = 'homepage';
@@ -115,7 +115,7 @@ trait AttachmentTrait
         return $this->fileMimeType;
     }
 
-    public function setFileMimeType(string $fileMimeType): void
+    public function setFileMimeType(?string $fileMimeType): void
     {
         $this->fileMimeType = $fileMimeType;
     }

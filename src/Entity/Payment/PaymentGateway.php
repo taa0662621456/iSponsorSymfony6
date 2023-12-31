@@ -2,7 +2,9 @@
 
 namespace App\Entity\Payment;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Payum\Core\Security\CypherInterface;
 use App\Interface\Object\ObjectInterface;
@@ -11,6 +13,10 @@ use App\EntityInterface\Payment\PaymentGatewayInterface;
 #[ORM\Entity]
 class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatewayInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'payment')]
+    private ObjectProperty $objectProperty;
+
+
     protected string $factoryName;
 
     protected string $gatewayName;
@@ -19,11 +25,16 @@ class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatew
 
     protected array $decryptedConfig;
 
+    #[ORM\OneToMany(mappedBy: "paymentGateway", targetEntity: Payment::class)]
+    private Collection $paymentGateway;
+
     public function __construct()
     {
         parent::__construct();
         $this->config = [];
         $this->decryptedConfig = [];
+        $this->paymentGateway = new ArrayCollection();
+
     }
 
     public function getConfig(): array
@@ -72,4 +83,22 @@ class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatew
             $this->config[$name] = $cypher->encrypt($value);
         }
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPaymentGateway(): Collection
+    {
+        return $this->paymentGateway;
+    }
+
+    /**
+     * @param Collection $paymentGateway
+     */
+    public function setPaymentGateway(Collection $paymentGateway): void
+    {
+        $this->paymentGateway = $paymentGateway;
+    }
+
+
 }

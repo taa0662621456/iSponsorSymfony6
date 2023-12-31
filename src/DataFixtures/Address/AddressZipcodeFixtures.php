@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures\Address;
 
-use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 use App\DataFixtures\DataFixtures;
@@ -10,20 +9,14 @@ use Doctrine\Persistence\ObjectManager;
 
 final class AddressZipcodeFixtures extends DataFixtures
 {
-    #[NoReturn]
-    public function load(ObjectManager $manager, $property = [], $n = 1): void
+    public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $faker = Factory::create();
 
-        $property = [];
-
-        $i = 1;
 
         $property = [
-            'firstTitle' => $faker->realText(),
-            'lastTitle' => $faker->realText(7000),
+            'lastTitle' => fn($faker, $i) => $faker->postcode(),
         ];
 
-        parent::load($manager, $property, $n);
+        parent::load($manager, $property);
     }
 }

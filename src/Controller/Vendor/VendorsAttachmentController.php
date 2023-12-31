@@ -3,10 +3,10 @@
 namespace App\Controller\Vendor;
 
 use App\Entity\Vendor\Vendor;
-use App\Entity\Vendor\VendorMedia;
+use App\Entity\Vendor\VendorMediaAttachment;
 use App\Service\AttachmentManager;
 use App\Form\Vendor\VendorMediaType;
-use App\Entity\Vendor\VendorDocument;
+use App\Entity\Vendor\VendorDocumentAttachment;
 use App\Form\Vendor\VendorDocumentType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +28,7 @@ class VendorsAttachmentController extends AbstractController
      * TODO: метод перенесен в общий AttachmentController  и помечен на удаление.
      */
     #[Route(path: '/', name: 'vendor_get_attachments', methods: ['GET'])]
-    public function getAttachments(Request $request, string $entity = VendorMedia::class, string $layout = 'index'): Response
+    public function getAttachments(Request $request, string $entity = VendorMediaAttachment::class, string $layout = 'index'): Response
     {
         /*
          * если роль Админ и выше, параметр $createdBy принимается из запроса,
@@ -42,7 +42,7 @@ class VendorsAttachmentController extends AbstractController
             $fileLang = $request->get('app_locale') ?: '*';       // ... for different
         }
         $attachments = $this->attachmentsManager->getAttachments(
-            $entity = VendorMedia::class,
+            $entity = VendorMediaAttachment::class,
             $id = null,
             $slug = null,
             $createdBy = null, // Important! Must by User object
@@ -97,7 +97,7 @@ class VendorsAttachmentController extends AbstractController
      * документов).
      */
     #[Route(path: '/{id<\d+>}', name: 'vendor_attachment_show_id', methods: ['GET'])]
-    public function show(VendorMedia $vendorsMediaAttachments, VendorDocument $vendorsDocumentAttachments): Response
+    public function show(VendorMediaAttachment $vendorsMediaAttachments, VendorDocumentAttachment $vendorsDocumentAttachments): Response
     {
         // TODO: необходимо ветвление
         return $this->render(
@@ -110,7 +110,7 @@ class VendorsAttachmentController extends AbstractController
 
     #[Route(path: '/{slug}/edit', name: 'doc_edit', methods: ['GET', 'POST'])]
     #[Route(path: '/{id<\d+>}/edit', name: 'doc_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, VendorMedia $vendorsMediaAttachments, VendorDocument $vendorsDocumentAttachments): Response
+    public function edit(Request $request, VendorMediaAttachment $vendorsMediaAttachments, VendorDocumentAttachment $vendorsDocumentAttachments): Response
     {
         $form = $this->createForm(VendorMediaType::class, $vendorsMediaAttachments);
         if ('media' !== $request->request->get('_route')) {
@@ -136,7 +136,7 @@ class VendorsAttachmentController extends AbstractController
 
     #[Route(path: '/{slug}', name: 'vendors_delete_slug', methods: ['DELETE'])]
     #[Route(path: '/{id<\d+>}', name: 'vendors_delete_id', methods: ['DELETE'])]
-    public function delete(Request $request, VendorMedia $vendorsMediaAttachments, VendorDocument $VendorsDocumentAttachmentsType): Response
+    public function delete(Request $request, VendorMediaAttachment $vendorsMediaAttachments, VendorDocumentAttachment $VendorsDocumentAttachmentsType): Response
     {
         // TODO: необходимо ветвление между документами и обычным медиа
         if ($this->isCsrfTokenValid(

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Event;
 
+use App\Embeddable\Object\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Interface\Object\ObjectInterface;
@@ -14,6 +15,10 @@ use App\EntityInterface\Event\EventInterface;
 
 class Event extends RootEntity implements ObjectInterface, EventInterface
 {
+    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'event')]
+    private ObjectProperty $objectProperty;
+
+
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
     private int $parent;
 
