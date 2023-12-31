@@ -2,12 +2,12 @@
 
 namespace App\Entity\Role;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Role\RoleInterface;
 
 #[ORM\Entity]
-class Role extends ObjectSuperEntity implements ObjectInterface, RoleInterface
+class Role extends RootEntity implements ObjectInterface, RoleInterface
 {
 }

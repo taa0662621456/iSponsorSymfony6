@@ -2,12 +2,12 @@
 
 namespace App\Entity\Currency;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Object\ObjectTileInterface;
+use App\Interface\Object\ObjectTitleInterface;
 
 #[ORM\Entity]
-class CurrencyEnUs extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
+class CurrencyEnUs extends RootEntity implements ObjectInterface, ObjectTitleInterface
 {
 }

@@ -77,7 +77,12 @@ trait VendorLanguageTrait
     #[ORM\OneToOne(inversedBy: 'vendorEnGb', targetEntity: Vendor::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
-    private Vendor $vendorEnGbVendor;
+    private Vendor $vendorEnGb;
+
+    #[ORM\OneToOne(inversedBy: 'vendorEnUs', targetEntity: Vendor::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Ignore]
+    private Vendor $vendorEnUs;
 
     public function getVendorPhone(): string
     {
@@ -199,13 +204,13 @@ trait VendorLanguageTrait
         $this->vendorParams = $vendorParams;
     }
 
-    public function getVendorEnGbVendor(): Vendor
+    public function getVendorEnGb(): Vendor
     {
-        return $this->vendorEnGbVendor;
+        return $this->vendorEnGb;
     }
 
-    public function setVendorEnGbVendor(Vendor $vendor): void
+    public function setVendorEnGb(Vendor $vendor): void
     {
-        $this->vendorEnGbVendor = $vendor;
+        $this->vendorEnGb = $vendor;
     }
 }

@@ -2,17 +2,17 @@
 
 namespace App\Entity\Payment;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
+use Payum\Core\Model\CreditCard;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentInterface;
-use Payum\Core\Model\CreditCard;
 
 /**
  * @method array getDetails()
  */
 #[ORM\Entity]
-class Payment extends ObjectSuperEntity implements ObjectInterface, PaymentInterface
+class Payment extends RootEntity implements ObjectInterface, PaymentInterface
 {
     #[ORM\Column(type: 'string')]
     private string $number;
@@ -29,8 +29,8 @@ class Payment extends ObjectSuperEntity implements ObjectInterface, PaymentInter
     #[ORM\Column(type: 'string')]
     private string $currencyCode;
 
-    #[ORM\Embedded(class: 'CreditCard')]
-    private ?CreditCard $creditCard;
+    /*    #[ORM\Embedded(class: 'CreditCard')]
+        private ?CreditCard $creditCard;*/
 
     #[ORM\Column(type: 'json')]
     private ?array $details;

@@ -2,8 +2,8 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +12,7 @@ use App\EntityInterface\Vendor\VendorFavouriteInterface;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity]
-class VendorFavourite extends ObjectSuperEntity implements ObjectInterface, VendorFavouriteInterface
+class VendorFavourite extends RootEntity implements ObjectInterface, VendorFavouriteInterface
 {
     #[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorFavourite')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]

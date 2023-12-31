@@ -2,8 +2,8 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Vendor\VendorShipmentInterface;
 
@@ -11,6 +11,6 @@ use App\EntityInterface\Vendor\VendorShipmentInterface;
  * Class VendorShipment.
  */
 #[ORM\Entity]
-class VendorShipment extends ObjectSuperEntity implements ObjectInterface, VendorShipmentInterface
+class VendorShipment extends RootEntity implements ObjectInterface, VendorShipmentInterface
 {
 }

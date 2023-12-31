@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Ramsey\Uuid\Uuid;
 use JetBrains\PhpStorm\Pure;
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,6 +57,7 @@ trait ObjectBaseTrait
 
     public function __construct()
     {
+        $this->slug = Uuid::uuid4();
         $definitionBuilder = new DefinitionBuilder();
         $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
             ->addTransition(new Transition('transition1', 'state1', 'state2'))
@@ -66,20 +68,6 @@ trait ObjectBaseTrait
             $definition,
             new MethodMarkingStore(true)
         );
-
-        // Другая логика конструктора...
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAt(): void
-    {
-        $t = new \DateTime();
-        $this->createdAt = $t->format('Y-m-d H:i:s');
     }
 
     public function setLastRequestDate(string $lastRequestDate): void
@@ -87,26 +75,6 @@ trait ObjectBaseTrait
         // TODO: must be setting date owner request only
         $t = new \DateTime();
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-    }
-
-    #[ORM\PreUpdate]
-    public function setModifiedAt(): void
-    {
-        $t = new \DateTime();
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-    }
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function setLockedAt(): void
-    {
-        $t = new \DateTime();
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-    }
-
-    public function getCurrentState(): string
-    {
-        return $this->currentState;
     }
 
     public function setCurrentState(string $currentState): void
@@ -150,14 +118,160 @@ trait ObjectBaseTrait
         return $workflow->getEnabledTransitions($this);
     }
 
-    public function setVersion(int $version): void
-    {
-        $this->version = $version;
-    }
-
     #[Pure]
     public function isAuthor(Vendor $vendor = null): bool
     {
         return $vendor && $vendor->getId() == $this->getCreatedBy();
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param bool $published
+     */
+    public function setPublished(bool $published): void
+    {
+        $this->published = $published;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param string $slug
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param string $createdAt
+     */
+    public function setCreatedAt(string $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreatedBy(): int
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param int $createdBy
+     */
+    public function setCreatedBy(int $createdBy): void
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModifiedAt(): string
+    {
+        return $this->modifiedAt;
+    }
+
+    /**
+     * @param string $modifiedAt
+     */
+    public function setModifiedAt(string $modifiedAt): void
+    {
+        $this->modifiedAt = $modifiedAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getModifiedBy(): int
+    {
+        return $this->modifiedBy;
+    }
+
+    /**
+     * @param int $modifiedBy
+     */
+    public function setModifiedBy(int $modifiedBy): void
+    {
+        $this->modifiedBy = $modifiedBy;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLockedAt(): string
+    {
+        return $this->lockedAt;
+    }
+
+    /**
+     * @param string $lockedAt
+     */
+    public function setLockedAt(string $lockedAt): void
+    {
+        $this->lockedAt = $lockedAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLockedBy(): int
+    {
+        return $this->lockedBy;
+    }
+
+    /**
+     * @param int $lockedBy
+     */
+    public function setLockedBy(int $lockedBy): void
+    {
+        $this->lockedBy = $lockedBy;
+    }
+
+    /**
+     * @return int
+     */
+    public function getVersion(): int
+    {
+        return $this->version;
+    }
+
+    /**
+     * @param int $version
+     */
+    public function setVersion(int $version): void
+    {
+        $this->version = $version;
+    }
+
+
 }

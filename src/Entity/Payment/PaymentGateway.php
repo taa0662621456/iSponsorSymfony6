@@ -2,14 +2,14 @@
 
 namespace App\Entity\Payment;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use Payum\Core\Security\CypherInterface;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentGatewayInterface;
 
 #[ORM\Entity]
-class PaymentGateway extends ObjectSuperEntity implements ObjectInterface, PaymentGatewayInterface
+class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatewayInterface
 {
     protected string $factoryName;
 
@@ -25,7 +25,6 @@ class PaymentGateway extends ObjectSuperEntity implements ObjectInterface, Payme
         $this->config = [];
         $this->decryptedConfig = [];
     }
-
 
     public function getConfig(): array
     {

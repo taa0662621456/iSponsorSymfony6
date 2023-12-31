@@ -2,12 +2,12 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Order\OrderBillingInterface;
 
 #[ORM\Entity]
-class OrderBilling extends ObjectSuperEntity implements ObjectInterface, OrderBillingInterface
+class OrderBilling extends RootEntity implements ObjectInterface, OrderBillingInterface
 {
 }

@@ -2,13 +2,13 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Object\ObjectTileInterface;
+use App\Interface\Object\ObjectTitleInterface;
 use App\EntityInterface\Product\ProductTitleInterface;
 
 #[ORM\Entity]
-class ProductEnGb extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface, ProductTitleInterface
+class ProductEnGb extends RootEntity implements ObjectInterface, ObjectTitleInterface, ProductTitleInterface
 {
 }

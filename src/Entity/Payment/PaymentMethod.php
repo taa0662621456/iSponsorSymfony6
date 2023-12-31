@@ -2,40 +2,23 @@
 
 namespace App\Entity\Payment;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentMethodInterface;
 
 #[ORM\Entity]
-class PaymentMethod extends ObjectSuperEntity implements ObjectInterface, PaymentMethodInterface
+class PaymentMethod extends RootEntity implements ObjectInterface, PaymentMethodInterface
 {
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private mixed $code;
 
-    #[ORM\Column(type: 'boolean')]
-    private mixed $enabled;
-
-    #[ORM\Column(type: 'string')]
-    private mixed $currentLocale;
-
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private mixed $fallbackLocale;
 
-    #[ORM\Column(type: 'string')]
-    private mixed $name;
+    /*    #[ORM\ManyToMany(targetEntity: 'Channel')]
+        private mixed $channels;*/
 
-    #[ORM\Column(type: 'string')]
-    private mixed $description;
-
-    #[ORM\Column(type: 'string')]
-    private mixed $instructions;
-
-    #[ORM\ManyToMany(targetEntity: 'Channel')]
-    private mixed $channels;
-
-    #[ORM\Embedded(class: 'GatewayConfig')]
-    private mixed $gatewayConfig;
-
-
+    /*    #[ORM\Embedded(class: 'GatewayConfig')]
+        private mixed $gatewayConfig;*/
 }

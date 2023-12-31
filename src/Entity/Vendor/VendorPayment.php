@@ -2,8 +2,8 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Vendor\VendorPaymentInterface;
 
@@ -11,6 +11,6 @@ use App\EntityInterface\Vendor\VendorPaymentInterface;
  * Class VendorPayment.
  */
 #[ORM\Entity]
-class VendorPayment extends ObjectSuperEntity implements ObjectInterface, VendorPaymentInterface
+class VendorPayment extends RootEntity implements ObjectInterface, VendorPaymentInterface
 {
 }

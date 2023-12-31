@@ -2,8 +2,8 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Vendor\VendorIbanInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
@@ -13,7 +13,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[UniqueEntity('iban')]
 
 #[ORM\Entity]
-class VendorIban extends ObjectSuperEntity implements ObjectInterface, VendorIbanInterface
+class VendorIban extends RootEntity implements ObjectInterface, VendorIbanInterface
 {
     #[ORM\Column(name: 'iban', nullable: true, options: ['default' => '0'])]
     #[Assert\Iban(message: 'Номер счета должен иметь международный формат. Например, для Украины: UA85 3996 2200 0000 0260 0123 3566 1')]

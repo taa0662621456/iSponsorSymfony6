@@ -2,13 +2,13 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductAttributeInterface;
 
 #[ORM\Entity]
-class ProductAttribute extends ObjectSuperEntity implements ObjectInterface, ProductAttributeInterface
+class ProductAttribute extends RootEntity implements ObjectInterface, ProductAttributeInterface
 {
     public const ATTRIBUTE_TYPE_BOOLEAN = 'boolean';
 
@@ -39,5 +39,4 @@ class ProductAttribute extends ObjectSuperEntity implements ObjectInterface, Pro
     private ?\DateTimeInterface $date;
 
     private ?array $json;
-
 }

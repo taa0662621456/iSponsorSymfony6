@@ -2,11 +2,10 @@
 
 namespace App\Entity\Project;
 
+use App\Entity\RootEntity;
 use App\Entity\Product\Product;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Category\Category;
 use App\Entity\Featured\Featured;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,20 +15,20 @@ use App\EntityInterface\Project\ProjectTypeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-class Project extends ObjectSuperEntity implements ObjectInterface, ProjectInterface
+class Project extends RootEntity implements ObjectInterface, ProjectInterface
 {
     public const NUM_ITEMS = 10;
 
     #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
-    private ProjectType $projectType;
+    private ProjectTypeInterface $projectType;
 
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProject')]
-    private Category $projectCategory;
+    private CategoryInterface $projectCategory;
 
     #[ORM\OneToOne(mappedBy: 'projectEnGb', targetEntity: ProjectEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private ProjectEnGb $projectEnGb;
+    private ?ProjectEnGb $projectEnGb;
 
     #[ORM\OneToMany(mappedBy: 'projectAttachmentProject', targetEntity: ProjectAttachment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
@@ -69,5 +68,105 @@ class Project extends ObjectSuperEntity implements ObjectInterface, ProjectInter
         $this->projectProduct = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
         $this->projectReview = new ArrayCollection();
+    }
+
+    public function getProjectCategory(): CategoryInterface
+    {
+        return $this->projectCategory;
+    }
+
+    public function setProjectCategory(?CategoryInterface $projectCategory): void
+    {
+        $this->projectCategory = $projectCategory;
+    }
+
+    public function getProjectEnGb(): ?ProjectEnGb
+    {
+        return $this->projectEnGb;
+    }
+
+    public function setProjectEnGb(ProjectEnGb $projectEnGb): void
+    {
+        $this->projectEnGb = $projectEnGb;
+    }
+
+    public function getProjectType(): ProjectTypeInterface
+    {
+        return $this->projectType;
+    }
+
+    public function setProjectType(ProjectTypeInterface $projectType): void
+    {
+        $this->projectType = $projectType;
+    }
+
+    public function getProjectAttachment(): Collection
+    {
+        return $this->projectAttachment;
+    }
+
+    public function setProjectAttachment(Collection $projectAttachment): void
+    {
+        $this->projectAttachment = $projectAttachment;
+    }
+
+    public function getProjectFavourite(): Collection
+    {
+        return $this->projectFavourite;
+    }
+
+    public function setProjectFavourite(Collection $projectFavourite): void
+    {
+        $this->projectFavourite = $projectFavourite;
+    }
+
+    public function getProjectFeatured(): Featured
+    {
+        return $this->projectFeatured;
+    }
+
+    public function setProjectFeatured(Featured $projectFeatured): void
+    {
+        $this->projectFeatured = $projectFeatured;
+    }
+
+    public function getProjectTag(): Collection
+    {
+        return $this->projectTag;
+    }
+
+    public function setProjectTag(Collection $projectTag): void
+    {
+        $this->projectTag = $projectTag;
+    }
+
+    public function getProjectProduct(): Collection
+    {
+        return $this->projectProduct;
+    }
+
+    public function setProjectProduct(Collection $projectProduct): void
+    {
+        $this->projectProduct = $projectProduct;
+    }
+
+    public function getProjectPlatformReward(): Collection
+    {
+        return $this->projectPlatformReward;
+    }
+
+    public function setProjectPlatformReward(Collection $projectPlatformReward): void
+    {
+        $this->projectPlatformReward = $projectPlatformReward;
+    }
+
+    public function getProjectReview(): Collection
+    {
+        return $this->projectReview;
+    }
+
+    public function setProjectReview(Collection $projectReview): void
+    {
+        $this->projectReview = $projectReview;
     }
 }

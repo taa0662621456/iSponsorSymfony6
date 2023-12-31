@@ -2,13 +2,13 @@
 
 namespace App\Entity\Project;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Project\ProjectPlatformRewardInterface;
 
 #[ORM\Entity]
-class ProjectPlatformReward extends ObjectSuperEntity implements ObjectInterface, ProjectPlatformRewardInterface
+class ProjectPlatformReward extends RootEntity implements ObjectInterface, ProjectPlatformRewardInterface
 {
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectPlatformReward')]
     private Project $projectId;
@@ -24,6 +24,5 @@ class ProjectPlatformReward extends ObjectSuperEntity implements ObjectInterface
         parent::__construct();
         $this->commissionStartTime = date('Y-m-d H:i:s');
         $this->commissionEndTime = date('Y-m-d H:i:s');
-
     }
 }

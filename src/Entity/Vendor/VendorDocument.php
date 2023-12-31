@@ -2,14 +2,14 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use App\Entity\AttachmentTrait;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Vendor\VendorDocumentInterface;
 
 #[ORM\Entity]
-class VendorDocument extends ObjectSuperEntity implements ObjectInterface, VendorDocumentInterface
+class VendorDocument extends RootEntity implements ObjectInterface, VendorDocumentInterface
 {
     use AttachmentTrait;
 

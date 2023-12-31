@@ -2,13 +2,13 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Order\OrderLogInterface;
 
 #[ORM\Entity]
-class OrderLog extends ObjectSuperEntity implements ObjectInterface, OrderLogInterface
+class OrderLog extends RootEntity implements ObjectInterface, OrderLogInterface
 {
     #[ORM\ManyToOne(targetEntity: OrderStatus::class)]
     private OrderStatus $orderStatusCode;
@@ -21,5 +21,4 @@ class OrderLog extends ObjectSuperEntity implements ObjectInterface, OrderLogInt
 
     #[ORM\Column(name: 'o_hash')]
     private ?string $oHash = null;
-
 }

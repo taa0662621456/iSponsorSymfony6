@@ -2,9 +2,9 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\RootEntity;
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +12,7 @@ use App\EntityInterface\Order\OrderStorageInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-class OrderStorage extends ObjectSuperEntity implements ObjectInterface, OrderStorageInterface
+class OrderStorage extends RootEntity implements ObjectInterface, OrderStorageInterface
 {
     public const NUM_ITEMS = 10;
 

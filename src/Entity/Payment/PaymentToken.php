@@ -2,18 +2,18 @@
 
 namespace App\Entity\Payment;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use Payum\Core\Security\Util\Random;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentTokenInterface;
 
 #[ORM\Entity]
-class PaymentToken extends ObjectSuperEntity implements ObjectInterface, PaymentTokenInterface
+class PaymentToken extends RootEntity implements ObjectInterface, PaymentTokenInterface
 {
     protected string $hash;
 
-    protected ?ObjectSuperEntity $details;
+    protected ?RootEntity $details;
 
     protected ?string $afterUrl;
 

@@ -2,12 +2,12 @@
 
 namespace App\Entity\Shipment;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Shipment\ShipmentInterface;
 
 #[ORM\Entity]
-class Shipment extends ObjectSuperEntity implements ObjectInterface, ShipmentInterface
+class Shipment extends RootEntity implements ObjectInterface, ShipmentInterface
 {
 }

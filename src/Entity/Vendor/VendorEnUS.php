@@ -2,14 +2,13 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Entity\VendorLanguageTrait;
 use ApiPlatform\Metadata\ApiResource;
 use App\Interface\Object\ObjectInterface;
-use App\Interface\Object\ObjectTileInterface;
+use App\Interface\Object\ObjectTitleInterface;
 
-// HELP: https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/
 #[ApiResource(
     /*    collectionOperations: [],
         itemOperations: [
@@ -28,7 +27,7 @@ use App\Interface\Object\ObjectTileInterface;
     paginationEnabled: false
 )]
 #[ORM\Entity]
-class VendorEnUs extends ObjectSuperEntity implements ObjectInterface, ObjectTileInterface
+class VendorEnUS extends RootEntity implements ObjectInterface, ObjectTitleInterface
 {
     use VendorLanguageTrait;
 }
