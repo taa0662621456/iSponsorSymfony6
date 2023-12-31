@@ -2,11 +2,11 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 
 #[ORM\Entity]
-class VendorRememberMeToken extends ObjectSuperEntity
+class VendorRememberMeToken extends RootEntity
 {
     #[ORM\Column(type: 'integer')]
     #[ORM\GeneratedValue(strategy: 'AUTO')]

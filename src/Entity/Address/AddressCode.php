@@ -2,11 +2,11 @@
 
 namespace App\Entity\Address;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\EntityInterface\Address\AddressCodeInterface;
 
 #[ORM\Entity]
-class AddressCode extends ObjectSuperEntity implements AddressCodeInterface
+class AddressCode extends RootEntity implements AddressCodeInterface
 {
 }

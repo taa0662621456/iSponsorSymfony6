@@ -2,13 +2,13 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductStorageInterface;
 
 #[ORM\Entity]
-class ProductStorage extends ObjectSuperEntity implements ObjectInterface, ProductStorageInterface
+class ProductStorage extends RootEntity implements ObjectInterface, ProductStorageInterface
 {
     #[ORM\Column(name: 'product_sku', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $productSku = 0;
@@ -51,6 +51,9 @@ class ProductStorage extends ObjectSuperEntity implements ObjectInterface, Produ
 
     #[ORM\Column(name: 'product_param', nullable: true)]
     private ?string $productParam = null;
+
+    #[ORM\OneToOne(inversedBy: 'productStorage', targetEntity: Product::class)]
+    private Product $product;
 
     public function __construct()
     {

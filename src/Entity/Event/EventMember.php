@@ -2,8 +2,8 @@
 
 namespace App\Entity\Event;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Event\EventMemberInterface;
 
@@ -11,7 +11,7 @@ use App\EntityInterface\Event\EventMemberInterface;
 #[ORM\Index(columns: ['event_id'], name: 'idx_event_id')]
 #[ORM\Index(columns: ['event_invited_by'], name: 'idx_invite_by')]
 #[ORM\Entity]
-class EventMember extends ObjectSuperEntity implements ObjectInterface, EventMemberInterface
+class EventMember extends RootEntity implements ObjectInterface, EventMemberInterface
 {
     #[ORM\Column(name: 'event_id', type: 'integer', nullable: false, options: ['unsigned' => true])]
     private int $eventId;

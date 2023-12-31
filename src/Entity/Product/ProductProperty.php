@@ -2,14 +2,14 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductPropertyInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 #[ORM\Entity]
-class ProductProperty extends ObjectSuperEntity implements ObjectInterface, ProductPropertyInterface
+class ProductProperty extends RootEntity implements ObjectInterface, ProductPropertyInterface
 {
     #[ORM\Column(name: 'product_weight', type: 'float', precision: 7, scale: 2, nullable: true, options: ['default' => 0])]
     private NumberType|float|null $productWeight;
@@ -34,5 +34,4 @@ class ProductProperty extends ObjectSuperEntity implements ObjectInterface, Prod
 
     #[ORM\Column(name: 'product_length_uom', type: 'integer', nullable: true)]
     private NumberType|float|null $productLengthUom = null;
-
 }

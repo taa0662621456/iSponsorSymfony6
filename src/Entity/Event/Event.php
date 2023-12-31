@@ -2,8 +2,8 @@
 
 namespace App\Entity\Event;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Event\EventInterface;
 
@@ -12,7 +12,7 @@ use App\EntityInterface\Event\EventInterface;
 #[ORM\Index(columns: ['cat_id'], name: 'event_idx_cat_id')]
 #[ORM\Entity]
 
-class Event extends ObjectSuperEntity implements ObjectInterface, EventInterface
+class Event extends RootEntity implements ObjectInterface, EventInterface
 {
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
     private int $parent;

@@ -2,8 +2,8 @@
 
 namespace App\Entity\Vendor;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Interface\Object\ObjectInterface;
@@ -21,7 +21,7 @@ use App\EntityInterface\Vendor\VendorMessageInterface;
     'vendor_message_conversation' => 'partial',
 ])]
 #[ORM\Entity]
-class VendorMessage extends ObjectSuperEntity implements ObjectInterface, VendorMessageInterface
+class VendorMessage extends RootEntity implements ObjectInterface, VendorMessageInterface
 {
     #[ORM\Column(type: 'text')]
     private mixed $messageMine;
@@ -31,5 +31,4 @@ class VendorMessage extends ObjectSuperEntity implements ObjectInterface, Vendor
 
     #[ORM\ManyToOne(targetEntity: VendorConversation::class, inversedBy: 'vendorConversationMessage')]
     private VendorConversation $vendorMessageConversation;
-
 }

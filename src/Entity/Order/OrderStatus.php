@@ -2,15 +2,15 @@
 
 namespace App\Entity\Order;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Order\OrderStatusInterface;
 
 #[ORM\Entity]
-class OrderStatus extends ObjectSuperEntity implements ObjectInterface, OrderStatusInterface
+class OrderStatus extends RootEntity implements ObjectInterface, OrderStatusInterface
 {
     #[ORM\Column(name: 'order_status_code', type: 'string', nullable: false, options: ['default' => ''])]
     private string $orderStatusCode = '';

@@ -3,8 +3,8 @@
 namespace App\Entity\Product;
 
 use JsonSerializable;
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -12,7 +12,7 @@ use App\EntityInterface\Product\ProductTagInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
-class ProductTag extends ObjectSuperEntity implements ObjectInterface, ProductTagInterface, \JsonSerializable
+class ProductTag extends RootEntity implements ObjectInterface, ProductTagInterface, \JsonSerializable
 {
     #[ORM\ManyToMany(targetEntity: Product::class, mappedBy: 'productTag')]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]

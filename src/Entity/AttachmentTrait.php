@@ -53,14 +53,14 @@ trait AttachmentTrait
     #[ORM\Column(name: 'file_path', type: 'string', nullable: false, options: ['default' => ''])]
     private string $filePath = '/';
 
-    #[ORM\Column(name: 'file_size', type: 'integer', nullable: false)]
+    #[ORM\Column(name: 'file_size', type: 'integer', nullable: true)]
     private ?int $fileSize = 0;
 
     #[Vich\UploadableField(mapping: 'fileThumbName', fileNameProperty: 'fileThumbName')]
     private $fileThumbFile;
 
-    #[ORM\Column(name: 'file_thumb_name', type: 'string', length: 100, nullable: false, options: ['default' => ''])]
-    private string $fileThumbName = '';
+    #[ORM\Column(name: 'file_thumb_name', type: 'string', length: 100, nullable: true, options: ['default' => ''])]
+    private string $fileThumbName;
 
     #[ORM\Column(name: 'file_thumb_path', type: 'string', nullable: false, options: ['default' => ''])]
     private string $fileThumbPath = '';
@@ -70,15 +70,15 @@ trait AttachmentTrait
 
     #[Assert\NotBlank(message: 'Please, upload a file.')]
     #[ORM\Column(name: 'file_mime_type', type: 'string', nullable: false, options: ['default' => 'file_mime_type'])]
-    private string $fileMimeType = '';
+    private string $fileMimeType;
 
     #[ORM\Column(name: 'file_layout_position', nullable: true)]
     private ?string $fileLayoutPosition = 'homepage';
 
-    #[ORM\Column(name: 'file_is_downloadable', type: 'boolean', nullable: false)]
+    #[ORM\Column(name: 'file_is_downloadable', type: 'boolean', nullable: true)]
     private bool $fileIsDownloadable = false;
 
-    #[ORM\Column(name: 'file_is_for_sale', type: 'boolean', nullable: false)]
+    #[ORM\Column(name: 'file_is_for_sale', type: 'boolean', nullable: true)]
     private bool $fileIsForSale = false;
 
     #[ORM\Column(name: 'file_params', type: 'string', nullable: false, options: ['default' => 'file_params'])]
@@ -87,7 +87,7 @@ trait AttachmentTrait
     #[ORM\Column(name: 'file_lang', type: 'string', nullable: false, options: ['default' => 'file_lang'])]
     private string $fileLang = 'file_lang';
 
-    #[ORM\Column(name: 'file_shared', type: 'boolean', nullable: false)]
+    #[ORM\Column(name: 'file_shared', type: 'boolean', nullable: true)]
     private bool $fileShared = false;
 
     public function getFileName(): string

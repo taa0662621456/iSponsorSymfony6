@@ -2,13 +2,13 @@
 
 namespace App\Entity\Product;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductReviewInterface;
 
 #[ORM\Entity]
-class ProductReview extends ObjectSuperEntity implements ObjectInterface, ProductReviewInterface
+class ProductReview extends RootEntity implements ObjectInterface, ProductReviewInterface
 {
     public const NUM_ROWS = 10;
 

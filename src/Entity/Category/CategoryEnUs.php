@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Shipment;
+namespace App\Entity\Category;
 
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
@@ -8,6 +8,6 @@ use App\Interface\Object\ObjectInterface;
 use App\Interface\Object\ObjectTitleInterface;
 
 #[ORM\Entity]
-class ShipmentCategoryEn extends RootEntity implements ObjectInterface, ObjectTitleInterface
+class CategoryEnUs extends RootEntity implements ObjectInterface, ObjectTitleInterface
 {
 }

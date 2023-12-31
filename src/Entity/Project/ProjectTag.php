@@ -2,15 +2,14 @@
 
 namespace App\Entity\Project;
 
-use JsonSerializable;
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity]
-class ProjectTag extends ObjectSuperEntity implements ObjectInterface, \JsonSerializable
+class ProjectTag extends RootEntity implements ObjectInterface, \JsonSerializable
 {
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'projectTag')]
     private Collection $projectTagProject;

@@ -2,11 +2,11 @@
 
 namespace App\Entity\Taxation;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 
 #[ORM\Entity]
-class TaxationRate extends ObjectSuperEntity implements ObjectInterface
+class TaxationRate extends RootEntity implements ObjectInterface
 {
 }

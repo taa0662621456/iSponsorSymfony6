@@ -2,14 +2,14 @@
 
 namespace App\Entity\Exchange;
 
+use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Currency\Currency;
-use App\Entity\ObjectSuperEntity;
 use App\Interface\Object\ObjectInterface;
 use App\EntityInterface\Exchange\ExchangeInterface;
 
 #[ORM\Entity]
-class Exchange extends ObjectSuperEntity implements ObjectInterface, ExchangeInterface
+class Exchange extends RootEntity implements ObjectInterface, ExchangeInterface
 {
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $rate;
