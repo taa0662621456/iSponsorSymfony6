@@ -3,9 +3,9 @@
 namespace App\EventSubscriber\Product;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
 final class LoadMetadataSubscriber implements EventSubscriber
 {
@@ -46,7 +46,7 @@ final class LoadMetadataSubscriber implements EventSubscriber
             'targetEntity' => $subjectClass,
             'inversedBy' => 'attributes',
             'joinColumns' => [[
-                'name' => $subject . '_id',
+                'name' => $subject.'_id',
                 'referencedColumnName' => $targetEntityMetadata->fieldMappings['id']['columnName'] ?? $targetEntityMetadata->fieldMappings['id']['fieldName'],
                 'nullable' => false,
                 'onDelete' => 'CASCADE',

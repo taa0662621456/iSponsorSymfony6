@@ -1,11 +1,9 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
-
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class PasswordUpdaterListener extends BasePasswordUpdaterListener
 {
@@ -16,7 +14,7 @@ final class PasswordUpdaterListener extends BasePasswordUpdaterListener
     {
         $customer = $event->getSubject();
 
-        /** @var CustomerInterface $customer */
+        /* @var CustomerInterface $customer */
         Assert::isInstanceOf($customer, CustomerInterface::class);
 
         $user = $customer->getUser();

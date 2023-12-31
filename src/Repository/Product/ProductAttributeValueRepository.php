@@ -2,10 +2,10 @@
 
 namespace App\Repository\Product;
 
-use App\Entity\Product\ProductAttachment;
-use App\Repository\EntityRepository;
-use App\RepositoryInterface\Product\ProductAttributeValueRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
+use App\Repository\EntityRepository;
+use App\Entity\Product\ProductAttachment;
+use App\RepositoryInterface\Product\ProductAttributeValueRepositoryInterface;
 
 /**
  * @method ProductAttachment|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,17 +19,16 @@ class ProductAttributeValueRepository extends EntityRepository implements Produc
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.json LIKE :key')
-            ->setParameter('key', '%"' . $key . '"%')
+            ->setParameter('key', '%"'.$key.'"%')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function createByProductCodeAndLocaleQueryBuilder(
         string $productCode,
         string $localeCode,
-        ?string $fallbackLocaleCode = null,
-        ?string $defaultLocaleCode = null,
+        string $fallbackLocaleCode = null,
+        string $defaultLocaleCode = null,
     ): QueryBuilder {
         $acceptableLocaleCodes = [$localeCode];
 
@@ -45,8 +44,7 @@ class ProductAttributeValueRepository extends EntityRepository implements Produc
             ->select('IDENTITY(s.attribute)')
             ->innerJoin('s.subject', 'subject')
             ->andWhere('subject.code = :code')
-            ->andWhere('s.localeCode = :locale')
-        ;
+            ->andWhere('s.localeCode = :locale');
 
         $queryBuilder = $this->createQueryBuilder('o');
 
@@ -66,7 +64,6 @@ class ProductAttributeValueRepository extends EntityRepository implements Produc
                 ),
             )
             ->setParameter('code', $productCode)
-            ->setParameter('locale', $localeCode)
-        ;
+            ->setParameter('locale', $localeCode);
     }
 }

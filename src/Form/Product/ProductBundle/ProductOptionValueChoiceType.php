@@ -2,19 +2,19 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\Interface\Product\ProductAvailableOptionValuesResolverInterface;
-use App\Interface\Product\ProductInterface;
-use App\Interface\Product\ProductOptionInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Interface\Product\ProductInterface;
 use Symfony\Component\OptionsResolver\Options;
+use App\Interface\Product\ProductOptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Interface\Product\ProductAvailableOptionValuesResolverInterface;
 
 final class ProductOptionValueChoiceType extends AbstractType
 {
     private ?ProductAvailableOptionValuesResolverInterface $availableProductOptionValuesResolver;
 
-    public function __construct(?ProductAvailableOptionValuesResolverInterface $availableProductOptionValuesResolver = null)
+    public function __construct(ProductAvailableOptionValuesResolverInterface $availableProductOptionValuesResolver = null)
     {
         if (null === $availableProductOptionValuesResolver) {
             @trigger_error(
@@ -38,7 +38,7 @@ final class ProductOptionValueChoiceType extends AbstractType
                         }
 
                         if (null === $this->availableProductOptionValuesResolver) {
-                            throw new \RuntimeException(sprintf('Cannot provide only available values in "%s" because a "%s" is required but '.'none has been set.', __CLASS__, ProductAvailableOptionValuesResolverInterface::class));
+                            throw new \RuntimeException(sprintf('Cannot provide only available values in "%s" because a "%s" is required but none has been set.', __CLASS__, ProductAvailableOptionValuesResolverInterface::class));
                         }
 
                         return $this->availableProductOptionValuesResolver->resolve(
@@ -59,8 +59,7 @@ final class ProductOptionValueChoiceType extends AbstractType
                 'option',
             ])
             ->addAllowedTypes('option', [ProductOptionInterface::class])
-            ->addAllowedTypes('product', ['null', ProductInterface::class])
-        ;
+            ->addAllowedTypes('product', ['null', ProductInterface::class]);
     }
 
     public function getParent(): string

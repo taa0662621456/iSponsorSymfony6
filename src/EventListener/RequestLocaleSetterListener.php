@@ -7,19 +7,19 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class RequestLocaleSetterListener
 {
-//    public function __construct(private readonly LocaleContextInterface $localeContext,
-//                                private readonly LocaleProviderInterface $localeProvider)
-//    {
-//    }
-//
-//    /**
-//     * @throws LocaleNotFoundException
-//     */
-//    public function onKernelRequest(RequestEvent $event): void
-//    {
-//        $request = $event->getRequest();
-//
-//        $request->setLocale($this->localeContext->getLocaleCode());
-//        $request->setDefaultLocale($this->localeProvider->getDefaultLocaleCode());
-//    }
+    //    public function __construct(private readonly LocaleContextInterface $localeContext,
+    //                                private readonly LocaleProviderInterface $localeProvider)
+    //    {
+    //    }
+    //
+    //    /**
+    //     * @throws LocaleNotFoundException
+    //     */
+    //    public function onKernelRequest(RequestEvent $event): void
+    //    {
+    //        $request = $event->getRequest();
+    //
+    //        $request->setLocale($this->localeContext->getLocaleCode());
+    //        $request->setDefaultLocale($this->localeProvider->getDefaultLocaleCode());
+    //    }
 }

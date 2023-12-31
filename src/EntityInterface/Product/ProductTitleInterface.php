@@ -2,8 +2,8 @@
 
 namespace App\EntityInterface\Product;
 
-use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'productName' => 'partial',
@@ -12,5 +12,4 @@ use ApiPlatform\Metadata\ApiFilter;
 ])]
 interface ProductTitleInterface
 {
-
 }

@@ -1,15 +1,14 @@
 <?php
 
-
 namespace App\Repository\Payment;
 
+use Doctrine\ORM\QueryBuilder;
 use App\Entity\Payment\Payment;
-use App\EntityInterface\Customer\CustomerInterface;
-use App\EntityInterface\Payment\PaymentInterface;
-use App\RepositoryInterface\Payment\PaymentRepositoryInterface;
 use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\QueryBuilder;
+use App\EntityInterface\Payment\PaymentInterface;
+use App\EntityInterface\Customer\CustomerInterface;
+use App\RepositoryInterface\Payment\PaymentRepositoryInterface;
 
 /**
  * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,8 +22,7 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state != :state')
-            ->setParameter('state', PaymentInterface::STATE_CART)
-        ;
+            ->setParameter('state', PaymentInterface::STATE_CART);
     }
 
     public function findOneByOrderId($paymentId, $orderId): ?PaymentInterface
@@ -35,8 +33,7 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
             ->setParameter('paymentId', $paymentId)
             ->setParameter('orderId', $orderId)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByOrderToken(string $paymentId, string $orderToken): ?PaymentInterface
@@ -48,8 +45,7 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
             ->setParameter('paymentId', $paymentId)
             ->setParameter('orderToken', $orderToken)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     /**
@@ -65,7 +61,6 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
             ->setParameter('id', $id)
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

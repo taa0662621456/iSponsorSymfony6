@@ -17,5 +17,4 @@ interface OrderCheckoutInterface
     public const ORDER_SKIP_PAYMENT = 'skip_payment';
 
     public const ORDER_SKIP_SHIPMENT = 'skip_shipment';
-
 }

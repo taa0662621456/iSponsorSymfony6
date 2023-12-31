@@ -1,12 +1,11 @@
 <?php
 
-
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorGroup;
-use App\RepositoryInterface\Vendor\VendorGroupRepositoryInterface;
 use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Vendor\VendorGroupRepositoryInterface;
 
 /**
  * @method VendorGroup|null find($id, $lockMode = null, $lockVersion = null)

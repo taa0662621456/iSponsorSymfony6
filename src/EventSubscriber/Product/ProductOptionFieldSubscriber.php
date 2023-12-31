@@ -2,14 +2,14 @@
 
 namespace App\EventSubscriber\Product;
 
-use App\EntityInterface\Product\ProductInterface;
-use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
-use App\Form\Product\ProductBundle\ProductOptionChoiceType;
+use Webmozart\Assert\Assert;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Webmozart\Assert\Assert;
+use App\EntityInterface\Product\ProductInterface;
+use App\Form\Product\ProductBundle\ProductOptionChoiceType;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
 
 final class ProductOptionFieldSubscriber implements EventSubscriberInterface
 {

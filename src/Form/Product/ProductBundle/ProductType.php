@@ -2,15 +2,15 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\EntityInterface\Locale\LocaleInterface;
-use App\EventSubscriber\AddCodeFormSubscriber;
-use App\EventSubscriber\Product\ProductOptionFieldSubscriber;
-use App\EventSubscriber\Product\SimpleProductSubscriber;
-use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\EventSubscriber\AddCodeFormSubscriber;
+use App\EntityInterface\Locale\LocaleInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use App\EventSubscriber\Product\SimpleProductSubscriber;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use App\EventSubscriber\Product\ProductOptionFieldSubscriber;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
 
 final class ProductType extends AbstractType
 {
@@ -51,8 +51,7 @@ final class ProductType extends AbstractType
             ])
             ->add('associations', ProductAssociationsType::class, [
                 'label' => false,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

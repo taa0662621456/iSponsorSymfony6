@@ -2,13 +2,13 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
-use App\EventSubscriber\Product\BuildProductVariantFormSubscriber;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\EventSubscriber\Product\BuildProductVariantFormSubscriber;
 
 final class ProductVariantGenerationType extends AbstractType
 {
@@ -19,8 +19,7 @@ final class ProductVariantGenerationType extends AbstractType
                 'required' => false,
                 'label' => 'form.variant.name',
             ])
-            ->addEventSubscriber(new AddCodeFormSubscriber())
-        ;
+            ->addEventSubscriber(new AddCodeFormSubscriber());
 
         $builder->addEventSubscriber(new BuildProductVariantFormSubscriber($builder->getFormFactory(), true));
     }

@@ -2,11 +2,9 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\FormInterface;
 use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface;
-use Symfony\Component\Validator\Mapping\MetadataInterface;
 use Symfony\Component\Form\AbstractType as SymfonyAbstractType;
 
 class AbstractType extends SymfonyAbstractType
@@ -40,5 +38,4 @@ class AbstractType extends SymfonyAbstractType
 
         return ['Default'];
     }
-
 }

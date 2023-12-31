@@ -3,9 +3,9 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class XFrameOptionsSubscriber implements EventSubscriberInterface
 {
@@ -30,7 +30,7 @@ final class XFrameOptionsSubscriber implements EventSubscriberInterface
 
     private function isMainRequest(ResponseEvent $event): bool
     {
-        if (\method_exists($event, 'isMainRequest')) {
+        if (method_exists($event, 'isMainRequest')) {
             return $event->isMainRequest();
         }
 

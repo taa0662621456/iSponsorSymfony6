@@ -3,8 +3,8 @@
 namespace App\Repository\Address;
 
 use App\Entity\Address\Address;
-use App\RepositoryInterface\Address\AddressCityRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Address\AddressCityRepositoryInterface;
 
 /**
  * @method Address|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class AddressCityRepository extends EntityRepository implements AddressCityRepositoryInterface
 {
-
 }

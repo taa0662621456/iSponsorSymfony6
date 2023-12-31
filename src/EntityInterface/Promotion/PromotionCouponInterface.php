@@ -4,7 +4,6 @@ namespace App\EntityInterface\Promotion;
 
 interface PromotionCouponInterface
 {
-
     public function setCode(mixed $code);
 
     public function setPerCustomerUsageLimit(mixed $per_customer_usage_limit);

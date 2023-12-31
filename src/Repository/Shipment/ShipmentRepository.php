@@ -2,13 +2,13 @@
 
 namespace App\Repository\Shipment;
 
+use Doctrine\ORM\QueryBuilder;
 use App\Entity\Shipment\Shipment;
+use App\Repository\EntityRepository;
+use App\Interface\Vendor\VendorInterface;
 use App\EntityInterface\Customer\CustomerInterface;
 use App\EntityInterface\Shipment\ShipmentInterface;
 use App\RepositoryInterface\Shipment\ShipmentCategoryRepositoryInterface;
-use App\Interface\Vendor\VendorInterface;
-use App\Repository\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Shipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,9 +21,8 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
     public function createListQueryBuilder(): QueryBuilder
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.state != :state')
-//            ->setParameter('state', ShipmentInterface::STATE_CART)
-        ;
+            ->andWhere('o.state != :state');
+        //            ->setParameter('state', ShipmentInterface::STATE_CART)
     }
 
     public function findOneByOrderId($shipmentId, $orderId): ?ShipmentInterface
@@ -34,8 +33,7 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
             ->setParameter('shipmentId', $shipmentId)
             ->setParameter('orderId', $orderId)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByOrderTokenAndChannel($shipmentId, string $tokenValue, VendorInterface $vendor): ?ShipmentInterface
@@ -49,8 +47,7 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
             ->setParameter('tokenValue', $tokenValue)
             ->setParameter('vendor', $vendor)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByCustomer($id, CustomerInterface $customer): ?ShipmentInterface
@@ -63,8 +60,7 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
             ->setParameter('id', $id)
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function findByName(string $name, string $locale): array
@@ -76,7 +72,6 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
             ->setParameter('name', $name)
             ->setParameter('localeCode', $locale)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

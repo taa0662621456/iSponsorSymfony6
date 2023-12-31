@@ -4,10 +4,10 @@ namespace App\Form\Taxation;
 
 use App\Dto\Taxation\TaxationZoneDTO;
 use App\Entity\Taxation\TaxationZone;
-use App\Repository\Taxation\TaxationZoneRepository;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use App\Repository\Taxation\TaxationZoneRepository;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class TaxationZoneSelectorType extends AbstractType
 {
@@ -28,6 +28,7 @@ final class TaxationZoneSelectorType extends AbstractType
         $resolver->setDefaults([
             'choices' => function (): array {
                 $zones = $this->taxationZoneRepository->findZoneByScope();
+
                 return $this->mapZoneToDTO($zones);
             },
             'choice_value' => 'code',
@@ -49,6 +50,4 @@ final class TaxationZoneSelectorType extends AbstractType
     {
         return 'zone_choice';
     }
-
-
 }

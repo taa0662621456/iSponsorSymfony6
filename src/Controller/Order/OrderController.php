@@ -2,12 +2,12 @@
 
 namespace App\Controller\Order;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[AsController]
 class OrderController extends AbstractController
@@ -60,15 +60,16 @@ class OrderController extends AbstractController
         $configuration = '';
         $form = '';
         $resource = '';
+
         return $this->render(
-                $configuration->getTemplate(ResourceActions::UPDATE.'.html'),
-                [
-                    'configuration' => $configuration,
-                    $this->metadata->getName() => $resource,
-                    'form' => $form->createView(),
-                    'cart' => $resource,
-                ],
-            );
+            $configuration->getTemplate(ResourceActions::UPDATE.'.html'),
+            [
+                'configuration' => $configuration,
+                $this->metadata->getName() => $resource,
+                'form' => $form->createView(),
+                'cart' => $resource,
+            ],
+        );
     }
 
     protected function getCartSummaryRoute(): string

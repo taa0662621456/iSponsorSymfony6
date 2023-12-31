@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
 use Doctrine\DBAL\LockMode;
-use Doctrine\ORM\EntityManagerInterface;
-
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
+
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class LockingListener
 {

@@ -1,14 +1,11 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
 use App\Entity\Product\ProductPrice;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProductPriceCrudController extends AbstractCrudController
 {
@@ -19,7 +16,6 @@ class ProductPriceCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-
         return [
             TextField::new('product_discount_id'),
             TextField::new('override'),
@@ -30,8 +26,5 @@ class ProductPriceCrudController extends AbstractCrudController
 
             TextEditorField::new('product_tax_id'),
         ];
-
-
     }
-
 }

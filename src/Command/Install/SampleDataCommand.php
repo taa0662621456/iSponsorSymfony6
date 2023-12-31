@@ -2,14 +2,13 @@
 
 namespace App\Command\Install;
 
-use App\Command\AbstractCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class SampleDataCommand extends Command
 {
@@ -20,12 +19,11 @@ final class SampleDataCommand extends Command
         $this
             ->setDescription('Install sample data into...')
             ->setHelp(
-                <<<EOT
+                <<<'EOT'
 The <info>%command.name%</info> command loads the sample data.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
-        ;
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null);
     }
 
     /**
@@ -56,9 +54,9 @@ EOT
         try {
             $publicDir = $this->getApplication()->get('core.public_dir');
 
-            //TODO: autowire directoryChecker service
-//            $this->ensureDirectoryExistsAndIsWritable($publicDir, $output);
-//            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/media/image/', $output);
+            // TODO: autowire directoryChecker service
+            //            $this->ensureDirectoryExistsAndIsWritable($publicDir, $output);
+            //            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/media/image/', $output);
         } catch (\RuntimeException $exception) {
             $outputStyle->writeln($exception->getMessage());
 
@@ -74,8 +72,8 @@ EOT
             'fixtures:load' => $parameters,
         ];
 
-        //TODO: autovire CommandRunner Service
-//        $this->runCommands($commands, $output);
+        // TODO: autovire CommandRunner Service
+        //        $this->runCommands($commands, $output);
         $outputStyle->newLine(2);
 
         return 0;

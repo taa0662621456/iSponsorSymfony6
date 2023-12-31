@@ -2,9 +2,9 @@
 
 namespace App\Form\Product\ProductBundle;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use App\Form\Product\AttributeType\Type\AttributeType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductAttributeType extends AttributeType
 {
@@ -17,8 +17,7 @@ final class ProductAttributeType extends AttributeType
                 'required' => false,
                 'label' => 'form.product_attribute.position',
                 'invalid_message' => 'product_attribute.invalid',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

@@ -3,13 +3,13 @@
 namespace App\Form\Address;
 
 use App\Dto\Address\AddressCountryDTO;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressCountryCollectionType extends AbstractType
 {
@@ -53,8 +53,7 @@ final class AddressCountryCollectionType extends AbstractType
                 usort($countries, static fn (AddressCountryInterface $firstCountry, AddressCountryInterface $secondCountry): int => $firstCountry->getName() <=> $secondCountry->getName());
 
                 return $countries;
-            })
-        ;
+            });
     }
 
     public function getParent(): string

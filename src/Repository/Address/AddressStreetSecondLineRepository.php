@@ -2,12 +2,9 @@
 
 namespace App\Repository\Address;
 
-use App\Entity\Address\Address;
-use App\Entity\Address\AddressStreet;
+use App\Repository\EntityRepository;
 use App\Entity\Address\AddressStreetSecondLine;
 use App\RepositoryInterface\Address\AddressStreetSecondLineRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method AddressStreetSecondLine|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AddressStreetSecondLineRepository extends EntityRepository implements AddressStreetSecondLineRepositoryInterface
 {
-
 }

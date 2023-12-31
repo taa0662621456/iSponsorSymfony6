@@ -3,13 +3,11 @@
 namespace App\Repository\Address;
 
 use App\Entity\Address\Address;
-use App\Entity\Address\AddressCountry;
+use App\Repository\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use App\EntityInterface\Address\AddressInterface;
 use App\EntityInterface\Customer\CustomerInterface;
 use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Address|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +17,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AddressCountryRepository extends EntityRepository implements AddressCountryRepositoryInterface
 {
-
     public function findByCustomer(CustomerInterface $customer): array
     {
         return $this->createQueryBuilder('o')
@@ -27,8 +24,7 @@ class AddressCountryRepository extends EntityRepository implements AddressCountr
             ->andWhere('customer = :customer')
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     /**
@@ -43,7 +39,6 @@ class AddressCountryRepository extends EntityRepository implements AddressCountr
             ->setParameter('id', $id)
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

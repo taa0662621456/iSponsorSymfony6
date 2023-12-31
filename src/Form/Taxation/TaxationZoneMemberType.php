@@ -36,8 +36,7 @@ final class TaxationZoneMemberType extends AbstractType
                 'entry_options' => [],
                 'placeholder' => 'form.zone_member.select',
                 'data_class' => $this->dataClass,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

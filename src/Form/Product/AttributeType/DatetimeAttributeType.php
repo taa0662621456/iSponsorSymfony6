@@ -1,11 +1,10 @@
 <?php
 
-
-namespace App\Form\Product\AttributeType;;
+namespace App\Form\Product\AttributeType;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
 final class DatetimeAttributeType extends AbstractType
 {
@@ -23,8 +22,7 @@ final class DatetimeAttributeType extends AbstractType
                 'time_widget' => 'single_text',
             ])
             ->setRequired('configuration')
-            ->setDefined('locale_code')
-        ;
+            ->setDefined('locale_code');
     }
 
     public function getBlockPrefix(): string

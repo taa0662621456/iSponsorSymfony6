@@ -2,12 +2,12 @@
 
 namespace App\EventListener;
 
-use App\Form\Product\AttributeType\SelectAttributeType;
+use Doctrine\Persistence\ObjectManager;
 use App\Interface\Product\ProductAttributeInterface;
+use App\Form\Product\AttributeType\SelectAttributeType;
 use App\Interface\Product\ProductAttributeValueInterface;
 use App\Interface\Product\ProductAttributeValueRepositoryInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
-use Doctrine\Persistence\ObjectManager;
 
 final class ProductAttributeListener
 {

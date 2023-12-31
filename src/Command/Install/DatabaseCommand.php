@@ -3,10 +3,10 @@
 namespace App\Command\Install;
 
 use App\Command\AbstractCommand;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class DatabaseCommand extends AbstractCommand
 {
@@ -17,12 +17,11 @@ final class DatabaseCommand extends AbstractCommand
         $this
             ->setDescription('Install database.')
             ->setHelp(
-                <<<EOT
+                <<<'EOT'
 The <info>%command.name%</info> command creates database.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
-        ;
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null);
     }
 
     /**
@@ -41,8 +40,7 @@ EOT
         $commands = $this
             ->getApplication()
             ->get('commands_provider.database_setup')
-            ->getCommands($input, $output, $this->getHelper('question'))
-        ;
+            ->getCommands($input, $output, $this->getHelper('question'));
 
         $this->runCommands($commands, $output);
         $outputStyle->newLine();

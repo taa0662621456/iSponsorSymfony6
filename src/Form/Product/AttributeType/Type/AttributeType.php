@@ -1,14 +1,11 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Type;
 
-
-
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 abstract class AttributeType extends AbstractResourceType
 {
@@ -33,8 +30,7 @@ abstract class AttributeType extends AbstractResourceType
                 'label' => 'form.attribute.type',
                 'disabled' => true,
             ])
-            ->add('translatable', CheckboxType::class, ['label' => 'form.attribute.translatable'])
-        ;
+            ->add('translatable', CheckboxType::class, ['label' => 'form.attribute.translatable']);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $attribute = $event->getData();

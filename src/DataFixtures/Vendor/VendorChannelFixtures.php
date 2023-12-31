@@ -1,16 +1,8 @@
 <?php
 
-
 namespace App\DataFixtures\Vendor;
 
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
 use App\DataFixtures\DataFixtures;
-
-
-use JetBrains\PhpStorm\NoReturn;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
@@ -55,8 +47,6 @@ final class VendorChannelFixtures extends DataFixtures
                         ->scalarNode('postcode')->end()
                     ->end()
                 ->end()
-                ->scalarNode('menu_taxon')->end()
-        ;
+                ->scalarNode('menu_taxon')->end();
     }
-
 }

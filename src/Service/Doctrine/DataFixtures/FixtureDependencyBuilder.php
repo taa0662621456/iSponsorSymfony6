@@ -3,7 +3,6 @@
 namespace App\Service\Doctrine\DataFixtures;
 
 use App\Attribute\FixtureGroupDependency;
-use ReflectionClass;
 
 class FixtureDependencyBuilder
 {
@@ -18,14 +17,13 @@ class FixtureDependencyBuilder
      * Строит граф зависимостей между фикстурами на основе их атрибутов и методов.
      *
      * @param string[] $fixtureClasses
-     * @return array
      */
     public function buildDependencyGraph(array $fixtureClasses): array
     {
         $dependencyGraph = [];
 
         foreach ($fixtureClasses as $fixtureClass) {
-            $reflectionClass = new ReflectionClass($fixtureClass);
+            $reflectionClass = new \ReflectionClass($fixtureClass);
             $groups = $this->getFixtureGroups($reflectionClass);
 
             foreach ($groups as $group) {
@@ -47,10 +45,9 @@ class FixtureDependencyBuilder
     /**
      * Возвращает список групп фикстур, на которые ссылается данный класс фикстуры.
      *
-     * @param ReflectionClass $reflectionClass
      * @return string[]
      */
-    private function getFixtureGroups(ReflectionClass $reflectionClass): array
+    private function getFixtureGroups(\ReflectionClass $reflectionClass): array
     {
         $groups = [];
 
@@ -70,10 +67,9 @@ class FixtureDependencyBuilder
     /**
      * Возвращает список классов фикстур, от которых зависит данный класс фикстуры.
      *
-     * @param ReflectionClass $reflectionClass
      * @return string[]
      */
-    private function getFixtureGroupDependencies(ReflectionClass $reflectionClass): array
+    private function getFixtureGroupDependencies(\ReflectionClass $reflectionClass): array
     {
         $dependencies = [];
 
@@ -96,7 +92,7 @@ class FixtureDependencyBuilder
 
             // Проверяем наличие каждой группы фикстур
             foreach ($groups as $group) {
-                $groupClass = $this->fixtureNamespace . '\\' . $group . '\\' . $reflectionClass->getShortName();
+                $groupClass = $this->fixtureNamespace.'\\'.$group.'\\'.$reflectionClass->getShortName();
                 if (!class_exists($groupClass)) {
                     // Пропускаем отсутствующую группу фикстур
                     continue;

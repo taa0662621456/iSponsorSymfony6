@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
-use App\Interface\StateMachine\StateMachineFactoryInterface;
-use Symfony\Component\Workflow\Definition;
-use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
 use Symfony\Component\Workflow\Registry;
+use Symfony\Component\Workflow\Definition;
 use Symfony\Component\Workflow\StateMachine;
+use App\Interface\StateMachine\StateMachineFactoryInterface;
+use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
+
 class StateMachineFactory implements StateMachineFactoryInterface
 {
     private Registry $workflowRegistry;

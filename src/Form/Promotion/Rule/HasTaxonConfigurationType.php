@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Form\Promotion\Rule;
-
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -18,8 +16,7 @@ final class HasTaxonConfigurationType extends AbstractType
             ->add('taxons', TaxonAutocompleteChoiceType::class, [
                 'label' => 'form.promotion_rule.has_taxon.taxons',
                 'multiple' => true,
-            ])
-        ;
+            ]);
 
         $builder->get('taxons')->addModelTransformer($this->taxonsToCodesTransformer);
     }

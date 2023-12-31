@@ -2,15 +2,16 @@
 
 namespace App\Repository;
 
+use Doctrine\Persistence\ManagerRegistry;
 use App\RepositoryInterface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 class EntityRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         $entityClass = $this->getEntityClass();
+
         parent::__construct($registry, $entityClass);
     }
 
@@ -21,7 +22,7 @@ class EntityRepository extends ServiceEntityRepository implements EntityReposito
         $className = $reflectionClass->getShortName();
 
         $entityName = str_replace('Repository', '', $className);
-        return $namespace . '\\' . $entityName;
-    }
 
+        return $namespace . '\\' . $className;
+    }
 }

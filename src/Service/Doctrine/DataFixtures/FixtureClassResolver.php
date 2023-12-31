@@ -15,6 +15,7 @@ class FixtureClassResolver
      * Преобразует найденные файлы с фикстурами в соответствующие классы фикстур.
      *
      * @param string[] $files
+     *
      * @return string[]
      */
     public function resolveFixtureClasses(array $files): array
@@ -31,17 +32,13 @@ class FixtureClassResolver
 
     /**
      * Возвращает полное имя класса фикстуры на основе пути к файлу и пространства имен.
-     *
-     * @param string $file
-     * @return string
      */
     private function getFixtureClass(string $file): string
     {
-        $relativePath = dirname($file);
+        $relativePath = \dirname($file);
         $namespace = str_replace('/', '\\', $relativePath);
-        $class = pathinfo($file, PATHINFO_FILENAME);
+        $class = pathinfo($file, \PATHINFO_FILENAME);
 
-        return $this->fixtureNamespace . '\\' . $namespace . '\\' . $class;
+        return $this->fixtureNamespace.'\\'.$namespace.'\\'.$class;
     }
 }
-

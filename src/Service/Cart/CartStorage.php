@@ -6,7 +6,6 @@ use App\Interface\CartStorageInterface;
 
 class CartStorage implements CartStorageInterface
 {
-
     public function setForChannel($getChannel, \App\OrderInterface $cart)
     {
         // TODO: Implement setForChannel() method.

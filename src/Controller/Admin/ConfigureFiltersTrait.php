@@ -1,6 +1,6 @@
 <?php
 /**
- * https://symfony.com/bundles/EasyAdminBundle/4.x/filters.html
+ * https://symfony.com/bundles/EasyAdminBundle/4.x/filters.html.
  */
 
 namespace App\Controller\Admin;
@@ -15,8 +15,6 @@ trait ConfigureFiltersTrait
             ->add('firstTitle')
             ->add('middleTitle')
             ->add('lastTitle')
-            ->add('published')
-            ;
+            ->add('published');
     }
-
 }

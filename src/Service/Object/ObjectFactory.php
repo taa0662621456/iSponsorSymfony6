@@ -20,6 +20,7 @@ class ObjectFactory implements ObjectFactoryInterface
         if (isset($this->factories[$factoryName])) {
             $factory = $this->factories[$factoryName];
             $this->setProperties($factory, $options);
+
             return $factory;
         }
 
@@ -30,7 +31,8 @@ class ObjectFactory implements ObjectFactoryInterface
     {
         $namespaceParts = explode('\\', $className);
         $className = end($namespaceParts);
-        return $className . 'Factory';
+
+        return $className.'Factory';
     }
 
     private function setProperties(object $object, array $options): void

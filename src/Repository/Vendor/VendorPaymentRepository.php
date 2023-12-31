@@ -3,9 +3,8 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorPayment;
-use App\RepositoryInterface\Vendor\VendorPaymentRepositoryInterface;
 use App\Repository\EntityRepository;
-
+use App\RepositoryInterface\Vendor\VendorPaymentRepositoryInterface;
 
 /**
  * @method VendorPayment|null find($id, $lockMode = null, $lockVersion = null)
@@ -36,5 +35,4 @@ class VendorPaymentRepository extends EntityRepository implements VendorPaymentR
         ;
     }
     */
-
 }

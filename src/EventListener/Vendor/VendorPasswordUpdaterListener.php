@@ -2,10 +2,10 @@
 
 namespace App\EventListener\Vendor;
 
-use App\Interface\Vendor\VendorSecurityForgotPasswordInterface;
-use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Interface\Vendor\VendorSecurityForgotPasswordInterface;
+use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 
 class VendorPasswordUpdaterListener
 {

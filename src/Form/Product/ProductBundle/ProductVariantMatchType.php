@@ -2,14 +2,14 @@
 
 namespace App\Form\Product\ProductBundle;
 
+use Symfony\Component\Form\AbstractType;
 use App\Dto\Product\ProductOptionValueDTO;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
 use App\EntityInterface\Product\ProductInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\EntityInterface\Product\ProductOptionInterface;
 use App\Service\Product\ProductVariantToProductOptionsTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ProductVariantMatchType extends AbstractType
 {
@@ -36,12 +36,11 @@ final class ProductVariantMatchType extends AbstractType
                     'only_available_values' => true,
                     'product' => $options['product'],
                 ],
-                'data_class' => ProductOptionValueDTO::class
+                'data_class' => ProductOptionValueDTO::class,
             ])
 
             ->setRequired('product')
-            ->setAllowedTypes('product', ProductInterface::class)
-        ;
+            ->setAllowedTypes('product', ProductInterface::class);
     }
 
     public function getParent(): string

@@ -2,26 +2,26 @@
 
 namespace App\EventListener;
 
+use App\EntityInterface\Order\OrderStorageInterface;
+use App\EntityInterface\Vendor\VendorInterface;
 use App\Event\Vendor\VendorEvent;
+use App\Interface\Cart\CartInterface;
 use App\Exception\CartNotFoundException;
 use App\Exception\UnexpectedTypeException;
-use App\Interface\Cart\CartInterface;
-use App\Interface\Order\OrderInterface;
 use App\Interface\SectionProviderInterface;
-use App\Interface\Vendor\VendorInterface;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class ShopCartBlamerListener
 {
-    public function __construct(private readonly CartInterface            $cartContext,
-                                private readonly SectionProviderInterface $uriBasedSectionContext)
-    {
+    public function __construct(
+        private readonly CartInterface $cartContext,
+        private readonly SectionProviderInterface $uriBasedSectionContext
+    ) {
     }
 
     public function onImplicitLogin(VendorEvent $vendorEvent): void
     {
-
         $vendor = $vendorEvent->getUser();
         if (!$vendor instanceof VendorInterface) {
             return;
@@ -55,7 +55,7 @@ class ShopCartBlamerListener
     /**
      * @throws UnexpectedTypeException
      */
-    private function getCart(): ?OrderInterface
+    private function getCart(): ?OrderStorageInterface
     {
         try {
             $order = $this->cartContext->getCart();
@@ -63,8 +63,8 @@ class ShopCartBlamerListener
             return null;
         }
 
-        if (!$order instanceof OrderInterface) {
-            throw new UnexpectedTypeException($order, OrderInterface::class);
+        if (!$order instanceof OrderStorageInterface) {
+            throw new UnexpectedTypeException($order, OrderStorageInterface::class);
         }
 
         return $order;

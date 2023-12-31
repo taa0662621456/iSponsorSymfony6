@@ -3,10 +3,10 @@
 namespace App\Command\Install;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
 
 class InstallCommand extends Command
@@ -41,12 +41,11 @@ class InstallCommand extends Command
         $this
             ->setDescription('Installs in your preferred environment.')
             ->setHelp(
-                <<<EOT
-The <info>%command.name%</info> command installs Sylius.
+                <<<'EOT'
+The <info>%command.name%</info> command install.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
-        ;
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -57,12 +56,12 @@ EOT
         $outputStyle->writeln('<info>Installing ...</info>');
         $outputStyle->writeln($this->getConsoleLogo());
 
-        //TODO: autowire directoryChecker service
-//        $this->directoryChecker((string) $this->getApplication()->get('kernel.cache_dir'), $output);
+        // TODO: autowire directoryChecker service
+        //        $this->directoryChecker((string) $this->getApplication()->get('kernel.cache_dir'), $output);
 
         $errored = false;
         /**
-         * @var int $step
+         * @var int   $step
          * @var array $command
          */
         foreach ($this->commands as $step => $command) {
@@ -71,7 +70,7 @@ EOT
                 $outputStyle->section(sprintf(
                     'Step %d of %d. <info>%s</info>',
                     $step + 1,
-                    count($this->commands),
+                    \count($this->commands),
                     $command['message'],
                 ));
 
@@ -80,7 +79,7 @@ EOT
                     $parameters['--fixture-suite'] = $suite;
                 }
 
-                $this->commandExecutor->runCommand('install:' . $command['command'], $parameters, $output);
+                $this->commandExecutor->runCommand('install:'.$command['command'], $parameters, $output);
             } catch (RuntimeException) {
                 $errored = true;
             }

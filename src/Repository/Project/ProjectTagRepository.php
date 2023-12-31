@@ -1,10 +1,10 @@
 <?php
+
 namespace App\Repository\Project;
 
 use App\Entity\Project\ProjectTag;
-use App\RepositoryInterface\Project\ProjectTagRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Project\ProjectTagRepositoryInterface;
 
 /**
  * @method ProjectTag|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProjectTagRepository extends EntityRepository implements ProjectTagRepositoryInterface
 {
-
 }

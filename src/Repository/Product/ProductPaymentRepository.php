@@ -2,9 +2,9 @@
 
 namespace App\Repository\Product;
 
+use App\Repository\EntityRepository;
 use App\Entity\Product\ProductStorage;
 use App\RepositoryInterface\Product\ProductPaymentRepositoryInterface;
-use App\Repository\EntityRepository;
 
 /**
  * @method ProductStorage|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class ProductPaymentRepository extends EntityRepository implements ProductPaymentRepositoryInterface
 {
-
 }

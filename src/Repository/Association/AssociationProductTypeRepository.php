@@ -2,11 +2,10 @@
 
 namespace App\Repository\Association;
 
-use App\Entity\Association\AssociationProductType;
-use App\Repository\EntityRepository;
-use App\RepositoryInterface\Association\AssociationProductTypeRepositoryInterface;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Repository\EntityRepository;
+use App\Entity\Association\AssociationProductType;
+use App\RepositoryInterface\Association\AssociationProductTypeRepositoryInterface;
 
 /**
  * @method AssociationProductType|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,14 +15,12 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AssociationProductTypeRepository extends EntityRepository implements AssociationProductTypeRepositoryInterface
 {
-
     public function createListQueryBuilder(string $locale): QueryBuilder
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.translations', 'translation')
             ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale)
-        ;
+            ->setParameter('locale', $locale);
     }
 
     public function findByName(string $name, string $locale): array
@@ -35,7 +32,6 @@ class AssociationProductTypeRepository extends EntityRepository implements Assoc
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

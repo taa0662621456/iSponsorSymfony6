@@ -7,7 +7,6 @@ class FixtureSorter
     /**
      * Сортирует фикстуры в правильном порядке, учитывая граф зависимостей.
      *
-     * @param array $dependencyGraph
      * @return string[]
      */
     public function sortFixturesByDependency(array $dependencyGraph): array
@@ -37,12 +36,11 @@ class FixtureSorter
      *
      * @param string[] $dependencies
      * @param string[] $resolvedGroups
-     * @return bool
      */
     private function areDependenciesResolved(array $dependencies, array $resolvedGroups): bool
     {
         foreach ($dependencies as $dependency) {
-            if (!in_array($dependency, $resolvedGroups)) {
+            if (!\in_array($dependency, $resolvedGroups)) {
                 return false;
             }
         }

@@ -2,10 +2,9 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 final class ProductGenerateVariantsType extends AbstractType
 {
@@ -33,8 +32,7 @@ final class ProductGenerateVariantsType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            ->addEventSubscriber($this->generateProductVariantsSubscriber)
-        ;
+            ->addEventSubscriber($this->generateProductVariantsSubscriber);
     }
 
     public function getBlockPrefix(): string

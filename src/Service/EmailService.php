@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class EmailService
 {
@@ -28,8 +28,7 @@ class EmailService
         $signature = $this->verifyEmailHelper->generateSignature(
             $confirmationRouteName,
             $vendorSecurity->getId(),
-            $vendorSecurity->getEmail(),
-            ['slug' => $vendorSecurity->getSlug()]
+            $vendorSecurity->getUserIdentifier()
         );
 
         $context = $email->getContext();
@@ -47,6 +46,7 @@ class EmailService
      */
     public function sendErrorNotification(string $errorMessage): void
     {
+
         $email = (new Email())
             ->from($this->adminEmail)
             ->to($this->adminEmail)

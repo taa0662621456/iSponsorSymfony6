@@ -6,5 +6,4 @@ use App\Interface\CartSessionInterface;
 
 class CartSession implements CartSessionInterface
 {
-
 }

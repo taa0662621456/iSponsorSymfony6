@@ -1,22 +1,20 @@
 <?php
 
-
 namespace App\Service\Product\Constraints;
 
-
-use App\Form\Product\AttributeType\SelectAttributeType;
+use Webmozart\Assert\Assert;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Webmozart\Assert\Assert;
+use App\Form\Product\AttributeType\SelectAttributeType;
 
 final class ValidSelectAttributeConfigurationValidator extends ConstraintValidator
 {
     public function validate($value, Constraint $constraint): void
     {
-        /** @var AttributeInterface $value */
+        /* @var AttributeInterface $value */
         Assert::isInstanceOf($value, AttributeInterface::class);
 
-        /** @var ValidSelectAttributeConfiguration $constraint */
+        /* @var ValidSelectAttributeConfiguration $constraint */
         Assert::isInstanceOf($constraint, ValidSelectAttributeConfiguration::class);
 
         if (SelectAttributeType::TYPE !== $value->getType()) {
@@ -52,7 +50,7 @@ final class ValidSelectAttributeConfigurationValidator extends ConstraintValidat
             return;
         }
 
-        $numberOfChoices = count($value->getConfiguration()['choices']);
+        $numberOfChoices = \count($value->getConfiguration()['choices']);
         if (null !== $min && $min > $numberOfChoices) {
             $this->context->addViolation($constraint->messageMinEntries);
         }

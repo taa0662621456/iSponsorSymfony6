@@ -3,10 +3,10 @@
 namespace App\Repository\Vendor;
 
 use App\Entity\Vendor\VendorEnUS;
-use App\RepositoryInterface\Vendor\VendorEnGbRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
+use App\RepositoryInterface\Vendor\VendorEnGbRepositoryInterface;
 
 /**
  * @method VendorEnUS|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,7 +24,6 @@ class VendorEnGbRepository extends EntityRepository implements VendorEnGbReposit
     public function getMail()
     {
         // TODO: get Vendor by email
-
     }
 
     // /**
@@ -44,7 +43,6 @@ class VendorEnGbRepository extends EntityRepository implements VendorEnGbReposit
     }
     */
 
-
     /**
      * @throws NonUniqueResultException
      */
@@ -54,8 +52,6 @@ class VendorEnGbRepository extends EntityRepository implements VendorEnGbReposit
             ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-
 }

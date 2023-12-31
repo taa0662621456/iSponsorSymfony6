@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventListener\Exception;
 
 use App\Service\EmailService;
 use Psr\Log\LoggerInterface;
@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ExceptionNotificationListener implements EventSubscriberInterface
 {
     private EmailService $emailService;
+
     private LoggerInterface $logger;
 
     public function __construct(EmailService $emailService, LoggerInterface $logger)
@@ -30,7 +31,6 @@ class ExceptionNotificationListener implements EventSubscriberInterface
     {
         $exception = $event->getThrowable();
         $errorMessage = $exception->getMessage();
-        $this->logger->error('Error occurred: ' . $errorMessage);
         $this->emailService->sendErrorNotification($errorMessage);
     }
 }

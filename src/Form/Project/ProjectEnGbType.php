@@ -1,13 +1,14 @@
 <?php
 
-
 namespace App\Form\Project;
 
 use App\Entity\Project\ProjectEnGb;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{FormType, TextareaType, TextType};
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProjectEnGbType extends AbstractType
 {
@@ -20,7 +21,7 @@ class ProjectEnGbType extends AbstractType
                         'inherit_data' => true,
                         'label' => false,
                         'row_attr' => [
-                            'id' => 'step-2'
+                            'id' => 'step-2',
                         ],
                     ])
                     ->add('projectTitle', TextType::class, [
@@ -34,8 +35,8 @@ class ProjectEnGbType extends AbstractType
                             'class' => 'form-control m-1',
                             'placeholder' => 'project.title.placeholder',
                             'tabindex' => '101',
-                            'autofocus' => true
-                        ]
+                            'autofocus' => true,
+                        ],
                     ])
                     ->add('projectSDesc', TextareaType::class, [
                         'label' => 'project.sdesc.label',
@@ -47,8 +48,8 @@ class ProjectEnGbType extends AbstractType
                             'class' => 'form-control m-1',
                             'placeholder' => 'project.sdesc.placeholder',
                             'tabindex' => '102',
-                            'autofocus' => false
-                        ]
+                            'autofocus' => false,
+                        ],
                     ])
             )
             ->add(
@@ -57,7 +58,7 @@ class ProjectEnGbType extends AbstractType
                         'inherit_data' => true,
                         'label' => false,
                         'row_attr' => [
-                            'id' => 'step-3'
+                            'id' => 'step-3',
                         ],
                     ])
                     ->add('projectDesc', TextareaType::class, [
@@ -70,8 +71,8 @@ class ProjectEnGbType extends AbstractType
                             'class' => 'form-control reader m-1',
                             'placeholder' => 'project.desc.placeholder',
                             'tabindex' => '103',
-                            'autofocus' => false
-                        ]
+                            'autofocus' => false,
+                        ],
                     ])
             )
             ->add(
@@ -80,7 +81,7 @@ class ProjectEnGbType extends AbstractType
                         'inherit_data' => true,
                         'label' => false,
                         'row_attr' => [
-                            'id' => 'step-4'
+                            'id' => 'step-4',
                         ],
                     ])
                     ->add('slug', TextType::class, [
@@ -93,11 +94,10 @@ class ProjectEnGbType extends AbstractType
                             'class' => 'form-control m-1',
                             'placeholder' => 'project.slug.placeholder',
                             'tabindex' => '103',
-                            'autofocus'   => false
-                        ]
+                            'autofocus' => false,
+                        ],
                     ])
-            )
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -106,10 +106,10 @@ class ProjectEnGbType extends AbstractType
             [
                 'data_class' => ProjectEnGb::class,
                 'translation_domain' => 'project',
-                'attr' => array(
-                    'id' => 'project'
-                ),
-            ]);
+                'attr' => [
+                    'id' => 'project',
+                ],
+            ]
+        );
     }
 }
-

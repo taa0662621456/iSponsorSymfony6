@@ -1,17 +1,15 @@
 <?php
 
-
 namespace App\Service\Setup;
 
 use Doctrine\Persistence\ObjectManager;
-
 
 final class VendorSetup implements ChannelSetupInterface
 {
     public function __construct(
         private readonly VendorRepositoryInterface $vendorRepository,
-        private readonly FactoryInterface    $vendorFactory,
-        private readonly ObjectManager       $vendorManager,
+        private readonly FactoryInterface $vendorFactory,
+        private readonly ObjectManager $vendorManager,
     ) {
     }
 

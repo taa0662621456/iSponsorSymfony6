@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Form\Shipment\TypeSylius;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class ShippingMethodRuleChoiceType extends AbstractType
 {

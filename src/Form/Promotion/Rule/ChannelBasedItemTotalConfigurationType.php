@@ -1,12 +1,10 @@
 <?php
 
-
 namespace App\Form\Promotion\Rule;
 
-
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Notifier\Channel\ChannelInterface;
 
 final class ChannelBasedItemTotalConfigurationType extends AbstractType
 {

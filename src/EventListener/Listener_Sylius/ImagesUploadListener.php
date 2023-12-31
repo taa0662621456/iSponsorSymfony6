@@ -1,12 +1,9 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
-
-
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class ImagesUploadListener
 {

@@ -2,8 +2,8 @@
 
 namespace App\EntityInterface\Project;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 
 #[ApiFilter(SearchFilter::class, properties: [
     'projectTitle' => 'partial',
@@ -12,5 +12,4 @@ use ApiPlatform\Metadata\ApiFilter;
 ])]
 interface ProjectTitleInterface
 {
-
 }

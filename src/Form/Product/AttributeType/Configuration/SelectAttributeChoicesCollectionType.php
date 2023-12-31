@@ -1,16 +1,15 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Configuration;
 
-use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
 use Ramsey\Uuid\Uuid;
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
+
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
 
 class SelectAttributeChoicesCollectionType extends AbstractType
 {
@@ -33,13 +32,13 @@ class SelectAttributeChoicesCollectionType extends AbstractType
             if (null !== $data) {
                 $fixedData = [];
                 foreach ($data as $key => $values) {
-                    if (!is_int($key)) {
+                    if (!\is_int($key)) {
                         $fixedData[$key] = $this->resolveValues($values);
 
                         continue;
                     }
 
-                    if (!array_key_exists($this->defaultLocaleCode, $values)) {
+                    if (!\array_key_exists($this->defaultLocaleCode, $values)) {
                         continue;
                     }
 

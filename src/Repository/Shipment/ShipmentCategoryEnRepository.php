@@ -3,8 +3,9 @@
 namespace App\Repository\Shipment;
 
 use App\Entity\Shipment\Shipment;
-use App\RepositoryInterface\Shipment\ShipmentCategoryEnRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Shipment\ShipmentCategoryEnRepositoryInterface;
+
 /**
  * @method Shipment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Shipment|null findOneBy(array $criteria, array $orderBy = null)
@@ -13,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class ShipmentCategoryEnRepository extends EntityRepository implements ShipmentCategoryEnRepositoryInterface
 {
-
 }

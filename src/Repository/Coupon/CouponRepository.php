@@ -2,11 +2,9 @@
 
 namespace App\Repository\Coupon;
 
-use App\Entity\Commission\Commission;
 use App\Entity\Coupon\Coupon;
-use App\RepositoryInterface\Coupon\CouponRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Coupon\CouponRepositoryInterface;
 
 /**
  * @method Coupon|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CouponRepository extends EntityRepository implements CouponRepositoryInterface
 {
-
 }

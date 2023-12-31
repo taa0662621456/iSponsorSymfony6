@@ -2,11 +2,11 @@
 
 namespace App\Form\Address;
 
-use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
-use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
 
 final class AddressCountryCodeCollectionType extends AbstractType
 {
@@ -16,7 +16,6 @@ final class AddressCountryCodeCollectionType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder->addModelTransformer(new ReversedTransformer(new ResourceIdentifierTransformer($this->countryRepository, 'code')));
     }
 

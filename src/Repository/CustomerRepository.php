@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Repository;
 
 use App\Entity\Vendor\VendorShipment;
 use App\RepositoryInterface\Customer\CustomerRepositoryInterface;
-use App\Repository\EntityRepository;
+
 /**
  * @method VendorShipment|null find($id, $lockMode = null, $lockVersion = null)
  * @method VendorShipment|null findOneBy(array $criteria, array $orderBy = null)
@@ -19,8 +18,7 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     public function countCustomerPerPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate): int
@@ -32,8 +30,7 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate)
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     public function findLatest(int $count): array
@@ -42,7 +39,6 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

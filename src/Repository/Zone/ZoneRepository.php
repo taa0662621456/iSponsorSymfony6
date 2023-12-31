@@ -3,8 +3,9 @@
 namespace App\Repository\Zone;
 
 use App\Entity\Zone\Zone;
-use App\EntityInterface\Zone\ZoneRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\EntityInterface\Zone\ZoneRepositoryInterface;
+
 /**
  * @method Zone|null find($id, $lockMode = null, $lockVersion = null)
  * @method Zone|null findOneBy(array $criteria, array $orderBy = null)
@@ -13,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class ZoneRepository extends EntityRepository implements ZoneRepositoryInterface
 {
-
 }

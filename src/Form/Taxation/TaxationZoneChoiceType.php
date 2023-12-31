@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Form\Taxation;
+
 use App\Dto\Zone\ZoneDTO;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class TaxationZoneChoiceType extends ChoiceType
 {
@@ -15,7 +16,7 @@ class TaxationZoneChoiceType extends ChoiceType
             'choice_translation_domain' => false,
             'label' => 'form.address.zone',
             'placeholder' => 'form.zone.select',
-            //'choices' => $zoneRepository->getZonesByScopeTypes($scopeTypes),
+            // 'choices' => $zoneRepository->getZonesByScopeTypes($scopeTypes),
             'data_class' => ZoneDTO::class,
         ];
 
@@ -23,5 +24,4 @@ class TaxationZoneChoiceType extends ChoiceType
 
         // Additional configuration logic specific to TaxationZoneChoiceType
     }
-
 }

@@ -2,35 +2,27 @@
 
 namespace App\Controller;
 
-use App\Service\RequestDispatcher;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Service\ObjectInitializer;
 use JetBrains\PhpStorm\NoReturn;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[AsController]
 class ObjectCRUDsController extends AbstractController
 {
     #[NoReturn]
-    public function __construct(private readonly RequestDispatcher $requestDispatcher,
-                                private readonly ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private readonly ObjectInitializer $objectInitializer,
+        private readonly ManagerRegistry $managerRegistry
+    ) {
     }
 
-    // https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/
-    //    public function __invoke(string $slug)
-    //    {
-    //        $object = $this->getDoctrine()
-    //            ->getRepository($object::class)
-    //            ->findBy('slug' => $slug);
-    //        return $object;
-    //    }
-
     // Index
-    #[Route(path: 'vendor/', name: 'vendor_index', methods: ['GET'])]
+    #[NoReturn] #[Route(path: 'vendor/', name: 'vendor_index', methods: ['GET'])]
     #[Route(path: 'vendor/folder', name: 'vendor_folder_index', methods: ['GET'])]
     #[Route(path: 'order/', name: 'order_index', methods: ['GET'])]
     #[Route(path: 'event/', name: 'event_index', methods: ['GET'])]
@@ -58,19 +50,24 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/', name: 'currency_index', methods: ['GET'])]
     #[Route(path: 'role/', name: 'role_index', methods: ['GET'])]
     #[Route(path: 'storage/', name: 'storage_index', methods: ['GET'])]
+    #[Route(path: 'tag/', name: 'tag_index', methods: ['GET'])]
     public function index(): Response
     {
-        $localeFilter = $this->requestDispatcher->localeFilter();
-        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer() : $object = $this->requestDispatcher->object();
+        $localeFilter = $this->objectInitializer->getLocaleFilter();
+
+        ($localeFilter) ? $object = $this->objectInitializer->getLocaleFilter() : $object = $this->objectInitializer->getObject();
+
         $em = $this->managerRegistry->getManager();
-        // TODO: определяем уровень прав пользователя и если Юзер
-        //        ($this->getUser()) ?
-        //            $q = $em->getRepository($object)->findAll():
-        //            $q = $em->getRepository($object)->findBy(
-        //                ['createdBy' => $this->getUser()]
-        //            );
-        return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => $em->getRepository($object)->findAll(),
+
+        $user = $this->getUser();
+
+        $q = $user ?
+            $em->getRepository($object)->findAll() :
+            $em->getRepository($object)->findBy(
+                ['createdBy' => $this->getUser()]
+            );
+        return $this->render($this->objectInitializer->getTemplatePath(), [
+            $this->objectInitializer->getRoute() => $q,
         ]);
     }
 
@@ -103,21 +100,21 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'storage/new/', name: 'storage_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        $object = $this->requestDispatcher->object();
+
+        $object = $objectAttachment = $this->objectInitializer->getObject();
         $object = new $object();
 
-//        $objectEnGb = $this->requestDispatcher->objectEnGb(); //TODO: подменить/заменить мультиязычностью
-//        $objectEnGb = new $objectEnGb; //TODO: подменить/заменить мультиязычностью
+        //        $objectEnGb = $this->objectInitializer->objectEnGb(); //TODO: подменить/заменить мультиязычностью
+        //        $objectEnGb = new $objectEnGb; //TODO: подменить/заменить мультиязычностью
 
-        $objectAttachment = $this->requestDispatcher->objectAttachment();
         $objectAttachment = new $objectAttachment();
 
-        $form = $this->createForm($this->requestDispatcher->objectType(), $object);
+        $form = $this->createForm($this->objectInitializer->getObjectType(), $object);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->managerRegistry->getManager();
             $em->persist($object);
-//            $em->persist($objectEnGb); //TODO: подменить/заменить мультиязычностью
+            //            $em->persist($objectEnGb); //TODO: подменить/заменить мультиязычностью
             $em->flush();
 
             $route = $form->get('submitAndNew')->isClicked()
@@ -126,9 +123,8 @@ class ObjectCRUDsController extends AbstractController
 
             return $this->redirectToRoute($route);
         }
-
-        return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => $this->requestDispatcher->object(),
+        return $this->render($this->objectInitializer->getTemplatePath(), [
+            $this->objectInitializer->getRoute() => $this->objectInitializer->getObject(),
             'form' => $form->createView(),
         ]);
     }
@@ -218,10 +214,10 @@ class ObjectCRUDsController extends AbstractController
         //                ),
         //            )
         //        );
-        $object = $this->requestDispatcher->object();
+        $object = $this->objectInitializer->getObjectName();
 
-        return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => new $object(),
+        return $this->render($this->objectInitializer->getTemplatePath(), [
+            $this->objectInitializer->getRoute() => new $object(),
         ]);
     }
 
@@ -293,8 +289,8 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'storage/edit/{slug}', name: 'storage_edit', methods: ['GET', 'POST'])]
     public function edit(?int $id, ?string $slug): Response
     {
-        $object = $this->requestDispatcher->object();
-        $form = $this->createForm($this->requestDispatcher->objectType(), $object);
+        $object = $this->objectInitializer->getObjectName();
+        $form = $this->createForm($this->objectInitializer->getObjectType(), $object);
         $form->handleRequest($object);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->managerRegistry->getManager()->flush();
@@ -302,8 +298,8 @@ class ObjectCRUDsController extends AbstractController
             return $this->redirectToRoute($object);
         }
 
-        return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => new $object(),
+        return $this->render($this->objectInitializer->getTemplatePath(), [
+            $this->objectInitializer->getRoute() => new $object(),
             'form' => $form->createView(),
         ]);
     }
@@ -367,14 +363,14 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'currency/delete/{slug}', name: 'currency_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'role/delete/{slug}', name: 'role_delete_slug', methods: ['DELETE'])]
     #[Route(path: 'storage/delete/{slug}', name: 'storage_delete_slug', methods: ['DELETE'])]
-    public function delete(Request $request, ?int $id = null, ?string $slug = null): Response
+    public function delete(Request $request, int $id = null, string $slug = null): Response
     {
         $typeId = null ? $id : $slug;
-        $typeId = 'string' == gettype($typeId) ? $this->requestDispatcher->objectFindBySlug($slug) : $this->requestDispatcher->objectFindById($id);
+        $typeId = 'string' == \gettype($typeId) ? $this->objectInitializer->objectFindBySlug($slug) : $this->objectInitializer->objectFindById($id);
 
         if ($this->isCsrfTokenValid('delete'.$typeId, $request->get('_token'))) {
             $entityManager = $this->managerRegistry->getManager();
-            $entityManager->remove((object) $this->requestDispatcher->object());
+            $entityManager->remove((object) $this->objectInitializer->getObjectName());
             $entityManager->flush();
             $this->addFlash(
                 'notice',
@@ -384,7 +380,7 @@ class ObjectCRUDsController extends AbstractController
             throw $this->createNotFoundException('The object does not exist');
         }
 
-        return $this->redirectToRoute($this->requestDispatcher->object());
+        return $this->redirectToRoute($this->objectInitializer->getObjectName());
     }
 
     // Own
@@ -415,12 +411,12 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'storage/own/', name: 'storage_own', methods: ['GET'])]
     public function own(): Response
     {
-        $localeFilter = $this->requestDispatcher->localeFilter();
-        ($localeFilter) ? $object = $this->requestDispatcher->objectLanguageLayer() : $object = $this->requestDispatcher->object();
+        $localeFilter = $this->objectInitializer->getLocaleFilter();
+        ($localeFilter) ? $object = $this->objectInitializer->getLocaleFilter() : $object = $this->objectInitializer->object();
         $em = $this->managerRegistry->getManager();
 
-        return $this->render($this->requestDispatcher->layOutPath(), [
-            $this->requestDispatcher->route() => $em->getRepository($object)->findBy(['createdBy' => $this->getUser()]),
+        return $this->render($this->objectInitializer->getTemplatePath(), [
+            $this->objectInitializer->getRoute() => $em->getRepository($object)->findBy(['createdBy' => $this->getUser()]),
         ]);
     }
 

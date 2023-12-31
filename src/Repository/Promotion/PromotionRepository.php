@@ -2,11 +2,12 @@
 
 namespace App\Repository\Promotion;
 
-use App\Entity\Promotion\Promotion;
 use App\Entity\Vendor\Vendor;
-use App\RepositoryInterface\Promotion\PromotionRepositoryInterface;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Promotion\Promotion;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Promotion\PromotionRepositoryInterface;
+
 /**
  * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
  * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
@@ -15,26 +16,23 @@ use Doctrine\ORM\QueryBuilder;
  */
 class PromotionRepository extends EntityRepository implements PromotionRepositoryInterface
 {
-   // private AssociationHydrate $associationHydrate;
+    // private AssociationHydrate $associationHydrate;
 
-    /**
-     */
-//    public function __construct(
-//        // EntityManager $entityManager,
-//        // ClassMetadata $class
-//    ) {
-//        // parent::__construct($entityManager, $class);
-//
-//        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
-//    }
+    //    public function __construct(
+    //        // EntityManager $entityManager,
+    //        // ClassMetadata $class
+    //    ) {
+    //        // parent::__construct($entityManager, $class);
+    //
+    //        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+    //    }
 
     public function findActive(): array
     {
         return $this->filterByActive($this->createQueryBuilder('o'))
             ->addOrderBy('o.priority', 'desc')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findByName(string $name): array
@@ -42,13 +40,12 @@ class PromotionRepository extends EntityRepository implements PromotionRepositor
         return $this->findBy(['name' => $name]);
     }
 
-    protected function filterByActive(QueryBuilder $queryBuilder, ?\DateTimeInterface $date = null): QueryBuilder
+    protected function filterByActive(QueryBuilder $queryBuilder, \DateTimeInterface $date = null): QueryBuilder
     {
         return $queryBuilder
             ->andWhere('o.startsAt IS NULL OR o.startsAt < :date')
             ->andWhere('o.endsAt IS NULL OR o.endsAt > :date')
-            ->setParameter('date', $date ?: new \DateTime())
-        ;
+            ->setParameter('date', $date ?: new \DateTime());
     }
 
     public function findActiveByVendor(Vendor $vendor): array
@@ -58,8 +55,7 @@ class PromotionRepository extends EntityRepository implements PromotionRepositor
             ->setParameter('vendor', $vendor)
             ->addOrderBy('o.priority', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
 
         $this->associationHydrate->hydrateAssociations($promotions, [
             'rules',

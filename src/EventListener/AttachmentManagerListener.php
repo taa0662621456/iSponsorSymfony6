@@ -2,11 +2,11 @@
 
 namespace App\EventListener;
 
-use App\Entity\Attachment\Attachment;
-use App\Repository\Attachment\AttachmentRepository;
 use App\Service\AttachmentManager;
+use App\Entity\Attachment\Attachment;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use App\Repository\Attachment\AttachmentRepository;
 
 class AttachmentManagerListener
 {

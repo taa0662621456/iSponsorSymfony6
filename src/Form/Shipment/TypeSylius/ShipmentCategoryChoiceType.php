@@ -1,17 +1,15 @@
 <?php
 
-
 namespace App\Form\Shipment\TypeSylius;
 
-use App\Dto\Shipment\ShipmentCategoryDTO;
-use App\RepositoryInterface\Shipment\ShipmentCategoryRepositoryInterface;
-use App\Repository\Shipment\ShipmentCategoryRepository;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Dto\Shipment\ShipmentCategoryDTO;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Repository\Shipment\ShipmentCategoryRepository;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 
 final class ShipmentCategoryChoiceType extends AbstractType
 {

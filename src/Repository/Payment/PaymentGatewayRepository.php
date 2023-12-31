@@ -3,8 +3,9 @@
 namespace App\Repository\Payment;
 
 use App\Entity\Payment\Payment;
-use App\RepositoryInterface\Payment\PaymentGatewayRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Payment\PaymentGatewayRepositoryInterface;
+
 /**
  * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
@@ -13,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class PaymentGatewayRepository extends EntityRepository implements PaymentGatewayRepositoryInterface
 {
-
 }

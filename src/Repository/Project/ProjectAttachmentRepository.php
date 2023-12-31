@@ -2,10 +2,9 @@
 
 namespace App\Repository\Project;
 
+use App\Repository\EntityRepository;
 use App\Entity\Product\ProductAttachment;
 use App\RepositoryInterface\Project\ProjectAttachmentRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method ProductAttachment|null find($id, $lockMode = null, $lockVersion = null)

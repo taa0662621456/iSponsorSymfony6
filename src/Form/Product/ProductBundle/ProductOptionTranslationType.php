@@ -3,8 +3,8 @@
 namespace App\Form\Product\ProductBundle;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class ProductOptionTranslationType extends AbstractType
 {
@@ -13,8 +13,7 @@ final class ProductOptionTranslationType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'form.option.name',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

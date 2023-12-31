@@ -3,11 +3,8 @@
 namespace App\Repository\Address;
 
 use App\Entity\Address\Address;
-use App\Entity\Address\AddressCity;
-use App\Entity\Address\AddressCode;
-use App\RepositoryInterface\Address\AddressCodeRepositoryInterface;
 use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Address\AddressCodeRepositoryInterface;
 
 /**
  * @method Address|null find($id, $lockMode = null, $lockVersion = null)

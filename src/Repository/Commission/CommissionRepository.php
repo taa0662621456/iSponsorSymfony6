@@ -2,10 +2,10 @@
 
 namespace App\Repository\Commission;
 
+use App\Repository\EntityRepository;
 use App\Entity\Commission\Commission;
 use App\RepositoryInterface\Commission\CommissionRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+
 /**
  * @method Commission|null find($id, $lockMode = null, $lockVersion = null)
  * @method Commission|null findOneBy(array $criteria, array $orderBy = null)
@@ -14,5 +14,4 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommissionRepository extends EntityRepository implements CommissionRepositoryInterface
 {
-
 }

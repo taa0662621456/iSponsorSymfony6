@@ -6,5 +6,4 @@ use App\Interface\TranslationLocaleProviderInterface;
 
 class TranslationLocaleProvider implements TranslationLocaleProviderInterface
 {
-
 }

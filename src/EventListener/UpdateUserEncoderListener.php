@@ -2,10 +2,10 @@
 
 namespace App\EventListener;
 
+use Webmozart\Assert\Assert;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Webmozart\Assert\Assert;
 
 final class UpdateUserEncoderListener
 {

@@ -1,19 +1,14 @@
 <?php
 
-
 namespace App\Repository\Review;
 
-
-use App\Entity\Project\ProjectReview;
-use App\RepositoryInterface\Review\ProjectReviewRepositoryInterface;
-use DateTime;
-use App\Repository\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NoResultException;
+use App\Repository\EntityRepository;
+use App\Entity\Project\ProjectReview;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Persistence\ManagerRegistry;
-use Exception;
+use App\RepositoryInterface\Review\ProjectReviewRepositoryInterface;
 
 /**
  * @method ProjectReview|null find($id, $lockMode = null, $lockVersion = null)
@@ -24,6 +19,7 @@ use Exception;
 class ProjectReviewRepository extends EntityRepository implements ProjectReviewRepositoryInterface
 {
     public const DAYS_BEFORE_REJECTED_REMOVAL = 7;
+
     public const REVIEWS_PER_PAGE = 10;
 
     public function getReviewsPerPage(ProjectReview $projectReviews, int $offset): Paginator
@@ -37,12 +33,10 @@ class ProjectReviewRepository extends EntityRepository implements ProjectReviewR
             ->getQuery();
 
         return new Paginator($qb);
-
     }
 
-
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function deleteOldRejectedReviews()
     {
@@ -52,7 +46,7 @@ class ProjectReviewRepository extends EntityRepository implements ProjectReviewR
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
-     * @throws Exception
+     * @throws \Exception
      */
     public function countOldRejected(): int
     {
@@ -60,7 +54,7 @@ class ProjectReviewRepository extends EntityRepository implements ProjectReviewR
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getOldRejectedReviewsQueryBuilder(): QueryBuilder
     {
@@ -70,7 +64,7 @@ class ProjectReviewRepository extends EntityRepository implements ProjectReviewR
             ->setParameters([
                 'state_rejected' => 'rejected',
                 'state_spam' => 'spam',
-                'date' => new DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
+                'date' => new \DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
             ]);
     }
 }

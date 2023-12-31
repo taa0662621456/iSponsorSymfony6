@@ -2,11 +2,10 @@
 
 namespace App\Repository\Vendor;
 
-
 use App\Entity\Vendor\VendorMessage;
-use App\RepositoryInterface\Vendor\VendorMessageRepositoryInterface;
 use App\Repository\EntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\RepositoryInterface\Vendor\VendorMessageRepositoryInterface;
 
 /**
  * @method VendorMessage|null find($id, $lockMode = null, $lockVersion = null)
@@ -27,8 +26,6 @@ class VendorMessageRepository extends EntityRepository implements VendorMessageR
         $qb->
         where('m.conversation = :conversationId')
             ->setParameter('conversationId', $conversationId)
-            ->orderBy('m.id', 'DESC') //TODO: в конце второго урока была удалена строка
-
-        ;
+            ->orderBy('m.id', 'DESC'); // TODO: в конце второго урока была удалена строка
     }
 }

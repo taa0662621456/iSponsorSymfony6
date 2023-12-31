@@ -2,8 +2,8 @@
 
 namespace App\Command;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class TableRenderer extends Command
@@ -17,8 +17,6 @@ class TableRenderer extends Command
         $table
             ->setHeaders($headers)
             ->setRows($rows)
-            ->render()
-        ;
+            ->render();
     }
-
 }

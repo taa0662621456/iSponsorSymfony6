@@ -1,11 +1,10 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Configuration;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 final class TextAttributeConfigurationType extends AbstractType
 {
@@ -19,8 +18,7 @@ final class TextAttributeConfigurationType extends AbstractType
             ->add('max', NumberType::class, [
                 'label' => 'form.attribute_type_configuration.text.max',
                 'required' => false,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

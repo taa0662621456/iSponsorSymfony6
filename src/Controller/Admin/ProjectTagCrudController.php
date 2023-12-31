@@ -1,17 +1,17 @@
 <?php
 
-
 namespace App\Controller\Admin;
 
-
 use App\Entity\Project\ProjectTag;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ProjectTagCrudController extends AbstractCrudController
 {
+    use ConfigureFiltersTrait;
+
     public static function getEntityFqcn(): string
     {
         return ProjectTag::class;
@@ -26,6 +26,4 @@ class ProjectTagCrudController extends AbstractCrudController
             TextField::new('create_By')->hideOnForm(),
         ];
     }
-
-    use ConfigureFiltersTrait;
 }

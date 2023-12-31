@@ -1,13 +1,12 @@
 <?php
 
-
 namespace App\Form\Promotion\Rule;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 final class NthOrderConfigurationType extends AbstractType
 {
@@ -20,8 +19,7 @@ final class NthOrderConfigurationType extends AbstractType
                     new NotBlank(['groups' => ['isponsor']]),
                     new Type(['type' => 'numeric', 'groups' => ['isponsor']]),
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

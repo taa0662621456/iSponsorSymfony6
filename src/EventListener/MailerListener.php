@@ -3,10 +3,10 @@
 namespace App\EventListener;
 
 use App\Event\EmailEvent;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Webmozart\Assert\Assert;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 
 class MailerListener
 {

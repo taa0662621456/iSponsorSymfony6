@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Form\Product\AttributeType\Type;
-
-
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -14,7 +11,6 @@ abstract class AttributeTranslationType extends AbstractResourceType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'form.attribute.name',
-            ])
-        ;
+            ]);
     }
 }

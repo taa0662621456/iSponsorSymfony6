@@ -2,21 +2,21 @@
 
 namespace App\EventListener\Vendor;
 
-use App\Interface\SecurityGeneratorInterface;
-use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
 use Webmozart\Assert\Assert;
+use Doctrine\Persistence\ObjectManager;
+use App\Interface\SecurityGeneratorInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 final class UserRegistrationListener
 {
     public function __construct(
-        private readonly ObjectManager              $userManager,
+        private readonly ObjectManager $userManager,
         private readonly SecurityGeneratorInterface $tokenGenerator,
-        private readonly EventDispatcherInterface   $eventDispatcher,
-        private readonly ChannelContextInterface    $channelContext,
-        private readonly UserLoginInterface         $userLogin,
-        private readonly string                     $firewallContextName,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly UserLoginInterface $userLogin,
+        private readonly string $firewallContextName,
     ) {
     }
 
@@ -47,7 +47,7 @@ final class UserRegistrationListener
         $this->userManager->persist($user);
         $this->userManager->flush();
 
-//        $this->eventDispatcher->dispatch(new GenericEvent($user), UserEvents::REQUEST_VERIFICATION_TOKEN);
+        //        $this->eventDispatcher->dispatch(new GenericEvent($user), UserEvents::REQUEST_VERIFICATION_TOKEN);
     }
 
     private function enableAndLogin(ShopUserInterface $user): void

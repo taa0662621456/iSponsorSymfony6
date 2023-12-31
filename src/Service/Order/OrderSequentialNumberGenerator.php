@@ -3,7 +3,9 @@
 namespace App\Service\Order;
 
 use App\Interface\FactoryInterface;
-use App\EntityInterface\Order\OrderInterface;
+use App\EntityInterface\Order\OrderStorageInterface;
+use App\ServiceInterface\Order\OrderNumberGeneratorInterface;
+use App\ServiceInterface\Order\OrderSequenceInterface;
 
 final class OrderSequentialNumberGenerator implements OrderNumberGeneratorInterface
 {
@@ -15,7 +17,7 @@ final class OrderSequentialNumberGenerator implements OrderNumberGeneratorInterf
     ) {
     }
 
-    public function generate(OrderInterface $order): string
+    public function generate(OrderStorageInterface $order): string
     {
         $sequence = $this->getSequence();
 

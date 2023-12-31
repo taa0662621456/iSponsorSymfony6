@@ -2,8 +2,8 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\AbstractType;
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ProductOptionValueType extends AbstractType
@@ -15,8 +15,7 @@ final class ProductOptionValueType extends AbstractType
                 'entry_type' => ProductOptionValueTranslationType::class,
                 'label' => 'form.option.name',
             ])
-            ->addEventSubscriber(new AddCodeFormSubscriber())
-        ;
+            ->addEventSubscriber(new AddCodeFormSubscriber());
     }
 
     public function getBlockPrefix(): string

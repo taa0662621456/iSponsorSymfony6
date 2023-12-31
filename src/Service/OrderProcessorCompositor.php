@@ -4,7 +4,6 @@ namespace App\Service;
 
 use Laminas\Stdlib\PriorityQueue;
 
-
 final class OrderProcessorCompositor
 {
     /**

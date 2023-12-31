@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Form\Product\ProductBundle;
-
 
 use App\Form\Product\AttributeType\Type\AttributeValueType;
 

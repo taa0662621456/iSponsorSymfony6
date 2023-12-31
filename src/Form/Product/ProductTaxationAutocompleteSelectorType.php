@@ -2,12 +2,12 @@
 
 namespace App\Form\Product;
 
-use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 use Symfony\Component\Form\AbstractType;
 use App\Form\ResourceAutocompleteChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use App\Interface\Product\ProductPropertyInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 
 final class ProductTaxationAutocompleteSelectorType extends AbstractType
 {

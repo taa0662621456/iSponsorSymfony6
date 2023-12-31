@@ -5,9 +5,13 @@ namespace App\Service\Doctrine\DataFixtures;
 class FixtureGroupLoader1
 {
     private string $fixtureNamespace;
+
     private FixtureFinder $fixtureFinder;
+
     private FixtureClassResolver $classResolver;
+
     private FixtureDependencyBuilder $dependencyBuilder;
+
     private FixtureSorter $sorter;
 
     public function __construct(
@@ -29,6 +33,7 @@ class FixtureGroupLoader1
         $fixtures = $this->fixtureFinder->findFixtures();
         $dependencyGraph = $this->dependencyBuilder->buildDependencyGraph($fixtures);
         $sortedFixtures = $this->sorter->sortFixturesByDependency($dependencyGraph);
+
         return $this->classResolver->resolveFixtureClasses($sortedFixtures);
     }
 }

@@ -2,13 +2,13 @@
 
 namespace App\Service\Currency;
 
-use App\EntityInterface\Currency\CurrencyInterface;
-use App\EntityInterface\Exchange\ExchangeRateInterface;
-use App\RepositoryInterface\Exchange\ExchangeRateRepositoryInterface;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Validator\ConstraintValidator;
-use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Validator\Constraint;
+use App\EntityInterface\Currency\CurrencyInterface;
+use Symfony\Component\Validator\ConstraintValidator;
+use App\EntityInterface\Exchange\ExchangeRateInterface;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use App\RepositoryInterface\Exchange\ExchangeRateRepositoryInterface;
 
 class UniqueCurrencyPairValidator extends ConstraintValidator
 {

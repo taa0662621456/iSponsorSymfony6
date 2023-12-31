@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Form\Vendor\TypeFromSylius;
-
-
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -17,8 +14,7 @@ final class UserResetPasswordType extends AbstractResourceType
                 'first_options' => ['label' => 'form.user.password.label'],
                 'second_options' => ['label' => 'form.user.password.confirmation'],
                 'invalid_message' => 'user.plainPassword.mismatch',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

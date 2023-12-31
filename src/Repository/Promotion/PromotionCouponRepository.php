@@ -2,10 +2,11 @@
 
 namespace App\Repository\Promotion;
 
-use App\Entity\Promotion\Promotion;
-use App\RepositoryInterface\Promotion\PromotionCouponRepositoryInterface;
-use App\Repository\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Promotion\Promotion;
+use App\Repository\EntityRepository;
+use App\RepositoryInterface\Promotion\PromotionCouponRepositoryInterface;
+
 /**
  * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
  * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
@@ -18,22 +19,21 @@ class PromotionCouponRepository extends EntityRepository implements PromotionCou
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.promotion = :promotionId')
-            ->setParameter('promotionId', $promotionId)
-        ;
+            ->setParameter('promotionId', $promotionId);
     }
 
     public function countByCodeLength(
         int $codeLength,
-        ?string $prefix = null,
-        ?string $suffix = null,
+        string $prefix = null,
+        string $suffix = null,
     ): int {
-        if ($prefix !== null) {
-            $codeLength += strlen($prefix);
+        if (null !== $prefix) {
+            $codeLength += \strlen($prefix);
         }
-        if ($suffix !== null) {
-            $codeLength += strlen($suffix);
+        if (null !== $suffix) {
+            $codeLength += \strlen($suffix);
         }
-        $codeTemplate = $prefix . '%' . $suffix;
+        $codeTemplate = $prefix.'%'.$suffix;
 
         return (int) $this->createQueryBuilder('o')
             ->select('COUNT(o.id)')
@@ -42,8 +42,7 @@ class PromotionCouponRepository extends EntityRepository implements PromotionCou
             ->setParameter('codeLength', $codeLength)
             ->setParameter('codeTemplate', $codeTemplate)
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
     }
 
     public function findOneByCodeAndPromotionCode(string $code, string $promotionCode): ?PromotionCouponInterface
@@ -55,8 +54,7 @@ class PromotionCouponRepository extends EntityRepository implements PromotionCou
             ->setParameter('promotionCode', $promotionCode)
             ->setParameter('code', $code)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function createPaginatorForPromotion(string $promotionCode): iterable
@@ -64,8 +62,7 @@ class PromotionCouponRepository extends EntityRepository implements PromotionCou
         $queryBuilder = $this->createQueryBuilder('o')
             ->leftJoin('o.promotion', 'promotion')
             ->where('promotion.code = :promotionCode')
-            ->setParameter('promotionCode', $promotionCode)
-        ;
+            ->setParameter('promotionCode', $promotionCode);
 
         return $this->getPaginator($queryBuilder);
     }

@@ -1,12 +1,6 @@
 <?php
 
-
 namespace App\Service\DataTransformer;
-
-
-
-
-
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
@@ -58,13 +52,7 @@ final class ProductTaxonToTaxonTransformer implements DataTransformerInterface
     private function assertTransformationValueType($value, string $expectedType): void
     {
         if (!($value instanceof $expectedType)) {
-            throw new TransformationFailedException(
-                sprintf(
-                    'Expected "%s", but got "%s"',
-                    $expectedType,
-                    get_debug_type($value),
-                ),
-            );
+            throw new TransformationFailedException(sprintf('Expected "%s", but got "%s"', $expectedType, get_debug_type($value)));
         }
     }
 }

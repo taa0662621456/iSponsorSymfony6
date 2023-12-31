@@ -2,12 +2,9 @@
 
 namespace App\Repository\Currency;
 
-use App\Entity\Coupon\Coupon;
-use App\Entity\Currency\Currency;
+use App\Repository\EntityRepository;
 use App\Entity\Currency\CurrencyExchange;
 use App\RepositoryInterface\Currency\CurrencyExchangeRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method CurrencyExchange|null find($id, $lockMode = null, $lockVersion = null)

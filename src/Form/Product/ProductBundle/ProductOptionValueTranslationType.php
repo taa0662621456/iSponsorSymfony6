@@ -1,9 +1,6 @@
 <?php
 
-
 namespace App\Form\Product\ProductBundle;
-
-
 
 use Symfony\Component\Form\FormBuilderInterface;
 
@@ -14,8 +11,7 @@ final class ProductOptionValueTranslationType extends AbstractResourceType
         $builder
             ->add('value', TextType::class, [
                 'label' => 'form.option_value.value',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

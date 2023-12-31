@@ -2,17 +2,13 @@
 
 namespace App\Repository\Review;
 
-use App\Entity\Product\ProductReview;
-use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
-use DateTime;
-use App\Repository\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\NoResultException;
+use App\Repository\EntityRepository;
+use App\Entity\Product\ProductReview;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Persistence\ManagerRegistry;
-use Exception;
-
+use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
 
 /**
  * @method ProductReview|null find($id, $lockMode = null, $lockVersion = null)
@@ -23,8 +19,8 @@ use Exception;
 class ProductReviewRepository extends EntityRepository implements ProductReviewRepositoryInterface
 {
     public const REVIEWS_PER_PAGE = 10;
-    public const DAYS_BEFORE_REJECTED_REMOVAL = '';
 
+    public const DAYS_BEFORE_REJECTED_REMOVAL = '';
 
     public function getReviewsPerPage(ProductReview $productReviews, int $offset): Paginator
     {
@@ -39,11 +35,10 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->getQuery();
 
         return new Paginator($qb);
-
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function deleteOldRejectedReviews()
     {
@@ -53,7 +48,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
-     * @throws Exception
+     * @throws \Exception
      */
     public function countOldRejected(): int
     {
@@ -61,7 +56,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getOldRejectedReviewsQueryBuilder(): QueryBuilder
     {
@@ -71,7 +66,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->setParameters([
                 'state_rejected' => 'rejected',
                 'state_spam' => 'spam',
-                'date' => new DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
+                'date' => new \DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
             ]);
     }
 }

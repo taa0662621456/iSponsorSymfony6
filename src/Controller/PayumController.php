@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
-use Payum\Core\Model\GatewayConfigInterface;
 use Payum\Core\Payum;
 use Payum\Core\Request\Generic;
-use Payum\Core\Request\GetStatusInterface;
-use Payum\Core\Security\GenericTokenFactoryInterface;
-use Payum\Core\Security\HttpRequestVerifierInterface;
 use Payum\Core\Security\TokenInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Payum\Core\Request\GetStatusInterface;
+use Payum\Core\Model\GatewayConfigInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
+use Payum\Core\Security\GenericTokenFactoryInterface;
+use Payum\Core\Security\HttpRequestVerifierInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 final class PayumController
 {

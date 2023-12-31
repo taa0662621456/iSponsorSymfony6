@@ -6,5 +6,4 @@ use App\ServiceInterface\Product\ProductVariantGeneratorServiceInterface;
 
 class ProductVariantGenerator implements ProductVariantGeneratorServiceInterface
 {
-
 }

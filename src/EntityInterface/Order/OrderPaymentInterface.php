@@ -23,5 +23,4 @@ interface OrderPaymentInterface
     public const ORDER_REFUND = 'refund';
 
     public const ORDER_COMPLETE = 'complete';
-
 }

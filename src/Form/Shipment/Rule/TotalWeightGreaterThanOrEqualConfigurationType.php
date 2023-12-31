@@ -1,14 +1,13 @@
 <?php
 
-
 namespace App\Form\Shipment\Rule;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\GreaterThan;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 final class TotalWeightGreaterThanOrEqualConfigurationType extends AbstractType
 {

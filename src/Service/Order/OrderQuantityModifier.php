@@ -3,10 +3,10 @@
 namespace App\Service\Order;
 
 use App\EntityInterface\Order\OrderItemInterface;
-use App\ServiceInterface\Order\OrderItemQuantityModifierServiceInterface;
 use App\FactoryInterface\Order\OrderItemUnitFactoryInterface;
+use App\ServiceInterface\Order\OrderQuantityModifierInterface;
 
-class OrderItemQuantityModifierService implements OrderItemQuantityModifierServiceInterface
+class OrderQuantityModifier implements OrderQuantityModifierInterface
 {
     public function __construct(private readonly OrderItemUnitFactoryInterface $orderItemUnitFactory)
     {
@@ -28,7 +28,7 @@ class OrderItemQuantityModifierService implements OrderItemQuantityModifierServi
 
     private function increaseUnitsNumber(OrderItemInterface $orderItem, int $increaseBy): void
     {
-        for ($i = 0; $i < $increaseBy; ++$i) {
+        for ($i = 0; $i < $increaseBy; $i++) {
             $this->orderItemUnitFactory->createForItem($orderItem);
         }
     }

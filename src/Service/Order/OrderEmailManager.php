@@ -2,13 +2,15 @@
 
 namespace App\Service\Order;
 
-use App\EntityInterface\Order\OrderEmailManagerInterface;
-use App\EntityInterface\Order\OrderInterface;
-use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
+use App\EntityInterface\Customer\CustomerInterface;
 use Webmozart\Assert\Assert;
+use App\EntityInterface\Order\OrderStorageInterface;
+use App\EntityInterface\Order\OrderEmailManagerInterface;
+use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 
 final class OrderEmailManager implements OrderEmailManagerInterface
 {
+
     public const CONTACT_REQUEST = 'contact_request';
 
     public const ORDER_CONFIRMATION = 'order_confirmation';
@@ -25,12 +27,11 @@ final class OrderEmailManager implements OrderEmailManagerInterface
 
     public const ACCOUNT_VERIFICATION_TOKEN = 'account_verification_token';
 
-
     public function __construct(private readonly SenderInterface $emailSender)
     {
     }
 
-    public function sendConfirmationEmail(OrderInterface $order): void
+    public function sendConfirmationEmail(OrderStorageInterface $order): void
     {
         /** @var CustomerInterface $customer */
         $customer = $order->getCustomer();

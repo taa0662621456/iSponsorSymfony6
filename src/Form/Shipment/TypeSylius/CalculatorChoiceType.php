@@ -1,17 +1,13 @@
 <?php
 
-
 namespace App\Form\Shipment\TypeSylius;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 final class CalculatorChoiceType extends AbstractType
 {
-    /**
-     * @param array $calculators
-     */
     public function __construct(private readonly array $calculators = [])
     {
     }
@@ -21,8 +17,7 @@ final class CalculatorChoiceType extends AbstractType
         $resolver
             ->setDefaults([
                 'choices' => array_flip($this->calculators),
-            ])
-        ;
+            ]);
     }
 
     public function getParent(): string

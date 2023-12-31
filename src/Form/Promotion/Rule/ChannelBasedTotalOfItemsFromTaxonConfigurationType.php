@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Form\Promotion\Rule;
-
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;

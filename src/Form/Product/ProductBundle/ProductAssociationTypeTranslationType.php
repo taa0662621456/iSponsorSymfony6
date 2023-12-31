@@ -3,9 +3,9 @@
 namespace App\Form\Product\ProductBundle;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class ProductAssociationTypeTranslationType extends AbstractType
 {
@@ -37,8 +37,7 @@ final class ProductAssociationTypeTranslationType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'form.product_association_type.name',
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

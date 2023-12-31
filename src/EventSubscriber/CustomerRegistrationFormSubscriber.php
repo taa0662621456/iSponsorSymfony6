@@ -2,14 +2,14 @@
 
 namespace App\EventSubscriber;
 
-use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
+use Webmozart\Assert\Assert;
 
-use App\Interface\Customer\CustomerInterface;
 use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Webmozart\Assert\Assert;
+use App\Interface\Customer\CustomerInterface;
+use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
 {

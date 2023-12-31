@@ -1,17 +1,16 @@
 <?php
 
-
 namespace App\Service\Setup;
 
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DatabaseSetupCommandsProvider
 {
@@ -50,7 +49,7 @@ final class DatabaseSetupCommandsProvider
         try {
             $schemaManager = $this->getSchemaManager();
 
-            return in_array($databaseName, $schemaManager->listDatabases());
+            return \in_array($databaseName, $schemaManager->listDatabases());
         } catch (\Exception $exception) {
             $message = $exception->getMessage();
 
@@ -102,7 +101,7 @@ final class DatabaseSetupCommandsProvider
      */
     private function isSchemaPresent(): bool
     {
-        return 0 !== count($this->getSchemaManager()->listTableNames());
+        return 0 !== \count($this->getSchemaManager()->listTableNames());
     }
 
     /**
@@ -125,7 +124,7 @@ final class DatabaseSetupCommandsProvider
         }
 
         if (method_exists($connection, 'getSchemaManager')) {
-            /** @psalm-suppress DeprecatedMethod */
+            /* @psalm-suppress DeprecatedMethod */
             return $connection->getSchemaManager();
         }
 

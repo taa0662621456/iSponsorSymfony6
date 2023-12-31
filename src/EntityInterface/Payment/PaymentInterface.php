@@ -4,6 +4,5 @@ namespace App\EntityInterface\Payment;
 
 interface PaymentInterface
 {
-
-    const STATE_CART = 'cart';
+    public const STATE_CART = 'cart';
 }

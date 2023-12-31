@@ -2,7 +2,6 @@
 
 namespace App\ServiceInterface\Cart;
 
-interface CartSessionServiceInterface
+interface CartSessionInterface
 {
-
 }

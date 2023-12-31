@@ -2,25 +2,26 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Order\OrderStorage;
-use App\Event\Order\OrderSubmitEvent;
 use App\Event\OrderEvent;
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\NoReturn;
 use JetBrains\PhpStorm\Pure;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Form\FormFactoryInterface;
+use JetBrains\PhpStorm\NoReturn;
+use App\Entity\Order\OrderStorage;
+use JetBrains\PhpStorm\ArrayShape;
+use App\Event\Order\OrderSubmitEvent;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class OrderSubscriber implements EventSubscriberInterface
 {
     #[NoReturn]
-    public function __construct(private readonly MailerInterface $mailer,
-                                private readonly ParameterBagInterface $params,
-                                private readonly FormFactoryInterface $formFactory)
-    {
+    public function __construct(
+        private readonly MailerInterface $mailer,
+        private readonly ParameterBagInterface $params,
+        private readonly FormFactoryInterface $formFactory
+    ) {
     }
 
     #[ArrayShape([

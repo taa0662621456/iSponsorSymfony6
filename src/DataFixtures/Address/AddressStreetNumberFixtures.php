@@ -2,25 +2,15 @@
 
 namespace App\DataFixtures\Address;
 
-
-
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
-use App\Entity\Address\Address;
-
-use App\Entity\Address\AddressStreetLine;
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 
 final class AddressStreetNumberFixtures extends DataFixtures
 {
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {

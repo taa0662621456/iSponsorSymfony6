@@ -13,15 +13,14 @@ class VendorIbanType extends AbstractType
     {
         $builder
             ->add('vendorIban')
-            ->add('iban')
-        ;
+            ->add('iban');
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-			'data_class'         => VendorIban::class,
-			'translation_domain' => 'vendor'
-		]);
+            'data_class' => VendorIban::class,
+            'translation_domain' => 'vendor',
+        ]);
     }
 }

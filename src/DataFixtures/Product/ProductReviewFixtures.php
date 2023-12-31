@@ -2,41 +2,16 @@
 
 namespace App\DataFixtures\Product;
 
-
-
-
-use App\DataFixtures\Category\CategoryAttachmentFixtures;
-use App\DataFixtures\Category\CategoryCategoryFixture;
-use App\DataFixtures\Category\CategoryEnGbFixtures;
-use App\DataFixtures\Category\CategoryFixtures;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use App\DataFixtures\DataFixtures;
-
+use Faker\Factory;
 
 use JetBrains\PhpStorm\NoReturn;
 
-use App\DataFixtures\Project\ProjectAttachmentFixtures;
-use App\DataFixtures\Project\ProjectEnGbFixtures;
-use App\DataFixtures\Project\ProjectPlatformRewardFixtures;
-use App\DataFixtures\Project\ProjectReviewFixtures;
-use App\DataFixtures\Project\ProjectTagFixtures;
-use App\DataFixtures\Project\ProjectTypeFixtures;
-use App\DataFixtures\Vendor\VendorDocumentFixtures;
-use App\DataFixtures\Vendor\VendorEnGbFixtures;
-use App\DataFixtures\Vendor\VendorFixtures;
-use App\DataFixtures\Vendor\VendorIbanFixtures;
-use App\DataFixtures\Vendor\VendorMediaFixtures;
-use App\DataFixtures\Vendor\VendorSecurityFixtures;
+use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
 final class ProductReviewFixtures extends DataFixtures
 {
-
-
     #[NoReturn]
     public function load(ObjectManager $manager, $property = [], $n = 1): void
     {
@@ -68,8 +43,6 @@ final class ProductReviewFixtures extends DataFixtures
             ->scalarNode('comment')->cannotBeEmpty()->end()
             ->scalarNode('author')->cannotBeEmpty()->end()
             ->scalarNode('product')->cannotBeEmpty()->end()
-            ->scalarNode('status')->end()
-        ;
+            ->scalarNode('status')->end();
     }
-
 }

@@ -3,14 +3,14 @@
 namespace App\Form\Product\ProductBundle;
 
 use App\Dto\Product\ProductVariantDTO;
-use App\EntityInterface\Product\ProductInterface;
-use App\EntityInterface\Product\ProductVariantInterface;
-use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\EntityInterface\Product\ProductInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\EntityInterface\Product\ProductVariantInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 
 final class ProductVariantChoiceType extends AbstractType
 {
@@ -36,8 +36,7 @@ final class ProductVariantChoiceType extends AbstractType
             ->setRequired([
                 'product',
             ])
-            ->setAllowedTypes('product', ProductInterface::class)
-        ;
+            ->setAllowedTypes('product', ProductInterface::class);
     }
 
     public function getParent(): string

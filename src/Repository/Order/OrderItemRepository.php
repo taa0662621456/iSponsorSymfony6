@@ -2,12 +2,11 @@
 
 namespace App\Repository\Order;
 
-
-
 use App\Entity\Order\OrderStorage;
+use App\Repository\EntityRepository;
 use App\EntityInterface\Order\OrderItemInterface;
 use App\RepositoryInterface\Order\OrderItemRepositoryInterface;
-use App\Repository\EntityRepository;
+
 /**
  * @method OrderStorage|null find($id, $lockMode = null, $lockVersion = null)
  * @method OrderStorage|null findOneBy(array $criteria, array $orderBy = null)
@@ -27,8 +26,7 @@ class OrderItemRepository extends EntityRepository implements OrderItemRepositor
             ->setParameter('id', $id)
             ->setParameter('cartId', $cartId)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 
     public function findOneByIdAndCartTokenValue($id, $tokenValue): ?OrderItemInterface
@@ -42,7 +40,6 @@ class OrderItemRepository extends EntityRepository implements OrderItemRepositor
             ->setParameter('id', $id)
             ->setParameter('tokenValue', $tokenValue)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

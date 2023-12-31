@@ -2,20 +2,21 @@
 
 namespace App\Form\Cart\Checkout;
 
-use App\EntityInterface\Address\AddressComparatorInterface;
-use App\Form\Customer\CustomerCheckoutGuestType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Webmozart\Assert\Assert;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
+use App\Form\Customer\CustomerCheckoutGuestType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Valid;
-use Webmozart\Assert\Assert;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\EntityInterface\Address\AddressComparatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 final class AddressType extends AbstractType
 {
     private ?AddressComparatorInterface $addressComparator;
+
     protected string $dataClass;
 
     /** @var string[] */
@@ -25,7 +26,7 @@ final class AddressType extends AbstractType
      * @param string   $dataClass        FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass = 'data_class', array $validationGroups = [], ?AddressComparatorInterface $addressComparator = null)
+    public function __construct(string $dataClass = 'data_class', array $validationGroups = [], AddressComparatorInterface $addressComparator = null)
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -43,9 +44,6 @@ final class AddressType extends AbstractType
         $this->addressComparator = $addressComparator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -69,16 +67,15 @@ final class AddressType extends AbstractType
                 $vendor = $order->getVendor();
 
                 $form
-                    ->add('shippingAddress', AddressType::class, [
+                    ->add('shippingAddress', self::class, [
                         'shippable' => true,
                         'constraints' => [new Valid()],
                         'channel' => $vendor,
                     ])
-                    ->add('billingAddress', AddressType::class, [
+                    ->add('billingAddress', self::class, [
                         'constraints' => [new Valid()],
                         'channel' => $vendor,
-                    ])
-                ;
+                    ]);
             })
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
@@ -103,9 +100,9 @@ final class AddressType extends AbstractType
                 $resourceCustomer = $resource->getCustomer();
 
                 if (
-                    (null === $customer && null === $resourceCustomer) ||
-                    (null !== $resourceCustomer && null === $resourceCustomer->getUser()) ||
-                    ($resourceCustomer !== $customer)
+                    (null === $customer && null === $resourceCustomer)
+                    || (null !== $resourceCustomer && null === $resourceCustomer->getUser())
+                    || ($resourceCustomer !== $customer)
                 ) {
                     $form->add('customer', CustomerCheckoutGuestType::class, ['constraints' => [new Valid()]]);
                 }
@@ -134,8 +131,7 @@ final class AddressType extends AbstractType
                 }
 
                 $event->setData($orderData);
-            })
-        ;
+            });
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -145,8 +141,7 @@ final class AddressType extends AbstractType
         $resolver
             ->setDefaults([
                 'customer' => null,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

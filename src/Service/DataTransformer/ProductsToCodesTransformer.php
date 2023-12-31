@@ -1,15 +1,13 @@
 <?php
 
-
 namespace App\Service\DataTransformer;
 
-use App\Repository\Product\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
-
-use Symfony\Component\Form\DataTransformerInterface;
 use Webmozart\Assert\Assert;
+use Doctrine\Common\Collections\Collection;
+use App\Repository\Product\ProductRepository;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Form\DataTransformerInterface;
 
 final class ProductsToCodesTransformer implements DataTransformerInterface
 {

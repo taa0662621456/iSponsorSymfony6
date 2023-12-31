@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 final class TokenUniquenessChecker
 {
     public function __construct(private $repository, private readonly string $tokenFieldName)

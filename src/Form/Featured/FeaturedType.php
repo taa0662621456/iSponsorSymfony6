@@ -17,8 +17,7 @@ class FeaturedType extends AbstractType
             ->add('projectFeatured')
             ->add('productFeatured')
             ->add('categoryFeatured')
-            ->add('vendorFeatured')
-        ;
+            ->add('vendorFeatured');
     }
 
     public function configureOptions(OptionsResolver $resolver)

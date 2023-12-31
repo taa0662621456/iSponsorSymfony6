@@ -1,18 +1,16 @@
 <?php
 
-
 namespace App\Form\Promotion\Rule;
 
-
 use App\Dto\Product\ProductDTO;
+use Symfony\Component\Form\AbstractType;
+use App\Service\ResourceIdentifierTransformer;
+use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Type;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use App\RepositoryInterface\Product\ProductRepositoryInterface;
 use App\Form\Product\ProductBundle\ProductAutocompleteChoiceType;
-use App\Service\ResourceIdentifierTransformer;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\ReversedTransformer;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Type;
 
 final class ProductConfiguratorType extends AbstractType
 {
@@ -30,8 +28,7 @@ final class ProductConfiguratorType extends AbstractType
                     new Type(['type' => 'string', 'groups' => ['isponsor']]),
                     'data_class' => ProductDTO::class,
                 ],
-            ])
-        ;
+            ]);
 
         $builder->get('product_code')->addModelTransformer(
             new ReversedTransformer(new ResourceIdentifierTransformer($this->productRepository, 'code')),

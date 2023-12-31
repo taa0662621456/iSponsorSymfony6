@@ -1,15 +1,8 @@
 <?php
 
-
 namespace App\DataFixtures\Shipment;
 
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
 use App\DataFixtures\DataFixtures;
-
-
-use JetBrains\PhpStorm\NoReturn;
 
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
@@ -36,8 +29,6 @@ final class ShipmentFixtures extends DataFixtures
                         ->variableNode('configuration')->end()
                     ->end()
                 ->end()
-                ->scalarNode('tax_category')->end()
-        ;
+                ->scalarNode('tax_category')->end();
     }
-
 }

@@ -2,11 +2,11 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\RepositoryInterface\Product\ProductRepositoryInterface;
-use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\RepositoryInterface\Product\ProductRepositoryInterface;
 
 final class ProductCodeChoiceType extends AbstractType
 {

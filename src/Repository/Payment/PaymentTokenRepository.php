@@ -2,10 +2,10 @@
 
 namespace App\Repository\Payment;
 
-
 use App\Entity\Payment\Payment;
-use App\RepositoryInterface\Payment\PaymentTokenRepositoryInterface;
 use App\Repository\EntityRepository;
+use App\RepositoryInterface\Payment\PaymentTokenRepositoryInterface;
+
 /**
  * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
  * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
@@ -14,5 +14,4 @@ use App\Repository\EntityRepository;
  */
 class PaymentTokenRepository extends EntityRepository implements PaymentTokenRepositoryInterface
 {
-
 }

@@ -2,11 +2,11 @@
 
 namespace App\Form\Product\ProductBundle;
 
-use App\EventSubscriber\AddCodeFormSubscriber;
-use App\EventSubscriber\Product\BuildProductVariantFormSubscriber;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use App\EventSubscriber\Product\BuildProductVariantFormSubscriber;
 
 final class ProductVariantType extends AbstractType
 {
@@ -21,8 +21,7 @@ final class ProductVariantType extends AbstractType
                 'entry_type' => ProductVariantTranslationType::class,
                 'label' => 'form.product_variant.translations',
             ])
-            ->addEventSubscriber(new AddCodeFormSubscriber())
-        ;
+            ->addEventSubscriber(new AddCodeFormSubscriber());
 
         $builder->addEventSubscriber(new BuildProductVariantFormSubscriber($builder->getFormFactory()));
     }

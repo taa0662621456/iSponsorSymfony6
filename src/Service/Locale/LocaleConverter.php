@@ -2,13 +2,14 @@
 
 namespace App\Service\Locale;
 
-use Symfony\Component\Intl\Exception\MissingResourceException;
-use Symfony\Component\Intl\Locales;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Intl\Locales;
+use Symfony\Component\Intl\Exception\MissingResourceException;
+use App\ServiceInterface\Locale\LocaleConverterInterface;
 
 final class LocaleConverter implements LocaleConverterInterface
 {
-    public function convertNameToCode(string $name, ?string $locale = null): string
+    public function convertNameToCode(string $name, string $locale = null): string
     {
         $names = Locales::getNames($locale ?? 'en');
         $code = array_search($name, $names, true);
@@ -18,7 +19,7 @@ final class LocaleConverter implements LocaleConverterInterface
         return $code;
     }
 
-    public function convertCodeToName(string $code, ?string $locale = null): string
+    public function convertCodeToName(string $code, string $locale = null): string
     {
         try {
             return Locales::getName($code, $locale ?? 'en');
@@ -27,4 +28,3 @@ final class LocaleConverter implements LocaleConverterInterface
         }
     }
 }
-

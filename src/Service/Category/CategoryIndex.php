@@ -4,6 +4,7 @@ namespace App\Service\Category;
 
 use App\Entity\Category\Category;
 use App\Entity\Category\CategoryEnGb;
+use App\Exception\CategoryNotFoundException;
 use Doctrine\Common\Collections\Criteria;
 use App\Repository\Category\CategoryRepository;
 
@@ -15,21 +16,23 @@ class CategoryIndex
     {
         $this->categoryRepository = $categoryRepository;
     }
+
     /**
-     * @return Category[]
      * @throws \Exception
+     *
+     * @return Category[]
      */
     public function getCategory(): array
     {
         return array_map(
-        /**
-         * @throws \Exception
-         */
-        fn ($category) => new Category(
+            /*
+             * @throws \Exception
+             */
+            fn ($category) => new Category(
                 $category->getId(),
                 $category->getTitle(),
                 $category->getSlug()
-        ),
+            ),
             $this->categoryRepository->findBy([], ['slug' => Criteria::ASC])
         );
     }
@@ -39,24 +42,23 @@ class CategoryIndex
         return (new Category())
             ->setId((int) $category->getId())
             ->setTitle($category->getCategoryEnGb()->getFirstTitle());
-//            ->setAuthor($category->getAuthor())
-//            ->setIsBestseller($category->isBestseller())
-//            ->setPrice($category->getPrice())
-//            ->setIsbn($category->getIsbn())
-//            ->setPublishedDate($category->getPublishedDate());
-
-
+        //            ->setAuthor($category->getAuthor())
+        //            ->setIsBestseller($category->isBestseller())
+        //            ->setPrice($category->getPrice())
+        //            ->setIsbn($category->getIsbn())
+        //            ->setPublishedDate($category->getPublishedDate());
     }
 
     /**
      * @return Category[]
+     *
      * @psalm-return array<Book>
      */
     public function getByCategoryId(int $id): array
     {
         $category = $this->categoryRepository->find($id);
         if (null === $category) {
-            throw new CategoryNotFoundException();
+            throw new \CategoryNotFoundException();
         }
 
         return array_map(
@@ -64,5 +66,4 @@ class CategoryIndex
             $this->categoryRepository->findBy(['category' => $category])
         );
     }
-
 }

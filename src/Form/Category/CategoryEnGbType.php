@@ -4,10 +4,10 @@ namespace App\Form\Category;
 
 use App\Dto\Category\CategoryUkUaDTO;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class CategoryEnGbType extends AbstractType
 {
@@ -15,7 +15,9 @@ class CategoryEnGbType extends AbstractType
     {
         $builder
             ->add(
-                'categoryName', TextType::class, [
+                'categoryName',
+                TextType::class,
+                [
                     'translation_domain' => 'category',
                     'label' => 'category.name.label',
                     'label_attr' => [
@@ -32,7 +34,9 @@ class CategoryEnGbType extends AbstractType
                 ]
             )
             ->add(
-                'slug', TextType::class, [
+                'slug',
+                TextType::class,
+                [
                     'translation_domain' => 'category',
                     'label' => 'category.slug.label',
                     'label_attr' => [
@@ -49,7 +53,9 @@ class CategoryEnGbType extends AbstractType
                 ]
             )
             ->add(
-                'categoryDesc', TextareaType::class, [
+                'categoryDesc',
+                TextareaType::class,
+                [
                     'translation_domain' => 'category',
                     'label' => 'category.desc.label',
                     'label_attr' => [
@@ -63,11 +69,10 @@ class CategoryEnGbType extends AbstractType
                         'autofocus' => false,
                     ],
                 ]
-            )
-            // ->add('metaDesc')
-            // ->add('metaKey')
-            // ->add('customTitle')
-        ;
+            );
+        // ->add('metaDesc')
+        // ->add('metaKey')
+        // ->add('customTitle')
     }
 
     public function configureOptions(OptionsResolver $resolver): void

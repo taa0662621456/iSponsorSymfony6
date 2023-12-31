@@ -3,9 +3,9 @@
 namespace App\Form\Cart;
 
 use Symfony\Component\Form\DataMapperInterface;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class CartItemType
 {
@@ -32,8 +32,7 @@ class CartItemType
                 'attr' => ['min' => 1],
                 'label' => 'ui.quantity',
             ])
-            ->setDataMapper($this->dataMapper)
-        ;
+            ->setDataMapper($this->dataMapper);
     }
 
     public function getBlockPrefix(): string

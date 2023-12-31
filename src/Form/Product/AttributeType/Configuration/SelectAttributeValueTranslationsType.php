@@ -2,8 +2,8 @@
 
 namespace App\Form\Product\AttributeType\Configuration;
 
-use App\EntityInterface\Locale\LocaleInterface;
 use Symfony\Component\Form\AbstractType;
+use App\EntityInterface\Locale\LocaleInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class SelectAttributeValueTranslationsType extends AbstractType

@@ -1,15 +1,12 @@
 <?php
 
-
 namespace App\EventListener\Listener_Sylius;
 
+use Imagine\Image\ImageInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
-use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
-
-
 
 /**
  * @internal
@@ -21,8 +18,8 @@ final class ImagesRemoveListener
 
     public function __construct(
         private readonly ImageUploaderInterface $imageUploader,
-        private readonly CacheManager           $cacheManager,
-        private readonly FilterManager          $filterManager,
+        private readonly CacheManager $cacheManager,
+        private readonly FilterManager $filterManager,
     ) {
     }
 
@@ -39,7 +36,7 @@ final class ImagesRemoveListener
                 continue;
             }
 
-            if (!in_array($path, $this->imagesToDelete, true)) {
+            if (!\in_array($path, $this->imagesToDelete, true)) {
                 $this->imagesToDelete[] = $path;
             }
         }

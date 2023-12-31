@@ -1,16 +1,14 @@
 <?php
 
-
 namespace App\Form\Vendor;
 
 use App\Entity\Vendor\Vendor;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class VendorProfileType extends AbstractType
 {
@@ -32,20 +30,18 @@ class VendorProfileType extends AbstractType
             ->add('vendorStateId')
             ->add('vendorCountryId')
             ->add('vendorZip')
-            ->add('sendEmail', EmailType::class, ['label' => 'sendEmail'] )
+            ->add('sendEmail', EmailType::class, ['label' => 'sendEmail'])
             ->add('registerDate')
             ->add('lastRequestDate')
             ->add('lastResetTime')
-            ->add('resetCount')
-
-        ;
+            ->add('resetCount');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-			'data_class'         => Vendor::class,
-			'translation_domain' => 'vendor'
-		]);
+            'data_class' => Vendor::class,
+            'translation_domain' => 'vendor',
+        ]);
     }
 }

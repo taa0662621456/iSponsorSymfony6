@@ -2,11 +2,12 @@
 
 namespace App\Repository\Product;
 
-use App\Entity\Product\ProductReview;
-use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
-use App\Repository\EntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
+use App\Repository\EntityRepository;
+use App\Entity\Product\ProductReview;
+use Doctrine\ORM\NonUniqueResultException;
+use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
+
 /**
  * @method ProductReview|null find($id, $lockMode = null, $lockVersion = null)
  * @method ProductReview|null findOneBy(array $criteria, array $orderBy = null)
@@ -28,8 +29,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findAcceptedByProductSlugAndVendor(string $slug, string $locale, VendorInterface $vendor): array
@@ -46,8 +46,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->setParameter('vendor', $vendor)
             ->setParameter('status', self::STATUS_ACCEPTED)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function createQueryBuilderByProductCode(string $locale, string $productCode): QueryBuilder
@@ -58,8 +57,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->andWhere('translation.locale = :locale')
             ->andWhere('product.code = :productCode')
             ->setParameter('locale', $locale)
-            ->setParameter('productCode', $productCode)
-        ;
+            ->setParameter('productCode', $productCode);
     }
 
     /**
@@ -74,7 +72,6 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->setParameter('productCode', $productCode)
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
 }

@@ -1,17 +1,15 @@
 <?php
 
-
 namespace App\Form\Product\ProductBundle;
 
-use App\Interface\Product\ProductOptionInterface;
-use Doctrine\Common\Collections\Collection;
-
-
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Exception\InvalidConfigurationException;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Webmozart\Assert\Assert;
+use Symfony\Component\Form\AbstractType;
+
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Form\FormBuilderInterface;
+use App\Interface\Product\ProductOptionInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Exception\InvalidConfigurationException;
 
 /**
  * This is special collection type, inspired by original 'collection' type
@@ -31,16 +29,14 @@ final class ProductOptionValueCollectionType extends AbstractType
 
         foreach ($options['options'] as $i => $option) {
             if (!$option instanceof ProductOptionInterface) {
-                throw new InvalidConfigurationException(
-                    sprintf('Each object passed as option list must implement "%s"', ProductOptionInterface::class),
-                );
+                throw new InvalidConfigurationException(sprintf('Each object passed as option list must implement "%s"', ProductOptionInterface::class));
             }
 
             $builder->add((string) $option->getCode(), ProductOptionValueChoiceType::class, [
                 'label' => $option->getName() ?: $option->getCode(),
                 'option' => $option,
                 'data' => $this->getDefaultDataOption($option, $options['data']),
-                'property_path' => '[' . $i . ']',
+                'property_path' => '['.$i.']',
                 'block_name' => 'entry',
             ]);
         }
@@ -51,8 +47,7 @@ final class ProductOptionValueCollectionType extends AbstractType
         $resolver
             ->setDefaults([
                 'options' => null,
-            ])
-        ;
+            ]);
     }
 
     public function getBlockPrefix(): string

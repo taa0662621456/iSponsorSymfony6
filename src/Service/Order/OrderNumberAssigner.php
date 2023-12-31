@@ -2,7 +2,9 @@
 
 namespace App\Service\Order;
 
-use App\EntityInterface\Order\OrderInterface;
+use App\EntityInterface\Order\OrderStorageInterface;
+use App\ServiceInterface\Order\OrderNumberAssignerInterface;
+use App\ServiceInterface\Order\OrderNumberGeneratorInterface;
 
 final class OrderNumberAssigner implements OrderNumberAssignerInterface
 {
@@ -10,7 +12,7 @@ final class OrderNumberAssigner implements OrderNumberAssignerInterface
     {
     }
 
-    public function assignNumber(OrderInterface $order): void
+    public function assignNumber(OrderStorageInterface $order): void
     {
         if (null !== $order->getNumber()) {
             return;

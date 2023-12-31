@@ -2,11 +2,11 @@
 
 namespace App\Service\Setup;
 
-use Symfony\Component\Console\Helper\QuestionHelper;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Intl\Currencies;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Intl\Exception\MissingResourceException;
 
 final class CurrencySetup implements CurrencySetupInterface
@@ -15,8 +15,8 @@ final class CurrencySetup implements CurrencySetupInterface
 
     public function __construct(
         private readonly RepositoryInterface $currencyRepository,
-        private readonly FactoryInterface    $currencyFactory,
-        string                               $currency = 'USD',
+        private readonly FactoryInterface $currencyFactory,
+        string $currency = 'USD',
     ) {
         $this->currency = trim($currency);
     }

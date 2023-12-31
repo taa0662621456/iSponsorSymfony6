@@ -1,11 +1,10 @@
 <?php
 
-
-namespace App\Form\Product\AttributeType;;
+namespace App\Form\Product\AttributeType;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 final class TextareaAttributeType extends AbstractType
 {
@@ -21,8 +20,7 @@ final class TextareaAttributeType extends AbstractType
                 'label' => false,
             ])
             ->setRequired('configuration')
-            ->setDefined('locale_code')
-        ;
+            ->setDefined('locale_code');
     }
 
     public function getBlockPrefix(): string
