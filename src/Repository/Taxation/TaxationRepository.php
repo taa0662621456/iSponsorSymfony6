@@ -2,10 +2,11 @@
 
 namespace App\Repository\Taxation;
 
+use App\EntityInterface\Taxation\TaxationInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Taxation\Taxation;
 use App\Repository\EntityRepository;
-use App\Interface\Taxation\TaxationInterface;
 
 use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 
@@ -47,17 +48,20 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
 
     public function findOneBySlug(string $slug, string $locale): ?TaxationInterface
     {
-        return $this->createQueryBuilder('o')
-            ->addSelect('translation')
-            ->innerJoin('o.translations', 'translation')
-            ->andWhere('o.enabled = :enabled')
-            ->andWhere('translation.slug = :slug')
-            ->andWhere('translation.locale = :locale')
-            ->setParameter('slug', $slug)
-            ->setParameter('locale', $locale)
-            ->setParameter('enabled', true)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->addSelect('translation')
+                ->innerJoin('o.translations', 'translation')
+                ->andWhere('o.enabled = :enabled')
+                ->andWhere('translation.slug = :slug')
+                ->andWhere('translation.locale = :locale')
+                ->setParameter('slug', $slug)
+                ->setParameter('locale', $locale)
+                ->setParameter('enabled', true)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findByName(string $name, string $locale): array

@@ -11,9 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 final class GatewayConfigurationType extends AbstractResourceType
 {
     public function __construct(
-        string $dataClass,
-        array $validationGroups,
-        private FormTypeRegistryInterface $gatewayConfigurationTypeRegistry,
+        string                                     $dataClass,
+        array                                      $validationGroups,
+        private readonly FormTypeRegistryInterface $gatewayConfigurationTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }

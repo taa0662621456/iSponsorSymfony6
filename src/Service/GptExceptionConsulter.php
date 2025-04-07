@@ -3,9 +3,15 @@
 namespace App\Service;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class GptExceptionConsulter
     {
@@ -18,27 +24,30 @@ class GptExceptionConsulter
             $this->gptApiUrl = $parameterBag->get('app_gpt_url');
         }
 
-    public function generateComment(string $className, string $exceptionMessage): string
+    #[NoReturn] public function generateComment(string $className, string $exceptionMessage): string
     {
         // Отправьте запрос к GPT-4 API, передав информацию о классе и сообщении об ошибке.
         $client = new Client();
-        $response = $client->post($this->gptApiUrl, [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'OpenAI-Organization' => 'org-hvb6xbYAKWtg3dtMXKeeAMQp'
-            ],
-            'json' => [
-                'model' => 'gpt-3.5-turbo',
-                'messages' => [
-                    [
-                        'role' => 'user',
-                        'content' => 'Вот новая ощибка' . $className . ' ' . $exceptionMessage,
-                    ],
+        try {
+            $response = $client->post($this->gptApiUrl, [
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->apiKey,
+                    'OpenAI-Organization' => 'org-hvb6xbYAKWtg3dtMXKeeAMQp',
                 ],
-                'temperature' => 0.7,
-            ],
-        ]);
+                'json' => [
+                    'model' => 'gpt-3.5-turbo',
+                    'messages' => [
+                        [
+                            'role' => 'user',
+                            'content' => 'Вот новая ощибка' . $className . ' ' . $exceptionMessage,
+                        ],
+                    ],
+                    'temperature' => 0.7,
+                ],
+            ]);
+        } catch (GuzzleException $e) {
+        }
 
         $data = json_decode($response->getBody(), true);
         $content = $data["choices"][0]["message"]["content"];
@@ -47,21 +56,27 @@ class GptExceptionConsulter
         return $data['comment'] ?? 'Не удалось получить комментарий от GPT-4 API.';
     }
 
-    public function generateText(string $errorDescription): string
+    #[NoReturn] public function generateText(string $errorDescription): string
     {
         $httpClient = HttpClient::create();
 
-        $response = $httpClient->request('POST', $this->gptApiUrl, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey,
-            ],
-            'json' => [
-                'prompt' => 'Решите следующую ошибку: ' . $errorDescription,
-            ],
-        ]);
+        try {
+            $response = $httpClient->request('POST', $this->gptApiUrl, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->apiKey,
+                ],
+                'json' => [
+                    'prompt' => 'Решите следующую ошибку: ' . $errorDescription,
+                ],
+            ]);
+        } catch (TransportExceptionInterface $e) {
+        }
 
         dd('$vars');
-        $data = $response->toArray();
+        try {
+            $data = $response->toArray();
+        } catch (ClientExceptionInterface|TransportExceptionInterface|ServerExceptionInterface|RedirectionExceptionInterface|DecodingExceptionInterface $e) {
+        }
         return $data['choices'][0]['text'] ?? 'Не удалось получить ответ от GPT-4 API.';
     }
 }

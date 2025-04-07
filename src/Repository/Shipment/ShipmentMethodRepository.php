@@ -2,10 +2,10 @@
 
 namespace App\Repository\Shipment;
 
+use App\EntityInterface\Vendor\VendorInterface;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Shipment\Shipment;
 use App\Repository\EntityRepository;
-use App\Interface\Vendor\VendorInterface;
 use App\RepositoryInterface\Shipment\ShipmentMethodRepositoryInterface;
 
 /**

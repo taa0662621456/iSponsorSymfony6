@@ -7,8 +7,8 @@ use Doctrine\Persistence\ObjectManager;
 class ReviewRatingUpdater implements ReviewableRatingUpdaterInterface
 {
     public function __construct(
-        private ReviewableRatingCalculatorInterface $averageRatingCalculator,
-        private ObjectManager $reviewSubjectManager,
+        private readonly ReviewableRatingCalculatorInterface $averageRatingCalculator,
+        private readonly ObjectManager                       $reviewSubjectManager,
     ) {
     }
 

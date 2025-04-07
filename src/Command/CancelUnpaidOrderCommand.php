@@ -23,7 +23,7 @@ class CancelUnpaidOrderCommand extends Command
         $expirationTime = $this->getApplication()->get('order.order_expiration_period');
         $output->writeln(sprintf(
             'Command will cancel orders that have been unpaid for <info>%s</info>.',
-            (string) $expirationTime,
+            $expirationTime,
         ));
 
         $unpaidCartsStateUpdater = $this->getApplication()->get('unpaid_order');

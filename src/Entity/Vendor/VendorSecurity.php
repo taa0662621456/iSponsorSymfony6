@@ -2,13 +2,17 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
+use DateTime;
+use Exception;
 use Faker\Factory;
 use App\Entity\OAuthTrait;
 use App\Entity\RootEntity;
+use LogicException;
+use Serializable;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\Service\ConfirmationCodeGenerator;
 use Symfony\Component\Validator\Constraints as Assert;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
@@ -17,22 +21,24 @@ use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+/**
+ * @property string $lastResetTime
+ */
 #[ORM\Index(columns: ['email', 'phone'], name: 'idx_email_phone')]
-#[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
 
 #[ORM\Entity]
-class VendorSecurity extends RootEntity implements ObjectInterface, \Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
+class VendorSecurity extends RootEntity implements ObjectInterface, Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
     use OAuthTrait;
 
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
     #[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
     private string $email;
 
     #[ORM\Column(name: 'phone', type: 'string', unique: false, nullable: true)]
-    private string $phone = '0 000 00 00';
+    private string $phone;
 
     #[ORM\Column(name: 'username', type: 'string', length: 255)]
     private string $username;
@@ -83,7 +89,7 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
     private string $salt = '0';
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
@@ -91,7 +97,7 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
 
         $faker = Factory::create();
 
-        $t = new \DateTime();
+        $t = new DateTime();
         $uuid = (string) Uuid::v4();
         $this->username = $uuid;
 
@@ -207,7 +213,7 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     public function isTotpAuthenticationEnabled(): bool
@@ -234,7 +240,7 @@ class VendorSecurity extends RootEntity implements ObjectInterface, \Serializabl
     public function getEmailAuthCode(): string
     {
         if (null === $this->otep) {
-            throw new \LogicException('The email authentication code was not set');
+            throw new LogicException('The email authentication code was not set');
         }
 
         return $this->otep;

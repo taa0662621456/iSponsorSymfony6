@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\HttpFoundation\Request;
+use function is_bool;
 
 class ProductUtilite
 {
@@ -30,7 +31,7 @@ class ProductUtilite
         if (isset($cookies['last-seen'])) {
             $productLspArray = json_decode($cookies['last-seen'], true);
 
-            if (\is_bool($productLspArray) && !empty($productLspArray)) {
+            if (is_bool($productLspArray) && !empty($productLspArray)) {
                 return true;
             }
         }

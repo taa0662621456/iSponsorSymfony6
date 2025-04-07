@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Vendor\VendorShipment;
 use App\RepositoryInterface\Customer\CustomerRepositoryInterface;
+use DateTimeInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 
 /**
  * @method VendorShipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,22 +18,28 @@ class CustomerRepository extends EntityRepository implements CustomerRepositoryI
 {
     public function countCustomer(): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('COUNT(o.id)')
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int)$this->createQueryBuilder('o')
+                ->select('COUNT(o.id)')
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
-    public function countCustomerPerPeriod(\DateTimeInterface $startDate, \DateTimeInterface $endDate): int
+    public function countCustomerPerPeriod(DateTimeInterface $startDate, DateTimeInterface $endDate): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('COUNT(o.id)')
-            ->where('o.createdAt >= :startDate')
-            ->andWhere('o.createdAt <= :endDate')
-            ->setParameter('startDate', $startDate)
-            ->setParameter('endDate', $endDate)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int)$this->createQueryBuilder('o')
+                ->select('COUNT(o.id)')
+                ->where('o.createdAt >= :startDate')
+                ->andWhere('o.createdAt <= :endDate')
+                ->setParameter('startDate', $startDate)
+                ->setParameter('endDate', $endDate)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
     public function findLatest(int $count): array

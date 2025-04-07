@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
@@ -18,6 +19,10 @@ abstract class RootEntity
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function __construct()
+    {
     }
 
 }

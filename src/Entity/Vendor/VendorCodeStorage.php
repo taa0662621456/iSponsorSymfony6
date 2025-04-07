@@ -2,10 +2,10 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Vendor\VendorCodeStorageInterface;
 
 #[ORM\Index(columns: ['phone'], name: 'sms_code_send_storage_idx')]
@@ -13,7 +13,7 @@ use App\EntityInterface\Vendor\VendorCodeStorageInterface;
 #[ORM\Entity]
 class VendorCodeStorage extends RootEntity implements ObjectInterface, VendorCodeStorageInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

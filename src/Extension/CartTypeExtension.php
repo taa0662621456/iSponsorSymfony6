@@ -6,13 +6,14 @@ namespace App\Extension;
 
 use App\Form\Cart\CartType;
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CartTypeExtension extends AbstractTypeExtension
 {
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('shippingAddress', AddressType::class)
@@ -28,7 +29,7 @@ final class CartTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setNormalizer('validation_groups', fn (Options $options, array $validationGroups) => function (FormInterface $form) use ($validationGroups) {
-            if ((bool) $form->get('promotionCoupon')->getNormData()) { // Validate the coupon if it was sent
+            if ($form->get('promotionCoupon')->getNormData()) { // Validate the coupon if it was sent
                 $validationGroups[] = 'promotion_coupon';
             }
 

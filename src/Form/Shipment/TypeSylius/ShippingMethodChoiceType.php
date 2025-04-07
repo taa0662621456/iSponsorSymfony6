@@ -2,18 +2,24 @@
 
 namespace App\Form\Shipment\TypeSylius;
 
+use App\EntityInterface\Shipment\ShipmentMethodInterface;
+use App\EntityInterface\Shipment\ShipmentSubjectInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
 use Ramsey\Uuid\Math\CalculatorInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormBuilderInterface;
-use App\Interface\Shipment\ShipmentSubjectInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 
+/**
+ * @property $calculators
+ * @property $repository
+ * @property $shippingMethodsResolver
+ */
 final class ShippingMethodChoiceType extends AbstractType
 {
     public function __construct(

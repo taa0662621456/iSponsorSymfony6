@@ -2,6 +2,7 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\EntityInterface\Customer\CustomerInterface;
 use Doctrine\ORM\UnitOfWork;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,7 +51,6 @@ final class DefaultUsernameORMListener
             $user->setUsername($customer->getEmail());
             $user->setUsernameCanonical($customer->getEmailCanonical());
 
-            /** @var ClassMetadata $userMetadata */
             $userMetadata = $entityManager->getClassMetadata($user::class);
             $unitOfWork->recomputeSingleEntityChangeSet($userMetadata, $user);
         }

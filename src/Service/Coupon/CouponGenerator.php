@@ -20,7 +20,6 @@ class CouponGenerator implements CouponGeneratorInterface
 
         $coupon = $this->couponRepository->createNew();
         $coupon->setCode($code);
-        // Здесь можно добавить дополнительную логику для настройки купона (например, установка скидки, условий использования и т.д.)
 
         $this->couponRepository->add($coupon);
 
@@ -29,10 +28,6 @@ class CouponGenerator implements CouponGeneratorInterface
 
     private function generateUniqueCode(): string
     {
-        // Генерация уникального кода купона
-        // Здесь можно использовать любой механизм генерации кода в соответствии с требованиями проекта
-
-        // В данном примере используется простая генерация случайного кода из чисел и букв
         return substr(md5(uniqid()), 0, 8);
     }
 }

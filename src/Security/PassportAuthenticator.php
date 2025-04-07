@@ -51,7 +51,7 @@ class PassportAuthenticator extends AbstractAuthenticator
         {
             var_dump('Ok');
             // TODO: Implement onAuthenticationSuccess() method.
-            return 'ok';
+            return null;
         }
 
         /**
@@ -64,7 +64,7 @@ class PassportAuthenticator extends AbstractAuthenticator
             var_dump('No Ok');
 
             // TODO: Implement onAuthenticationFailure() method.
-            return 'no ok';
+            return null;
         }
 
 

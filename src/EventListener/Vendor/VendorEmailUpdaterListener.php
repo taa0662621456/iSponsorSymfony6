@@ -2,11 +2,12 @@
 
 namespace App\EventListener\Vendor;
 
+use App\EntityInterface\Channel\ChannelContextInterface;
+use App\EntityInterface\Customer\CustomerInterface;
 use App\Event\VendorEvent;
+use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Webmozart\Assert\Assert;
 use App\Provider\FlashBagProvider;
-use App\Interface\CustomerInterface;
-use App\Interface\SecurityGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Core\User\UserInterface;

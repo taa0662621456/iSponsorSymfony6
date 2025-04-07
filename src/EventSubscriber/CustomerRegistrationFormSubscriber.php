@@ -2,12 +2,13 @@
 
 namespace App\EventSubscriber;
 
+use App\EntityInterface\Customer\CustomerInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use App\Interface\Customer\CustomerInterface;
 use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -26,7 +27,7 @@ final class CustomerRegistrationFormSubscriber implements EventSubscriberInterfa
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function preSubmit(FormEvent $event): void
     {

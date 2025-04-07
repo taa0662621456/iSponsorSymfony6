@@ -2,10 +2,10 @@
 
 namespace App\Entity\Order;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Order\OrderStatusInterface;
@@ -13,7 +13,7 @@ use App\EntityInterface\Order\OrderStatusInterface;
 #[ORM\Entity]
 class OrderStatus extends RootEntity implements ObjectInterface, OrderStatusInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'order')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -38,12 +38,14 @@ class OrderStatus extends RootEntity implements ObjectInterface, OrderStatusInte
     /**
      * @var ArrayCollection
      */
-    #[ORM\OneToMany(mappedBy: 'orderStorageStatus', targetEntity: OrderStorage::class)]
-    private Collection $orderStatusStorage;
+    #[ORM\OneToMany(mappedBy: 'orderStatus', targetEntity: OrderStorage::class)]
+    private Collection $orderStatus;
 
     public function __construct()
     {
         parent::__construct();
-        $this->orderStatusStorage = new ArrayCollection();
+        $this->orderStatus = new ArrayCollection();
     }
+
+
 }

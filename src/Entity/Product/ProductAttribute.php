@@ -2,10 +2,11 @@
 
 namespace App\Entity\Product;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductAttributeInterface;
 
 #[ORM\Entity]
@@ -27,7 +28,7 @@ class ProductAttribute extends RootEntity implements ObjectInterface, ProductAtt
 
     public const NUM_ITEMS = 10;
 
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -39,9 +40,9 @@ class ProductAttribute extends RootEntity implements ObjectInterface, ProductAtt
 
     private ?float $float;
 
-    private ?\DateTimeInterface $datetime;
+    private ?DateTimeInterface $datetime;
 
-    private ?\DateTimeInterface $date;
+    private ?DateTimeInterface $date;
 
     private ?array $json;
 }

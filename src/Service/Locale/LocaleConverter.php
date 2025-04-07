@@ -2,6 +2,7 @@
 
 namespace App\Service\Locale;
 
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Intl\Exception\MissingResourceException;
@@ -24,7 +25,7 @@ final class LocaleConverter implements LocaleConverterInterface
         try {
             return Locales::getName($code, $locale ?? 'en');
         } catch (MissingResourceException $e) {
-            throw new \InvalidArgumentException(sprintf('Cannot find name for "%s" locale code', $code), 0, $e);
+            throw new InvalidArgumentException(sprintf('Cannot find name for "%s" locale code', $code), 0, $e);
         }
     }
 }

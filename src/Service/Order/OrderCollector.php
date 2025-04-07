@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Service\Cart;
+namespace App\Service\Order;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\ServiceInterface\Cart\CartContextServiceInterface;
+use App\ServiceInterface\Cart\OrderContextInterface;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
+use Throwable;
 
 /**
  * @internal
  */
 final class OrderCollector extends DataCollector
 {
-    public function __construct(private readonly CartContextServiceInterface $cart)
+    public function __construct()
     {
         $this->data = [];
     }
 
-    public function hasCart(): bool
+    public function hasOrder(): bool
     {
         return [] !== $this->data;
     }
@@ -62,7 +63,7 @@ final class OrderCollector extends DataCollector
         return $this->data['states'];
     }
 
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    public function collect(Request $request, Response $response, Throwable $exception = null): void
     {
         //        try {
         //            /** @var OrderInterface $cart */
@@ -109,8 +110,8 @@ final class OrderCollector extends DataCollector
         $this->data = [];
     }
 
-    public function getName(): string
+    public function getName()
     {
-        return 'cart';
+        // TODO: Implement getName() method.
     }
 }

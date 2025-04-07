@@ -2,6 +2,7 @@
 
 namespace App\Service\Currency;
 
+use App\EntityInterface\Exchange\ExchangeRateInterface;
 use Webmozart\Assert\Assert;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -9,7 +10,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class DifferentSourceTargetCurrencyValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         /* @var DifferentSourceTargetCurrency $constraint */
         Assert::isInstanceOf($constraint, DifferentSourceTargetCurrency::class);

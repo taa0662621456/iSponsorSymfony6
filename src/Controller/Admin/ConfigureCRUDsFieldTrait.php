@@ -13,6 +13,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use function count;
 
 trait ConfigureCRUDsFieldTrait
 {
@@ -20,7 +22,7 @@ trait ConfigureCRUDsFieldTrait
     {
         $objectFqcn = $this->getEntityFqcn();
         $object = explode('\\', $objectFqcn);
-        $object2 = $object[\count($object) - 2];
+        $object2 = $object[count($object) - 2];
 
         $objectAssociationField = explode('\\', $objectFqcn);
         $objectAssociationField = end($object);

@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressProvinceCodeSelectorType extends AbstractType
 {
@@ -25,7 +26,7 @@ final class AddressProvinceCodeSelectorType extends AbstractType
         // $builder->addModelTransformer(new ReversedTransformer(new ResourceToIdentifierTransformer($this->addressProvinceRepository, 'code')));
     }
 
-    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => AddressProvinceDTO::class,

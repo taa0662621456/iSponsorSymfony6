@@ -12,10 +12,7 @@ final class FloatToStringPercentTransformer extends PercentToLocalizedStringTran
      *
      * @param string $value Percentage value
      *
-     * @throws TransformationFailedException if the given value is not a string or
-     *                                       if the value could not be transformed
-     *
-     * @return float Normalized value
+     * @return int|float|null Normalized value
      */
     public function reverseTransform(mixed $value): int|float|null
     {

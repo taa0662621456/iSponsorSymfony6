@@ -2,7 +2,9 @@
 
 namespace App\Exception\Doctrine\DataFixtures;
 
-class FixturesGroupNotFoundException extends \Exception
+use Exception;
+
+class FixturesGroupNotFoundException extends Exception
 {
     public function __construct(string $group)
     {

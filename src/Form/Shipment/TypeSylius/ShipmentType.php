@@ -2,6 +2,7 @@
 
 namespace App\Form\Shipment\TypeSylius;
 
+use App\EntityInterface\Shipment\ShipmentInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

@@ -12,6 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
+/**
+ * @property array $validationGroups
+ * @property $dataClass
+ */
 abstract class UserType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

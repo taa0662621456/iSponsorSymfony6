@@ -12,6 +12,9 @@ use App\EventSubscriber\Product\ProductOptionFieldSubscriber;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
 
+/**
+ * @property $attributeValueFactory
+ */
 final class ProductType extends AbstractType
 {
     /**

@@ -7,7 +7,7 @@ use Laminas\Stdlib\PriorityQueue;
 final class OrderProcessorCompositor
 {
     /**
-     * @var PriorityQueue|OrderProcessorInterface[]
+     * @var PriorityQueue
      *
      * @psalm-var PriorityQueue<OrderProcessorInterface>
      */

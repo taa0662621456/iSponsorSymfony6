@@ -3,6 +3,7 @@
 namespace App\Controller\Security;
 
 use App\Entity\Vendor\Vendor;
+use Exception;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,13 +16,13 @@ class CodeConfirmationController extends AbstractController
 {
     private ManagerRegistry $managerRegistry;
 
-    public function __constructor(ManagerRegistry $managerRegistry)
+    public function __constructor(ManagerRegistry $managerRegistry): void
     {
         $this->managerRegistry = $managerRegistry;
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/confirmation/code/{code}', name: 'confirmation_code')]
     public function confirmation(VendorSecurityRepository $vendorSecurityRepository, string $code): Response

@@ -2,13 +2,14 @@
 
 namespace App\Service\Product;
 
-use App\Interface\RepositoryInterface;
+use App\DataFixturesInterface\DataFixturesFactoryInterface;
+use App\EntityInterface\Product\ProductInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
 use App\RepositoryInterface\Product\ProductRepositoryInterface;
-use App\Interface\DataFixturesInterface\DataFixturesFactoryInterface;
 use App\RepositoryInterface\Product\ProductAssociationTypeRepositoryInterface;
+use function is_array;
 
 final class ProductsToProductAssociationsTransformer implements DataTransformerInterface
 {
@@ -46,7 +47,7 @@ final class ProductsToProductAssociationsTransformer implements DataTransformerI
 
     public function reverseTransform($value): ?Collection
     {
-        if (null === $value || '' === $value || !\is_array($value)) {
+        if ('' === $value || !is_array($value)) {
             return null;
         }
 
@@ -59,7 +60,6 @@ final class ProductsToProductAssociationsTransformer implements DataTransformerI
                 continue;
             }
 
-            /** @var ProductAssociationTypeRepositoryInterface $productAssociation */
             $productAssociation = $this->getProductAssociationByTypeCode($productAssociationTypeCode);
             $this->setAssociatedProductsByProductCodes($productAssociation, $productCodes);
             $productAssociations->add($productAssociation);

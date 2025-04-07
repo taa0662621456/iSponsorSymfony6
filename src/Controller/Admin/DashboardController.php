@@ -30,15 +30,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 class DashboardController extends AbstractDashboardController
 {
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     #[Route(path: '/easyadmin', name: 'easyadmin_index')]
     public function index(): Response
     {
-        return $this->render('admin/dashboard.html.twig', [
-            // Вставьте здесь данные и переменные, которые вы хотите отобразить на дефолтной странице
-        ]);
+        return $this->render('admin/dashboard.html.twig');
 //        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
 //        // Option 1. Make your dashboard redirect to the same page for all users
 //        return $this->redirect($adminUrlGenerator->setController(ProjectCrudController::class)->generateUrl());

@@ -2,6 +2,8 @@
 
 namespace App\EntityInterface\Promotion;
 
+use DateTime;
+
 interface PromotionCouponInterface
 {
     public function setCode(mixed $code);
@@ -12,5 +14,5 @@ interface PromotionCouponInterface
 
     public function setUsageLimit(mixed $usage_limit);
 
-    public function setExpiresAt(\DateTime $param);
+    public function setExpiresAt(DateTime $param);
 }

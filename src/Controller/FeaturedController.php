@@ -18,7 +18,7 @@ class FeaturedController extends AbstractController
 {
     private ManagerRegistry $managerRegistry;
 
-    public function __constructor(ManagerRegistry $managerRegistry)
+    public function __constructor(ManagerRegistry $managerRegistry): void
     {
         $this->managerRegistry = $managerRegistry;
     }

@@ -6,6 +6,7 @@ use Webmozart\Assert\Assert;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use App\Form\Product\AttributeType\SelectAttributeType;
+use function count;
 
 final class ValidSelectAttributeConfigurationValidator extends ConstraintValidator
 {
@@ -50,7 +51,7 @@ final class ValidSelectAttributeConfigurationValidator extends ConstraintValidat
             return;
         }
 
-        $numberOfChoices = \count($value->getConfiguration()['choices']);
+        $numberOfChoices = count($value->getConfiguration()['choices']);
         if (null !== $min && $min > $numberOfChoices) {
             $this->context->addViolation($constraint->messageMinEntries);
         }

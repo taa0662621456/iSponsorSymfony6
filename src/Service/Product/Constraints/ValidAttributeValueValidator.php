@@ -2,16 +2,16 @@
 
 namespace App\Service\Product\Constraints;
 
-use App\Interface\ServiceRegistryInterface;
+use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
 final class ValidAttributeValueValidator extends ConstraintValidator
 {
-    public function __construct(private readonly ServiceRegistryInterface $attributeTypeRegistry)
+    public function __construct()
     {
     }
 
-    public function validate($value, \Symfony\Component\Validator\Constraint $constraint): void
+    public function validate($value, Constraint $constraint): void
     {
         if (!$value instanceof AttributeValueInterface) {
             throw new UnexpectedTypeException($value::class, AttributeValueInterface::class);

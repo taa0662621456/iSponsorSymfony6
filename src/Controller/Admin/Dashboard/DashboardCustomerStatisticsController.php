@@ -6,6 +6,9 @@ use Twig\Environment;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 final class DashboardCustomerStatisticsController
 {
@@ -17,7 +20,11 @@ final class DashboardCustomerStatisticsController
     }
 
     /**
-     * @throws HttpException
+     * @param Request $request
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function renderAction(Request $request): Response
     {
@@ -26,14 +33,17 @@ final class DashboardCustomerStatisticsController
         /** @var null $customer */
         $customer = $this->customerRepository->find($customerId);
         if (null === $customer) {
-            throw new HttpException(Response::HTTP_BAD_REQUEST, sprintf('Customer with id %s doesn\'t exist.', (string) $customerId));
+            throw new HttpException(Response::HTTP_BAD_REQUEST, sprintf('Customer with id %s doesn\'t exist.', $customerId));
         }
 
         $customerStatistics = $this->statisticsProvider->getCustomerStatistics($customer);
 
-        return new Response($this->templatingEngine->render(
-            'dashboard/dashboard_customer_statistic.html.twig',
-            ['statistics' => $customerStatistics],
-        ));
+        try {
+            return new Response($this->templatingEngine->render(
+                'dashboard/dashboard_customer_statistic.html.twig',
+                ['statistics' => $customerStatistics],
+            ));
+        } catch (LoaderError|SyntaxError|RuntimeError $e) {
+        }
     }
 }

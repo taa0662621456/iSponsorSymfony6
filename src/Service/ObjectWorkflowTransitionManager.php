@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use Symfony\Component\Workflow\Registry;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 
 class ObjectWorkflowTransitionManager
 {

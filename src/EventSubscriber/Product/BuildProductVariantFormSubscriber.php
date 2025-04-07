@@ -2,11 +2,11 @@
 
 namespace App\EventSubscriber\Product;
 
+use App\EntityInterface\Product\ProductVariantInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
-use App\Interface\Product\ProductVariantInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use App\Form\Product\ProductBundle\ProductOptionValueCollectionType;
 

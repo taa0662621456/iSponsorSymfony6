@@ -13,7 +13,7 @@ class GenerateAllCommand extends Command
 {
     protected static $defaultName = 'app:generate-all';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Generate and Update Schema DB and Fixtures')
@@ -21,7 +21,7 @@ class GenerateAllCommand extends Command
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
         $update = $input->getArgument('update');

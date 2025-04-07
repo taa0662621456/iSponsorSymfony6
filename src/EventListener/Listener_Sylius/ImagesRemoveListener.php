@@ -7,6 +7,7 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PostFlushEventArgs;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
+use function in_array;
 
 /**
  * @internal
@@ -36,7 +37,7 @@ final class ImagesRemoveListener
                 continue;
             }
 
-            if (!\in_array($path, $this->imagesToDelete, true)) {
+            if (!in_array($path, $this->imagesToDelete, true)) {
                 $this->imagesToDelete[] = $path;
             }
         }

@@ -6,6 +6,7 @@ use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function in_array;
 
 final class ChannelFormSubscriber implements EventSubscriberInterface
 {
@@ -49,7 +50,7 @@ final class ChannelFormSubscriber implements EventSubscriberInterface
             return [$defaultLocale];
         }
 
-        if (!\in_array($defaultLocale, $locales)) {
+        if (!in_array($defaultLocale, $locales)) {
             $locales[] = $defaultLocale;
         }
 
@@ -67,7 +68,7 @@ final class ChannelFormSubscriber implements EventSubscriberInterface
             return [$baseCurrency];
         }
 
-        if (!\in_array($baseCurrency, $currencies)) {
+        if (!in_array($baseCurrency, $currencies)) {
             $currencies[] = $baseCurrency;
         }
 

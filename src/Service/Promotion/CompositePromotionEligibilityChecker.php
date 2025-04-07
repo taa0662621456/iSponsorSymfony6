@@ -2,6 +2,8 @@
 
 namespace App\Service\Promotion;
 
+use App\EntityInterface\Promotion\PromotionInterface;
+use App\ServiceInterface\Order\OrderDiscount\OrderDiscountRule\PromotionSubjectInterface;
 use Webmozart\Assert\Assert;
 
 final class CompositePromotionEligibilityChecker implements PromotionEligibilityCheckerInterface

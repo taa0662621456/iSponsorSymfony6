@@ -2,18 +2,20 @@
 
 namespace App\Entity\Payment;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Payum\Core\Security\CypherInterface;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentGatewayInterface;
+use function is_bool;
 
 #[ORM\Entity]
 class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatewayInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'payment')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -59,7 +61,7 @@ class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatew
         }
 
         foreach ($this->config as $name => $value) {
-            if ('encrypted' == $name || \is_bool($value)) {
+            if ('encrypted' == $name || is_bool($value)) {
                 $this->decryptedConfig[$name] = $value;
 
                 continue;
@@ -74,7 +76,7 @@ class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatew
         $this->decryptedConfig['encrypted'] = true;
 
         foreach ($this->decryptedConfig as $name => $value) {
-            if ('encrypted' == $name || \is_bool($value)) {
+            if ('encrypted' == $name || is_bool($value)) {
                 $this->config[$name] = $value;
 
                 continue;

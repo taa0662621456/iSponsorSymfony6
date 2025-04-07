@@ -2,14 +2,18 @@
 
 namespace App\Controller\Product;
 
+use App\EntityInterface\Product\ProductTaxationInterface;
 use Webmozart\Assert\Assert;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Interface\Product\ProductTaxationInterface;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function in_array;
 
+/**
+ * @property $repository
+ */
 #[AsController]
 class ProductTaxationController extends AbstractController
 {
@@ -22,7 +26,7 @@ class ProductTaxationController extends AbstractController
 
     private function shouldProductsPositionsBeUpdated(Request $request, ?array $productTaxon): bool
     {
-        return \in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'], true) && null !== $productTaxon;
+        return in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'], true) && null !== $productTaxon;
     }
 
     private function updatePositions(string $position, int $id): void

@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Service\ObjectInitializer;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -26,7 +29,7 @@ class HomepageController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/', name: 'homepage', requirements: ['_locale' => '^[a-z]{2}$', '_local_filter' => '^[a-z]{2}-[a-zA-Z]{2}$'], defaults: ['page' => 1, '_format' => 'html', '_locale' => '%app_locale%', '_local_filter' => '%app_locale_filter%'], methods: ['GET'])]
     #[Route(path: '/page/{page<[1-9]\d*>}', name: 'homepage_paginated', requirements: ['_locale' => '^[a-z]{2}$', '_local_filter' => '^[a-z]{2}$'], defaults: ['_format' => 'html', '_locale' => '%app_locale%', '_local_filter' => '%app_locale_filter%'], methods: ['GET'])]
@@ -65,8 +68,8 @@ class HomepageController extends AbstractController
             new Cookie(
                 'mercureAuthorisation',
                 $token,
-                (new \DateTime())
-                ->add(new \DateInterval('PT2H')),
+                (new DateTime())
+                ->add(new DateInterval('PT2H')),
                 '/.well-know/mercure',
                 null,
                 false,

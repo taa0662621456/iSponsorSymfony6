@@ -20,7 +20,10 @@ final class TaxationZoneCodeSelectorType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(new ReversedTransformer(new ResourceIdentifierTransformer($this->zoneRepository, 'code')));
+        try {
+            $builder->addModelTransformer(new ReversedTransformer(new ResourceIdentifierTransformer($this->zoneRepository, 'code')));
+        } catch (\ReflectionException $e) {
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

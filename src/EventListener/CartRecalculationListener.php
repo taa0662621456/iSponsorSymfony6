@@ -2,12 +2,13 @@
 
 namespace App\EventListener;
 
+use App\ServiceInterface\Order\OrderProcessorInterface;
+use TypeError;
 use Webmozart\Assert\Assert;
 use App\Event\Vendor\VendorEvent;
-use App\Interface\Cart\CartInterface;
-use App\Interface\Order\OrderInterface;
+use App\EntityInterface\Cart\CartInterface;
+use App\EntityInterface\Order\OrderInterface;
 use App\Exception\CartNotFoundException;
-use App\Interface\Order\OrderProcessorInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 final class CartRecalculationListener
@@ -22,7 +23,7 @@ final class CartRecalculationListener
     {
         /* @psalm-suppress DocblockTypeContradiction */
         if (!$event instanceof InteractiveLoginEvent && !$event instanceof VendorEvent) {
-            throw new \TypeError(sprintf('$event needs to be an instance of "%s" or "%s"', InteractiveLoginEvent::class, VendorEvent::class));
+            throw new TypeError(sprintf('$event needs to be an instance of "%s" or "%s"', InteractiveLoginEvent::class, VendorEvent::class));
         }
 
         try {

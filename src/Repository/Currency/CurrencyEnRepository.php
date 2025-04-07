@@ -4,7 +4,7 @@ namespace App\Repository\Currency;
 
 use App\Entity\Currency\Currency;
 use App\Repository\EntityRepository;
-use App\RepositoryInterface\Address\CurrencyEnRepositoryInterface;
+use App\RepositoryInterface\Currency\CurrencyEnRepositoryInterface;
 
 /**
  * @method Currency|null find($id, $lockMode = null, $lockVersion = null)

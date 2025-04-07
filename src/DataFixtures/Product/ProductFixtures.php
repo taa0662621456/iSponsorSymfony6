@@ -21,7 +21,10 @@ final class ProductFixtures extends DataFixtures
      */
     public function load(ObjectManager $manager, ?array $property = []): void
     {
-        $this->titleFixtureEngine('data/ProductDataFixtures/ProductDataFixtures.json');
+        try {
+            $this->titleFixtureEngine('data/ProductDataFixtures/ProductDataFixtures.json');
+        } catch (\Exception $e) {
+        }
 
         parent::load($manager, $property);
     }

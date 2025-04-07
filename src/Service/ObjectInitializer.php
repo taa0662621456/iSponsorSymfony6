@@ -5,6 +5,9 @@ namespace App\Service;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * @property $objectAttachment
+ */
 class ObjectInitializer
 {
     public function __construct(

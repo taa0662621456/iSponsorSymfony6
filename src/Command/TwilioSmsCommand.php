@@ -2,10 +2,13 @@
 
 namespace App\Command;
 
+use DateTime;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use function count;
 
 class TwilioSmsCommand extends ContainerAwareCommand
 {
@@ -17,16 +20,16 @@ class TwilioSmsCommand extends ContainerAwareCommand
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('myapp:sms')
             ->setDescription('Send reminder text message');
     }
 
     /**
-     * @throws \Twilio\Exceptions\TwilioException
+     * @throws TwilioException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $em = $this->getContainer()->get('doctrine');
         $userRepository = $em->getRepository('AppBundle:User');
@@ -34,7 +37,7 @@ class TwilioSmsCommand extends ContainerAwareCommand
 
         // For our app, we'll be sending reminders to everyone who has an appointment on this current day, shortly after midnight.
         // As such, the start and end times we'll be checking for will be 12:00am (00:00h) and 11:59pm (23:59h).
-        $start = new \DateTime();
+        $start = new DateTime();
         $start->setTime(00, 00);
         $end = clone $start;
         $end->modify('+1 days');
@@ -51,8 +54,8 @@ class TwilioSmsCommand extends ContainerAwareCommand
             ->getQuery()
             ->getResult();
 
-        if (\count($appointments) > 0) {
-            $output->writeln('SMSes to send: #'.\count($appointments));
+        if (count($appointments) > 0) {
+            $output->writeln('SMSes to send: #'. count($appointments));
             $sender = $this->getContainer()->getParameter('twilio_number');
 
             foreach ($appointments as $appoint) {

@@ -2,14 +2,14 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
-use App\Embeddable\Title\ObjectTitle;
+use App\Entity\Embeddable\ObjectProperty;
+use App\Entity\Embeddable\Object\ObjectTitle;
 use App\Entity\RootEntity;
+use App\EntityInterface\Object\ObjectTitleInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\VendorParameterTrait;
 use ApiPlatform\Metadata\ApiResource;
-use App\Interface\Object\ObjectInterface;
-use App\Interface\Object\ObjectTitleInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ApiResource(
@@ -32,13 +32,10 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[ORM\Entity]
 class VendorEnGb extends RootEntity implements ObjectInterface, ObjectTitleInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
     use VendorParameterTrait;
-
-    #[ORM\Embedded(class: "ObjectTitle")]
-    private ObjectTitle $vendorTitle;
 
     #[ORM\OneToOne(inversedBy: 'vendorEnGb', targetEntity: Vendor::class)]
     #[Ignore]

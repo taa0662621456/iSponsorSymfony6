@@ -5,7 +5,7 @@ namespace App\Service\Storage;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-final class StorageFilter implements FilterStorageInterface
+final class StorageFilter
 {
     public function __construct(private readonly SessionInterface|RequestStack $requestStackOrSession)
     {

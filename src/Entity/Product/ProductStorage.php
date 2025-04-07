@@ -2,16 +2,17 @@
 
 namespace App\Entity\Product;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductStorageInterface;
 
 #[ORM\Entity]
 class ProductStorage extends RootEntity implements ObjectInterface, ProductStorageInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -63,7 +64,7 @@ class ProductStorage extends RootEntity implements ObjectInterface, ProductStora
     public function __construct()
     {
         parent::__construct();
-        $t = new \DateTime();
+        $t = new DateTime();
         $this->productAvailableDate = $t->format('Y-m-d H:i:s');
     }
 }

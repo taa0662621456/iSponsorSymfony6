@@ -6,6 +6,7 @@ namespace App\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressTypeExtension extends AbstractTypeExtension

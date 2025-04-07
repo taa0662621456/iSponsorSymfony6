@@ -5,11 +5,15 @@ namespace App\Service\Setup;
 use App\ServiceInterface\Setup\DatabaseSetupCommandProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use function count;
+use function in_array;
 
 
 final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
@@ -20,11 +24,14 @@ final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
 
     public function getCommands(InputInterface $input, OutputInterface $output, QuestionHelper $questionHelper): array
     {
-        if (!$this->isDatabasePresent()) {
-            return [
-                'doctrine:database:create',
-                'doctrine:migrations:migrate' => ['--no-interaction' => true],
-            ];
+        try {
+            if (!$this->isDatabasePresent()) {
+                return [
+                    'doctrine:database:create',
+                    'doctrine:migrations:migrate' => ['--no-interaction' => true],
+                ];
+            }
+        } catch (Exception $e) {
         }
 
         return array_merge($this->setupDatabase($input, $output, $questionHelper), [
@@ -37,7 +44,7 @@ final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function isDatabasePresent(): bool
     {
@@ -46,8 +53,8 @@ final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
         try {
             $schemaManager = $this->getSchemaManager();
 
-            return \in_array($databaseName, $schemaManager->listDatabases());
-        } catch (\Exception $exception) {
+            return in_array($databaseName, $schemaManager->listDatabases());
+        } catch (Exception $exception) {
             $message = $exception->getMessage();
 
             $mysqlDatabaseError = str_contains($message, sprintf("Unknown database '%s'", $databaseName));
@@ -93,14 +100,22 @@ final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
         return [];
     }
 
+    /** @noinspection PhpInconsistentReturnPointsInspection */
     private function isSchemaPresent(): bool
     {
-        return 0 !== \count($this->getSchemaManager()->listTableNames());
+        try {
+            return 0 !== count($this->getSchemaManager()->listTableNames());
+        } catch (\Doctrine\DBAL\Exception $e) {
+        }
     }
 
+    /** @noinspection PhpInconsistentReturnPointsInspection */
     private function getDatabaseName(): string
     {
-        return $this->entityManager->getConnection()->getDatabase();
+        try {
+            return $this->entityManager->getConnection()->getDatabase();
+        } catch (\Doctrine\DBAL\Exception $e) {
+        }
     }
 
     private function getSchemaManager(): AbstractSchemaManager
@@ -108,14 +123,20 @@ final class DatabaseSetup implements DatabaseSetupCommandProviderInterface
         $connection = $this->entityManager->getConnection();
 
         if (method_exists($connection, 'createSchemaManager')) {
-            return $connection->createSchemaManager();
+            try {
+                return $connection->createSchemaManager();
+            } catch (\Doctrine\DBAL\Exception $e) {
+            }
         }
 
         if (method_exists($connection, 'getSchemaManager')) {
-            return $connection->createSchemaManager();
+            try {
+                return $connection->createSchemaManager();
+            } catch (\Doctrine\DBAL\Exception $e) {
+            }
         }
 
-        throw new \RuntimeException('Unable to get schema manager.');
+        throw new RuntimeException('Unable to get schema manager.');
     }
 
 

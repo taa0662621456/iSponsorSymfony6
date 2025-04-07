@@ -4,6 +4,7 @@ namespace App\DataFixtures\Project;
 
 use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
@@ -16,7 +17,7 @@ final class ProjectEnGbFixtures extends DataFixtures
      * @throws ServerExceptionInterface
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public function load(ObjectManager $manager, ?array $property = []): void
     {

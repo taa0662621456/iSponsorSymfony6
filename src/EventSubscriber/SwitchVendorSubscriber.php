@@ -9,7 +9,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class SwitchVendorSubscriber implements EventSubscriberInterface
 {
-    public function onSwitchVendor(SwitchUserEvent $event)
+    public function onSwitchVendor(SwitchUserEvent $event): void
     {
         $request = $event->getRequest();
 

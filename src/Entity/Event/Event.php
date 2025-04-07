@@ -2,10 +2,10 @@
 
 namespace App\Entity\Event;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Event\EventInterface;
 
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
@@ -15,7 +15,7 @@ use App\EntityInterface\Event\EventInterface;
 
 class Event extends RootEntity implements ObjectInterface, EventInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'event')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

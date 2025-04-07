@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin\Dashboard;
 
+use DateTime;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
@@ -27,8 +28,8 @@ final class DashboardStatisticsController
             'dashboard/dashboard.html.twig',
             $this->statisticsDataProvider->getRawData(
                 $channel,
-                (new \DateTime('first day of january this year')),
-                (new \DateTime('first day of january next year')),
+                (new DateTime('first day of january this year')),
+                (new DateTime('first day of january next year')),
                 'month',
             ),
         ));

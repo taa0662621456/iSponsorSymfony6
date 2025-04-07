@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function gettype;
 
 #[AsController]
 class ObjectCRUDsController extends AbstractController
@@ -280,9 +281,9 @@ class ObjectCRUDsController extends AbstractController
     #[Route(path: 'taxation/zone/edit/{slug}', name: 'taxation_edit_slug_zone', methods: ['GET', 'POST'])]
     #[Route(path: 'taxation/category/edit/{slug}', name: 'taxation_edit_slug_category', methods: ['GET', 'POST'])]
     #[Route(path: 'shipment/edit/{slug}', name: 'shipment_edit_slug', methods: ['GET', 'POST'])]
-    #[Route(path: 'shipment/category/edit/{slug}', name: 'shipment_edit_slug', methods: ['GET', 'POST'])]
+    #[Route(path: 'shipment/category/edit/{slug}', name: 'shipment_edit_slug_category', methods: ['GET', 'POST'])]
     #[Route(path: 'payment/edit/{slug}', name: 'payment_edit_slug', methods: ['GET', 'POST'])]
-    #[Route(path: 'payment/category/edit/{slug}', name: 'payment_edit_slug', methods: ['GET', 'POST'])]
+    #[Route(path: 'payment/category/edit/{slug}', name: 'payment_edit_slug_category', methods: ['GET', 'POST'])]
     #[Route(path: 'coupon/edit/{slug}', name: 'coupon_edit', methods: ['GET', 'POST'])]
     #[Route(path: 'currency/edit/{slug}', name: 'currency_edit', methods: ['GET', 'POST'])]
     #[Route(path: 'role/edit/{slug}', name: 'role_edit', methods: ['GET', 'POST'])]
@@ -366,7 +367,7 @@ class ObjectCRUDsController extends AbstractController
     public function delete(Request $request, int $id = null, string $slug = null): Response
     {
         $typeId = null ? $id : $slug;
-        $typeId = 'string' == \gettype($typeId) ? $this->objectInitializer->objectFindBySlug($slug) : $this->objectInitializer->objectFindById($id);
+        $typeId = 'string' == gettype($typeId) ? $this->objectInitializer->objectFindBySlug($slug) : $this->objectInitializer->objectFindById($id);
 
         if ($this->isCsrfTokenValid('delete'.$typeId, $request->get('_token'))) {
             $entityManager = $this->managerRegistry->getManager();

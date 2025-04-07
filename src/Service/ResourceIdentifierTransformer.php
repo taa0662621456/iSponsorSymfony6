@@ -4,11 +4,14 @@ namespace App\Service;
 
 use PHPUnit\Framework\Assert;
 use Doctrine\ORM\EntityManagerInterface;
+use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use App\RepositoryInterface\EntityRepositoryInterface;
 use Symfony\Component\Config\Resource\ResourceInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use function get_class;
 
 class ResourceIdentifierTransformer implements DataTransformerInterface
 {
@@ -19,14 +22,14 @@ class ResourceIdentifierTransformer implements DataTransformerInterface
     private string $identifier;
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct(EntityManagerInterface $entityManager, string $identifier = null, string $entityRepository = null)
     {
         $this->entityManager = $entityManager;
         $this->identifier = $identifier ?? 'id';
 
-        $reflection = new \ReflectionClass($entityRepository);
+        $reflection = new ReflectionClass($entityRepository);
         $repositoryClassName = str_replace('Interface', '', $reflection->getShortName());
         $repositoryNamespace = $reflection->getNamespaceName();
         $repositoryClass = $repositoryNamespace.'\\'.$repositoryClassName;
@@ -57,7 +60,7 @@ class ResourceIdentifierTransformer implements DataTransformerInterface
     /**
      * @param int|string|null $value
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function reverseTransform($value): ?ResourceInterface
     {
@@ -76,12 +79,12 @@ class ResourceIdentifierTransformer implements DataTransformerInterface
 
     private function getEntityClassName(): string
     {
-        return \get_class($this->entityRepository);
+        return get_class($this->entityRepository);
     }
 
     private function getEntityName(EntityRepositoryInterface $entityRepository): string
     {
-        $reflectionClass = new \ReflectionClass($entityRepository);
+        $reflectionClass = new ReflectionClass($entityRepository);
 
         return $reflectionClass->getShortName();
     }

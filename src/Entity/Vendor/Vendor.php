@@ -2,28 +2,30 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
-use App\Embeddable\Title\ObjectTitle;
-use App\Entity\Project\ProjectAttachment;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Order\OrderItem;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Featured\Featured;
 use App\Entity\Order\OrderStorage;
+use Exception;
 use JetBrains\PhpStorm\ArrayShape;
-use ApiPlatform\Metadata\ApiResource;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use App\EntityInterface\Vendor\VendorInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use JsonSerializable;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
+/**
+ * @property ArrayCollection $vendorItem
+ */
 #[ORM\Entity]
-class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \JsonSerializable
+class Vendor extends RootEntity implements ObjectInterface, VendorInterface, JsonSerializable
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]    private
- ObjectProperty $objectProperty;
+    #[ORM\Embedded(class: ObjectProperty::class)]
+    private ObjectProperty $objectProperty;
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
@@ -44,9 +46,6 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
 
     #[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['default' => 0, 'comment' => 'Require user to reset password on next login'])]
     private int|bool $requireReset = false;
-
-    #[ORM\Embedded(class: "ObjectTitle")]
-    private ObjectTitle $vendorTitle;
 
     #[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
@@ -89,11 +88,11 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorProfileCover;
 
-    #[ORM\OneToMany(mappedBy: 'orderStorageVendor', targetEntity: OrderStorage::class)]
+    #[ORM\OneToMany(mappedBy: 'orderVendor', targetEntity: OrderStorage::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorOrder;
 
-    #[ORM\OneToMany(mappedBy: 'orderItem', targetEntity: OrderItem::class)]
+    #[ORM\OneToMany(mappedBy: 'orderItemVendor', targetEntity: OrderItem::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorOrderItem;
 
@@ -121,7 +120,7 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, \Js
     private VendorProfile $vendorProfile;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {

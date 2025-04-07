@@ -5,6 +5,7 @@ namespace App\Repository\Vendor;
 use App\Repository\EntityRepository;
 use App\Entity\Vendor\VendorShipment;
 use App\RepositoryInterface\Vendor\VendorShipmentRepositoryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method VendorShipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +15,7 @@ use App\RepositoryInterface\Vendor\VendorShipmentRepositoryInterface;
  */
 class VendorShipmentRepository extends EntityRepository implements VendorShipmentRepositoryInterface
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, VendorShipment::class);
     }

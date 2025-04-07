@@ -14,6 +14,9 @@ final class AddressCountryCodeCollectionType extends AbstractType
     {
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new ReversedTransformer(new ResourceIdentifierTransformer($this->countryRepository, 'code')));

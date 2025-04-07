@@ -2,6 +2,8 @@
 
 namespace App\Service\DataTransformer;
 
+use App\EntityInterface\Product\ProductInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Doctrine\Common\Collections\Collection;
 use App\Repository\Product\ProductRepository;
@@ -16,7 +18,7 @@ final class ProductsToCodesTransformer implements DataTransformerInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function transform($value): Collection
     {
@@ -30,7 +32,7 @@ final class ProductsToCodesTransformer implements DataTransformerInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function reverseTransform($value): array
     {

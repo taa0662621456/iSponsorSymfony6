@@ -32,7 +32,7 @@ class RecursiveTransformer implements DataTransformerInterface
     }
 
     /** @param Collection|null $value */
-    public function reverseTransform($value): Collection
+    public function reverseTransform($value): ArrayCollection
     {
         if (null === $value) {
             return new ArrayCollection();

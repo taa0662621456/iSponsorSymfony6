@@ -2,6 +2,8 @@
 
 namespace App\Extension;
 
+use App\EntityInterface\Payment\PaymentMethodInterface;
+use App\Utils\StringInflector;
 use Payum\Core\Bridge\Symfony\Form\Type\GatewayConfigType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;

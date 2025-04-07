@@ -2,6 +2,9 @@
 
 namespace App\Form\Cart\Checkout;
 
+use App\EntityInterface\Address\AddressInterface;
+use App\EntityInterface\Customer\CustomerInterface;
+use App\EntityInterface\Vendor\VendorInterface;
 use Webmozart\Assert\Assert;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -12,6 +15,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\EntityInterface\Address\AddressComparatorInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use const E_USER_DEPRECATED;
 
 final class AddressType extends AbstractType
 {
@@ -37,7 +41,7 @@ final class AddressType extends AbstractType
                     'Not passing an $addressComparator to "%s" constructor is deprecated since Sylius 1.8 and will be impossible in Sylius 2.0.',
                     __CLASS__,
                 ),
-                \E_USER_DEPRECATED,
+                E_USER_DEPRECATED,
             );
         }
 

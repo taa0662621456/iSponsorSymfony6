@@ -2,10 +2,16 @@
 
 namespace App\Service\ThisPersonDoesNotExist;
 
+use Exception;
+use const CURLOPT_FILE;
+use const CURLOPT_FOLLOWLOCATION;
+use const CURLOPT_TIMEOUT;
+use const CURLOPT_USERAGENT;
+
 class ThisPersonDoesNotExistDownloader
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function profileAvatarDownloaderByURL(
         string $resource = 'https://www.thispersondoesnotexist.com/',
@@ -22,10 +28,10 @@ class ThisPersonDoesNotExistDownloader
         $fp = fopen($fullPath, 'w+');
         $ch = curl_init($resource);
 
-        curl_setopt($ch, \CURLOPT_FILE, $fp);
-        curl_setopt($ch, \CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, \CURLOPT_TIMEOUT, 1000);
-        curl_setopt($ch, \CURLOPT_USERAGENT, 'Mozilla/5.0');
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1000);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
         curl_exec($ch);
         curl_close($ch);
         fclose($fp);
@@ -34,7 +40,7 @@ class ThisPersonDoesNotExistDownloader
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function generateUniqueNumber(): string
     {

@@ -4,8 +4,6 @@ namespace App\DataFixtures\Vendor;
 
 
 use App\DataFixtures\DataFixtures;
-use App\Service\DataFixtures\RandomImagePicker;
-use App\Service\PicsumPhoto\PicsumPhotoDownloader;
 use Doctrine\Persistence\ObjectManager;
 
 final class VendorProfileCoverFixtures extends DataFixtures

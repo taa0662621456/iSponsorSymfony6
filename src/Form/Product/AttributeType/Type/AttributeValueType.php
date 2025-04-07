@@ -2,8 +2,9 @@
 
 namespace App\Form\Product\AttributeType\Type;
 
+use App\Form\Local\LocaleChoiceType;
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Form\FormEvent;
-use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\ReversedTransformer;

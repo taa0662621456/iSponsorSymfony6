@@ -16,9 +16,12 @@ final class ProductCodeChoiceType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(
-            new ReversedTransformer(new ResourceIdentifierTransformer($this->productRepository, 'code')),
-        );
+        try {
+            $builder->addModelTransformer(
+                new ReversedTransformer(new ResourceIdentifierTransformer($this->productRepository, 'code')),
+            );
+        } catch (\ReflectionException $e) {
+        }
     }
 
     public function getParent(): string

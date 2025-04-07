@@ -4,8 +4,12 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Collection;
+use ReflectionException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use function count;
+use function is_array;
+use const SORT_REGULAR;
 
 class EntityAssociationHydrator
 {
@@ -35,7 +39,7 @@ class EntityAssociationHydrator
      * @param mixed             $subjects          субъекты, для которых нужно выполнить гидратацию ассоциаций
      * @param iterable|string[] $associationsPaths пути к ассоциациям, которые нужно гидратировать
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function hydrateAssociations(mixed $subjects, iterable $associationsPaths): void
     {
@@ -50,7 +54,7 @@ class EntityAssociationHydrator
      * @param mixed  $subjects        субъекты, для которых нужно выполнить гидратацию ассоциации
      * @param string $associationPath путь к ассоциации, которую нужно гидратировать
      *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function hydrateAssociation(mixed $subjects, string $associationPath): void
     {
@@ -86,7 +90,7 @@ class EntityAssociationHydrator
             ->addSelect('associations')
             ->leftJoin("subject.$finalAssociation", 'associations')
             ->where('subject IN (:subjectIds)')
-            ->setParameter('subjectIds', array_unique($subjectIds, \SORT_REGULAR));
+            ->setParameter('subjectIds', array_unique($subjectIds, SORT_REGULAR));
 
         $query = $queryBuilder->getQuery();
         $query->getResult();
@@ -105,7 +109,7 @@ class EntityAssociationHydrator
             return $subject->toArray();
         }
 
-        if (!\is_array($subject)) {
+        if (!is_array($subject)) {
             return [$subject];
         }
 
@@ -124,6 +128,6 @@ class EntityAssociationHydrator
         $classMetadata = $this->entityManager->getClassMetadata($entity::class);
         $identifier = $classMetadata->getIdentifierValues($entity);
 
-        return 1 === \count($identifier) ? reset($identifier) : $identifier;
+        return 1 === count($identifier) ? reset($identifier) : $identifier;
     }
 }

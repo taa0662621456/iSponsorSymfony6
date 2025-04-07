@@ -2,18 +2,18 @@
 
 namespace App\Entity\Order;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Vendor\Vendor;
 use App\Entity\Product\Product;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Order\OrderItemInterface;
 
 #[ORM\Entity]
 class OrderItem extends RootEntity implements ObjectInterface, OrderItemInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'order')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -64,9 +64,9 @@ class OrderItem extends RootEntity implements ObjectInterface, OrderItemInterfac
 
     #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrderItem')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private Vendor $orderItem;
+    private Vendor $orderItemVendor;
 
-    #[ORM\ManyToOne(targetEntity: OrderStorage::class, inversedBy: 'orderStorageItem')]
+    #[ORM\ManyToOne(targetEntity: OrderStorage::class, inversedBy: 'orderItem')]
     private OrderStorage $orderItemStorage;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productOrdered')]
@@ -316,17 +316,17 @@ class OrderItem extends RootEntity implements ObjectInterface, OrderItemInterfac
     /**
      * @return Vendor
      */
-    public function getOrderItem(): Vendor
+    public function getOrderItemVendor(): Vendor
     {
-        return $this->orderItem;
+        return $this->orderItemVendor;
     }
 
     /**
-     * @param Vendor $orderItem
+     * @param Vendor $orderItemVendor
      */
-    public function setOrderItem(Vendor $orderItem): void
+    public function setOrderItemVendor(Vendor $orderItemVendor): void
     {
-        $this->orderItem = $orderItem;
+        $this->orderItemVendor = $orderItemVendor;
     }
 
     /**

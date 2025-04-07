@@ -4,7 +4,6 @@ namespace App\DataFixtures\Vendor;
 
 
 use App\DataFixtures\DataFixtures;
-use App\Service\DataFixtures\RandomImagePicker;
 use Doctrine\Persistence\ObjectManager;
 
 final class VendorProfileAvatarFixtures extends DataFixtures

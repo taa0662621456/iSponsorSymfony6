@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use const ENT_COMPAT;
+use const ENT_HTML5;
 
 #[AsController]
 class SearchController extends AbstractController
@@ -25,10 +27,10 @@ class SearchController extends AbstractController
         // TODO
         foreach ($found as $post) {
             $results[] = [
-                'title' => htmlspecialchars($projects->getProgectTitle(), \ENT_COMPAT | \ENT_HTML5),
+                'title' => htmlspecialchars($projects->getProgectTitle(), ENT_COMPAT | ENT_HTML5),
                 'date' => $post->getPublishedAt()->format('M d, Y'),
-                'author' => htmlspecialchars($post->getAuthor()->getFullName(), \ENT_COMPAT | \ENT_HTML5),
-                'summary' => htmlspecialchars($post->getSummary(), \ENT_COMPAT | \ENT_HTML5),
+                'author' => htmlspecialchars($post->getAuthor()->getFullName(), ENT_COMPAT | ENT_HTML5),
+                'summary' => htmlspecialchars($post->getSummary(), ENT_COMPAT | ENT_HTML5),
                 'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
             ];
         }

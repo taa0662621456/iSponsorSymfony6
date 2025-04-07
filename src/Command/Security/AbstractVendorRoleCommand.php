@@ -5,6 +5,9 @@ namespace App\Command\Security;
 use App\Command\User\UserInterface;
 use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,24 +16,26 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\User\UserInterface as VendorInterface;
 use Webmozart\Assert\Assert;
+use function count;
+use const FILTER_VALIDATE_EMAIL;
 
 abstract class AbstractVendorRoleCommand extends Command
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function interact(InputInterface $input, OutputInterface $output): void
     {
         $availableVendorType = $this->getAvailableVendorTypes();
         if (empty($availableVendorType)) {
-            throw new \Exception(sprintf('At least one user type should implement %s', VendorInterface::class));
+            throw new Exception(sprintf('At least one user type should implement %s', VendorInterface::class));
         }
 
         $helper = $this->getHelper('question');
         Assert::isInstanceOf($helper, QuestionHelper::class);
         if (!$input->getOption('user-type')) {
 
-            if (1 === \count($availableVendorType)) {
+            if (1 === count($availableVendorType)) {
                 $input->setOption('user-type', $availableVendorType[0]);
             } else {
                 $question = new ChoiceQuestion('Please enter the user type:', $availableVendorType, 1);
@@ -43,8 +48,8 @@ abstract class AbstractVendorRoleCommand extends Command
         if (!$input->getArgument('email')) {
             $question = new Question('Please enter an email:');
             $question->setValidator(function (?string $email) {
-                if (!filter_var($email, \FILTER_VALIDATE_EMAIL)) {
-                    throw new \RuntimeException('The email you entered is invalid.');
+                if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    throw new RuntimeException('The email you entered is invalid.');
                 }
 
                 return $email;
@@ -57,7 +62,7 @@ abstract class AbstractVendorRoleCommand extends Command
             $question = new Question('Please enter user\'s roles (separated by space):');
             $question->setValidator(function (?string $roles) {
                 if ('' === $roles) {
-                    throw new \RuntimeException('The value cannot be blank.');
+                    throw new RuntimeException('The value cannot be blank.');
                 }
 
                 return $roles;
@@ -89,7 +94,7 @@ abstract class AbstractVendorRoleCommand extends Command
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function findUserByEmail(string $email, string $userType): VendorInterface
     {
@@ -97,7 +102,7 @@ abstract class AbstractVendorRoleCommand extends Command
         $user = $this->getVendorRepository($userType)->findOneByEmail($email);
 
         if (null === $user) {
-            throw new \InvalidArgumentException(sprintf('Could not find user identified by email "%s"', $email));
+            throw new InvalidArgumentException(sprintf('Could not find user identified by email "%s"', $email));
         }
 
         return $user;
@@ -127,13 +132,13 @@ abstract class AbstractVendorRoleCommand extends Command
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function getUserModelClass(string $userType): string
     {
         $config = (array) $this->getContainer()->getParameter('user.users');
         if (empty($config[$userType]['user']['classes']['model'])) {
-            throw new \InvalidArgumentException(sprintf('User type %s misconfigured.', $userType));
+            throw new InvalidArgumentException(sprintf('User type %s misconfigured.', $userType));
         }
 
         return $config[$userType]['user']['classes']['model'];

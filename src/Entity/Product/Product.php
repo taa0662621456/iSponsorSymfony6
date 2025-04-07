@@ -2,13 +2,13 @@
 
 namespace App\Entity\Product;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Featured\Featured;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Product\ProductInterface;
@@ -21,7 +21,7 @@ class Product extends RootEntity implements ObjectInterface, ProductInterface
 {
     public const NUM_ITEMS = 10;
 
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -65,8 +65,7 @@ class Product extends RootEntity implements ObjectInterface, ProductInterface
     #[Ignore]
     private ProductProperty $productProperty;
 
-    #[ORM\ManyToMany(targetEntity: ProductTag::class, inversedBy: 'productTagProduct', cascade: ['persist'])]
-    #[ORM\OrderBy(['firstTitle' => 'ASC'])]
+    #[ORM\ManyToMany(targetEntity: ProductTag::class, inversedBy: 'productTag', cascade: ['persist'])]
     #[Assert\Count(max: 4, maxMessage: 'product.too_many_tags')]
     private Collection $productTag;
 

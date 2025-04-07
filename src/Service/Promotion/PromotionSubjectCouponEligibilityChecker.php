@@ -2,9 +2,12 @@
 
 namespace App\Service\Promotion;
 
+use App\EntityInterface\Promotion\PromotionInterface;
+use App\ServiceInterface\Order\OrderDiscount\OrderDiscountRule\PromotionSubjectInterface;
+
 final class PromotionSubjectCouponEligibilityChecker implements PromotionEligibilityCheckerInterface
 {
-    public function __construct(private PromotionCouponEligibilityCheckerInterface $promotionCouponEligibilityChecker)
+    public function __construct(private readonly PromotionCouponEligibilityCheckerInterface $promotionCouponEligibilityChecker)
     {
     }
 

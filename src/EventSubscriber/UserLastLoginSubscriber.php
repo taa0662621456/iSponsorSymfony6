@@ -3,12 +3,17 @@
 namespace App\EventSubscriber;
 
 use App\Event\VendorEvent;
+use DateTime;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use UnexpectedValueException;
 
+/**
+ * @property $userManager
+ */
 final class UserLastLoginSubscriber implements EventSubscriberInterface
 {
     public function __construct(private readonly string $userClass = 'data_class')
@@ -24,12 +29,12 @@ final class UserLastLoginSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $this->updateUserLastLogin($event->getAuthenticationToken()->getUser());
     }
 
-    public function onImplicitLogin(VendorEvent $event)
+    public function onImplicitLogin(VendorEvent $event): void
     {
         $this->updateUserLastLogin($event->getUser());
     }
@@ -41,10 +46,10 @@ final class UserLastLoginSubscriber implements EventSubscriberInterface
         }
 
         if (!$user instanceof UserInterface) {
-            throw new \UnexpectedValueException('In order to use this subscriber, your class has to implement UserInterface');
+            throw new UnexpectedValueException('In order to use this subscriber, your class has to implement UserInterface');
         }
 
-        $user->setLastLogin(new \DateTime());
+        $user->setLastLogin(new DateTime());
         $this->userManager->persist($user);
         $this->userManager->flush();
     }

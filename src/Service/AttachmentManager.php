@@ -38,8 +38,14 @@ class AttachmentManager
     }
 
     /**
+     * @param string|null $entity
+     * @param int|null $id
+     * @param string|null $slug
+     * @param int|null $createdBy
      * @param bool|true $published
-     *
+     * @param string|null $fileLayoutPosition
+     * @param string|null $fileClass
+     * @param string|null $fileLang
      * @return object[]
      */
     public function getAttachments(

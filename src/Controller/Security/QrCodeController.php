@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Endroid\QrCode\RoundBlockSizeMode\RoundBlockSizeModeMargin;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Endroid\QrCode\ErrorCorrectionLevel\ErrorCorrectionLevelHigh;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,6 +17,7 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInte
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleAuthenticatorTwoFactorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[AsController]
 class QrCodeController extends AbstractController

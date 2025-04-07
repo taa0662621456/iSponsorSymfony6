@@ -2,17 +2,17 @@
 
 namespace App\Entity\Product;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductPropertyInterface;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 #[ORM\Entity]
 class ProductProperty extends RootEntity implements ObjectInterface, ProductPropertyInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

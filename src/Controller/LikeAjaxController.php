@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Product\ProductFavourite;
+use DateTime;
+use Exception;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use function is_object;
 
 /**
  * Class AjaxController.
@@ -25,7 +28,7 @@ class LikeAjaxController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/project', name: 'project_like', methods: ['POST'])]
     public function like(Request $request): JsonResponse
@@ -36,9 +39,9 @@ class LikeAjaxController extends AbstractController
         $productId = $request->request->getInt('product_id');
         $product = $productRepository->find($productId);
         $user = $this->getUser();
-        if (!\is_object($product)) {
+        if (!is_object($product)) {
             return $this->returnErrorJson('productnotfound');
-        } elseif (!\is_object($user)) {
+        } elseif (!is_object($user)) {
             return $this->returnErrorJson('mustberegistered');
         }
         $favoriteRecord = $favouritesRepository->findOneBy([
@@ -46,11 +49,11 @@ class LikeAjaxController extends AbstractController
             'product' => $product,
         ]);
         $liked = false;
-        if (!\is_object($favoriteRecord)) {
+        if (!is_object($favoriteRecord)) {
             $favoriteRecord = new ProductFavourite(); // add like
             $favoriteRecord->setUser($this->getUser());
             $favoriteRecord->setProduct($product);
-            $favoriteRecord->setDate(new \DateTime());
+            $favoriteRecord->setDate(new DateTime());
             $em->persist($favoriteRecord);
             $liked = true;
         } else {

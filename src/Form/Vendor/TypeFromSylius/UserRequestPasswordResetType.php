@@ -2,6 +2,7 @@
 
 namespace App\Form\Vendor\TypeFromSylius;
 
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class UserRequestPasswordResetType extends AbstractResourceType

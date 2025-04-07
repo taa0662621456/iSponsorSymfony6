@@ -2,11 +2,11 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Vendor\VendorFavouriteInterface;
@@ -15,7 +15,7 @@ use App\EntityInterface\Vendor\VendorFavouriteInterface;
 #[ORM\Entity]
 class VendorFavourite extends RootEntity implements ObjectInterface, VendorFavouriteInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

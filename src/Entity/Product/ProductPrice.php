@@ -2,16 +2,17 @@
 
 namespace App\Entity\Product;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Product\ProductPriceInterface;
 
 #[ORM\Entity]
 class ProductPrice extends RootEntity implements ObjectInterface, ProductPriceInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'product')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -41,10 +42,10 @@ class ProductPrice extends RootEntity implements ObjectInterface, ProductPriceIn
     private ?int $productCurrency = null;
 
     #[ORM\Column(name: 'product_price_publish_up', type: 'datetime', nullable: false)]
-    private ?\DateTimeInterface $productPricePublishUp = null;
+    private ?DateTimeInterface $productPricePublishUp = null;
 
     #[ORM\Column(name: 'product_price_publish_down', type: 'datetime', nullable: false)]
-    private ?\DateTimeInterface $productPricePublishDown;
+    private ?DateTimeInterface $productPricePublishDown;
 
     #[ORM\Column(name: 'price_quantity_start', type: 'integer', nullable: false, options: ['default' => 0])]
     private int $priceQuantityStart = 0;

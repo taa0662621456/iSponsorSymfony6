@@ -2,6 +2,8 @@
 
 namespace App\Repository\Order;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Project\Project;
 
@@ -22,12 +24,14 @@ use App\EntityInterface\Customer\CustomerInterface;
 use Symfony\Component\Console\Exception\LogicException;
 use App\EntityInterface\Promotion\PromotionCouponInterface;
 use App\RepositoryInterface\Order\OrderItemRepositoryInterface;
+use function count;
 
 /**
  * @method OrderStorage|null find($id, $lockMode = null, $lockVersion = null)
  * @method OrderStorage|null findOneBy(array $criteria, array $orderBy = null)
  * @method OrderStorage[]    findAll()
  * @method OrderStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @property mixed $workflow
  */
 class OrderRepository extends EntityRepository implements OrderItemRepositoryInterface
 {
@@ -97,15 +101,18 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function findOneForPayment($id): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->addSelect('payments')
-            ->addSelect('paymentMethods')
-            ->leftJoin('o.payments', 'payments')
-            ->leftJoin('payments.method', 'paymentMethods')
-            ->andWhere('o.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->addSelect('payments')
+                ->addSelect('paymentMethods')
+                ->leftJoin('o.payments', 'payments')
+                ->leftJoin('payments.method', 'paymentMethods')
+                ->andWhere('o.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     /**
@@ -136,85 +143,103 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function countByCustomer(CustomerInterface $customer): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('COUNT(o.id)')
-            ->andWhere('o.customer = :customer')
-            ->andWhere('o.state NOT IN (:states)')
-            ->setParameter('customer', $customer)
-            ->setParameter('states', [OrderStorageInterface::STATE_CART, OrderStorageInterface::STATE_CANCELLED])
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int)$this->createQueryBuilder('o')
+                ->select('COUNT(o.id)')
+                ->andWhere('o.customer = :customer')
+                ->andWhere('o.state NOT IN (:states)')
+                ->setParameter('customer', $customer)
+                ->setParameter('states', [OrderStorageInterface::STATE_CART, OrderStorageInterface::STATE_CANCELLED])
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
     public function findOneByNumberAndCustomer(string $number, CustomerInterface $customer): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.customer = :customer')
-            ->andWhere('o.number = :number')
-            ->setParameter('customer', $customer)
-            ->setParameter('number', $number)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.customer = :customer')
+                ->andWhere('o.number = :number')
+                ->setParameter('customer', $customer)
+                ->setParameter('number', $number)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findCartByChannel($id, VendorInterface $vendor): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.id = :id')
-            ->andWhere('o.state = :state')
-            ->andWhere('o.vendor = :vendor')
-            ->setParameter('id', $id)
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('vendor', $vendor)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.id = :id')
+                ->andWhere('o.state = :state')
+                ->andWhere('o.vendor = :vendor')
+                ->setParameter('id', $id)
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('vendor', $vendor)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findLatestCartByChannelAndCustomer(VendorInterface $vendor, CustomerInterface $customer): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state = :state')
-            ->andWhere('o.vendor = :vendor')
-            ->andWhere('o.customer = :customer')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('vendor', $vendor)
-            ->setParameter('customer', $customer)
-            ->addOrderBy('o.createdAt', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state = :state')
+                ->andWhere('o.vendor = :vendor')
+                ->andWhere('o.customer = :customer')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('vendor', $vendor)
+                ->setParameter('customer', $customer)
+                ->addOrderBy('o.createdAt', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findLatestNotEmptyCartByChannelAndCustomer(
         VendorInterface $vendor,
         CustomerInterface $customer,
     ): ?OrderStorageInterface {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state = :state')
-            ->andWhere('o.vendor = :vendor')
-            ->andWhere('o.customer = :customer')
-            ->andWhere('o.items IS NOT EMPTY')
-            ->andWhere('o.createdByGuest = :createdByGuest')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('vendor', $vendor)
-            ->setParameter('customer', $customer)
-            ->setParameter('createdByGuest', false)
-            ->addOrderBy('o.createdAt', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state = :state')
+                ->andWhere('o.vendor = :vendor')
+                ->andWhere('o.customer = :customer')
+                ->andWhere('o.items IS NOT EMPTY')
+                ->andWhere('o.createdByGuest = :createdByGuest')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('vendor', $vendor)
+                ->setParameter('customer', $customer)
+                ->setParameter('createdByGuest', false)
+                ->addOrderBy('o.createdAt', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function getTotalSalesForChannel(VendorInterface $vendor): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('SUM(o.total)')
-            ->andWhere('o.vendor = :vendor')
-            ->andWhere('o.state = :state')
-            ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int)$this->createQueryBuilder('o')
+                ->select('SUM(o.total)')
+                ->andWhere('o.vendor = :vendor')
+                ->andWhere('o.state = :state')
+                ->setParameter('vendor', $vendor)
+                ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
     public function getTotalPaidSalesForChannel(VendorInterface $vendor, WorkflowInterface $workflow): int
@@ -249,8 +274,8 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function getTotalPaidSalesForChannelInPeriod(
         VendorInterface $vendor,
-        \DateTimeInterface $startDate,
-        \DateTimeInterface $endDate,
+        DateTimeInterface $startDate,
+        DateTimeInterface $endDate,
         WorkflowInterface $workflow
     ): int {
         try {
@@ -285,14 +310,17 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function countFulfilledByChannel(VendorInterface $vendor): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('COUNT(o.id)')
-            ->andWhere('o.vendor = :vendor')
-            ->andWhere('o.state = :state')
-            ->setParameter('vendor', $vendor)
-            ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int)$this->createQueryBuilder('o')
+                ->select('COUNT(o.id)')
+                ->andWhere('o.vendor = :vendor')
+                ->andWhere('o.state = :state')
+                ->setParameter('vendor', $vendor)
+                ->setParameter('state', OrderStorageInterface::STATE_FULFILLED)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
     public function countPaidByChannel(VendorInterface $vendor): int
@@ -304,23 +332,26 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.vendor = :vendor')
             ->andWhere('o.paymentState = :state')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', $this->getPaymentStateByName('paid'));
+            ->setParameter('state', $this->getPaymentStateByName());
 
         // Добавляем workflow-фильтр для состояния заказа
         $queryBuilder->andWhere('o.workflowPlace = :workflowPlace')
-            ->setParameter('workflowPlace', $this->getWorkflowPlaceByName('paid'));
+            ->setParameter('workflowPlace', $this->getWorkflowPlaceByName());
 
-        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+        try {
+            return (int)$queryBuilder->getQuery()->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
-    private function getPaymentStateByName(string $name): int
+    private function getPaymentStateByName(): int
     {
         // Здесь нужно реализовать логику для получения ID состояния по его имени из YAML-файла
         // Возвращаем ID состояния или выбрасываем исключение, если состояние не найдено
         return 0;
     }
 
-    private function getWorkflowPlaceByName(string $name): string
+    private function getWorkflowPlaceByName(): string
     {
         // Здесь нужно реализовать логику для получения названия места в workflow по его имени из YAML-файла
         // Возвращаем название места или выбрасываем исключение, если место не найдено
@@ -329,8 +360,8 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function countPaidForChannelInPeriod(
         VendorInterface $vendor,
-        \DateTimeInterface $startDate,
-        \DateTimeInterface $endDate,
+        DateTimeInterface $startDate,
+        DateTimeInterface $endDate,
     ): int {
         $queryBuilder = $this->createQueryBuilder('o');
 
@@ -341,15 +372,18 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->andWhere('o.checkoutCompletedAt >= :startDate')
             ->andWhere('o.checkoutCompletedAt <= :endDate')
             ->setParameter('vendor', $vendor)
-            ->setParameter('state', $this->getPaymentStateByName('paid'))
+            ->setParameter('state', $this->getPaymentStateByName())
             ->setParameter('startDate', $startDate)
             ->setParameter('endDate', $endDate);
 
         // Добавляем workflow-фильтр для состояния заказа
         $queryBuilder->andWhere('o.workflowPlace = :workflowPlace')
-            ->setParameter('workflowPlace', $this->getWorkflowPlaceByName('paid'));
+            ->setParameter('workflowPlace', $this->getWorkflowPlaceByName());
 
-        return (int) $queryBuilder->getQuery()->getSingleScalarResult();
+        try {
+            return (int)$queryBuilder->getQuery()->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
     public function findLatestInChannel(int $count, VendorInterface $vendor): array
@@ -365,7 +399,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->getResult();
     }
 
-    public function findOrdersUnpaidSince(\DateTimeInterface $date): array
+    public function findOrdersUnpaidSince(DateTimeInterface $date): array
     {
         try {
             $orders = $this->createQueryBuilder('o')
@@ -393,48 +427,60 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
     public function findCartForSummary($id): void
     {
         /** @var OrderStorageInterface $order */
-        $order = $this->createQueryBuilder('o')
-            ->andWhere('o.id = :id')
-            ->andWhere('o.state = :state')
-            ->setParameter('id', $id)
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            $order = $this->createQueryBuilder('o')
+                ->andWhere('o.id = :id')
+                ->andWhere('o.state = :state')
+                ->setParameter('id', $id)
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
 
-        $this->entityAssociationHydrator->hydrateAssociations($order, [
-            'adjustments',
-            'items',
-            'items.adjustments',
-            'items.units',
-            'items.units.adjustments',
-            'items.variant',
-            'items.variant.optionValues',
-            'items.variant.optionValues.translations',
-            'items.variant.product',
-            'items.variant.product.translations',
-            'items.variant.product.images',
-            'items.variant.product.options',
-            'items.variant.product.options.translations',
-        ]);
+        try {
+            $this->entityAssociationHydrator->hydrateAssociations($order, [
+                'adjustments',
+                'items',
+                'items.adjustments',
+                'items.units',
+                'items.units.adjustments',
+                'items.variant',
+                'items.variant.optionValues',
+                'items.variant.optionValues.translations',
+                'items.variant.product',
+                'items.variant.product.translations',
+                'items.variant.product.images',
+                'items.variant.product.options',
+                'items.variant.product.options.translations',
+            ]);
+        } catch (\ReflectionException $e) {
+        }
     }
 
     public function findCartForAddressing($id): ?OrderStorageInterface
     {
         /** @var OrderStorageInterface $order */
-        $order = $this->createQueryBuilder('o')
-            ->andWhere('o.id = :id')
-            ->andWhere('o.state = :state')
-            ->setParameter('id', $id)
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            $order = $this->createQueryBuilder('o')
+                ->andWhere('o.id = :id')
+                ->andWhere('o.state = :state')
+                ->setParameter('id', $id)
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
 
-        $this->entityAssociationHydrator->hydrateAssociations($order, [
-            'items',
-            'items.variant',
-            'items.variant.product',
-            'items.variant.product.translations',
-        ]);
+        try {
+            $this->entityAssociationHydrator->hydrateAssociations($order, [
+                'items',
+                'items.variant',
+                'items.variant.product',
+                'items.variant.product.translations',
+            ]);
+        } catch (\ReflectionException $e) {
+        }
 
         return $order;
     }
@@ -442,20 +488,26 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
     public function findCartForSelectingShipping($id): ?OrderStorageInterface
     {
         /** @var OrderStorageInterface $order */
-        $order = $this->createQueryBuilder('o')
-            ->andWhere('o.id = :id')
-            ->andWhere('o.state = :state')
-            ->setParameter('id', $id)
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            $order = $this->createQueryBuilder('o')
+                ->andWhere('o.id = :id')
+                ->andWhere('o.state = :state')
+                ->setParameter('id', $id)
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
 
-        $this->entityAssociationHydrator->hydrateAssociations($order, [
-            'items',
-            'items.variant',
-            'items.variant.product',
-            'items.variant.product.translations',
-        ]);
+        try {
+            $this->entityAssociationHydrator->hydrateAssociations($order, [
+                'items',
+                'items.variant',
+                'items.variant.product',
+                'items.variant.product.translations',
+            ]);
+        } catch (\ReflectionException $e) {
+        }
 
         return $order;
     }
@@ -463,56 +515,71 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
     public function findCartForSelectingPayment($id): ?OrderStorageInterface
     {
         /** @var OrderStorageInterface $order */
-        $order = $this->createQueryBuilder('o')
-            ->andWhere('o.id = :id')
-            ->andWhere('o.state = :state')
-            ->setParameter('id', $id)
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            $order = $this->createQueryBuilder('o')
+                ->andWhere('o.id = :id')
+                ->andWhere('o.state = :state')
+                ->setParameter('id', $id)
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
 
-        $this->entityAssociationHydrator->hydrateAssociations($order, [
-            'items',
-            'items.variant',
-            'items.variant.product',
-            'items.variant.product.translations',
-        ]);
+        try {
+            $this->entityAssociationHydrator->hydrateAssociations($order, [
+                'items',
+                'items.variant',
+                'items.variant.product',
+                'items.variant.product.translations',
+            ]);
+        } catch (\ReflectionException $e) {
+        }
 
         return $order;
     }
 
     public function findCartByTokenValue(string $tokenValue): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state = :state')
-            ->andWhere('o.tokenValue = :tokenValue')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('tokenValue', $tokenValue)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state = :state')
+                ->andWhere('o.tokenValue = :tokenValue')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('tokenValue', $tokenValue)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findCartByTokenValueAndChannel(string $tokenValue, VendorInterface $vendor): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state = :state')
-            ->andWhere('o.tokenValue = :tokenValue')
-            ->andWhere('o.vendor = :vendor')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('tokenValue', $tokenValue)
-            ->setParameter('vendor', $vendor)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state = :state')
+                ->andWhere('o.tokenValue = :tokenValue')
+                ->andWhere('o.vendor = :vendor')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('tokenValue', $tokenValue)
+                ->setParameter('vendor', $vendor)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function countPlacedOrders(): int
     {
-        return (int) $this->createQueryBuilder('o')
-            ->select('COUNT(o.id)')
-            ->andWhere('o.state != :state')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->getQuery()
-            ->getSingleScalarResult();
+        try {
+            return (int)$this->createQueryBuilder('o')
+                ->select('COUNT(o.id)')
+                ->andWhere('o.state != :state')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException|NonUniqueResultException $e) {
+        }
     }
 
     public function createCartQueryBuilder(): QueryBuilder
@@ -539,48 +606,60 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function findLatestCart(): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state = :state')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->addOrderBy('o.checkoutCompletedAt', 'DESC')
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state = :state')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->addOrderBy('o.checkoutCompletedAt', 'DESC')
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findOneByNumber(string $number): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state != :state')
-            ->andWhere('o.number = :number')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('number', $number)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state != :state')
+                ->andWhere('o.number = :number')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('number', $number)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findOneByTokenValue(string $tokenValue): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.state != :state')
-            ->andWhere('o.tokenValue = :tokenValue')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('tokenValue', $tokenValue)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.state != :state')
+                ->andWhere('o.tokenValue = :tokenValue')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('tokenValue', $tokenValue)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findCartById($id): ?OrderStorageInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.id = :id')
-            ->andWhere('o.state = :state')
-            ->setParameter('state', OrderStorageInterface::STATE_CART)
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.id = :id')
+                ->andWhere('o.state = :state')
+                ->setParameter('state', OrderStorageInterface::STATE_CART)
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
-    public function findCartsNotModifiedSince(\DateTimeInterface $terminalDate): array
+    public function findCartsNotModifiedSince(DateTimeInterface $terminalDate): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.state = :state')
@@ -608,7 +687,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->leftJoin('p.tags', 't')
             ->where('p.createdAt <= :now')
             ->orderBy('p.createdAt', 'DESC')
-            ->setParameter('now', new \DateTime());
+            ->setParameter('now', new DateTime());
 
         if (null !== $tag) {
             $qb->andWhere(':tag MEMBER OF p.tags')
@@ -625,7 +704,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
     {
         $query = $this->sanitizeSearchQuery($rawQuery);
         $searchTerms = $this->extractSearchTerms($query);
-        if (0 === \count($searchTerms)) {
+        if (0 === count($searchTerms)) {
             return [];
         }
         $queryBuilder = $this->createQueryBuilder('p');
@@ -673,39 +752,48 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
 
     public function findOneBySomeField($value): ?OrderStorage
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('p')
+                ->andWhere('p.exampleField = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     // MustBe:
     // TODO: findBySessionId
     public function findOneByCustomer($id, CustomerInterface $customer): ?OrderItemUnitInterface
     {
-        return $this->createQueryBuilder('o')
-            ->innerJoin('o.orderItem', 'orderItem')
-            ->innerJoin('orderItem.order', 'ord')
-            ->innerJoin('ord.customer', 'customer')
-            ->andWhere('o.id = :id')
-            ->andWhere('customer = :customer')
-            ->setParameter('id', $id)
-            ->setParameter('customer', $customer)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->innerJoin('o.orderItem', 'orderItem')
+                ->innerJoin('orderItem.order', 'ord')
+                ->innerJoin('ord.customer', 'customer')
+                ->andWhere('o.id = :id')
+                ->andWhere('customer = :customer')
+                ->setParameter('id', $id)
+                ->setParameter('customer', $customer)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findOneByIdAndCustomer($id, CustomerInterface $customer): ?OrderItemInterface
     {
-        return $this->createQueryBuilder('o')
-            ->innerJoin('o.order', 'ord')
-            ->innerJoin('ord.customer', 'customer')
-            ->andWhere('o.id = :id')
-            ->andWhere('customer = :customer')
-            ->setParameter('id', $id)
-            ->setParameter('customer', $customer)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->innerJoin('o.order', 'ord')
+                ->innerJoin('ord.customer', 'customer')
+                ->andWhere('o.id = :id')
+                ->andWhere('customer = :customer')
+                ->setParameter('id', $id)
+                ->setParameter('customer', $customer)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 }

@@ -9,6 +9,8 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use function count;
+use function is_array;
 
 final class SelectAttributeType extends AbstractType
 {
@@ -28,12 +30,12 @@ final class SelectAttributeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if (\is_array($options['configuration'])
+        if (is_array($options['configuration'])
             && isset($options['configuration']['multiple'])
             && !$options['configuration']['multiple']) {
             $builder->addModelTransformer(new CallbackTransformer(
                 function ($array) {
-                    if (\is_array($array) && \count($array) > 0) {
+                    if (is_array($array) && count($array) > 0) {
                         return $array[0];
                     }
                 },
@@ -55,9 +57,9 @@ final class SelectAttributeType extends AbstractType
             ->setDefault('placeholder', 'form.attribute_type_configuration.select.choose')
             ->setDefault('locale_code', $this->defaultLocaleCode)
             ->setNormalizer('choices', function (Options $options) {
-                if (\is_array($options['configuration'])
+                if (is_array($options['configuration'])
                     && isset($options['configuration']['choices'])
-                    && \is_array($options['configuration']['choices'])) {
+                    && is_array($options['configuration']['choices'])) {
                     $choices = [];
                     $localeCode = $options['locale_code'] ?? $this->defaultLocaleCode;
 
@@ -84,7 +86,7 @@ final class SelectAttributeType extends AbstractType
                 return [];
             })
             ->setNormalizer('multiple', function (Options $options): bool {
-                if (\is_array($options['configuration']) && isset($options['configuration']['multiple'])) {
+                if (is_array($options['configuration']) && isset($options['configuration']['multiple'])) {
                     return $options['configuration']['multiple'];
                 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Form\Product\AttributeType\Type;
 
+use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormBuilderInterface;

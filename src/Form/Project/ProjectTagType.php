@@ -2,7 +2,7 @@
 
 namespace App\Form\Project;
 
-use App\Tool\ProjectTagTransformer;
+use App\Tool\TagTransformer;
 use Symfony\Component\Form\FormView;
 use App\Repository\Tag\TagRepository;
 use Symfony\Component\Form\AbstractType;
@@ -25,7 +25,7 @@ class ProjectTagType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new ProjectTagTransformer($this->tags), true);
+            ->addModelTransformer(new TagTransformer($this->tags), true);
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void

@@ -2,6 +2,8 @@
 
 namespace App\Service\Setup;
 
+use App\EntityInterface\Currency\CurrencyInterface;
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Intl\Currencies;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputInterface;

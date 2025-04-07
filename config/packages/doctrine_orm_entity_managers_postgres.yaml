@@ -89,4 +89,10 @@ doctrine:
             dir: '%kernel.project_dir%/src/Entity/Tag'
             prefix: 'App\Entity\Tag'
             alias: Tag
+          Embeddable:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity/Embeddable'
+            prefix: 'App\Entity\Embeddable'
+            alias: Embeddable
 

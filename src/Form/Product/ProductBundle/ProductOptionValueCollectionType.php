@@ -2,12 +2,14 @@
 
 namespace App\Form\Product\ProductBundle;
 
+use App\EntityInterface\Product\ProductOptionInterface;
+use App\EntityInterface\Product\ProductOptionValueInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Symfony\Component\Form\AbstractType;
 
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormBuilderInterface;
-use App\Interface\Product\ProductOptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 
@@ -20,7 +22,7 @@ use Symfony\Component\Form\Exception\InvalidConfigurationException;
 final class ProductOptionValueCollectionType extends AbstractType
 {
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws InvalidConfigurationException
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -56,7 +58,7 @@ final class ProductOptionValueCollectionType extends AbstractType
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function assertOptionsAreValid($options): void
     {

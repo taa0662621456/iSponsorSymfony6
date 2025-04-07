@@ -4,7 +4,7 @@ namespace App\Model;
 
 class ErrorResponseModel
 {
-    private $error;
+    private mixed $error;
 
     /**
      * @return mixed

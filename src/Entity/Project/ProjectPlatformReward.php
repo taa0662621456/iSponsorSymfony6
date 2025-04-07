@@ -2,16 +2,16 @@
 
 namespace App\Entity\Project;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Project\ProjectPlatformRewardInterface;
 
 #[ORM\Entity]
 class ProjectPlatformReward extends RootEntity implements ObjectInterface, ProjectPlatformRewardInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'project')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

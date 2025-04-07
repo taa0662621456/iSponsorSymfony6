@@ -2,9 +2,10 @@
 
 namespace App\Controller\Security;
 
+use App\Service\Security\SecurityGenerator;
+use Exception;
 use ReCaptcha\ReCaptcha;
 use App\Entity\Vendor\Vendor;
-use App\Service\SecurityGenerator;
 use App\Entity\Vendor\VendorSecurity;
 use App\Event\Vendor\RegisteredEvent;
 use Doctrine\Persistence\ManagerRegistry;
@@ -28,7 +29,7 @@ class CredentialController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/change', name: 'change_security', methods: ['GET', 'POST'])]
     public function change(Request $request, ConfirmationCodeGenerator $codeGenerator, EventDispatcherInterface $eventDispatcher): Response

@@ -7,6 +7,7 @@ use App\Entity\Association\AssociationProject;
 use App\EntityInterface\Vendor\VendorInterface;
 use App\EntityInterface\Product\ProductAssociationInterface;
 use App\RepositoryInterface\Association\AssociationProjectRepositoryInterface;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method AssociationProject|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,6 +17,9 @@ use App\RepositoryInterface\Association\AssociationProjectRepositoryInterface;
  */
 class AssociationProjectRepository extends EntityRepository implements AssociationProjectRepositoryInterface
 {
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findWithProductsWithinVendor($associationId, VendorInterface $vendor): ProductAssociationInterface
     {
         return $this->createQueryBuilder('o')

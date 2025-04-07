@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Order;
+namespace App\Service\Order\OrderProcessor;
 
 use App\EntityInterface\Order\OrderItemInterface;
 use App\FactoryInterface\Order\OrderItemUnitFactoryInterface;

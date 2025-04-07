@@ -2,32 +2,34 @@
 
 namespace App\Entity\Category;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Featured\Featured;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Project\ProjectInterface;
 use App\EntityInterface\Category\CategoryInterface;
-use App\Interface\Object\ObjectApiResourceInterface;
+use App\EntityInterface\Object\ObjectApiResourceInterface;
 use App\EntityInterface\Category\CategoryAttachmentInterface;
-use App\Embeddable\Category\Category as ObjectCategory;
+use Exception;
 
+/**
+ * @property Featured $categoryFeatured
+ * @property Collection $categoryParent
+ * @property ArrayCollection $categoryChildren
+ */
 #[ORM\Entity]
 class Category extends RootEntity implements ObjectInterface, ObjectApiResourceInterface, CategoryInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'category')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
     private int $ordering = 1;
-
-    #[ORM\Embedded(class: 'Category')]
-    private ObjectCategory $category;
 
     #[ORM\OneToMany(mappedBy: 'projectCategory', targetEntity: ProjectInterface::class)]
     #[ORM\JoinColumn(nullable: true)]
@@ -42,7 +44,7 @@ class Category extends RootEntity implements ObjectInterface, ObjectApiResourceI
     private Collection $categoryAttachment;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
@@ -72,7 +74,7 @@ class Category extends RootEntity implements ObjectInterface, ObjectApiResourceI
         $this->categoryChildren = $categoryChildren;
     }
 
-    public function getCategoryParent(): ?CategoryInterface
+    public function getCategoryParent(): Collection
     {
         return $this->categoryParent;
     }

@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use function in_array;
 
 final class ChangePaymentMethodType extends AbstractType
 {
@@ -17,7 +18,7 @@ final class ChangePaymentMethodType extends AbstractType
             $form = $event->getForm();
 
             foreach ($payments as $key => $payment) {
-                if (!\in_array($payment->getState(), [PaymentInterface::STATE_NEW, PaymentInterface::STATE_CART], true)) {
+                if (!in_array($payment->getState(), [PaymentInterface::STATE_NEW, PaymentInterface::STATE_CART], true)) {
                     $form->remove((string) $key);
                 }
             }

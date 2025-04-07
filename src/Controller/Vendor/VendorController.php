@@ -14,6 +14,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use App\Repository\Vendor\VendorRepository;
 use App\Repository\Project\ProjectRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +39,7 @@ class VendorController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/new', name: 'vendor_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManager $entityManager): Response

@@ -2,10 +2,10 @@
 
 namespace App\Entity\Payment;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentInterface;
 
 /**
@@ -14,7 +14,7 @@ use App\EntityInterface\Payment\PaymentInterface;
 #[ORM\Entity]
 class Payment extends RootEntity implements ObjectInterface, PaymentInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'payment')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -33,9 +33,6 @@ class Payment extends RootEntity implements ObjectInterface, PaymentInterface
     #[ORM\Column(type: 'string')]
     private string $paymentCurrencyCode;
 
-    /*    #[ORM\Embedded(class: 'CreditCard')]
-        private ?CreditCard $creditCard;*/
-
     #[ORM\Column(type: 'json')]
     private ?array $paymentDetail;
 
@@ -45,14 +42,14 @@ class Payment extends RootEntity implements ObjectInterface, PaymentInterface
     #[ORM\ManyToOne(targetEntity: PaymentGateway::class, inversedBy: "paymentGateway")]
     private PaymentGateway $paymentGateway;
 
-    #[ORM\ManyToOne(targetEntity: PaymentMethod::class, inversedBy: "paymentMethod")]
+    #[ORM\OneToMany(mappedBy: "paymentMethod", targetEntity: PaymentMethod::class)]
     private PaymentMethod $paymentMethod;
 
     #[ORM\OneToOne(mappedBy: "paymentToken", targetEntity: PaymentToken::class)]
     private PaymentToken $paymentToken;
 
     #[ORM\OneToOne(mappedBy: "paymentEnUs", targetEntity: PaymentEnUs::class)]
-    private PaymentEnUs $paymentDetailsEnUs;
+    private PaymentEnUs $paymentEnUs;
 
     /**
      * @return PaymentGateway
@@ -105,17 +102,17 @@ class Payment extends RootEntity implements ObjectInterface, PaymentInterface
     /**
      * @return PaymentEnUs
      */
-    public function getPaymentDetailsEnUs(): PaymentEnUs
+    public function getPaymentEnUs(): PaymentEnUs
     {
-        return $this->paymentDetailsEnUs;
+        return $this->paymentEnUs;
     }
 
     /**
-     * @param PaymentEnUs $paymentDetailsEnUs
+     * @param PaymentEnUs $paymentEnUs
      */
-    public function setPaymentDetailsEnUs(PaymentEnUs $paymentDetailsEnUs): void
+    public function setPaymentEnUs(PaymentEnUs $paymentEnUs): void
     {
-        $this->paymentDetailsEnUs = $paymentDetailsEnUs;
+        $this->paymentEnUs = $paymentEnUs;
     }
 
 

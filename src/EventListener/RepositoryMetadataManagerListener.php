@@ -29,9 +29,7 @@ class RepositoryMetadataManagerListener implements EventSubscriber
 
         // Удаляем базовое пространство имен сущности и заменяем его на пространство имен репозитория
         $relativeEntityClass = str_replace($entityNamespace, '', $entityClass);
-        $repositoryClass = $repositoryNamespace . $relativeEntityClass . 'Repository';
-
-        return $repositoryClass;
+        return $repositoryNamespace . $relativeEntityClass . 'Repository';
     }
 
     public function getSubscribedEvents():array

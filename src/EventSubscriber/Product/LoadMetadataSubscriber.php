@@ -6,6 +6,7 @@ use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\Persistence\Mapping\MappingException;
 
 final class LoadMetadataSubscriber implements EventSubscriber
 {
@@ -40,7 +41,10 @@ final class LoadMetadataSubscriber implements EventSubscriber
         ClassMetadataFactory $metadataFactory,
     ): void {
         /** @var ClassMetadataInfo $targetEntityMetadata */
-        $targetEntityMetadata = $metadataFactory->getMetadataFor($subjectClass);
+        try {
+            $targetEntityMetadata = $metadataFactory->getMetadataFor($subjectClass);
+        } catch (MappingException|\ReflectionException $e) {
+        }
         $subjectMapping = [
             'fieldName' => 'subject',
             'targetEntity' => $subjectClass,
@@ -62,7 +66,10 @@ final class LoadMetadataSubscriber implements EventSubscriber
         ClassMetadataFactory $metadataFactory,
     ): void {
         /** @var ClassMetadataInfo $attributeMetadata */
-        $attributeMetadata = $metadataFactory->getMetadataFor($attributeClass);
+        try {
+            $attributeMetadata = $metadataFactory->getMetadataFor($attributeClass);
+        } catch (MappingException|\ReflectionException $e) {
+        }
         $attributeMapping = [
             'fieldName' => 'attribute',
             'targetEntity' => $attributeClass,

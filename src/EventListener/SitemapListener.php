@@ -10,7 +10,11 @@ use Presta\SitemapBundle\Event\SitemapPopulateEvent;
 use Presta\SitemapBundle\Service\UrlContainerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use function in_array;
 
+/**
+ * @property $requestDispatcher
+ */
 class SitemapListener implements EventSubscriberInterface
 {
     public function __construct(
@@ -30,10 +34,10 @@ class SitemapListener implements EventSubscriberInterface
 
     public function populate(SitemapPopulateEvent $event, ObjectInitializer $objectInitializer): void
     {
-        if (\in_array($event->getSection(), [$objectInitializer->object(), null], true)) {
+        if (in_array($event->getSection(), [$objectInitializer->object(), null], true)) {
             $this->entityPage($event->getUrlContainer());
         }
-        if (\in_array($event->getSection(), [$objectInitializer->object(), null], true)) {
+        if (in_array($event->getSection(), [$objectInitializer->object(), null], true)) {
             $this->entities($event->getUrlContainer());
         }
 

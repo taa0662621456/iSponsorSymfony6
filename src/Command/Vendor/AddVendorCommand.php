@@ -178,8 +178,11 @@ class AddVendorCommand extends Command
         }
     }
 
-    private function generatePassword($length = 12): string
+    /**
+     * @throws \Exception
+     */
+    private function generatePassword(): string
     {
-        return bin2hex(random_bytes($length / 2));
+        return bin2hex(random_bytes(12 / 2));
     }
 }

@@ -20,7 +20,7 @@ class VendorMessageRepository extends EntityRepository implements VendorMessageR
         parent::__construct($registry, VendorMessage::class);
     }
 
-    public function findMessageByConversationId(int $conversationId)
+    public function findMessageByConversationId(int $conversationId): void
     {
         $qb = $this->createQueryBuilder('m');
         $qb->

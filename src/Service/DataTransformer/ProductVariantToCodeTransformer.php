@@ -2,13 +2,14 @@
 
 namespace App\Service\DataTransformer;
 
+use App\EntityInterface\Product\ProductVariantInterface;
+use App\RepositoryInterface\Product\ProductVariantRepositoryInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use App\Interface\Product\ProductVariantInterface;
 
 use Symfony\Component\Form\DataTransformerInterface;
-use App\Interface\Product\ProductVariantRepositoryInterface;
 
 final class ProductVariantToCodeTransformer implements DataTransformerInterface
 {
@@ -16,7 +17,7 @@ final class ProductVariantToCodeTransformer implements DataTransformerInterface
     {
     }
 
-    /** @throws \InvalidArgumentException */
+    /** @throws InvalidArgumentException */
     public function transform($value): Collection
     {
         Assert::nullOrIsArray($value);
@@ -28,7 +29,7 @@ final class ProductVariantToCodeTransformer implements DataTransformerInterface
         return new ArrayCollection($this->productVariantRepository->findBy(['code' => $value]));
     }
 
-    /** @throws \InvalidArgumentException */
+    /** @throws InvalidArgumentException */
     public function reverseTransform($value): array
     {
         Assert::isInstanceOf($value, Collection::class);

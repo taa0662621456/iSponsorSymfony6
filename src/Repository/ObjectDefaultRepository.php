@@ -11,7 +11,7 @@ class ObjectDefaultRepository extends EntityRepository implements ObjectDefaultR
     /**
      * @throws ToolsException
      */
-    public function createTable()
+    public function createTable(): void
     {
         $schemaTool = new SchemaTool($this->getEntityManager());
         $schemaTool->createSchema(
@@ -24,7 +24,7 @@ class ObjectDefaultRepository extends EntityRepository implements ObjectDefaultR
      *
      * @throws ToolsException
      */
-    public function createObjectTableByEntity(string $entityName)
+    public function createObjectTableByEntity(string $entityName): void
     {
         $schemaTool = new SchemaTool($this->getEntityManager());
         $schemaTool->createSchema(

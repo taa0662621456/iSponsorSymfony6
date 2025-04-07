@@ -10,6 +10,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
+use function array_key_exists;
+use function is_int;
 
 class SelectAttributeChoicesCollectionType extends AbstractType
 {
@@ -32,13 +34,13 @@ class SelectAttributeChoicesCollectionType extends AbstractType
             if (null !== $data) {
                 $fixedData = [];
                 foreach ($data as $key => $values) {
-                    if (!\is_int($key)) {
+                    if (!is_int($key)) {
                         $fixedData[$key] = $this->resolveValues($values);
 
                         continue;
                     }
 
-                    if (!\array_key_exists($this->defaultLocaleCode, $values)) {
+                    if (!array_key_exists($this->defaultLocaleCode, $values)) {
                         continue;
                     }
 

@@ -2,16 +2,18 @@
 
 namespace App\Form\Product;
 
+use App\EntityInterface\Product\ProductVariantInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
-use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\Form\FormBuilderInterface;
-use App\Interface\Product\ProductVariantInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
+/**
+ * @property $vendorPricingRepository
+ */
 final class ProductPriceType extends AbstractType
 {
     protected string $dataClass = 'data_class';

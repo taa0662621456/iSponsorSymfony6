@@ -2,19 +2,19 @@
 
 namespace App\Entity\Taxation;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
+use App\EntityInterface\Object\ObjectTitleInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
-use App\Interface\Object\ObjectTitleInterface;
+use App\EntityInterface\Object\ObjectInterface;
 
 #[ORM\Entity]
 class TaxationLevel extends RootEntity implements ObjectInterface, ObjectTitleInterface
 {
 
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'taxation')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

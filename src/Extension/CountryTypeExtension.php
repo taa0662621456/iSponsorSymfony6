@@ -3,10 +3,10 @@
 
 namespace App\Extension;
 
+use App\EntityInterface\Address\AddressCountryInterface;
 use App\RepositoryInterface\Country\AddressCountryRepositoryInterface;
 use App\Form\Address\AddressCountryType;
 use App\Form\Address\AddressProvinceType;
-use App\Interface\Address\AddressCountryInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;

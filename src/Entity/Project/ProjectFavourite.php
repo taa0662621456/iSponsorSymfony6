@@ -2,16 +2,16 @@
 
 namespace App\Entity\Project;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Project\ProjectFavouriteInterface;
 
 #[ORM\Entity]
 class ProjectFavourite extends RootEntity implements ObjectInterface, ProjectFavouriteInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'project')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

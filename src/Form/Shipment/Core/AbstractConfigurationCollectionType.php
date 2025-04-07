@@ -5,14 +5,16 @@ namespace App\Form\Shipment\Core;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
-use App\Interface\ServiceRegistryInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
+/**
+ * @property $registry
+ */
 abstract class AbstractConfigurationCollectionType extends AbstractType
 {
-    public function __construct(protected ServiceRegistryInterface $registry)
+    public function __construct()
     {
     }
 

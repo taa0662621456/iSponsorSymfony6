@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Vendor\VendorCodeStorage;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,7 +68,7 @@ class SmsCodeGenerator
 
         // Проверка, не просрочен ли код
         $createCodeTime = $codeFromDataBase->getcreatedAt();
-        $checkTime = (new \DateTime())->modify('-5 minutes'); // время действия кода - 5 минут
+        $checkTime = (new DateTime())->modify('-5 minutes'); // время действия кода - 5 минут
 
         if ($checkTime > $createCodeTime) {
             $data['error'] = 'Данный SMS-код уже недействителен. Запросите новый код.';

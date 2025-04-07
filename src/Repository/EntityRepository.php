@@ -5,6 +5,7 @@ namespace App\Repository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\RepositoryInterface\EntityRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use ReflectionClass;
 
 class EntityRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
@@ -17,7 +18,7 @@ class EntityRepository extends ServiceEntityRepository implements EntityReposito
 
     protected function getEntityClass(): string
     {
-        $reflectionClass = new \ReflectionClass($this);
+        $reflectionClass = new ReflectionClass($this);
         $namespace = $reflectionClass->getNamespaceName();
         $className = $reflectionClass->getShortName();
 

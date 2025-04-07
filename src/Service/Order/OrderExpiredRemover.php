@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Service\Cart;
+namespace App\Service\Order;
 
 use App\RepositoryInterface\Order\OrderRepositoryInterface;
+use DateTime;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-final class OrderExpiredRemover implements ExpiredCartsRemoverInterface
+final class OrderExpiredRemover
 {
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,
@@ -20,9 +21,12 @@ final class OrderExpiredRemover implements ExpiredCartsRemoverInterface
 
     public function remove(): void
     {
-        $expiredCarts = $this->orderRepository->findCartsNotModifiedSince(new \DateTime('-'.$this->expirationPeriod));
+        try {
+            $expiredCarts = $this->orderRepository->findCartsNotModifiedSince(new DateTime('-' . $this->expirationPeriod));
+        } catch (\Exception $e) {
+        }
 
-        $this->eventDispatcher->dispatch(new GenericEvent($expiredCarts), SyliusExpiredCartsEvents::PRE_REMOVE);
+        $this->eventDispatcher->dispatch(new GenericEvent($expiredCarts), ExpiredOrderEvent::PRE_REMOVE);
 
         $interval = 0;
         foreach ($expiredCarts as $expiredCart) {
@@ -38,6 +42,6 @@ final class OrderExpiredRemover implements ExpiredCartsRemoverInterface
             $this->orderManager->flush();
         }
 
-        $this->eventDispatcher->dispatch(new GenericEvent($expiredCarts), SyliusExpiredCartsEvents::POST_REMOVE);
+        $this->eventDispatcher->dispatch(new GenericEvent($expiredCarts), ExpiredOrderEvent::POST_REMOVE);
     }
 }

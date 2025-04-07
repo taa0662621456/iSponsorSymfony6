@@ -26,9 +26,7 @@ class VendorAttachmentType extends AbstractType
 
                 if ('media' == $request->query->get('_route')) {
                     $form
-                        ->add('file', DropzoneType::class, [
-                           // TODO: добавить параметры дропзоны для медиа файлов
-                        ])
+                        ->add('file', DropzoneType::class)
                         ->add(
                             'vendorsMediaAttachments',
                             CollectionType::class,
@@ -43,9 +41,7 @@ class VendorAttachmentType extends AbstractType
                         );
                 } elseif ('docs' == $request->query->get('_route')) {
                     $form
-                        ->add('file', DropzoneType::class, [
-                            // TODO: добавить параметры дропзоны для файлов документов
-                        ])
+                        ->add('file', DropzoneType::class)
                         ->add(
                             'vendorsDocumentAttachments',
                             CollectionType::class,

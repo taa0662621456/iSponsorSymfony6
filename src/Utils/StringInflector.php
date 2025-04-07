@@ -31,8 +31,6 @@ class StringInflector
         $name = strtoupper($name);
 
         // Получение первых трех символов имени
-        $code = substr($name, 0, 3);
-
-        return $code;
+        return substr($name, 0, 3);
     }
 }

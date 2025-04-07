@@ -2,15 +2,17 @@
 
 namespace App\Service\DataTransformer;
 
+use App\EntityInterface\Product\ProductInterface;
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 final class ProductTaxonToTaxonTransformer implements DataTransformerInterface
 {
     public function __construct(
-        private FactoryInterface $productTaxonFactory,
-        private RepositoryInterface $productTaxonRepository,
-        private ProductInterface $product,
+        private readonly FactoryInterface    $productTaxonFactory,
+        private readonly RepositoryInterface $productTaxonRepository,
+        private ProductInterface             $product,
     ) {
     }
 

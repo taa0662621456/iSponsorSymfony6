@@ -2,6 +2,7 @@
 
 namespace App\Repository\Association;
 
+use App\EntityInterface\Product\ProductAssociationInterface;
 use App\Repository\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use App\Entity\Association\AssociationProduct;

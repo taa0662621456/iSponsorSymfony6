@@ -4,6 +4,10 @@
 namespace App\Extension;
 
 
+use App\EntityInterface\Product\ProductInterface;
+use App\Form\Cart\CartItemType;
+use App\Form\Product\ProductBundle\ProductVariantChoiceType;
+use App\Form\Product\ProductBundle\ProductVariantMatchType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -2,7 +2,9 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\EntityInterface\Customer\CustomerInterface;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 final class CanonicalizerListener
 {

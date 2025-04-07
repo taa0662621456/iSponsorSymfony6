@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Service\PaginatorPage;
 use Doctrine\Common\Collections\ArrayCollection;
+use function count;
 
 trait findByKeyword
 {
@@ -18,7 +19,7 @@ trait findByKeyword
             ->getQuery();
 
         $paginator = new Paginator($query, $fetchJoinCollection = false);
-        $c = \count($paginator);
+        $c = count($paginator);
         $content = new ArrayCollection();
         foreach ($paginator as $post) {
             $content->add(PostSummaryDto::of($post->getId(), $post->getFirstTitle()));

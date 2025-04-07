@@ -5,6 +5,7 @@ namespace App\Service;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use const PATHINFO_FILENAME;
 
 class ObjectFileUploader
 {
@@ -23,7 +24,7 @@ class ObjectFileUploader
      */
     public function upload(UploadedFile $file): string
     {
-        $originalFilename = pathinfo($file->getClientOriginalName(), \PATHINFO_FILENAME);
+        $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 

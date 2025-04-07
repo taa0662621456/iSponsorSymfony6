@@ -2,10 +2,9 @@
 
 namespace App\Extension;
 
+use App\EntityInterface\Locale\LocaleInterface;
 use App\RepositoryInterface\Locale\LocaleRepositoryInterface;
 use App\Form\Local\LocaleType;
-use App\Interface\Locale\LocaleInterface;
-use App\Interface\RepositoryInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;

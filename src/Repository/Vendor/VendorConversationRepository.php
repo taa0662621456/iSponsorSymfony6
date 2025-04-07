@@ -2,6 +2,7 @@
 
 namespace App\Repository\Vendor;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query\Expr\Join;
 use App\Repository\EntityRepository;
 use App\Entity\Vendor\VendorConversation;
@@ -68,7 +69,7 @@ class VendorConversationRepository extends EntityRepository implements VendorCon
     }
 
     /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function checkIfUserIsParticipant(int $conversationId, int $userId)
     {

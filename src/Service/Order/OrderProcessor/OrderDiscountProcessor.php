@@ -5,6 +5,9 @@ namespace App\Service\Order\OrderProcessor;
 use App\EntityInterface\Order\OrderStorageInterface;
 use App\ServiceInterface\Order\OrderProcessorInterface;
 
+/**
+ * @property $discountService
+ */
 class OrderDiscountProcessor implements OrderProcessorInterface
 {
     public function process(OrderStorageInterface $order): void {

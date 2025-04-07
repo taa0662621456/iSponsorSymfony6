@@ -24,8 +24,7 @@ class ProductType extends AbstractType
             ->add('productSku', HiddenType::class, [
                     'required' => false,
                 ])
-            ->add('productEnGb', ProductEnGbType::class, [
-                ])
+            ->add('productEnGb', ProductEnGbType::class)
             ->add('productAttachment', CollectionType::class, [
                     'entry_type' => ProductAttachmentType::class,
                     'translation_domain' => 'product',

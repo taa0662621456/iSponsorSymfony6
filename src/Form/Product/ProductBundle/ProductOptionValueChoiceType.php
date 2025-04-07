@@ -2,10 +2,11 @@
 
 namespace App\Form\Product\ProductBundle;
 
+use App\EntityInterface\Product\ProductInterface;
+use App\EntityInterface\Product\ProductOptionInterface;
+use RuntimeException;
 use Symfony\Component\Form\AbstractType;
-use App\Interface\Product\ProductInterface;
 use Symfony\Component\OptionsResolver\Options;
-use App\Interface\Product\ProductOptionInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use App\Interface\Product\ProductAvailableOptionValuesResolverInterface;
@@ -34,11 +35,11 @@ final class ProductOptionValueChoiceType extends AbstractType
                     $productOption = $options['option'];
                     if (true === $options['only_available_values']) {
                         if (null === $options['product']) {
-                            throw new \RuntimeException('You must specify the "product" option when "only_available_values" is true.');
+                            throw new RuntimeException('You must specify the "product" option when "only_available_values" is true.');
                         }
 
                         if (null === $this->availableProductOptionValuesResolver) {
-                            throw new \RuntimeException(sprintf('Cannot provide only available values in "%s" because a "%s" is required but none has been set.', __CLASS__, ProductAvailableOptionValuesResolverInterface::class));
+                            throw new RuntimeException(sprintf('Cannot provide only available values in "%s" because a "%s" is required but none has been set.', __CLASS__, ProductAvailableOptionValuesResolverInterface::class));
                         }
 
                         return $this->availableProductOptionValuesResolver->resolve(

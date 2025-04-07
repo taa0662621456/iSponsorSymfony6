@@ -28,9 +28,12 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
                 'currency' => $options['currency'],
             ]);
 
-        $builder->get('taxon')->addModelTransformer(
-            new ReversedTransformer(new ResourceIdentifierTransformer($this->taxationRepository, 'code')),
-        );
+        try {
+            $builder->get('taxon')->addModelTransformer(
+                new ReversedTransformer(new ResourceIdentifierTransformer($this->taxationRepository, 'code')),
+            );
+        } catch (\ReflectionException $e) {
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

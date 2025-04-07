@@ -2,6 +2,7 @@
 
 namespace App\Repository\Product;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\QueryBuilder;
 
 use App\Entity\Product\Product;
@@ -69,14 +70,17 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
 
     public function findOneByCodeAndProductCode(string $code, string $productCode): ?ProductVariantInterface
     {
-        return $this->createQueryBuilder('o')
-            ->innerJoin('o.product', 'product')
-            ->andWhere('product.code = :productCode')
-            ->andWhere('o.code = :code')
-            ->setParameter('productCode', $productCode)
-            ->setParameter('code', $code)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->innerJoin('o.product', 'product')
+                ->andWhere('product.code = :productCode')
+                ->andWhere('o.code = :code')
+                ->setParameter('productCode', $productCode)
+                ->setParameter('code', $code)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findByCodesAndProductCode(array $codes, string $productCode): array
@@ -112,13 +116,16 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
 
     public function findOneByIdAndProductId($id, $productId): ?ProductVariantInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.product = :productId')
-            ->andWhere('o.id = :id')
-            ->setParameter('productId', $productId)
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.product = :productId')
+                ->andWhere('o.id = :id')
+                ->setParameter('productId', $productId)
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findByPhraseAndProductCode(string $phrase, string $locale, string $productCode): array

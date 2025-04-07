@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PlatformLangType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             // ->add('assetId')
@@ -26,7 +26,7 @@ class PlatformLangType extends AbstractType
         // ->add('ordering')
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             // 'data_class' => PlatformLang::class,//TODO: сущность еще не создана. Необховдима для хранения в базе поддерживаемых локализаций

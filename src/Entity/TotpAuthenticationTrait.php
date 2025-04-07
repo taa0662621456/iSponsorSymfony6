@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 
 trait TotpAuthenticationTrait
 {
@@ -21,7 +22,7 @@ trait TotpAuthenticationTrait
         return $this->username;
     }
 
-    public function getTotpAuthenticationConfiguration(): TotpConfigurationInterface
+    public function getTotpAuthenticationConfiguration(): TotpConfiguration
     {
         // You could persist the other configuration options in the user entity to make it individual per user.
         return new TotpConfiguration($this->totpSecret, TotpConfiguration::ALGORITHM_SHA1, 20, 8);

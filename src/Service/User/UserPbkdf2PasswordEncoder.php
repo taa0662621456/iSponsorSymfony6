@@ -2,7 +2,11 @@
 
 namespace App\Service\User;
 
+use InvalidArgumentException;
+use LogicException;
 use Webmozart\Assert\Assert;
+use function in_array;
+use function strlen;
 
 /**
  * Pbkdf2PasswordEncoder uses the PBKDF2 (Password-Based Key Derivation Function 2).
@@ -41,7 +45,7 @@ final class UserPbkdf2PasswordEncoder
     }
 
     /**
-     * @throws \LogicException when the algorithm is not supported
+     * @throws LogicException when the algorithm is not supported
      */
     public function encode($user): string
     {
@@ -49,19 +53,19 @@ final class UserPbkdf2PasswordEncoder
     }
 
     /**
-     * @throws \InvalidArgumentException
-     * @throws \LogicException           when the algorithm is not supported
+     * @throws InvalidArgumentException
+     * @throws LogicException           when the algorithm is not supported
      */
     private function encodePassword(string $plainPassword, string $salt): string
     {
         Assert::lessThanEq(
-            \strlen($plainPassword),
+            strlen($plainPassword),
             self::MAX_PASSWORD_LENGTH,
             sprintf('The password must be at most %d characters long.', self::MAX_PASSWORD_LENGTH),
         );
 
-        if (!\in_array($this->algorithm, hash_algos(), true)) {
-            throw new \LogicException(sprintf('The algorithm "%s" is not supported.', $this->algorithm));
+        if (!in_array($this->algorithm, hash_algos(), true)) {
+            throw new LogicException(sprintf('The algorithm "%s" is not supported.', $this->algorithm));
         }
 
         $digest = hash_pbkdf2($this->algorithm, $plainPassword, $salt, $this->iterations, $this->length, true);

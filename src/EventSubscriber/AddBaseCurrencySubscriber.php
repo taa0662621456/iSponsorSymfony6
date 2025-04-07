@@ -2,10 +2,10 @@
 
 namespace App\EventSubscriber;
 
+use App\EntityInterface\Vendor\VendorInterface;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use App\Interface\Vendor\VendorInterface;
 use App\Exception\UnexpectedTypeException;
 use App\Form\Currency\CurrencySelectorType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

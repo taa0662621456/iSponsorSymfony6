@@ -3,8 +3,9 @@
 namespace App\EventListener\Listener_Sylius;
 
 use App\Exception\UnexpectedTypeException;
-use App\Interface\Payment\ChannelRepositoryInterface;
+use App\RepositoryInterface\Payment\ChannelRepositoryInterface;
 use Symfony\Component\Notifier\Channel\ChannelInterface;
+use function count;
 
 final class ChannelDeletionListener
 {
@@ -25,7 +26,7 @@ final class ChannelDeletionListener
 
         $results = $this->channelRepository->findBy(['enabled' => true]);
 
-        if (!$results || (1 === \count($results) && current($results) === $channel)) {
+        if (!$results || (1 === count($results) && current($results) === $channel)) {
             $event->stop('sylius.channel.delete_error');
         }
     }

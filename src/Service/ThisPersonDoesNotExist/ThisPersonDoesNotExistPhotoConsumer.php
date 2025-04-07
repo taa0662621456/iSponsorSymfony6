@@ -2,10 +2,17 @@
 
 namespace App\Service\ThisPersonDoesNotExist;
 
+use Exception;
+use const CURLOPT_FILE;
+use const CURLOPT_FOLLOWLOCATION;
+use const CURLOPT_TIMEOUT;
+use const CURLOPT_USERAGENT;
+use const CURLOPT_VERBOSE;
+
 class ThisPersonDoesNotExistPhotoConsumer
 {
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function getExitPersonPhoto(string $name): void
     {
@@ -14,11 +21,11 @@ class ThisPersonDoesNotExistPhotoConsumer
         $fp = fopen($file, 'w+');
         $ch = curl_init($requestUrl);
 
-        curl_setopt($ch, \CURLOPT_FILE, $fp);
-        curl_setopt($ch, \CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, \CURLOPT_TIMEOUT, 6000);
-        curl_setopt($ch, \CURLOPT_USERAGENT, 'Mozilla/5.0');
-        curl_setopt($ch, \CURLOPT_VERBOSE, false);
+        curl_setopt($ch, CURLOPT_FILE, $fp);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 6000);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0');
+        curl_setopt($ch, CURLOPT_VERBOSE, false);
         $raw = curl_exec($ch);
         curl_close($ch);
 

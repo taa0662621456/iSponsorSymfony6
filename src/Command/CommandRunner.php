@@ -3,11 +3,14 @@
 namespace App\Command;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use function count;
+use function is_string;
 
 class CommandRunner extends Command
 {
@@ -15,7 +18,7 @@ class CommandRunner extends Command
 
     protected static $defaultName = 'command-runner';
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
+    protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         $application = $this->getApplication();
         $application->setCatchExceptions(false);
@@ -24,14 +27,14 @@ class CommandRunner extends Command
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function go(array $commands, OutputInterface $output, bool $displayProgress = true): void
     {
-        $progress = $this->createProgressBar($displayProgress ? $output : new NullOutput(), \count($commands));
+        $progress = $this->createProgressBar($displayProgress ? $output : new NullOutput(), count($commands));
 
         foreach ($commands as $key => $value) {
-            if (\is_string($key)) {
+            if (is_string($key)) {
                 $command = $key;
                 $parameter = $value;
             } else {

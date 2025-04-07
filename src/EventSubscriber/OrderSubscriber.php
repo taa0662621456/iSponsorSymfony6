@@ -41,21 +41,21 @@ class OrderSubscriber implements EventSubscriberInterface
     }
 
     #[Pure]
-    public function onOrderBeforeCreate(GenericEvent $event)
+    public function onOrderBeforeCreate(GenericEvent $event): void
     {
         /** @var OrderStorage $order */
         $order = $event->getSubject();
     }
 
     #[Pure]
-    public function onOrderCreated(GenericEvent $event)
+    public function onOrderCreated(GenericEvent $event): void
     {
         /** @var OrderStorage $order */
         $order = $event->getSubject();
     }
 
     #[Pure]
-    public function onOrderStatusUpdated(GenericEvent $event)
+    public function onOrderStatusUpdated(GenericEvent $event): void
     {
         /** @var OrderStorage $order */
         $order = $event->getSubject();

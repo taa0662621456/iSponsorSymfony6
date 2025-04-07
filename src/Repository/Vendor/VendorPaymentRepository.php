@@ -5,6 +5,7 @@ namespace App\Repository\Vendor;
 use App\Entity\Vendor\VendorPayment;
 use App\Repository\EntityRepository;
 use App\RepositoryInterface\Vendor\VendorPaymentRepositoryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method VendorPayment|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,7 +15,7 @@ use App\RepositoryInterface\Vendor\VendorPaymentRepositoryInterface;
  */
 class VendorPaymentRepository extends EntityRepository implements VendorPaymentRepositoryInterface
 {
-    public function __construct(\Doctrine\Persistence\ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, VendorPayment::class);
     }

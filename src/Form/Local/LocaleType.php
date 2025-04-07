@@ -6,6 +6,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @property $validationGroups
+ * @property $dataClass
+ */
 final class LocaleType extends AbstractType
 {
     //    protected string $dataClass;

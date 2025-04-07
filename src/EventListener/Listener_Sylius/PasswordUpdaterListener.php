@@ -2,13 +2,15 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\EntityInterface\Customer\CustomerInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class PasswordUpdaterListener extends BasePasswordUpdaterListener
 {
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function customerUpdateEvent(GenericEvent $event): void
     {

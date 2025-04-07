@@ -2,12 +2,13 @@
 
 namespace App\Entity\Project;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Product\Product;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Featured\Featured;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Project\ProjectInterface;
@@ -20,9 +21,8 @@ class Project extends RootEntity implements ObjectInterface, ProjectInterface
 {
     public const NUM_ITEMS = 10;
 
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'project')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
-
 
     #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
     #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
@@ -46,9 +46,8 @@ class Project extends RootEntity implements ObjectInterface, ProjectInterface
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Featured $projectFeatured;
 
-    #[ORM\ManyToMany(targetEntity: ProjectTag::class, inversedBy: 'projectTagProject', cascade: ['persist'])]
+    #[ORM\ManyToMany(targetEntity: ProjectTag::class, inversedBy: 'projectTag', cascade: ['persist'])]
     #[ORM\JoinColumn(nullable: true)]
-    #[ORM\OrderBy(['firstTitle' => 'ASC'])]
     private Collection $projectTag;
 
     #[ORM\OneToMany(mappedBy: 'productProject', targetEntity: Product::class, cascade: ['persist'], orphanRemoval: true)]
@@ -66,7 +65,7 @@ class Project extends RootEntity implements ObjectInterface, ProjectInterface
     public function __construct()
     {
         parent::__construct();
-        $t = new \DateTime();
+        $t = new DateTime();
 
         $this->projectAttachment = new ArrayCollection();
         $this->projectTag = new ArrayCollection();

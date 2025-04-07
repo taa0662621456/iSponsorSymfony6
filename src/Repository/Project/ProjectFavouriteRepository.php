@@ -8,6 +8,7 @@ use App\Entity\Project\ProjectFavourite;
 use Doctrine\ORM\NonUniqueResultException;
 
 use App\RepositoryInterface\Project\ProjectFavouriteRepositoryInterface;
+use Doctrine\ORM\NoResultException;
 
 /**
  * @method ProjectFavourite|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,7 +20,7 @@ class ProjectFavouriteRepository extends EntityRepository implements ProjectFavo
 {
     /**
      * @throws NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
+     * @throws NoResultException
      */
     public function checkIsLiked(VendorFavourite $vendor, int $projectId): ?bool
     {

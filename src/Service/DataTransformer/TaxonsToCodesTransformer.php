@@ -2,6 +2,7 @@
 
 namespace App\Service\DataTransformer;
 
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Doctrine\Common\Collections\Collection;
 
@@ -10,12 +11,12 @@ use Symfony\Component\Form\DataTransformerInterface;
 
 final class TaxonsToCodesTransformer implements DataTransformerInterface
 {
-    public function __construct(private TaxonRepositoryInterface $taxonRepository)
+    public function __construct(private readonly TaxonRepositoryInterface $taxonRepository)
     {
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function transform($value): Collection
     {
@@ -29,7 +30,7 @@ final class TaxonsToCodesTransformer implements DataTransformerInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function reverseTransform($value): array
     {

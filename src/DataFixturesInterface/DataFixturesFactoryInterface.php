@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Interface\DataFixturesInterface;
+namespace App\DataFixturesInterface;
 
 interface DataFixturesFactoryInterface
 {

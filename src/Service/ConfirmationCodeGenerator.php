@@ -2,16 +2,19 @@
 
 namespace App\Service;
 
+use Exception;
+use function strlen;
+
 class ConfirmationCodeGenerator
 {
     public const RANDOM_STRING = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function getConfirmationCode(): string
     {
-        $stringLength = \strlen(self::RANDOM_STRING);
+        $stringLength = strlen(self::RANDOM_STRING);
         $code = '';
 
         for ($i = 0; $i < $stringLength; $i++) {

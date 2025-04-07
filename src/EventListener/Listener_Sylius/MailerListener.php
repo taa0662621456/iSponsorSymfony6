@@ -2,6 +2,8 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\EntityInterface\Customer\CustomerInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Webmozart\Assert\Assert;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use App\EntityInterface\Channel\ChannelContextInterface;
@@ -10,9 +12,9 @@ use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
 final class MailerListener
 {
     public function __construct(
-        private SenderInterface $emailSender,
-        private ChannelContextInterface $channelContext,
-        private LocaleContextInterface $localeContext,
+        private readonly SenderInterface         $emailSender,
+        private readonly ChannelContextInterface $channelContext,
+        private readonly LocaleContextInterface  $localeContext,
     ) {
     }
 

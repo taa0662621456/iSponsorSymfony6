@@ -14,7 +14,7 @@ final class JwtConfigurationCommand extends Command
 {
     protected static $defaultName = 'install:jwt-setup';
 
-    private $commandExecutor;
+    private mixed $commandExecutor;
 
     public function __construct($commandExecutor = [])
     {

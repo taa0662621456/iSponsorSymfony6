@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class ImageUploadListener
 {
-    public function __construct(private ImageUploaderInterface $uploader)
+    public function __construct(private readonly ImageUploaderInterface $uploader)
     {
     }
 

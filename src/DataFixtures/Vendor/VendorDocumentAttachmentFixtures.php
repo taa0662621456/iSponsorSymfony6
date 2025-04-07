@@ -5,11 +5,16 @@ namespace App\DataFixtures\Vendor;
 
 use App\DataFixtures\DataFixtures;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 final class VendorDocumentAttachmentFixtures extends DataFixtures
 {
     /**
-     * @throws \Exception
+     * @param ObjectManager $manager
+     * @param array|null $property
      */
     public function load(ObjectManager $manager, ?array $property = []): void
     {
@@ -18,6 +23,9 @@ final class VendorDocumentAttachmentFixtures extends DataFixtures
             'lastTitle' => fn($faker, $i) => $faker->realText(7000),
         ];
 
-        parent::load($manager, $property);
+        try {
+            parent::load($manager, $property);
+        } catch (ClientExceptionInterface|TransportExceptionInterface|ServerExceptionInterface|RedirectionExceptionInterface $e) {
+        }
     }
 }

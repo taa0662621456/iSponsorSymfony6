@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use Exception;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -20,7 +21,7 @@ final class CommandExecutor
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function runCommand(string $command, array $parameters = [], OutputInterface $output = null): self
     {
@@ -43,7 +44,7 @@ final class CommandExecutor
             $errorMessage = sprintf('The command terminated with an error code: %u.', $exitCode);
             $this->output->writeln("<error>$errorMessage</error>");
 
-            throw new \Exception($errorMessage, $exitCode);
+            throw new Exception($errorMessage, $exitCode);
         }
 
         return $this;

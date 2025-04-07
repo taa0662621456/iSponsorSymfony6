@@ -14,4 +14,5 @@ use App\RepositoryInterface\Locale\LocaleRepositoryInterface;
  */
 class LocaleRepository extends EntityRepository implements LocaleRepositoryInterface
 {
+
 }

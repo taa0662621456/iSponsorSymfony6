@@ -3,6 +3,7 @@
 namespace App\Command\DataFixtures;
 
 use App\Service\ThisPersonDoesNotExist\ThisPersonDoesNotExistDownloader;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,7 +13,7 @@ class ProfileAvatarDownloaderCommand extends Command
 {
     protected static $defaultName = 'app:avatar-download';
 
-    private $downloader;
+    private ThisPersonDoesNotExistDownloader $downloader;
 
     public function __construct(ThisPersonDoesNotExistDownloader $downloader)
     {
@@ -28,7 +29,7 @@ class ProfileAvatarDownloaderCommand extends Command
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

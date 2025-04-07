@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Service\GptExceptionConsulter;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[AsController]
 class GptConsulterController extends AbstractController
 {
-    #[Route(path: 'prompt', name: 'prompt', methods: ['GET', 'POST'])]
+    #[NoReturn] #[Route(path: 'prompt', name: 'prompt', methods: ['GET', 'POST'])]
     public function prompt(GptExceptionConsulter $gptExceptionConsulter): string
     {
         $result = $gptExceptionConsulter->generateComment('sdsd', 'sdsd');

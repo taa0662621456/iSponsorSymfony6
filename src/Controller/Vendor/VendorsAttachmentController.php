@@ -9,6 +9,7 @@ use App\Form\Vendor\VendorMediaType;
 use App\Entity\Vendor\VendorDocumentAttachment;
 use App\Form\Vendor\VendorDocumentType;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,7 +64,7 @@ class VendorsAttachmentController extends AbstractController
     /**
      * TODO: метод перенесен в общий AttachmentController  и помечен на удаление.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route(path: '/set', name: 'vendor_set_attachment', methods: ['GET', 'POST'])]
     public function setAttachment(Request $request): Response

@@ -6,11 +6,14 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use RuntimeException;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use function count;
+use function in_array;
 
 final class DatabaseSetupCommandsProvider
 {
@@ -49,7 +52,7 @@ final class DatabaseSetupCommandsProvider
         try {
             $schemaManager = $this->getSchemaManager();
 
-            return \in_array($databaseName, $schemaManager->listDatabases());
+            return in_array($databaseName, $schemaManager->listDatabases());
         } catch (\Exception $exception) {
             $message = $exception->getMessage();
 
@@ -79,8 +82,11 @@ final class DatabaseSetupCommandsProvider
             ];
         }
 
-        if (!$this->isSchemaPresent()) {
-            return ['doctrine:migrations:migrate' => ['--no-interaction' => true]];
+        try {
+            if (!$this->isSchemaPresent()) {
+                return ['doctrine:migrations:migrate' => ['--no-interaction' => true]];
+            }
+        } catch (Exception $e) {
         }
 
         $outputStyle->writeln('Seems like your database contains schema.');
@@ -97,11 +103,14 @@ final class DatabaseSetupCommandsProvider
     }
 
     /**
-     * @throws Exception
+     * @throws Exception|\Exception
      */
     private function isSchemaPresent(): bool
     {
-        return 0 !== \count($this->getSchemaManager()->listTableNames());
+        try {
+            return 0 !== count($this->getSchemaManager()->listTableNames());
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -128,10 +137,10 @@ final class DatabaseSetupCommandsProvider
             return $connection->getSchemaManager();
         }
 
-        throw new \RuntimeException('Unable to get schema manager.');
+        throw new RuntimeException('Unable to get schema manager.');
     }
 
-    private function getEntityManager(): EntityManagerInterface
+    private function getEntityManager(): \Doctrine\Persistence\ObjectManager
     {
         return $this->doctrineRegistry->getManager();
     }

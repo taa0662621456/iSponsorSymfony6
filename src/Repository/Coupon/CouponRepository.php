@@ -14,4 +14,15 @@ use App\RepositoryInterface\Coupon\CouponRepositoryInterface;
  */
 class CouponRepository extends EntityRepository implements CouponRepositoryInterface
 {
+
+
+    public function add($coupon)
+    {
+        // TODO: Implement add() method.
+    }
+
+    public function createNew()
+    {
+        // TODO: Implement createNew() method.
+    }
 }

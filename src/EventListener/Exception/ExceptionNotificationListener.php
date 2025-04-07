@@ -7,6 +7,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class ExceptionNotificationListener implements EventSubscriberInterface
 {
@@ -31,6 +32,9 @@ class ExceptionNotificationListener implements EventSubscriberInterface
     {
         $exception = $event->getThrowable();
         $errorMessage = $exception->getMessage();
-        $this->emailService->sendErrorNotification($errorMessage);
+        try {
+            $this->emailService->sendErrorNotification($errorMessage);
+        } catch (TransportExceptionInterface $e) {
+        }
     }
 }

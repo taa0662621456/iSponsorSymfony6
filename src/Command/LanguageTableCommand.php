@@ -4,13 +4,19 @@ namespace App\Command;
 
 use App\Service\ObjectInitializer;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
+use Doctrine\Orm\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Console\Output\OutputInterface;
+use function count;
 
+/**
+ * @property $requestDispatcher
+ */
 class LanguageTableCommand extends Command
 {
     use LockableTrait;
@@ -34,18 +40,18 @@ class LanguageTableCommand extends Command
         $this->connection = $connection;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Generate Object language Table in Postgres')
             ->addArgument('object', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Object Entity Name(s). Ex.: Object ObjectAttachment ... .  Use space as separator')
             ->addArgument('language', InputArgument::OPTIONAL | InputArgument::IS_ARRAY, 'Language Entity Suffix(es). Ex. "Object [RuRU] .php". Use space as separator')
             ->setHelp('Эта команда создает таблицу объекта в базе данных с использованием аргумента - суффикса/постфикса - языка. Например: ObjectRuRU или ObjectMediaRuRU. RuRU - суффикс')
-            ->setHidden(true);
+            ->setHidden();
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -62,11 +68,11 @@ class LanguageTableCommand extends Command
         $object = $input->getArgument('object');
         $language = $input->getArgument('language');
 
-        if (0 != \count($object) || 0 != \count($language)) {
+        if (0 != count($object) || 0 != count($language)) {
             $summery = [];
 
-            for ($o = 0; $o <= \count($object); $o++) {
-                for ($l = 0; $l <= \count($language); $l++) {
+            for ($o = 0; $o <= count($object); $o++) {
+                for ($l = 0; $l <= count($language); $l++) {
                     $r = $object[$o].$language[$l];
 
                     $summery[] = [$r];
@@ -75,7 +81,7 @@ class LanguageTableCommand extends Command
                 }
             }
 
-            for ($i = 0; $i <= \count($summery); $i++) {
+            for ($i = 0; $i <= count($summery); $i++) {
                 $o = $object[$i].'EnUS';
 
                 $this->tableQuery($summery[$i], $o);
@@ -95,7 +101,7 @@ class LanguageTableCommand extends Command
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function tableQuery(string $object, string $objectEnUS): void
     {
@@ -112,7 +118,7 @@ class LanguageTableCommand extends Command
 
         try {
             $t = $q->getSingleResult();
-        } catch (\Doctrine\Orm\NoResultException $e) {
+        } catch (NoResultException $e) {
             $t = null;
         }
     }

@@ -14,6 +14,7 @@ namespace App\Pagination;
 use Doctrine\ORM\QueryBuilder as DoctrineQueryBuilder;
 use Doctrine\ORM\Tools\Pagination\CountWalker;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use Exception;
 use Traversable;
 use function count;
 
@@ -32,7 +33,7 @@ class Paginator
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function paginate(int $page = 1): self
     {

@@ -30,9 +30,12 @@ final class ProductConfiguratorType extends AbstractType
                 ],
             ]);
 
-        $builder->get('product_code')->addModelTransformer(
-            new ReversedTransformer(new ResourceIdentifierTransformer($this->productRepository, 'code')),
-        );
+        try {
+            $builder->get('product_code')->addModelTransformer(
+                new ReversedTransformer(new ResourceIdentifierTransformer($this->productRepository, 'code')),
+            );
+        } catch (\ReflectionException $e) {
+        }
     }
 
     public function getBlockPrefix(): string

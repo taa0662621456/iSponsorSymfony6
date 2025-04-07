@@ -47,7 +47,7 @@ class AppAuthentificationAuthenticator
             && $request->isMethod('POST');
     }
 
-    #[ArrayShape(['email' => "mixed", 'password' => "mixed", 'csrf_token' => "mixed"])] public function getCredentials(Request $request)
+    #[ArrayShape(['email' => "mixed", 'password' => "mixed", 'csrf_token' => "mixed"])] public function getCredentials(Request $request): array
     {
         $credentials = [
             'email' => $request->request->get('email'),

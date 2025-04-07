@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber\Product;
 
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
 use JetBrains\PhpStorm\ArrayShape;
@@ -12,6 +13,9 @@ use App\EntityInterface\Product\ProductAttributeValueInterface;
 use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @property $attributeValueFactory
+ */
 final class BuildAttributeFormSubscriber implements EventSubscriberInterface
 {
     public function __construct(
@@ -29,7 +33,7 @@ final class BuildAttributeFormSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function preSetData(FormEvent $event): void
     {
@@ -51,7 +55,7 @@ final class BuildAttributeFormSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function postSubmit(FormEvent $event): void
     {

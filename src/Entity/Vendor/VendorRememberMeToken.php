@@ -2,14 +2,15 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 class VendorRememberMeToken extends RootEntity
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
     #[ORM\Column(type: 'integer')]
@@ -31,7 +32,7 @@ class VendorRememberMeToken extends RootEntity
     public function __construct()
     {
         parent::__construct();
-        $t = new \DateTime();
+        $t = new DateTime();
         $this->lastUsed = $t->format('Y-m-d H:i:s');
     }
 }

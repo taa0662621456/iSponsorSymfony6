@@ -2,13 +2,14 @@
 
 namespace App\Entity\Order;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use App\Entity\Vendor\Vendor;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Order\OrderDiscountInterface;
 use App\EntityInterface\Order\OrderItemInterface;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use App\EntityInterface\Order\OrderStorageInterface;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity]
 class OrderStorage extends RootEntity implements ObjectInterface, OrderStorageInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'order')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -42,10 +43,7 @@ class OrderStorage extends RootEntity implements ObjectInterface, OrderStorageIn
     private string $orderSalesPrice = '0.00000';
 
     #[ORM\Column(name: 'order_tax', nullable: true)]
-    private ?string $orderTax = null;
-
-    #[ORM\OneToMany(mappedBy: "orderDiscount", targetEntity: OrderDiscountInterface::class, cascade: ['persist'])]
-    private Collection $orderDiscount;
+    private ?string $orderTax;
 
     #[ORM\Column(name: 'order_subtotal', nullable: true)]
     private ?string $orderSubtotal = null;
@@ -109,16 +107,23 @@ class OrderStorage extends RootEntity implements ObjectInterface, OrderStorageIn
     #[Assert\Valid]
     private Collection $orderItem;
 
-    #[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orderStatusStorage')]
+    #[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orderStatus')]
     private OrderStatus $orderStatus;
 
     #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrder')]
     private Vendor $orderVendor;
 
+    #[ORM\OneToMany(mappedBy: "orderDiscount", targetEntity: OrderDiscountInterface::class, cascade: ['persist'])]
+    #[Assert\Type(type: 'App\Entity\Order\OrderStorage')]
+    #[Assert\Valid]
+    private Collection $orderDiscount;
+
+
+
     public function __construct()
     {
         parent::__construct();
-        $t = new \DateTime();
+        $t = new DateTime();
         $this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
         $this->orderItem = new ArrayCollection();
         $this->orderDiscount = new ArrayCollection();

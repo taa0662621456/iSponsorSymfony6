@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Service\Money\MoneyTransformer;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;

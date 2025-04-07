@@ -8,7 +8,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\RuntimeException;
+use function count;
 
+/**
+ * @property $commandExecutor
+ */
 class InstallCommand extends Command
 {
     protected static $defaultName = 'install';
@@ -70,7 +74,7 @@ EOT
                 $outputStyle->section(sprintf(
                     'Step %d of %d. <info>%s</info>',
                     $step + 1,
-                    \count($this->commands),
+                    count($this->commands),
                     $command['message'],
                 ));
 

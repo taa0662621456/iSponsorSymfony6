@@ -3,6 +3,7 @@
 namespace App\Controller\Vendor;
 
 use Doctrine\ORM\NonUniqueResultException;
+use LogicException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,7 +21,7 @@ class VendorLinkAuthenticatorController extends AbstractController
     #[Route(path: '/link_authenticator', name: 'link_authenticator')]
     public function linkAuthenticator()
     {
-        throw new \LogicException('This function code should never be reached');
+        throw new LogicException('This function code should never be reached');
     }
 
     /**

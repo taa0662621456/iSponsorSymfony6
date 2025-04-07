@@ -2,18 +2,18 @@
 
 namespace App\Entity\Currency;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Currency\CurrencyExchangeInterface;
 
 #[ApiResource(mercure: true)]
 #[ORM\Entity]
 class CurrencyExchange extends RootEntity implements ObjectInterface, CurrencyExchangeInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'currency')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

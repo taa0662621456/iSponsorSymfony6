@@ -2,12 +2,14 @@
 
 namespace App\Service;
 
+use InvalidArgumentException;
+
 class UniquePinGenerator
 {
     private int $pinLength;
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         private $generator,

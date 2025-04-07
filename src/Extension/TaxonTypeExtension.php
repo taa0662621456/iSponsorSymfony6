@@ -3,6 +3,7 @@
 namespace App\Extension;
 
 use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class TaxonTypeExtension extends AbstractTypeExtension

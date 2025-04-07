@@ -2,10 +2,9 @@
 
 namespace App\EventListener\Order;
 
+use App\EntityInterface\Order\OrderEmailConfirmationInterface;
 use Webmozart\Assert\Assert;
-use App\Interface\Order\OrderInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use App\Interface\Order\OrderEmailConfirmationInterface;
 
 final class OrderCompleteListener
 {

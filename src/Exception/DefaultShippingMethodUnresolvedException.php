@@ -2,7 +2,9 @@
 
 namespace App\Exception;
 
-final class DefaultShippingMethodUnresolvedException extends \Exception
+use Exception;
+
+final class DefaultShippingMethodUnresolvedException extends Exception
 {
     public function __construct()
     {

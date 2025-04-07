@@ -13,6 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use function array_key_exists;
 
 final class ShippingMethodType extends AbstractResourceType
 {
@@ -76,7 +77,7 @@ final class ShippingMethodType extends AbstractResourceType
             ->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $data = $event->getData();
 
-                if (empty($data) || !\array_key_exists('calculator', $data)) {
+                if (empty($data) || !array_key_exists('calculator', $data)) {
                     return;
                 }
 

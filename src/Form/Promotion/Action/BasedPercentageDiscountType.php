@@ -2,8 +2,8 @@
 
 namespace App\Form\Promotion\Action;
 
+use App\EntityInterface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
-use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class BasedPercentageDiscountType extends AbstractType

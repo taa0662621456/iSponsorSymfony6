@@ -7,11 +7,16 @@ use App\DataFixtures\DataFixtures;
 
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\Category\CategoryCategoryFixture;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 final class OrderStorageFixtures extends DataFixtures
 {
     /**
-     * @throws \Exception
+     * @param ObjectManager $manager
+     * @param array|null $property
      */
     public function load(ObjectManager $manager, ?array $property = []): void
     {
@@ -22,7 +27,10 @@ final class OrderStorageFixtures extends DataFixtures
             'lastTitle' => 'NA',
         ];
 
-        parent::load($manager, $property);
+        try {
+            parent::load($manager, $property);
+        } catch (ClientExceptionInterface|TransportExceptionInterface|ServerExceptionInterface|RedirectionExceptionInterface $e) {
+        }
     }
 
     public function getDependencies(): array

@@ -2,6 +2,8 @@
 
 namespace App\Command\Install;
 
+use Exception;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -27,7 +29,7 @@ EOT
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -57,7 +59,7 @@ EOT
             // TODO: autowire directoryChecker service
             //            $this->ensureDirectoryExistsAndIsWritable($publicDir, $output);
             //            $this->ensureDirectoryExistsAndIsWritable($publicDir . '/media/image/', $output);
-        } catch (\RuntimeException $exception) {
+        } catch (RuntimeException $exception) {
             $outputStyle->writeln($exception->getMessage());
 
             return 1;

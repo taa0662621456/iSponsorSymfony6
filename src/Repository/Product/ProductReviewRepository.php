@@ -2,6 +2,8 @@
 
 namespace App\Repository\Product;
 
+use App\EntityInterface\Product\ProductReviewInterface;
+use App\EntityInterface\Vendor\VendorInterface;
 use Doctrine\ORM\QueryBuilder;
 use App\Repository\EntityRepository;
 use App\Entity\Product\ProductReview;

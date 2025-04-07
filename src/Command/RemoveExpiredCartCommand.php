@@ -21,7 +21,7 @@ class RemoveExpiredCartCommand extends Command
         $expirationTime = $this->getApplication()->get('order.cart_expiration_period');
         $output->writeln(sprintf(
             'Command will remove carts that have been idle for <info>%s</info>.',
-            (string) $expirationTime,
+            $expirationTime,
         ));
 
         $expiredCartsRemover = $this->getApplication()->get('expired_cart_remover');

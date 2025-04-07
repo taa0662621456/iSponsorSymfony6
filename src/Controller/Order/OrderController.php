@@ -9,6 +9,9 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @property $metadata
+ */
 #[AsController]
 class OrderController extends AbstractController
 {

@@ -2,17 +2,17 @@
 
 namespace App\Entity\Exchange;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Currency\Currency;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Exchange\ExchangeInterface;
 
 #[ORM\Entity]
 class Exchange extends RootEntity implements ObjectInterface, ExchangeInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'exchange')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

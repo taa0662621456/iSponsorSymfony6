@@ -2,21 +2,19 @@
 
 namespace App\Entity\Vendor;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Vendor\VendorProfileInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\UniqueConstraint(name: 'vendor_profile_idx', columns: ['slug', 'vendor_phone'])]
-
 #[ORM\Entity]
 class VendorProfile extends RootEntity implements ObjectInterface, VendorProfileInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'vendor')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
     #[ORM\OneToOne(targetEntity: VendorMediaAttachment::class)]
@@ -42,11 +40,6 @@ class VendorProfile extends RootEntity implements ObjectInterface, VendorProfile
     #[Length(min: 10, minMessage: 'vendors.en.gb.too.short')]
     #[Length(max: 12, maxMessage: 'vendors.en.gb.too.long')]
     private ?string $vendorFax = null;
-
-    #[ORM\Embedded(class: "VendorAddress")]
-    #[Assert\NotBlank(message: 'vendors.en.gb.blank')]
-    #[Length(min: 6, minMessage: 'vendors.en.gb.too.short')]
-    private VendorAddress $vendorAddress;
 
 
     #[ORM\Column(name: 'vendor_second_address', nullable: true)]

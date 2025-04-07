@@ -4,6 +4,7 @@ namespace App\Form\Product\ProductBundle;
 
 use Symfony\Component\Form\AbstractType;
 use App\EventSubscriber\AddCodeFormSubscriber;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 

@@ -2,6 +2,7 @@
 
 namespace App\Extension;
 
+use App\Form\Shipment\TypeSylius\ShippingMethodType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 

@@ -27,25 +27,31 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
 
     public function findOneByOrderId($paymentId, $orderId): ?PaymentInterface
     {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.id = :paymentId')
-            ->andWhere('o.order = :orderId')
-            ->setParameter('paymentId', $paymentId)
-            ->setParameter('orderId', $orderId)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->andWhere('o.id = :paymentId')
+                ->andWhere('o.order = :orderId')
+                ->setParameter('paymentId', $paymentId)
+                ->setParameter('orderId', $orderId)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findOneByOrderToken(string $paymentId, string $orderToken): ?PaymentInterface
     {
-        return $this->createQueryBuilder('p')
-            ->innerJoin('p.order', 'o')
-            ->andWhere('p.id = :paymentId')
-            ->andWhere('o.tokenValue = :orderToken')
-            ->setParameter('paymentId', $paymentId)
-            ->setParameter('orderToken', $orderToken)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('p')
+                ->innerJoin('p.order', 'o')
+                ->andWhere('p.id = :paymentId')
+                ->andWhere('o.tokenValue = :orderToken')
+                ->setParameter('paymentId', $paymentId)
+                ->setParameter('orderToken', $orderToken)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     /**

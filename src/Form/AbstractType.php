@@ -2,27 +2,29 @@
 
 namespace App\Form;
 
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use App\Service\ResourceIdentifierTransformer;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\AbstractType as SymfonyAbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AbstractType extends SymfonyAbstractType
 {
     /** @var DataTransformerInterface */
-    protected $resourceToIdentifierTransformer;
+    protected DataTransformerInterface $resourceToIdentifierTransformer;
 
     public function __construct(ResourceIdentifierTransformer $resourceToIdentifierTransformer)
     {
         $this->resourceToIdentifierTransformer = $resourceToIdentifierTransformer;
     }
 
-    public function buildForm(\Symfony\Component\Form\FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer($this->resourceToIdentifierTransformer);
     }
 
-    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'validation_groups' => function (FormInterface $form) {

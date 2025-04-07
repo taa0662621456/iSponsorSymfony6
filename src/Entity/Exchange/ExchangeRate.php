@@ -2,17 +2,17 @@
 
 namespace App\Entity\Exchange;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Currency\CurrencyExchange;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Exchange\ExchangeRateInterface;
 
 #[ORM\Entity]
 class ExchangeRate extends RootEntity implements ObjectInterface, ExchangeRateInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'exchange')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -22,4 +22,19 @@ class ExchangeRate extends RootEntity implements ObjectInterface, ExchangeRateIn
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private $rate;
+
+    public function getSourceCurrency()
+    {
+        // TODO: Implement getSourceCurrency() method.
+    }
+
+    public function getRatio()
+    {
+        // TODO: Implement getRatio() method.
+    }
+
+    public function getTargetCurrency()
+    {
+        // TODO: Implement getTargetCurrency() method.
+    }
 }

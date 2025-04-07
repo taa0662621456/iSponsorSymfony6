@@ -2,10 +2,10 @@
 
 namespace App\Entity\Event;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Event\EventMemberInterface;
 
 #[ORM\Index(columns: ['event_id', 'event_permission'], name: 'idx_permission')]
@@ -14,7 +14,7 @@ use App\EntityInterface\Event\EventMemberInterface;
 #[ORM\Entity]
 class EventMember extends RootEntity implements ObjectInterface, EventMemberInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'event')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

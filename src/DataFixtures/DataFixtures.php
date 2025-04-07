@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Service\DataFixtures\RandomImagePicker;
 use App\Service\OpenAi\OpenAiImageGenerator;
+use App\Service\RandomImagePicker;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\Vendor\VendorFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -46,11 +46,15 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use App\DataFixtures\Association\AssociationProductFixtures;
 use App\DataFixtures\Address\AddressStreetSecondLineFixtures;
 use App\DataFixtures\Association\AssociationProductTypeFixtures;
+use Exception;
 use Faker\Factory;
+use ReflectionClass;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use function array_slice;
+use const PREG_SPLIT_NO_EMPTY;
 
 abstract class DataFixtures extends Fixture implements FixtureInterface, DependentFixtureInterface
 {
@@ -104,7 +108,7 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
     protected function getEntityClass(): string
     {
         $className = static::class;
-        $words = preg_split('/(?=[A-Z])/', $className, -1, \PREG_SPLIT_NO_EMPTY);
+        $words = preg_split('/(?=[A-Z])/', $className, -1, PREG_SPLIT_NO_EMPTY);
 
         $words[1] = 'Entity\\';
         unset($words[2]);
@@ -187,7 +191,7 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
 
         $classNameIndex = array_search($fixtureClassName, $dependencies);
         if (false !== $classNameIndex) {
-            $dependencies = \array_slice($dependencies, 0, $classNameIndex);
+            $dependencies = array_slice($dependencies, 0, $classNameIndex);
         }
 
         return $dependencies;
@@ -195,7 +199,7 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
 
     public function getReferenceName(): string
     {
-        $resourceName = new \ReflectionClass(static::class);
+        $resourceName = new ReflectionClass(static::class);
 
         return $resourceName->getShortName();
     }
@@ -237,22 +241,22 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function titleFixtureEngine(string $resource, ?array $property = []): array
     {
         if (!file_exists($resource)) {
-            throw new \Exception("Файл '$resource' не найден.");
+            throw new Exception("Файл '$resource' не найден.");
         }
 
         $jsonContent = file_get_contents($resource);
         if ($jsonContent === false) {
-            throw new \Exception("Не удалось прочитать файл '$resource'.");
+            throw new Exception("Не удалось прочитать файл '$resource'.");
         }
 
         $projects = json_decode($jsonContent, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \Exception("Ошибка декодирования JSON: " . json_last_error_msg());
+            throw new Exception("Ошибка декодирования JSON: " . json_last_error_msg());
         }
 
         $projectProperty = [];

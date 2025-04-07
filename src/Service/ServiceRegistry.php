@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Exception\ExistingServiceException;
 use App\Interface\ServiceRegistryInterface;
 use App\Exception\NonExistingServiceException;
+use InvalidArgumentException;
 
 class ServiceRegistry implements ServiceRegistryInterface
 {
@@ -43,7 +44,7 @@ class ServiceRegistry implements ServiceRegistryInterface
         }
 
         if (!$service instanceof $this->className) {
-            throw new \InvalidArgumentException(sprintf('%s needs to be of type "%s", "%s" given.', ucfirst($this->context), $this->className, $service::class));
+            throw new InvalidArgumentException(sprintf('%s needs to be of type "%s", "%s" given.', ucfirst($this->context), $this->className, $service::class));
         }
 
         $this->services[$identifier] = $service;

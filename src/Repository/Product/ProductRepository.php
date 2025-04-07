@@ -2,10 +2,12 @@
 
 namespace App\Repository\Product;
 
+use App\EntityInterface\Product\ProductPropertyInterface;
+use App\EntityInterface\Taxation\TaxationInterface;
+use App\EntityInterface\Vendor\VendorInterface;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Product\Product;
 use App\Repository\EntityRepository;
-use App\Interface\Vendor\VendorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
 use App\RepositoryInterface\Product\ProductRepositoryInterface;
@@ -15,6 +17,7 @@ use App\RepositoryInterface\Product\ProductRepositoryInterface;
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @property mixed $associationHydrate
  */
 class ProductRepository extends EntityRepository implements ProductRepositoryInterface
 {
@@ -183,18 +186,21 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
 
     public function findOneByVendorAndSlug(VendorInterface $vendor, string $locale, string $slug): ?ProductPropertyInterface
     {
-        $product = $this->createQueryBuilder('o')
-            ->addSelect('translation')
-            ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
-            ->andWhere('translation.slug = :slug')
-            ->andWhere(':vendor MEMBER OF o.vendors')
-            ->andWhere('o.enabled = :enabled')
-            ->setParameter('vendor', $vendor)
-            ->setParameter('locale', $locale)
-            ->setParameter('slug', $slug)
-            ->setParameter('enabled', true)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            $product = $this->createQueryBuilder('o')
+                ->addSelect('translation')
+                ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+                ->andWhere('translation.slug = :slug')
+                ->andWhere(':vendor MEMBER OF o.vendors')
+                ->andWhere('o.enabled = :enabled')
+                ->setParameter('vendor', $vendor)
+                ->setParameter('locale', $locale)
+                ->setParameter('slug', $slug)
+                ->setParameter('enabled', true)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
 
         $this->associationHydrate->hydrateAssociations($product, [
             'images',
@@ -211,15 +217,18 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
 
     public function findOneByVendorAndCode(VendorInterface $vendor, string $code): ?ProductPropertyInterface
     {
-        $product = $this->createQueryBuilder('o')
-            ->where('o.code = :code')
-            ->andWhere(':vendor MEMBER OF o.vendors')
-            ->andWhere('o.enabled = :enabled')
-            ->setParameter('vendor', $vendor)
-            ->setParameter('code', $code)
-            ->setParameter('enabled', true)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            $product = $this->createQueryBuilder('o')
+                ->where('o.code = :code')
+                ->andWhere(':vendor MEMBER OF o.vendors')
+                ->andWhere('o.enabled = :enabled')
+                ->setParameter('vendor', $vendor)
+                ->setParameter('code', $code)
+                ->setParameter('enabled', true)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
 
         $this->associationHydrate->hydrateAssociations($product, [
             'images',
@@ -236,11 +245,14 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
 
     public function findOneByCode(string $code): ?ProductPropertyInterface
     {
-        return $this->createQueryBuilder('o')
-            ->where('o.code = :code')
-            ->setParameter('code', $code)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this->createQueryBuilder('o')
+                ->where('o.code = :code')
+                ->setParameter('code', $code)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+        }
     }
 
     public function findByTaxation(TaxationInterface $taxon): array

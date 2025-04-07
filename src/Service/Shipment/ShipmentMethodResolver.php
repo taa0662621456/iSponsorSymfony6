@@ -2,8 +2,8 @@
 
 namespace App\Service\Shipment;
 
+use App\EntityInterface\Shipment\ShipmentMethodResolverInterface;
 use App\Repository\Shipment\ShipmentMethodRepository;
-use App\Interface\Shipment\ShipmentMethodResolverInterface;
 
 final class ShipmentMethodResolver implements ShipmentMethodResolverInterface
 {

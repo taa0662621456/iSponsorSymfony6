@@ -8,12 +8,15 @@ use App\Exception\CartNotFoundException;
 use App\EntityInterface\Order\OrderStorageInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
-use App\ServiceInterface\Cart\CartContextServiceInterface;
+use App\ServiceInterface\Cart\OrderContextInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @property $cartContext
+ */
 final class CartSessionSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly CartContextServiceInterface $cartContext)
+    public function __construct(/** private readonly OrderContextInterface $cartContext */ )
     {
     }
 
@@ -27,12 +30,10 @@ final class CartSessionSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {
-        if (method_exists($event, 'isMainRequest')) {
-            $isMainRequest = $event->isMainRequest();
-        } else {
+        if (!method_exists($event, 'isMainRequest')) {
             /** @phpstan-ignore-next-line */
-            $isMainRequest = $event->isMainRequest();
         }
+        $isMainRequest = $event->isMainRequest();
         if (!$isMainRequest) {
             return;
         }

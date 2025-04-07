@@ -2,7 +2,10 @@
 
 namespace App\Service\Currency;
 
-final class CurrencyConverter implements CurrencyConverterInterface
+use App\EntityInterface\Exchange\ExchangeRateInterface;
+use App\RepositoryInterface\Exchange\ExchangeRateRepositoryInterface;
+
+final class CurrencyConverter
 {
     /** @var array|ExchangeRateInterface[] */
     private ?array $cache = null;

@@ -2,6 +2,9 @@
 
 namespace App\EventListener\Vendor;
 
+use App\EntityInterface\Channel\ChannelContextInterface;
+use App\EntityInterface\Customer\CustomerInterface;
+use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Webmozart\Assert\Assert;
 use Doctrine\Persistence\ObjectManager;
 use App\Interface\SecurityGeneratorInterface;

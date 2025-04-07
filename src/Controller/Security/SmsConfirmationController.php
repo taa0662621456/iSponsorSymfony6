@@ -13,10 +13,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SmsConfirmationController extends AbstractController
 {
     /**
-     * @return JsonResponse
+     * @return string
      */
     #[Route(path: '/confirmation/sms', name: 'confirmation_sms')]
-    public function smsCodeConfirmation(Request $request): Response
+    public function smsCodeConfirmation(Request $request): string
     {
         // TODO//: use SmsCodeGenerator Service
         return 'TODO: use SmsCodeGenerator Service';

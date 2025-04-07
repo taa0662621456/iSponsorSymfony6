@@ -2,8 +2,8 @@
 
 namespace App\Repository\Address;
 
+use App\Embeddable\Address\AddressStreet;
 use App\Repository\EntityRepository;
-use App\Entity\Address\AddressStreet;
 use App\RepositoryInterface\Address\AddressStreetRepositoryInterface;
 
 /**

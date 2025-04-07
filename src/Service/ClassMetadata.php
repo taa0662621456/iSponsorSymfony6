@@ -4,6 +4,9 @@ namespace App\Service;
 
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\Persistence\Mapping\ClassMetadata as ClassMetadataInterface;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionProperty;
 
 class ClassMetadata implements ClassMetadataInterface
 {
@@ -23,10 +26,10 @@ class ClassMetadata implements ClassMetadataInterface
     public function getName(): string
     {
         try {
-            $reflectionClass = new \ReflectionClass($this->name);
+            $reflectionClass = new ReflectionClass($this->name);
 
             return $reflectionClass->getShortName();
-        } catch (\ReflectionException $e) {
+        } catch (ReflectionException $e) {
             return 'null class name';
         }
     }
@@ -37,11 +40,11 @@ class ClassMetadata implements ClassMetadataInterface
         return ['id'];
     }
 
-    public function getReflectionClass(): ?\ReflectionClass
+    public function getReflectionClass(): ?ReflectionClass
     {
         try {
-            return new \ReflectionClass($this->name);
-        } catch (\ReflectionException $e) {
+            return new ReflectionClass($this->name);
+        } catch (ReflectionException $e) {
             return null;
         }
     }
@@ -130,7 +133,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getIdentifierValues(object $object): array
     {
@@ -138,8 +141,7 @@ class ClassMetadata implements ClassMetadataInterface
         $identifierValues = [];
 
         foreach ($this->getIdentifierFieldNames() as $fieldName) {
-            $reflectionProperty = new \ReflectionProperty($object, $fieldName);
-            $reflectionProperty->setAccessible(true);
+            $reflectionProperty = new ReflectionProperty($object, $fieldName);
             $identifierValues[$fieldName] = $reflectionProperty->getValue($object);
         }
 

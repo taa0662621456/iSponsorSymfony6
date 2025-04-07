@@ -2,7 +2,10 @@
 
 namespace App\Service\Setup\Requirement;
 
-abstract class RequirementCollection implements \IteratorAggregate
+use ArrayIterator;
+use IteratorAggregate;
+
+abstract class RequirementCollection implements IteratorAggregate
 {
     /** @var array|Requirement[] */
     protected array $requirements = [];
@@ -16,9 +19,9 @@ abstract class RequirementCollection implements \IteratorAggregate
         return $this->label;
     }
 
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): ArrayIterator
     {
-        return new \ArrayIterator($this->requirements);
+        return new ArrayIterator($this->requirements);
     }
 
     public function add(Requirement $requirement): self

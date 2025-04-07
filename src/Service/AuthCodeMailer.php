@@ -3,10 +3,11 @@
 namespace App\Service;
 
 use Scheb\TwoFactorBundle\Mailer\AuthCodeMailerInterface;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 
 class AuthCodeMailer implements AuthCodeMailerInterface
 {
-    public function sendAuthCode(\Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface $user): void
+    public function sendAuthCode(TwoFactorInterface $user): void
     {
         $authCode = $user->getEmailAuthCode();
 

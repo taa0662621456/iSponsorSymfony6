@@ -2,17 +2,17 @@
 
 namespace App\Entity\Payment;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Payment\PaymentMethodInterface;
 
 #[ORM\Entity]
 class PaymentMethod extends RootEntity implements ObjectInterface, PaymentMethodInterface
 {
 
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'payment')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 
@@ -22,6 +22,9 @@ class PaymentMethod extends RootEntity implements ObjectInterface, PaymentMethod
     #[ORM\Column(type: 'string', nullable: true)]
     private mixed $fallbackLocale;
 
-    /*    #[ORM\Embedded(class: 'GatewayConfig')]
-        private mixed $gatewayConfig;*/
+    #[ORM\ManyToOne(targetEntity: Payment::class, inversedBy: "paymentMethod")]
+    private Payment $paymentMethod;
+
+
+
 }

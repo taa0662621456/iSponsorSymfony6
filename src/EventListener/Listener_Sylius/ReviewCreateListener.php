@@ -2,17 +2,19 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\EntityInterface\Customer\CustomerInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class ReviewCreateListener
 {
-    public function __construct(private CustomerContextInterface $customerContext)
+    public function __construct(private readonly CustomerContextInterface $customerContext)
     {
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function ensureReviewHasAuthor(GenericEvent $event): void
     {

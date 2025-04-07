@@ -2,16 +2,16 @@
 
 namespace App\Entity\Zone;
 
-use App\Embeddable\Object\ObjectProperty;
+use App\Entity\Embeddable\ObjectProperty;
 use App\Entity\RootEntity;
 use Doctrine\ORM\Mapping as ORM;
-use App\Interface\Object\ObjectInterface;
+use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Zone\ZoneInterface;
 
 #[ORM\Entity]
 class Zone extends RootEntity implements ObjectInterface, ZoneInterface
 {
-    #[ORM\Embedded(class: 'ObjectProperty', columnPrefix: 'zone')]
+    #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
     #[ORM\Column(name: 'zip_zone', type: 'string', nullable: true, options: ['default' => '00000-99999'])]

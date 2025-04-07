@@ -4,6 +4,7 @@ namespace App\Controller\Security;
 
 use App\Form\Vendor\VendorLoginType;
 use Psr\Container\NotFoundExceptionInterface;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Psr\Container\ContainerExceptionInterface;
@@ -68,7 +69,7 @@ class LoginController extends AbstractController
     #[Route(path: '/logout', name: 'logout')]
     public function logout(): void
     {
-        throw new \RuntimeException('This should never be reached!');
+        throw new RuntimeException('This should never be reached!');
         //		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
     }
 

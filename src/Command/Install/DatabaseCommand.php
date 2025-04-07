@@ -2,15 +2,18 @@
 
 namespace App\Command\Install;
 
-use App\Command\AbstractCommand;
+use Exception;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class DatabaseCommand extends AbstractCommand
+/**
+ * @property $commandExecutor
+ */
+final class DatabaseCommand
 {
-    protected static $defaultName = 'install:database';
+    protected static string $defaultName = 'install:database';
 
     protected function configure(): void
     {
@@ -25,7 +28,7 @@ EOT
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

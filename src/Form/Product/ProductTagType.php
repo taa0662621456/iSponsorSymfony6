@@ -2,7 +2,7 @@
 
 namespace App\Form\Product;
 
-use App\Tool\ProductTagTransformer;
+use App\Tool\TagTransformer;
 use Symfony\Component\Form\FormView;
 use App\Repository\Tag\TagRepository;
 use Symfony\Component\Form\AbstractType;
@@ -25,7 +25,7 @@ class ProductTagType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new ProductTagTransformer($this->tags), true);
+            ->addModelTransformer(new TagTransformer($this->tags), true);
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options): void

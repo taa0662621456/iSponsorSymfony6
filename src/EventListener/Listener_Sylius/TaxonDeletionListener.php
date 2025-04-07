@@ -2,6 +2,8 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\Provider\FlashBagProvider;
+use App\RepositoryInterface\Payment\ChannelRepositoryInterface;
 use Webmozart\Assert\Assert;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -14,8 +16,8 @@ final class TaxonDeletionListener
     private array $ruleUpdaters;
 
     public function __construct(
-        private SessionInterface|RequestStack $requestStackOrSession,
-        private ChannelRepositoryInterface $channelRepository,
+        private SessionInterface|RequestStack       $requestStackOrSession,
+        private readonly ChannelRepositoryInterface $channelRepository,
         TaxonAwareRuleUpdaterInterface ...$ruleUpdaters,
     ) {
         $this->ruleUpdaters = $ruleUpdaters;
@@ -32,7 +34,6 @@ final class TaxonDeletionListener
 
         $channel = $this->channelRepository->findOneBy(['menuTaxon' => $taxon]);
         if (null !== $channel) {
-            /** @var FlashBagInterface $flashes */
             $flashes = FlashBagProvider::getFlashBag($this->requestStackOrSession);
             $flashes->add('error', 'sylius.taxon.menu_taxon_delete');
 

@@ -2,10 +2,10 @@
 
 namespace App\EventListener\Vendor;
 
+use App\EntityInterface\Channel\ChannelContextInterface;
+use App\EntityInterface\Product\ProductStorageInterface;
+use App\RepositoryInterface\Order\OrderRepositoryInterface;
 use HWI\Bundle\OAuthBundle\Event\UserEvent;
-use App\Interface\Order\OrderRepositoryInterface;
-use App\Interface\Channel\ChannelContextInterface;
-use App\Interface\Product\ProductStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserImpersonatedListener

@@ -24,7 +24,7 @@ class ExceptionLoggerListener
 
         // Перебираем трассировку стека, чтобы найти первый элемент, связанный с вашим проектом
         foreach ($exception->getTrace() as $trace) {
-            if (isset($trace['file']) && strpos($trace['file'], '/src/') !== false) {
+            if (isset($trace['file']) && str_contains($trace['file'], '/src/')) {
                 $errorClass = $trace['class'] ?? '';
                 $errorLine = $trace['line'] ?? '';
                 break;

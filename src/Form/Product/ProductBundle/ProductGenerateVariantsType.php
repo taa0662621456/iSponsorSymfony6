@@ -6,6 +6,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
+/**
+ * @property $generateProductVariantsSubscriber
+ */
 final class ProductGenerateVariantsType extends AbstractType
 {
     protected string $dataClass;

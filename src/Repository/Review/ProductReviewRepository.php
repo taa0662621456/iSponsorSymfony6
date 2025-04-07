@@ -2,6 +2,7 @@
 
 namespace App\Repository\Review;
 
+use DateTime;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\NoResultException;
 use App\Repository\EntityRepository;
@@ -9,6 +10,7 @@ use App\Entity\Product\ProductReview;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
+use Exception;
 
 /**
  * @method ProductReview|null find($id, $lockMode = null, $lockVersion = null)
@@ -38,7 +40,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function deleteOldRejectedReviews()
     {
@@ -48,7 +50,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
-     * @throws \Exception
+     * @throws Exception
      */
     public function countOldRejected(): int
     {
@@ -56,7 +58,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function getOldRejectedReviewsQueryBuilder(): QueryBuilder
     {
@@ -66,7 +68,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->setParameters([
                 'state_rejected' => 'rejected',
                 'state_spam' => 'spam',
-                'date' => new \DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
+                'date' => new DateTime(-self::DAYS_BEFORE_REJECTED_REMOVAL),
             ]);
     }
 }

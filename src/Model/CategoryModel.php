@@ -11,6 +11,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 
+/**
+ * @property int $id
+ */
 class CategoryModel
 {
     use ObjectBaseTrait;

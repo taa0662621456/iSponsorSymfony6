@@ -2,17 +2,19 @@
 
 namespace App\EventListener\Listener_Sylius;
 
+use App\ServiceInterface\Order\OrderProcessorInterface;
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 final class OrderRecalculationListener
 {
-    public function __construct(private OrderProcessorInterface $orderProcessor)
+    public function __construct(private readonly OrderProcessorInterface $orderProcessor)
     {
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function recalculateOrder(GenericEvent $event): void
     {

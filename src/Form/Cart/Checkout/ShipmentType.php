@@ -2,6 +2,7 @@
 
 namespace App\Form\Cart\Checkout;
 
+use App\Form\Shipment\TypeSylius\ShippingMethodChoiceType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;

@@ -3,6 +3,13 @@ imports:
     - { resource: 'parameters_exceptions.yaml' }
     - { resource: 'services_defaults_bind.yaml' }
 
+doctrine:
+    orm:
+        resolve_target_entities:
+            App\EntityInterface\Order\OrderDiscountInterface: App\Entity\Order\OrderDiscount
+
+
+
 parameters:
     router.request_context.host: smartresponsor.com
     router.request_context.scheme: https
@@ -114,3 +121,4 @@ services:
             - '../src/Trash/'
             - '../src/Dto/'
             - '../migrations/'
+

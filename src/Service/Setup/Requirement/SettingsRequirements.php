@@ -3,6 +3,8 @@
 namespace App\Service\Setup\Requirement;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
+use function ini_get;
+use const PHP_VERSION;
 
 final class SettingsRequirements extends RequirementCollection
 {
@@ -10,7 +12,7 @@ final class SettingsRequirements extends RequirementCollection
 
     public function __construct(TranslatorInterface $translator)
     {
-        parent::__construct($translator->trans('installer.setting.header', []));
+        parent::__construct($translator->trans('installer.setting.header'));
 
         $this
             ->add(new Requirement(
@@ -21,10 +23,10 @@ final class SettingsRequirements extends RequirementCollection
             ))
             ->add(new Requirement(
                 $translator->trans('installer.setting.version_recommended'),
-                version_compare(\PHP_VERSION, self::RECOMMENDED_PHP_VERSION, '>='),
+                version_compare(PHP_VERSION, self::RECOMMENDED_PHP_VERSION, '>='),
                 false,
                 $translator->trans('installer.setting.version_help', [
-                    '%current%' => \PHP_VERSION,
+                    '%current%' => PHP_VERSION,
                     '%recommended%' => self::RECOMMENDED_PHP_VERSION,
                 ]),
             ))
@@ -44,7 +46,7 @@ final class SettingsRequirements extends RequirementCollection
 
     private function isOn(string $key): bool
     {
-        $value = \ini_get($key);
+        $value = ini_get($key);
 
         return !empty($value) && 'off' !== strtolower($value);
     }

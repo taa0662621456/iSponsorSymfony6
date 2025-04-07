@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\EntityInterface\Promotion\PromotionInterface;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use App\Repository\Promotion\PromotionRepository;
@@ -59,7 +61,7 @@ final class CouponGenerateCommand extends Command
 
         try {
             $this->couponGenerator->generate($promotion, $instruction);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             $output->writeln('<error>'.$exception->getMessage().'</error>');
 
             return 1;
@@ -70,7 +72,7 @@ final class CouponGenerateCommand extends Command
         return 0;
     }
 
-    public function getGeneratorInstructions(int $count, int $codeLength): CouponGeneratorInstructionInterface
+    public function getGeneratorInstructions(int $count, int $codeLength): CouponGeneratorInstruction
     {
         $instruction = new CouponGeneratorInstruction();
         $instruction->setAmount($count);

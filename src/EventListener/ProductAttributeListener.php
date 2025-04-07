@@ -2,11 +2,10 @@
 
 namespace App\EventListener;
 
+use App\EntityInterface\Product\ProductAttributeInterface;
+use App\EntityInterface\Product\ProductAttributeValueInterface;
+use App\RepositoryInterface\Product\ProductAttributeValueRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
-use App\Interface\Product\ProductAttributeInterface;
-use App\Form\Product\AttributeType\SelectAttributeType;
-use App\Interface\Product\ProductAttributeValueInterface;
-use App\Interface\Product\ProductAttributeValueRepositoryInterface;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 
 final class ProductAttributeListener

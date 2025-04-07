@@ -2,6 +2,7 @@
 
 namespace App\EventListener\Vendor;
 
+use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 use App\Event\Controller\ControllerEvent;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +23,7 @@ class UserDeleteListener
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function deleteUser(ControllerEvent $event): void
     {

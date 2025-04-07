@@ -6,6 +6,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use function gettype;
+use function is_object;
+use function is_string;
 
 class CollectionToStringTransformer implements DataTransformerInterface
 {
@@ -19,7 +22,7 @@ class CollectionToStringTransformer implements DataTransformerInterface
     public function transform($value): string
     {
         if (!($value instanceof Collection)) {
-            throw new TransformationFailedException(sprintf('Expected "%s", but got "%s"', Collection::class, \is_object($value) ? $value::class : \gettype($value)));
+            throw new TransformationFailedException(sprintf('Expected "%s", but got "%s"', Collection::class, is_object($value) ? $value::class : gettype($value)));
         }
 
         if ($value->isEmpty()) {
@@ -31,8 +34,8 @@ class CollectionToStringTransformer implements DataTransformerInterface
 
     public function reverseTransform($value): Collection
     {
-        if (!\is_string($value)) {
-            throw new TransformationFailedException(sprintf('Expected string, but got "%s"', \is_object($value) ? $value::class : \gettype($value)));
+        if (!is_string($value)) {
+            throw new TransformationFailedException(sprintf('Expected string, but got "%s"', is_object($value) ? $value::class : gettype($value)));
         }
 
         if ('' === $value) {

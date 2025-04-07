@@ -50,6 +50,7 @@ trait ProjectLanguageTrait
     }
 
     /**
+     * @param string $projectTitle
      * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectTitle(string $projectTitle): self
@@ -65,6 +66,7 @@ trait ProjectLanguageTrait
     }
 
     /**
+     * @param string $projectSDesc
      * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectSDesc(string $projectSDesc): self
@@ -80,6 +82,7 @@ trait ProjectLanguageTrait
     }
 
     /**
+     * @param string $projectDesc
      * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectDesc(string $projectDesc): self
@@ -95,6 +98,7 @@ trait ProjectLanguageTrait
     }
 
     /**
+     * @param string $projectProductName
      * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectProductName(string $projectProductName): self
@@ -110,6 +114,7 @@ trait ProjectLanguageTrait
     }
 
     /**
+     * @param string $projectProductSDesc
      * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectProductSDesc(string $projectProductSDesc): self
@@ -125,6 +130,7 @@ trait ProjectLanguageTrait
     }
 
     /**
+     * @param string $projectProductDesc
      * @return ProjectEnGb|ProjectLanguageTrait
      */
     public function setProjectProductDesc(string $projectProductDesc): self

@@ -2,6 +2,7 @@
 
 namespace App\Command\Install;
 
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,7 +36,7 @@ EOT
 
             $this->directoryChecker($publicDir, $output);
             $this->directoryChecker($publicDir.'/bundles/', $output);
-        } catch (\RuntimeException $exception) {
+        } catch (RuntimeException $exception) {
             $output->writeln($exception->getMessage());
 
             return 1;

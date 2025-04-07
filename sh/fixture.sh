@@ -23,11 +23,11 @@ while true; do
   case $action in
   1)
     echo -e "Fixture Restarting..."
-    symfony console doctrine:fixtures:load --purge-with-truncate
+    symfony console doctrine:fixtures:load --purge-with-truncate --no-interaction
     ;;
   2)
     echo -e "Fixture append..."
-    symfony console doctrine:fixtures:load --append
+    symfony console doctrine:fixtures:load --append --no-interaction
     ;;
 
   3)

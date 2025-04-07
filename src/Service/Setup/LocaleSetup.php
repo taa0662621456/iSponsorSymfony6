@@ -2,12 +2,15 @@
 
 namespace App\Service\Setup;
 
+use App\EntityInterface\Locale\LocaleInterface;
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Intl\Languages;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Intl\Exception\MissingResourceException;
+use function count;
 
 final class LocaleSetup implements LocaleSetupInterface
 {
@@ -77,7 +80,7 @@ final class LocaleSetup implements LocaleSetupInterface
         $language = $code;
         $region = null;
 
-        if (2 === \count(explode('_', $code, 2))) {
+        if (2 === count(explode('_', $code, 2))) {
             [$language, $region] = explode('_', $code, 2);
         }
 

@@ -4,8 +4,8 @@ namespace App\Controller\Admin\Dashboard;
 
 use GuzzleHttp\Psr7\Uri;
 use GuzzleHttp\ClientInterface;
-use Http\Message\MessageFactory;
 use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Bundle\MonologBundle\SwiftMailer\MessageFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
