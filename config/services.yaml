@@ -40,6 +40,13 @@ services:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception', priority: 10 }
 
+    App\Service\ObjectInitializer:
+        bind:
+            $entityNamespace: '%entity_namespace%'
+            $repositoryNamespace: '%repository_namespace%'
+            $typeNamespace: '%type_namespace%'
+            $locale: '%locale%'
+
     Faker\Generator:
         factory: ['Faker\Factory', 'create']
 

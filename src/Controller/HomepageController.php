@@ -40,7 +40,7 @@ class HomepageController extends AbstractController
 
         foreach ($objects as $object) {
             $repositories[strtolower($object)] = $this->entityManager->getRepository(
-                $this->objectInitializer->getObject($object)
+                $this->objectInitializer->getObjectNamespace($object)
             );
         }
 

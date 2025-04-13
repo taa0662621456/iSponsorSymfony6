@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Service\OpenAi;
 
 use App\Service\RandomImagePicker;
@@ -15,55 +14,18 @@ class OpenAiImageGenerator
 {
     public function __construct(
         private readonly HttpClientInterface $client,
-        private readonly LoggerInterface $logger,
-        private readonly string $apiKey = '%env(APP_OPENAI_API_KEY)%'
-    ) {}
-
-    public function getOpenAiImageGenerated(
-        string $prompt,
-        string $path,
-        string $size = '512x512',
-        ?int $count = 1
-    ): array {
-        $images = [];
-
-        for ($i = 0; $i < $count; $i++) {
-            try {
-                // Try to get image from OpenAI
-                $imageData = $this->getOpenAiImageGeneratedByPrompt($prompt, $path, $size);
-                $imageName = $this->saveImage($imageData, $path);
-            } catch (Exception $e) {
-                // Log error and fallback to default image
-                $this->logger->error('Error generating image: ' . $e->getMessage());
-
-                // Fallback to placeholder
-                $imageName = $this->fallbackImage($path);
-            } catch (ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
-                $this->logger->error('HTTP client error: ' . $e->getMessage());
-                // Fallback to placeholder if HTTP error occurs
-                $imageName = $this->fallbackImage($path);
-            }
-
-            $images[] = [
-                'name' => $imageName,
-                'size' => filesize($path . '/' . $imageName),
-                'path' => $path . '/' . $imageName,
-            ];
-        }
-
-        return $images;
+        private readonly LoggerInterface     $logger,
+        private readonly string              $apiKey = '%env(APP_OPENAI_API_KEY)%'
+    )
+    {
     }
 
     /**
-     * @throws RedirectionExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws Exception
+     * Fetches images from OpenAI API.
+     * @throws RedirectionExceptionInterface|ClientExceptionInterface|TransportExceptionInterface|ServerExceptionInterface|Exception
      */
-    private function getOpenAiImageGeneratedByPrompt(string $prompt, string $path, string $size): string
+    private function fetchImagesFromOpenAi(string $size): array
     {
-        // Send request to OpenAI API to generate image
         $response = $this->client->request(
             'POST',
             'https://api.openai.com/v1/images/generations',
@@ -74,9 +36,9 @@ class OpenAiImageGenerator
                 ],
                 'json' => [
                     'model' => 'dall-e-3',
-                    'prompt' => $prompt,
+                    'prompt' => 'user avatar',
                     'size' => $size,
-                    'n' => 1,
+                    'n' => 10,
                 ],
             ]
         );
@@ -84,40 +46,51 @@ class OpenAiImageGenerator
         $statusCode = $response->getStatusCode();
         $content = $response->getContent(false);
 
-        // Handle non-200 status codes
         if ($statusCode !== 200) {
-            throw new Exception("OpenAI request error:\nURL: https://api.openai.com/v1/images/generations\nStatus: $statusCode\nPrompt: $prompt\nResponse: $content");
+            throw new Exception("OpenAI Request error:\nURL: https://api.openai.com/v1/images/generations\nStatus: $statusCode\nPrompt: user avatar\nRespond: $content");
         }
 
-        // Decode the response
         $data = json_decode($content, true);
 
-        // Check if image URL is present
-        if (!isset($data['data'][0]['url'])) {
-            throw new Exception("OpenAI response does not contain image URL.");
+        if (!isset($data['data'])) {
+            throw new Exception("OpenAI response does not contain images.");
         }
 
-        $imageUrl = $data['data'][0]['url'];
+        $images = [];
+        foreach ($data['data'] as $imageData) {
+            if (!isset($imageData['url'])) {
+                throw new Exception("OpenAI response does not contain image URLs.");
+            }
 
-        // Request the image using the URL
-        $imageResponse = $this->client->request('GET', $imageUrl);
+            $imageUrl = $imageData['url'];
+            $imageResponse = $this->client->request('GET', $imageUrl);
 
-        if ($imageResponse->getStatusCode() !== 200) {
-            throw new Exception("Error downloading image: status {$imageResponse->getStatusCode()}");
+            if ($imageResponse->getStatusCode() !== 200) {
+                throw new Exception("Downloading error: Status {$imageResponse->getStatusCode()}");
+            }
+
+            $image = $imageResponse->getContent();
+            $imageName = $this->saveImage($image);
+
+            $images[] = [
+                'name' => $imageName,
+                'size' => filesize($imageName),
+                'path' => $imageName,
+            ];
         }
 
-        return $imageResponse->getContent();
+        return $images;
     }
 
     /**
+     * Saves image to the file system.
      * @throws Exception
      */
-    private function saveImage(string $image, string $path): string
+    private function saveImage(string $image): string
     {
         $imageName = $this->getUniqName() . '.jpg';
-        $fullPath = rtrim($path, '/') . '/' . $imageName;
+        $fullPath = rtrim('/path/to/your/images', '/') . '/' . $imageName;
 
-        // Save image to disk
         if (file_put_contents($fullPath, $image) === false) {
             throw new Exception("Failed to save image to '$fullPath'.");
         }
@@ -126,63 +99,21 @@ class OpenAiImageGenerator
     }
 
     /**
-     * Main function to generate or fetch image for fixtures
+     * Returns a unique name for the image.
      */
-    public function imageFixtureEngine(?array $property, ?string $size, ?string $path = ''): array
+    private function getUniqName(): string
     {
-        try {
-            // Try to fetch a random image
-            $randomImagePicked = (new RandomImagePicker())->getRandomImage();
-
-            if (!$randomImagePicked) {
-                $this->logger->info('Using OpenAI image generation...');
-
-                // Generate image via OpenAI
-                $aiImage = $this->getOpenAiImageGenerated(
-                    'user avatar',
-                    $path,
-                    $size
-                );
-
-                $aiImageProperty = [
-                    'fileName' => $aiImage[0]['name'],
-                    'fileSize' => $aiImage[0]['size'],
-                    'filePath' => $aiImage[0]['path'],
-                ];
-            } else {
-                $this->logger->info('Using random image from local storage...');
-
-                $aiImageProperty = [
-                    'fileName' => $randomImagePicked['name'],
-                    'fileSize' => $randomImagePicked['size'],
-                    'filePath' => $randomImagePicked['path'],
-                ];
-            }
-
-            return array_merge($property, $aiImageProperty);
-
-        } catch (Exception $e) {
-            // Log the error
-            $this->logger->error('Error generating image: ' . $e->getMessage());
-
-            // Use fallback image if any error occurs
-            $fallbackImage = $this->fallbackImage($path);
-
-            // Return fallback image properties
-            return array_merge($property, $fallbackImage);
-        }
+        return substr(str_shuffle(str_repeat('0123456789', 9)), 0, 9);
     }
 
     /**
-     * Fallback method for getting a default image if OpenAI or local storage fails
+     * Fallback image in case OpenAI or random image fails.
      * @throws Exception
      */
-    private function fallbackImage(string $path): array
+    private function fallbackImage(): array
     {
-        // Path to the fallback image
-        $fallbackPath = '/path/to/your/fallback/image.jpg';
+        $fallbackPath = '/vendor/fallback_image.jpg';
 
-        // Check if fallback image exists
         if (!file_exists($fallbackPath)) {
             throw new Exception("Fallback image not found at: $fallbackPath");
         }
@@ -194,8 +125,49 @@ class OpenAiImageGenerator
         ];
     }
 
-    private function getUniqName(): string
+    /**
+     * Generates or fetches image based on the configuration.
+     */
+    public function imageFixtureEngine(?array $property, ?string $size = '512x512', ?string $path = ''): array
     {
-        return substr(str_shuffle(str_repeat('0123456789', 9)), 0, 9);
+        try {
+            // Try to get a random image first
+            $randomImagePicked = (new RandomImagePicker())->getRandomImage();
+
+            if (!$randomImagePicked) {
+                $this->logger->info('Using OpenAI image generation...');
+
+                $aiImages = $this->fetchImagesFromOpenAi($size ?? '512x512');
+                $aiImageProperty = [
+                    'fileName' => $aiImages[0]['name'],
+                    'fileSize' => $aiImages[0]['size'],
+                    'filePath' => $aiImages[0]['path'],
+                ];
+            } else {
+                $this->logger->info('Using random image from local storage...');
+
+                $aiImageProperty = [
+                    'fileName' => $randomImagePicked['name'],
+                    'fileSize' => $randomImagePicked['size'],
+                    'filePath' => $randomImagePicked['path'],
+                ];
+            }
+
+            return array_merge($property ?? [], $aiImageProperty);
+
+        } catch (Exception|ClientExceptionInterface|RedirectionExceptionInterface|ServerExceptionInterface|TransportExceptionInterface $e) {
+            $this->logger->error('Error generating image: ' . $e->getMessage());
+
+            try {
+                // Handle fallback image retrieval, and catch any exceptions
+                $fallbackImage = $this->fallbackImage();
+                return array_merge($property ?? [], $fallbackImage);
+            } catch (Exception $fallbackException) {
+                // Log the error for fallback image retrieval
+                $this->logger->error('Error fetching fallback image: ' . $fallbackException->getMessage());
+                // Return an empty array or some other default fallback behavior if needed
+                return array_merge($property ?? [], ['fileName' => 'default_fallback.jpg', 'fileSize' => 0, 'filePath' => '/path/to/default.jpg']);
+            }
+        }
     }
 }
