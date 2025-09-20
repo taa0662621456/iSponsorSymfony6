@@ -1,0 +1,22 @@
+name: Sync with ChatGPT
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  send_to_chatgpt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Zip project
+        run: zip -r project.zip .
+
+      - name: Send diff to ChatGPT
+        run: |
+          curl -X POST "https://api.openai.com/v1/files" \
+            -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}" \
+            -F "purpose=fine-tune" \
+            -F "file=@project.zip"
