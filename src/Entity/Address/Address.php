@@ -2,9 +2,6 @@
 
 namespace App\Entity\Address;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -19,7 +16,6 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\ObjectCRUDsController;
 
 
 #[ORM\Table(name: 'address')]
