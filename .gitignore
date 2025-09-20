@@ -1,61 +1,88 @@
-composer.lock
-yarn.lock
-symfony.lock
-package-lock.json
-composer.phar
-none
-/config/secrets/dev/dev.decrypt.private.php
-.php_cs.cache
+# ----------------------------------------
+# Composer / PHP dependencies
+# ----------------------------------------
+/vendor/                # Composer packages
+composer.lock           # Lock-файл (часто исключают, но лучше хранить в repo если CI/CD)
+/composer.phar          # Локальный бинарь
 
-/config/secrets/prod/*
-/.idea
-/.idea/*
+# ----------------------------------------
+# Node / Frontend dependencies
+# ----------------------------------------
+/node_modules/          # Node packages
+yarn.lock               # Yarn lock-файл (по ситуации)
+/package-lock.json      # NPM lock-файл
+npm-debug.log
+yarn-error.log
 
+# Webpack Encore
+/public/build/          # Собранные ассеты
+
+# ----------------------------------------
+# Symfony specific
+# ----------------------------------------
+/var/                   # Symfony cache & logs
+/var/*
+!/var/.gitkeep
+
+# Logs
 **/log
 **/logs
-**/log/
-**/logs/
 
-/bootstrap-4.0.0/*
-#
-/.env.prod
-/.env.prod.php
-/.env.*.prod
-#
+# Secrets
+/config/secrets/dev/dev.decrypt.private.php
+/config/secrets/prod/*
+/config/secrets/prod/prod.decrypt.private.php
+/config/jwt/*.pem       # JWT private/public keys
+
+# Env files
 /.env.local
 /.env.local.php
 /.env.*.local
-#
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/ver/*
-#
-/vendor
-/vendor/
-/verdor/*
-#
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
+/.env.prod
+/.env.prod.php
+/.env.*.prod
 
-###> liip/imagine-bundle ###
-/public/media/cache/
-###< liip/imagine-bundle ###
-
-###> baldinof/roadrunner-bundle ###
-/bin/rr
-###< baldinof/roadrunner-bundle ###
-/config/secrets/prod/
-
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
+# ----------------------------------------
+# PHPUnit / Testing
+# ----------------------------------------
+/.phpunit.result.cache
 /phpunit.xml
-###< symfony/phpunit-bridge ###
+/phpunit.xml.dist.bak
 
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
+# ----------------------------------------
+# PHP CS Fixer
+# ----------------------------------------
+.php-cs-fixer.cache
+.php_cs.cache
+.php-cs-fixer.php       # конфиг обычно коммитят (оставь, если общий)
+
+# ----------------------------------------
+# IDE / Editors
+# ----------------------------------------
+.idea/                  # PhpStorm / JetBrains
+/.idea/*
+*.iml                  # IntelliJ project files
+*.stackdump             # Windows stack dumps
+*.swp                   # Vim swap
+*.swo
+
+# ----------------------------------------
+# Bundles / Assets
+# ----------------------------------------
+/public/bundles/        # Symfony assets
+/public/media/cache/    # LiipImagineBundle cache
+
+# Bootstrap (если качаешь руками)
+bootstrap-4.0.0/*
+
+# ----------------------------------------
+# RoadRunner
+# ----------------------------------------
+/bin/rr
+
+# ----------------------------------------
+# Custom
+# ----------------------------------------
+/ver/*                  # твои кастомные временные файлы
+/docs/                  # документация, если не нужна в git (иначе убрать)
+docker/pwa/             # Docker билды, если не нужно коммитить

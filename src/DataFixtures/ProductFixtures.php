@@ -3,10 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Product\Product;
-use App\Entity\Product\ProductAttachment;
-use App\Entity\Product\ProductEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -14,63 +11,81 @@ use Faker\Factory;
 
 class ProductFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const PRODUCT_COLLECTION = 'productCollection';
 
 	public function load(ObjectManager $manager)
 	{
-        $att = $this->getReference(AttachmentFixtures::ATTACHMENT_COLLECTION);
-//        $proMedia = $this->getReference()  // вінести отдельно продукт медиа в фикстуру
         $faker = Factory::create();
 
-        $productCollection = new ArrayCollection();
+        for ($i = 1; $i <= 10; $i++) {
 
-		for ($p = 1; $p <= 26; $p++) {
-
-			$product = new Product();
-			$productEnGb = new ProductEnGb();
-			$productAttachment = new ProductAttachment();
-
-            $productEnGb->setFirstTitle('Wonderful Product FT # ' . $p);
-            $productEnGb->setMiddleTitle($faker->realText(200));
-            $productEnGb->setLastTitle($faker->realText(7000));
-
-            $productAttachment->setFirstTitle('some file');
-            $productAttachment->setProductAttachmentProduct($product);
-
-
+            $product = new Product();
+            #
+            $productType = $this->getReference('productType_' . $i);
+            $productEnGb = $this->getReference('productEnGb_' . $i);
+            $productAttachment = $this->getReference('productAttachment_' . $i);
+            $productCategory = $this->getReference('productCategory_' . $i);
+            $productTag = $this->getReference('productTag_' . $i);
+            $productPlatformReward = $this->getReference('productPlatformReward_' . $i);
+            $productReview = $this->getReference('productReview_' . $i);
+            #
+            $product->setFirstTitle($faker->realText());
+            $product->setLastTitle($faker->realText(7000));
+            #
+            #
+            $product->setProductType($productType);
             $product->setProductEnGb($productEnGb);
+            $product->setProductFeatured(1);
+            $product->setProductCategory($productCategory);
+            #
+            $product->addProductAttachment($productAttachment);
+            $product->addProductTag($productTag);
+            $product->addProductFavorite(true);
+            $product->addProductPlatformReward($productPlatformReward);
+            $product->addProductReviw($productReview);
 
-            $manager->persist($productAttachment);
-            $manager->persist($productEnGb);
-			$manager->persist($product);
-			$manager->flush();
+            $manager->persist($product);
 
-            $productCollection->add($product);
-
-		}
-
-        $this->addReference(self::PRODUCT_COLLECTION, $productCollection);
+            $this->addReference('product_' . $i, $product);
+        }
+        $manager->flush();
 	}
 
 	public function getDependencies(): array
     {
 		return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
-            ProjectTypeFixtures::class,
+            CategoryEnGbFixtures::class,
+            CategoriesCategoryFixtures::class,
+            CategoryFixtures::class,
+            #
             ProjectAttachmentFixtures::class,
+            ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
-            OrderStatusFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectEnGbFixtures::class,
             ProjectFixtures::class,
+            #
+            ProductAttachmentFixtures::class,
+            ProductReviewFixtures::class,
+            ProductTagFixtures::class,
+            ProductTypeFixtures::class,
+            ProductEnGbFixtures::class,
+
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 11;
+		return 23;
 	}
 
 	/**

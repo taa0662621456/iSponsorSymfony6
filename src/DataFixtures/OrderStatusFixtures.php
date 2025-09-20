@@ -10,54 +10,70 @@ use Doctrine\Persistence\ObjectManager;
 
 class OrderStatusFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const ORDER_STATUS_COLLECTION = 'orderStatusCollection';
-
     public function load(ObjectManager $manager)
     {
         $orderStatusMap = [
-          'New' => 'N',
-          'Depend' => 'D',
-          'Canceled' => 'C',
-          'Shiped' => 'S',
-          'Delivered' => 'D'
+            'New' => 'N',
+            'Depend' => 'D',
+            'Canceled' => 'C',
+            'Shipped' => 'S',
+            'Delivered' => 'D',
+            'Pause' => 'P'
         ];
-        $ordersStatusCollection = new ArrayCollection();
 
-        for ($p = 0; $p <= count($orderStatusMap); $p++) {
+        for ($i = 0; $i <= count($orderStatusMap); $i++) {
 
-            $ordersStatus = new OrderStatus();
+            $orderStatus = new OrderStatus();
 
-            //применить многомерній массив или карту
-            $ordersStatus->setOrderStatusCode('N');
-            $ordersStatus->setOrderStatusName('New ' . $p);
-            $ordersStatus->setOrdering($p);
+            $orderStatus->setOrderStatusCode($i);
+            $orderStatus->setOrderStatusName($orderStatusMap[$i]);
+            $orderStatus->setOrdering($i);
 
-            $manager->persist($ordersStatus);
-            $manager->flush();
+            $manager->persist($orderStatus);
 
-            $ordersStatusCollection->add($ordersStatus);
+            $this->setReference('orderStatus_' . $i, $orderStatus);
+
         }
+        $manager->flush();
 
-        $this->addReference(self::ORDER_STATUS_COLLECTION, $ordersStatusCollection);
     }
 
     public function getDependencies(): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
-            ProjectTypeFixtures::class,
+            CategoryEnGbFixtures::class,
+            CategoriesCategoryFixtures::class,
+            CategoryFixtures::class,
+            #
             ProjectAttachmentFixtures::class,
+            ProjectReviewFixtures::class,
             ProjectTagFixtures::class,
+            ProjectTypeFixtures::class,
+            ProjectEnGbFixtures::class,
+            ProjectFixtures::class,
+            #
+            ProductAttachmentFixtures::class,
+            ProductReviewFixtures::class,
+            ProductTagFixtures::class,
+            ProductTypeFixtures::class,
+            ProductEnGbFixtures::class,
+            ProductFixtures::class,
         ];
     }
 
     public function getOrder(): int
     {
-        return 9;
+        return 24;
     }
 
     /**

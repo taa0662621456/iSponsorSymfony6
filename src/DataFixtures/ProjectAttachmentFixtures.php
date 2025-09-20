@@ -2,82 +2,58 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\Project;
-use App\Entity\Project\ProductAttachment;
+use App\Entity\Product\ProductAttachment;
+use App\Entity\Project\ProjectAttachment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 class ProjectAttachmentFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const PROJECT_ATTACHMENT_COLLECTION = 'projectAttachmentCollection';
-
-    /**
-     * @throws \Exception
-     */
     public function load(ObjectManager $manager)
 	{
 
         $faker = Factory::create();
 
-        $att = $this->getReference(AttachmentFixtures::ATTACHMENT_COLLECTION);
+		for ($i = 1; $i <= 3; $i++) {
 
-        $at = array_rand((array)$att);
-
-        $projectAttachmentCollection = new ArrayCollection();
-        $projectRepository = $manager->getRepository(Project::class)->findAll();
-
-		for ($p = 1; $p <= 3; $p++) {
-
-            $projectAttachment = new ProductAttachment();
-            $project = new Project();
-
-
-            if ($manager->getRepository(Project::class)->findAll()){
-
-                $project = $projectRepository[array_rand($projectRepository)];
-                if (!$projectAttachmentCollection->contains($project)){
-                    $projectAttachmentCollection->add($project);
-                }
-                $project = $projectAttachmentCollection->current();
-            }
-
-            $projectAttachmentCollection->add($project);
-            $project = $projectAttachmentCollection->current();
-
-//            dump($project);
-
-
+            $projectAttachment = new ProjectAttachment();
 
             $projectAttachment->setFirstTitle('some file');
-
-//            $projectAttachment->addProjectAttachment($project);
-
+            #
             $manager->persist($projectAttachment);
-            $manager->flush();
-		}
 
-        $this->addReference(self::PROJECT_ATTACHMENT_COLLECTION, $projectAttachmentCollection);
-	}
+            $this->addReference('projectAttachment_' . $i, $projectAttachment);
+        }
+        $manager->flush();
+
+    }
 
     public function getDependencies (): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
-            ProjectTypeFixtures::class,
+            CategoryEnGbFixtures::class,
+            CategoriesCategoryFixtures::class,
+            CategoryFixtures::class,
+            #
 
         ];
     }
 
 	public function getOrder(): int
     {
-		return 7;
+		return 12;
 	}
 
 	/**

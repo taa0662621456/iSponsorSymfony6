@@ -137,21 +137,25 @@ class Product
     #[ORM\OneToMany(mappedBy: 'productAttachmentProduct', targetEntity: ProductAttachment::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $productAttachment;
 
+    #[ORM\OneToMany(mappedBy: 'productReviewProduct', targetEntity: ProductReview::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+    private Collection $productReview;
+
     public function __construct()
     {
         $t = new DateTime();
         $this->slug = (string)Uuid::v4();
         $this->productAvailableDate = $t->format('Y-m-d H:i:s');
+        #
         $this->productAttachment = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
         $this->productTag = new ArrayCollection();
-
+        $this->productReview = new ArrayCollection();
+        #
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
         $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
-
     }
     #
     public function getProductSku(): int
@@ -480,4 +484,24 @@ class Product
         }
         return $this;
     }
+    # OneToMany
+    public function getProductReview(): Collection
+    {
+        return $this->productReview;
+    }
+    public function addProductReview(ProductReview $productReview): self
+    {
+        if (!$this->productReview->contains($productReview)){
+            $this->productReview[] = $productReview;
+        }
+        return $this;
+    }
+    public function removeProductReview(ProductReview $productReview): self
+    {
+        if ($this->productReview->contains($productReview)){
+            $this->productReview->removeElement($productReview);
+        }
+        return $this;
+    }
+
 }

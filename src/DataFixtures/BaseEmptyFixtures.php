@@ -20,5 +20,11 @@ class BaseEmptyFixtures extends Fixture
 
         $this->addReference(self::EMPTY_FIXTURE, (object)$emptyFixture);
     }
+
+    public function getOrder(): int
+    {
+        return 1;
+    }
+
 }
 

@@ -5,29 +5,18 @@ namespace App\DataFixtures;
 use App\Entity\Vendor\Vendor;
 use App\Service\ThisPersonDoesNotExistPhotoConsumer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use \Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\Common\Collections\ArrayCollection;
 use Faker\Factory;
+use App\DataFixtures\VendorSecurityFixtures;
 
 
 class VendorFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_COLLECTION = 'vendorCollection';
-
     public function load(ObjectManager $manager)
 	{
-//        $vendorEnGbCollection = $this->getReference(VendorEnGbFixtures::VENDOR_ENGB_COLLECTION);
-//        $vendorIbanCollection = $this->getReference(VendorIbanFixtures::VENDOR_IBAN_COLLECTION);
-//        $vendorMediaCollection = $this->getReference(VendorMediaFixtures::VENDOR_MEDIA_COLLECTION);
-//        $vendorDocumentCollection = $this->getReference(VendorDocumentFixtures::VENDOR_DOCUMENT_COLLECTION);
-        $vendorSecurityCollection = $this->getReference(VendorSecurityFixtures::VENDOR_SECURITY_COLLECTION);
-//        #
-//        dd($this);
-
         $faker = Factory::create();
-
-        $vendorCollection = new ArrayCollection();
 
 //        $picsumPhotoApiConsumer = new PicsumPhotoApiConsumer();
 //        $picsum = $picsumPhotoApiConsumer->getPicsum('GET', 'https://picsum.photos/v2/list')->toArray();
@@ -47,45 +36,52 @@ class VendorFixtures extends Fixture implements DependentFixtureInterface
 //        }
 
 
-        for ($p = 1; $p <= 10; $p++) {
+        for ($i = 1; $i <= 10; $i++) {
+
+            $vendorMedia = $this->getReference('vendorMedia_' . $i);
+            $vendorDocument = $this->getReference('vendorDocument_' . $i);
+            $vendorEnGb = $this->getReference('vendorEnGb_' . $i);
+            $vendorIban = $this->getReference('vendorIban_' . $i);
+            $vendorSecurity = $this->getReference('vendorSecurity_' . $i);
 
             $personPhoto = new ThisPersonDoesNotExistPhotoConsumer();
             $randName = random_int(1000000, 1000000000);
             $personPhoto->getExitPersonPhoto((string)$randName);
 
             $vendor = new Vendor();
-
             #
             $vendor->setVendorIban($vendorIban);
-            $vendor->setVendorIban($faker->randomElement($vendorIbanCollection));
             #
             $vendor->setVendorEnGb($vendorEnGb);
             #
-            $vendor->setVendorSecurity($faker->randomElement($vendorSecurityCollection));
+            $vendor->setVendorSecurity($vendorSecurity);
             #
             $manager->persist($vendor);
-            $manager->flush();
-
-            $vendorCollection->add($vendor);
+            #
+            $this->addReference('vendor_' . $i, $vendor);
         }
+        $manager->flush();
 
-        $this->addReference(self::VENDOR_COLLECTION, $vendorCollection);
     }
 
     public function getDependencies (): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
             VendorMediaFixtures::class,
             VendorDocumentFixtures::class,
-            VendorEnGbFixtures::class,
+            VendorSecurityFixtures::class,
             VendorIbanFixtures::class,
-            VendorSecurityFixtures::class
+            VendorEnGbFixtures::class,
+            #
+
         ];
     }
 
     public function getOrder(): int
     {
-		return 6;
+		return 7;
 	}
 
 	public static function getGroups(): array

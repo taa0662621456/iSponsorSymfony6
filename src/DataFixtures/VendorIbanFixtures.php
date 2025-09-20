@@ -4,18 +4,15 @@ namespace App\DataFixtures;
 
 use App\Entity\Vendor\VendorIban;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 class VendorIbanFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_IBAN_COLLECTION = 'vendorIbanCollection';
 
     public function load(ObjectManager $manager)
     {
-        $vendorIbanCollection = new ArrayCollection();
 
         $faker = Factory::create();
 
@@ -27,26 +24,28 @@ class VendorIbanFixtures extends Fixture implements DependentFixtureInterface
             $vendorIban->setIban('32323231551351321546563132');
             #
             $manager->persist($vendorIban);
-            $manager->flush();
             #
-            $vendorIbanCollection->add($vendorIban);
+            $this->addReference('vendorIban_' . $i, $vendorIban);
         }
+        $manager->flush();
 
-        $this->addReference(self::VENDOR_IBAN_COLLECTION, $vendorIbanCollection);
     }
 
     public function getDependencies(): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
             VendorDocumentFixtures::class,
-            VendorEnGbFixtures::class,
+            VendorSecurityFixtures::class,
 
         ];
     }
 
     public function getOrder(): int
     {
-        return 3;
+        return 5;
     }
 
 

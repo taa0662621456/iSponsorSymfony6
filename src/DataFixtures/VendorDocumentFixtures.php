@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Vendor\VendorDocument;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -12,15 +11,12 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class VendorDocumentFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_DOCUMENT_COLLECTION = 'vendorDocumentCollection';
 
     /**
      * @throws \Exception
      */
     public function load(ObjectManager $manager)
 	{
-        $vendorDocumentCollection = new ArrayCollection();
-
         $faker = Factory::create();
 
         $filesystem = new Filesystem();
@@ -45,28 +41,28 @@ class VendorDocumentFixtures extends Fixture implements DependentFixtureInterfac
             $vendorDocument->setFileLang($faker->locale);
             $vendorDocument->setFileIsDownloadable(true);
             #
-            $vendorDocument->setFileName('fileName.pdf');//подставить пути
+            $vendorDocument->setFileName('fileName.pdf');
             #
             $manager->persist($vendorDocument);
-            $manager->flush();
 
-            $vendorDocumentCollection->add($vendorDocument);
+            $this->addReference('vendorDocument_' . $p, $vendorDocument);
         }
-
-        $this->addReference(self::VENDOR_DOCUMENT_COLLECTION, $vendorDocumentCollection);
-	}
+        $manager->flush();
+    }
 
     public function getDependencies(): array
     {
         return [
             BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
         ];
     }
 
 
     public function getOrder(): int
     {
-        return 1;
+        return 3;
     }
 
 	/**

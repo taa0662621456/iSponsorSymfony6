@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Vendor\VendorMedia;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -12,15 +11,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class VendorMediaFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_MEDIA_COLLECTION = 'vendorMediaCollection';
 
-    /**
-     * @throws \Exception
-     */
     public function load(ObjectManager $manager)
 	{
-        $vendorMediaCollection = new ArrayCollection();
-
         $faker = Factory::create();
 
         $filesystem = new Filesystem();
@@ -33,7 +26,7 @@ class VendorMediaFixtures extends Fixture implements DependentFixtureInterface
 
             $vendorMedia = new VendorMedia();
 
-            $faker->image('public/upload/vendor/image/', 600,600, 'animals');
+            //$faker->image('public/upload/vendor/image/', 600,600, 'animals');
 
             $vendorMedia->setFirstTitle($faker->realText(100));
             #
@@ -43,26 +36,23 @@ class VendorMediaFixtures extends Fixture implements DependentFixtureInterface
             $vendorMedia->setFileName('media.jpg');
             #
             $manager->persist($vendorMedia);
-            $manager->flush();
 
-            $vendorMediaCollection->add($vendorMedia);
+            $this->addReference('vendorMedia_' . $p, $vendorMedia);
         }
+        $manager->flush();
 
-        $this->addReference(self::VENDOR_MEDIA_COLLECTION, $vendorMediaCollection);
-	}
+    }
 
     public function getDependencies(): array
     {
         return [
-            VendorDocumentFixtures::class,
-            VendorEnGbFixtures::class,
-            VendorIbanFixtures::class,
+            BaseEmptyFixtures::class,
         ];
     }
 
     public function getOrder(): int
     {
-        return 4;
+        return 2;
     }
     /**
 	 * @return string[]

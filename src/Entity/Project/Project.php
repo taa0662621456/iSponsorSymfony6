@@ -11,8 +11,9 @@ use App\Entity\ObjectTrait;
 use App\Entity\Product\Product;
 use App\Entity\Project\Type;
 use App\Entity\Tag\Tag;
+use App\Form\Project\ProjectType;
 use App\Interface\CategoryInterface;
-use App\Interface\TypeInterface;
+use App\Interface\ProjectTypeInterface;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -33,13 +34,12 @@ class Project
     use ObjectTrait;
     use MetaTrait;
 
-
     public const NUM_ITEMS = 10;
 
-    #[ORM\ManyToOne(targetEntity: TypeInterface::class, inversedBy: 'projectType')]
-    #[Assert\Type(type: 'App\Entity\Project\Type')]
+    #[ORM\ManyToOne(targetEntity: ProjectTypeInterface::class, inversedBy: 'projectTypeProject')]
+    #[Assert\Type(type: 'App\Entity\Project\ProjectType')]
     #[Assert\Valid]
-    private Type $projectType;
+    private ProjectType $projectType;
 
     #[ORM\ManyToOne(targetEntity: CategoryInterface::class, fetch: 'EXTRA_LAZY', inversedBy: 'categoryProject')]
     #[Assert\Valid]
@@ -81,16 +81,22 @@ class Project
     #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
     private Collection $projectPlatformReward;
 
+    #[ORM\OneToMany(mappedBy: 'projectReview', targetEntity: ProjectReview::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Assert\Count(max: 100, maxMessage: 'project.too_many_rewards')]
+    private Collection $projectReviw;
+
     #[Pure]
     public function __construct()
     {
         $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
+        #
         $this->projectAttachment = new ArrayCollection();
         $this->projectTag = new ArrayCollection();
         $this->projectProduct = new ArrayCollection();
         $this->projectPlatformReward = new ArrayCollection();
-
+        #
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
         $this->createdAt = $t->format('Y-m-d H:i:s');
         $this->modifiedAt = $t->format('Y-m-d H:i:s');
@@ -107,11 +113,11 @@ class Project
         $this->projectCategory = $projectCategory;
     }
     # ManyToOne
-    public function getProjectType(): Collection
+    public function getProjectType(): ProjectType
     {
         return $this->projectType;
     }
-    public function setProjectType(Type $projectType): void
+    public function setProjectType(ProjectType $projectType): void
     {
         $this->projectType = $projectType;
     }
@@ -226,5 +232,26 @@ class Project
     {
         $this->projectFeatured = $projectFeatured;
     }
+    # OneToMeny
+    public function getProjectReviw(): Collection
+    {
+        return $this->projectReviw;
+    }
+    public function addProjectReviw(ProjectReview $projectReviw): self
+    {
+        if (!$this->projectReviw->contains($projectReviw)){
+            $this->projectReviw[] = $projectReviw;
+        }
+        return $this;
+    }
+    public function removeProjectReviw(ProjectReview $projectReviw): self
+    {
+        if ($this->projectReviw->contains($projectReviw)){
+            $this->projectReviw->removeElement($projectReviw);
+        }
+        return $this;
+    }
+
+
 
 }

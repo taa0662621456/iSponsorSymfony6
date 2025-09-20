@@ -4,23 +4,17 @@ namespace App\DataFixtures;
 
 use App\Entity\Vendor\VendorEnGb;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 class VendorEnGbFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_ENGB_COLLECTION = 'vendorEnGbCollection';
-
-
 
     public function load(ObjectManager $manager)
     {
-        $vendorEnGbCollection = new ArrayCollection();
 
         $faker = Factory::create();
-
 
         for ($i = 0; $i < 20; $i++){
 
@@ -41,24 +35,28 @@ class VendorEnGbFixtures extends Fixture implements DependentFixtureInterface
             $vendorEnGb->setVendorCurrency($faker->currencyCode);
             #
             $manager->persist($vendorEnGb);
-            $manager->flush();
             #
-            $vendorEnGbCollection->add($vendorEnGb);
+            $this->addReference('vendorEnGb_' . $i, $vendorEnGb);
         }
+        $manager->flush();
 
-        $this->addReference(self::VENDOR_ENGB_COLLECTION, $vendorEnGbCollection);
     }
 
     public function getDependencies(): array
     {
         return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
             VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
         ];
     }
 
     public function getOrder(): int
     {
-        return 3;
+        return 6;
     }
 
     /**

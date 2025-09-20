@@ -4,20 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
 class VendorSecurityFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const VENDOR_SECURITY_COLLECTION = 'vendorSecurityCollection';
-
     public function load(ObjectManager $manager)
     {
-
-        $vendorSecurityCollection = new ArrayCollection();
-
         $faker = Factory::create();
 
         for ($i = 0; $i < 20; $i++){
@@ -33,27 +27,26 @@ class VendorSecurityFixtures extends Fixture implements DependentFixtureInterfac
             $vendorSecurity->setRoles(['ROLE_USER']);
             #
             $manager->persist($vendorSecurity);
-            $manager->flush();
-            #
-            $vendorSecurityCollection->add($vendorSecurity);
-        }
 
-        $this->addReference(self::VENDOR_SECURITY_COLLECTION, $vendorSecurityCollection);
+            $this->addReference('vendorSecurity_' . $i, $vendorSecurity);
+        }
+        $manager->flush();
+
     }
 
     public function getDependencies(): array
     {
         return [
-            VendorDocumentFixtures::class,
-            VendorEnGbFixtures::class,
-            VendorIbanFixtures::class,
+            BaseEmptyFixtures::class,
+            #
             VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
         ];
     }
 
     public function getOrder(): int
     {
-        return 5;
+        return 4;
     }
 
 

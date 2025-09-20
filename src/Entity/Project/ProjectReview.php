@@ -1,12 +1,14 @@
 <?php
 
 
-namespace App\Entity\Review;
+namespace App\Entity\Project;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 
 
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Entity\Product\Product;
 use App\Entity\ReviewTrait;
 use App\Repository\Review\ProjectReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,23 +22,18 @@ use Doctrine\ORM\Mapping as ORM;
  * ApiFilter(properties={"review": "exact"}) //TODO: Чтобы работала аннотация, необходимо создать таблицы базы
  */
 #[ORM\Table(name: 'project_review')]
-#[ORM\Index(columns: ['slug'], name: 'project_reviews_idx')]
+#[ORM\Index(columns: ['slug'], name: 'project_review_idx')]
 #[ORM\Entity(repositoryClass: ProjectReviewRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class ReviewProject
+class ProjectReview
 {
     use BaseTrait;
+    use ObjectTrait;
     use ReviewTrait;
     public const NUM_ROWS = 10;
 
     #[ORM\Column(name: 'project_id', nullable: true)]
     private ?string $projectId = null;
-
-    #[ORM\Column(name: 'project_uuid', nullable: true)]
-    private ?string $projectUuid = null;
-
-    #[ORM\Column(name: 'project_slug', nullable: true)]
-    private ?string $projectSlug = null;
 
     public function getProjectId(): ?string
     {
@@ -47,21 +44,16 @@ class ReviewProject
         $this->projectId = $projectId;
     }
 
-    public function getProjectUuid(): ?string
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectReview')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private Project $projectReviewProject;
+    # ManyToOne
+    public function getProjectReviewProject(): Project
     {
-        return $this->projectUuid;
+        return $this->projectReviewProject;
     }
-    public function setProjectUuid(?string $projectUuid): void
+    public function setProjectReviewProject(Project $project): void
     {
-        $this->projectUuid = $projectUuid;
-    }
-
-    public function getProjectSlug(): ?string
-    {
-        return $this->projectSlug;
-    }
-    public function setProjectSlug(?string $projectSlug): void
-    {
-        $this->projectSlug = $projectSlug;
+        $this->projectReviewProject = $project;
     }
 }

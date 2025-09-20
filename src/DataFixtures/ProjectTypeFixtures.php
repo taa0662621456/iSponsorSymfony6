@@ -2,20 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Project\Type;
+use App\Entity\Project\ProjectType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
 
 class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
 {
-    public const PROJECT_TYPE = 'projectType';
 
-    /**
-     * @throws Exception
-     */
     public function load(ObjectManager $manager)
 	{
         $projectTypeTitle = [
@@ -25,42 +19,49 @@ class ProjectTypeFixtures extends Fixture implements DependentFixtureInterface
             'donate'
         ];
 
-        $projectTypeCollection = new ArrayCollection();
+		for ($i = 0; $i < count($projectTypeTitle); $i++) {
+
+            $projectType = new ProjectType();
 
 
-
-		for ($p = 0; $p <= 3; $p++) {
-
-            $projectType = new Type();
-
-
-            $projectType->setFirstTitle($projectTypeTitle[$p]);
-            $projectType->setMiddleTitle($projectTypeTitle[$p]);
-            $projectType->setLastTitle($projectTypeTitle[$p]);
+            $projectType->setFirstTitle($projectTypeTitle[$i]);
+            $projectType->setMiddleTitle($projectTypeTitle[$i]);
+            $projectType->setLastTitle($projectTypeTitle[$i]);
 
             $manager->persist($projectType);
-            $manager->flush();
 
-            $projectTypeCollection->add($projectType);
-		}
+            $this->setReference('projectType_' . $i, $projectType);
+        }
+        $manager->flush();
 
-        $this->addReference(self::PROJECT_TYPE, $projectTypeCollection);
-	}
+    }
 
 	public function getDependencies (): array
     {
 		return [
+            BaseEmptyFixtures::class,
+            #
+            VendorMediaFixtures::class,
+            VendorDocumentFixtures::class,
+            VendorSecurityFixtures::class,
+            VendorIbanFixtures::class,
+            VendorEnGbFixtures::class,
             VendorFixtures::class,
-            AttachmentFixtures::class,
-            ReviewProjectFixtures::class,
-            ReviewProductFixtures::class,
+            #
             CategoryAttachmentFixtures::class,
+            CategoryEnGbFixtures::class,
+            CategoriesCategoryFixtures::class,
+            CategoryFixtures::class,
+            #
+            ProjectAttachmentFixtures::class,
+            ProjectReviewFixtures::class,
+            ProjectTagFixtures::class,
         ];
 	}
 
 	public function getOrder(): int
     {
-		return 7;
+		return 15;
 	}
 
 	/**

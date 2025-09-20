@@ -1,27 +1,26 @@
 <?php
 
-namespace App\Entity\Type;
+namespace App\Entity\Project;
 
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use App\Entity\Project\Project;
-use App\Interface\TypeInterface;
+use App\Interface\ProjectTypeInterface;
 use App\Repository\Type\TypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
-#[ORM\Table(name: 'type')]
-#[ORM\Index(columns: ['slug'], name: 'type_idx')]
+#[ORM\Table(name: 'project_type')]
+#[ORM\Index(columns: ['slug'], name: 'project_type_idx')]
 #[ORM\Entity(repositoryClass: TypeRepository::class)]
-class Type implements TypeInterface
+class ProjectType implements ProjectTypeInterface
 {
     use BaseTrait;
     use ObjectTrait;
 
     #[ORM\OneToMany(mappedBy: 'projectType', targetEntity: Project::class)]
-    private Collection $typeProject;
+    private Collection $projectTypeProject;
 
     /**
      * @throws \Exception
@@ -30,7 +29,7 @@ class Type implements TypeInterface
     {
         $t = new \DateTime();
         $this->slug = (string)Uuid::v4();
-        $this->typeProject = new ArrayCollection();
+        $this->projectTypeProject = new ArrayCollection();
 
 
         $this->lastRequestDate = $t->format('Y-m-d H:i:s');
@@ -39,23 +38,22 @@ class Type implements TypeInterface
         $this->lockedAt = $t->format('Y-m-d H:i:s');
         $this->published = true;
     }
-
-    public function getTypeProject(): Collection
+    #
+    public function getProjectTypeProject(): Collection
     {
-        return $this->typeProject;
+        return $this->projectTypeProject;
     }
-
-    public function addTypeProject(Project $project): self
+    public function addProjectTypeProject(Project $project): self
     {
-        if (!$this->typeProject->contains($project)){
-            $this->typeProject[] = $project;
+        if (!$this->projectTypeProject->contains($project)){
+            $this->projectTypeProject[] = $project;
         }
         return $this;
     }
-    public function removeTypeProject(Project $project): self
+    public function removeProjectTypeProject(Project $project): self
     {
-        if ($this->typeProject->contains($project)){
-            $this->typeProject->removeElement($project);
+        if ($this->projectTypeProject->contains($project)){
+            $this->projectTypeProject->removeElement($project);
         }
         return $this;
     }
