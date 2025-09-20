@@ -1,30 +1,26 @@
 <?php
 
-
 namespace App\Entity\Category;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Api\Filter\CurrencyFilterTrait;
 use App\Api\Filter\SlugTitleFilterTrait;
 use App\Api\Filter\StatusFilterTrait;
 use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\BaseTrait;
-use App\Entity\CategoryLanguageTrait;
+use App\Entity\Currency\CategoryFeatured;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Project\Project;
-use App\Interface\Category\CategoryInterface;
-use App\Interface\Featured\FeaturedInterface;
-use App\Interface\Project\ProjectInterface;
+use App\EntityInterface\Category\CategoryAttachmentInterface;
+use App\EntityInterface\Category\CategoryInterface;
+use App\EntityInterface\Featured\FeaturedInterface;
+use App\EntityInterface\Project\ProjectInterface;
 use App\Repository\Category\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -35,7 +31,6 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
 use JetBrains\PhpStorm\Pure;
-use DateTime;
 
 
 #[ORM\Table(name: 'category')]
