@@ -16,7 +16,7 @@ class testGetEntityRoute
 
         $service = new EntityRoute($requestStack);
 
-        $routePath = $service->getRoute();
+        $routePath = $service->getEntityRouteNamespace();
         $this->assertSame('UserProfile', $routePath);
     }
 

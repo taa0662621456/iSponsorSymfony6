@@ -33,7 +33,7 @@ final class DashboardCustomerStatisticsController
         /** @var null $customer */
         $customer = $this->customerRepository->find($customerId);
         if (null === $customer) {
-            throw new HttpException(Response::HTTP_BAD_REQUEST, sprintf('Customer with id %s doesn\'t exist.', $customerId));
+            throw new HttpException(Response::HTTP_BAD_REQUEST, sprintf('Customer with id %s does n\'t exist.', $customerId));
         }
 
         $customerStatistics = $this->statisticsProvider->getCustomerStatistics($customer);

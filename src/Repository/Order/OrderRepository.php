@@ -99,20 +99,20 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->getResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneForPayment($id): ?OrderStorageInterface
     {
-        try {
-            return $this->createQueryBuilder('o')
-                ->addSelect('payments')
-                ->addSelect('paymentMethods')
-                ->leftJoin('o.payments', 'payments')
-                ->leftJoin('payments.method', 'paymentMethods')
-                ->andWhere('o.id = :id')
-                ->setParameter('id', $id)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-        }
+        return $this->createQueryBuilder('o')
+            ->addSelect('payments')
+            ->addSelect('paymentMethods')
+            ->leftJoin('o.payments', 'payments')
+            ->leftJoin('payments.method', 'paymentMethods')
+            ->andWhere('o.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     /**
@@ -141,6 +141,10 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
             ->getSingleScalarResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function countByCustomer(CustomerInterface $customer): int
     {
         try {
@@ -153,6 +157,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -167,6 +172,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -183,6 +189,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -201,9 +208,13 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findLatestNotEmptyCartByChannelAndCustomer(
         VendorInterface $vendor,
         CustomerInterface $customer,
@@ -224,6 +235,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -239,6 +251,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -308,6 +321,10 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         return 0;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     public function countFulfilledByChannel(VendorInterface $vendor): int
     {
         try {
@@ -320,6 +337,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -341,6 +359,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         try {
             return (int)$queryBuilder->getQuery()->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -383,6 +402,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
         try {
             return (int)$queryBuilder->getQuery()->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -436,6 +456,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
 
         try {
@@ -470,6 +491,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
 
         try {
@@ -497,6 +519,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
 
         try {
@@ -524,6 +547,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
 
         try {
@@ -550,6 +574,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -566,6 +591,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -579,6 +605,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException|NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -614,6 +641,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -628,6 +656,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -642,6 +671,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -656,6 +686,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -759,6 +790,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -778,6 +810,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -794,6 +827,7 @@ class OrderRepository extends EntityRepository implements OrderItemRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 }

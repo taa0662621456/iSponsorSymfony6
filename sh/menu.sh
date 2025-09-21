@@ -12,6 +12,7 @@ while true; do
   echo -e " 6 Test"
   echo -e " 7 Docker"
   echo -e " 8 Migration"
+  echo -e " 9 Composer"
   echo -e '\e[0m \e[1m'
   echo -e " ------------------------"
   echo -e "   Press Space for exit"
@@ -58,6 +59,10 @@ while true; do
   8)
     echo -e "Migration menu"
     source ./sh/migration.sh
+    ;;
+  9)
+    echo -e "Composer"
+    source ./sh/composer.sh
     ;;
   *) echo -e "\e[31m Incorrect\e[0m" ;;
   esac

@@ -61,6 +61,7 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 

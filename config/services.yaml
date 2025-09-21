@@ -39,6 +39,21 @@ services:
     App\EventListener\ExceptionListener:
         tags:
             - { name: 'kernel.event_listener', event: 'kernel.exception', priority: 10 }
+    App\EventSubscriber\ObjectPropertySubscriber:
+        tags:
+            - { name: doctrine.event_subscriber }
+    App\EventListener\LastRequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: -10 }
+    App\EventListener\LastRequestControllerListener:
+        arguments:
+            $logger: '@monolog.logger.object_property'
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, priority: -10 }
+
+    App\Service\Setup\DatabaseSetupCommandsProvider:
+        arguments:
+            $logger: '@monolog.logger.database_setup'
 
     App\Service\ObjectInitializer:
         bind:

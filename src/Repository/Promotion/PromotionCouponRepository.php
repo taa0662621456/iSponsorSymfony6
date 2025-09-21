@@ -64,6 +64,7 @@ class PromotionCouponRepository extends EntityRepository implements PromotionCou
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 

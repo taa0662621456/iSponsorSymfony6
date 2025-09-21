@@ -80,6 +80,7 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -114,6 +115,9 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->getResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneByIdAndProductId($id, $productId): ?ProductVariantInterface
     {
         try {
@@ -125,6 +129,7 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 

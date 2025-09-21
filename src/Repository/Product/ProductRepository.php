@@ -200,6 +200,7 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
 
         $this->associationHydrate->hydrateAssociations($product, [
@@ -228,6 +229,7 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
 
         $this->associationHydrate->hydrateAssociations($product, [
@@ -252,6 +254,7 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 

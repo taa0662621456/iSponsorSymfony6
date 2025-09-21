@@ -3,265 +3,204 @@
 namespace App\Entity\Embeddable;
 
 use App\Entity\Vendor\Vendor;
-use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use JetBrains\PhpStorm\Pure;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Workflow\DefinitionBuilder;
-use Symfony\Component\Workflow\MarkingStore\MethodMarkingStore;
-use Symfony\Component\Workflow\StateMachine;
-use Symfony\Component\Workflow\Transition;
 
-/**
- * @property string $lastRequestDate
- */
-#[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug'])]
 #[ORM\Embeddable]
 class ObjectProperty
 {
-    #[ORM\Column(name: 'published', type: 'boolean', nullable: true)]
+    #[ORM\Column(name: 'published', type: 'boolean')]
     private bool $published = true;
 
-    #[ORM\Column(name: 'slug', type: 'string', unique: true, nullable: true)]
+    #[ORM\Column(name: 'slug', type: 'string', length: 128, unique: true)]
     private string $slug;
 
-    #[ORM\Column(name: 'created_at', type: 'string', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private string $createdAt = 'Y-m-d H:i:s';
+    #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
+    private DateTimeImmutable $createdAt;
 
-    #[ORM\Column(name: 'created_by', type: 'integer', nullable: true, options: ['default' => 1])]
-    private int $createdBy = 1;
+    #[ORM\Column(name: 'created_by', type: 'integer', nullable: true)]
+    private ?int $createdBy = null;
 
-    #[ORM\Column(name: 'modified_at', type: 'string', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private string $modifiedAt = 'Y-m-d H:i:s';
+    #[ORM\Column(name: 'modified_at', type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $modifiedAt = null;
 
-    #[ORM\Column(name: 'modified_by', type: 'integer', nullable: true, options: ['default' => 1])]
-    private int $modifiedBy = 1;
+    #[ORM\Column(name: 'modified_by', type: 'integer', nullable: true)]
+    private ?int $modifiedBy = null;
 
-    #[ORM\Column(name: 'locked_at', type: 'string', nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private string $lockedAt = 'Y-m-d H:i:s';
+    #[ORM\Column(name: 'locked_at', type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $lockedAt = null;
 
-    #[Groups(['read', 'write'])]
-    #[ORM\Column(name: 'locked_by', type: 'integer', nullable: true, options: ['default' => 1])]
-    private int $lockedBy = 1;
+    #[ORM\Column(name: 'locked_by', type: 'integer', nullable: true)]
+    private ?int $lockedBy = null;
 
-    #[ORM\Column(name: 'current_state', type: 'string', nullable: true, options: ['default' => 'submitted', 'comment' => 'Submitted, Spam and Published stats'])]
-    protected string $currentState = 'submitted';
+    #[ORM\Column(name: 'current_state', type: 'string', length: 32, options: ['default' => 'submitted'])]
+    private string $currentState = 'submitted';
 
-    #[ORM\Column(type: 'integer', nullable: true)]
     #[ORM\Version]
-    protected int $version;
+    #[ORM\Column(type: 'integer')]
+    private int $version;
+
+    #[ORM\Column(name: 'last_request_date', type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $lastRequestDate = null;
 
     public function __construct()
     {
-        $this->slug = Uuid::uuid4();
-        $definitionBuilder = new DefinitionBuilder();
-        $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
-            ->addTransition(new Transition('transition1', 'state1', 'state2'))
-            ->addTransition(new Transition('transition2', 'state2', 'state3'))
-            ->build();
-
-        $workflow = new StateMachine(
-            $definition,
-            new MethodMarkingStore(true)
-        );
+        $this->slug = Uuid::uuid4()->toString();
+        $this->createdAt = new DateTimeImmutable();
     }
 
-    public function setLastRequestDate(string $lastRequestDate): void
+    // === Helpers ===
+
+    public function markCreated(int $userId): void
     {
-        // TODO: must be setting date owner request only
-        $t = new DateTime();
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
+        $this->createdAt = new DateTimeImmutable();
+        $this->createdBy = $userId;
     }
 
-    public function setCurrentState(string $currentState): void
+    public function markModified(int $userId): void
     {
-        $this->currentState = $currentState ?? 'submitted';
+        $this->modifiedAt = new DateTimeImmutable();
+        $this->modifiedBy = $userId;
     }
 
-    public function applyTransition($transition): void
+    public function markLocked(int $userId): void
     {
-        $definitionBuilder = new DefinitionBuilder();
-        $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
-            ->addTransition(new Transition('transition1', 'state1', 'state2'))
-            ->addTransition(new Transition('transition2', 'state2', 'state3'))
-            ->build();
-
-        $workflow = new StateMachine(
-            $definition,
-            new MethodMarkingStore(true)
-        );
-
-        // Проверяем, допустим ли переход
-        if ($workflow->can($this, $transition)) {
-            // Применяем переход
-            $workflow->apply($this, $transition);
-        }
+        $this->lockedAt = new DateTimeImmutable();
+        $this->lockedBy = $userId;
     }
 
-    public function getAvailableTransitions(): array
+    public function markLastRequestNow(): void
     {
-        $definitionBuilder = new DefinitionBuilder();
-        $definition = $definitionBuilder->addPlaces(['state1', 'state2', 'state3'])
-            ->addTransition(new Transition('transition1', 'state1', 'state2'))
-            ->addTransition(new Transition('transition2', 'state2', 'state3'))
-            ->build();
-
-        $workflow = new StateMachine(
-            $definition,
-            new MethodMarkingStore(true)
-        );
-
-        return $workflow->getEnabledTransitions($this);
+        $this->lastRequestDate = new DateTimeImmutable();
     }
 
-    #[Pure]
+    public function regenerateSlug(?string $base = null): void
+    {
+        $this->slug = $base
+            ? strtolower(preg_replace('/[^a-z0-9]+/i', '-', trim($base)))
+            : Uuid::uuid4()->toString();
+    }
+
+    public function isInState(string $state): bool
+    {
+        return $this->currentState === $state;
+    }
+
     public function isAuthor(Vendor $vendor = null): bool
     {
-        return $vendor && $vendor->getId() == $this->getCreatedBy();
+        return $vendor && $vendor->getId() === $this->createdBy;
     }
 
-    /**
-     * @return bool
-     */
+    // === Getters & setters ===
+
     public function isPublished(): bool
     {
         return $this->published;
     }
 
-    /**
-     * @param bool $published
-     */
     public function setPublished(bool $published): void
     {
         $this->published = $published;
     }
 
-    /**
-     * @return string
-     */
     public function getSlug(): string
     {
         return $this->slug;
     }
 
-    /**
-     * @param string $slug
-     */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
-    /**
-     * @return string
-     */
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param string $createdAt
-     */
-    public function setCreatedAt(string $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    /**
-     * @return int
-     */
-    public function getCreatedBy(): int
+    public function getCreatedBy(): ?int
     {
         return $this->createdBy;
     }
 
-    /**
-     * @param int $createdBy
-     */
-    public function setCreatedBy(int $createdBy): void
+    public function setCreatedBy(?int $createdBy): void
     {
         $this->createdBy = $createdBy;
     }
 
-    /**
-     * @return string
-     */
-    public function getModifiedAt(): string
+    public function getModifiedAt(): ?DateTimeImmutable
     {
         return $this->modifiedAt;
     }
 
-    /**
-     * @param string $modifiedAt
-     */
-    public function setModifiedAt(string $modifiedAt): void
+    public function setModifiedAt(?DateTimeImmutable $modifiedAt): void
     {
         $this->modifiedAt = $modifiedAt;
     }
 
-    /**
-     * @return int
-     */
-    public function getModifiedBy(): int
+    public function getModifiedBy(): ?int
     {
         return $this->modifiedBy;
     }
 
-    /**
-     * @param int $modifiedBy
-     */
-    public function setModifiedBy(int $modifiedBy): void
+    public function setModifiedBy(?int $modifiedBy): void
     {
         $this->modifiedBy = $modifiedBy;
     }
 
-    /**
-     * @return string
-     */
-    public function getLockedAt(): string
+    public function getLockedAt(): ?DateTimeImmutable
     {
         return $this->lockedAt;
     }
 
-    /**
-     * @param string $lockedAt
-     */
-    public function setLockedAt(string $lockedAt): void
+    public function setLockedAt(?DateTimeImmutable $lockedAt): void
     {
         $this->lockedAt = $lockedAt;
     }
 
-    /**
-     * @return int
-     */
-    public function getLockedBy(): int
+    public function getLockedBy(): ?int
     {
         return $this->lockedBy;
     }
 
-    /**
-     * @param int $lockedBy
-     */
-    public function setLockedBy(int $lockedBy): void
+    public function setLockedBy(?int $lockedBy): void
     {
         $this->lockedBy = $lockedBy;
     }
 
-    /**
-     * @return int
-     */
+    public function getCurrentState(): string
+    {
+        return $this->currentState;
+    }
+
+    public function setCurrentState(string $currentState): void
+    {
+        $this->currentState = $currentState ?: 'submitted';
+    }
+
     public function getVersion(): int
     {
         return $this->version;
     }
 
-    /**
-     * @param int $version
-     */
     public function setVersion(int $version): void
     {
         $this->version = $version;
+    }
+
+    public function getLastRequestDate(): ?DateTimeImmutable
+    {
+        return $this->lastRequestDate;
+    }
+
+    public function setLastRequestDate(?DateTimeImmutable $lastRequestDate): void
+    {
+        $this->lastRequestDate = $lastRequestDate;
     }
 }

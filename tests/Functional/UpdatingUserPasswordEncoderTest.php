@@ -52,7 +52,7 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
 
         $this->client->request('GET', '/en_US/login');
 
-        $this->submitForm('Login', [
+        $this->submitForm([
             '_username' => 'Oliver@doe.com',
             '_password' => 'testpassword',
         ]);
@@ -79,7 +79,7 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
 
         $this->client->request('GET', '/admin/login');
 
-        $this->submitForm('Login', [
+        $this->submitForm([
             '_username' => 'user@example.com',
             '_password' => 'testpassword',
         ]);
@@ -124,9 +124,9 @@ final class UpdatingUserPasswordEncoderTest extends WebTestCase
         Assert::assertSame($initialOAuthAccounts + 1, $shopUser->getOAuthAccounts()->count());
     }
 
-    private function submitForm(string $button, array $fieldValues = []): void
+    private function submitForm(array $fieldValues = []): void
     {
-        $buttonNode = $this->client->getCrawler()->selectButton($button);
+        $buttonNode = $this->client->getCrawler()->selectButton('Login');
 
         $form = $buttonNode->form($fieldValues);
 

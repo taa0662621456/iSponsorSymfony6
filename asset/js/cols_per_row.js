@@ -3,7 +3,7 @@ import Masonry from 'masonry-layout';
 
 let assets = document.querySelector('#tools');
 if (assets != null) {
-    function () {
+    function cols() {
 
         let $col1 = $('#col1:first').filter('button');
         let $col2 = $('#col2:first').filter('button');

@@ -4,22 +4,19 @@ namespace App\Service\Entity;
 
 class EntityAttachment
 {
-    public function __construct(
-        private readonly string $attachmentNamespaceBase = 'App\Entity\\Attachments\\') {}
-
-    public function getAttachmentClass(string $entityClass): ?string
+    public function getEntityAttachmentClassName(string $entityClassName): ?string
     {
-        $attachmentClass = $entityClass . 'Attachment';
-        return class_exists($attachmentClass) ? $attachmentClass : null;
+        $attachmentClassName = $entityClassName . 'Attachment';
+        return class_exists($attachmentClassName) ? $attachmentClassName : null;
     }
 
-    public function createAttachment(string $attachmentClass): object
+    public function createEntityAttachmentObject(string $attachmentClassName): object
     {
-        if (!class_exists($attachmentClass)) {
-            throw new \InvalidArgumentException("Attachment class $attachmentClass does not exist.");
+        if (!class_exists($attachmentClassName)) {
+            throw new \InvalidArgumentException("Attachment class $attachmentClassName does not exist.");
         }
 
-        return new $attachmentClass();
+        return new $attachmentClassName();
     }
 
 }

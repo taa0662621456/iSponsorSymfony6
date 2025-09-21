@@ -14,6 +14,9 @@ class VendorChannel extends RootEntity implements ObjectInterface, VendorChannel
     #[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'channels')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Vendor $vendor = null;
 
     public function __construct()
     {
@@ -21,22 +24,55 @@ class VendorChannel extends RootEntity implements ObjectInterface, VendorChannel
         $this->objectProperty = new ObjectProperty();
     }
 
-    /**
-     * @return ObjectProperty
-     */
     public function getObjectProperty(): ObjectProperty
     {
         return $this->objectProperty;
     }
 
-    /**
-     * @param ObjectProperty $objectProperty
-     */
-    public function setObjectProperty(ObjectProperty $objectProperty): void
+    // Прокси для ObjectProperty
+
+    public function getCode(): ?string
     {
-        $this->objectProperty = $objectProperty;
+        return $this->objectProperty->getCode();
     }
 
+    public function setCode(string $code): void
+    {
+        $this->objectProperty->setCode($code);
+    }
 
+    public function getName(): ?string
+    {
+        return $this->objectProperty->getName();
+    }
 
+    public function setName(string $name): void
+    {
+        $this->objectProperty->setName($name);
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->objectProperty->getSlug();
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->objectProperty->setSlug($slug);
+    }
+
+    public function getVendor(): ?Vendor
+    {
+        return $this->vendor;
+    }
+
+    public function setVendor(?Vendor $vendor): void
+    {
+        $this->vendor = $vendor;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName() ?? $this->getCode() ?? 'Channel';
+    }
 }

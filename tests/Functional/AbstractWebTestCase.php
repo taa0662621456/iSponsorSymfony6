@@ -1,11 +1,11 @@
 <?php
 
-
-namespace Functional;
+namespace App\Tests\Functional;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase as BaseWebTestCase;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\KernelInterface;
+use App\Kernel;
 
 abstract class AbstractWebTestCase extends BaseWebTestCase
 {
@@ -19,21 +19,35 @@ abstract class AbstractWebTestCase extends BaseWebTestCase
         static::deleteTmpDir();
     }
 
-    protected static function deleteTmpDir()
+    protected static function deleteTmpDir(): void
     {
-        if (!file_exists($dir = sys_get_temp_dir() . '/SyliusInterface
-    {
-        $class = self::getKernelClass();
+        $fs = new Filesystem();
+        $tmpDir = sys_get_temp_dir() . '/app_test_tmp';
 
-        return new $class(
-            $options['environment'] ?? $_ENV['APP_ENV'] ?? $_SERVER['APP_ENV'] ?? 'test',
-            (bool) ($options['debug'] ?? $_ENV['APP_DEBUG'] ?? $_SERVER['APP_DEBUG'] ?? false),
-            $options['test_case'] ?? null,
-        );
+        if ($fs->exists($tmpDir)) {
+            $fs->remove($tmpDir);
+        }
     }
 
-    protected static function getKernelClass(): string
+    protected static function createKernel(array $options = []): KernelInterface
     {
-        return 'Sylius\Tests\Functional\app\AppKernel';
+        $environment = $options['environment'] ?? ($_ENV['APP_ENV'] ?? 'test');
+        $debug = (bool) ($options['debug'] ?? ($_ENV['APP_DEBUG'] ?? false));
+
+        $kernel = new Kernel($environment, $debug);
+
+        if (!empty($options['test_case'])) {
+            $configPath = __DIR__ . '/config/' . $options['test_case'] . '.yaml';
+
+            if (file_exists($configPath)) {
+                $kernel->boot();
+                $container = $kernel->getContainer();
+
+                $loader = $container->get('config.loader');
+                $loader->load($configPath);
+            }
+        }
+
+        return $kernel;
     }
 }

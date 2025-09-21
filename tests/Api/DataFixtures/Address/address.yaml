@@ -1,0 +1,17 @@
+App\Entity\Vendor\VendorSecurity:
+  customer_tony:
+    email: 'user@example.com'
+    username: 'tony'
+    password: 'plainPassword'
+    roles: ['ROLE_USER']
+    locale: 'en'
+    plainPassword: 'plainPassword'
+    sendEmail: false
+
+App\Entity\Address:
+  address:
+    customer: '@customer_tony'
+    street: '123 Main St'
+    city: 'Houston'
+    postcode: '77001'
+    country: 'US'

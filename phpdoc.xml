@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpdocumentor>
+    <title>iSponsor Symfony 6.4</title>
+
+    <paths>
+        <directory>src</directory>
+    </paths>
+
+    <ignore>
+        <directory>vendor</directory>
+        <directory>tests</directory>
+        <directory>hs</directory>
+        <directory>translations</directory>
+        <directory>public</directory>
+        <directory>pwa</directory>
+        <directory>migrations</directory>
+        <directory>data</directory>
+        <directory>docker</directory>
+        <directory>fixtures</directory>
+        <directory>var</directory>
+        <directory>bin</directory>
+    </ignore>
+
+    <templates>
+        <template name="clean"/>
+    </templates>
+
+    <output>docs</output>
+</phpdocumentor>

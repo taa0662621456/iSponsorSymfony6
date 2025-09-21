@@ -2,6 +2,8 @@
 
 namespace App\Service\Entity;
 
+use App\DataTransferObject\ObjectProps;
+
 class EntityCache
 {
     private array $cache = [
@@ -10,24 +12,8 @@ class EntityCache
         'objectProps' => []
     ];
 
-    public function get(string $key, string $subKey): mixed
-    {
-        return $this->cache[$key][$subKey] ?? null;
-    }
-
-    public function set(string $key, string $subKey, mixed $value): void
-    {
-        $this->cache[$key][$subKey] = $value;
-    }
-
-    public function clear(): void
-    {
-        $this->cache = [
-            'routeProps' => [],
-            'objectType' => [],
-            'objectProps' => []
-        ];
-    }
+    private array $localCache = [];
+    private array $expirationTimes = [];
 
     public function setWithTTL(string $key, mixed $value, int $ttl): void
     {
@@ -41,8 +27,27 @@ class EntityCache
             unset($this->localCache[$key], $this->expirationTimes[$key]);
             return null;
         }
+
         return $this->localCache[$key] ?? null;
     }
 
+    public function clear(): void
+    {
+        $this->localCache = [];
+        $this->expirationTimes = [];
+    }
 
+    public function initializeObject(string $entity, ?string $subEntity = null, ?string $crudAction = 'index'): ObjectProps
+    {
+        if (!$entity) {
+            $this->logger->error('Entity name is missing during initialization.');
+            throw new \InvalidArgumentException('Entity name is required for initialization.');
+        }
+
+        return new ObjectProps(
+            entity: $entity,
+            subEntity: $subEntity,
+            //crudAction: $crudAction
+        );
+    }
 }

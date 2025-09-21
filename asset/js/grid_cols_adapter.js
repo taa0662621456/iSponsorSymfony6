@@ -1,4 +1,4 @@
-function () {
+function grid_cols_adapter () {
     (document).ready(function () {
         if (cookie_cols != 'undefined') {
             var cookie_cols = $.cookie('cookie_cols');

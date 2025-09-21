@@ -4,7 +4,7 @@ namespace App\Message;
 
 class UpdateCacheMessage
 {
-    public function __construct(private string $key, private mixed $value) {}
+    public function __construct(private readonly string $key, private readonly mixed $value) {}
 
     public function getKey(): string
     {
@@ -15,5 +15,4 @@ class UpdateCacheMessage
     {
         return $this->value;
     }
-
 }

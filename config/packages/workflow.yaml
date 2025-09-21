@@ -8,7 +8,7 @@ framework:
                     enabled: true
                 marking_store:
                     type: method
-                    property: 'getCurrentState'
+                    property: 'currentState'
                 supports:
                     - App\Entity\Order\OrderStorage
                 places:
@@ -38,3 +38,27 @@ framework:
                     refund:
                         from: completed
                         to: refunded
+            object_property_workflow:
+                type: state_machine
+                audit_trail:
+                    enabled: true
+                marking_store:
+                    type: method
+                    property: 'currentState'
+                supports:
+                    - App\Entity\Embeddable\ObjectProperty
+                places:
+                    - submitted
+                    - review
+                    - published
+                    - archived
+                transitions:
+                    to_review:
+                        from: submitted
+                        to: review
+                    publish:
+                        from: review
+                        to: published
+                    archive:
+                        from: published
+                        to: archived

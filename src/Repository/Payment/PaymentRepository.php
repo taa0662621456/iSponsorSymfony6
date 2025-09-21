@@ -25,7 +25,10 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
             ->setParameter('state', PaymentInterface::STATE_CART);
     }
 
-    public function findOneByOrderId($paymentId, $orderId): ?PaymentInterface
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByOrderId(int $paymentId, int $orderId): ?PaymentInterface
     {
         try {
             return $this->createQueryBuilder('o')
@@ -36,6 +39,7 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -51,6 +55,7 @@ class PaymentRepository extends EntityRepository implements PaymentRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 

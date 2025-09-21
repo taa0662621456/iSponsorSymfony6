@@ -4,6 +4,7 @@ namespace App\Entity\Vendor;
 
 use App\Entity\Embeddable\ObjectProperty;
 use DateTime;
+use DateTimeImmutable;
 use Exception;
 use Faker\Factory;
 use App\Entity\OAuthTrait;
@@ -21,11 +22,7 @@ use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-/**
- * @property string $lastResetTime
- */
 #[ORM\Index(columns: ['email', 'phone'], name: 'idx_email_phone')]
-
 #[ORM\Entity]
 class VendorSecurity extends RootEntity implements ObjectInterface, Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
@@ -37,13 +34,13 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
     #[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
     private string $email;
 
-    #[ORM\Column(name: 'phone', type: 'string', unique: false, nullable: true)]
-    private string $phone;
+    #[ORM\Column(name: 'phone', type: 'string', nullable: true)]
+    private ?string $phone = null;
 
     #[ORM\Column(name: 'username', type: 'string', length: 255)]
     private string $username;
 
-    #[ORM\Column(name: 'password', type: 'string', unique: false)]
+    #[ORM\Column(name: 'password', type: 'string')]
     protected string $password = 'A7k0B9f8A7k0B9f8A7k0B9f8';
 
     private string $plainPassword = 'A7k0B9f8A7k0B9f8A7k0B9f8';
@@ -51,14 +48,23 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
     #[ORM\Column(name: 'roles', type: 'json', nullable: false)]
     private array $roles = ['ROLE_USER'];
 
-    #[ORM\Column(name: 'send_email', nullable: false, options: ['default' => false])]
-    private ?bool $sendEmail = false;
+    #[ORM\Column(name: 'send_email', type: 'boolean', nullable: false, options: ['default' => false])]
+    private bool $sendEmail = false;
+
+    #[ORM\Column(name: 'email_verification_token', type: 'string', nullable: true)]
+    private ?string $emailVerificationToken = null;
+
+    #[ORM\Column(name: 'email_verification_token_expires_at', type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $emailVerificationTokenExpiresAt = null;
 
     #[ORM\Column(name: 'activation_code', type: 'string', nullable: true, options: ['default' => 'activation_code'])]
-    private ?string $activationCode;
+    private ?string $activationCode = null;
 
-    #[ORM\Column(name: 'password_reset_token', type: 'string', nullable: true, options: ['default' => 'password_reset_token'])]
-    private ?string $passwordResetToken;
+    #[ORM\Column(name: 'password_reset_token', type: 'string', nullable: true)]
+    private ?string $passwordResetToken = null;
+
+    #[ORM\Column(name: 'password_reset_token_expires_at', type: 'datetime_immutable', nullable: true)]
+    private ?DateTimeImmutable $passwordResetTokenExpiresAt = null;
 
     #[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
     private string $locale = 'en';
@@ -66,24 +72,24 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
     #[ORM\Column(name: 'params', type: 'string', nullable: false, options: ['default' => 'params'])]
     private string $params = 'params';
 
-    #[ORM\Column(name: 'reset_count', options: ['comment' => 'Count of password resets'])]
-    private ?int $resetCount = 0;
+    #[ORM\Column(name: 'reset_count', type: 'integer', options: ['comment' => 'Count of password resets'])]
+    private int $resetCount = 0;
 
     #[ORM\Column(name: 'totp_key', type: 'string', nullable: true, options: ['comment' => 'Two factor'])]
-    private string $totpKey;
+    private ?string $totpKey = null;
 
     #[ORM\Column(name: 'otep', type: 'string', nullable: true, options: ['comment' => 'One time emergency'])]
-    private string $otep;
+    private ?string $otep = null;
 
     #[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['comment' => 'Require user to reset'])]
-    private int|bool $requireReset = 0;
+    private bool $requireReset = false;
 
     #[ORM\Column(name: 'api_token', type: 'string', nullable: false, options: ['comment' => 'API key'])]
     private string $apiToken = 'api_token';
 
     #[ORM\OneToOne(inversedBy: 'vendorSecurity', targetEntity: Vendor::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Vendor $vendorSecurity;
+    private ?Vendor $vendorSecurity = null;
 
     #[ORM\Column(name: 'salt', type: 'string')]
     private string $salt = '0';
@@ -98,8 +104,7 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
         $faker = Factory::create();
 
         $t = new DateTime();
-        $uuid = (string) Uuid::v4();
-        $this->username = $uuid;
+        $this->username = (string) Uuid::v4();
 
         $this->email = $faker->unique()->email;
         $this->phone = $faker->unique()->phoneNumber;
@@ -109,26 +114,32 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
         $this->lastResetTime = $t->format('Y-m-d H:i:s');
     }
 
-    /**
-     * @return string|null
-     */
     public function getPasswordResetToken(): ?string
     {
         return $this->passwordResetToken;
     }
 
-    /**
-     * @param string|null $passwordResetToken
-     */
-    public function setPasswordResetToken(?string $passwordResetToken): void
+    public function setPasswordResetToken(?string $token, ?DateTimeImmutable $expiresAt = null): void
     {
-        $this->passwordResetToken = $passwordResetToken;
+        $this->passwordResetToken = $token;
+        $this->passwordResetTokenExpiresAt = $expiresAt;
+    }
+
+    public function getPasswordResetTokenExpiresAt(): ?DateTimeImmutable
+    {
+        return $this->passwordResetTokenExpiresAt;
+    }
+
+    public function isPasswordResetTokenValid(): bool
+    {
+        return $this->passwordResetToken
+            && $this->passwordResetTokenExpiresAt
+            && $this->passwordResetTokenExpiresAt > new DateTimeImmutable();
     }
 
     public function setPhone(string $phone): self
     {
         $this->phone = preg_replace('/["^£$%&*()}{@#~?><,|=_+¬-]/', '', $phone);
-
         return $this;
     }
 
@@ -136,7 +147,6 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
@@ -148,7 +158,6 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -167,48 +176,43 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
     public function eraseCredentials(): self
     {
         $this->plainPassword = '';
-
         return $this;
     }
 
     public function serialize(): string
     {
-        return serialize([
-            $this->id,
-            $this->email,
-            $this->password,
-            $this->phone,
-        ]);
+        return serialize([$this->id, $this->email, $this->password, $this->phone]);
     }
 
     public function unserialize(string $data): void
     {
-        [
-            $this->id,
-            $this->email,
-            $this->password
-        ] = unserialize($data, ['allowed_class' => false]);
+        [$this->id, $this->email, $this->password] = unserialize($data, ['allowed_classes' => false]);
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
-        // TODO: Implement getSalt() method.
+        return $this->salt;
     }
 
     public function __call(string $name, array $arguments)
     {
-        // TODO: Implement @method string getUserIdentifier()
+        // Заглушка для магических методов UserInterface
     }
 
     public function __serialize(): array
     {
-        // TODO: Implement __serialize() method.
-        return [];
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'username' => $this->username,
+        ];
     }
 
     public function __unserialize(array $data): void
     {
-        // TODO: Implement __unserialize() method.
+        $this->id = $data['id'] ?? null;
+        $this->email = $data['email'] ?? '';
+        $this->username = $data['username'] ?? '';
     }
 
     public function getUserIdentifier(): string
@@ -218,18 +222,19 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
 
     public function isTotpAuthenticationEnabled(): bool
     {
-        return $this->totpKey ? true : false;
+        return !empty($this->totpKey);
     }
 
     public function getTotpAuthenticationConfiguration(): ?TotpConfigurationInterface
     {
-        // You could persist the other configuration options in the user entity to make it individual per user.
-        return new TotpConfiguration($this->totpKey, TotpConfiguration::ALGORITHM_SHA1, 30, 6);
+        return $this->totpKey
+            ? new TotpConfiguration($this->totpKey, TotpConfiguration::ALGORITHM_SHA1, 30, 6)
+            : null;
     }
 
     public function isEmailAuthEnabled(): bool
     {
-        return true; // This can be a persisted field to switch email code authentication on/off
+        return true;
     }
 
     public function getEmailAuthRecipient(): string
@@ -242,7 +247,6 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
         if (null === $this->otep) {
             throw new LogicException('The email authentication code was not set');
         }
-
         return $this->otep;
     }
 
@@ -459,5 +463,27 @@ class VendorSecurity extends RootEntity implements ObjectInterface, Serializable
         $this->vendorSecurity = $vendorSecurity;
     }
 
+    public function getEmailVerificationToken(): ?string
+    {
+        return $this->emailVerificationToken;
+    }
+
+    public function setEmailVerificationToken(?string $token, ?DateTimeImmutable $expiresAt = null): void
+    {
+        $this->emailVerificationToken = $token;
+        $this->emailVerificationTokenExpiresAt = $expiresAt;
+    }
+
+    public function getEmailVerificationTokenExpiresAt(): ?DateTimeImmutable
+    {
+        return $this->emailVerificationTokenExpiresAt;
+    }
+
+    public function isEmailVerificationTokenValid(): bool
+    {
+        return $this->emailVerificationToken
+            && $this->emailVerificationTokenExpiresAt
+            && $this->emailVerificationTokenExpiresAt > new DateTimeImmutable();
+    }
 
 }

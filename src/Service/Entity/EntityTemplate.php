@@ -6,19 +6,19 @@ class EntityTemplate
 {
     private const DEFAULT_ACTION = 'index';
 
-    public function __construct(
-        private readonly string $templateBasePath = 'default') {}
-
-    public function getTemplatePath(string $route, ?string $action = null): string
+    public function getEntityTemplatePath(string $route, ?string $action = null): string
     {
         $action = $action ?? self::DEFAULT_ACTION;
 
         return sprintf('%s/%s/%s.html.twig', $route, $route, $action);
     }
 
-    public function getDefaultAction(): string
+    public function getLocalizedTemplatePath(string $route, string $locale, ?string $action = null): string
     {
-        return self::DEFAULT_ACTION;
+        $action = $action ?? self::DEFAULT_ACTION;
+        return sprintf('%s/%s/%s.%s.twig', $route, $action, $locale, $locale);
     }
+
+
 
 }

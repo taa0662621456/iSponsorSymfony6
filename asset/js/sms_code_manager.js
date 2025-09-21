@@ -1,4 +1,4 @@
-function () {
+function btnsbm() {
     let $submit = $('text-link').filter('input');
     let $phone = $('#app_user_registration_mobileNumber').val(); // считываем значение, если это форма регистрации
 

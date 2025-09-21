@@ -30,6 +30,7 @@ class OrderItemRepository extends EntityRepository implements OrderItemRepositor
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -47,6 +48,7 @@ class OrderItemRepository extends EntityRepository implements OrderItemRepositor
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 }

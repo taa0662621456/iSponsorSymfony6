@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\ObjectInitializer;
-use JetBrains\PhpStorm\NoReturn;
+use App\Service\Entity\EntityOrchestrator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,163 +14,140 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/{entity}/{subEntity}', defaults: ['subEntity' => null])]
 class ObjectCRUDsController extends AbstractController
 {
-    #[NoReturn]
     public function __construct(
-        private readonly ObjectInitializer $objectInitializer,
-        private readonly ManagerRegistry   $managerRegistry
-    )
-    {
-    }
+        private readonly EntityOrchestrator $entityOrchestrator,
+        private readonly ManagerRegistry $managerRegistry,
+    ) {}
 
     #[Route(name: '_index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $entityClass = $this->objectInitializer->getObjectEntityClass();
-
-        $repository = $this->managerRegistry->getRepository($entityClass);
+        $repository = $this->managerRegistry->getRepository(
+            $this->entityOrchestrator->getEntityClassName()
+        );
 
         $user = $this->getUser();
         $objects = $user
-            ? $repository->findAll()
-            : $repository->findBy(['createdBy' => $this->getUser()]);
+            ? $repository->findBy(['createdBy' => $user])
+            : $repository->findAll();
 
-        return $this->render($this->objectInitializer->getObjectTemplatePath(), [
-            $this->objectInitializer->getObjectRoutPath() => $objects,
+        return $this->render($this->entityOrchestrator->getEntityTemplatePath(), [
+            $this->entityOrchestrator->getEntityRoutPath() => $objects,
         ]);
     }
 
     #[Route(path: '/new', name: '_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        $entityClass = $this->objectInitializer->getObjectEntityClass();
-        $object = new $entityClass();
+        $className = $this->entityOrchestrator->getEntityClassName();
+        $object = new $className();
 
-        $attachmentClass = $this->objectInitializer->getObjectAttachmentNamespace();
+        $attachmentClass = $this->entityOrchestrator->getEntityAttachmentClass();
         $attachment = $attachmentClass ? new $attachmentClass() : null;
+
+        // 👉 Передаём новый объект в Request
+        $request->attributes->set('entityObject', $object);
 
         return $this->handleForm($request, $object, $attachment);
     }
 
-    // Show
     #[Route(path: '/{id<\d+>}', name: '_show_id', methods: ['GET'])]
     #[Route(path: '/{slug}', name: '_show_slug', methods: ['GET'])]
-    public function show(?int $id = null, ?string $slug = null): Response
+    public function show(Request $request, ?int $id = null, ?string $slug = null): Response
     {
-        $entity = $this->objectInitializer->getObject($id, $slug);
+        $entity = $this->entityOrchestrator->getEntityObject($id, $slug);
 
         if (!$entity) {
             throw $this->createNotFoundException('Object not found');
         }
 
-        return $this->render($this->objectInitializer->getObjectTemplatePath(), [
-            $this->objectInitializer->getObjectRoutPath() => $entity,
+        // 👉 Передаём объект в Request
+        $request->attributes->set('entityObject', $entity);
+
+        return $this->render($this->entityOrchestrator->getEntityTemplatePath(), [
+            $this->entityOrchestrator->getEntityRoutPath() => $entity,
         ]);
     }
 
-    // Edit
     #[Route('/edit/{id<\d+>}', name: '_edit_id', methods: ['GET', 'POST'])]
     #[Route('/edit/{slug}', name: '_edit_slug', methods: ['GET', 'POST'])]
     public function edit(Request $request, ?int $id = null, ?string $slug = null): Response
     {
-        $object = $this->objectInitializer->getObject($id, $slug);
+        $object = $this->entityOrchestrator->getEntityObject($id, $slug);
 
         if (!$object) {
             throw $this->createNotFoundException('Object not found');
         }
 
+        // 👉 Передаём объект в Request
+        $request->attributes->set('entityObject', $object);
+
         return $this->handleForm($request, $object);
     }
-    // Delete
+
     #[Route(path: '/delete/{id<\d+>}', name: '_delete_id', methods: ['DELETE'])]
     #[Route(path: '/delete/{slug}', name: '_delete_slug', methods: ['DELETE'])]
     public function delete(Request $request, int $id = null, string $slug = null): Response
     {
-        $object = $this->objectInitializer->getObject($id, $slug);
+        $object = $this->entityOrchestrator->getEntityObject($id, $slug);
 
-        if ($this->isCsrfTokenValid('delete' . $object->getId(), $request->get('_token'))) {
-            throw $this->createAccessDeniedException('Invalid CSRF token. Token validation failed');
-
+        if (!$object) {
+            throw $this->createNotFoundException('Object not found');
         }
 
-        $entityManager = $this->managerRegistry->getManager();
-        $entityManager->remove($object);
-        $entityManager->flush();
+        // 👉 Передаём объект в Request
+        $request->attributes->set('entityObject', $object);
+
+        if (!$this->isCsrfTokenValid('delete' . $object->getId(), $request->get('_token'))) {
+            throw $this->createAccessDeniedException('Invalid CSRF token.');
+        }
+
+        $em = $this->managerRegistry->getManager();
+        $em->remove($object);
+        $em->flush();
 
         $this->addFlash('notice', 'Successfully deleted!');
 
-        return $this->redirectToRoute($this->objectInitializer->getObjectRoutPath() . '_index');
+        return $this->redirectToRoute($this->entityOrchestrator->getEntityRoutPath() . '_index');
     }
 
     #[Route(path: '/own', name: '_own', methods: ['GET'])]
-    public function own(): Response
+    public function own(Request $request): Response
     {
-        $localeFilter = $this->objectInitializer->getLocaleFilter();
-        ($localeFilter) ? $object = $this->objectInitializer->getLocaleFilter() : $object = $this->objectInitializer->getObjectNamespace();
         $em = $this->managerRegistry->getManager();
 
-        return $this->render($this->objectInitializer->getObjectTemplatePath(), [
-            $this->objectInitializer->getObjectRoutPath() => $em->getRepository($object)->findBy(['createdBy' => $this->getUser()]),
+        $objects = $em->getRepository($this->entityOrchestrator->getEntityNamespace())
+            ->findBy(['createdBy' => $this->getUser()]);
+
+        // 👉 Пробросим массив объектов в Request (listener может зафиксировать массовый доступ)
+        $request->attributes->set('entityObject', $objects);
+
+        return $this->render($this->entityOrchestrator->getEntityTemplatePath(), [
+            $this->entityOrchestrator->getEntityRoutPath() => $objects,
         ]);
     }
 
     #[Route(path: '/thanks', name: '_thanks', methods: ['GET'])]
-    public function thankYou()
+    public function thankYou(): Response
     {
+        return new Response('Thank you!');
     }
 
-//    /**
-//     * TODO: метод перенесен в общий AttachmentController  и помечен на удаление
-//     * @Route("/", name="vendor_get_attachments", methods={"GET"})
-//     * @param Request     $request
-//     * @param string|null $entity
-//     * @param string|null $layout
-//     *
-//     * @return Response
-//     */
-//    public function getAttachments(Request $request,
-//                                   string $entity = 'App\Entity\Vendor\VendorMedia',
-//                                   string $layout = 'index'): Response
-//    {
-//        /**
-//         * если роль Админ и выше, параметр $createdBy принимается из запроса,
-//         * в противном случе = $this->getUser()
-//         *
-//         */
-//
-//        if ($request->get('_route') == 'profile') {            //TODO: need add role by ROLE_ADMIN; maybe PHP Switch
-//            $createdBy = null;                                 // Vendor is null for template Security
-//            $published = true;                                 // ...for marketing security
-//            $fileLayoutPosition = $request->get('_route');     // ... for filtering
-//            $fileLang = $request->get('app_locale') ?: '*';       // ... for different
-//        }
-//
-//        $attachments = $this->attachmentsManager->getAttachments(
-//            $entity = 'App\Entity\Vendor\VendorMedia',
-//            $id = null,
-//            $slug = null,
-//            $createdBy = null, //Important! Must by User object
-//            $published = true,
-//            $fileLayoutPosition = null,
-//            $fileClass = null,
-//            $fileLang = null
-//        );
-//
-//    }
-//
-//
     #[Route(path: '/summery/', name: '_summery', methods: ['GET', 'POST'])]
-    public function summery()
+    public function summery(): Response
     {
+        return new Response('Summery page');
     }
 
     #[Route(path: '/widget/', name: '_widget', methods: ['GET', 'POST'])]
-    public function widget()
+    public function widget(): Response
     {
+        return new Response('Widget page');
     }
 
     private function handleForm(Request $request, object $object, ?object $attachment = null): ?Response
     {
-        $form = $this->createForm($this->objectInitializer->getObjectTypeNamespace(), $object);
+        $form = $this->createForm($this->entityOrchestrator->getObjectTypeNamespace(), $object);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -188,17 +164,15 @@ class ObjectCRUDsController extends AbstractController
             $em->flush();
 
             $route = $form->get('submitAndNew')?->isClicked()
-                ? $this->objectInitializer->getObjectRoutPath() . '_new'
-                : $this->objectInitializer->getObjectRoutPath() . '_index';
+                ? $this->entityOrchestrator->getEntityRoutPath() . '_new'
+                : $this->entityOrchestrator->getEntityRoutPath() . '_index';
 
             return $this->redirectToRoute($route);
         }
 
-        return $this->render($this->objectInitializer->getObjectTemplatePath(), [
-            $this->objectInitializer->getObjectRoutPath() => $object,
+        return $this->render($this->entityOrchestrator->getObjectTemplatePath(), [
+            $this->entityOrchestrator->getEntityRoutPath() => $object,
             'form' => $form->createView(),
         ]);
     }
-
 }
-

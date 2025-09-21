@@ -39,10 +39,10 @@ spec:
             - name: PWA_UPSTREAM
               value: {{ include "api-platform.fullname" . }}-pwa:3000
             - name: MERCURE_PUBLISHER_JWT_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "api-platform.fullname" . }}
-                  key: mercure-jwt-secret
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "api-platform.fullname" . }}
+                key: mercure-jwt-secret
             - name: MERCURE_SUBSCRIBER_JWT_KEY
               valueFrom:
                 secretKeyRef:
@@ -63,17 +63,19 @@ spec:
               exec:
                 command: ["curl", "-XPOST", "http://localhost:2019/stop"]
           readinessProbe:
-            tcpSocket:
-              port: 80
+            httpGet:                # ✅ улучшение: HTTP-проба вместо tcpSocket
+              path: /
+              port: http
             initialDelaySeconds: 3
             periodSeconds: 3
           livenessProbe:
-            tcpSocket:
-              port: 80
+            httpGet:                # ✅ улучшение: HTTP-проба вместо tcpSocket
+              path: /
+              port: http
             initialDelaySeconds: 3
             periodSeconds: 3
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.caddy.resources | nindent 12 }}  # ✅ раздельные ресурсы
         - name: {{ .Chart.Name }}-php
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
@@ -154,10 +156,10 @@ spec:
                 - docker-healthcheck
             periodSeconds: 3
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.php.resources | nindent 12 }}    # ✅ раздельные ресурсы
       volumes:
-      - name: php-socket
-        emptyDir: {}
+        - name: php-socket
+          emptyDir: {}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

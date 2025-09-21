@@ -30,6 +30,7 @@ class AssociationRepository extends EntityRepository implements AssociationRepos
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
         return 'null';
     }

@@ -3,22 +3,24 @@
 namespace App\Service\Setup;
 
 use Doctrine\DBAL\Exception;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\SchemaManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use function count;
-use function in_array;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class DatabaseSetupCommandsProvider
 {
-    public function __construct(private readonly Registry $doctrineRegistry)
-    {
+    public function __construct(
+        private readonly ManagerRegistry $doctrineRegistry,
+        private readonly LoggerInterface $logger,
+    ) {
     }
 
     /**
@@ -27,42 +29,48 @@ final class DatabaseSetupCommandsProvider
     public function getCommands(InputInterface $input, OutputInterface $output, QuestionHelper $questionHelper): array
     {
         if (!$this->isDatabasePresent()) {
+            $this->logger->info('Database not found, will create and migrate.');
             return [
-                'doctrine:database:create',
+                'doctrine:database:create'    => [],
                 'doctrine:migrations:migrate' => ['--no-interaction' => true],
             ];
         }
 
-        return array_merge($this->setupDatabase($input, $output, $questionHelper), [
-            'doctrine:migrations:version' => [
-                '--add' => true,
-                '--all' => true,
-                '--no-interaction' => true,
-            ],
-        ]);
+        $this->logger->info('Database exists, running setup process.');
+
+        return array_merge(
+            $this->setupDatabase($input, $output, $questionHelper),
+            [
+                'doctrine:migrations:version' => [
+                    '--add'            => true,
+                    '--all'            => true,
+                    '--no-interaction' => true,
+                ],
+            ]
+        );
     }
 
-    /**
-     * @throws \Exception
-     */
     private function isDatabasePresent(): bool
     {
         $databaseName = $this->getDatabaseName();
 
         try {
             $schemaManager = $this->getSchemaManager();
-
-            return in_array($databaseName, $schemaManager->listDatabases());
+            return in_array($databaseName, $schemaManager->listDatabases(), true);
         } catch (\Exception $exception) {
             $message = $exception->getMessage();
 
-            $mysqlDatabaseError = str_contains($message, sprintf("Unknown database '%s'", $databaseName));
+            $mysqlDatabaseError    = str_contains($message, sprintf("Unknown database '%s'", $databaseName));
             $postgresDatabaseError = str_contains($message, sprintf('database "%s" does not exist', $databaseName));
 
             if ($mysqlDatabaseError || $postgresDatabaseError) {
+                $this->logger->warning(sprintf('Database "%s" not found.', $databaseName));
                 return false;
             }
 
+            $this->logger->error('Unexpected error while checking database presence.', [
+                'exception' => $exception,
+            ]);
             throw $exception;
         }
     }
@@ -75,56 +83,59 @@ final class DatabaseSetupCommandsProvider
 
         $question = new ConfirmationQuestion('Would you like to reset it? (y/N) ', false);
         if ($questionHelper->ask($input, $output, $question)) {
+            $this->logger->notice('User confirmed full database reset.');
             return [
-                'doctrine:database:drop' => ['--force' => true],
-                'doctrine:database:create',
+                'doctrine:database:drop'      => ['--force' => true],
+                'doctrine:database:create'    => [],
                 'doctrine:migrations:migrate' => ['--no-interaction' => true],
             ];
         }
 
         try {
             if (!$this->isSchemaPresent()) {
+                $this->logger->warning('Schema missing, will run migrations.');
                 return ['doctrine:migrations:migrate' => ['--no-interaction' => true]];
             }
         } catch (Exception $e) {
+            $this->logger->error('Error while checking schema presence.', [
+                'exception' => $e,
+            ]);
+            return [];
         }
 
         $outputStyle->writeln('Seems like your database contains schema.');
         $outputStyle->writeln('<error>Warning! This action will erase your database.</error>');
         $question = new ConfirmationQuestion('Do you want to reset it? (y/N) ', false);
         if ($questionHelper->ask($input, $output, $question)) {
+            $this->logger->notice('User confirmed schema reset.');
             return [
-                'doctrine:schema:drop' => ['--force' => true],
+                'doctrine:schema:drop'        => ['--force' => true],
                 'doctrine:migrations:migrate' => ['--no-interaction' => true],
             ];
         }
 
+        $this->logger->info('User declined schema reset.');
         return [];
     }
 
-    /**
-     * @throws Exception|\Exception
-     */
     private function isSchemaPresent(): bool
     {
         try {
-            return 0 !== count($this->getSchemaManager()->listTableNames());
+            return count($this->getSchemaManager()->listTableNames()) > 0;
         } catch (Exception $e) {
+            $this->logger->error('Error while listing tables.', [
+                'exception' => $e,
+            ]);
+            return false;
         }
     }
 
-    /**
-     * @throws \Exception
-     */
     private function getDatabaseName(): string
     {
         return $this->getEntityManager()->getConnection()->getDatabase();
     }
 
-    /**
-     * @throws \Exception
-     */
-    private function getSchemaManager(): AbstractSchemaManager
+    private function getSchemaManager(): SchemaManager|AbstractSchemaManager
     {
         $connection = $this->getEntityManager()->getConnection();
 
@@ -132,15 +143,11 @@ final class DatabaseSetupCommandsProvider
             return $connection->createSchemaManager();
         }
 
-        if (method_exists($connection, 'getSchemaManager')) {
-            /* @psalm-suppress DeprecatedMethod */
-            return $connection->getSchemaManager();
-        }
-
-        throw new RuntimeException('Unable to get schema manager.');
+        $this->logger->critical('Unable to get schema manager. Doctrine DBAL is too old.');
+        throw new RuntimeException('Unable to get schema manager. Upgrade Doctrine DBAL.');
     }
 
-    private function getEntityManager(): \Doctrine\Persistence\ObjectManager
+    private function getEntityManager(): EntityManagerInterface
     {
         return $this->doctrineRegistry->getManager();
     }

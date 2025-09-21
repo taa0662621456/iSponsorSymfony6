@@ -37,6 +37,7 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 
@@ -54,6 +55,7 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+        throw $e;
         }
     }
 
@@ -70,6 +72,7 @@ class ShipmentRepository extends EntityRepository implements ShipmentCategoryRep
                 ->getQuery()
                 ->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
+            throw $e;
         }
     }
 

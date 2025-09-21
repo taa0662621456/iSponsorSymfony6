@@ -16,7 +16,7 @@ class EntityAction
      *
      * @return string|null
      */
-    public function getCrudActionName(): ?string
+    public function getEntityCrudActionName(): ?string
     {
         $request = $this->requestStack->getMainRequest() ?? $this->requestStack->getCurrentRequest();
         if (!$request) {

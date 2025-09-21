@@ -216,7 +216,7 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
 
         if (!$randomImagePicked) {
             $aiImage = $this->aiImageGenerator->getOpenAiImageGenerated(
-                'аватарка пользователя',
+                'user avatar',
                 $path,
                 $size);
 
@@ -246,17 +246,17 @@ abstract class DataFixtures extends Fixture implements FixtureInterface, Depende
     public function titleFixtureEngine(string $resource, ?array $property = []): array
     {
         if (!file_exists($resource)) {
-            throw new Exception("Файл '$resource' не найден.");
+            throw new Exception("File '$resource' isn't found.");
         }
 
         $jsonContent = file_get_contents($resource);
         if ($jsonContent === false) {
-            throw new Exception("Не удалось прочитать файл '$resource'.");
+            throw new Exception("File didn't read '$resource'.");
         }
 
         $projects = json_decode($jsonContent, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("Ошибка декодирования JSON: " . json_last_error_msg());
+            throw new Exception("JSON decoding error: " . json_last_error_msg());
         }
 
         $projectProperty = [];

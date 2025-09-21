@@ -2,7 +2,7 @@
 
 let smart = document.querySelector('#object000');
 if (smart != null) {
-    function () {
+    function doc() {
         //$(document).on('load', function(){
         $(document).ready(function () {
             $('#object').smartWizard({

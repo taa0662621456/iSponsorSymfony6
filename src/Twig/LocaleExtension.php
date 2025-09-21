@@ -33,9 +33,15 @@
 
 		public function getLocales(): array
 		{
-		    if (0 !== count($this->localeCode)) {
-                foreach ($this->localeCode as $locales) {
-                    $locales[] = ['code' => $this->localeCode, 'name' => Locales::getName((string)$this->localeCode, (string)$this->localeCode)];
+
+            $locales = [];
+
+            if (!empty($this->localeCode)) {
+                foreach ($this->localeCode as $locale) {
+                    $locales[] = [
+                        'code' => $locale,
+                        'name' => Locales::getName((string)$locale, (string)$locale)
+                    ];
                 }
             }
 			return $locales ?? [];
