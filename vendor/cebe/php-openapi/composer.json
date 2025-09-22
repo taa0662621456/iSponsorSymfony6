@@ -1,0 +1,101 @@
+{
+	"name": "cebe/php-openapi",
+	"description": "Read and write OpenAPI yaml/json files and make the content accessable in PHP objects.",
+	"keywords": ["openapi"],
+	"homepage": "https://github.com/cebe/php-openapi#readme",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Carsten Brandt",
+			"email": "mail@cebe.cc",
+			"homepage": "https://cebe.cc/",
+			"role": "Creator"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/cebe/php-openapi/issues",
+		"source": "https://github.com/cebe/php-openapi"
+	},
+	"require": {
+		"php": ">=7.1.0",
+		"ext-json": "*",
+		"symfony/yaml": "^3.4 || ^4 || ^5 || ^6 || ^7.0",
+		"justinrainbow/json-schema": "^5.2 || ^6.0"
+	},
+	"require-dev": {
+		"cebe/indent": "*",
+		"phpunit/phpunit": "^6.5 || ^7.5 || ^8.5 || ^9.4",
+		"oai/openapi-specification": "3.0.3",
+		"mermade/openapi3-examples": "1.0.0",
+		"apis-guru/openapi-directory": "1.0.0",
+		"nexmo/api-specification": "1.0.0",
+		"phpstan/phpstan": "^0.12.0 || ^1.9"
+	},
+	"conflict": {
+		"symfony/yaml": "3.4.0 - 3.4.4 || 4.0.0 - 4.4.17 || 5.0.0 - 5.1.9 || 5.2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"cebe\\openapi\\": "src/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.6.x-dev"
+		}
+	},
+	"bin": [
+		"bin/php-openapi"
+	],
+	"repositories": [
+		{
+			"type": "package",
+			"package": {
+				"name": "oai/openapi-specification",
+				"version": "3.0.3",
+				"source": {
+					"url": "https://github.com/OAI/OpenAPI-Specification",
+					"type": "git",
+					"reference": "3.0.3"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "mermade/openapi3-examples",
+				"version": "1.0.0",
+				"source": {
+					"url": "https://github.com/Mermade/openapi3-examples",
+					"type": "git",
+					"reference": "3e8740c4994310a5d6a35d9b19e405862326f149"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "apis-guru/openapi-directory",
+				"version": "1.0.0",
+				"source": {
+					"url": "https://github.com/APIs-guru/openapi-directory",
+					"type": "git",
+					"reference": "9d2e0b6696a230a182d740a8e97ba27fb41b13bd"
+				}
+			}
+		},
+		{
+			"type": "package",
+			"package": {
+				"name": "nexmo/api-specification",
+				"version": "1.0.0",
+				"source": {
+					"url": "https://github.com/cebe/nexmo-api-specification",
+					"type": "git",
+					"reference": "590fadf21f528ed8e05f6ff47c2e49d81f50a181"
+				}
+			}
+		}
+	]
+}

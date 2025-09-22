@@ -1,0 +1,77 @@
+{
+  "entrypoints": {
+    "base": {
+      "js": [
+        "/build/vendors-node_modules_popperjs_core_lib_index_js-node_modules_core-js_internals_a-constructor_-e86f9d.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-204162.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_min_js.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_da-9209ed.js",
+        "/build/vendors-node_modules_masonry-layout_masonry_js-node_modules_js-cookie_dist_js_cookie_mjs.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_bundle_min_js-node_modules_bootstrap_js_dist-a46893.js",
+        "/build/asset_fontawesome-pro_js_all_min_js.js",
+        "/build/base.js"
+      ],
+      "css": [
+        "/build/vendors-node_modules_tinymce_skins_ui_oxide_content_min_css-node_modules_tinymce_skins_ui_oxi-29c70f.css",
+        "/build/base.css"
+      ]
+    },
+    "homepage": {
+      "js": [
+        "/build/vendors-node_modules_popperjs_core_lib_index_js-node_modules_core-js_internals_a-constructor_-e86f9d.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-204162.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_min_js.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_da-9209ed.js",
+        "/build/vendors-node_modules_masonry-layout_masonry_js-node_modules_js-cookie_dist_js_cookie_mjs.js",
+        "/build/asset_fontawesome-pro_js_all_min_js.js",
+        "/build/homepage.js"
+      ],
+      "css": [
+        "/build/homepage.css"
+      ]
+    },
+    "sign": {
+      "js": [
+        "/build/vendors-node_modules_popperjs_core_lib_index_js-node_modules_core-js_internals_a-constructor_-e86f9d.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_min_js.js",
+        "/build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_da-9209ed.js",
+        "/build/vendors-node_modules_imask_esm_index_js.js",
+        "/build/sign.js"
+      ],
+      "css": [
+        "/build/sign.css"
+      ]
+    },
+    "profile": {
+      "js": [
+        "/build/vendors-node_modules_popperjs_core_lib_index_js-node_modules_core-js_internals_a-constructor_-e86f9d.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-204162.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_min_js.js",
+        "/build/vendors-node_modules_masonry-layout_masonry_js-node_modules_js-cookie_dist_js_cookie_mjs.js",
+        "/build/vendors-node_modules_tinymce_skins_ui_oxide_skin_css-node_modules_tinymce_plugins_image_index-115691.js",
+        "/build/asset_fontawesome-pro_js_all_min_js.js",
+        "/build/profile.js"
+      ],
+      "css": [
+        "/build/vendors-node_modules_tinymce_skins_ui_oxide_content_min_css-node_modules_tinymce_skins_ui_oxi-29c70f.css",
+        "/build/vendors-node_modules_tinymce_skins_ui_oxide_skin_css-node_modules_tinymce_plugins_image_index-115691.css",
+        "/build/profile.css"
+      ]
+    },
+    "err404": {
+      "js": [
+        "/build/vendors-node_modules_popperjs_core_lib_index_js-node_modules_core-js_internals_a-constructor_-e86f9d.js",
+        "/build/vendors-node_modules_bootstrap_dist_js_bootstrap_esm_js.js",
+        "/build/vendors-node_modules_core-js_modules_es_array_concat_js-node_modules_core-js_modules_es_array-204162.js",
+        "/build/asset_fontawesome-pro_js_all_min_js.js",
+        "/build/err404.js"
+      ],
+      "css": [
+        "/build/err404.css"
+      ]
+    }
+  }
+}

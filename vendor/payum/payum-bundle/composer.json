@@ -1,0 +1,90 @@
+{
+    "name": "payum/payum-bundle",
+    "type": "symfony-bundle",
+    "description": "One million downloads of Payum already! Payum offers everything you need to work with payments. Check more visiting site.",
+    "keywords": [
+        "symfony",
+        "payment",
+        "paypal",
+        "be2bill",
+        "authorize.net",
+        "omnipay",
+        "paypal express checkout",
+        "paypal pro checkout",
+        "recurring payment",
+        "instant notifications",
+        "payex",
+        "klarna",
+        "offline",
+        "stripe",
+        "stripe.js",
+        "stripe checkout"
+    ],
+    "homepage": "https://payum.forma-pro.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kotlyar Maksim",
+            "email": "kotlyar.maksim@gmail.com"
+        },
+        {
+            "name":     "Payum project",
+            "homepage": "https://payum.forma-pro.com/"
+        },
+        {
+            "name":     "Community contributions",
+            "homepage": "https://github.com/Payum/PayumBundle/contributors"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "payum/core": "^1.7.2",
+        "symfony/framework-bundle": "^4.4 || ^5.4 || ^6.0",
+        "symfony/form": "^4.4.20 || ^5.4 || ^6.0",
+        "symfony/validator": "^4.4 || ^5.4 || ^6.0",
+        "symfony/security-csrf": "^4.4 || ^5.4 || ^6.0",
+        "symfony/polyfill-php80": "^1.26"
+    },
+    "require-dev": {
+        "defuse/php-encryption": "^2",
+        "doctrine/orm": "^2.8",
+        "omnipay/common": "^3@dev",
+        "omnipay/dummy": "^3@alpha",
+        "omnipay/paypal": "^3@dev",
+        "payum/offline": "^1.7",
+        "payum/paypal-express-checkout-nvp": "^1.7",
+        "payum/stripe": "^1.7",
+        "payum/omnipay-v3-bridge": "^1@alpha",
+        "php-http/guzzle7-adapter": "^1.0",
+        "phpunit/phpunit": "^9.5",
+        "psr/log": "^1 || ^2",
+        "stripe/stripe-php": "~7.0",
+        "symfony/browser-kit": "^4.4 || ^5.4 || ^6.0",
+        "symfony/expression-language": "^4.4 || ^5.4 || ^6.0",
+        "symfony/phpunit-bridge": "^4.4 || ^5.4 || ^6.0",
+        "symfony/templating": "^4.4 || ^5.4 || ^6.0",
+        "symfony/twig-bundle": "^4.4 || ^5.4 || ^6.0",
+        "symfony/web-profiler-bundle": "^4.4 || ^5.4 || ^6.0",
+        "symfony/yaml": "^4.4 || ^5.4 || ^6.0",
+        "twig/twig": "^2.0 || ^3.0"
+    },
+    "suggest": {
+        "sonata-project/admin-bundle": "^3 If you want to configure payments in the backend."
+    },
+    "autoload": {
+        "psr-4": { "Payum\\Bundle\\PayumBundle\\": "" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Payum\\Bundle\\PayumBundle\\Tests\\": "Tests/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.5-dev"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

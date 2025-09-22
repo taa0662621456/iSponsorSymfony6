@@ -1,0 +1,36 @@
+{
+    "name": "symfony/twilio-notifier",
+    "type": "symfony-notifier-bridge",
+    "description": "Symfony Twilio Notifier Bridge",
+    "keywords": ["sms", "twilio", "notifier"],
+    "homepage": "https://symfony.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fabien Potencier",
+            "email": "fabien@symfony.com"
+        },
+        {
+            "name": "Symfony Community",
+            "homepage": "https://symfony.com/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=8.1",
+        "symfony/http-client": "^5.4|^6.0|^7.0",
+        "symfony/notifier": "^6.2.7|^7.0"
+    },
+    "require-dev": {
+        "symfony/webhook": "^6.3|^7.0"
+    },
+    "conflict": {
+        "symfony/http-foundation": "<6.2"
+    },
+    "autoload": {
+        "psr-4": { "Symfony\\Component\\Notifier\\Bridge\\Twilio\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    },
+    "minimum-stability": "dev"
+}

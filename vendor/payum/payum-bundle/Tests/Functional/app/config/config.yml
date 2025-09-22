@@ -1,0 +1,39 @@
+parameters:
+    locale:            'en'
+    secret:            'ThisTokenIsNotSoSecretChangeIt'
+
+framework:
+    #esi:             ~
+    #translator:      { fallback: %locale% }
+    test: ~
+    secret:          '%secret%'
+    router:          { utf8: true, resource: '%kernel.project_dir%/Tests/Functional/app/config/routing.yml' }
+    default_locale:  '%locale%'
+    form:            true
+    csrf_protection: true
+    assets: false
+
+payum:
+    storages:
+        Payum\Core\Model\ArrayObject:
+            filesystem:
+                storage_dir: '%kernel.cache_dir%'
+                id_property: 'id'
+
+    security:
+        token_storage:
+            Payum\Core\Model\Token:
+                filesystem:
+                    id_property: 'hash'
+                    storage_dir: '%kernel.cache_dir%'
+
+    gateways:
+        fooGateway:
+            factory: 'offline'
+
+        barGateway:
+            factory: 'paypal_express_checkout'
+            username: 'aUsername'
+            password: 'aPassword'
+            signature: 'aSignature'
+            sandbox: true
