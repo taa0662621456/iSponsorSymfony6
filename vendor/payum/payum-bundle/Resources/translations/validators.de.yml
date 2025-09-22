@@ -1,3 +1,0 @@
-validator:
-    credit_card:
-        invalidDate: Datum ist ungültig.

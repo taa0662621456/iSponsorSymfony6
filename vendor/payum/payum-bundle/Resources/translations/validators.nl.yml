@@ -1,3 +1,0 @@
-validator:
-    credit_card:
-        invalidDate: Deze waarde moet een geldige datum zijn.

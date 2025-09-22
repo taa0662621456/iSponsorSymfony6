@@ -1,1 +1,0 @@
-Class "ApiPlatform\Serializer\SerializerContextBuilder" uses "ApiPlatform\Doctrine\Orm\State\Options" but it is not declared as dependency.

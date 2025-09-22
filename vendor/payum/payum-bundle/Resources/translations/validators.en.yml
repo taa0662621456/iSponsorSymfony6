@@ -1,3 +1,0 @@
-validator:
-    credit_card:
-        invalidDate: This value should be a valid date.

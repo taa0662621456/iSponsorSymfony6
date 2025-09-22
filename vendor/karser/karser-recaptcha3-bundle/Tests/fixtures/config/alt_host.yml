@@ -1,8 +1,0 @@
-imports:
-    - { resource: 'base.yml' }
-
-karser_recaptcha3:
-    site_key: 'key'
-    secret_key: 'secret'
-    host: 'www.recaptcha.net'
-    enabled: true
