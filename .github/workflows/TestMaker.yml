@@ -1,0 +1,94 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [8.1, 8.2, 8.3]
+        db: [postgres, mysql]
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: symfony
+          POSTGRES_PASSWORD: symfony
+          POSTGRES_DB: symfony_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U symfony -d symfony_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: symfony_test
+          MYSQL_USER: symfony
+          MYSQL_PASSWORD: symfony
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -u symfony --password=symfony"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Wait for DB
+        run: |
+          if [[ "${{ matrix.db }}" == "postgres" ]]; then
+            until pg_isready -h localhost -p 5432 -U symfony; do
+              echo "Waiting for postgres...";
+              sleep 5;
+            done
+          else
+            until mysqladmin ping -h 127.0.0.1 -u symfony --password=symfony --silent; do
+              echo "Waiting for mysql...";
+              sleep 5;
+            done
+          fi
+
+      - name: Configure Symfony env
+        run: |
+          if [[ "${{ matrix.db }}" == "postgres" ]]; then
+            echo "DATABASE_URL=postgresql://symfony:symfony@127.0.0.1:5432/symfony_test" >> .env.test.local
+          else
+            echo "DATABASE_URL=mysql://symfony:symfony@127.0.0.1:3306/symfony_test" >> .env.test.local
+          fi
+
+      - name: Run migrations
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Load fixtures (core + catalog)
+        run: |
+          php bin/console fixtures:load-group core --append --env=test
+          php bin/console fixtures:load-group catalog --append --env=test
+
+      - name: Run tests
+        run: make test
