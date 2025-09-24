@@ -1,44 +1,33 @@
 <?php
 
-
 namespace App\Entity\Payment;
 
-
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
-use DateTime;
-use Symfony\Component\Uid\Uuid;
+use App\Repository\Payment\PaymentEnUSRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Table(name: 'payment_en')]
+#[ORM\Table(
+    name: 'payment_en_us',
+)]
 #[ORM\Index(columns: ['slug'], name: 'payment_en_idx')]
-#[ORM\Entity(repositoryClass: PaymentEnRepository::class)]
+#[ORM\Entity(repositoryClass: PaymentEnUSRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class PaymentEnUs
 {
     use BaseTrait;
     use ObjectTrait;
 
-    public function __construct()
-    {
-        $t = new DateTime();
-        $this->slug = (string)Uuid::v4();
-
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
-        $this->published = true;
-    }
+    #[ORM\ManyToOne(targetEntity: Payment::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Payment $payment = null;
 }
