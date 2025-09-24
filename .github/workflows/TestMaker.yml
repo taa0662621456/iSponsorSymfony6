@@ -92,3 +92,57 @@ jobs:
 
       - name: Run tests
         run: make test
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: php-tests
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: symfony
+          POSTGRES_PASSWORD: symfony
+          POSTGRES_DB: symfony_test
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up PHP with Xdebug
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Wait for Postgres
+        run: |
+          until pg_isready -h localhost -p 5432 -U symfony; do
+            echo "Waiting for postgres...";
+            sleep 5;
+          done
+
+      - name: Configure Symfony env
+        run: echo "DATABASE_URL=postgresql://symfony:symfony@127.0.0.1:5432/symfony_test" >> .env.test.local
+
+      - name: Run migrations
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Load fixtures
+        run: php bin/console fixtures:load-group core --append --env=test
+
+      - name: Run PHPUnit with coverage
+        run: |
+          vendor/bin/phpunit --coverage-clover=coverage.xml
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.xml
