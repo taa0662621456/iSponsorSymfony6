@@ -1,31 +1,35 @@
 <?php
-
-
 namespace App\Controller\Admin;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-use App\Entity\Product\ProductTag;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-class ProductTagCrudController extends AbstractCrudController
+use App\Entity\ProductTag;
+
+class ProductTagCrudController extends BaseCrudController
 {
-    public static function getEntityFqcn(): string
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return ProductTag::class; }
+
+    public function configureActions(Actions $actions): Actions
     {
-        return ProductTag::class;
+        $bulkAdd = Action::new('bulkAdd', 'Bulk Add')->linkToCrudAction('bulkAddTags')->setCssClass('btn btn-primary');
+        $bulkRemove = Action::new('bulkRemove', 'Bulk Remove')->linkToCrudAction('bulkRemoveTags')->setCssClass('btn btn-danger');
+        return $actions->add(Crud::PAGE_INDEX, $bulkAdd)->add(Crud::PAGE_INDEX, $bulkRemove);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function bulkAddTags(AdminContext $ctx)
     {
-        return [
-            TextField::new('first_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            AssociationField::new('productTagProduct')->autocomplete()->hideOnIndex(),
-            TextField::new('create_By')->hideOnForm(),
-        ];
+        $this->addFlash('success', 'Tags added');
+        return $this->redirect($ctx->getReferrer());
     }
 
-    use ConfigureFiltersTrait;
+    public function bulkRemoveTags(AdminContext $ctx)
+    {
+        $this->addFlash('warning', 'Tags removed');
+        return $this->redirect($ctx->getReferrer());
+    }
 }

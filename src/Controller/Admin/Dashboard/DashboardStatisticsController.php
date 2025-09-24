@@ -1,36 +1,19 @@
 <?php
-
 namespace App\Controller\Admin\Dashboard;
 
-use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Dashboard\VendorStatsService;
+use App\Service\Dashboard\ProjectStatsService;
 
-final class DashboardStatisticsController
+class DashboardStatisticsController extends AbstractController
 {
-    public function __construct(
-        private readonly Environment $templatingEngine,
-        private                      $statisticsDataProvider,
-    ) {
-    }
-
-    /**
-     * @throws SyntaxError
-     * @throws RuntimeError
-     * @throws LoaderError
-     */
-    public function renderStatistics($channel): Response
+    #[Route('/admin/dashboard/stats', name: 'admin_dashboard_stats')]
+    public function stats(VendorStatsService $vendor, ProjectStatsService $project)
     {
-        return new Response($this->templatingEngine->render(
-            'dashboard/dashboard.html.twig',
-            $this->statisticsDataProvider->getRawData(
-                $channel,
-                (new \DateTime('first day of january this year')),
-                (new \DateTime('first day of january next year')),
-                'month',
-            ),
-        ));
+        return $this->json([
+            'activeVendors' => $vendor->getActiveVendorsCount(),
+            'publishedProjects' => $project->getPublishedProjectsCount(),
+        ]);
     }
 }

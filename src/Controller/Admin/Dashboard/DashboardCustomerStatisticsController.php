@@ -1,43 +1,15 @@
 <?php
-
-
 namespace App\Controller\Admin\Dashboard;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Twig\Environment;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Dashboard\CustomerStatsService;
 
-final class DashboardCustomerStatisticsController
+class DashboardCustomerStatisticsController extends AbstractController
 {
-    public function __construct(
-        private                      $statisticsProvider,
-        private                      $customerRepository,
-        private readonly Environment $templatingEngine,
-    ) {
-    }
-
-    /**
-     * @throws HttpException
-     */
-    public function renderAction(Request $request): Response
+    #[Route('/admin/dashboard/customers', name: 'admin_dashboard_customers')]
+    public function customers(CustomerStatsService $service)
     {
-        $customerId = $request->query->get('customerId');
-
-        /** @var null $customer */
-        $customer = $this->customerRepository->find($customerId);
-        if (null === $customer) {
-            throw new HttpException(
-                Response::HTTP_BAD_REQUEST,
-                sprintf('Customer with id %s doesn\'t exist.', (string) $customerId),
-            );
-        }
-
-        $customerStatistics = $this->statisticsProvider->getCustomerStatistics($customer);
-
-        return new Response($this->templatingEngine->render(
-            'dashboard/dashboard_customer_statistic.html.twig',
-            ['statistics' => $customerStatistics],
-        ));
+        return $this->json(['newCustomers' => $service->getNewCustomersToday()]);
     }
 }

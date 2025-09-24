@@ -1,56 +1,28 @@
 <?php
-
 namespace App\Controller\Admin;
 
-use App\Entity\Category\Category;
-use App\Form\Category\CategoryAttachmentType;
-use App\Form\Vendor\VendorMediaType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
+use App\Entity\Category;
 
-class CategoryCrudController extends AbstractCrudController
+class CategoryCrudController extends BaseCrudController
 {
-    public static function getEntityFqcn(): string
-    {
-        return Category::class;
-    }
-
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            TextField::new('firstTitle'),
-            TextEditorField::new('middle_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            CollectionField::new('categoryAttachment')
-                ->setEntryType(CategoryAttachmentType::class)
-                ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
-            CollectionField::new('categoryAttachment')
-                ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail()
-            ,
-            ImageField::new('fileVich')
-                ->setBasePath('/upload/category/thumbnail')
-                ->setUploadDir('/upload/category/thumbnail')
-                ->onlyOnIndex()
-            ,
-        ];
-    }
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return Category::class; }
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions->add(Crud::PAGE_EDIT, 'detail');
+        $merge = Action::new('merge', 'Merge')->linkToCrudAction('mergeCategories')->setCssClass('btn btn-secondary');
+        return $actions->add(Crud::PAGE_INDEX, $merge);
     }
 
-    use ConfigureFiltersTrait;
-
-
+    public function mergeCategories(AdminContext $ctx)
+    {
+        $this->addFlash('info', 'Categories merged');
+        return $this->redirect($ctx->getReferrer());
+    }
 }

@@ -1,37 +1,28 @@
 <?php
-
-
 namespace App\Controller\Admin;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-use App\Entity\Product\ProductPrice;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use App\Entity\ProductPrice;
 
-class ProductPriceCrudController extends AbstractCrudController
+class ProductPriceCrudController extends BaseCrudController
 {
-    public static function getEntityFqcn(): string
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return ProductPrice::class; }
+
+    public function configureActions(Actions $actions): Actions
     {
-        return ProductPrice::class;
+        $recalc = Action::new('recalculate', 'Recalculate')->linkToCrudAction('recalculatePrices')->setCssClass('btn btn-primary');
+        return $actions->add(Crud::PAGE_INDEX, $recalc);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function recalculatePrices(AdminContext $ctx)
     {
-
-        return [
-            TextField::new('product_discount_id'),
-            TextField::new('override'),
-            TextField::new('shopper_group_id'),
-            TextField::new('product_price_publish_up'),
-            TextField::new('price_quantity_start'),
-            TextEditorField::new('product_override_price'),
-
-            TextEditorField::new('product_tax_id'),
-        ];
-
-
+        $this->addFlash('info', 'Prices recalculated');
+        return $this->redirect($ctx->getReferrer());
     }
-
 }

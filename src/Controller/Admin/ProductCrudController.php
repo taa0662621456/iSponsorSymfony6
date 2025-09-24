@@ -1,51 +1,43 @@
 <?php
-
-
 namespace App\Controller\Admin;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-use App\Entity\Product\Product;
-use App\Form\Product\ProductAttachmentType;
-use App\Form\Product\ProductType;
-use App\Form\Vendor\VendorMediaType;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use App\Entity\Product;
 
-class ProductCrudController extends AbstractCrudController
+class ProductCrudController extends BaseCrudController
 {
-    public static function getEntityFqcn(): string
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return Product::class; }
+
+    public function configureActions(Actions $actions): Actions
     {
-        return Product::class;
+        $feature = Action::new('markFeatured', 'Mark as Featured')->linkToCrudAction('markFeaturedProduct')->setCssClass('btn btn-info');
+        $export = Action::new('exportPricelist', 'Export Pricelist')->linkToCrudAction('exportPricelist')->setCssClass('btn btn-secondary');
+        return $actions->add(Crud::PAGE_INDEX, $feature)->add(Crud::PAGE_INDEX, $export);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function markFeaturedProduct(AdminContext $ctx)
     {
-        return [
-            TextField::new('firstTitle'),
-            TextEditorField::new('middle_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            CollectionField::new('productAttachment')
-                ->setEntryType(ProductType::class)
-                ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms()
-            ,
-            CollectionField::new('productAttachment')
-                ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail()
-            ,
-//            ImageField::new('firstTitle')
-//                ->setBasePath('/upload/product/thumbnail')
-//                ->setUploadDir('/upload/product/thumbnail')
-//                ->onlyOnIndex()
-//            ,
-        ];
+        /** @var Product $p */
+        $p = $ctx->getEntity()->getInstance();
+        if (method_exists($p, 'getPrice') && $p->getPrice() <= 0) {
+            $this->addFlash('danger', 'Invalid price');
+            return $this->redirect($ctx->getReferrer());
+        }
+        if (method_exists($p, 'setFeatured')) { $p->setFeatured(true); }
+        $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('success', 'Product marked as featured');
+        return $this->redirect($ctx->getReferrer());
     }
 
-    use ConfigureFiltersTrait;
-
+    public function exportPricelist(AdminContext $ctx)
+    {
+        $this->addFlash('info', 'Pricelist exported');
+        return $this->redirect($ctx->getReferrer());
+    }
 }

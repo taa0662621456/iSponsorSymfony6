@@ -1,36 +1,31 @@
 <?php
-
-
 namespace App\Controller\Admin;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-use App\Entity\Project\ProductAttachment;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use App\Entity\ProjectAttachment;
 
-class ProjectAttachmentCrudController extends AbstractCrudController
+class ProjectAttachmentCrudController extends BaseCrudController
 {
-    public static function getEntityFqcn(): string
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return ProjectAttachment::class; }
+
+    public function configureActions(Actions $actions): Actions
     {
-        return ProductAttachment::class;
+        $validate = Action::new('validate', 'Validate')->linkToCrudAction('validateAttachment')->setCssClass('btn btn-primary');
+        return $actions->add(Crud::PAGE_INDEX, $validate);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function validateAttachment(AdminContext $ctx)
     {
-
-        return [
-            TextField::new('firstTitle'),
-            TextEditorField::new('middle_title'),
-
-            TextEditorField::new('last_title'),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-        ];
-
-
+        /** @var ProjectAttachment $a */
+        $a = $ctx->getEntity()->getInstance();
+        $ok = method_exists($a, 'isValid') ? $a->isValid() : true;
+        $this->addFlash($ok ? 'success' : 'danger', $ok ? 'Attachment valid' : 'Attachment invalid');
+        return $this->redirect($ctx->getReferrer());
     }
-
-    use ConfigureFiltersTrait;
 }
