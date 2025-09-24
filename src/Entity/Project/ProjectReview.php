@@ -14,6 +14,7 @@ use App\Entity\ObjectTrait;
 use App\Entity\ReviewTrait;
 use App\Repository\Review\ProjectReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'project_review')]
 #[ORM\Index(columns: ['slug'], name: 'project_review_idx')]
@@ -26,11 +27,6 @@ use Doctrine\ORM\Mapping as ORM;
     order: ['createdAt' => 'DESC'],
     paginationEnabled: true
 )]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
 class ProjectReview
 {
     use BaseTrait;

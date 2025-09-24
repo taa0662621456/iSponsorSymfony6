@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait ObjectTrait
@@ -49,10 +50,4 @@ trait ObjectTrait
         $this->lastTitle = $lastTitle;
     }
     #
-//    public function __toString(): string
-//    {
-//        return $this->firstTitle;
-//    }
-
-
 }

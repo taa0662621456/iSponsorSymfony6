@@ -13,6 +13,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use JsonSerializable;
 use Symfony\Component\Uid\Uuid;
 
@@ -22,11 +23,6 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource()]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
 class ProjectTag implements JsonSerializable
 {
 	use BaseTrait;
@@ -37,14 +33,14 @@ class ProjectTag implements JsonSerializable
 
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
         $this->projectTagProject = new ArrayCollection();
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
         $this->published = true;
 
     }

@@ -5,6 +5,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Validator\Constraints as Assert;
 use JetBrains\PhpStorm\Pure;
 
@@ -18,7 +19,6 @@ trait ProductLanguageTrait
     #[Assert\Length(max: 255, maxMessage: 'product.name.too.long.')]
     private string $productName = 'product_name';
 
-
     #[ORM\Column(name: 'product_s_desc', type: 'text', nullable: false, options: ['default' => 'product_s_desc'])]
     #[Assert\NotBlank(message: 'product.s.description.blank')]
     #[Assert\NotNull(message: 'product.s.description.null')]
@@ -26,21 +26,12 @@ trait ProductLanguageTrait
     #[Assert\Length(max: 15000, maxMessage: 'product.s.description.too.long.')]
     private string $productSDesc = 'product_s_desc';
 
-
     #[ORM\Column(name: 'product_desc', type: 'text', nullable: false, options: ['default' => 'product_desc'])]
     #[Assert\NotBlank(message: 'product.description.blank')]
     #[Assert\NotNull(message: 'product.description.null')]
     #[Assert\Length(min: 56, minMessage: 'product.description.too.short')]
     #[Assert\Length(max: 15000, maxMessage: 'product.description.too.long.')]
     private string $productDesc = 'product_desc';
-
-//    /**
-//     * @return string
-//     */
-//    #[Pure]
-//    public function __toString() {
-//        return $this->getProductName();
-//    }
 
     public function getProductSDesc(): string
     {

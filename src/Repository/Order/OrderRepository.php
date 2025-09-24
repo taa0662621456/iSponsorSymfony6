@@ -5,6 +5,7 @@ namespace App\Repository\Order;
 use App\Entity\Order\OrderStorage;
 use App\Entity\Project\Project;
 
+use App\Entity\Vendor\Vendor;
 use App\Interface\CustomerInterface;
 use App\Interface\Vendor\VendorInterface;
 use App\Interface\Order\OrderInterface;
@@ -648,6 +649,47 @@ class OrderRepository extends EntityRepository
         return array_filter($terms, static fn($term) => 2 <= mb_strlen($term));
     }
 
+    public function countForVendor(Vendor $vendor): int
+    {
+        return (int)$this->createQueryBuilder('o')
+            ->select('COUNT(o.id)')
+            ->andWhere('o.orderVendor = :vendor')
+            ->setParameter('vendor', $vendor)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function sumTotalForVendor(Vendor $vendor): float
+    {
+        return (float)$this->createQueryBuilder('o')
+            ->select('COALESCE(SUM(o.orderTotal), 0)')
+            ->andWhere('o.orderVendor = :vendor')
+            ->setParameter('vendor', $vendor)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function countByStatus(Vendor $vendor): array
+    {
+        return $this->createQueryBuilder('o')
+            ->select('IDENTITY(o.orderStatus) AS status, COUNT(o.id) AS cnt')
+            ->andWhere('o.orderVendor = :vendor')
+            ->groupBy('o.orderStatus')
+            ->setParameter('vendor', $vendor)
+            ->getQuery()
+            ->getArrayResult();
+    }
+
+    public function findLatestForVendor(Vendor $vendor, int $limit = 5): array
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.orderVendor = :vendor')
+            ->setParameter('vendor', $vendor)
+            ->orderBy('o.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 
     // /**
     //  * @return Orders[] Returns an array of Orders objects

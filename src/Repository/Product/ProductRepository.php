@@ -4,6 +4,7 @@
 namespace App\Repository\Product;
 
 use App\Entity\Product\Product;
+use App\Entity\Vendor\Vendor;
 use App\Interface\Product\ProductInterface;
 use App\Interface\Taxation\TaxationInterface;
 use App\Interface\Vendor\VendorInterface;
@@ -50,6 +51,15 @@ class ProductRepository extends ServiceEntityRepository
     }
 
 
+    public function countForVendor(Vendor $vendor): int
+    {
+        return (int)$this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.vendor = :vendor')
+            ->setParameter('vendor', $vendor)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     // /**
     //  * @return Products[] Returns an array of Products objects
     //  */

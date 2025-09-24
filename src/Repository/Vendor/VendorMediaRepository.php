@@ -22,6 +22,16 @@
 			parent::__construct($registry, VendorMedia::class);
 		}
 
+        public function countByVendor(Vendor $vendor): int
+        {
+            return (int)$this->createQueryBuilder('m')
+                ->select('COUNT(m.id)')
+                ->andWhere('m.vendor = :vendor')
+                ->setParameter('vendor', $vendor)
+                ->getQuery()
+                ->getSingleScalarResult();
+        }
+
 		// /**
 		//  * @return VendorsMediaAttachments[] Returns an array of VendorsMediaAttachments objects
 		//  */

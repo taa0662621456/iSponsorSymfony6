@@ -12,11 +12,8 @@ use App\Entity\ObjectTrait;
 
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class PropertyEnUs
 {
     use BaseTrait;

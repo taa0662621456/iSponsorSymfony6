@@ -1,39 +1,65 @@
 <?php
 
-
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\CodeNameFilterTrait;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\BaseTrait;
-use App\Entity\Featured\Featured;
-use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
-use App\Entity\Order\OrderItem;
-use App\Entity\Project\Project;
-use App\Entity\Project\ProjectFavourite;
-
-use App\Repository\Product\ProductRepository;
-use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Repository\Product\ProductAttributeRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'product_attribute')]
 #[ORM\Index(columns: ['slug'], name: 'product_attribute_idx')]
 #[ORM\Entity(repositoryClass: ProductAttributeRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
 class ProductAttribute
 {
-
-    use BaseTrait;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use TimestampFilterTrait;
+    use CodeNameFilterTrait;
+    use RelationFilterTrait;
 
     public const ATTRIBUTE_TYPE_BOOLEAN = 'boolean';
 
@@ -64,13 +90,17 @@ class ProductAttribute
     /** @var float|null */
     private ?float $float;
 
-    /** @var \DateTimeInterface|null */
-    private ?\DateTimeInterface $datetime;
+    /** @var DateTimeInterface|null */
+    private ?DateTimeInterface $datetime;
 
-    /** @var \DateTimeInterface|null */
-    private ?\DateTimeInterface $date;
+    /** @var DateTimeInterface|null */
+    private ?DateTimeInterface $date;
 
     /** @var array|null */
     private ?array $json;
+
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Product $product = null;
 
 }

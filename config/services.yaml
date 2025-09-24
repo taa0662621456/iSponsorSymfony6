@@ -69,8 +69,23 @@ services:
         class: App\Factory\Vendor\VendorFactory
         factory: 'VendorSecurityFactory'
 
+    App\Service\SmsTwoFactorService:
+        arguments:
+            $texter: '@texter'
+
+    App\Service\TotpTwoFactorService:
+        arguments:
+            $totpAuthenticator: '@scheb_two_factor.security.totp_authenticator'
+
+        # общий alias для iterable
+        App\Service\TwoFactor\TwoFactorServiceInterface:
+            resource: '../src/Service/TwoFactor/*TwoFactorService.php'
+            tags: [ 'app.two_factor' ]   # собственный тег, чтобы не мешать другим
 #    App\Factory\Vendor\VendorFactory:
 #        factory: ['App\Factory\Vendor\VendorFactory', 'create']
+    Symfony\Component\RateLimiter\RateLimiterFactory $anonymousApiLimiter: '@limiter.anonymous_api'
+    Symfony\Component\RateLimiter\RateLimiterFactory $twoFactorLimiter: '@limiter.two_factor'
+    Symfony\Component\RateLimiter\RateLimiterFactory $smsLimiter: '@limiter.sms'
 
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

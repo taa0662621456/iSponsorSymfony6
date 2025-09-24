@@ -2,75 +2,109 @@
 
 namespace App\Controller\Vendor;
 
+use App\Repository\Vendor\VendorCodeStorageRepository;
 use App\Repository\Vendor\VendorSecurityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use LogicException;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
+use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 
 #[AsController]
+#[Route('/auth/magic', name: 'auth_magic_')]
 class VendorLinkAuthenticatorController extends AbstractController
 {
-    #[Route(path: '/link_authenticator', name: 'link_authenticator')]
-    public function linkAuthenticator()
+    public function __construct(
+        private readonly VendorCodeStorageRepository $repo,
+        private readonly VendorSecurityRepository $vendorRepo,
+        private readonly LoggerInterface $logger,
+        private readonly RateLimiterFactory $magicLinkLimiter,
+    ) {}
+
+    #[Route('', name: 'link', methods: ['GET'])]
+    public function magicLink(Request $request): Response
     {
-        throw new LogicException('This function code should never be reached');
+        $limiter = $this->magicLinkLimiter->create($request->getClientIp() ?? 'anon');
+        if (!$limiter->consume(1)->isAccepted()) {
+            $this->logger->warning('Magic link rate-limited', ['ip' => $request->getClientIp()]);
+            return $this->render('security/rate_limited.html.twig', parameters: 'status',response: 429);
+        }
+
+        $code = (string) $request->query->get('code');
+        if ($code === '') {
+            $this->addFlash('danger', 'Код не найден');
+            return $this->redirectToRoute('auth_login');
+        }
+
+        $record = $this->repo->findOneBy(['code' => $code]);
+        if (!$record || $record->isExpired()) {
+            $this->addFlash('danger', 'Ссылка недействительна');
+            return $this->redirectToRoute('auth_login');
+        }
+
+        try {
+            $user = $record->getVendor();
+            if (!$user->isEnabled() || !$user->isEmailConfirmed()) {
+                $this->addFlash('danger', 'Аккаунт не активен');
+                return $this->redirectToRoute('auth_login');
+            }
+
+            // Логиним пользователя вручную (например через Guard или Authenticator)
+            // $this->authService->authenticateVendor($user);
+
+            // Одноразовость
+            $this->repo->remove($record, flush: true);
+
+            // Безопасный redirect
+            $target = $request->query->get('target', 'vendor_dashboard_index');
+            $allowedTargets = ['vendor_dashboard_index', 'profile_index'];
+            if (!in_array($target, $allowedTargets, true)) {
+                $target = 'vendor_dashboard_index';
+            }
+
+            return $this->redirectToRoute($target);
+        } catch (\Throwable $e) {
+            $this->logger->error('Magic link failed', ['exception' => $e]);
+            $this->addFlash('danger', 'Не удалось войти по ссылке');
+            return $this->redirectToRoute('auth_login');
+        }
     }
 
     /**
+     * Альтернативный вариант через Symfony login-link
      * @throws NonUniqueResultException
      */
-    #[Route(path: '/link_authenticator_page', name: 'link_authenticator_page')]
-    public function linkAuthenticatorPage(NotifierInterface $notifier, LoginLinkHandlerInterface $loginLinkHandler, VendorSecurityRepository $VendorSecurityRepository, Request $request) : Response
-    {
-        // Helper https://symfony.com.ua/doc/current/security/login_link.html
-        // check if login form is submitted
-        if ($request->isMethod('POST')) {
+    #[Route('/send', name: 'send', methods: ['POST'])]
+    public function sendMagicLink(
+        Request $request,
+        NotifierInterface $notifier,
+        LoginLinkHandlerInterface $loginLinkHandler
+    ): Response {
+        $email = (string) $request->request->get('email');
+        $user = $this->vendorRepo->findOneBy(['email' => $email]);
 
-
-
-            // load the user in some way (e.g. using the form input)
-            $email = $request->request->get('email');
-            $user = $VendorSecurityRepository->findOneBySomeField($email);
-
-            // clone and customize Request
-            $userRequest = clone $request;
-            $userRequest->setLocale($user->getLocale() ?? $request->getDefaultLocale());
-
-            // create a login link for $user this returns an instance
-            // of LoginLinkDetails
-            $loginLinkDetails = $loginLinkHandler->createLoginLink($user, $userRequest);
-            $loginLink = $loginLinkDetails->getUrl();
-
-            // create a notification based on the login link details
-            $notification = new LoginLinkNotification(
-                $loginLinkDetails,
-                'Welcome to project!' . $loginLink
-            );
-            // create a recipient for this user
-            $recipient = new Recipient($user->getEmail());
-
-            // send the notification to the user
-            $notifier->send($notification, $recipient);
-
-            // render a "Login link is sent!" page
-            return $this->render('security/linkAuthenticatorSent.html.twig');
-
-
-
-
-            //TODO: email sending
-            // ... send the link and return a response (see next section)
+        if (!$user) {
+            $this->addFlash('danger', 'Пользователь не найден');
+            return $this->redirectToRoute('auth_login');
         }
-        // if it's not submitted, render the "login" form
-        return $this->render('security/linkAuthenticatorPage.html.twig');
-    }
 
+        $loginLinkDetails = $loginLinkHandler->createLoginLink($user, $request);
+        $notification = new LoginLinkNotification(
+            $loginLinkDetails,
+            'Ссылка для входа в личный кабинет'
+        );
+        $recipient = new Recipient($user->getEmail());
+
+        $notifier->send($notification, $recipient);
+
+        $this->addFlash('success', 'На вашу почту отправлена ссылка для входа');
+        return $this->redirectToRoute('auth_login');
+    }
 }

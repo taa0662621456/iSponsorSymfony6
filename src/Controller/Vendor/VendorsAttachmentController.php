@@ -9,20 +9,89 @@ use App\Entity\Vendor\VendorMedia;
 use App\Form\Vendor\VendorDocumentType;
 use App\Form\Vendor\VendorMediaType;
 use App\Service\AttachmentManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[AsController]
 class VendorsAttachmentController extends AbstractController
 {
-    public function __construct(private readonly AttachmentManager $attachmentsManager,
-                                private readonly ManagerRegistry $managerRegistry)
+    public function __construct(
+        private readonly AttachmentManager      $attachmentsManager,
+        private readonly ManagerRegistry        $managerRegistry,
+        private readonly EntityManagerInterface $em,
+        private readonly LoggerInterface        $logger,
+        private readonly SluggerInterface $slugger
+    )
     {
+    }
+
+    /**
+     * @throws Exception
+     */
+    #[Route('/upload', name: 'upload', methods: ['POST'])]
+    public function upload(Request $request): Response
+    {
+        $this->assertCsrf('vendor_upload', $request->request->get('_token'));
+
+        /** @var UploadedFile|null $file */
+        $file = $request->files->get('file');
+        if (!$file) {
+            $this->addFlash('danger', 'Файл не получен');
+            return $this->redirectToRoute('vendor_dashboard');
+        }
+
+        // базовые проверки
+        if ($file->getSize() > 20 * 1024 * 1024) { // 20MB
+            $this->addFlash('danger', 'Файл слишком большой');
+            return $this->redirectToRoute('vendor_dashboard');
+        }
+
+        $allowed = ['image/jpeg','image/png','application/pdf'];
+        $mime = (new MimeTypes())->guessMimeType($file->getPathname()) ?? $file->getMimeType();
+        if (!\in_array($mime, $allowed, true)) {
+            $this->addFlash('danger', 'Недопустимый тип файла');
+            return $this->redirectToRoute('vendor_dashboard');
+        }
+
+        $safeName = $this->slugger->slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+        $newFilename = $safeName.'-'.bin2hex(random_bytes(6)).'.'.$file->guessExtension();
+
+        try {
+            $file->move($this->getParameter('upload_vendor_dir'), $newFilename);
+
+            $entity = \str_starts_with($mime, 'image/')
+                ? (new VendorMedia())->setPath($newFilename)->setMimeType($mime)->setVendor($this->getUser()->getVendor())
+                : (new VendorDocument())->setPath($newFilename)->setMimeType($mime)->setVendor($this->getUser()->getVendor());
+
+            $this->em->persist($entity);
+            $this->em->flush();
+
+            $this->logger->info('Vendor file uploaded', ['vendor' => $this->getUser()->getUserIdentifier(), 'file' => $newFilename, 'mime' => $mime]);
+            $this->addFlash('success', 'Файл загружен');
+        } catch (FileException|\Throwable $e) {
+            $this->logger->error('Upload failed', ['e' => $e]);
+            $this->addFlash('danger', 'Ошибка загрузки файла');
+        }
+
+        return $this->redirectToRoute('vendor_dashboard');
+    }
+
+    private function assertCsrf(string $id, ?string $token): void
+    {
+        if (!$this->isCsrfTokenValid($id, (string) $token)) {
+            throw $this->createAccessDeniedException('CSRF token invalid');
+        }
     }
 
     /**

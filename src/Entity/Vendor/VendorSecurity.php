@@ -2,9 +2,21 @@
 
 namespace App\Entity\Vendor;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\StatusFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\OAuthTrait;
 use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfiguration;
 use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
@@ -12,30 +24,61 @@ use App\Repository\Vendor\VendorSecurityRepository;
 use App\Service\ConfirmationCodeGenerator;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
 use Serializable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 use Symfony\Component\Validator\Constraints\Length;
 
-#[ORM\Table(name: 'vendor_security')]
+#[ORM\Table(
+    name: 'vendor_security',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(name: 'uniq_vendor_username', columns: ['username']),
+        new ORM\UniqueConstraint(name: 'uniq_vendor_email', columns: ['email'])
+    ]
+)]
 #[ORM\Index(columns: ['slug', 'email', 'phone'], name: 'vendor_security_idx')]
 #[ORM\Entity(repositoryClass: VendorSecurityRepository::class)]
 #[ORM\UniqueConstraint(name: 'vendor_security_idx', columns: ['slug', 'email', 'phone'])]
-//#[UniqueEntity(errorPath: 'email', message: 'email.already.use')]
-//#[UniqueEntity(errorPath: 'phone', message: 'phone.already.use')]
 #[ORM\HasLifecycleCallbacks]
 #
-#[ApiResource()]
-
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
 class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface, UserInterface, TwoFactorInterface
 {
-	use BaseTrait;
-	use OAuthTrait;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use TimestampFilterTrait;
+    use StatusFilterTrait;
 
 	#[ORM\Column(name: 'email', type: 'string', unique: true, nullable: false)]
 	#[Assert\NotBlank(message: 'vendors.security.blank_email')]
@@ -78,8 +121,6 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	#[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
 	#[Assert\Locale(message: 'Код локали должен соответствовать стандарту языка ISO 639-1 или с применением стардарта кода страны  ISO 3166-1 alpha-2', canonicalize: true)]
 	private string $locale = 'en';
-	# TODO: засунуть также Предпочитаемый язык объектов поумолчанию
-	# https://symfony.com.ua/doc/current/reference/constraints/Language.html
 
 	#[ORM\Column(name: 'params', type: 'string', nullable: false, options: ['default' => 'params'])]
 	private string $params = 'params';
@@ -113,14 +154,14 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
 	 */
 	public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTimeImmutable();
         $uuid = (string)Uuid::v4();
         $this->slug = $uuid;
         $this->username = $uuid;
         $codeGenerator = new ConfirmationCodeGenerator;
         $this->activationCode = $codeGenerator->getConfirmationCode();
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->lastResetTime = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->lastResetTime = $t;
     }
     public function getUser(): string
     {

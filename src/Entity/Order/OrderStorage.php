@@ -2,17 +2,26 @@
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\PriceFilterTrait;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\SlugTitleFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\BaseTrait;
-
+use App\Entity\ObjectTrait;
+use App\Entity\Payment\Payment;
 use App\Entity\Vendor\Vendor;
+use App\Enum\OrderStatusEnum;
 use App\Repository\Order\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,14 +31,48 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #
-#[ApiResource(mercure: true)]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
 class OrderStorage
 {
-	use BaseTrait;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use SlugTitleFilterTrait;
+    use TimestampFilterTrait;
+    use RelationFilterTrait;
+    use PriceFilterTrait;
+
 	public const NUM_ITEMS = 10;
 
-	#[ORM\Column(name: 'order_number', nullable: true)]
+    #[ORM\Column(name: 'order_status_code', type: 'string', enumType: OrderStatusEnum::class)]
+    private OrderStatusEnum $orderStatusCode = OrderStatusEnum::Draft;
+
+	#[ORM\Column(name: 'order_number', length: 100, unique: true, nullable: true)]
 	private ?string $orderNumber = null;
 
 	#[ORM\Column(name: 'order_customer_number', nullable: true)]
@@ -55,9 +98,6 @@ class OrderStorage
 
 	#[ORM\Column(name: 'order_bill_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
 	private string $orderBillDiscountAmount = '0.00000';
-
-	#[ORM\Column(name: 'order_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
-	private string $orderBillDiscount = '0.00000';
 
 	#[ORM\Column(name: 'order_subtotal', nullable: true)]
 	private ?string $orderSubtotal = null;
@@ -107,8 +147,8 @@ class OrderStorage
 	#[ORM\Column(name: 'order_shipment_method_id', nullable: true)]
 	private ?int $orderShipmentMethodId = null;
 
-	#[ORM\Column(name: 'order_delivery_date')]
-	private ?string $orderDeliveryDate;
+    #[ORM\Column(name: 'order_delivery_date', type: 'datetime_immutable', nullable: true)]
+    private ?\DateTimeImmutable $orderDeliveryDate = null;
 
 	#[ORM\Column(name: 'order_language', nullable: true)]
 	private ?string $orderLanguage = null;
@@ -123,29 +163,41 @@ class OrderStorage
 	private ?string $orderHash = null;
 
 	#[ORM\OneToMany(mappedBy: 'orderItem', targetEntity: OrderItem::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-	#[Assert\Type(type: 'App\Entity\Order\OrderStorage')]
+	#[Assert\Type(type: OrderItem::class)]
 	#[Assert\Valid]
 	private Collection $orderItem;
 
-	#[ORM\ManyToOne(targetEntity: OrderStatus::class, fetch: 'EXTRA_LAZY', inversedBy: 'orderStatusStorage')]
-	private OrderStatus $orderStatus;
+    #[ORM\ManyToOne(targetEntity: OrderStatus::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?OrderStatus $orderStatus = null;
 
 	#[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrder')]
-	private Vendor $orderVendor;
-    #
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Vendor $orderVendor = null;
+
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: Payment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $payment;
+
 	public function __construct()
 	{
-        $t = new \DateTime();
+        $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
-        $this->orderDeliveryDate = $t->format('Y-m-d H:i:s');
+        $this->orderDeliveryDate = $t;
         $this->orderItem = new ArrayCollection();
+        $this->payment = new ArrayCollection();
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
         $this->published = true;
 	}
+
+    #
+    public function getOrderTotalAsFloat(): float
+    {
+        return (float)$this->orderTotal;
+    }
     #
 	public function getOrderId(): int
 	{
@@ -231,15 +283,6 @@ class OrderStorage
 	public function setOrderBillDiscountAmount(string $orderBillDiscountAmount): void
 	{
 		$this->orderBillDiscountAmount = $orderBillDiscountAmount;
-	}
-    #
-	public function getOrderBillDiscount(): string
-	{
-		return $this->orderBillDiscount;
-	}
-	public function setOrderBillDiscount(string $orderBillDiscount): void
-	{
-		$this->orderBillDiscount = $orderBillDiscount;
 	}
     #
 	public function getOrderSubtotal(): ?string
@@ -383,11 +426,11 @@ class OrderStorage
 	{
 		$this->orderShipmentMethodId = $orderShipmentMethodId;
 	}
-	public function getOrderDeliveryDate(): string
+	public function getOrderDeliveryDate(): ?\DateTimeImmutable
 	{
 		return $this->orderDeliveryDate;
 	}
-	public function setOrderDeliveryDate(string $orderDeliveryDate): void
+	public function setOrderDeliveryDate(?\DateTimeImmutable $orderDeliveryDate): void
 	{
 		$this->orderDeliveryDate = $orderDeliveryDate;
 	}
@@ -462,5 +505,14 @@ class OrderStorage
         $this->orderVendor = $orderVendor;
     }
 
-
+    #Enum
+    /**public function getOrderStatus(): OrderStatus
+    {
+        return $this->orderStatus;
+    }
+    public function setOrderStatus(OrderStatus $status): void
+    {
+        $this->orderStatus = $status;
+    }
+    */
 }

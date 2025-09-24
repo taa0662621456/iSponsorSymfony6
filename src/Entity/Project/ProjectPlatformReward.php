@@ -5,6 +5,7 @@ namespace App\Entity\Project;
 use App\Entity\BaseTrait;
 use App\Repository\Project\ProjectPlatformRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'reward')]
 #[ORM\Index(columns: ['slug'], name: 'commission_idx')]

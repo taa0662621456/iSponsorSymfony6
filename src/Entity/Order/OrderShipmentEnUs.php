@@ -9,6 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'order_shipment_en')]
 #[ORM\Index(columns: ['slug'], name: 'order_shipment_idx')]
@@ -16,11 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class OrderShipmentEnUs
 {
     use BaseTrait;

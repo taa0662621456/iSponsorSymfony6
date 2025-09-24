@@ -11,6 +11,7 @@ use App\Entity\ObjectTrait;
 use App\Repository\Category\CategoryRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Table(name: 'event_category')]
@@ -19,11 +20,8 @@ use Symfony\Component\Uid\Uuid;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class EventCategory
 {
     use BaseTrait;
@@ -31,13 +29,13 @@ class EventCategory
 
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
         $this->published = true;
     }
 }

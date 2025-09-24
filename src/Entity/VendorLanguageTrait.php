@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;

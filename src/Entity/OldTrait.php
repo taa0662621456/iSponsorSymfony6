@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints\Length;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait OldTrait

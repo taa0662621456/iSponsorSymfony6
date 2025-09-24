@@ -2,88 +2,58 @@
 
 namespace App\Entity\Payment;
 
-use Payum\Core\Security\Util\Random;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Entity\BaseTrait;
+use App\Repository\Payment\PaymentTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'payment_token')]
-#[ORM\Index(columns: ['slug'], name: 'payment_token_idx')]
 #[ORM\Entity(repositoryClass: PaymentTokenRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-
-class PaymentToken implements PaymentSecurityTokenInterface
+#[ApiResource(
+    operations: [
+        new GetCollection(order: ['createdAt' => 'DESC']),
+        new Get(),
+        new Post(),
+        new Put(),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class PaymentToken
 {
-    /** @var string */
-    protected string $hash;
+    use BaseTrait;
 
-    /** @var object|null */
-    protected ?object $details;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $expiresAt;
 
-    /** @var string|null */
-    protected ?string $afterUrl;
-
-    /** @var string|null */
-    protected ?string $targetUrl;
-
-    /** @var string|null */
-    protected ?string $gatewayName;
+    #[ORM\ManyToOne(targetEntity: PaymentMethod::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?PaymentMethod $method = null;
 
     public function __construct()
     {
-        $this->hash = Random::generateToken();
+        $this->expiresAt = (new \DateTimeImmutable())->modify('+1 hour');
     }
 
-    public function getId(): string
+    public function getMethod(): ?PaymentMethod
     {
-        return $this->hash;
+        return $this->method;
     }
 
-    public function setDetails($details): void
+    public function setMethod(?PaymentMethod $method): void
     {
-        $this->details = $details;
-    }
-
-    public function getDetails(): ?object
-    {
-        return $this->details;
-    }
-
-    public function getHash(): string
-    {
-        return $this->hash;
-    }
-
-    public function setHash($hash): void
-    {
-        $this->hash = $hash;
-    }
-
-    public function getTargetUrl(): string
-    {
-        return $this->targetUrl;
-    }
-
-    public function setTargetUrl($targetUrl): void
-    {
-        $this->targetUrl = $targetUrl;
-    }
-
-    public function getAfterUrl(): ?string
-    {
-        return $this->afterUrl;
-    }
-
-    public function setAfterUrl($afterUrl): void
-    {
-        $this->afterUrl = $afterUrl;
-    }
-
-    public function getGatewayName(): string
-    {
-        return $this->gatewayName;
-    }
-
-    public function setGatewayName($gatewayName): void
-    {
-        $this->gatewayName = $gatewayName;
+        $this->method = $method;
     }
 }

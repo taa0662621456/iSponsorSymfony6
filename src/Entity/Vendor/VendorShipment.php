@@ -9,6 +9,7 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Vendor\VendorMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 /**
  * Class VendorShipment
@@ -19,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: VendorShipmentRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+
 #[ApiFilter(SearchFilter::class, properties: [
     "first_title" => "partial",
     "last_title" => "partial",

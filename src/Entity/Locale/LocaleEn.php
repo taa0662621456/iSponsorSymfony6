@@ -10,6 +10,7 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\LocaleRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
@@ -21,11 +22,8 @@ use DateTime;
 #[ORM\Entity(repositoryClass: LocaleRepository::class)]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class LocaleEn
 {
     use BaseTrait;

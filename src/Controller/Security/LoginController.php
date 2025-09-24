@@ -1,12 +1,9 @@
 <?php
 
-
 namespace App\Controller\Security;
 
-
 use App\Form\Vendor\VendorLoginType;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -15,72 +12,86 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 #[AsController]
+#[Route('/auth', name: 'auth_')]
 class LoginController extends AbstractController
 {
     use TargetPathTrait;
 
-    public function __construct(private readonly RouterInterface $router)
-    {
-    }
-
+    public function __construct(
+        private readonly RouterInterface $router,
+        private readonly LoggerInterface $logger,
+    ) {}
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * Классическая форма логина (UI)
      */
-    #[Route(path: '/signin', name: 'signin', options: ['layout' => 'signinFormHomePage'], defaults: ['layout' => 'signin'], methods: ['GET', 'POST'])]
-    #[Route(path: '/login', name: 'login', options: ['layout' => 'login'], defaults: ['layout' => 'login'], methods: ['GET', 'POST'])]
-    public function login(Security $security, AuthenticationUtils $authenticationUtils, string $layout = 'login') : Response
+    #[Route('/login', name: 'login', methods: ['GET','POST'])]
+    public function login(AuthenticationUtils $utils): Response
     {
-        if (null !== $this->getUser()) {
-            $this->addFlash('success', 'Вы успешно авторизовались');
-            return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
-        }
-        if (null !== $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
-            $this->addFlash('success', 'Вы успешно авторизовались');
-            return $this->redirectToRoute($this->getParameter('app_default_target_path'), [], '200');
+        $error = $utils->getLastAuthenticationError();
+        $lastUsername = $utils->getLastUsername();
+
+        if ($error) {
+            $this->logger->warning('Login failed', [
+                'username' => $lastUsername,
+                'error'    => $error->getMessage(),
+            ]);
         }
 
-        $loginType = $this->container->get('form.factory')->createNamed('', VendorLoginType::class,
-            [
-            '_username' => $authenticationUtils->getLastUsername()
-            ],
-            [
-            'action' => $this->router->generate($this->getParameter('app_login_route'))
-            ]
-        );
+        $response = $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+            'csrf_token_id' => 'authenticate',
+        ]);
 
-        return $this->render(
-            'security/' . $layout . '.html.twig', [
-                'last_username' => $authenticationUtils->getLastUsername(),
-                'form'          => $loginType->createView(),
-                'error'         => $authenticationUtils->getLastAuthenticationError()
-            ]
-        );
+        $response->headers->set('Cache-Control', 'no-store, max-age=0');
+        return $response;
     }
 
-    #[Route(path: '/logout', name: 'logout')]
-    public function logout() : void
+    /**
+     * Альтернативный layout (signin)
+     */
+    #[Route('/signin', name: 'signin', methods: ['GET','POST'])]
+    public function signin(AuthenticationUtils $utils): Response
     {
-        throw new RuntimeException('This should never be reached!');
-        //		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall!');
+        return $this->render('security/signin.html.twig', [
+            'last_username' => $utils->getLastUsername(),
+            'error'         => $utils->getLastAuthenticationError(),
+        ]);
     }
 
-    #[Route(path: '/login/json', name: 'login_json', methods: ['POST'])]
-    public function jsonLogin(Request $request) : JsonResponse
+    /**
+     * JSON-логин для API
+     */
+    #[Route('/login/json', name: 'login_json', methods: ['POST'])]
+    public function jsonLogin(Request $request): JsonResponse
     {
         $user = $this->getUser();
-        return $this->json(
-            [
-                'username' => $user->getUserIdentifier(),
-                'roles'    => $user->getRoles(),
-            ]
-        );
+
+        if (!$user) {
+            return $this->json([
+                'error' => 'Not authenticated',
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        return $this->json([
+            'username' => $user->getUserIdentifier(),
+            'roles'    => $user->getRoles(),
+        ]);
     }
 
+    /**
+     * Logout
+     */
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
+    public function logout(): void
+    {
+        throw new RuntimeException(
+            'This should never be reached! Symfony handles logout via firewall.'
+        );
+    }
 }

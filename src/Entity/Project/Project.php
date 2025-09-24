@@ -20,6 +20,7 @@ use App\Repository\Project\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Exception;
 use JetBrains\PhpStorm\Pure;
 use phpDocumentor\Reflection\Types\Self_;
@@ -32,11 +33,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class Project
 {
     use BaseTrait;
@@ -99,7 +97,7 @@ class Project
     #[Pure]
     public function __construct()
     {
-        $t = new \DateTime();
+        $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
         #
         $this->projectAttachment = new ArrayCollection();
@@ -108,10 +106,10 @@ class Project
         $this->projectPlatformReward = new ArrayCollection();
         $this->projectReview = new ArrayCollection();
         #
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
         $this->published = true;
     }
     # ManyToOne

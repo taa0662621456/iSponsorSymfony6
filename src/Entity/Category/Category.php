@@ -3,20 +3,34 @@
 
 namespace App\Entity\Category;
 
-use App\Entity\Attachment\Attachment;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\CurrencyFilterTrait;
+use App\Api\Filter\SlugTitleFilterTrait;
+use App\Api\Filter\StatusFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\BaseTrait;
+use App\Entity\CategoryLanguageTrait;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Project\Project;
-use App\Interface\CategoryAttachmentInterface;
-use App\Interface\CategoryInterface;
-use App\Interface\FeaturedInterface;
-use App\Interface\ProjectInterface;
+use App\Interface\Category\CategoryInterface;
+use App\Interface\Featured\FeaturedInterface;
+use App\Interface\Project\ProjectInterface;
 use App\Repository\Category\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
+use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Exception;
@@ -28,12 +42,42 @@ use DateTime;
 #[ORM\Index(columns: ['slug'], name: 'category_idx')]
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
 class Category implements CategoryInterface
 {
-    use BaseTrait;
-    use ObjectTrait;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
     use MetaTrait;
-
+    # API Filters
+    use TimestampFilterTrait;
+    use SlugTitleFilterTrait;
+    use StatusFilterTrait;
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'ordering', type: 'integer', unique: false, nullable: false, options: ['default' => 1])]
@@ -75,16 +119,16 @@ class Category implements CategoryInterface
     #[Pure]
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
         $this->categoryChildren = new ArrayCollection();
         $this->categoryProject = new ArrayCollection();
         $this->categoryAttachment = new ArrayCollection();
 
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
         $this->published = true;
     }
     # OneToMany

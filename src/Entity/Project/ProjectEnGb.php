@@ -12,6 +12,7 @@ use App\Entity\ObjectTrait;
 use App\Entity\ProjectLanguageTrait;
 use App\Repository\Project\ProjectRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'project_en_gb')]
 #[ORM\Index(columns: ['slug'], name: 'project_en_gb_idx')]
@@ -19,7 +20,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+
 #[ApiFilter(SearchFilter::class, properties: [
     "firstTitle" => "partial",
     "lastTitle" => "partial",

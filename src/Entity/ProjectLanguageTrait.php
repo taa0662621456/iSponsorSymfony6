@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Entity\Project\Project;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use JetBrains\PhpStorm\Pure;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;

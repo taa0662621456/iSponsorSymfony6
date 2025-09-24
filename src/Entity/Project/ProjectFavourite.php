@@ -9,6 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Entity\BaseTrait;
 use App\Repository\Project\ProjectFavouriteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 //#[ApiResource(operations: [
 //    new Get(),
@@ -20,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProjectFavouriteRepository::class)]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+
 class ProjectFavourite
 {
 	use BaseTrait;

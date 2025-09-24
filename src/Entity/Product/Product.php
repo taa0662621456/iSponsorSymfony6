@@ -3,23 +3,35 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
+use App\Entity\Api\PriceFiltersTrait;
+use App\Entity\Api\RelationFiltersTrait;
+use App\Entity\Api\SlugTitleFiltersTrait;
+use App\Entity\Api\TimestampFiltersTrait;
 use App\Entity\BaseTrait;
+use App\Entity\Commission\Commission;
 use App\Entity\Featured\Featured;
 use App\Entity\MetaTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Order\OrderItem;
 use App\Entity\Project\Project;
 use App\Entity\Project\ProjectFavourite;
+use App\Entity\Vendor\Vendor;
 use App\Interface\Product\ProductTypeInterface;
 use App\Repository\Product\ProductRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,13 +42,23 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #
-#[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
+#[ApiResource(
+    operations: [ new GetCollection(), new Get(), new Put(), new Delete() ],
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']]
+)]
+#[ApiFilter(BooleanFilter::class, properties: ['published','isAvailable'])]
+#[ApiFilter(OrderFilter::class, properties: ['price','createdAt','modifiedAt'], arguments: ['orderParameterName' => 'order'])]
 class Product
 {
     use BaseTrait;
     use ObjectTrait;
     use MetaTrait;
+    #
+    use SlugTitleFiltersTrait;
+    use TimestampFiltersTrait;
+    use RelationFiltersTrait;
+    use PriceFiltersTrait;
 
     public const NUM_ITEMS = 10;
 
@@ -156,24 +178,96 @@ class Product
     #[ORM\OneToMany(mappedBy: 'productReviewProduct', targetEntity: ProductReview::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     private Collection $productReview;
 
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Vendor $vendor = null;
 
+    #[ORM\OneToMany(
+        mappedBy: 'productCommission',
+        targetEntity: Commission::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $productCommission;
+
+    #[ORM\OneToMany(
+        mappedBy: 'product',
+        targetEntity: OrderItem::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $productOrderItem;
 
     public function __construct()
     {
-        $t = new DateTime();
+        $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
-        $this->productAvailableDate = $t->format('Y-m-d H:i:s');
+        $this->productAvailableDate = $t;
         #
         $this->productAttachment = new ArrayCollection();
         $this->productOrdered = new ArrayCollection();
         $this->productTag = new ArrayCollection();
         $this->productReview = new ArrayCollection();
+        $this->productCommission = new ArrayCollection();
+        $this->productOrderItem = new ArrayCollection();
         #
-        $this->lastRequestDate = $t->format('Y-m-d H:i:s');
-        $this->createdAt = $t->format('Y-m-d H:i:s');
-        $this->modifiedAt = $t->format('Y-m-d H:i:s');
-        $this->lockedAt = $t->format('Y-m-d H:i:s');
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
         $this->published = true;
+    }
+
+    # OneToMany
+    public function getVendor(): ?Vendor
+    {
+        return $this->vendor;
+    }
+    public function setVendor(?Vendor $vendor): void
+    {
+        $this->vendor = $vendor;
+    }
+    # OneToMany
+    /** @return Collection<int, Commission> */
+    public function getProductCommission(): Collection
+    {
+        return $this->productCommission;
+    }
+    public function addProductCommission(Commission $commission): void
+    {
+        if (!$this->productCommission->contains($commission)) {
+            $this->productCommission->add($commission);
+            $commission->setProduct($this);
+        }
+    }
+    public function removeProductCommission(Commission $commission): void
+    {
+        if ($this->productCommission->removeElement($commission)) {
+            if ($commission->getProduct() === $this) {
+                $commission->setProduct(null);
+            }
+        }
+    }
+    # OneToMany
+    /** @return Collection<int, OrderItem> */
+    public function getProductOrderItem(): Collection
+    {
+        return $this->productOrderItem;
+    }
+    public function addProductOrderItem(OrderItem $item): void
+    {
+        if (!$this->productOrderItem->contains($item)) {
+            $this->productOrderItem->add($item);
+            $item->setProduct($this);
+        }
+    }
+    public function removeProductOrderItem(OrderItem $item): void
+    {
+        if ($this->productOrderItem->removeElement($item)) {
+            if ($item->getProduct() === $this) {
+                $item->setProduct(null);
+            }
+        }
     }
     # ManyToOne
     public function getProductType(): ProductType
@@ -318,8 +412,8 @@ class Product
     }
     public function setProductAvailableDate(): void
     {
-        $t = new DateTime();
-        $this->productAvailableDate = $t->format('Y-m-d H:i:s');
+        $t = new \DateTimeImmutable();
+        $this->productAvailableDate = $t;
     }
     #
     public function getProductAvailability(): ?bool

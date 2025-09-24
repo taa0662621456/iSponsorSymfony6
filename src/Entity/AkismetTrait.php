@@ -5,6 +5,7 @@ namespace App\Entity;
 
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use JetBrains\PhpStorm\Pure;
 
 trait AkismetTrait

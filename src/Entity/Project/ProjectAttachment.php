@@ -12,6 +12,7 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Project\ProjectAttachmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'project_attachment')]
 #[ORM\Index(columns: ['slug'], name: 'project_attachment_idx')]
@@ -19,11 +20,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\HasLifecycleCallbacks]
 #
 #[ApiResource]
-#[ApiFilter(BooleanFilter::class, properties: ["isPublished"])]
-#[ApiFilter(SearchFilter::class, properties: [
-    "firstTitle" => "partial",
-    "lastTitle" => "partial",
-])]
+
+
 class ProjectAttachment
 {
 	use BaseTrait;

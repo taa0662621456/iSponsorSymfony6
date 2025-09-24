@@ -9,13 +9,18 @@ use App\Entity\Vendor\Vendor;
 use App\Event\OrderSubmitEvent;
 use App\Form\Order\OrderHistory;
 use App\Interface\Order\OrderRepositoryInterface;
+use App\Service\CartServiceInterface;
+use App\Service\PriceCalculatorInterface;
 use App\Service\ProductUtilite;
+use App\Service\StockServiceInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 use JetBrains\PhpStorm\NoReturn;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Form;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -24,8 +29,74 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Webmozart\Assert\Assert;
 
 #[AsController]
+#[Route('/cart', name: 'cart_')]
 class CartController extends AbstractController
 {
+    public function __construct(
+        private readonly CartServiceInterface     $cart,
+        private readonly PriceCalculatorInterface $pricing,
+        private readonly StockServiceInterface    $stock,
+        private readonly LoggerInterface $logger
+    ) {}
+
+    #[Route('', name: 'view', methods: ['GET'])]
+    public function view(): JsonResponse
+    {
+        $snapshot = $this->pricing->recalculate($this->cart->getCurrent());
+        return $this->json($snapshot, 200, ['Cache-Control' => 'no-store']);
+    }
+
+    #[Route('/add', name: 'add', methods: ['POST'])]
+    public function add(Request $r): JsonResponse
+    {
+        $this->assertCsrf('cart_mut', $r->request->get('_token'));
+        $productId = (int) $r->request->get('productId');
+        $qty = max(1, (int) $r->request->get('qty', 1));
+
+        if (!$this->stock->isAvailable($productId, $qty)) {
+            return $this->json(['error' => 'OUT_OF_STOCK'], 409);
+        }
+
+        $this->cart->add($productId, $qty);
+        $snapshot = $this->pricing->recalculate($this->cart->getCurrent());
+
+        $this->logger->info('cart:add', ['p' => $productId, 'q' => $qty, 'u' => $this->getUser()?->getUserIdentifier()]);
+        return $this->json($snapshot, 200, ['Cache-Control' => 'no-store']);
+    }
+
+    #[Route('/update', name: 'update', methods: ['POST','PUT','PATCH'])]
+    public function update(Request $r): JsonResponse
+    {
+        $this->assertCsrf('cart_mut', $r->request->get('_token'));
+        $lineId = (string) $r->request->get('lineId');
+        $qty = max(0, (int) $r->request->get('qty', 1));
+
+        if ($qty > 0 && !$this->stock->isAvailableForLine($lineId, $qty)) {
+            return $this->json(['error' => 'OUT_OF_STOCK'], 409);
+        }
+
+        $this->cart->updateQty($lineId, $qty);
+        $snapshot = $this->pricing->recalculate($this->cart->getCurrent());
+        return $this->json($snapshot, 200, ['Cache-Control' => 'no-store']);
+    }
+
+    #[Route('/apply-coupon', name: 'apply_coupon', methods: ['POST'])]
+    public function applyCoupon(Request $r): JsonResponse
+    {
+        $this->assertCsrf('cart_mut', $r->request->get('_token'));
+        $code = trim((string) $r->request->get('code', ''));
+        $snapshot = $this->pricing->applyCoupon($this->cart->getCurrent(), $code); // валидность, TTL, лимиты
+        return $this->json($snapshot, 200, ['Cache-Control' => 'no-store']);
+    }
+
+    private function assertCsrf(string $id, ?string $token): void
+    {
+        if (!$this->isCsrfTokenValid($id, (string) $token)) {
+            throw $this->createAccessDeniedException('CSRF token invalid');
+        }
+    }
+
+
 //    #[NoReturn]
 //    public function __construct(private readonly ManagerRegistry $managerRegistry)
 //    {
