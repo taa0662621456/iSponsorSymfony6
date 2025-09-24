@@ -25,11 +25,6 @@ jobs:
           POSTGRES_DB: symfony_test
         ports:
           - 5432:5432
-        options: >-
-          --health-cmd="pg_isready -U symfony -d symfony_test"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
       mysql:
         image: mysql:8
@@ -40,15 +35,9 @@ jobs:
           MYSQL_PASSWORD: symfony
         ports:
           - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h localhost -u symfony --password=symfony"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=5
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -57,22 +46,7 @@ jobs:
           coverage: none
           tools: composer:v2
 
-      - name: Install dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Wait for DB
-        run: |
-          if [[ "${{ matrix.db }}" == "postgres" ]]; then
-            until pg_isready -h localhost -p 5432 -U symfony; do
-              echo "Waiting for postgres...";
-              sleep 5;
-            done
-          else
-            until mysqladmin ping -h 127.0.0.1 -u symfony --password=symfony --silent; do
-              echo "Waiting for mysql...";
-              sleep 5;
-            done
-          fi
+      - run: composer install --no-interaction --no-progress --prefer-dist
 
       - name: Configure Symfony env
         run: |
@@ -85,7 +59,7 @@ jobs:
       - name: Run migrations
         run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
 
-      - name: Load fixtures (core + catalog)
+      - name: Load fixtures
         run: |
           php bin/console fixtures:load-group core --append --env=test
           php bin/console fixtures:load-group catalog --append --env=test
@@ -108,8 +82,7 @@ jobs:
           - 5432:5432
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up PHP with Xdebug
         uses: shivammathur/setup-php@v2
@@ -118,15 +91,7 @@ jobs:
           coverage: xdebug
           tools: composer:v2
 
-      - name: Install dependencies
-        run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Wait for Postgres
-        run: |
-          until pg_isready -h localhost -p 5432 -U symfony; do
-            echo "Waiting for postgres...";
-            sleep 5;
-          done
+      - run: composer install --no-interaction --no-progress --prefer-dist
 
       - name: Configure Symfony env
         run: echo "DATABASE_URL=postgresql://symfony:symfony@127.0.0.1:5432/symfony_test" >> .env.test.local
@@ -137,12 +102,19 @@ jobs:
       - name: Load fixtures
         run: php bin/console fixtures:load-group core --append --env=test
 
-      - name: Run PHPUnit with coverage
+      - name: Run PHPUnit with coverage (XML + HTML)
         run: |
-          vendor/bin/phpunit --coverage-clover=coverage.xml
+          mkdir -p coverage
+          vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-html=coverage/
 
-      - name: Upload coverage artifact
+      - name: Upload XML report
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report
+          name: coverage-xml
           path: coverage.xml
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: coverage/
