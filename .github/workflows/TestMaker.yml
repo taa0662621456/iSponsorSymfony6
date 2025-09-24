@@ -9,7 +9,6 @@ on:
 jobs:
   php-tests:
     runs-on: ubuntu-latest
-
     strategy:
       fail-fast: false
       matrix:
@@ -38,34 +37,23 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           coverage: none
           tools: composer:v2
-
       - run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Configure Symfony env
-        run: |
+      - run: |
           if [[ "${{ matrix.db }}" == "postgres" ]]; then
             echo "DATABASE_URL=postgresql://symfony:symfony@127.0.0.1:5432/symfony_test" >> .env.test.local
           else
             echo "DATABASE_URL=mysql://symfony:symfony@127.0.0.1:3306/symfony_test" >> .env.test.local
           fi
-
-      - name: Run migrations
-        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
-
-      - name: Load fixtures
-        run: |
+      - run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+      - run: |
           php bin/console fixtures:load-group core --append --env=test
           php bin/console fixtures:load-group catalog --append --env=test
-
-      - name: Run tests
-        run: make test
+      - run: make test
 
   coverage:
     runs-on: ubuntu-latest
@@ -83,38 +71,29 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up PHP with Xdebug
-        uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
           coverage: xdebug
           tools: composer:v2
-
       - run: composer install --no-interaction --no-progress --prefer-dist
-
-      - name: Configure Symfony env
-        run: echo "DATABASE_URL=postgresql://symfony:symfony@127.0.0.1:5432/symfony_test" >> .env.test.local
-
-      - name: Run migrations
-        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
-
-      - name: Load fixtures
-        run: php bin/console fixtures:load-group core --append --env=test
-
-      - name: Run PHPUnit with coverage (XML + HTML)
-        run: |
+      - run: echo "DATABASE_URL=postgresql://symfony:symfony@127.0.0.1:5432/symfony_test" >> .env.test.local
+      - run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+      - run: php bin/console fixtures:load-group core --append --env=test
+      - run: |
           mkdir -p coverage
           vendor/bin/phpunit --coverage-clover=coverage.xml --coverage-html=coverage/
 
-      - name: Upload XML report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-xml
-          path: coverage.xml
-
-      - name: Upload HTML report
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: coverage-html
           path: coverage/
+
+      - name: Deploy coverage to GitHub Pages
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./coverage
+          publish_branch: gh-pages
+          destination_dir: coverage
