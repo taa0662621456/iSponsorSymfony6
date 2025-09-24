@@ -21,4 +21,3 @@ final class PaymentGatewayFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'payment'; }
     public static function getPriority(): int { return 20; }
 }
-

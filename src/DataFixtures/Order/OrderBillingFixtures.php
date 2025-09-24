@@ -21,4 +21,3 @@ final class OrderBillingFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'order'; }
     public static function getPriority(): int { return 30; }
 }
-

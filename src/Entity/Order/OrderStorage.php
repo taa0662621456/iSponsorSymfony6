@@ -15,8 +15,13 @@ use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Entity\Payment\Payment;
+use App\Entity\Traits\SoftDeletableTrait;
+use App\Entity\Traits\TimestampableTrait;
 use App\Entity\Vendor\Vendor;
+use App\Enum\OrderStatus;
 use App\Enum\OrderStatusEnum;
+use App\Event\Order\OrderCancelledEvent;
+use App\Event\Order\OrderPaidEvent;
 use App\Repository\Order\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -61,6 +66,9 @@ class OrderStorage
 {
     use BaseTrait; // Indexing and audition properties/columns
     use ObjectTrait; // Titling properties/columns
+
+    use TimestampableTrait;
+    use SoftDeletableTrait;
     # API Filters
     use SlugTitleFilterTrait;
     use TimestampFilterTrait;
@@ -84,20 +92,20 @@ class OrderStorage
 	#[ORM\Column(name: 'order_create_invoice_pass', nullable: true)]
 	private ?string $orderCreateInvoicePass = null;
 
-	#[ORM\Column(name: 'order_total', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
-	private string $orderTotal = '0.00000';
+    #[ORM\Column(name: 'order_total', type: 'decimal', precision: 10, scale: 2, nullable: false)]
+    private string $orderTotal = '0.00';
 
-	#[ORM\Column(name: 'order_sales_price', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
-	private string $orderSalesPrice = '0.00000';
+    #[ORM\Column(name: 'order_sales_price', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
+	private string $orderSalesPrice = '0.00';
 
-	#[ORM\Column(name: 'order_bill_tax_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
-	private string $orderBillTaxAmount = '0.00000';
+	#[ORM\Column(name: 'order_bill_tax_amount', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
+	private string $orderBillTaxAmount = '0.00';
 
 	#[ORM\Column(name: 'order_bill_tax', nullable: true)]
 	private ?string $orderBillTax = null;
 
-	#[ORM\Column(name: 'order_bill_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00000'])]
-	private string $orderBillDiscountAmount = '0.00000';
+	#[ORM\Column(name: 'order_bill_discount_amount', type: 'decimal', nullable: false, options: ['default' => '0.00'])]
+	private string $orderBillDiscountAmount = '0.00';
 
 	#[ORM\Column(name: 'order_subtotal', nullable: true)]
 	private ?string $orderSubtotal = null;
@@ -162,6 +170,25 @@ class OrderStorage
 	#[ORM\Column(name: 'order_hash', nullable: true)]
 	private ?string $orderHash = null;
 
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    private int $itemsSubtotalMinor = 0;
+
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    private int $discountTotalMinor = 0;
+
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    private int $shippingTotalMinor = 0;
+
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    private int $taxTotalMinor = 0;
+
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    private int $grandTotalMinor = 0;
+
+
+    #[ORM\Transient]
+    private array $recordedEvents = [];
+
 	#[ORM\OneToMany(mappedBy: 'orderItem', targetEntity: OrderItem::class, cascade: ['persist', 'remove'], fetch: 'EXTRA_LAZY', orphanRemoval: true)]
 	#[Assert\Type(type: OrderItem::class)]
 	#[Assert\Valid]
@@ -175,22 +202,24 @@ class OrderStorage
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Vendor $orderVendor = null;
 
-    #[ORM\OneToMany(mappedBy: 'order', targetEntity: Payment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'orderPayment', targetEntity: Payment::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $payment;
 
-	public function __construct()
+    /** @var Collection<int, OrderStatusHistory> */
+    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderStatusHistory::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $orderStatusHistory;
+
+    public function __construct()
 	{
         $t = new \DateTimeImmutable();
         $this->slug = (string)Uuid::v4();
         $this->orderDeliveryDate = $t;
+        $this->cancelledAt =$t;
+        $this->refundedAt =$t;
         $this->orderItem = new ArrayCollection();
         $this->payment = new ArrayCollection();
+        $this->orderStatusHistory = new ArrayCollection();
 
-        $this->lastRequestAt = $t;
-        $this->createdAt = $t;
-        $this->modifiedAt = $t;
-        $this->lockedAt = $t;
-        $this->published = true;
 	}
 
     #
@@ -505,14 +534,104 @@ class OrderStorage
         $this->orderVendor = $orderVendor;
     }
 
-    #Enum
-    /**public function getOrderStatus(): OrderStatus
+    private function changeOrderStatus(OrderStatus $new, ?string $by = null): void
     {
-        return $this->orderStatus;
+        $old = $this->orderStatus;
+        $this->orderStatus = $new;
+        $this->orderStatusHistory->add(new OrderStatusHistory($this, $old, $new, $by));
     }
-    public function setOrderStatus(OrderStatus $status): void
+
+    public function isOrderCancellable(): bool
     {
-        $this->orderStatus = $status;
+        return in_array($this->orderStatus, [OrderStatus::NEW, OrderStatus::PAID], true);
     }
-    */
+
+    public function isOrderRefundable(): bool
+    {
+        return in_array($this->orderStatus, [OrderStatus::PAID, OrderStatus::COMPLETED], true);
+    }
+
+    public function isPayable(): bool
+    {
+        return $this->orderStatus === OrderStatus::NEW;
+    }
+
+    public function pay(?string $by = null): void
+    {
+        if (!$this->isPayable()) {
+            throw new \DomainException("Order cannot be paid in status {$this->orderStatus->value}");
+        }
+        $this->paidAt = new \DateTimeImmutable();
+        $this->changeOrderStatus(OrderStatus::PAID, $by);
+        $this->recordEvent(new OrderPaidEvent($this));
+
+    }
+
+    public function cancel(?string $by = null): void
+    {
+        if (!$this->isOrderCancellable()) {
+            throw new \DomainException("Order cannot be cancelled in status {$this->orderStatus->value}");
+        }
+        $this->cancelledAt = new \DateTimeImmutable();
+        $this->changeOrderStatus(OrderStatus::CANCELED, $by);
+        $this->recordEvent(new OrderCancelledEvent($this));
+
+    }
+
+    public function refund(?string $by = null): void
+    {
+        if (!$this->isOrderRefundable()) {
+            throw new \DomainException("Order cannot be refunded in status {$this->orderStatus->value}");
+        }
+        $this->refundedAt = new \DateTimeImmutable();
+        $this->recordEvent(new OrderRefundedEvent($this));
+        $this->changeOrderStatus(OrderStatus::REFUNDED, $by);
+    }
+
+    /** @return Collection<int, OrderStatusHistory> */
+    public function getOrderStatusHistory(): Collection
+    {
+        return $this->orderStatusHistory;
+    }
+
+    private function recordEvent(object $event): void
+    {
+        $this->recordedEvents[] = $event;
+    }
+
+    public function releaseEvents(): array
+    {
+        $events = $this->recordedEvents;
+        $this->recordedEvents = [];
+        return $events;
+    }
+
+    public function isShippable(): bool
+    {
+        return $this->status === OrderStatus::PAID;
+    }
+
+    public function isCompletable(): bool
+    {
+        return $this->status === OrderStatus::SHIPPED;
+    }
+
+    public function ship(?string $by = null): void
+    {
+        if (!$this->isShippable()) {
+            throw new \DomainException("Order cannot be shipped in status {$this->status->value}");
+        }
+        $this->changeOrderStatus(OrderStatus::SHIPPED, $by);
+        $this->recordEvent(new OrderShippedEvent($this));
+    }
+
+    public function complete(?string $by = null): void
+    {
+        if (!$this->isCompletable()) {
+            throw new \DomainException("Order cannot be completed in status {$this->status->value}");
+        }
+        $this->changeOrderStatus(OrderStatus::COMPLETED, $by);
+        $this->recordEvent(new OrderCompletedEvent($this));
+    }
+
 }

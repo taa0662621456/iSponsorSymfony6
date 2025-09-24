@@ -9,7 +9,7 @@ use App\Repository\Vendor\VendorIbanRepository;
 use App\Service\Vendor\VendorVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;

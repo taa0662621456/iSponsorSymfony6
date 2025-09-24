@@ -1,0 +1,10 @@
+{% set allPermissions = ['VIEW','EDIT','DELETE','CANCEL','REFUND','PAY'] %}
+<div class="d-flex gap-2">
+    {% for perm in allPermissions %}
+        {% if value|default([]) is iterable and perm in value %}
+            <span class="badge bg-success">{{ perm }}</span>
+        {% else %}
+            <span class="badge bg-secondary">{{ perm }}</span>
+        {% endif %}
+    {% endfor %}
+</div>

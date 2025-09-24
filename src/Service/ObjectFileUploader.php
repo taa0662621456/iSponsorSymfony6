@@ -35,8 +35,8 @@ class ObjectFileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            //TODO: ... handle exception if something happens during file upload; показать сообщение обб ошибке
-            return '... handle exception if something happens during file upload; показать сообщение обб ошибке';
+            //TODO: // TODO: implement handle exception if something happens during file upload; показать сообщение обб ошибке
+            return '// TODO: implement handle exception if something happens during file upload; показать сообщение обб ошибке';
         }
 
         return $fileName;

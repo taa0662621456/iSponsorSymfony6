@@ -19,7 +19,7 @@ class StripePaymentFacade implements PaymentFacade
     public function init(OrderStorage $order, ?string $idempotencyKey = null): array
     {
         try {
-            // Stripe SDK: \Stripe\PaymentIntent::create([...], ['idempotency_key' => $idempotencyKey])
+            // Stripe SDK: \Stripe\PaymentIntent::create([// TODO: implement], ['idempotency_key' => $idempotencyKey])
             $intentId = 'pi_'.bin2hex(random_bytes(5));
             $clientSecret = 'secret_'.bin2hex(random_bytes(10));
 

@@ -27,4 +27,3 @@ final class LocaleConverter implements LocaleConverterInterface
         }
     }
 }
-

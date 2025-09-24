@@ -24,4 +24,3 @@ final class PromotionFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'promo'; }
     public static function getPriority(): int { return 20; } // after coupons
 }
-

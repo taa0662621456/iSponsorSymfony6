@@ -7,7 +7,7 @@ use HWI\Bundle\OAuthBundle\Connect\AccountConnectorInterface;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use RuntimeException;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -33,7 +33,7 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
         $setterId = 'set'. ucfirst($serviceName) . 'Id';
         $setterAccessToken = 'set'. ucfirst($serviceName) . 'AccessToken';
 
-        //TODO: в целом можно усовершенствовать запись и обновление персональных данных...
+        //TODO: в целом можно усовершенствовать запись и обновление персональных данных// TODO: implement
         $id = $response->getData()['id'];
         $name = $response->getData()['name']; //TODO: разобрать на имя и фамилию
         $email = $username = $response->getData()['email'];
@@ -133,4 +133,3 @@ class HWIOAuthAuthenticator implements AccountConnectorInterface, OAuthAwareUser
         $em->flush();
     }
 }
-

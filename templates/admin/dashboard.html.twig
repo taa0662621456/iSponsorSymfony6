@@ -1,5 +1,11 @@
 {% extends '@EasyAdmin/page/content.html.twig' %}
+{% include 'admin/batch/_grant_permission_modal.html.twig' %}
+{% include 'admin/batch/_revoke_permission_modal.html.twig' %}
+{% include 'admin/batch/_manage_permission_modal.html.twig' %}
+<script src="{{ asset('js/easyadmin-batch.js') }}"></script>
 
+<script src="{{ asset('js/easyadmin-batch.js') }}"></script>
+<script src="{{ asset('easyadmin-batch.js') }}"></script>
 {% block main %}
 {{ dump() }}
 {% endblock %}

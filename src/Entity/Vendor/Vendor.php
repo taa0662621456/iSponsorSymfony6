@@ -502,4 +502,3 @@ class Vendor implements VendorInterface, \JsonSerializable
         ];
     }
 }
-

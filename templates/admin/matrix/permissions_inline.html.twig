@@ -1,0 +1,125 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h2>Role Permission Matrix (Inline Editable)</h2>
+
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+        <tr>
+            <th>Role</th>
+            {% for perm in allPermissions %}
+                <th>{{ perm }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for role in roles %}
+            <tr data-role="{{ role }}">
+                <td><strong>{{ role }}</strong></td>
+                {% for perm in allPermissions %}
+                    <td>
+                        <input type="checkbox"
+                               class="perm-toggle"
+                               data-role="{{ role }}"
+                               data-permission="{{ perm }}"
+                               {% if perm in matrix[role]|default([]) %}checked{% endif %}>
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Toast container -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2000">
+        <div id="toastContainer"></div>
+    </div>
+
+    <script>
+        let toastBuffer = [];
+        let toastTimer = null;
+
+        function flushToastBuffer() {
+            if (toastBuffer.length === 0) return;
+
+            const container = document.getElementById('toastContainer');
+            const toastEl = document.createElement('div');
+
+            // Определяем цвет
+            const hasError = toastBuffer.some(msg => msg.type === 'error');
+            const hasSuccess = toastBuffer.some(msg => msg.type === 'success');
+
+            let bgClass = 'bg-secondary';
+            if (hasError && !hasSuccess) bgClass = 'bg-danger';
+            if (!hasError && hasSuccess) bgClass = 'bg-success';
+
+            toastEl.className = `toast align-items-center text-white ${bgClass} border-0`;
+            toastEl.role = 'alert';
+            toastEl.ariaLive = 'assertive';
+            toastEl.ariaAtomic = 'true';
+
+            // Группируем по ролям
+            const grouped = {};
+            toastBuffer.forEach(m => {
+                if (!grouped[m.role]) grouped[m.role] = [];
+                grouped[m.role].push(m.text);
+            });
+
+            let messages = '';
+            for (const [role, texts] of Object.entries(grouped)) {
+                messages += `<div><strong>${role}</strong></div>`;
+                messages += texts.map(t => `<div class="ms-3">• ${t}</div>`).join('');
+            }
+            toastBuffer = [];
+
+            toastEl.innerHTML = `
+                <div class="d-flex">
+                    <div class="toast-body">${messages}</div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                            data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            `;
+
+            container.appendChild(toastEl);
+
+            const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+            toast.show();
+
+            toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+        }
+
+        function queueToast(role, text, type = 'success') {
+            toastBuffer.push({ role, text, type });
+
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(flushToastBuffer, 600); // буферизация 0.6 сек
+        }
+
+        document.querySelectorAll('.perm-toggle').forEach(cb => {
+            cb.addEventListener('change', function () {
+                const role = this.dataset.role;
+                const permission = this.dataset.permission;
+                const granted = this.checked;
+
+                fetch('{{ path('admin_toggle_permission') }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({
+                        role: role,
+                        permission: permission,
+                        granted: granted ? 1 : 0
+                    })
+                })
+                    .then(resp => resp.json())
+                    .then(json => {
+                        if (json.success) {
+                            queueToast(role, json.message, 'success');
+                        } else {
+                            queueToast(role, json.message || 'Error saving', 'error');
+                        }
+                    })
+                    .catch(() => queueToast(role, 'Server error', 'error'));
+            });
+        });
+    </script>
+{% endblock %}

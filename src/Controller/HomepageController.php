@@ -69,4 +69,3 @@ class HomepageController extends AbstractController
     return $response;
     }
 }
-

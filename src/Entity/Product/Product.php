@@ -37,6 +37,9 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
+
+use App\Entity\Traits\TimestampableTrait;
+use App\Entity\Traits\SoftDeletableTrait;
 #[ORM\Table(name: 'product')]
 #[ORM\Index(columns: ['slug'], name: 'product_idx')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -51,7 +54,12 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 #[ApiFilter(OrderFilter::class, properties: ['price','createdAt','modifiedAt'], arguments: ['orderParameterName' => 'order'])]
 class Product
 {
-    use BaseTrait;
+            #[ORM\Version]
+    private int $version = 1;
+
+use TimestampableTrait;
+    use SoftDeletableTrait;
+use BaseTrait;
     use ObjectTrait;
     use MetaTrait;
     #

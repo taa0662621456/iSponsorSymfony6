@@ -32,7 +32,7 @@ class PassportAuthenticator extends AbstractAuthenticator
         $username = $request->request->get('username');
         $csrfToken = $request->request->get('csrf_token');
 
-        // ... validate no parameter is empty
+        // // TODO: implement validate no parameter is empty
 
         return new Passport(
             new UserBadge($username),

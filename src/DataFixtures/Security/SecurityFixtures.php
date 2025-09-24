@@ -28,4 +28,3 @@ final class SecurityFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'core'; }
     public static function getPriority(): int { return 5; }
 }
-

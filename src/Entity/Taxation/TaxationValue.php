@@ -10,10 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
 use App\EntityInterface\Object\ObjectInterface;
 use App\EntityInterface\Taxation\TaxationRateValueInterface;
 
+
+use App\Entity\Traits\TimestampableTrait;
+use App\Entity\Traits\SoftDeletableTrait;
 #[ORM\Entity]
 class TaxationValue extends RootEntity implements ObjectInterface, TaxationRateValueInterface
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
+            #[ORM\Version]
+    private int $version = 1;
+
+use TimestampableTrait;
+    use SoftDeletableTrait;
+#[ORM\Embedded(class: ObjectProperty::class)]
     private ObjectProperty $objectProperty;
 
 

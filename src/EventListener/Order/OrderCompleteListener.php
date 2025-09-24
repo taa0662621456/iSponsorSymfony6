@@ -1,21 +1,21 @@
 <?php
-
 namespace App\EventListener\Order;
 
+use App\Entity\Order\Order;
+use App\Service\Order\OrderManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Webmozart\Assert\Assert;
 
 final class OrderCompleteListener
 {
-    public function __construct(private OrderEmailManagerInterface $orderEmailManager)
-    {
-    }
+    public function __construct(
+        private readonly OrderManager $orderManager
+    ) {}
 
-    public function sendConfirmationEmail(GenericEvent $event): void
+    public function onOrderCompleted(GenericEvent $event): void
     {
         $order = $event->getSubject();
-        Assert::isInstanceOf($order, OrderInterface::class);
-
-        $this->orderEmailManager->sendConfirmationEmail($order);
+        if ($order instanceof Order) {
+            $this->orderManager->finalize($order);
+        }
     }
 }

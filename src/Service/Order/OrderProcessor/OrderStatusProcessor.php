@@ -11,8 +11,8 @@ class OrderStatusProcessor implements OrderProcessorInterface
     {
 
 //        тут мы можем проверить, какой статус ордера
-//        если имеет подтвержденную оплату, то...
-//        если в процессе, то ...$this
+//        если имеет подтвержденную оплату, то// TODO: implement
+//        если в процессе, то // TODO: implement$this
 //            или же, что-то другое
 
 

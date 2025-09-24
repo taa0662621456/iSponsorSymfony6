@@ -1,0 +1,6 @@
+security:
+  firewalls:
+    test:
+      lazy: true
+      provider: postgres_users
+      anonymous: true

@@ -1,0 +1,26 @@
+<div class="modal fade" id="revokePermissionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="revokePermissionForm" action="{{ path('admin_revoke_permission') }}" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Revoke Permission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="permission">Choose Permission:</label>
+                    <select name="permission" id="permission" class="form-select">
+                        <option value="VIEW">View</option>
+                        <option value="EDIT">Edit</option>
+                        <option value="DELETE">Delete</option>
+                        <option value="CANCEL">Cancel</option>
+                        <option value="REFUND">Refund</option>
+                        <option value="PAY">Pay</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger">Revoke</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

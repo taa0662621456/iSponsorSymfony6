@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\Vendor\VendorSecurityRepository;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;

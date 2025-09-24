@@ -415,4 +415,3 @@ class VendorSecurity implements Serializable, PasswordAuthenticatedUserInterface
         $this->otep = $otep;
     }
 }
-

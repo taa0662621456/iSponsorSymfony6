@@ -36,4 +36,3 @@ final class EventFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'event'; }
     public static function getPriority(): int { return 10; }
 }
-

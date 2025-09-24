@@ -24,4 +24,3 @@ final class AddressFixtures extends BaseGroupedFixture
     public static function getPriority(): int { return 7; }
 }
 
-

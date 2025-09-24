@@ -18,7 +18,7 @@ final class SampleDataCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Install sample data into...')
+            ->setDescription('Install sample data into// TODO: implement')
             ->setHelp(
                 <<<EOT
 The <info>%command.name%</info> command loads the sample data.

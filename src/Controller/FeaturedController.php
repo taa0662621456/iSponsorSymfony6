@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Featured\Featured;
 use App\Form\Featured\FeaturedType;
 use App\Repository\Featured\FeaturedRepository;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class FeaturedController extends AbstractController
 {
     private ManagerRegistry $managerRegistry;
 
-    public function __constructor(ManagerRegistry $managerRegistry)
+    public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }

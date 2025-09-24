@@ -2,7 +2,12 @@
 
 namespace App\Entity\Product;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+
+
+
+
+
+use App\DTO\CartSnapshot;use App\DTO\CartItem;use App\Service\Tax\TaxCalculator;use App\Enum\TaxMode;use App\ValueObject\Money;use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -55,6 +60,27 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 )]
 class ProductPrice
 {
+
+// === Money-based fields and accessors (injected) ===
+#[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+private int $priceMinor = 0;
+
+#[ORM\Column(type: 'string', length: 3, options: ['fixed' => true])]
+private string $currency = 'USD';
+
+public function getPrice(): Money
+{
+    return Money::fromMinor($this->priceMinor, $this->currency);
+}
+
+public function setPrice(Money $money): self
+{
+    $this->currency = $money->currency();
+    $this->priceMinor = $money->amount();
+    return $this;
+}
+
+
     use BaseTrait; // Indexing and audition properties/columns
     use ObjectTrait; // Titling properties/columns
     # API Filters

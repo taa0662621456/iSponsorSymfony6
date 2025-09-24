@@ -1,0 +1,52 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h2>Role Permission Matrix (Editable)</h2>
+
+    <form id="permissionsMatrixForm" action="{{ path('admin_sync_permissions_matrix') }}" method="post">
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Role</th>
+                {% for perm in allPermissions %}
+                    <th>{{ perm }}</th>
+                {% endfor %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for role in roles %}
+                <tr>
+                    <td><strong>{{ role }}</strong></td>
+                    {% for perm in allPermissions %}
+                        <td>
+                            <input type="checkbox"
+                                   name="matrix[{{ role }}][]"
+                                   value="{{ perm }}"
+                                   {% if perm in matrix[role]|default([]) %}checked{% endif %}>
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+
+    <script>
+        document.getElementById('permissionsMatrixForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(resp => resp.json())
+                .then(json => {
+                    alert(json.message);
+                    window.location.reload();
+                })
+                .catch(() => alert('Error saving matrix.'));
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h2>Grant Permission to Selected Roles</h2>
+
+    {{ form_start(form, { 'action': path('admin', app.request.query.all) }) }}
+    {{ form_row(form.permission) }}
+    <button class="btn btn-success">Grant</button>
+    {{ form_end(form) }}
+{% endblock %}

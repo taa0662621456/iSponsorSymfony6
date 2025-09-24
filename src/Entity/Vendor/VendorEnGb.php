@@ -19,7 +19,6 @@ use App\Entity\ObjectTrait;
 use App\Entity\VendorLanguageTrait;
 use App\Repository\Vendor\VendorRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\ObjectCRUDsController;
 
 
 #[ORM\Table(name: 'vendor_en_gb')]

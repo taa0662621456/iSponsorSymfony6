@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "E-Commerce API",
+    "_postman_id": "12345678-abcd-efgh-ijkl-1234567890ab",
+    "description": "Postman collection generated from OpenAPI spec",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Cart - Calculate Price",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/cart/price",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "cart",
+            "price"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"items\": [\n    {\n      \"qty\": 2,\n      \"unitPrice\": {\n        \"amount\": \"10.00\",\n        \"currency\": \"USD\"\n      }\n    }\n  ],\n  \"currency\": \"USD\",\n  \"taxMode\": \"EXCLUSIVE\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Orders - Create",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/orders",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"items\": [\n    {\n      \"qty\": 1,\n      \"unitPrice\": {\n        \"amount\": \"15.00\",\n        \"currency\": \"USD\"\n      }\n    }\n  ],\n  \"currency\": \"USD\",\n  \"taxMode\": \"EXCLUSIVE\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Orders - Get by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/orders/1",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Orders - Update Status (Admin)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/api/orders/1/status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "api",
+            "orders",
+            "1",
+            "status"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"PAID\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Products - Update Price (Admin)",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/admin/api/products/1/price",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "admin",
+            "api",
+            "products",
+            "1",
+            "price"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"price\": \"20.00\",\n  \"currency\": \"USD\"\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "your_jwt_token_here"
+    }
+  ]
+}

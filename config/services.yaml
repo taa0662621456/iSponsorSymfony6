@@ -77,6 +77,80 @@ services:
         arguments:
             $totpAuthenticator: '@scheb_two_factor.security.totp_authenticator'
 
+    App\Service\Order\OrderProcessorPipeline:
+        arguments:
+            $processors: !tagged_iterator order.processor
+
+    App\Service\Order\Processor\:
+        resource: '../src/Service/Order/Processor/*'
+        tags: ['order.processor']
+
+    App\Service\Order\OrderProcessorPipeline:
+        arguments:
+            $processors: !tagged_iterator order.processor
+
+    App\Service\Order\OrderProcessor\OrderQuantityModifyProcessor:
+        tags:
+            - { name: 'order.processor', priority: 300 }
+
+    App\Service\Order\OrderProcessor\OrderDiscountProcessor:
+        tags:
+            - { name: 'order.processor', priority: 250 }
+
+    App\Service\Order\OrderProcessor\OrderTaxCalculateProcessor:
+        tags:
+            - { name: 'order.processor', priority: 200 }
+
+    App\Service\Order\OrderProcessor\OrderSubtotalCalculateProcessor:
+        tags:
+            - { name: 'order.processor', priority: 150 }
+
+    App\Service\Order\OrderProcessor\OrderTotalCalculateProcessor:
+        tags:
+            - { name: 'order.processor', priority: 100 }
+
+    App\Service\Order\OrderProcessor\OrderPaymentProcessor:
+        tags:
+            - { name: 'order.processor', priority: 50 }
+
+    App\Service\Order\OrderProcessor\OrderStatusProcessor:
+        tags:
+            - { name: 'order.processor', priority: 10 }
+
+    App\EventListener\CustomerEmailUpdaterListener:
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: App\Entity\User, event: postUpdate }
+
+    App\EventListener\Vendor\VendorEmailUpdaterListener:
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: App\Entity\Vendor, event: postUpdate }
+
+    App\EventListener\Order\OrderRecalculationListener:
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+
+    App\EventListener\Order\OrderCompleteListener:
+        tags:
+            - { name: kernel.event_listener, event: order.completed, method: onOrderCompleted }
+
+    App\EventListener\Order\OrderPaymentListener:
+        tags:
+            - { name: kernel.event_listener, event: order.paid, method: onOrderPaid }
+
+
+    App\Service\Notification\NotificationService: ~
+
+    App\EventListener\UserRegisteredListener:
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: App\Entity\User, event: postPersist }
+
+
+    App\EventListener\OrderRecalculationListener:
+        tags:
+            - { name: doctrine.orm.entity_listener, entity: App\Entity\Order, event: prePersist }
+            - { name: doctrine.orm.entity_listener, entity: App\Entity\Order, event: preUpdate }
+
         # общий alias для iterable
         App\Service\TwoFactor\TwoFactorServiceInterface:
             resource: '../src/Service/TwoFactor/*TwoFactorService.php'

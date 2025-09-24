@@ -4,11 +4,16 @@ namespace App\Enum;
 
 enum OrderStatusEnum: string
 {
-    case Draft = 'draft';
-    case Confirmed = 'confirmed';
-    case Paid = 'paid';
-    case Shipped = 'shipped';
-    case Completed = 'completed';
-    case Cancelled = 'cancelled';
-    case Refunded = 'refunded';
+    case NEW = 'new';
+    case DRAFT = 'draft';
+    case CONFIRMED = 'confirmed';
+    case PAID = 'paid';
+    case SHIPPED = 'shipped';
+    case COMPLETED = 'completed';
+    case CANCELLED = 'cancelled';
+    case REFUNDED = 'refunded';
+    case PENDING_PAYMENT = 'pending_payment';
+    case FULFILLING = 'fulfilling';
+    case PARTIALLY_SHIPPED = 'partially_shipped';
+    case CANCELED = 'canceled';
 }

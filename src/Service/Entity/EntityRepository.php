@@ -4,7 +4,7 @@ namespace App\Service\Entity;
 
 use App\ServiceInterface\Entity\EntityRepositoryInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 class EntityRepository implements EntityRepositoryInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Address;
+namespace App\Repository;
 
 class AddressStreetRepository
 {

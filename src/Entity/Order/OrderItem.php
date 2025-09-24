@@ -3,7 +3,12 @@
 
 namespace App\Entity\Order;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+
+
+
+
+
+use App\DTO\CartSnapshot;use App\DTO\CartItem;use App\Service\Tax\TaxCalculator;use App\Enum\TaxMode;use App\ValueObject\Money;use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -59,6 +64,94 @@ use Symfony\Component\Uid\Uuid;
 )]
 class OrderItem
 {
+
+// === Money-based fields and accessors (injected) ===
+#[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+private int $unitPriceMinor = 0;
+
+#[ORM\Column(type: 'integer', nullable: true, options: ['unsigned' => true])]
+private ?int $unitDiscountMinor = null;
+
+#[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+private int $rowNetMinor = 0;
+
+#[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+private int $rowTaxMinor = 0;
+
+#[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+private int $rowGrossMinor = 0;
+
+#[ORM\Column(type: 'string', length: 3, options: ['fixed' => true])]
+private string $currency = 'USD';
+
+public function setQuantity(int $qty): self
+{
+    if ($qty < 1) {
+        throw new \InvalidArgumentException('Quantity must be >= 1');
+    }
+    $this->itemQuantity = $qty;
+    return $this;
+}
+
+public function getUnitPrice(): Money
+{
+    return Money::fromMinor($this->unitPriceMinor, $this->currency);
+}
+
+public function setUnitPrice(Money $money): self
+{
+    $this->currency = $money->currency();
+    $this->unitPriceMinor = $money->amount();
+    return $this;
+}
+
+public function getUnitDiscount(): ?Money
+{
+    return $this->unitDiscountMinor === null ? null : Money::fromMinor($this->unitDiscountMinor, $this->currency);
+}
+
+public function setUnitDiscount(?Money $money): self
+{
+    $this->unitDiscountMinor = $money?->amount();
+    if ($money) { $this->currency = $money->currency(); }
+    return $this;
+}
+
+public function getRowNet(): Money { return Money::fromMinor($this->rowNetMinor, $this->currency); }
+public function getRowTax(): Money { return Money::fromMinor($this->rowTaxMinor, $this->currency); }
+public function getRowGross(): Money { return Money::fromMinor($this->rowGrossMinor, $this->currency); }
+
+public function recalculateTotals(TaxMode $mode, TaxCalculator $tax): void
+{
+    $qty = (int) ($this->itemQuantity ?? 1);
+    $unit = $this->unitPriceMinor;
+    $unitDiscount = $this->unitDiscountMinor ?? 0;
+    if ($unitDiscount > $unit) {
+        $unitDiscount = $unit; // clamp
+    }
+    $netPerUnit = $unit - $unitDiscount;
+    $rowNet = max(0, $netPerUnit * $qty);
+    $this->rowNetMinor = $rowNet;
+
+    // Build a one-line cart snapshot for tax calculator
+    $snapshot = new CartSnapshot([
+        new CartItem(
+            sku: (string) ($this->itemSku ?? ''),
+            name: (string) ($this->itemName ?? ''),
+            productId: (int) ($this->itemId ?? 0),
+            qty: $qty,
+            unitPrice: Money::fromMinor($netPerUnit, $this->currency),
+            taxClass: null,
+            unitDiscount: null
+        ),
+    ], $mode, null, [], $this->currency);
+
+    $taxMoney = $tax->calculate($snapshot);
+    $this->rowTaxMinor = $taxMoney->amount();
+    $this->rowGrossMinor = $this->rowNetMinor + $this->rowTaxMinor;
+}
+
+
     use BaseTrait; // Indexing and audition properties/columns
     use ObjectTrait; // Titling properties/columns
     # API Filters

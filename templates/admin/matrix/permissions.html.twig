@@ -1,0 +1,32 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h2>Role Permission Matrix</h2>
+
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-light">
+        <tr>
+            <th>Role</th>
+            {% for perm in allPermissions %}
+                <th>{{ perm }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for role in roles %}
+            <tr>
+                <td><strong>{{ role }}</strong></td>
+                {% for perm in allPermissions %}
+                    <td>
+                        {% if perm in matrix[role]|default([]) %}
+                            ✅
+                        {% else %}
+                            ❌
+                        {% endif %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

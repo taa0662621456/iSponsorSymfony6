@@ -135,7 +135,7 @@ class OpenAiImageGenerator
             $randomImagePicked = (new RandomImagePicker())->getRandomImage();
 
             if (!$randomImagePicked) {
-                $this->logger->info('Using OpenAI image generation...');
+                $this->logger->info('Using OpenAI image generation// TODO: implement');
 
                 $aiImages = $this->fetchImagesFromOpenAi($size ?? '512x512');
                 $aiImageProperty = [
@@ -144,7 +144,7 @@ class OpenAiImageGenerator
                     'filePath' => $aiImages[0]['path'],
                 ];
             } else {
-                $this->logger->info('Using random image from local storage...');
+                $this->logger->info('Using random image from local storage// TODO: implement');
 
                 $aiImageProperty = [
                     'fileName' => $randomImagePicked['name'],

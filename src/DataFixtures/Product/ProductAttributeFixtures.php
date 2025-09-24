@@ -22,4 +22,3 @@ final class ProductAttributeFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'product'; }
     public static function getPriority(): int { return 15; }
 }
-

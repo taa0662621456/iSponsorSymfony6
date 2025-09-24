@@ -2,6 +2,8 @@
 
 namespace App\Entity\Coupon;
 
+
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -19,6 +21,9 @@ use App\Api\Filter\TimestampFilterTrait;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 
+
+use App\Entity\Traits\TimestampableTrait;
+use App\Entity\Traits\SoftDeletableTrait;
 #
 #[ApiResource(
     operations: [
@@ -48,7 +53,12 @@ use App\Entity\ObjectTrait;
 )]
 class Coupon
 {
-    use BaseTrait; // Indexing and audition properties/columns
+            #[ORM\Version]
+    private int $version = 1;
+
+use TimestampableTrait;
+    use SoftDeletableTrait;
+use BaseTrait; // Indexing and audition properties/columns
     use ObjectTrait; // Titling properties/columns
     # API Filters
     use CouponFilterTrait;

@@ -1,17 +1,12 @@
 <?php
 
-
-namespace Fixture;
-
-
-
-
+namespace App\Tests\Fixture;
 
 use App\Interface\Product\ProductInterface;
-use Fixture\FixtureRegistryInterface;
-use Fixture\ListenerRegistryInterface;
-use Fixture\Suite;
-use Fixture\SuiteLoaderInterface;
+use App\Tests\DataFixturesInterface\FixtureRegistryInterface;
+use App\Tests\DataFixturesInterface\ListenerRegistryInterface;
+use App\Tests\DataFixturesInterface\Suite;
+use App\Tests\DataFixturesInterface\SuiteLoaderInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

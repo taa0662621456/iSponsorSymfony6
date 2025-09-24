@@ -34,4 +34,3 @@ final class MenuFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'menu'; }
     public static function getPriority(): int { return 10; }
 }
-

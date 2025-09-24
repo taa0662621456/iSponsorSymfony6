@@ -162,4 +162,3 @@ class VoterManager extends Voter
         return false;
     }
 }
-

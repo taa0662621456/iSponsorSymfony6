@@ -1,0 +1,263 @@
+openapi: 3.0.3
+info:
+  title: E-Commerce API
+  version: 1.0.0
+  description: Public and Admin API with success and error examples
+servers:
+  - url: http://localhost:8000
+tags:
+  - name: Cart
+  - name: Orders
+  - name: Admin Orders
+  - name: Admin Products
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Money:
+      type: object
+      properties:
+        amount: { type: string }
+        currency: { type: string }
+    CartItem:
+      type: object
+      properties:
+        qty: { type: integer }
+        unitPrice: { $ref: '#/components/schemas/Money' }
+        unitDiscount: { $ref: '#/components/schemas/Money' }
+    CartSnapshot:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/CartItem' }
+        currency: { type: string }
+        taxMode: { type: string, enum: [EXCLUSIVE, INCLUSIVE] }
+    CartPricing:
+      type: object
+      properties:
+        itemsSubtotal: { type: string }
+        discountTotal: { type: string }
+        shippingTotal: { type: string }
+        taxTotal: { type: string }
+        grandTotal: { type: string }
+        currency: { type: string }
+    OrderItem:
+      type: object
+      properties:
+        productId: { type: integer }
+        qty: { type: integer }
+        unitPrice: { $ref: '#/components/schemas/Money' }
+        rowTotal: { $ref: '#/components/schemas/Money' }
+    Order:
+      type: object
+      properties:
+        id: { type: integer }
+        status: { type: string }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/OrderItem' }
+        itemsSubtotal: { type: string }
+        discountTotal: { type: string }
+        taxTotal: { type: string }
+        grandTotal: { type: string }
+        currency: { type: string }
+    Product:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        code: { type: string }
+        slug: { type: string }
+    ErrorResponse:
+      type: object
+      properties:
+        error: { type: string }
+
+paths:
+  /api/cart/price:
+    post:
+      tags: [Cart]
+      summary: Calculate cart pricing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CartSnapshot' }
+            examples:
+              simpleCart:
+                value:
+                  items:
+                    - qty: 2
+                      unitPrice: { amount: "10.00", currency: "USD" }
+                  currency: "USD"
+                  taxMode: "EXCLUSIVE"
+      responses:
+        '200':
+          description: Pricing result
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/CartPricing' }
+              examples:
+                success:
+                  value:
+                    itemsSubtotal: "20.00"
+                    discountTotal: "0.00"
+                    shippingTotal: "0.00"
+                    taxTotal: "2.00"
+                    grandTotal: "22.00"
+                    currency: "USD"
+        '400':
+          description: Invalid cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                invalid:
+                  value: { error: "Cart is empty" }
+
+  /api/orders:
+    post:
+      tags: [Orders]
+      summary: Create new order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CartSnapshot' }
+      responses:
+        '201':
+          description: Order created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+              examples:
+                createdOrder:
+                  value:
+                    id: 123
+                    status: "NEW"
+                    grandTotal: "22.00"
+                    currency: "USD"
+        '400':
+          description: Invalid cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                invalid:
+                  value: { error: "Invalid order payload" }
+
+  /api/orders/{id}:
+    get:
+      tags: [Orders]
+      summary: Get order by ID
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      responses:
+        '200':
+          description: Order found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                notFound:
+                  value: { error: "Order not found" }
+
+  /admin/api/orders/{id}/status:
+    patch:
+      tags: [Admin Orders]
+      summary: Update order status
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: { status: { type: string } }
+      responses:
+        '200':
+          description: Status updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '400':
+          description: Invalid transition
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                invalid:
+                  value: { error: "Transition not allowed" }
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                forbidden:
+                  value: { error: "Access denied" }
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                notFound:
+                  value: { error: "Order not found" }
+
+  /admin/api/products/{id}/price:
+    patch:
+      tags: [Admin Products]
+      summary: Update product price
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: integer } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                price: { type: string }
+                currency: { type: string }
+      responses:
+        '200':
+          description: Price updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                invalid:
+                  value: { error: "Invalid price format" }
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                forbidden:
+                  value: { error: "Access denied" }
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+              examples:
+                notFound:
+                  value: { error: "Product not found" }

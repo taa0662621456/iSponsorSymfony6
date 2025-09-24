@@ -7,7 +7,6 @@ use App\Entity\Vendor\VendorSecurity;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -23,7 +22,7 @@ class ApiSecurityController extends AbstractController
                 'message' => 'missing credentials',
                 ], Response::HTTP_UNAUTHORIZED);
         }
-        $token = '...';
+        $token = '// TODO: implement';
         // somehow create an API token for $user
         return $this->json(
             [

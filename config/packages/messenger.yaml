@@ -5,55 +5,28 @@ framework:
             symfony_serializer:
                 format: json
                 context: { }
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+
         failure_transport: failed
+
         transports:
-            sns:
-                dsn: 'enqueue://testsns?topic[name]=test'
-                serializer: messenger.transport.symfony_serializer
-            failed: 'doctrine://postgres?queue_name=failed'
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
             async:
-#                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
-#                dsn: 'doctrine://postgres'
-                dsn: 'amqp://guest:guest@localhost:5672/%2f/messages'
-                    # конфигурация по умолчанию
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 serializer: messenger.transport.symfony_serializer
                 retry_strategy:
                     max_retries: 3
-                    # задержка в миллисекундах
                     delay: 1000
-                    # делает так, чтобы задержка была дольше перед каждой повторной попыткой
-                    # например, задержка в 1 секунду, 2 секунду, 4 секунду
                     multiplier: 2
                     max_delay: 0
-                    # переопределить это все сервисом, который
-                    # реализует Symfony\Component\Messenger\Retry\RetryStrategyInterface
-                    # service: null
-                option:
-                    auto_setup: true
-#            sync:
-#                dsn: "%env(MESSENGER_TRANSPORT_DSN)%"
-#                option: []
 
-
-#        Некоторые сервисы (вроде EntityManager Doctrine) будут потреблять все больше памяти со временем.
-#        Поэтому, вместо того, чтобы позволять вашему работнику работать всегда, используйте флажок вроде
-#        messenger:consume --limit=10, чтобы указать работнику, что он должен обработать только 10 сообщений
-#        до прекращения работы (затем Супервизор создаст новый процесс). Также есть другие опции
-#        вроде --memory-limit=128M и --time-limit=3600. https://symfony.com.ua/doc/current/messenger.html
-
+            failed:
+                dsn: '%env(MESSENGER_FAILED_TRANSPORT_DSN)%'
+                serializer: messenger.transport.symfony_serializer
 
         routing:
-            # Route your messages to the transports
-            # 'App\Message\YourMessage': async
-            'App\Message\SmsNotification': async
-            'App\Message\SimpleOrder': sns
+            # Email / SMS / Push
+            App\Message\SendEmailMessage: async
+            App\Message\SendSmsMessage: async
+            App\Message\SendPushMessage: async
 
-when@test:
-    framework:
-        messenger:
-            transports:
-#                # replace with your transport name here (e.g., my_transport: 'in-memory://')
-#                # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-                async: 'in-memory://'
+            # Сервисные сообщения
+            App\Message\UpdateCacheMessage: async

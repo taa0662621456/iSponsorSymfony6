@@ -1,0 +1,46 @@
+# =========================
+# 1. Stage: Dev PHP
+# =========================
+FROM php:8.3-fpm-alpine AS app_php_dev
+
+# Установим системные зависимости для разработки
+RUN apk add --no-cache \
+    git unzip bash curl nodejs npm yarn \
+    libzip-dev libpng-dev libjpeg-turbo-dev libfreetype-dev icu-dev oniguruma-dev postgresql-dev
+
+# PHP расширения
+RUN docker-php-ext-install pdo pdo_pgsql intl zip gd opcache
+
+# Установим Xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+# Рабочая директория
+WORKDIR /var/www/project
+
+# Копируем Composer
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
+
+# Копируем исходники
+COPY . .
+
+# Установим зависимости включая dev
+RUN composer install --optimize-autoloader --no-interaction
+
+# Symfony cache clear для dev
+RUN php bin/console cache:clear --env=dev || true
+
+# Настройки PHP (Xdebug и dev.ini)
+COPY docker/php/dev.ini /usr/local/etc/php/conf.d/app.ini
+
+CMD ["php-fpm"]
+
+# =========================
+# 2. Stage: Node builder (опционально, если фронт есть)
+# =========================
+FROM node:20-alpine AS frontend_builder
+
+WORKDIR /var/www/project
+COPY package.json yarn.lock ./
+RUN yarn install
+COPY assets ./assets
+RUN yarn encore dev || true

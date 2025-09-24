@@ -27,7 +27,7 @@ class ApiExceptionListener
     private Logger $logger;
     private Serializer $serializer;
 
-    public function __constructor(ExceptionMappingResolver $exceptionMappingResolver, Logger $logger, Serializer $serializer): void
+    public function __construct(ExceptionMappingResolver $exceptionMappingResolver, Logger $logger, Serializer $serializer): void
     {
         $this->exceptionMappingResolver = $exceptionMappingResolver;
         $this->logger = $logger;

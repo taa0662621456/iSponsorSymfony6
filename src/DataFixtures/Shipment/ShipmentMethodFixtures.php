@@ -21,4 +21,3 @@ final class ShipmentMethodFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'shipment'; }
     public static function getPriority(): int { return 10; }
 }
-

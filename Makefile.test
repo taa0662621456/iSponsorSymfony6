@@ -1,0 +1,43 @@
+# ===================
+# Test Makefile
+# ===================
+
+# ===================
+# Docker
+# ===================
+build:
+	docker compose -f docker-compose.test.yml build
+
+up:
+	docker compose -f docker-compose.test.yml up -d
+
+down:
+	docker compose -f docker-compose.test.yml down
+
+logs:
+	docker compose -f docker-compose.test.yml logs -f
+
+restart:
+	docker compose -f docker-compose.test.yml down
+	docker compose -f docker-compose.test.yml up -d
+
+# ===================
+# Symfony console
+# ===================
+migrate:
+	docker compose -f docker-compose.test.yml exec app php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+fixtures-load:
+	docker compose -f docker-compose.test.yml exec app php bin/console doctrine:fixtures:load --no-interaction --purge-with-truncate --env=test
+
+fixtures-append:
+	docker compose -f docker-compose.test.yml exec app php bin/console doctrine:fixtures:load --no-interaction --append --env=test
+
+# ===================
+# Testing
+# ===================
+test:
+	docker compose -f docker-compose.test.yml exec app vendor/bin/phpunit --testdox --env=test
+
+coverage:
+	docker compose -f docker-compose.test.yml exec app vendor/bin/phpunit --coverage-html var/coverage --env=test

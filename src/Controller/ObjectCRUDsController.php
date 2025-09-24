@@ -468,9 +468,9 @@ class ObjectCRUDsController extends AbstractController
 //
 //        if ($request->get('_route') == 'profile') {            //TODO: need add role by ROLE_ADMIN; maybe PHP Switch
 //            $createdBy = null;                                 // Vendor is null for template Security
-//            $published = true;                                 // ...for marketing security
-//            $fileLayoutPosition = $request->get('_route');     // ... for filtering
-//            $fileLang = $request->get('app_locale') ?: '*';       // ... for different
+//            $published = true;                                 // // TODO: implementfor marketing security
+//            $fileLayoutPosition = $request->get('_route');     // // TODO: implement for filtering
+//            $fileLang = $request->get('app_locale') ?: '*';       // // TODO: implement for different
 //        }
 //
 //        $attachments = $this->attachmentsManager->getAttachments(

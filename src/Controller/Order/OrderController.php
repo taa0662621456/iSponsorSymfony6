@@ -93,7 +93,8 @@ class OrderController extends AbstractController
 
             $this->eventDispatcher->dispatchPostEvent(ResourceActions::UPDATE, $configuration, $resource);
 
-            $this->getEventDispatcher()->dispatch(new GenericEvent($resource), SyliusCartEvents::CART_CHANGE);
+
+            $this->getEventDispatcher()->dispatch(new GenericEvent($resource), CartEvent::CART_CHANGE);
             $this->manager->flush();
 
             if (!$configuration->isHtmlRequest()) {

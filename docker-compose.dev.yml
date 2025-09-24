@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: app_php_prod
+    restart: always
+    environment:
+      APP_ENV: prod
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - .:/var/www/project:ro
+    depends_on:
+      - database
+
+  web:
+    image: nginx:stable
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - .:/var/www/project:ro
+    depends_on:
+      - app
+
+  database:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

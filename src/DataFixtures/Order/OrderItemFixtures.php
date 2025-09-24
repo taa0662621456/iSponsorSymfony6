@@ -25,4 +25,3 @@ final class OrderItemFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'order'; }
     public static function getPriority(): int { return 20; }
 }
-

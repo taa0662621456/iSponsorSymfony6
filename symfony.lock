@@ -361,8 +361,17 @@
             "./config/routes/liip_imagine.yaml"
         ]
     },
+    "maennchen/zipstream-php": {
+        "version": "3.1.1"
+    },
     "marc-mabe/php-enum": {
         "version": "v4.7.1"
+    },
+    "markbaker/complex": {
+        "version": "3.0.2"
+    },
+    "markbaker/matrix": {
+        "version": "3.0.1"
     },
     "masterminds/html5": {
         "version": "2.8.0"
@@ -463,6 +472,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.6.2"
     },
+    "phpoffice/phpspreadsheet": {
+        "version": "5.1.0"
+    },
     "phpseclib/phpseclib": {
         "version": "3.0.19"
     },
@@ -538,6 +550,9 @@
         "version": "2.0.1"
     },
     "psr/log": {
+        "version": "3.0.0"
+    },
+    "psr/simple-cache": {
         "version": "3.0.0"
     },
     "queue-interop/amqp-interop": {
@@ -651,6 +666,15 @@
     },
     "sebastian/version": {
         "version": "3.0.2"
+    },
+    "sonata-project/exporter": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.4",
+            "ref": "93d6df022ef1dc24bdfa8667ddd560bbde89a7cc"
+        }
     },
     "spomky-labs/otphp": {
         "version": "11.2.0"
@@ -1197,6 +1221,21 @@
     },
     "willdurand/negotiation": {
         "version": "3.1.0"
+    },
+    "zenstruck/assert": {
+        "version": "v1.5.1"
+    },
+    "zenstruck/foundry": {
+        "version": "2.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "56bc588a1b6d5d218319f70c64c2f0fbebe30ec7"
+        },
+        "files": [
+            "./config/packages/zenstruck_foundry.yaml"
+        ]
     },
     "zircote/swagger-php": {
         "version": "4.8.1"

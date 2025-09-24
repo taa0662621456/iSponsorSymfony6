@@ -1,0 +1,10 @@
+# CODEOWNERS file
+# Назначение: автоматически назначать ответственного ревьюера для PR.
+
+# Все файлы по умолчанию — ты (владелец проекта)
+* @your-github-username
+
+# Можно позже разделить по папкам, например:
+# src/Entity/ @entity-owner
+# tests/ @qa-owner
+# docker/ @devops-owner

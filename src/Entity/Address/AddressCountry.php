@@ -16,7 +16,6 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Address\AddressCountryRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\ObjectCRUDsController;
 
 
 #[ORM\Table(name: 'address_country')]

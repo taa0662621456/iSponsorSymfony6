@@ -5,103 +5,113 @@ namespace App\Controller;
 use App\Entity\Product\ProductFavourite;
 use DateTime;
 use Exception;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use function is_object;
 
-/**
- * Class AjaxController.
- */
 #[AsController]
 #[Route(path: '/like')]
 class LikeAjaxController extends AbstractController
 {
     private ManagerRegistry $managerRegistry;
 
-    public function __constructor(ManagerRegistry $managerRegistry): void
+    public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @throws Exception
-     */
     #[Route(path: '/project', name: 'project_like', methods: ['POST'])]
     public function like(Request $request): JsonResponse
     {
         $em = $this->managerRegistry->getManager();
-        $productRepository = $em->getRepository('ShopBundle:Product');
-        $favouritesRepository = $em->getRepository('ShopBundle:Favourites');
+        $productRepository = $em->getRepository(\App\Entity\Product\Product::class);
+        $favouritesRepository = $em->getRepository(ProductFavourite::class);
+
         $productId = $request->request->getInt('product_id');
         $product = $productRepository->find($productId);
         $user = $this->getUser();
-        if (!is_object($product)) {
+
+        if (!$product) {
             return $this->returnErrorJson('productnotfound');
-        } elseif (!is_object($user)) {
+        }
+
+        if (!$user) {
             return $this->returnErrorJson('mustberegistered');
         }
+
         $favoriteRecord = $favouritesRepository->findOneBy([
-            'user' => $this->getUser(),
+            'user' => $user,
             'product' => $product,
         ]);
+
         $liked = false;
-        if (!is_object($favoriteRecord)) {
-            $favoriteRecord = new ProductFavourite(); // add like
-            $favoriteRecord->setUser($this->getUser());
+        if (!$favoriteRecord) {
+            $favoriteRecord = new ProductFavourite();
+            $favoriteRecord->setUser($user);
             $favoriteRecord->setProduct($product);
             $favoriteRecord->setDate(new DateTime());
             $em->persist($favoriteRecord);
             $liked = true;
         } else {
-            $em->remove($favoriteRecord); // remove like
+            $em->remove($favoriteRecord);
         }
+
         $em->flush();
 
         return new JsonResponse([
             'favourite' => $liked,
             'success' => true,
-        ], 200);
+        ]);
     }
 
     #[Route(path: '/project_is_liked', name: 'project_is_liked', methods: ['POST'])]
     public function checkIsLiked(Request $request): JsonResponse
     {
         $em = $this->managerRegistry->getManager();
-        $favouritesRepository = $em->getRepository('ShopBundle:Favourites');
+        $favouritesRepository = $em->getRepository(ProductFavourite::class);
         $user = $this->getUser();
+
         if (!$user) {
             return $this->returnErrorJson('mustberegistered');
         }
+
         $productId = $request->request->getInt('product_id');
-        $liked = $favouritesRepository->checkIsLiked($user, $productId);
+        $liked = (bool) $favouritesRepository->findOneBy([
+            'user' => $user,
+            'product' => $productId,
+        ]);
 
         return new JsonResponse([
             'liked' => $liked,
             'success' => true,
-        ], 200);
+        ]);
     }
 
     #[Route(path: '/ajax_get_last_seen_projects', name: 'ajax_get_last_seen_projects', methods: ['POST'])]
     public function getLastSeenProductsAction(Request $request): JsonResponse
     {
         $em = $this->managerRegistry->getManager();
-        $projectsRepository = $em->getRepository('projects');
-        $productIdsArray = $this->get('app.page_utilities')->getLastSeenProducts($request);
+        $projectsRepository = $em->getRepository(\App\Entity\Project\Project::class);
+
+        // вместо $this->get('...') надо через DI
+        $productIdsArray = $this->pageUtilities->getLastSeenProducts($request);
+
         $projects = $projectsRepository->getLastSeen(4, $productIdsArray, $this->getUser());
+
         if (!$projects) {
-            $this->returnErrorJson('product not forund');
+            return $this->returnErrorJson('productnotfound');
         }
+
         $html = $this->renderView('lastSeenProducts.html.twig', ['projects' => $projects]);
 
         return new JsonResponse([
             'html' => $html,
             'success' => true,
-        ], 200);
+        ]);
     }
 
     private function returnErrorJson(string $message): JsonResponse

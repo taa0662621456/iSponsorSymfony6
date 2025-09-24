@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity\Currency;
+namespace App\Repository;
 
 class CurrencyExchangeRepository
 {

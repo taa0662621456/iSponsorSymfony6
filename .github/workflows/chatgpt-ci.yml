@@ -1,0 +1,38 @@
+name: ChatGPT Integrations
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  send_diff:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          git fetch origin
+          git diff HEAD~1 HEAD > diff.patch
+          curl -X POST "https://api.openai.com/v1/files"             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}"             -F "purpose=assistants"             -F "file=@diff.patch"
+
+  send_pr_diff:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff origin/${{ github.base_ref }}...HEAD > pr-diff.patch
+          curl -X POST "https://api.openai.com/v1/files"             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}"             -F "purpose=assistants"             -F "file=@pr-diff.patch"
+
+  sync_repo:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v3
+      - run: zip -r project.zip .
+      - run: |
+          curl -X POST "https://api.openai.com/v1/files"             -H "Authorization: Bearer ${{ secrets.OPENAI_API_KEY }}"             -F "purpose=fine-tune"             -F "file=@project.zip"

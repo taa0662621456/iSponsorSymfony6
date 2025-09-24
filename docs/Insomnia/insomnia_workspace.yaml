@@ -1,0 +1,165 @@
+_type: export
+__export_format: 4
+__export_date: 2025-09-27T00:00:00.000Z
+__export_source: insomnia.desktop.app:v2025.1.0
+resources:
+  - _id: wrk_1234567890abcdef
+    parentId: null
+    modified: 0
+    created: 0
+    name: E-Commerce API
+    description: Insomnia workspace with login + refresh stub
+    scope: collection
+    _type: workspace
+
+  - _id: env_1234567890abcdef
+    parentId: wrk_1234567890abcdef
+    modified: 0
+    created: 0
+    name: Base Environment
+    data:
+      baseUrl: http://localhost:8000
+      token: "{% response 'body', 'req_auth_login', 'json', 'token' %}"
+      refreshToken: "{% response 'body', 'req_auth_login', 'json', 'refresh_token' %}"
+    _type: environment
+
+  - _id: fld_auth
+    parentId: wrk_1234567890abcdef
+    modified: 0
+    created: 0
+    name: Auth
+    _type: request_group
+
+  - _id: req_auth_login
+    parentId: fld_auth
+    url: "{{ baseUrl }}/api/auth/login"
+    name: Login (Get JWT + Refresh) 
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "email": "admin@example.com",
+          "password": "test123"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settingStoreCookies: true
+    settingSendCookies: true
+    _type: request
+
+  - _id: req_auth_refresh
+    parentId: fld_auth
+    url: "{{ baseUrl }}/api/auth/refresh"
+    name: Refresh Token (Stub)
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "refresh_token": "{{ refreshToken }}"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    _type: request
+
+  - _id: fld_cart
+    parentId: wrk_1234567890abcdef
+    name: Cart
+    _type: request_group
+
+  - _id: req_cart_price
+    parentId: fld_cart
+    url: "{{ baseUrl }}/api/cart/price"
+    name: Calculate Price
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "items": [
+            { "qty": 2, "unitPrice": { "amount": "10.00", "currency": "USD" } }
+          ],
+          "currency": "USD",
+          "taxMode": "EXCLUSIVE"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    _type: request
+
+  - _id: fld_orders
+    parentId: wrk_1234567890abcdef
+    name: Orders
+    _type: request_group
+
+  - _id: req_orders_create
+    parentId: fld_orders
+    url: "{{ baseUrl }}/api/orders"
+    name: Create Order
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "items": [
+            { "qty": 1, "unitPrice": { "amount": "15.00", "currency": "USD" } }
+          ],
+          "currency": "USD",
+          "taxMode": "EXCLUSIVE"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    _type: request
+
+  - _id: req_orders_get
+    parentId: fld_orders
+    url: "{{ baseUrl }}/api/orders/1"
+    name: Get Order by ID
+    method: GET
+    _type: request
+
+  - _id: fld_admin_orders
+    parentId: wrk_1234567890abcdef
+    name: Admin Orders
+    _type: request_group
+
+  - _id: req_admin_orders_status
+    parentId: fld_admin_orders
+    url: "{{ baseUrl }}/admin/api/orders/1/status"
+    name: Update Order Status
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |
+        { "status": "PAID" }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ token }}"
+    _type: request
+
+  - _id: fld_admin_products
+    parentId: wrk_1234567890abcdef
+    name: Admin Products
+    _type: request_group
+
+  - _id: req_admin_products_price
+    parentId: fld_admin_products
+    url: "{{ baseUrl }}/admin/api/products/1/price"
+    name: Update Product Price
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |
+        { "price": "20.00", "currency": "USD" }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Authorization
+        value: "Bearer {{ token }}"
+    _type: request

@@ -80,4 +80,3 @@ class GptExceptionConsulter
         return $data['choices'][0]['text'] ?? 'Не удалось получить ответ от GPT-4 API.';
     }
 }
-

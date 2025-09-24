@@ -1,0 +1,6 @@
+services:
+    # Handlers discoverable via attributes, file present for clarity/overrides
+    App\MessageHandler\Notification\OrderPaidMailHandler: ~
+    App\MessageHandler\Notification\OrderCompletedMailHandler: ~
+    App\MessageHandler\Notification\OrderPaidSmsHandler: ~
+    App\MessageHandler\Notification\OrderCompletedSmsHandler: ~

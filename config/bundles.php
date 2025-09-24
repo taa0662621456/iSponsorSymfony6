@@ -43,4 +43,5 @@ return [
     Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
     Liip\FunctionalTestBundle\LiipFunctionalTestBundle::class => ['dev' => true, 'test' => true],
     Payum\Bundle\PayumBundle\PayumBundle::class => ['all' => true],
+    Zenstruck\Foundry\ZenstruckFoundryBundle::class => ['dev' => true, 'test' => true],
 ];

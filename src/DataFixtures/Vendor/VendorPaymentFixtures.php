@@ -23,4 +23,3 @@ final class VendorPaymentFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'vendor'; }
     public static function getPriority(): int { return 30; }
 }
-

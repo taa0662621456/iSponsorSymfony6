@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      APP_ENV: test
+      DATABASE_URL: ${DATABASE_URL}
+    volumes:
+      - .:/var/www/project:cached
+    command: >
+      sh -c "vendor/bin/phpunit -c phpunit.xml.dist &&
+             vendor/bin/phpstan analyse src --level=max"
+    depends_on:
+      - database
+
+  database:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: symfony_test
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: symfony
+    ports:
+      - "5434:5432"
+    volumes:
+      - db_data_test:/var/lib/postgresql/data
+
+volumes:
+  db_data_test:

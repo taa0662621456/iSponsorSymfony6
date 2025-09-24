@@ -22,7 +22,7 @@ class AuthorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Author::class, // TODO: нет такой сущности...
+            'data_class' => Author::class, // TODO: нет такой сущности// TODO: implement
         ]);
     }
 }

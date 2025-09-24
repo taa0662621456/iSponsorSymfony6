@@ -8,4 +8,3 @@ enum ShipmentStatusEnum: string {
     case Delivered = 'delivered';
     case Returned = 'returned';
 }
-

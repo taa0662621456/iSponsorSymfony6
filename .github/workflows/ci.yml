@@ -1,0 +1,72 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: symfony
+          POSTGRES_PASSWORD: symfony
+          POSTGRES_DB: symfony_test
+        ports: [ "5432:5432" ]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    strategy:
+      matrix:
+        php: [ '8.3' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          extensions: mbstring, pdo, pdo_pgsql, intl, zip, dom
+
+      - name: Validate composer.json
+        run: composer validate --strict
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Debug PHP
+        run: php -v && php -m
+
+      - name: Static analysis
+        run: vendor/bin/phpstan analyse --memory-limit=1G
+
+      - name: Validate Doctrine schema
+        run: bin/console doctrine:schema:validate --skip-sync
+
+      - name: Lint container
+        run: bin/console lint:container
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --testsuite=unit,integration,e2e --coverage-text

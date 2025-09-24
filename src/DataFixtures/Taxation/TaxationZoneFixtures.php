@@ -21,4 +21,3 @@ final class TaxationZoneFixtures extends BaseGroupedFixture
     public static function getGroup(): string { return 'taxation'; }
     public static function getPriority(): int { return 10; }
 }
-

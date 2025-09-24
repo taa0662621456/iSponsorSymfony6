@@ -12,4 +12,3 @@ final class FixtureConstant
     public const TOTAL_REVIEWS = 20;
 
 }
-

@@ -33,4 +33,3 @@ class PicsumPhotoDownloader
         return $path;
     }
 }
-
