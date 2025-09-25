@@ -161,6 +161,9 @@ services:
         #        arguments: [ '%kernel.default_locale%' ]
         arguments: [ '%app_locale%' ]
     #         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
+    App\EventListener\GroupedFixtureExecutorListener:
+        tags:
+            - { name: doctrine.fixture.event_subscriber }
 
     App\Service\ObjectFileUploader:
         arguments:

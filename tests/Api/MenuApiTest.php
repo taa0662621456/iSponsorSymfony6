@@ -2,7 +2,7 @@
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Liip\AcmeFixturesBundle\Services\FixturesTrait;
 
-final class ObjectCRUDsControllerTest extends WebTestCase
+final class MenuApiTest extends WebTestCase
 {
     use FixturesTrait;
 

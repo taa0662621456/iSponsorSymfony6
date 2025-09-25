@@ -2,9 +2,6 @@
 
 namespace App\Entity\Storage;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -20,13 +17,11 @@ use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
 use App\Repository\Storage\StorageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Controller\ObjectCRUDsController;
 
 #[ORM\Table(name: 'storage')]
 #[ORM\Index(columns: ['slug'], name: 'storage_idx')]
 #[ORM\Entity(repositoryClass: StorageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#
 #[ApiResource(
     operations: [
         new GetCollection(
@@ -55,9 +50,12 @@ use App\Controller\ObjectCRUDsController;
 )]
 class Storage
 {
-    use BaseTrait; // Indexing and audition properties/columns
-    use ObjectTrait; // Titling properties/columns
+    use BaseTrait;        // Indexing and auditing properties/columns
+    use ObjectTrait;      // Titling properties/columns
+
     # API Filters
+    use EventFilterTrait;
+    use RelationFilterTrait;
     use StorageFilterTrait;
     use TimestampFilterTrait;
 }
