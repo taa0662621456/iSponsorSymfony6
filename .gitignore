@@ -4,6 +4,14 @@ Command/refactor_commands.patch
 # ----------------------------------------
 /vendor/                # Composer packages
 /composer.phar          # Локальный бинарь
+# временные и dev-файлы
+.idea/
+node_modules/
+var/
+vendor/
+
+# патчи
+*.patch
 # composer.lock лучше хранить в репо (для CI/CD), поэтому не игнорим
 
 # ----------------------------------------
