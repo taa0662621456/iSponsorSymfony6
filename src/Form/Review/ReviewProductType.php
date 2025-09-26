@@ -6,4 +6,5 @@ use Symfony\Component\Form\AbstractType;
 
 class ReviewProductType extends AbstractType
 {
+
 }

@@ -2,23 +2,12 @@
 
 namespace App\Repository\Taxation;
 
-use App\EntityInterface\Taxation\TaxationInterface;
-use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\Taxation\Taxation;
-use App\Repository\EntityRepository;
 
-use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
-
-/**
- * @method Taxation|null find($id, $lockMode = null, $lockVersion = null)
- * @method Taxation|null findOneBy(array $criteria, array $orderBy = null)
- * @method Taxation[]    findAll()
- * @method Taxation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class TaxationRepository extends EntityRepository implements TaxationRepositoryInterface
+class TaxationRepository extends EntityRepository implements TaxonRepositoryInterface
 {
-    public function findChildren(string $parentCode, string $locale = null): array
+    public function findChildren(string $parentCode, ?string $locale = null): array
     {
         return $this->createTranslationBasedQueryBuilder($locale)
             ->addSelect('child')
@@ -28,10 +17,11 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
             ->addOrderBy('o.position')
             ->setParameter('parentCode', $parentCode)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    public function findChildrenByChannelMenuTaxon(TaxationInterface $menuTaxon = null, string $locale = null): array
+    public function findChildrenByChannelMenuTaxon(?TaxonInterface $menuTaxon = null, ?string $locale = null): array
     {
         return $this->createTranslationBasedQueryBuilder($locale)
             ->addSelect('child')
@@ -40,29 +30,27 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
             ->andWhere('o.enabled = :enabled')
             ->andWhere('parent.code = :parentCode')
             ->addOrderBy('o.position')
-            ->setParameter('parentCode', (null !== $menuTaxon) ? $menuTaxon->getCode() : 'category')
+            ->setParameter('parentCode', ($menuTaxon !== null) ? $menuTaxon->getCode() : 'category')
             ->setParameter('enabled', true)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    public function findOneBySlug(string $slug, string $locale): ?TaxationInterface
+    public function findOneBySlug(string $slug, string $locale): ?TaxonInterface
     {
-        try {
-            return $this->createQueryBuilder('o')
-                ->addSelect('translation')
-                ->innerJoin('o.translations', 'translation')
-                ->andWhere('o.enabled = :enabled')
-                ->andWhere('translation.slug = :slug')
-                ->andWhere('translation.locale = :locale')
-                ->setParameter('slug', $slug)
-                ->setParameter('locale', $locale)
-                ->setParameter('enabled', true)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            throw $e;
-        }
+        return $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->innerJoin('o.translations', 'translation')
+            ->andWhere('o.enabled = :enabled')
+            ->andWhere('translation.slug = :slug')
+            ->andWhere('translation.locale = :locale')
+            ->setParameter('slug', $slug)
+            ->setParameter('locale', $locale)
+            ->setParameter('enabled', true)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     public function findByName(string $name, string $locale): array
@@ -75,7 +63,8 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function findRootNodes(): array
@@ -84,18 +73,20 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
             ->andWhere('o.parent IS NULL')
             ->addOrderBy('o.position')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    public function findByNamePart(string $phrase, string $locale = null, int $limit = null): array
+    public function findByNamePart(string $phrase, ?string $locale = null, ?int $limit = null): array
     {
-        /** @var TaxationInterface[] $results */
+        /** @var TaxonInterface[] $results */
         $results = $this->createTranslationBasedQueryBuilder($locale)
             ->andWhere('translation.name LIKE :name')
-            ->setParameter('name', '%'.$phrase.'%')
+            ->setParameter('name', '%' . $phrase . '%')
             ->setMaxResults($limit)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
         foreach ($results as $result) {
             $result->setFallbackLocale(array_key_first($result->getTranslations()->toArray()));
@@ -113,12 +104,14 @@ class TaxationRepository extends EntityRepository implements TaxationRepositoryI
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('translation')
-            ->leftJoin('o.translations', 'translation');
+            ->leftJoin('o.translations', 'translation')
+        ;
 
         if (null !== $locale) {
             $queryBuilder
                 ->andWhere('translation.locale = :locale')
-                ->setParameter('locale', $locale);
+                ->setParameter('locale', $locale)
+            ;
         }
 
         return $queryBuilder;

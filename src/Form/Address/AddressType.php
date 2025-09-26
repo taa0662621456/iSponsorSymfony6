@@ -1,13 +1,15 @@
 <?php
 
+
 namespace App\Form\Address;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AddressType extends AbstractType
 {
@@ -17,14 +19,14 @@ final class AddressType extends AbstractType
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
+     * @param EventSubscriberInterface $buildAddressFormSubscriber
      */
-    // public function __construct(private readonly EventSubscriberInterface $buildAddressFormSubscriber,
-    public function __construct(
-        array $validationGroups = [],
-        string $dataClass = 'data_class'
-    ) {
+    public function __construct(string $dataClass,
+                                array $validationGroups,
+                                private readonly EventSubscriberInterface $buildAddressFormSubscriber)
+    {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
     }
@@ -58,8 +60,9 @@ final class AddressType extends AbstractType
             ])
             ->add('postcode', TextType::class, [
                 'label' => 'form.address.postcode',
-            ]);
-        // ->addEventSubscriber($this->buildAddressFormSubscriber)
+            ])
+            ->addEventSubscriber($this->buildAddressFormSubscriber)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -77,7 +80,8 @@ final class AddressType extends AbstractType
                 },
                 'shippable' => false,
             ])
-            ->setAllowedTypes('shippable', 'bool');
+            ->setAllowedTypes('shippable', 'bool')
+        ;
     }
 
     public function getBlockPrefix(): string

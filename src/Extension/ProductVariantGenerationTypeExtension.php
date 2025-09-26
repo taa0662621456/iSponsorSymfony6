@@ -4,12 +4,10 @@
 namespace App\Extension;
 
 
-use App\Form\Product\ProductBundle\ProductVariantGenerationType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Notifier\Channel\ChannelInterface;
 
 final class ProductVariantGenerationTypeExtension extends AbstractTypeExtension
 {

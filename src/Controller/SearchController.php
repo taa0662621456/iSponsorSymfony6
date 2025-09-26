@@ -3,19 +3,17 @@
 namespace App\Controller;
 
 use App\Repository\Product\ProductRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpKernel\Attribute\AsController;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use const ENT_COMPAT;
-use const ENT_HTML5;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[AsController]
 class SearchController extends AbstractController
 {
     #[Route(path: '/search', name: 'search', methods: ['GET'])]
-    public function search(Request $request, ProductRepository $projects): Response
+    public function search(Request $request, ProductRepository $projects) : Response
     {
         if (!$request->isXmlHttpRequest()) {
             return $this->render('search/search.html.twig');
@@ -24,7 +22,7 @@ class SearchController extends AbstractController
         $limit = $request->query->get('l', 10);
         $found = $projects->findBySearchQuery($query, $limit);
         $results = [];
-        // TODO
+        //TODO
         foreach ($found as $post) {
             $results[] = [
                 'title' => htmlspecialchars($projects->getProgectTitle(), ENT_COMPAT | ENT_HTML5),
@@ -34,7 +32,6 @@ class SearchController extends AbstractController
                 'url' => $this->generateUrl('blog_post', ['slug' => $post->getSlug()]),
             ];
         }
-
         return $this->json($results);
     }
 }

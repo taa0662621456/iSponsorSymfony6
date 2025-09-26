@@ -2,9 +2,7 @@
 
 namespace App\Exception;
 
-use Exception;
-
-class DefaultPaymentMethodUnresolvedException extends Exception
+class DefaultPaymentMethodUnresolvedException extends \Exception
 {
     public function __construct()
     {

@@ -2,32 +2,15 @@
 
 namespace App\Service\Product;
 
+use Behat\Transliterator\Transliterator;
 
-final class ProductSlugGenerator
+final class ProductSlugGenerator implements SlugGeneratorInterface
 {
     public function generate(string $name): string
     {
-        // Manually replacing apostrophes since Transliterate started removing them at v1.2.
-
-        if (!class_exists(\Transliterator::class)) {
-            throw new \RuntimeException('Transliterate extension is not installed.');
-        }
-
+        // Manually replacing apostrophes since Transliterator started removing them at v1.2.
         $name = str_replace('\'', '-', $name);
 
-
-
-        $transliterate = \Transliterator::create('Any-Latin; Latin-ASCII');
-        return $transliterate->transliterate($name);
-
+        return Transliterator::transliterate($name);
     }
-
-    public function generateSlug(string $text): string
-    {
-        $text = strtolower($text);
-        $text = preg_replace('/[^a-z0-9\-]/', '-', $text); // Заменяем неподходящие символы
-        $text = preg_replace('/-+/', '-', $text);          // Убираем лишние дефисы
-        return trim($text, '-');                           // Убираем дефисы по краям
-    }
-
 }

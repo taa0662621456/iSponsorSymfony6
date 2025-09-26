@@ -1,36 +1,96 @@
 <?php
 
+
 namespace App\Entity\Vendor;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterTrait;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Repository\Vendor\VendorIbanRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Vendor\VendorIbanInterface;
+use App\Controller\ObjectCRUDsController;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[ORM\Table(name: 'vendor_iban')]
+#[ORM\Index(columns: ['slug'], name: 'vendor_iban_idx')]
 #[UniqueEntity('iban')]
-
-#[ORM\Entity]
-class VendorIban extends RootEntity implements ObjectInterface, VendorIbanInterface
+#[ORM\Entity(repositoryClass: VendorIbanRepository::class)]
+#
+#[\ApiPlatform\Metadata\ApiResource(
+    operations: [ new GetCollection(), new Get(), new Post(), new Put(), new Delete() ],
+    normalizationContext: ['groups' => ['read','list','item']],
+    denormalizationContext: ['groups' => ['write']]
+)]
+class VendorIban
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use TimestampFilterTrait;
+    use SearchFilterTrait;
+    use RelationFilterTrait;
 
-    #[ORM\Column(name: 'iban', nullable: true, options: ['default' => '0'])]
-    #[Assert\Iban(message: 'Номер счета должен иметь международный формат. Например, для Украины: UA85 3996 2200 0000 0260 0123 3566 1')]
-    private ?string $vendorIbanAccount = null;
+	#[ORM\Column(name: 'iban', nullable: true, options: ['default' => '0'])]
+	#[Assert\Iban(message: 'Номер счета должен иметь международный формат. Например, для Украины: UA85 3996 2200 0000 0260 0123 3566 1')]
+	private ?string $iban = null;
 
-    #[ORM\Column(name: 'expires_end', nullable: true, options: ['default' => '0'])]
-    private ?string $vendorIbanExpiresEnd = null;
+	#[ORM\Column(name: 'expires_end', nullable: true, options: ['default' => '0'])]
+	private ?string $expiresEnd = null;
 
-    #[ORM\Column(name: 'signature_code', type: 'smallint', options: ['default' => 0])]
-    private ?int $vendorIbanSignatureCode = 0;
+	#[ORM\Column(name: 'signature_code', type: 'smallint', options: ['default' => 0])]
+	private ?int $signatureCode = 0;
 
-    #[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: Vendor::class, orphanRemoval: true)]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+	#[ORM\OneToOne(inversedBy: 'vendorIban', targetEntity: Vendor::class, orphanRemoval: true)]
+	#[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     #[Ignore]
-    private Vendor $vendorIban;
+	private Vendor $vendorIbanVendor;
+
+    public function getIban(): ?string
+    {
+        return $this->iban;
+    }
+    public function setIban(?string $iban): void
+    {
+        $this->iban = $iban;
+    }
+
+    # OneToOne
+    public function getVendorIbanVendor(): Vendor
+    {
+        return $this->vendorIbanVendor;
+    }
+    public function setVendorIbanVendor(Vendor $iban): void
+    {
+     $this->vendorIbanVendor = $iban;
+    }
+
+    public function getExpiresEnd(): string
+	{
+		return $this->expiresEnd;
+	}
+    public function setExpiresEnd(string $expiresEnd): void
+	{
+		$this->expiresEnd = $expiresEnd;
+	}
+
+    public function getSignatureCode(): int
+	{
+		return $this->signatureCode;
+	}
+    public function setSignatureCode(int $signatureCode): void
+	{
+		$this->signatureCode = $signatureCode;
+	}
 }

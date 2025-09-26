@@ -2,20 +2,35 @@
 
 namespace App\Entity\Project;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use App\EntityInterface\Object\ObjectTitleInterface;
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\BaseTrait;
+
+use App\Entity\ObjectTrait;
 use App\Entity\ProjectLanguageTrait;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Project\ProjectTitleInterface;
+use App\Repository\Project\ProjectRepository;
+use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class ProjectEnGb extends RootEntity implements ObjectInterface, ObjectTitleInterface, ProjectTitleInterface
+#[ORM\Table(name: 'project_en_gb')]
+#[ORM\Index(columns: ['slug'], name: 'project_en_gb_idx')]
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+
+#[ApiFilter(SearchFilter::class, properties: [
+    "firstTitle" => "partial",
+    "lastTitle" => "partial",
+    "projectTitle" => "partial",
+    "projectSDesc" => "partial",
+    "projectDesc" => "partial",
+])]
+class ProjectEnGb
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
-
-
+    use BaseTrait;
+    use ObjectTrait;
     use ProjectLanguageTrait;
 }

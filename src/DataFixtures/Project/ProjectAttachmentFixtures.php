@@ -2,24 +2,26 @@
 
 namespace App\DataFixtures\Project;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Project\ProjectAttachment;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProjectAttachmentFixtures extends DataFixtures
+final class ProjectAttachmentFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $property = [
-            'firstTitle' => 'NA',
-            'lastTitle' => 'NA',
-        ];
+        $project = $this->getReference('project_1');
 
-        parent::load($manager, $property);
+        $attachment = new ProjectAttachment();
+        $attachment->setFilePath('files/green_energy.pdf');
+        $attachment->setProject($project);
+
+        $manager->persist($attachment);
+        $this->addReference('projectAttachment_1', $attachment);
+
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 12;
-    }
+    public static function getGroup(): string { return 'project'; }
+    public static function getPriority(): int { return 40; }
 }

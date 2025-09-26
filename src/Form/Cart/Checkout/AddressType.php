@@ -1,36 +1,33 @@
 <?php
 
+
 namespace App\Form\Cart\Checkout;
 
-use App\EntityInterface\Address\AddressInterface;
-use App\EntityInterface\Customer\CustomerInterface;
-use App\EntityInterface\Vendor\VendorInterface;
-use Webmozart\Assert\Assert;
+use App\Form\Customer\CustomerCheckoutGuestType;
+use App\Interface\Order\OrderInterface;
+use App\Interface\Vendor\VendorInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\AbstractType;
-use App\Form\Customer\CustomerCheckoutGuestType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\EntityInterface\Address\AddressComparatorInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use const E_USER_DEPRECATED;
+use Symfony\Component\Validator\Constraints\Valid;
+use Webmozart\Assert\Assert;
 
 final class AddressType extends AbstractType
 {
     private ?AddressComparatorInterface $addressComparator;
-
     protected string $dataClass;
 
     /** @var string[] */
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass = 'data_class', array $validationGroups = [], AddressComparatorInterface $addressComparator = null)
+    public function __construct(string $dataClass, array $validationGroups = [], ?AddressComparatorInterface $addressComparator = null)
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -41,13 +38,16 @@ final class AddressType extends AbstractType
                     'Not passing an $addressComparator to "%s" constructor is deprecated since Sylius 1.8 and will be impossible in Sylius 2.0.',
                     __CLASS__,
                 ),
-                E_USER_DEPRECATED,
+                \E_USER_DEPRECATED,
             );
         }
 
         $this->addressComparator = $addressComparator;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -71,15 +71,16 @@ final class AddressType extends AbstractType
                 $vendor = $order->getVendor();
 
                 $form
-                    ->add('shippingAddress', self::class, [
+                    ->add('shippingAddress', AddressType::class, [
                         'shippable' => true,
                         'constraints' => [new Valid()],
                         'channel' => $vendor,
                     ])
-                    ->add('billingAddress', self::class, [
+                    ->add('billingAddress', AddressType::class, [
                         'constraints' => [new Valid()],
                         'channel' => $vendor,
-                    ]);
+                    ])
+                ;
             })
             ->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $event): void {
                 $form = $event->getForm();
@@ -104,9 +105,9 @@ final class AddressType extends AbstractType
                 $resourceCustomer = $resource->getCustomer();
 
                 if (
-                    (null === $customer && null === $resourceCustomer)
-                    || (null !== $resourceCustomer && null === $resourceCustomer->getUser())
-                    || ($resourceCustomer !== $customer)
+                    (null === $customer && null === $resourceCustomer) ||
+                    (null !== $resourceCustomer && null === $resourceCustomer->getUser()) ||
+                    ($resourceCustomer !== $customer)
                 ) {
                     $form->add('customer', CustomerCheckoutGuestType::class, ['constraints' => [new Valid()]]);
                 }
@@ -135,7 +136,8 @@ final class AddressType extends AbstractType
                 }
 
                 $event->setData($orderData);
-            });
+            })
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -145,12 +147,13 @@ final class AddressType extends AbstractType
         $resolver
             ->setDefaults([
                 'customer' => null,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string
     {
-        return 'checkout_address';
+        return 'sylius_checkout_address';
     }
 
     private function areAddressesDifferent(?AddressInterface $firstAddress, ?AddressInterface $secondAddress): bool

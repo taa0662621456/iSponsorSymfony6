@@ -4,10 +4,11 @@ namespace App\Service;
 
 use Laminas\Stdlib\PriorityQueue;
 
+
 final class OrderProcessorCompositor
 {
     /**
-     * @var PriorityQueue
+     * @var PriorityQueue|OrderProcessorInterface[]
      *
      * @psalm-var PriorityQueue<OrderProcessorInterface>
      */

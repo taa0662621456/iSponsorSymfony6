@@ -2,26 +2,27 @@
 
 namespace App\DataFixtures\Project;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Project\ProjectReview;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProjectReviewFixtures extends DataFixtures
+final class ProjectReviewFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        $project = $this->getReference('project_1');
 
+        $review = new ProjectReview();
+        $review->setRating(5);
+        $review->setComment('Excellent initiative!');
+        $review->setProject($project);
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(),
-            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
-        ];
+        $manager->persist($review);
+        $this->addReference('projectReview_1', $review);
 
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 13;
-    }
+    public static function getGroup(): string { return 'project'; }
+    public static function getPriority(): int { return 60; }
 }

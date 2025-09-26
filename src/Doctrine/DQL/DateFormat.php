@@ -4,12 +4,10 @@
 namespace App\Doctrine\DQL;
 
 use Doctrine\ORM\Query\AST\ArithmeticExpression;
-use Doctrine\ORM\Query\AST\ASTException;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
 
 final class DateFormat extends FunctionNode
@@ -18,33 +16,18 @@ final class DateFormat extends FunctionNode
 
     public ?Node $pattern = null;
 
-    public function parse(Parser $parser): void
+    public function parse(Parser $parser)
     {
-        try {
-            $parser->match(Lexer::T_IDENTIFIER);
-        } catch (QueryException $e) {
-        }
-        try {
-            $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        } catch (QueryException $e) {
-        }
+        $parser->match(Lexer::T_IDENTIFIER);
+        $parser->match(Lexer::T_OPEN_PARENTHESIS);
         $this->date = $parser->ArithmeticExpression();
-        try {
-            $parser->match(Lexer::T_COMMA);
-        } catch (QueryException $e) {
-        }
+        $parser->match(Lexer::T_COMMA);
         $this->pattern = $parser->StringPrimary();
-        try {
-            $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-        } catch (QueryException $e) {
-        }
+        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
-    public function getSql(SqlWalker $sqlWalker): string
+    public function getSql(SqlWalker $sqlWalker)
     {
-        try {
-            return sprintf('DATE_FORMAT(%s, %s)', $this->date->dispatch($sqlWalker), $this->pattern->dispatch($sqlWalker));
-        } catch (ASTException $e) {
-        }
+        return sprintf('DATE_FORMAT(%s, %s)', $this->date->dispatch($sqlWalker), $this->pattern->dispatch($sqlWalker));
     }
 }

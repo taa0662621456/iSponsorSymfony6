@@ -2,25 +2,13 @@
 
 namespace App\Controller;
 
-use App\EntityInterface\Promotion\PromotionCouponGeneratorInterface;
+use App\Form\PromotionCouponGeneratorInstructionType;
+use App\Interface\PromotionCouponGeneratorInterface;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use App\Form\PromotionCouponGeneratorInstructionType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-/**
- * class CouponController
- *
- * Базовый контролер
- * @return void
- * @property $container
- * @property $metadata
- * @property $redirectHandler
- * @property $flashHelper
- * @property $getApplication
- * @property $requestConfigurationFactory
- */
 class CouponController
 {
     /**
@@ -48,9 +36,9 @@ class CouponController
             return $this->redirectHandler->redirectToResource($configuration, $promotion);
         }
 
-        //        if (!$configuration->isHtmlRequest()) {
-        //            return $this->viewHandler->handle($configuration, View::create($form));
-        //        }
+//        if (!$configuration->isHtmlRequest()) {
+//            return $this->viewHandler->handle($configuration, View::create($form));
+//        }
 
         return $this->render(
             $configuration->getTemplate('generate.html'),

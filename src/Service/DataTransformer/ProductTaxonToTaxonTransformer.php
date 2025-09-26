@@ -1,18 +1,22 @@
 <?php
 
+
 namespace App\Service\DataTransformer;
 
-use App\EntityInterface\Product\ProductInterface;
-use Composer\Repository\RepositoryInterface;
+
+
+
+
+
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 final class ProductTaxonToTaxonTransformer implements DataTransformerInterface
 {
     public function __construct(
-        private readonly FactoryInterface    $productTaxonFactory,
-        private readonly RepositoryInterface $productTaxonRepository,
-        private ProductInterface             $product,
+        private FactoryInterface $productTaxonFactory,
+        private RepositoryInterface $productTaxonRepository,
+        private ProductInterface $product,
     ) {
     }
 
@@ -54,7 +58,13 @@ final class ProductTaxonToTaxonTransformer implements DataTransformerInterface
     private function assertTransformationValueType($value, string $expectedType): void
     {
         if (!($value instanceof $expectedType)) {
-            throw new TransformationFailedException(sprintf('Expected "%s", but got "%s"', $expectedType, get_debug_type($value)));
+            throw new TransformationFailedException(
+                sprintf(
+                    'Expected "%s", but got "%s"',
+                    $expectedType,
+                    get_debug_type($value),
+                ),
+            );
         }
     }
 }

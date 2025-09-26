@@ -1,365 +1,299 @@
 <?php
 
+
 namespace App\Entity\Order;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use App\Entity\Vendor\Vendor;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\PriceFilterTrait;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\SlugTitleFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 use App\Entity\Product\Product;
+use App\Entity\Vendor\Vendor;
+use App\Repository\Order\OrderRepository;
+use Doctrine\DBAL\Types\TextType;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Order\OrderItemInterface;
+use App\Controller\ObjectCRUDsController;
+use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity]
-class OrderItem extends RootEntity implements ObjectInterface, OrderItemInterface
+#[ORM\Table(name: 'order_item')]
+#[ORM\Index(columns: ['slug'], name: 'order_item_idx')]
+#[ORM\Entity(repositoryClass: OrderRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class OrderItem
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
-
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use TimestampFilterTrait;
+    use RelationFilterTrait;
+    use PriceFilterTrait;
 
     #[ORM\Column(name: 'item_id', nullable: true)]
-    private ?int $orderItemId = null;
+    private ?int $itemId = null;
 
     #[ORM\Column(name: 'item_sku', type: 'integer', nullable: false, options: ['default' => 1])]
-    private int $orderItemSku = 1;
+    private int $itemSku = 1;
 
     #[ORM\Column(name: 'item_name', type: 'string', nullable: false, options: ['default' => ''])]
-    private string $orderItemName = 'item_name';
+    private string $itemName = 'item_name';
 
     #[ORM\Column(name: 'item_quantity', type: 'integer', nullable: false, options: ['default' => 1])]
-    private int $orderItemQuantity = 1;
+    private int $itemQuantity = 1;
 
     #[ORM\Column(name: 'item_price', type: 'decimal', precision: 7, scale: 2, nullable: true)]
-    private ?string $orderItemPrice = null;
+    private ?int $itemPrice = null;
 
     #[ORM\Column(name: 'item_price_without_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
-    private ?string $orderItemPriceWithoutTax = null;
+    private ?int $itemPriceWithoutTax = null;
 
     #[ORM\Column(name: 'item_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
-    private ?string $orderItemTax = null;
+    private ?int $itemTax = null;
 
     #[ORM\Column(name: 'item_base_price_with_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
-    private ?string $orderItemBasePriceWithTax = null;
+    private ?int $itemBasePriceWithTax = null;
 
     #[ORM\Column(name: 'item_discounted_price_without_tax', type: 'decimal', precision: 7, scale: 2, nullable: true)]
-    private ?string $orderItemDiscountedPriceWithoutTax = null;
+    private ?int $itemDiscountedPriceWithoutTax = null;
 
     #[ORM\Column(name: 'item_final_price', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
-    private ?string $orderItemFinalPrice = '0.00000';
+    private string $itemFinalPrice = '0.00000';
 
     #[ORM\Column(name: 'item_subtotal_discount', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
-    private ?string $orderItemSubtotalDiscount = '0.00000';
+    private string $itemSubtotalDiscount = '0.00000';
 
     #[ORM\Column(name: 'item_subtotal_with_tax', type: 'decimal', precision: 7, scale: 2, nullable: false, options: ['default' => '0.00000'])]
-    private ?string $orderItemSubtotalWithTax = '0.00000';
+    private string $itemSubtotalWithTax = '0.00000';
 
     #[ORM\Column(name: 'item_order_currency', nullable: true)]
-    private ?int $orderItemOrderCurrency = null;
+    private ?int $itemOrderCurrency = null;
 
     #[ORM\Column(name: 'item_attribute', nullable: true)]
-    private ?string $orderItemAttribute = null;
+    private ?string $itemAttribute = null;
 
     #[ORM\Column(name: 'item_hash', nullable: true)]
-    private ?string $orderItemHash;
+    private ?string $itemHash = null;
 
-    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorOrderItem')]
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'vendorItem')]
     #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private Vendor $orderItemVendor;
+    private Vendor $orderItemsVendor;
 
     #[ORM\ManyToOne(targetEntity: OrderStorage::class, inversedBy: 'orderItem')]
-    private OrderStorage $orderItemStorage;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?OrderStorage $orderItem = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productOrdered')]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
-    private Product $orderItemOrdered;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Product $productOrdered = null;
 
-    /**
-     * @return int|null
-     */
-    public function getOrderItemId(): ?int
+    public function __construct()
     {
-        return $this->orderItemId;
-    }
+        $t = new \DateTimeImmutable();
+        $this->slug = (string)Uuid::v4();
 
-    /**
-     * @param int|null $orderItemId
-     */
-    public function setOrderItemId(?int $orderItemId): void
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
+        $this->published = true;
+    }
+    #
+    public function getItemId(): ?int
     {
-        $this->orderItemId = $orderItemId;
+        return $this->itemId;
     }
-
-    /**
-     * @return int
-     */
-    public function getOrderItemSku(): int
+    public function setItemId(?int $itemId): void
     {
-        return $this->orderItemSku;
+        $this->itemId = $itemId;
     }
-
-    /**
-     * @param int $orderItemSku
-     */
-    public function setOrderItemSku(int $orderItemSku): void
+    #
+    public function getItemSku(): int
     {
-        $this->orderItemSku = $orderItemSku;
+     return $this->itemSku;
     }
-
-    /**
-     * @return string
-     */
-    public function getOrderItemName(): string
+    public function setItemSku(?int $itemSku): void
     {
-        return $this->orderItemName;
+     $this->itemSku = $itemSku;
     }
-
-    /**
-     * @param string $orderItemName
-     */
-    public function setOrderItemName(string $orderItemName): void
+    #
+    public function getItemName(): string
     {
-        $this->orderItemName = $orderItemName;
+     return $this->itemName;
     }
-
-    /**
-     * @return int
-     */
-    public function getOrderItemQuantity(): int
+    public function setItemName(?string $itemName): void
     {
-        return $this->orderItemQuantity;
+     $this->itemName = $itemName;
     }
-
-    /**
-     * @param int $orderItemQuantity
-     */
-    public function setOrderItemQuantity(int $orderItemQuantity): void
+    #
+    public function getItemQuantity(): ?int
     {
-        $this->orderItemQuantity = $orderItemQuantity;
+     return $this->itemQuantity;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemPrice(): ?string
+    public function setItemQuantity(?int $itemQuantity): void
     {
-        return $this->orderItemPrice;
+     $this->itemQuantity = $itemQuantity;
     }
-
-    /**
-     * @param string|null $orderItemPrice
-     */
-    public function setOrderItemPrice(?string $orderItemPrice): void
+    #
+    public function getItemPrice(): ?int
     {
-        $this->orderItemPrice = $orderItemPrice;
+     return $this->itemPrice;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemPriceWithoutTax(): ?string
+    public function setItemPrice($itemPrice): void
     {
-        return $this->orderItemPriceWithoutTax;
+     $this->itemPrice = $itemPrice;
     }
-
-    /**
-     * @param string|null $orderItemPriceWithoutTax
-     */
-    public function setOrderItemPriceWithoutTax(?string $orderItemPriceWithoutTax): void
+    #
+    public function getItemPriceWithoutTax(): ?int
     {
-        $this->orderItemPriceWithoutTax = $orderItemPriceWithoutTax;
+     return $this->itemPriceWithoutTax;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemTax(): ?string
+    public function setItemPriceWithoutTax($itemPriceWithoutTax): void
     {
-        return $this->orderItemTax;
+     $this->itemPriceWithoutTax = $itemPriceWithoutTax;
     }
-
-    /**
-     * @param string|null $orderItemTax
-     */
-    public function setOrderItemTax(?string $orderItemTax): void
+    #
+    public function getItemTax(): ?int
     {
-        $this->orderItemTax = $orderItemTax;
+     return $this->itemTax;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemBasePriceWithTax(): ?string
+    public function setItemTax($itemTax): void
     {
-        return $this->orderItemBasePriceWithTax;
+     $this->itemTax = $itemTax;
     }
-
-    /**
-     * @param string|null $orderItemBasePriceWithTax
-     */
-    public function setOrderItemBasePriceWithTax(?string $orderItemBasePriceWithTax): void
+    #
+    public function getItemBasePriceWithTax(): ?int
     {
-        $this->orderItemBasePriceWithTax = $orderItemBasePriceWithTax;
+     return $this->itemBasePriceWithTax;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemDiscountedPriceWithoutTax(): ?string
+    public function setItemBasePriceWithTax($itemBasePriceWithTax): void
     {
-        return $this->orderItemDiscountedPriceWithoutTax;
+     $this->itemBasePriceWithTax = $itemBasePriceWithTax;
     }
-
-    /**
-     * @param string|null $orderItemDiscountedPriceWithoutTax
-     */
-    public function setOrderItemDiscountedPriceWithoutTax(?string $orderItemDiscountedPriceWithoutTax): void
+    #
+    public function getItemDiscountedPriceWithoutTax(): ?int
     {
-        $this->orderItemDiscountedPriceWithoutTax = $orderItemDiscountedPriceWithoutTax;
+     return $this->itemDiscountedPriceWithoutTax;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemFinalPrice(): ?string
+    public function setItemDiscountedPriceWithoutTax($itemDiscountedPriceWithoutTax): void
     {
-        return $this->orderItemFinalPrice;
+     $this->itemDiscountedPriceWithoutTax = $itemDiscountedPriceWithoutTax;
     }
-
-    /**
-     * @param string|null $orderItemFinalPrice
-     */
-    public function setOrderItemFinalPrice(?string $orderItemFinalPrice): void
+    #
+    public function getItemFinalPrice(): string
     {
-        $this->orderItemFinalPrice = $orderItemFinalPrice;
+     return $this->itemFinalPrice;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemSubtotalDiscount(): ?string
+    public function setItemFinalPrice($itemFinalPrice): void
     {
-        return $this->orderItemSubtotalDiscount;
+     $this->itemFinalPrice = $itemFinalPrice;
     }
-
-    /**
-     * @param string|null $orderItemSubtotalDiscount
-     */
-    public function setOrderItemSubtotalDiscount(?string $orderItemSubtotalDiscount): void
+    #
+    public function getItemSubtotalDiscount(): string
     {
-        $this->orderItemSubtotalDiscount = $orderItemSubtotalDiscount;
+     return $this->itemSubtotalDiscount;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemSubtotalWithTax(): ?string
+    public function setItemSubtotalDiscount($itemSubtotalDiscount): void
     {
-        return $this->orderItemSubtotalWithTax;
+     $this->itemSubtotalDiscount = $itemSubtotalDiscount;
     }
-
-    /**
-     * @param string|null $orderItemSubtotalWithTax
-     */
-    public function setOrderItemSubtotalWithTax(?string $orderItemSubtotalWithTax): void
+    #
+    public function getItemSubtotalWithTax(): string
     {
-        $this->orderItemSubtotalWithTax = $orderItemSubtotalWithTax;
+     return $this->itemSubtotalWithTax;
     }
-
-    /**
-     * @return int|null
-     */
-    public function getOrderItemOrderCurrency(): ?int
+    public function setItemSubtotalWithTax($itemSubtotalWithTax): void
     {
-        return $this->orderItemOrderCurrency;
+     $this->itemSubtotalWithTax = $itemSubtotalWithTax;
     }
-
-    /**
-     * @param int|null $orderItemOrderCurrency
-     */
-    public function setOrderItemOrderCurrency(?int $orderItemOrderCurrency): void
+    #
+    public function getItemOrderCurrency(): ?int
     {
-        $this->orderItemOrderCurrency = $orderItemOrderCurrency;
+     return $this->itemOrderCurrency;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemAttribute(): ?string
+    public function setItemOrderCurrency(?int $itemOrderCurrency): void
     {
-        return $this->orderItemAttribute;
+     $this->itemOrderCurrency = $itemOrderCurrency;
     }
-
-    /**
-     * @param string|null $orderItemAttribute
-     */
-    public function setOrderItemAttribute(?string $orderItemAttribute): void
+    #
+    public function getItemAttribute(): string
     {
-        $this->orderItemAttribute = $orderItemAttribute;
+     return $this->itemAttribute;
     }
-
-    /**
-     * @return string|null
-     */
-    public function getOrderItemHash(): ?string
+    public function setItemAttribute(?TextType $itemAttribute): void
     {
-        return $this->orderItemHash;
+        $this->itemAttribute = $itemAttribute;
     }
-
-    /**
-     * @param string|null $orderItemHash
-     */
-    public function setOrderItemHash(?string $orderItemHash): void
+    #
+    public function getItemHash(): ?string
     {
-        $this->orderItemHash = $orderItemHash;
+        return $this->itemHash;
     }
-
-    /**
-     * @return Vendor
-     */
-    public function getOrderItemVendor(): Vendor
+    public function setItemHash(?string $itemHash): void
     {
-        return $this->orderItemVendor;
+        $this->itemHash = $itemHash;
     }
-
-    /**
-     * @param Vendor $orderItemVendor
-     */
-    public function setOrderItemVendor(Vendor $orderItemVendor): void
+    # ManyToOne
+    public function getOrderItemsVendor(): Vendor
     {
-        $this->orderItemVendor = $orderItemVendor;
+        return $this->orderItemsVendor;
     }
-
-    /**
-     * @return OrderStorage
-     */
-    public function getOrderItemStorage(): OrderStorage
+    public function setOrderItemsVendor(Vendor $orderItemsVendor): void
     {
-        return $this->orderItemStorage;
+        $this->orderItemsVendor = $orderItemsVendor;
     }
-
-    /**
-     * @param OrderStorage $orderItemStorage
-     */
-    public function setOrderItemStorage(OrderStorage $orderItemStorage): void
+    # ManyToOne
+    public function getOrderItem(): OrderStorage
     {
-        $this->orderItemStorage = $orderItemStorage;
+        return $this->orderItem;
     }
-
-    /**
-     * @return Product
-     */
-    public function getOrderItemOrdered(): Product
+    public function setOrderItem(OrderStorage $orderItem): void
     {
-        return $this->orderItemOrdered;
+        $this->orderItem = $orderItem;
     }
-
-    /**
-     * @param Product $orderItemOrdered
-     */
-    public function setOrderItemOrdered(Product $orderItemOrdered): void
+    # ManyToOne
+    public function getProductOrdered(): Product
     {
-        $this->orderItemOrdered = $orderItemOrdered;
+        return $this->productOrdered;
     }
-
-
+    public function setProductOrdered(Product $productOrdered): void
+    {
+        $this->productOrdered = $productOrdered;
+    }
 }

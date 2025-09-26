@@ -1,8 +1,10 @@
 <?php
 
+
 namespace App\Form\Promotion\Action;
 
-use App\EntityInterface\Vendor\VendorInterface;
+
+use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

@@ -1,16 +1,18 @@
 <?php
 
+
 namespace App\Tests\Api\Admin;
 
 use Sylius\Tests\Api\JsonApiTestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Sylius\Tests\Api\Utils\AdminUserLoginTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 final class PromotionTest extends JsonApiTestCase
 {
     use AdminUserLoginTrait;
 
-    public function testItCreatesPromotion(): void
+    /** @test */
+    public function it_creates_promotion(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml']);
         $header = $this->getLoggedHeader();
@@ -26,7 +28,7 @@ final class PromotionTest extends JsonApiTestCase
                 'code' => 'tshirts_discount',
                 'appliesToDiscounted' => false,
 
-            ], \JSON_THROW_ON_ERROR)
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -40,7 +42,7 @@ final class PromotionTest extends JsonApiTestCase
     {
         $token = $this->logInAdminUser('api@example.com');
         $authorizationHeader = self::$kernel->getContainer()->getParameter('api.authorization_header');
-        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
+        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
 
         return array_merge($header, self::CONTENT_TYPE_HEADER);
     }

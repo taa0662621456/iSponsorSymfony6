@@ -1,19 +1,13 @@
 <?php
 
+
 namespace App\Repository\Product;
 
-use App\Repository\EntityRepository;
-use App\Entity\Product\ProductTaxation;
+use App\Interface\Product\ProductTaxationInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use App\EntityInterface\Product\ProductTaxationInterface;
 
-/**
- * @method ProductTaxation|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductTaxation|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductTaxation[]    findAll()
- * @method ProductTaxation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class ProductTaxationRepository extends EntityRepository implements ProductTaxationInterface
+class ProductTaxationRepository extends EntityRepository
 {
     /**
      * @throws NonUniqueResultException
@@ -28,6 +22,7 @@ class ProductTaxationRepository extends EntityRepository implements ProductTaxat
             ->andWhere('tax.code = :taxCode')
             ->setParameter('taxCode', $taxCode)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

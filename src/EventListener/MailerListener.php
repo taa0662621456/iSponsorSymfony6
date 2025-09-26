@@ -2,11 +2,8 @@
 
 namespace App\EventListener;
 
-use App\Event\EmailEvent;
-use Webmozart\Assert\Assert;
 use Symfony\Component\EventDispatcher\GenericEvent;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Messenger\Transport\Sender\SenderInterface;
+use Webmozart\Assert\Assert;
 
 class MailerListener
 {
@@ -16,17 +13,17 @@ class MailerListener
 
     public function sendResetPasswordTokenEmail(GenericEvent $event): void
     {
-        $this->sendEmail($event->getSubject(), EmailEvent::EMAIL_RESET_PASSWORD_TOKEN);
+        $this->sendEmail($event->getSubject(), Emails::RESET_PASSWORD_TOKEN);
     }
 
     public function sendResetPasswordPinEmail(GenericEvent $event): void
     {
-        $this->sendEmail($event->getSubject(), EmailEvent::EMAIL_RESET_PASSWORD_PIN);
+        $this->sendEmail($event->getSubject(), Emails::RESET_PASSWORD_PIN);
     }
 
     public function sendVerificationTokenEmail(GenericEvent $event): void
     {
-        $this->sendEmail($event->getSubject(), EmailEvent::EMAIL_VERIFICATION_TOKEN);
+        $this->sendEmail($event->getSubject(), Emails::EMAIL_VERIFICATION_TOKEN);
     }
 
     protected function sendEmail(UserInterface $user, string $emailCode): void

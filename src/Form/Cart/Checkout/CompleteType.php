@@ -3,8 +3,8 @@
 namespace App\Form\Cart\Checkout;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 final class CompleteType extends AbstractType
 {
@@ -14,14 +14,15 @@ final class CompleteType extends AbstractType
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass = 'data_class', array $validationGroups = [])
+    public function __construct(string $dataClass, array $validationGroups = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
     }
+
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

@@ -2,26 +2,26 @@
 
 namespace App\DataFixtures\Category;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Category\CategoryAttachment;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class CategoryAttachmentFixtures extends DataFixtures
+final class CategoryAttachmentFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        $category = $this->getReference('category_0'); // Electronics
 
+        $att = new CategoryAttachment();
+        $att->setFilePath('images/category_electronics.png');
+        $att->setCategory($category);
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(),
-            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
-        ];
+        $manager->persist($att);
+        $this->addReference('categoryAttachment_1', $att);
 
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 8;
-    }
+    public static function getGroup(): string { return 'category'; }
+    public static function getPriority(): int { return 20; }
 }

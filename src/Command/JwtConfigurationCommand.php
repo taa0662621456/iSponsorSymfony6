@@ -2,35 +2,28 @@
 
 namespace App\Command;
 
-use Webmozart\Assert\Assert;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\HelperInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Webmozart\Assert\Assert;
 
 final class JwtConfigurationCommand extends Command
 {
     protected static $defaultName = 'install:jwt-setup';
-
-    private mixed $commandExecutor;
-
-    public function __construct($commandExecutor = [])
-    {
-        parent::__construct();
-        $this->commandExecutor = $commandExecutor;
-    }
 
     protected function configure(): void
     {
         $this
             ->setDescription('Setup JWT token')
             ->setHelp(
-                <<<'EOT'
+                <<<EOT
 The <info>%command.name%</info> command generates JWT token.
 EOT
-            );
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -50,6 +43,7 @@ EOT
         $this->commandExecutor->runCommand('lexik:jwt:generate-keypair', ['--overwrite' => true], $output);
 
         $output->writeln('Please, remember to enable Platform API');
+        $output->writeln('https://docs.sylius.com/en/1.10/book/api/introduction.html');
 
         return 0;
     }

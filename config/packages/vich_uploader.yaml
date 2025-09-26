@@ -4,57 +4,57 @@ vich_uploader:
     metadata:
         type: attribute
 
-# deprecated. Us #[AsDoctrineListener] attribute
-#    mappings:
-#        product:
-#            uri_prefix: /upload/product/image
-#            upload_destination: '%kernel.project_dir%/public/upload/product/image'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#        project:
-#            uri_prefix: /upload/project/image
-#            upload_destination: '%kernel.project_dir%/public/upload/project/image'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#        category:
-#            uri_prefix: /upload/category/image
-#            upload_destination: '%kernel.project_dir%/public/upload/category/image'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#        vendor:
-#            uri_prefix: /upload/vendor/image
-#            upload_destination: '%kernel.project_dir%/public/upload/vendor/image'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#
-#        attachment:
-#            uri_prefix: /upload/
-#            upload_destination: '%kernel.project_dir%/public/upload'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#
-#        thumbnail:
-#            uri_prefix: /upload/vendor/thumbnail
-#            upload_destination: '%kernel.project_dir%/public/upload/vendor/thumbnail'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#
-#        thumbnailFile:
-#            uri_prefix: /upload/vendor/thumbnailfile
-#            upload_destination: '%kernel.project_dir%/public/upload/vendor/thumbnailfile'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
-#
-#        event:
-#            uri_prefix: /upload/event/image
-#            upload_destination: '%kernel.project_dir%/public/upload/event/image'
-#            inject_on_load: false
-#            delete_on_update: true
-#            delete_on_remove: true
+
+    mappings:
+        product:
+            uri_prefix: /upload/product/image
+            upload_destination: '%kernel.project_dir%/public/upload/product/image'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        project:
+            uri_prefix: /upload/project/image
+            upload_destination: '%kernel.project_dir%/public/upload/project/image'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        category:
+            uri_prefix: /upload/category/image
+            upload_destination: '%kernel.project_dir%/public/upload/category/image'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        vendor:
+            uri_prefix: /upload/vendor/image
+            upload_destination: '%kernel.project_dir%/public/upload/vendor/image'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        attachment:
+            uri_prefix: /upload/
+            upload_destination: '%kernel.project_dir%/public/upload'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        thumbnail:
+            uri_prefix: /upload/vendor/thumbnail
+            upload_destination: '%kernel.project_dir%/public/upload/vendor/thumbnail'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        thumbnailFile:
+            uri_prefix: /upload/vendor/thumbnailfile
+            upload_destination: '%kernel.project_dir%/public/upload/vendor/thumbnailfile'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        event:
+            uri_prefix: /upload/event/image
+            upload_destination: '%kernel.project_dir%/public/upload/event/image'
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

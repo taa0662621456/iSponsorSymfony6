@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Repository\Address;
 
-use App\Entity\Address\Address;
-use App\Repository\EntityRepository;
+namespace App\Repository;
+
+
+
+
+
+use App\Interface\CustomerInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use App\EntityInterface\Address\AddressInterface;
-use App\EntityInterface\Customer\CustomerInterface;
-use App\EntityInterface\Address\AddressRepositoryInterface;
 
-/**
- * @method Address|null find($id, $lockMode = null, $lockVersion = null)
- * @method Address|null findOneBy(array $criteria, array $orderBy = null)
- * @method Address[]    findAll()
- * @method Address[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class AddressRepository extends EntityRepository implements AddressRepositoryInterface
+class AddressRepository extends EntityRepository
 {
     public function findByCustomer(CustomerInterface $customer): array
     {
@@ -24,7 +20,8 @@ class AddressRepository extends EntityRepository implements AddressRepositoryInt
             ->andWhere('customer = :customer')
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     /**
@@ -39,6 +36,7 @@ class AddressRepository extends EntityRepository implements AddressRepositoryInt
             ->setParameter('id', $id)
             ->setParameter('customer', $customer)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

@@ -2,22 +2,26 @@
 
 namespace App\Entity\Event;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Event\EventInterface;
+use App\Controller\ObjectCRUDsController;
+use Symfony\Component\Uid\Uuid;
 
+#[ORM\Table(name: 'event')]
 #[ORM\Index(columns: ['start_date', 'end_date'], name: 'event_idx_period')]
 #[ORM\Index(columns: ['type'], name: 'event_idx_type')]
+#[ORM\Index(columns: ['published'], name: 'event_idx_published')]
 #[ORM\Index(columns: ['cat_id'], name: 'event_idx_cat_id')]
 #[ORM\Entity]
-
-class Event extends RootEntity implements ObjectInterface, EventInterface
+#
+#[ApiResource(mercure: true)]
+class Event
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
-
+    use BaseTrait;
+    use ObjectTrait;
 
     #[ORM\Column(name: 'parent', type: 'integer', nullable: false, options: ['comment' => 'parent for recurring event'])]
     private int $parent;
@@ -84,10 +88,21 @@ class Event extends RootEntity implements ObjectInterface, EventInterface
 
     #[ORM\Column(name: 'all_day', type: 'boolean', nullable: false)]
     private int|bool $allDay = 0;
-
     #[ORM\Column(name: 'repeat', length: 50, options: ['comment' => 'null,daily,weekly,monthly'])]
     private ?string $repeat = null;
 
     #[ORM\Column(name: 'repeat_end', type: 'string', nullable: false)]
     private string $repeatEnd;
+
+    public function __construct()
+    {
+        $t = new \DateTimeImmutable();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
+        $this->published = true;
+    }
 }

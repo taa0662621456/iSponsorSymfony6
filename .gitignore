@@ -1,85 +1,94 @@
-composer.lock
-yarn.lock
-symfony.lock
-package-lock.json
-composer.phar
-none
+Command/refactor_commands.patch
+# ----------------------------------------
+# Composer / PHP dependencies
+# ----------------------------------------
+/vendor/                # Composer packages
+/composer.phar          # Локальный бинарь
+# временные и dev-файлы
+.idea/
+node_modules/
+var/
+vendor/
+
+# патчи
+*.patch
+# composer.lock лучше хранить в репо (для CI/CD), поэтому не игнорим
+
+# ----------------------------------------
+# Node / Frontend dependencies
+# ----------------------------------------
+/node_modules/          # Node packages
+npm-debug.log
+yarn-error.log
+# lock-файлы обычно хранят, чтобы фиксировать версии:
+# yarn.lock
+# package-lock.json
+
+# Webpack Encore
+/public/build/          # Собранные ассеты
+
+# ----------------------------------------
+# Symfony specific
+# ----------------------------------------
+/var/                   # Symfony cache & logs
+!/var/.gitkeep          # оставляем заглушку для пустой папки
+
+# Secrets
 /config/secrets/dev/dev.decrypt.private.php
-.php_cs.cache
-
 /config/secrets/prod/*
-/.idea
-/.idea/*
+/config/jwt/*.pem       # JWT private/public keys
 
-**/log
-**/logs
-**/log/
-**/logs/
-
-/bootstrap-4.0.0/*
-#
+# Env files
+/.env.local
+/.env.local.php
+/.env.*.local
 /.env.prod
 /.env.prod.php
 /.env.*.prod
-#
-/.env.local
-/.env.local.php
-/.env.*.local
-#
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/ver/*
-#
-/vendor
-/vendor/
-/verdor/*
-#
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
 
-###> liip/imagine-bundle ###
-/public/media/cache/
-###< liip/imagine-bundle ###
+# ----------------------------------------
+# PHPUnit / Testing
+# ----------------------------------------
+/.phpunit.result.cache
+/phpunit.xml
+/phpunit.xml.dist.bak
 
-###> baldinof/roadrunner-bundle ###
+# ----------------------------------------
+# PHP CS Fixer
+# ----------------------------------------
+.php-cs-fixer.cache
+.php_cs.cache
+# конфиг (.php-cs-fixer.php) лучше хранить в репо
+
+# ----------------------------------------
+# IDE / Editors
+# ----------------------------------------
+.idea/                  # PhpStorm / JetBrains
+*.iml                   # IntelliJ project files
+*.stackdump             # Windows stack dumps
+*.swp                   # Vim swap
+*.swo
+
+# ----------------------------------------
+# Bundles / Assets
+# ----------------------------------------
+/public/bundles/        # Symfony assets
+/public/media/cache/    # LiipImagineBundle cache
+
+# Bootstrap (если качаешь руками)
+/templates/bootstrap-4.0.0/
+/templates/bootstrap-5.1.3/
+
+# ----------------------------------------
+# RoadRunner
+# ----------------------------------------
 /bin/rr
-###< baldinof/roadrunner-bundle ###
-/config/secrets/prod/
 
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-
-###> lexik/jwt-authentication-bundle ###
-/config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
-
-/.env
-/helm/api-platform/charts/*
-!/helm/api-platform/charts/.gitignore
-
-###> friendsofphp/php-cs-fixer ###
-/.php-cs-fixer.php
-/.php-cs-fixer.cache
-###< friendsofphp/php-cs-fixer ###
-
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
-/var/
-/vendor/
-###< symfony/framework-bundle ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+# ----------------------------------------
+# Custom
+# ----------------------------------------
+/ver/                   # твои кастомные временные файлы
+/docs/                  # если документация не нужна в git (иначе убрать)
+/docker/postgres/
+/docker/pwa/
+/asset/fontawesome-pro/

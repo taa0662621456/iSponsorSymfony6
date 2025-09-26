@@ -4,9 +4,6 @@
 namespace App\Extension;
 
 
-use App\Form\Cart\CartType;
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,7 +26,7 @@ final class CartTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setNormalizer('validation_groups', fn (Options $options, array $validationGroups) => function (FormInterface $form) use ($validationGroups) {
-            if ($form->get('promotionCoupon')->getNormData()) { // Validate the coupon if it was sent
+            if ((bool) $form->get('promotionCoupon')->getNormData()) { // Validate the coupon if it was sent
                 $validationGroups[] = 'promotion_coupon';
             }
 

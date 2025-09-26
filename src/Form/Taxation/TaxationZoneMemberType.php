@@ -8,16 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TaxationZoneMemberType extends AbstractType
 {
-    protected string $dataClass = 'data_class';
+    protected string $dataClass;
 
     /** @var string[] */
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass = 'data_class', array $validationGroups = [])
+    public function __construct(string $dataClass, array $validationGroups = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -36,11 +36,13 @@ final class TaxationZoneMemberType extends AbstractType
                 'entry_options' => [],
                 'placeholder' => 'form.zone_member.select',
                 'data_class' => $this->dataClass,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string
     {
         return 'zone_member';
     }
+
 }

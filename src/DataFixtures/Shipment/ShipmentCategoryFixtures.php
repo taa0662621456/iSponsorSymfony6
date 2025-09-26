@@ -2,10 +2,23 @@
 
 namespace App\DataFixtures\Shipment;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Shipment\ShipmentCategory;
+use App\Service\BaseGroupedFixture;
+use Doctrine\Persistence\ObjectManager;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-
-final class ShipmentCategoryFixtures extends DataFixtures
+final class ShipmentCategoryFixtures extends BaseGroupedFixture
 {
+    public function load(ObjectManager $manager): void
+    {
+        $cat = new ShipmentCategory();
+        $cat->setName('Domestic');
+        $manager->persist($cat);
+        $this->addReference('shipmentCategory_domestic', $cat);
+
+        $manager->flush();
+    }
+
+    public static function getGroup(): string { return 'shipment'; }
+    public static function getPriority(): int { return 15; }
 }
+

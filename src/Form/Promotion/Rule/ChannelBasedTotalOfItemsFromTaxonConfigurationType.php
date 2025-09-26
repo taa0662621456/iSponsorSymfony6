@@ -1,9 +1,10 @@
 <?php
 
+
 namespace App\Form\Promotion\Rule;
 
+
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Notifier\Channel\ChannelInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ChannelBasedTotalOfItemsFromTaxonConfigurationType extends AbstractType

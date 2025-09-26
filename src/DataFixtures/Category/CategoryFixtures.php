@@ -2,18 +2,25 @@
 
 namespace App\DataFixtures\Category;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Category\Category;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class CategoryFixtures extends DataFixtures
+final class CategoryFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        parent::load($manager, $property);
+        foreach (['Electronics', 'Furniture', 'Books'] as $i => $name) {
+            $category = new Category();
+            $category->setName($name);
+
+            $manager->persist($category);
+            $this->addReference('category_' . $i, $category);
+        }
+
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 10;
-    }
+    public static function getGroup(): string { return 'category'; }
+    public static function getPriority(): int { return 10; }
 }

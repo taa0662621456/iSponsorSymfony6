@@ -2,15 +2,15 @@
 
 namespace App\Form\Cart\Checkout;
 
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class PaymentType extends AbstractType
 {
-    public function __construct(private readonly string $dataClass = 'data_class')
+    public function __construct(private readonly string $dataClass)
     {
     }
 

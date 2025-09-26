@@ -2,11 +2,7 @@
 
 namespace App\Service\Payment;
 
-use App\EntityInterface\Payment\PaymentInterface;
-use App\EntityInterface\Payment\PaymentMethodInterface;
-use App\RepositoryInterface\Payment\PaymentMethodRepositoryInterface;
-
-final class DefaultPaymentMethodResolver
+final class DefaultPaymentMethodResolver implements DefaultPaymentMethodResolverInterface
 {
     public function __construct(private readonly PaymentMethodRepositoryInterface $paymentMethodRepository)
     {

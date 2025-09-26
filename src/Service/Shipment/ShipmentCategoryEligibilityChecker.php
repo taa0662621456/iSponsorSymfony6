@@ -2,6 +2,7 @@
 
 namespace App\Service\Shipment;
 
+
 final class ShipmentCategoryEligibilityChecker
 {
     public const CATEGORY_REQUIREMENT_MATCH_NONE = 0;
@@ -18,9 +19,9 @@ final class ShipmentCategoryEligibilityChecker
 
         $numMatches = $numShippables = 0;
         foreach ($shippingSubject->getShippables() as $shippable) {
-            $numShippables++;
+            ++$numShippables;
             if ($category === $shippable->getShippingCategory()) {
-                $numMatches++;
+                ++$numMatches;
             }
         }
 

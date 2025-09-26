@@ -5,7 +5,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class LocalesTest extends JsonApiTestCase
 {
-    public function testItGetsLocalesAsLoggedInAdministrator(): void
+    /** @test */
+    public function it_gets_locales_as_logged_in_administrator(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'authentication/api_administrator.yaml']);
 
@@ -21,7 +22,7 @@ final class LocalesTest extends JsonApiTestCase
         $token = json_decode($this->client->getResponse()->getContent(), true)['token'];
         $authorizationHeader = self::$kernel->getContainer()->getParameter('api.authorization_header');
 
-        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
+        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
 
         $this->client->request(
             'GET',
@@ -36,7 +37,8 @@ final class LocalesTest extends JsonApiTestCase
         $this->assertResponse($response, 'admin/get_locales_response', Response::HTTP_OK);
     }
 
-    public function testItDeniesAccessToALocalesListForNotAuthenticatedUser(): void
+    /** @test */
+    public function it_denies_access_to_a_locales_list_for_not_authenticated_user(): void
     {
         $this->loadFixturesFromFiles(['channel.yaml', 'authentication/api_administrator.yaml']);
 

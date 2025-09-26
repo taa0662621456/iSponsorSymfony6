@@ -1,29 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\DataFixtures\Product;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Product\ProductTag;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProductTagFixtures extends DataFixtures
+final class ProductTagFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        foreach (['new', 'popular', 'discount'] as $tag) {
+            $pt = new ProductTag();
+            $pt->setName($tag);
 
+            $manager->persist($pt);
+            $this->addReference('productTag_' . $tag, $pt);
+        }
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(),
-            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
-        ];
-
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 20;
-    }
+    public static function getGroup(): string { return 'product'; }
+    public static function getPriority(): int { return 20; } // after type, before products
 }

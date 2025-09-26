@@ -13,7 +13,8 @@ class RemoveExpiredCartCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Removes carts that have been idle for a period set in `order.expiration.cart` configuration key.');
+            ->setDescription('Removes carts that have been idle for a period set in `order.expiration.cart` configuration key.')
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -21,7 +22,7 @@ class RemoveExpiredCartCommand extends Command
         $expirationTime = $this->getApplication()->get('order.cart_expiration_period');
         $output->writeln(sprintf(
             'Command will remove carts that have been idle for <info>%s</info>.',
-            $expirationTime,
+            (string) $expirationTime,
         ));
 
         $expiredCartsRemover = $this->getApplication()->get('expired_cart_remover');

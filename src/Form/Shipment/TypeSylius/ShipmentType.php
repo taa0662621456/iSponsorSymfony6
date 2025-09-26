@@ -1,11 +1,12 @@
 <?php
 
+
 namespace App\Form\Shipment\TypeSylius;
 
-use App\EntityInterface\Shipment\ShipmentInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 final class ShipmentType extends AbstractResourceType
 {
@@ -24,7 +25,8 @@ final class ShipmentType extends AbstractResourceType
             ->add('tracking', TextType::class, [
                 'label' => 'form.shipment.tracking_code',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

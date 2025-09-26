@@ -2,24 +2,12 @@
 
 namespace App\Repository\Product;
 
-use Doctrine\ORM\NonUniqueResultException;
+use App\Interface\Product\ProductInterface;
+use App\Interface\Taxation\TaxationInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
-use App\Entity\Product\Product;
-use App\Repository\EntityRepository;
-use App\EntityInterface\Taxation\TaxationInterface;
-use App\EntityInterface\Product\ProductVariantInterface;
-use App\EntityInterface\Product\ProductPropertyInterface;
-use App\EntityInterface\Promotion\PromotionCatalogInterface;
-use App\RepositoryInterface\Product\ProductVariantRepositoryInterface;
-
-/**
- * @method Product|null find($id, $lockMode = null, $lockVersion = null)
- * @method Product|null findOneBy(array $criteria, array $orderBy = null)
- * @method Product[]    findAll()
- * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class ProductVariantRepository extends EntityRepository implements ProductVariantRepositoryInterface
+class ProductVariantRepository extends EntityRepository
 {
     public function createQueryBuilderByProductId(string $locale, $productId): QueryBuilder
     {
@@ -28,7 +16,8 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->andWhere('translation.locale = :locale')
             ->andWhere('o.product = :productId')
             ->setParameter('locale', $locale)
-            ->setParameter('productId', $productId);
+            ->setParameter('productId', $productId)
+        ;
     }
 
     public function createQueryBuilderByProductCode(string $locale, string $productCode): QueryBuilder
@@ -39,7 +28,8 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->andWhere('translation.locale = :locale')
             ->andWhere('product.code = :productCode')
             ->setParameter('locale', $locale)
-            ->setParameter('productCode', $productCode);
+            ->setParameter('productCode', $productCode)
+        ;
     }
 
     public function findByName(string $name, string $locale): array
@@ -51,10 +41,11 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    public function findByNameAndProduct(string $name, string $locale, ProductPropertyInterface $product): array
+    public function findByNameAndProduct(string $name, string $locale, ProductInterface $product): array
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.translations', 'translation')
@@ -65,23 +56,21 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->setParameter('locale', $locale)
             ->setParameter('product', $product)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function findOneByCodeAndProductCode(string $code, string $productCode): ?ProductVariantInterface
     {
-        try {
-            return $this->createQueryBuilder('o')
-                ->innerJoin('o.product', 'product')
-                ->andWhere('product.code = :productCode')
-                ->andWhere('o.code = :code')
-                ->setParameter('productCode', $productCode)
-                ->setParameter('code', $code)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            throw $e;
-        }
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.product', 'product')
+            ->andWhere('product.code = :productCode')
+            ->andWhere('o.code = :code')
+            ->setParameter('productCode', $productCode)
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     public function findByCodesAndProductCode(array $codes, string $productCode): array
@@ -93,7 +82,8 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->setParameter('productCode', $productCode)
             ->setParameter('codes', $codes)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function findByCodes(array $codes): array
@@ -112,25 +102,20 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->andWhere('o.code IN (:codes)')
             ->setParameter('codes', $codes)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     */
     public function findOneByIdAndProductId($id, $productId): ?ProductVariantInterface
     {
-        try {
-            return $this->createQueryBuilder('o')
-                ->andWhere('o.product = :productId')
-                ->andWhere('o.id = :id')
-                ->setParameter('productId', $productId)
-                ->setParameter('id', $id)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            throw $e;
-        }
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.product = :productId')
+            ->andWhere('o.id = :id')
+            ->setParameter('productId', $productId)
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
     public function findByPhraseAndProductCode(string $phrase, string $locale, string $productCode): array
@@ -145,14 +130,15 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
                 'translation.name LIKE :phrase',
                 'o.code LIKE :phrase',
             ))
-            ->setParameter('phrase', '%'.$phrase.'%')
+            ->setParameter('phrase', '%' . $phrase . '%')
             ->setParameter('locale', $locale)
             ->setParameter('productCode', $productCode)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
-    public function findByPhrase(string $phrase, string $locale, int $limit = null): array
+    public function findByPhrase(string $phrase, string $locale, ?int $limit = null): array
     {
         $expr = $this->getEntityManager()->getExpressionBuilder();
 
@@ -162,13 +148,14 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
                 'translation.name LIKE :phrase',
                 'o.code LIKE :phrase',
             ))
-            ->setParameter('phrase', '%'.$phrase.'%')
+            ->setParameter('phrase', '%' . $phrase . '%')
             ->setParameter('locale', $locale)
             ->orderBy('o.product', 'ASC')
             ->addOrderBy('o.position', 'ASC')
             ->setMaxResults($limit)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function getCodesOfAllVariants(): array
@@ -176,7 +163,8 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
         return $this->createQueryBuilder('o')
             ->select('o.code')
             ->getQuery()
-            ->getArrayResult();
+            ->getArrayResult()
+        ;
     }
 
     public function createInventoryListQueryBuilder(string $locale): QueryBuilder
@@ -185,7 +173,8 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
             ->andWhere('o.tracked = :tracked')
             ->setParameter('locale', $locale)
-            ->setParameter('tracked', true);
+            ->setParameter('tracked', true)
+            ;
     }
 
     public function findByTaxon(TaxationInterface $taxon): array
@@ -197,18 +186,20 @@ class ProductVariantRepository extends EntityRepository implements ProductVarian
             ->andWhere('productTaxon.taxon = :taxon')
             ->setParameter('taxon', $taxon)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+            ;
     }
 
     public function createCatalogPromotionListQueryBuilder(
         string $locale,
-        PromotionCatalogInterface $catalogPromotion,
+        CatalogPromotionInterface $catalogPromotion,
     ): QueryBuilder {
         return $this->createQueryBuilder('o')
             ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
             ->leftJoin('o.channelPricings', 'channelPricing')
             ->innerJoin('channelPricing.appliedPromotions', 'appliedPromotion', 'WITH', 'appliedPromotion = :catalogPromotion')
             ->setParameter('catalogPromotion', $catalogPromotion)
-            ->setParameter('locale', $locale);
+            ->setParameter('locale', $locale)
+            ;
     }
 }

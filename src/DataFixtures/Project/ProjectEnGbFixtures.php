@@ -2,34 +2,27 @@
 
 namespace App\DataFixtures\Project;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Project\ProjectEnGb;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-final class ProjectEnGbFixtures extends DataFixtures
+final class ProjectEnGbFixtures extends BaseGroupedFixture
 {
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws Exception
-     */
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $this->titleFixtureEngine('data/ProjectDataFixtures/ProjectCharityDataFixtures.json');
-        $this->titleFixtureEngine('data/ProjectDataFixtures/ProjectSocialDataFixtures.json');
-        $this->titleFixtureEngine('data/ProjectDataFixtures/ProjectBusinessDataFixtures.json');
+        $project = $this->getReference('project_1');
 
-        parent::load($manager, $property);
+        $en = new ProjectEnGb();
+        $en->setFirstTitle('Green Energy Initiative');
+        $en->setProjectDesc('A project for renewable energy development');
+        $en->setProject($project);
+
+        $manager->persist($en);
+        $this->addReference('projectEnGb_1', $en);
+
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 16;
-    }
+    public static function getGroup(): string { return 'project'; }
+    public static function getPriority(): int { return 50; }
 }

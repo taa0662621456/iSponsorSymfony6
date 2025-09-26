@@ -2,18 +2,18 @@
 
 namespace App\Form\Payum;
 
+use Payum\Core\Model\GatewayConfigInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Payum\Core\Model\GatewayConfigInterface;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class GatewayConfigurationType extends AbstractResourceType
 {
     public function __construct(
-        string                                     $dataClass,
-        array                                      $validationGroups,
-        private readonly FormTypeRegistryInterface $gatewayConfigurationTypeRegistry,
+        string $dataClass,
+        array $validationGroups,
+        private FormTypeRegistryInterface $gatewayConfigurationTypeRegistry,
     ) {
         parent::__construct($dataClass, $validationGroups);
     }
@@ -44,7 +44,8 @@ final class GatewayConfigurationType extends AbstractResourceType
                     'label' => false,
                     'auto_initialize' => false,
                 ]);
-            });
+            })
+        ;
     }
 
     public function getBlockPrefix(): string

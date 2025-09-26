@@ -1,0 +1,27 @@
+framework:
+  rate_limiter:
+    anonymous_api:
+      policy: 'fixed_window'
+      limit: 10
+      interval: '1 minute'
+    two_factor:
+      policy: 'token_bucket'
+      limit: 5
+      rate: { interval: '1 minute', amount: 5 }
+      capacity: 10
+    sms:
+      policy: 'fixed_window'
+      limit: 3
+      interval: '5 minutes'
+    api_login:
+      policy: 'sliding_window'
+      limit: 5
+      interval: '1 minute'
+    forgot_password:
+      policy: 'fixed_window'
+      limit: 3
+      interval: '15 minutes'
+    sms_send:
+      policy: 'sliding_window'
+      limit: 5
+      interval: '10 minutes'

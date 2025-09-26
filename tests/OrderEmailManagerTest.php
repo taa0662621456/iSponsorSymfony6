@@ -1,14 +1,14 @@
 <?php
 
 use Prophecy\Prophecy\ObjectProphecy;
-use Symfony\Component\Filesystem\Filesystem;
-use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Bundle\CoreBundle\Mailer\OrderEmailManagerInterface;
 use Sylius\Component\Core\Model\ChannelInterface;
 use Sylius\Component\Core\Model\CustomerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Test\SwiftmailerAssertionTrait;
-use Sylius\Bundle\CoreBundle\Mailer\OrderEmailManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class OrderEmailManagerTest extends KernelTestCase
 {
@@ -20,7 +20,8 @@ final class OrderEmailManagerTest extends KernelTestCase
 
     private const ORDER_NUMBER = '#000001';
 
-    public function testItSendsOrderConfirmationEmailWithSymfonyMailerIfSwiftMailerIsNotPresent(): void
+    /** @test */
+    public function it_sends_order_confirmation_email_with_symfony_mailer_if_swift_mailer_is_not_present(): void
     {
         if ($this->isItSwiftmailerTestEnv()) {
             $this->markTestSkipped('This test should be executed only outside of test_with_swiftmailer environment');
@@ -63,7 +64,8 @@ final class OrderEmailManagerTest extends KernelTestCase
         );
     }
 
-    public function testItSendsOrderConfirmationEmailWithSwiftMailerByDefaultIfIsPresent(): void
+    /** @test */
+    public function it_sends_order_confirmation_email_with_swift_mailer_by_default_if_is_present(): void
     {
         if (!$this->isItSwiftmailerTestEnv()) {
             $this->markTestSkipped('This test should be executed only in test_with_swiftmailer environment');
@@ -71,7 +73,7 @@ final class OrderEmailManagerTest extends KernelTestCase
 
         $container = self::getContainer();
 
-        self::setSpoolDirectory($container->getParameter('kernel.cache_dir').'/spool');
+        self::setSpoolDirectory($container->getParameter('kernel.cache_dir') . '/spool');
 
         /** @var Filesystem $filesystem */
         $filesystem = $container->get('filesystem');
@@ -114,6 +116,6 @@ final class OrderEmailManagerTest extends KernelTestCase
     {
         $env = self::getContainer()->getParameter('kernel.environment');
 
-        return 'test_with_swiftmailer' === $env;
+        return $env === 'test_with_swiftmailer';
     }
 }

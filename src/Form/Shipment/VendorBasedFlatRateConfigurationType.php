@@ -2,10 +2,10 @@
 
 namespace App\Form\Shipment;
 
-use App\EntityInterface\Vendor\VendorInterface;
+use App\Form\Type\Calculator\FlatRateConfigurationType;
+use App\Interface\Vendor\VendorInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\Shipment\Calculator\FlatRateConfigurationType;
 
 final class VendorBasedFlatRateConfigurationType extends AbstractType
 {

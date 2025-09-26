@@ -1,13 +1,17 @@
 <?php
 
+
 namespace App\Entity;
 
-use JetBrains\PhpStorm\Pure;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 use Symfony\Component\Validator\Constraints as Assert;
+use JetBrains\PhpStorm\Pure;
 
 trait ProductLanguageTrait
 {
+
     #[ORM\Column(name: 'product_name', type: 'string', nullable: false, options: ['default' => ''])]
     #[Assert\NotBlank(message: 'product.name.blank')]
     #[Assert\NotNull(message: 'product.name.null')]
@@ -28,14 +32,6 @@ trait ProductLanguageTrait
     #[Assert\Length(min: 56, minMessage: 'product.description.too.short')]
     #[Assert\Length(max: 15000, maxMessage: 'product.description.too.long.')]
     private string $productDesc = 'product_desc';
-
-    //    /**
-    //     * @return string
-    //     */
-    //    #[Pure]
-    //    public function __toString() {
-    //        return $this->getProductName();
-    //    }
 
     public function getProductSDesc(): string
     {
@@ -66,4 +62,5 @@ trait ProductLanguageTrait
     {
         $this->productName = $productName;
     }
+
 }

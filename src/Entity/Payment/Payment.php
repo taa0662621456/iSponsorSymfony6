@@ -2,119 +2,98 @@
 
 namespace App\Entity\Payment;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\CodeNameFilterTrait;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\ShipmentCoreFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Entity\Vendor\Vendor;
+use App\Enum\PaymentStatusEnum;
+use App\Repository\Payment\PaymentRepository;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Payment\PaymentInterface;
+use App\Controller\ObjectCRUDsController;
 
-/**
- * @method array getPaymentDetail()
- */
-#[ORM\Entity]
-class Payment extends RootEntity implements ObjectInterface, PaymentInterface
+#[ORM\Table(
+    name: 'payment',
+    indexes: [
+        new ORM\Index(columns: ['vendor_id'], name: 'idx_payment_vendor'),
+        new ORM\Index(columns: ['created_at'], name: 'idx_payment_created')
+    ]
+)]
+#[ORM\Index(columns: ['slug'], name: 'payment_idx')]
+#[ORM\Entity(repositoryClass: PaymentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class Payment
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use TimestampFilterTrait;
+    use RelationFilterTrait;
+    use ShipmentCoreFilterTrait;
+    use CodeNameFilterTrait;
 
+    #[ORM\Column(type: 'string', enumType: PaymentStatusEnum::class)]
+    private PaymentStatusEnum $paymentStatus = PaymentStatusEnum::Pending;
 
-    #[ORM\Column(type: 'string')]
-    private string $paymentNumber;
-
-    #[ORM\Column(type: 'string')]
-    private string $paymentDescription;
-
-    #[ORM\Column(type: 'string')]
-    private string $paymentCustomerEmail;
-
-    #[ORM\Column(type: 'integer')]
-    private int $paymentAmount;
-
-    #[ORM\Column(type: 'string')]
-    private string $paymentCurrencyCode;
-
-    #[ORM\Column(type: 'json')]
-    private ?array $paymentDetail;
-
-    #[ORM\Column(type: 'string')]
-    private ?string $paymentCustomerId;
-
-    #[ORM\ManyToOne(targetEntity: PaymentGateway::class, inversedBy: "paymentGateway")]
-    private PaymentGateway $paymentGateway;
-
-    #[ORM\OneToMany(mappedBy: "paymentMethod", targetEntity: PaymentMethod::class)]
-    private PaymentMethod $paymentMethod;
-
-    #[ORM\OneToOne(mappedBy: "paymentToken", targetEntity: PaymentToken::class)]
-    private PaymentToken $paymentToken;
-
-    #[ORM\OneToOne(mappedBy: "paymentEnUs", targetEntity: PaymentEnUs::class)]
-    private PaymentEnUs $paymentEnUs;
-
-    /**
-     * @return PaymentGateway
-     */
-    public function getPaymentGateway(): PaymentGateway
+    public function __construct()
     {
-        return $this->paymentGateway;
+        $t = new \DateTimeImmutable();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
+        $this->published = true;
     }
 
-    /**
-     * @param PaymentGateway $paymentGateway
-     */
-    public function setPaymentGateway(PaymentGateway $paymentGateway): void
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'payments')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Vendor $vendor = null;
+
+    public function getPaymentStatus(): PaymentStatusEnum
     {
-        $this->paymentGateway = $paymentGateway;
+        return $this->paymentStatus;
     }
 
-    /**
-     * @return PaymentMethod
-     */
-    public function getPaymentMethod(): PaymentMethod
+    public function setPaymentStatus(PaymentStatusEnum $status): void
     {
-        return $this->paymentMethod;
+        $this->paymentStatus = $status;
     }
-
-    /**
-     * @param PaymentMethod $paymentMethod
-     */
-    public function setPaymentMethod(PaymentMethod $paymentMethod): void
-    {
-        $this->paymentMethod = $paymentMethod;
-    }
-
-    /**
-     * @return PaymentToken
-     */
-    public function getPaymentToken(): PaymentToken
-    {
-        return $this->paymentToken;
-    }
-
-    /**
-     * @param PaymentToken $paymentToken
-     */
-    public function setPaymentToken(PaymentToken $paymentToken): void
-    {
-        $this->paymentToken = $paymentToken;
-    }
-
-    /**
-     * @return PaymentEnUs
-     */
-    public function getPaymentEnUs(): PaymentEnUs
-    {
-        return $this->paymentEnUs;
-    }
-
-    /**
-     * @param PaymentEnUs $paymentEnUs
-     */
-    public function setPaymentEnUs(PaymentEnUs $paymentEnUs): void
-    {
-        $this->paymentEnUs = $paymentEnUs;
-    }
-
-
-
 }

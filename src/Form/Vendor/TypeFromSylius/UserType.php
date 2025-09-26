@@ -1,21 +1,19 @@
 <?php
 
+
 namespace App\Form\Vendor\TypeFromSylius;
 
+
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-/**
- * @property array $validationGroups
- * @property $dataClass
- */
 abstract class UserType extends AbstractResourceType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -37,7 +35,8 @@ abstract class UserType extends AbstractResourceType
             ->add('verifiedAt', CheckboxType::class, [
                 'label' => 'form.user.verified',
                 'required' => false,
-            ]);
+            ])
+        ;
 
         $builder->get('verifiedAt')->addModelTransformer(new UserVerifiedAtToBooleanTransformer(), true);
 
@@ -72,6 +71,7 @@ abstract class UserType extends AbstractResourceType
 
                     return $this->validationGroups;
                 },
-            ]);
+            ])
+        ;
     }
 }

@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Tests\Api;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase as BaseJsonApiTestCase;
+namespace App\Tests\Api\tests\Api;
+
+use ApiTestCase\JsonApiTestCase as BaseJsonApiTestCase;
 
 abstract class JsonApiTestCase extends BaseJsonApiTestCase
 {
     public const CONTENT_TYPE_HEADER = ['CONTENT_TYPE' => 'application/ld+json', 'HTTP_ACCEPT' => 'application/ld+json'];
 
-    public function __construct(string $name = null, array $data = [], string $dataName = '')
+    public function __construct(?string $name = null, array $data = [], string $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->dataFixturesPath = __DIR__.'/DataFixtures/ORM';
-        $this->expectedResponsesPath = __DIR__.'/Responses/Expected';
+        $this->dataFixturesPath = __DIR__ . '/DataFixtures/ORM';
+        $this->expectedResponsesPath = __DIR__ . '/Responses/Expected';
     }
 
     protected function get($id)
@@ -43,6 +44,6 @@ abstract class JsonApiTestCase extends BaseJsonApiTestCase
         $authorizationHeader = self::$kernel->getContainer()->getParameter('api.authorization_header');
         $this->assertIsString($authorizationHeader);
 
-        return ['HTTP_'.$authorizationHeader => 'Bearer '.$token];
+        return ['HTTP_' . $authorizationHeader => 'Bearer ' . $token];
     }
 }

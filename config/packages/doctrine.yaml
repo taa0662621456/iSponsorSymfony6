@@ -2,13 +2,187 @@ doctrine:
     dbal:
         types:
             uuid: Symfony\Bridge\Doctrine\Types\UuidType
-        default_connection: postgres # doctrine_dbal_connections.yaml
+        #        url: '%env(resolve:PLATFORM_DATA_DATABASE)%'
+#        mapping_types:
+#            enum: string
+        default_connection: postgres
+        connections:
+            postgres:
+                # configure these for your database server
+                # these connectors for all project's information
+                url: '%env(PLATFORM_DATA_DATABASE)%'
+                driver: 'pdo_pgsql'
+                server_version: '11.2'
+                charset: utf8
+                default_table_options:
+                    charset: utf8mb4
+                    collate: utf8mb4_unicode_ci
+                schema_filter: '~^(?!messenger_messages)~'
+            review:
+                url: '%env(resolve:OBJECT_REVIEW_DATABASE)%'
+                driver: 'pdo_pgsql'
+                server_version: '11.2'
+                charset: utf8
+            sqlite:
+                # configure these for your database server
+                # this connector for all modules, menus, parameters of system
+                url: '%env(resolve:PLATFORM_SYSTEM_DATABASE)%'
+                driver: 'pdo_sqlite'
+                server_version: '3.21'
+                charset: utf8mb4
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '13'
     orm:
-        default_entity_manager: postgres # doctrine_orm_entity_managers_postgres.yaml
+        resolve_target_entities:
+            App\Interface\CategoryInterface: App\Entity\Category\Category
+            App\Interface\CategoryAttachmentInterface: App\Entity\Category\CategoryAttachment
+            #
+            App\Interface\ProjectInterface: App\Entity\Project\Project
+            #
+            App\Interface\ProjectTypeInterface: App\Entity\Project\ProjectType
+            App\Interface\ProductTypeInterface: App\Entity\Product\ProductType
+            #
+            App\Interface\FeaturedInterface: App\Entity\Featured\Featured
+            #
+            App\Interface\ProductReviewInterface: App\Entity\Product\ProductReview
+            App\Interface\ProjectReviewInterface: App\Entity\Project\ProjectReview
+        #        auto_generate_proxy_classes: true
+        #        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        #        auto_mapping: true
+
+        default_entity_manager: postgres
         entity_managers:
-            default:
-                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+            postgres:
+                connection: postgres
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: App
+                    Vendor:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Vendor'
+                        prefix: 'App\Entity\Vendor'
+                        alias: Vendor
+                    Project:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Project'
+                        prefix: 'App\Entity\Project'
+                        alias: Project
+                    Product:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Product'
+                        prefix: 'App\Entity\Product'
+                        alias: Product
+                    Order:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Order'
+                        prefix: 'App\Entity\Order'
+                        alias: Order
+                    Folder:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Folder'
+                        prefix: 'App\Entity\Folder'
+                        alias: Folder
+                    Commission:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Commission'
+                        prefix: 'App\Entity\Commission'
+                        alias: Commission
+                    Payment:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Payment'
+                        prefix: 'App\Entity\Payment'
+                        alias: Payment
+                    Shipment:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Shipment'
+                        prefix: 'App\Entity\Shipment'
+                        alias: Shipment
+                    Storage:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Storage'
+                        prefix: 'App\Entity\Storage'
+                        alias: Storage
+                    Event:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Event'
+                        prefix: 'App\Entity\Event'
+                        alias: Event
+                    Featured:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Featured'
+                        prefix: 'App\Entity\Featured'
+                        alias: Featured
+                    # May be Module not need in this connection
+                    Module:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Module'
+                        prefix: 'App\Entity\Module'
+                        alias: Module
+            review:
+                connection: review
+                mappings:
+                    ProductReview:
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Entity/Product'
+                        prefix: 'App\Entity\Product'
+                        alias: ProductReview
+                    ProjectReview:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Project'
+                        prefix: 'App\Entity\Project'
+                        alias: ProjectReview
+            sqlite:
+                connection: sqlite
+                mappings:
+#                    Menu:
+#                        is_bundle: false
+#                        dir: '%kernel.project_dir%/src/Entity/Menu'
+#                        prefix: 'App\Entity\Menu'
+#                        alias: Menu
+                    Module:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Module'
+                        prefix: 'App\Entity\Module'
+                        alias: Module
+                    Category:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Category'
+                        prefix: 'App\Entity\Category'
+                        alias: Category
+                    ProjectType:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Project'
+                        prefix: 'App\Entity\Project'
+                        alias: ProjectType
+                    ProductType:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity/Product'
+                        prefix: 'App\Entity\Product'
+                        alias: ProductType
         auto_generate_proxy_classes: true
+
 when@test:
     doctrine:
         dbal:

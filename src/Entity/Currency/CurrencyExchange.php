@@ -2,29 +2,51 @@
 
 namespace App\Entity\Currency;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Doctrine\Common\Filter\OrderFilterTrait;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Currency\CurrencyExchangeInterface;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\CurrencyFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
-#[ApiResource(mercure: true)]
-#[ORM\Entity]
-class CurrencyExchange extends RootEntity implements ObjectInterface, CurrencyExchangeInterface
+#[ORM\Table(name: 'currency_exchange')]
+#[ORM\Index(columns: ['slug'], name: 'currency_exchange_idx')]
+#[ORM\Entity(repositoryClass: CurrencyExchangeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(
+    mercure: true,
+    operations: [ new GetCollection(), new Get(), new Post(), new Put(), new Delete() ],
+    normalizationContext: ['groups' => ['read','list','item']],
+    denormalizationContext: ['groups' => ['write']]
+)]
+
+
+
+class CurrencyExchange
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use CurrencyFilterTrait;
+    use TimestampFilterTrait;
+    use OrderFilterTrait;
 
+    protected $currencySource;
 
-    #[ORM\ManyToOne(targetEntity: Currency::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private $currencySource;
+    protected $currencyTarget;
 
-    #[ORM\ManyToOne(targetEntity: Currency::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private $currencyTarget;
+    protected $currencyRatio;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private $currencyRatio;
 }

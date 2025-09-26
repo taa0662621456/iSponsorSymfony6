@@ -2,29 +2,70 @@
 
 namespace App\Entity\Payment;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Repository\Payment\PaymentMethodRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Payment\PaymentMethodInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class PaymentMethod extends RootEntity implements ObjectInterface, PaymentMethodInterface
+#[ORM\Table(name: 'payment_method')]
+#[ORM\Entity(repositoryClass: PaymentMethodRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    operations: [
+        new GetCollection(order: ['createdAt' => 'DESC']),
+        new Get(),
+        new Post(),
+        new Put(),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class PaymentMethod
 {
+    use BaseTrait;
+    use ObjectTrait;
+    use TimestampFilterTrait;
+    use RelationFilterTrait;
 
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
+    private string $methodName;
 
+    #[ORM\ManyToOne(targetEntity: PaymentGateway::class, inversedBy: 'paymentMethods')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?PaymentGateway $gateway = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private mixed $code;
+    public function getMethodName(): string
+    {
+        return $this->methodName;
+    }
 
-    #[ORM\Column(type: 'string', nullable: true)]
-    private mixed $fallbackLocale;
+    public function setMethodName(string $methodName): void
+    {
+        $this->methodName = $methodName;
+    }
 
-    #[ORM\ManyToOne(targetEntity: Payment::class, inversedBy: "paymentMethod")]
-    private Payment $paymentMethod;
+    public function getGateway(): ?PaymentGateway
+    {
+        return $this->gateway;
+    }
 
-
-
+    public function setGateway(?PaymentGateway $gateway): void
+    {
+        $this->gateway = $gateway;
+    }
 }

@@ -1,22 +1,19 @@
 <?php
 
+
 namespace App\EventSubscriber\Product;
 
-use App\EntityInterface\Product\ProductVariantInterface;
-use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use App\Form\Product\ProductBundle\ProductOptionValueCollectionType;
 
 final class BuildProductVariantFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly FormFactoryInterface $factory, private readonly bool $disabled = false)
+    public function __construct(private FormFactoryInterface $factory, private bool $disabled = false)
     {
     }
 
-    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [

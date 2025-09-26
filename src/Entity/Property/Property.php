@@ -2,18 +2,25 @@
 
 namespace App\Entity\Property;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Property\PropertyInterface;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class Property extends RootEntity implements ObjectInterface, PropertyInterface
+#[ORM\Table(name: 'property')]
+#[ORM\Index(columns: ['slug'], name: 'property_idx')]
+#[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource()]
+class Property
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
 
+    use BaseTrait;
+    use ObjectTrait;
 
 }

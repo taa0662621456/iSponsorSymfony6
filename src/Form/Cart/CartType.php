@@ -2,9 +2,9 @@
 
 namespace App\Form\Cart;
 
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class CartType
 {
@@ -14,10 +14,10 @@ class CartType
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass = 'data_class', array $validationGroups = [])
+    public function __construct(string $dataClass, array $validationGroups = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -32,7 +32,8 @@ class CartType
                 'allow_delete' => false,
                 'by_reference' => false,
                 'label' => 'form.cart.items',
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

@@ -9,7 +9,7 @@ final class TimeCalculator
 {
     public function calculate(?DateTimeInterface $currentTime, ?DateTimeInterface $targetTime): DelayStamp
     {
-        if (null === $targetTime) {
+        if ($targetTime === null) {
             return new DelayStamp(0);
         }
 

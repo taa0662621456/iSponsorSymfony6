@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Tests\Api\Shop;
 
 use Sylius\Tests\Api\JsonApiTestCase;
@@ -7,7 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class TaxonsTest extends JsonApiTestCase
 {
-    public function testItGetsTaxonomyList(): void
+    /** @test */
+    public function it_gets_taxonomy_list(): void
     {
         $this->loadFixturesFromFile('taxonomy.yaml');
 

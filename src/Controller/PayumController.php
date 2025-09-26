@@ -2,34 +2,31 @@
 
 namespace App\Controller;
 
-use App\EntityInterface\Payment\PaymentMethodInterface;
-use App\RepositoryInterface\Order\OrderRepositoryInterface;
+use Payum\Core\Model\GatewayConfigInterface;
 use Payum\Core\Payum;
 use Payum\Core\Request\Generic;
-use Payum\Core\Security\TokenInterface;
 use Payum\Core\Request\GetStatusInterface;
-use Payum\Core\Model\GatewayConfigInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
 use Payum\Core\Security\GenericTokenFactoryInterface;
 use Payum\Core\Security\HttpRequestVerifierInterface;
+use Payum\Core\Security\TokenInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Validator\Mapping\MetadataInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\RouterInterface;
 
 final class PayumController
 {
     public function __construct(
-        private readonly Payum                                $payum,
-        private readonly OrderRepositoryInterface             $orderRepository,
-        private MetadataInterface                             $orderMetadata,
-        private readonly RequestConfigurationFactoryInterface $requestConfigurationFactory,
-        private readonly ViewHandlerInterface                 $viewHandler,
-        private readonly RouterInterface                      $router,
-        private readonly GetStatusFactoryInterface            $getStatusRequestFactory,
-        private readonly ResolveNextRouteFactoryInterface     $resolveNextRouteRequestFactory,
+        private Payum $payum,
+        private OrderRepositoryInterface $orderRepository,
+        private MetadataInterface $orderMetadata,
+        private RequestConfigurationFactoryInterface $requestConfigurationFactory,
+        private ViewHandlerInterface $viewHandler,
+        private RouterInterface $router,
+        private GetStatusFactoryInterface $getStatusRequestFactory,
+        private ResolveNextRouteFactoryInterface $resolveNextRouteRequestFactory,
     ) {
     }
 
@@ -62,10 +59,7 @@ final class PayumController
     {
         $configuration = $this->requestConfigurationFactory->create($this->orderMetadata, $request);
 
-        try {
-            $token = $this->getHttpRequestVerifier()->verify($request);
-        } catch (\Exception $e) {
-        }
+        $token = $this->getHttpRequestVerifier()->verify($request);
 
         /** @var Generic&GetStatusInterface $status */
         $status = $this->getStatusRequestFactory->createNewWithModel($token);

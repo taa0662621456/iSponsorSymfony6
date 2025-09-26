@@ -2,105 +2,143 @@
 
 namespace App\Entity\Payment;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\CodeNameFilterTrait;
+use App\Api\Filter\RelationFilterTrait;
+use App\Api\Filter\ShipmentCoreFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Repository\Payment\PaymentGatewayRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Payum\Core\Security\CypherInterface;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Payment\PaymentGatewayInterface;
-use function is_bool;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class PaymentGateway extends RootEntity implements ObjectInterface, PaymentGatewayInterface
+#[ORM\Table(
+    name: 'payment_gateway',
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(name: 'uniq_payment_gateway_slug', columns: ['slug'])
+    ]
+)]
+#[ORM\Index(columns: ['slug'], name: 'payment_gateway_idx')]
+#[ORM\Entity(repositoryClass: PaymentGatewayRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(normalizationContext: ['groups' => ['read','item']]),
+        new Post(denormalizationContext: ['groups' => ['write']]),
+        new Put(denormalizationContext: ['groups' => ['write']]),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class PaymentGateway
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait; // ID, slug, code, config, timestamps, encryption helpers
+    use ObjectTrait; // Titles
+    use TimestampFilterTrait;
+    use RelationFilterTrait;
+    use ShipmentCoreFilterTrait;
+    use CodeNameFilterTrait;
 
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $currencies = [];
 
-    protected string $factoryName;
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $sandboxMode = false;
 
-    protected string $gatewayName;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $logoUrl = null;
 
-    protected array $config;
+    #[ORM\Column(type: 'integer', options: ['default' => 0])]
+    private int $sortOrder = 0;
 
-    protected array $decryptedConfig;
-
-    #[ORM\OneToMany(mappedBy: "paymentGateway", targetEntity: Payment::class)]
-    private Collection $paymentGateway;
+    #[ORM\OneToMany(mappedBy: 'gateway', targetEntity: PaymentMethod::class, cascade: ['persist', 'remove'])]
+    private Collection $paymentMethod;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->config = [];
-        $this->decryptedConfig = [];
-        $this->paymentGateway = new ArrayCollection();
-
+        $this->currencies = [];
+        $this->paymentMethod = new ArrayCollection();
     }
 
-    public function getConfig(): array
+    public function getCurrencies(): array
     {
-        if (isset($this->config['encrypted'])) {
-            return $this->decryptedConfig;
+        return $this->currencies ?? [];
+    }
+
+    public function setCurrencies(array $currencies): void
+    {
+        $this->currencies = $currencies;
+    }
+
+    public function isSandboxMode(): bool
+    {
+        return $this->sandboxMode;
+    }
+
+    public function setSandboxMode(bool $sandboxMode): void
+    {
+        $this->sandboxMode = $sandboxMode;
+    }
+
+    public function getLogoUrl(): ?string
+    {
+        return $this->logoUrl;
+    }
+
+    public function setLogoUrl(?string $logoUrl): void
+    {
+        $this->logoUrl = $logoUrl;
+    }
+
+    public function getSortOrder(): int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(int $sortOrder): void
+    {
+        $this->sortOrder = $sortOrder;
+    }
+
+    /** @return Collection<int, PaymentMethod> */
+    public function getPaymentMethod(): Collection
+    {
+        return $this->paymentMethod;
+    }
+
+    public function addPaymentMethod(PaymentMethod $method): void
+    {
+        if (!$this->paymentMethod->contains($method)) {
+            $this->paymentMethod->add($method);
+            $method->setGateway($this);
         }
-
-        return $this->config;
     }
 
-    public function setConfig(array $config): void
+    public function removePaymentMethod(PaymentMethod $method): void
     {
-        $this->config = $config;
-        $this->decryptedConfig = $config;
-    }
-
-    public function decrypt(CypherInterface $cypher): void
-    {
-        if (empty($this->config['encrypted'])) {
-            return;
-        }
-
-        foreach ($this->config as $name => $value) {
-            if ('encrypted' == $name || is_bool($value)) {
-                $this->decryptedConfig[$name] = $value;
-
-                continue;
+        if ($this->paymentMethod->removeElement($method)) {
+            if ($method->getGateway() === $this) {
+                $method->setGateway(null);
             }
-
-            $this->decryptedConfig[$name] = $cypher->decrypt($value);
         }
     }
-
-    public function encrypt(CypherInterface $cypher): void
-    {
-        $this->decryptedConfig['encrypted'] = true;
-
-        foreach ($this->decryptedConfig as $name => $value) {
-            if ('encrypted' == $name || is_bool($value)) {
-                $this->config[$name] = $value;
-
-                continue;
-            }
-
-            $this->config[$name] = $cypher->encrypt($value);
-        }
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getPaymentGateway(): Collection
-    {
-        return $this->paymentGateway;
-    }
-
-    /**
-     * @param Collection $paymentGateway
-     */
-    public function setPaymentGateway(Collection $paymentGateway): void
-    {
-        $this->paymentGateway = $paymentGateway;
-    }
-
-
 }

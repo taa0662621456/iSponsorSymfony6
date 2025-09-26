@@ -1,19 +1,20 @@
 <?php
 
+
 namespace App\Form\Promotion\Rule;
 
-use Symfony\Component\Form\AbstractType;
-use App\Service\ResourceIdentifierTransformer;
-use Symfony\Component\Form\ReversedTransformer;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+
 use App\Form\Product\ProductTaxationAutocompleteSelectorType;
-use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
+use Composer\Repository\RepositoryInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\ReversedTransformer;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
 {
-    public function __construct(private readonly TaxationRepositoryInterface $taxationRepository)
+    public function __construct(private readonly RepositoryInterface $taxonRepository)
     {
     }
 
@@ -26,21 +27,20 @@ final class TotalOfItemsFromTaxonConfigurationType extends AbstractType
             ->add('amount', MoneyType::class, [
                 'label' => 'form.promotion_rule.total_of_items_from_taxon.amount',
                 'currency' => $options['currency'],
-            ]);
+            ])
+        ;
 
-        try {
-            $builder->get('taxon')->addModelTransformer(
-                new ReversedTransformer(new ResourceIdentifierTransformer($this->taxationRepository, 'code')),
-            );
-        } catch (\ReflectionException $e) {
-        }
+        $builder->get('taxon')->addModelTransformer(
+            new ReversedTransformer(new ResourceToIdentifierTransformer($this->taxonRepository, 'code')),
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setRequired('currency')
-            ->setAllowedTypes('currency', 'string');
+            ->setAllowedTypes('currency', 'string')
+        ;
     }
 
     public function getBlockPrefix(): string

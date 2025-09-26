@@ -2,27 +2,27 @@
 
 namespace App\EventSubscriber;
 
-use JetBrains\PhpStorm\ArrayShape;
-use App\Interface\CodeAwareInterface;
+
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class AddCodeFormSubscriber implements EventSubscriberInterface
+final class AddCodeFormSubscriber implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
 {
-    private string $currencyType;
+    private string $type;
 
     private array $options;
 
-    public function __construct(string $currencyType = null, array $options = [])
+    /**
+     * @param string $type
+     */
+    public function __construct(?string $type = null, array $options = [])
     {
-        $this->currencyType = $currencyType ?? TextType::class;
+        $this->type = $type ?? TextType::class;
         $this->options = $options;
     }
 
-    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string'])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -42,10 +42,11 @@ final class AddCodeFormSubscriber implements EventSubscriberInterface
         }
 
         $form = $event->getForm();
-        $form->add('code', $this->currencyType, array_merge(
+        $form->add('code', $this->type, array_merge(
             ['label' => 'ui.code'],
             $this->options,
             ['disabled' => $disabled],
         ));
     }
+
 }

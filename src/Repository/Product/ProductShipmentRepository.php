@@ -2,9 +2,8 @@
 
 namespace App\Repository\Product;
 
-use App\Repository\EntityRepository;
 use App\Entity\Product\ProductShipment;
-use App\RepositoryInterface\Product\ProductShipmentRepositoryInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @method ProductShipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,6 +11,7 @@ use App\RepositoryInterface\Product\ProductShipmentRepositoryInterface;
  * @method ProductShipment[]    findAll()
  * @method ProductShipment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductShipmentRepository extends EntityRepository implements ProductShipmentRepositoryInterface
+class ProductShipmentRepository extends EntityRepository
 {
+
 }

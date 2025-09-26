@@ -1,20 +1,19 @@
 <?php
 
+
 namespace App\Extension;
 
-use App\EntityInterface\Locale\LocaleInterface;
-use App\RepositoryInterface\Locale\LocaleRepositoryInterface;
-use App\Form\Local\LocaleType;
+
+
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Intl\Locales;
-use Symfony\Component\Form\Extension\Core\Type\LocaleType as SymfonyLocalType;
 
 final class LocaleTypeExtension extends AbstractTypeExtension
 {
-    public function __construct(private readonly LocaleRepositoryInterface $localeRepository)
+    public function __construct(private RepositoryInterface $localeRepository)
     {
     }
 
@@ -30,14 +29,14 @@ final class LocaleTypeExtension extends AbstractTypeExtension
             if ($locale instanceof LocaleInterface && null !== $locale->getCode()) {
                 $options['disabled'] = true;
 
-                /* @psalm-suppress InvalidArrayOffset */
+                /** @psalm-suppress InvalidArrayOffset */
                 $options['choices'] = [$this->getLocaleName($locale->getCode()) => $locale->getCode()];
             } else {
                 $options['choices'] = array_flip($this->getAvailableLocales());
             }
 
             $form = $event->getForm();
-            $form->add('code', SymfonyLocalType::class, $options);
+            $form->add('code', \Symfony\Component\Form\Extension\Core\Type\LocaleType::class, $options);
         });
     }
 

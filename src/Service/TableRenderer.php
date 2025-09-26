@@ -44,7 +44,8 @@ final class TableRenderer
         $this->table
             ->setHeaders($this->headers)
             ->setRows($this->rows)
-            ->render();
+            ->render()
+        ;
     }
 
     public function isEmpty(): bool

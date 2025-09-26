@@ -6,4 +6,5 @@ use Symfony\Component\Form\AbstractType;
 
 class PaymentNewType extends AbstractType
 {
+
 }

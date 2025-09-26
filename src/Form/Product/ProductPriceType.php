@@ -2,33 +2,31 @@
 
 namespace App\Form\Product;
 
-use App\EntityInterface\Product\ProductVariantInterface;
+use App\Interface\Product\ProductVariantInterface;
+use App\Interface\Vendor\VendorInterface;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 
-/**
- * @property $vendorPricingRepository
- */
 final class ProductPriceType extends AbstractType
 {
-    protected string $dataClass = 'data_class';
+    protected string $dataClass;
 
     /** @var string[] */
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
     public function __construct(
-        array $validationGroups = [],
-        string $dataClass = 'data_class',
-        //        private readonly $pricingRepository = null,
+        string           $dataClass,
+        array            $validationGroups,
+//        private readonly $pricingRepository = null,
     ) {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
@@ -50,7 +48,8 @@ final class ProductPriceType extends AbstractType
                 'label' => 'ui.minimum_price',
                 'required' => false,
                 'currency' => $options['vendor']->getBaseCurrency()->getCode(),
-            ]);
+            ])
+        ;
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options): void {
             $vendorPricing = $event->getData();
@@ -61,10 +60,10 @@ final class ProductPriceType extends AbstractType
                 return;
             }
 
-            if (null === $vendorPricing->getPrice() && null === $vendorPricing->getOriginalPrice()) {
+            if ($vendorPricing->getPrice() === null && $vendorPricing->getOriginalPrice() === null) {
                 $event->setData(null);
 
-                if (null !== $vendorPricing->getId()) {
+                if ($vendorPricing->getId() !== null) {
                     $this->vendorPricingRepository->remove($vendorPricing);
                 }
 
@@ -91,7 +90,8 @@ final class ProductPriceType extends AbstractType
 
             ->setDefaults([
                 'label' => fn (Options $options): string => $options['vendor']->getName(),
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

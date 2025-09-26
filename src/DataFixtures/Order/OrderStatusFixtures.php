@@ -2,26 +2,25 @@
 
 namespace App\DataFixtures\Order;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Order\OrderStatus;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class OrderStatusFixtures extends DataFixtures
+final class OrderStatusFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        foreach (['pending', 'paid', 'shipped', 'cancelled'] as $i => $status) {
+            $os = new OrderStatus();
+            $os->setCode($status);
 
+            $manager->persist($os);
+            $this->addReference('orderStatus_' . $status, $os);
+        }
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(),
-            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
-        ];
-
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 24;
-    }
+    public static function getGroup(): string { return 'order'; }
+    public static function getPriority(): int { return 10; } // before orders
 }

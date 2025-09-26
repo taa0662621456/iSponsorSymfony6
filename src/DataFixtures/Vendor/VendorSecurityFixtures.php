@@ -1,21 +1,27 @@
 <?php
 
-namespace App\DataFixtures\Vendor;
+namespace App\DataFixtures;
 
-use App\DataFixtures\DataFixtures;
-
+use App\Entity\Vendor\VendorSecurity;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
-use function _PHPStan_39fe102d2\RingCentral\Psr7\str;
 
-final class VendorSecurityFixtures extends DataFixtures
+final class VendorSecurityFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $property = [
-            'email' => fn($faker, $i) => $faker->unique()->email(),
-            'password' => fn($faker, $i) => $faker->password(8, 12)
-        ];
+        for ($i = 1; $i <= 10; $i++) {
+            $sec = new VendorSecurity();
+            // Example: set security token
+            $sec->setToken(hash('sha256', "vendor_$i"));
 
-        parent::load($manager, $property);
+            $manager->persist($sec);
+            $this->addReference('vendorSecurity_' . $i, $sec);
+        }
+
+        $manager->flush();
     }
+
+    public static function getGroup(): string { return 'vendor'; }
+    public static function getPriority(): int { return 40; }
 }

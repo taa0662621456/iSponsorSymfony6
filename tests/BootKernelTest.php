@@ -8,7 +8,8 @@ class BootKernelTest extends KernelTestCase
     {
         self::bootKernel([
             'environment' => 'dev_env',
-            'debug' => false,
+            'debug'       => false,
         ]);
     }
+
 }

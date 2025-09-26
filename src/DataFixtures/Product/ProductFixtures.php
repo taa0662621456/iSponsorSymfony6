@@ -2,36 +2,38 @@
 
 namespace App\DataFixtures\Product;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Product\Product;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-final class ProductFixtures extends DataFixtures
+final class ProductFixtures extends BaseGroupedFixture
 {
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ClientExceptionInterface
-     */
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        try {
-            $this->titleFixtureEngine('data/ProductDataFixtures/ProductDataFixtures.json');
-        } catch (\Exception $e) {
+        // Example: use ProductType from earlier fixtures
+        $type = $this->getReference('productType_Electronics');
+
+        for ($i = 1; $i <= 10; $i++) {
+            $product = new Product();
+            $product->setFirstTitle('Product ' . $i);
+            $product->setPrice(mt_rand(100, 1000));
+            $product->setType($type);
+
+            $manager->persist($product);
+            $this->addReference('product_' . $i, $product);
         }
 
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
+    public static function getGroup(): string
     {
-        return 23;
+        return 'product';
     }
 
+    public static function getPriority(): int
+    {
+        // Main entity, comes after type & tags
+        return 30;
+    }
 }

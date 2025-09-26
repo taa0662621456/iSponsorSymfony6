@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Service\Taxation;
+
 
 final class DefaultTaxCalculator
 {

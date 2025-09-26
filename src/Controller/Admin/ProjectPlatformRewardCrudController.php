@@ -1,28 +1,31 @@
 <?php
-
 namespace App\Controller\Admin;
 
-use App\Entity\Project\ProjectPlatformReward;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-class ProjectPlatformRewardCrudController extends AbstractCrudController
+use App\Entity\ProjectPlatformReward;
+
+class ProjectPlatformRewardCrudController extends BaseCrudController
 {
-    public static function getEntityFqcn(): string
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return ProjectPlatformReward::class; }
+
+    public function configureActions(Actions $actions): Actions
     {
-        return ProjectPlatformReward::class;
+        $validate = Action::new('validate', 'Validate')->linkToCrudAction('validateReward')->setCssClass('btn btn-primary');
+        return $actions->add(Crud::PAGE_INDEX, $validate);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function validateReward(AdminContext $ctx)
     {
-        return [
-            TextField::new('commission_start_time'),
-            TextEditorField::new('commission_end_time'),
-            AssociationField::new('projectPlatformRewardProject')->autocomplete()->hideOnIndex(),
-            TextField::new('create_By')->hideOnForm(),
-
-        ];
+        /** @var ProjectPlatformReward $r */
+        $r = $ctx->getEntity()->getInstance();
+        $ok = method_exists($r, 'isValid') ? $r->isValid() : true;
+        $this->addFlash($ok ? 'success' : 'danger', $ok ? 'Reward valid' : 'Reward invalid');
+        return $this->redirect($ctx->getReferrer());
     }
 }

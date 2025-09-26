@@ -2,19 +2,26 @@
 
 namespace App\DataFixtures\Address;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Address\Address;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class AddressFixtures extends DataFixtures
+final class AddressFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->buildingNumber() . ' ' . $faker->address(),
-            'middleTitle' => fn($faker, $i) => $faker->randomNumber(),
-            'lastTitle' => fn($faker, $i) => $faker->city() . ' ' . $faker->country() . ' ' . $faker->postcode(),
-        ];
+        $addr = new Address();
+        $addr->setCountry('US');
+        $addr->setCity('Houston');
+        $addr->setStreetLine('Westheimer Rd 123');
+        $manager->persist($addr);
 
-        parent::load($manager, $property);
+        $this->addReference('address_1', $addr);
+        $manager->flush();
     }
+
+    public static function getGroup(): string { return 'core'; }
+    public static function getPriority(): int { return 7; }
 }
+
+

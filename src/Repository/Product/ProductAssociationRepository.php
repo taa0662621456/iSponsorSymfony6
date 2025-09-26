@@ -1,14 +1,24 @@
 <?php
 
+
 namespace App\Repository\Product;
 
-use App\Form\Product\ProductBundle\ProductAssociationType;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Interface\Vendor\VendorInterface;
+use Doctrine\ORM\EntityRepository;
 
-class ProductAssociationRepository extends ServiceEntityRepository
+class ProductAssociationRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function findWithProductsWithinVendor($associationId, VendorInterface $vendor): ProductAssociationInterface
     {
-        parent::__construct($registry, ProductAssociationType::class);
-    }}
+        return $this->createQueryBuilder('o')
+            ->addSelect('associatedProduct')
+            ->innerJoin('o.associatedProducts', 'associatedProduct', 'WITH', 'associatedProduct.enabled = true')
+            ->innerJoin('associatedProduct.vendors', 'vendor', 'WITH', 'vendor = :vendor')
+            ->andWhere('o.id = :associationId')
+            ->setParameter('associationId', $associationId)
+            ->setParameter('vendor', $vendor)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+}

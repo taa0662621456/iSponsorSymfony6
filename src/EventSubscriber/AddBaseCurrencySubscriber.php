@@ -2,17 +2,17 @@
 
 namespace App\EventSubscriber;
 
-use App\EntityInterface\Vendor\VendorInterface;
-use JetBrains\PhpStorm\ArrayShape;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use App\Exception\UnexpectedTypeException;
 use App\Form\Currency\CurrencySelectorType;
+use App\Interface\Vendor\VendorInterface;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 final class AddBaseCurrencySubscriber implements EventSubscriberInterface
 {
-    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string'])]
+    #[ArrayShape([FormEvents::PRE_SET_DATA => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [

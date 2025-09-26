@@ -1,12 +1,16 @@
 <?php
 
+
 namespace EventListener;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class AdminSectionCacheControlSubscriberTest extends WebTestCase
 {
-    public function testItReturnsProperCacheHeadersForAdminEndpoints(): void
+    /**
+     * @test
+     */
+    public function it_returns_proper_cache_headers_for_admin_endpoints(): void
     {
         $client = static::createClient();
 

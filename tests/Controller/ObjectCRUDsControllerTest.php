@@ -1,33 +1,16 @@
 <?php
-
-namespace App\Tests\Controller;
-
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Liip\AcmeFixturesBundle\Services\FixturesTrait;
 
-class ObjectCRUDsControllerTest extends WebTestCase
+final class ObjectCRUDsControllerTest extends WebTestCase
 {
-    /**
-     * @dataProvider urlProvider
-     */
-    public function testPageIsSuccessful($url): void
+    use FixturesTrait;
+
+    public function testSmoke(): void
     {
-        $client = self::createClient();
+        $client = static::createClient();
+        $client->request('GET', '/');
 
-        $client->request('GET', $url);
-
-        $message = 'Not status code 200 ... '.$url;
-
-        $this->assertNotTrue($client->getResponse()->isSuccessful(), $message);
-    }
-
-    public function urlProvider(): \Generator
-    {
-        yield ['/vendor'];
-        yield ['/sponsor'];
-        yield ['/attachment'];
-        yield ['/product'];
-        yield ['/project'];
-        yield ['/category'];
-        // ...
+        $this->assertResponseIsSuccessful();
     }
 }

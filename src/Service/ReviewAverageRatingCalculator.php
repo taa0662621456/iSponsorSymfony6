@@ -4,8 +4,7 @@ namespace App\Service;
 
 class ReviewAverageRatingCalculator
 {
-    public const STATUS_ACCEPTED = 'accepted';
-
+    const STATUS_ACCEPTED = 'accepted';
     public function calculate($reviewable): float
     {
         $sum = 0;
@@ -14,7 +13,7 @@ class ReviewAverageRatingCalculator
 
         foreach ($reviews as $review) {
             if (self::STATUS_ACCEPTED === $review->getStatus()) {
-                $reviewNumber++;
+                ++$reviewNumber;
 
                 $sum += $review->getRating();
             }

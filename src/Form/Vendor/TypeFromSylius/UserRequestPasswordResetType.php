@@ -1,9 +1,9 @@
 <?php
 
+
 namespace App\Form\Vendor\TypeFromSylius;
 
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\FormBuilderInterface;
+
 
 final class UserRequestPasswordResetType extends AbstractResourceType
 {
@@ -12,7 +12,8 @@ final class UserRequestPasswordResetType extends AbstractResourceType
         $builder
             ->add('email', EmailType::class, [
                 'label' => 'form.user.email',
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

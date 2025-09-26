@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
 trait ObjectReviewTrait
 {
@@ -32,7 +33,6 @@ trait ObjectReviewTrait
     {
         return $this->reviewLang;
     }
-
     public function setReviewLang(?string $reviewLang): void
     {
         $this->reviewLang = $reviewLang;
@@ -42,7 +42,6 @@ trait ObjectReviewTrait
     {
         return $this->reviewType;
     }
-
     public function setReviewType(?string $reviewType): void
     {
         $this->reviewType = $reviewType;
@@ -52,7 +51,6 @@ trait ObjectReviewTrait
     {
         return $this->favourite;
     }
-
     public function setFavourites(int $favourite): void
     {
         $this->favourite = $favourite;

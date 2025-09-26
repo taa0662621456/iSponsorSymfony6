@@ -1,7 +1,8 @@
 <?php
-
 namespace App\Service\System;
 
+
+use App\Service\System\ExceptionMapping;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 class ExceptionMappingResolver
@@ -44,4 +45,5 @@ class ExceptionMappingResolver
 
         return $foundMapping;
     }
+
 }

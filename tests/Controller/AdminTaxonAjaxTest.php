@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Controller;
 
 use PHPUnit\Framework\Assert;
@@ -9,7 +10,8 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 final class AdminTaxonAjaxTest extends SessionAwareAjaxTest
 {
-    public function testItDeniesAccessToTaxonsForNotAuthenticatedUser(): void
+    /** @test */
+    public function it_denies_access_to_taxons_for_not_authenticated_user(): void
     {
         $this->client->request('GET', '/admin/ajax/taxons/search');
 
@@ -18,7 +20,8 @@ final class AdminTaxonAjaxTest extends SessionAwareAjaxTest
         $this->assertEquals($response->getStatusCode(), Response::HTTP_FOUND);
     }
 
-    public function testItReturnsTaxonsForEmptyPhrase(): void
+    /** @test */
+    public function it_returns_taxons_for_empty_phrase(): void
     {
         $this->loadFixturesFromFile('authentication/administrator.yml');
         $this->loadFixturesFromFiles(['resources/taxons.yml']);
@@ -32,7 +35,8 @@ final class AdminTaxonAjaxTest extends SessionAwareAjaxTest
         $this->assertResponse($response, 'ajax/taxon/index_response', Response::HTTP_OK);
     }
 
-    public function testItReturnsTaxonsWhenPhraseIsNotSpecified(): void
+    /** @test */
+    public function it_returns_taxons_when_phrase_is_not_specified(): void
     {
         $this->loadFixturesFromFile('authentication/administrator.yml');
         $this->loadFixturesFromFiles(['resources/taxons.yml']);
@@ -46,7 +50,8 @@ final class AdminTaxonAjaxTest extends SessionAwareAjaxTest
         $this->assertResponse($response, 'ajax/taxon/index_response', Response::HTTP_OK);
     }
 
-    public function testItReturnsSpecificTaxonsForGivenPhrase(): void
+    /** @test */
+    public function it_returns_specific_taxons_for_given_phrase(): void
     {
         Assert::assertNotEmpty(
             $this->loadFixturesFromFile('authentication/administrator.yml'),
@@ -75,7 +80,7 @@ final class AdminTaxonAjaxTest extends SessionAwareAjaxTest
         $firewallName = 'admin';
         $firewallContext = 'admin';
 
-        /* @deprecated parameter credential was deprecated in Symfony 5.4, so in Sylius 1.11 too, in Sylius 2.0 providing 4 arguments will be prohibited. */
+        /** @deprecated parameter credential was deprecated in Symfony 5.4, so in Sylius 1.11 too, in Sylius 2.0 providing 4 arguments will be prohibited. */
         if (3 === (new \ReflectionClass(UsernamePasswordToken::class))->getConstructor()->getNumberOfParameters()) {
             $token = new UsernamePasswordToken($user, $firewallName, $user->getRoles());
         } else {

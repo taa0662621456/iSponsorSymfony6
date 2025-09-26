@@ -2,33 +2,27 @@
 
 namespace App\Repository\Product;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use App\Repository\EntityRepository;
-use App\Entity\Product\ProductAttachment;
-use App\RepositoryInterface\Product\ProductAttributeValueRepositoryInterface;
 
-/**
- * @method ProductAttachment|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductAttachment|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductAttachment[]    findAll()
- * @method ProductAttachment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class ProductAttributeValueRepository extends EntityRepository implements ProductAttributeValueRepositoryInterface
 {
-    public function findByJsonChoiceKey($key): array
+    public function findByJsonChoiceKey(string $choiceKey): array
     {
         return $this->createQueryBuilder('o')
             ->andWhere('o.json LIKE :key')
-            ->setParameter('key', '%"'.$key.'"%')
+            ->setParameter('key', '%"' . $choiceKey . '"%')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function createByProductCodeAndLocaleQueryBuilder(
         string $productCode,
         string $localeCode,
-        string $fallbackLocaleCode = null,
-        string $defaultLocaleCode = null,
+        ?string $fallbackLocaleCode = null,
+        ?string $defaultLocaleCode = null,
     ): QueryBuilder {
         $acceptableLocaleCodes = [$localeCode];
 
@@ -44,7 +38,8 @@ class ProductAttributeValueRepository extends EntityRepository implements Produc
             ->select('IDENTITY(s.attribute)')
             ->innerJoin('s.subject', 'subject')
             ->andWhere('subject.code = :code')
-            ->andWhere('s.localeCode = :locale');
+            ->andWhere('s.localeCode = :locale')
+        ;
 
         $queryBuilder = $this->createQueryBuilder('o');
 
@@ -64,6 +59,7 @@ class ProductAttributeValueRepository extends EntityRepository implements Produc
                 ),
             )
             ->setParameter('code', $productCode)
-            ->setParameter('locale', $localeCode);
+            ->setParameter('locale', $localeCode)
+        ;
     }
 }

@@ -1,19 +1,17 @@
 <?php
 
+
 namespace App\Service\Setup;
 
-use App\EntityInterface\Currency\CurrencyInterface;
-use App\EntityInterface\Locale\LocaleInterface;
-use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Notifier\Channel\ChannelInterface;
+
 
 final class VendorSetup implements ChannelSetupInterface
 {
     public function __construct(
         private readonly VendorRepositoryInterface $vendorRepository,
-        private readonly FactoryInterface $vendorFactory,
-        private readonly ObjectManager $vendorManager,
+        private readonly FactoryInterface    $vendorFactory,
+        private readonly ObjectManager       $vendorManager,
     ) {
     }
 

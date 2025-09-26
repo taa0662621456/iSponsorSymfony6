@@ -2,8 +2,9 @@
 
 namespace App\Service\Product;
 
-use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
+use App\Interface\ProductVariantResolverInterface;
 
-class ProductVariantResolver implements ProductVariantResolverServiceInterface
+class ProductVariantResolver implements ProductVariantResolverInterface
 {
+
 }

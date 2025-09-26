@@ -2,13 +2,9 @@
 
 namespace App\Service\Promotion;
 
-use App\EntityInterface\Promotion\PromotionInterface;
-use App\ServiceInterface\Order\OrderDiscount\OrderDiscountRule\PromotionSubjectInterface;
-use App\ServiceInterface\Order\OrderDiscount\OrderDiscountRule\RuleCheckerInterface;
-
 final class PromotionRulesEligibilityChecker implements PromotionEligibilityCheckerInterface
 {
-    public function __construct(private readonly ServiceRegistryInterface $ruleRegistry)
+    public function __construct(private ServiceRegistryInterface $ruleRegistry)
     {
     }
 

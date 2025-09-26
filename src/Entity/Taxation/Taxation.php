@@ -2,100 +2,82 @@
 
 namespace App\Entity\Taxation;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use Doctrine\Common\Collections\Collection;
+
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Api\Filter\CodeNameFilterTrait;
+use App\Api\Filter\TaxationFilterTrait;
+use App\Api\Filter\TimestampFilterTrait;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Repository\Taxation\TaxationRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Taxation\TaxationInterface;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class Taxation extends RootEntity implements ObjectInterface, TaxationInterface
+#[ORM\Table(
+    name: 'taxation',
+    indexes: [
+        new ORM\Index(columns: ['category_id'], name: 'idx_taxation_category'),
+        new ORM\Index(columns: ['zone_id'], name: 'idx_taxation_zone'),
+        new ORM\Index(columns: ['strategy_id'], name: 'idx_taxation_strategy')
+    ]
+)]
+#[ORM\Index(columns: ['slug'], name: 'taxation_idx')]
+#[ORM\Entity(repositoryClass: TaxationRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class Taxation
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait; // Indexing and audition properties/columns
+    use ObjectTrait; // Titling properties/columns
+    # API Filters
+    use TimestampFilterTrait;
+    use TaxationFilterTrait;
+    use CodeNameFilterTrait;
 
-    #[ORM\OneToMany(mappedBy: "taxationStrategy", targetEntity: TaxationStrategy::class)]
-    private Collection $taxationStrategy;
-
-    #[ORM\ManyToOne(targetEntity: TaxationType::class, inversedBy: "taxationType")]
-    private TaxationType $taxationType;
-
-    #[ORM\ManyToOne(targetEntity: TaxationZone::class, inversedBy: "taxationZone")]
-    private TaxationZone $taxationZone;
-
-    #[ORM\ManyToOne(targetEntity: TaxationLevel::class, inversedBy: "taxationLevel")]
-    private TaxationLevel $taxationLevel;
-
-    #[ORM\ManyToOne(targetEntity: TaxationValue::class, inversedBy: "taxationValue")]
-    private ?TaxationValue $taxationValue = null;
-
-    #[ORM\ManyToOne(targetEntity: TaxationRate::class, inversedBy: "taxationRate")]
-    private ?TaxationRate $taxationRate = null;
-
-    #[ORM\ManyToOne(targetEntity: TaxationCategory::class, inversedBy: "taxationCategory")]
+    #[ORM\ManyToOne(targetEntity: TaxationCategory::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?TaxationCategory $taxationCategory = null;
 
-    public function getTaxationType(): TaxationType
-    {
-        return $this->taxationType;
-    }
+    #[ORM\ManyToOne(targetEntity: TaxationZone::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?TaxationZone $taxationZone = null;
 
-    public function setTaxationType(TaxationType $taxationType): void
-    {
-        $this->taxationType = $taxationType;
-    }
-
-    public function getTaxationZone(): TaxationZone
-    {
-        return $this->taxationZone;
-    }
-
-    public function setTaxationZone(TaxationZone $taxationZone): void
-    {
-        $this->taxationZone = $taxationZone;
-    }
-
-    public function getTaxationLevel(): TaxationLevel
-    {
-        return $this->taxationLevel;
-    }
-
-    public function setTaxationLevel(TaxationLevel $taxationLevel): void
-    {
-        $this->taxationLevel = $taxationLevel;
-    }
-
-    public function getTaxationValue(): TaxationValue
-    {
-        return $this->taxationValue;
-    }
-
-    public function setTaxationValue($taxationValue): void
-    {
-        $this->addTaxationValue($taxationValue);
-    }
-
-    public function addTaxationValue(TaxationValue $taxationValue): self
-    {
-        if (!$this->taxationValue->contains($taxationValue)) {
-            $this->taxationValue[] = $taxationValue;
-            $taxationValue->setTaxationValue($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTaxationValue(TaxationValue $taxationValue): self
-    {
-        if ($this->taxationValue->removeElement($taxationValue)) {
-        }
-
-        return $this;
-    }
-
-
-
-
+    #[ORM\ManyToOne(targetEntity: TaxationStrategy::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?TaxationStrategy $taxationStrategy = null;
 
 }

@@ -2,19 +2,18 @@
 
 namespace App\Entity\Project;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use App\Entity\BaseTrait;
+use App\Repository\Project\ProjectPlatformRewardRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Project\ProjectPlatformRewardInterface;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class ProjectPlatformReward extends RootEntity implements ObjectInterface, ProjectPlatformRewardInterface
+#[ORM\Table(name: 'reward')]
+#[ORM\Index(columns: ['slug'], name: 'commission_idx')]
+#[ORM\Entity(repositoryClass: ProjectPlatformRewardRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+class ProjectPlatformReward
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
-
-
+    use BaseTrait;
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'projectPlatformReward')]
     private Project $projectId;
 
@@ -24,10 +23,31 @@ class ProjectPlatformReward extends RootEntity implements ObjectInterface, Proje
     #[ORM\Column(name: 'commission_end_time', type: 'string', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
     private string $commissionEndTime;
 
-    public function __construct()
+    #
+    public function getProjectId(): Project
     {
-        parent::__construct();
-        $this->commissionStartTime = date('Y-m-d H:i:s');
-        $this->commissionEndTime = date('Y-m-d H:i:s');
+        return $this->projectId;
+    }
+    public function setProjectId($projectId): void
+    {
+        $this->projectId = $projectId;
+    }
+    #
+    public function getCommissionStartTime(): string
+    {
+        return $this->commissionStartTime;
+    }
+    public function setCommissionStartTime(string $commissionStartTime): void
+    {
+        $this->commissionStartTime = $commissionStartTime;
+    }
+    #
+    public function getCommissionEndTime(): string
+    {
+        return $this->commissionEndTime;
+    }
+    public function setCommissionEndTime(string $commissionEndTime): void
+    {
+        $this->commissionEndTime = $commissionEndTime;
     }
 }

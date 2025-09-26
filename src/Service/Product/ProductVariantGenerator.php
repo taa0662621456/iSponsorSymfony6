@@ -2,8 +2,9 @@
 
 namespace App\Service\Product;
 
-use App\ServiceInterface\Product\ProductVariantGeneratorServiceInterface;
+use App\Interface\ProductVariantGeneratorInterface;
 
-class ProductVariantGenerator implements ProductVariantGeneratorServiceInterface
+class ProductVariantGenerator implements ProductVariantGeneratorInterface
 {
+
 }

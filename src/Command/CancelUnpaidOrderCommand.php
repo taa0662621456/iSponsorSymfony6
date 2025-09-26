@@ -15,7 +15,8 @@ class CancelUnpaidOrderCommand extends Command
         $this
             ->setDescription(
                 'Removes order that have been unpaid for a configured period. Configuration parameter - order.order_expiration_period.',
-            );
+            )
+        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -23,7 +24,7 @@ class CancelUnpaidOrderCommand extends Command
         $expirationTime = $this->getApplication()->get('order.order_expiration_period');
         $output->writeln(sprintf(
             'Command will cancel orders that have been unpaid for <info>%s</info>.',
-            $expirationTime,
+            (string) $expirationTime,
         ));
 
         $unpaidCartsStateUpdater = $this->getApplication()->get('unpaid_order');

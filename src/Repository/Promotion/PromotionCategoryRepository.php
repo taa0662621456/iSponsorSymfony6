@@ -2,17 +2,9 @@
 
 namespace App\Repository\Promotion;
 
-use App\Entity\Promotion\Promotion;
-use App\Repository\EntityRepository;
-use App\RepositoryInterface\Promotion\PromotionCategoryRepositoryInterface;
+use Doctrine\ORM\EntityRepository;
 
-/**
- * @method Promotion|null find($id, $lockMode = null, $lockVersion = null)
- * @method Promotion|null findOneBy(array $criteria, array $orderBy = null)
- * @method Promotion[]    findAll()
- * @method Promotion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class PromotionCategoryRepository extends EntityRepository implements PromotionCategoryRepositoryInterface
+class PromotionCategoryRepository extends EntityRepository implements CatalogPromotionRepositoryInterface
 {
     public function findByCriteria(iterable $criteria): array
     {
@@ -31,6 +23,7 @@ class PromotionCategoryRepository extends EntityRepository implements PromotionC
             ->orderBy('o.exclusive', 'desc')
             ->addOrderBy('o.priority', 'desc')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 }

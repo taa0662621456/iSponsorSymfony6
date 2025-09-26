@@ -2,34 +2,92 @@
 
 namespace App\Entity\Vendor;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use App\Entity\Order\OrderItem;
-use Doctrine\ORM\Mapping as ORM;
+
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
+use App\Controller\Vendor\VendorController;
+use App\Entity\BaseTrait;
+use App\Entity\Commission\Commission;
 use App\Entity\Featured\Featured;
-use App\Entity\Order\OrderStorage;
-use Exception;
-use JetBrains\PhpStorm\ArrayShape;
-use App\EntityInterface\Object\ObjectInterface;
+use App\Entity\MetaTrait;
+use App\Entity\ObjectTrait;
+use App\Entity\Order\OrderItem;
+use App\Entity\Product\Product;
+use App\Entity\Shipment\Shipment;
+use App\Interface\Vendor\VendorInterface;
+use App\Repository\Vendor\VendorRepository;
 use Doctrine\Common\Collections\Collection;
-use App\EntityInterface\Vendor\VendorInterface;
-use Doctrine\Common\Collections\ArrayCollection;
-use JsonSerializable;
+use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Order\OrderStorage;
+use Exception;
 
-/**
- * @property ArrayCollection $vendorItem
- */
-#[ORM\Entity]
-class Vendor extends RootEntity implements ObjectInterface, VendorInterface, JsonSerializable
+#[ORM\Table(
+    name: 'vendor',
+
+)]
+#[ORM\Index(columns: ['slug'], name: 'vendor_idx')]
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['vendor:list']],
+            name: 'vendor_list'
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['vendor:item']],
+            name: 'vendor_item'
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write','vendorEn','vendorSecurity','vendorIban']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/vendor/{slug}',
+            controller: VendorController::class,
+            normalizationContext: ['groups' => ['vendor:item']],
+            name: 'vendor_by_slug'
+        )
+    ],
+    normalizationContext: ['groups' => ['read']],
+    denormalizationContext: ['groups' => ['write']]
+)]
+# Boolean filter по активности и публикации
+#[ApiFilter(BooleanFilter::class, properties: ['isActive', 'published'])]
+# Поиск по полям
+#[ApiFilter(SearchFilter::class, properties: [
+    'slug' => 'exact',
+    'locale' => 'exact',
+    'vendorEnGb.firstTitle' => 'partial',
+    'vendorEnGb.lastTitle' => 'partial'
+])]
+# Сортировка
+#[ApiFilter(OrderFilter::class, properties: ['createdAt','modifiedAt','slug','isActive'], arguments: ['orderParameterName' => 'order'])]
+class Vendor implements VendorInterface, \JsonSerializable
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait;
+    use ObjectTrait;
+    use MetaTrait;
+
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'is_active', type: 'boolean', nullable: false, options: ['default' => 1, 'comment' => 'New user default is active'])]
-    private bool $isActive;
+    private bool $isActive = true;
 
     #[Groups(['vendor:list', 'vendor:item'])]
     #[ORM\Column(name: 'locale', type: 'string', nullable: false, options: ['default' => 'en'])]
@@ -45,56 +103,50 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, Jso
     private ?string $otep = null;
 
     #[ORM\Column(name: 'require_reset', type: 'boolean', nullable: false, options: ['default' => 0, 'comment' => 'Require user to reset password on next login'])]
-    private int|bool $requireReset = false;
+    private bool $requireReset = false;
 
     #[ORM\OneToOne(mappedBy: 'vendorSecurity', targetEntity: VendorSecurity::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Assert\Type(type: VendorSecurity::class)]
+    #[Assert\Valid]
     #[Ignore]
-    private VendorSecurity $vendorSecurity;
+    private ?VendorSecurity $vendorSecurity = null;
 
-    #[ORM\OneToOne(mappedBy: 'vendorIban', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'vendorIbanVendor', targetEntity: VendorIban::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Assert\Type(type: VendorIban::class)]
+    #[Assert\Valid]
     #[Ignore]
-    private VendorIban $vendorIban;
+    private ?VendorIban $vendorIban = null;
 
-    #[ORM\OneToOne(mappedBy: 'vendorEnUs', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToOne(mappedBy: 'vendorEnGbVendor', targetEntity: VendorEnUS::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Assert\Type(type: VendorEnUS::class)]
+    #[Assert\Valid]
     #[Ignore]
-    private VendorEnUS $vendorEnUs;
-
-    #[ORM\OneToOne(mappedBy: 'vendorEnGb', targetEntity: VendorEnGb::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    #[Ignore]
-    private VendorEnUS $vendorEnGb;
+    private ?VendorEnUS $vendorEnGb = null;
 
     #[ORM\OneToOne(mappedBy: 'vendorFeatured', targetEntity: Featured::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[Assert\Type(type: Featured::class)]
+    #[Assert\Valid]
     #[Ignore]
-    private Featured $vendorFeatured;
+    private ?Featured $vendorFeatured = null;
 
-    #[ORM\OneToMany(mappedBy: 'vendorDocumentAttachment', targetEntity: VendorDocumentAttachment::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorDocumentAttachment;
+    #[ORM\OneToMany(mappedBy: 'vendorDocumentVendor', targetEntity: VendorDocument::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $vendorDocument;
 
-    #[ORM\OneToMany(mappedBy: 'vendorMediaAttachment', targetEntity: VendorMediaAttachment::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'vendorMediaVendor', targetEntity: VendorMedia::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorMediaAttachment;
-
-    #[ORM\OneToMany(mappedBy: 'vendorProfileAvatar', targetEntity: VendorProfileAvatar::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorProfileAvatar;
-
-    #[ORM\OneToMany(mappedBy: 'vendorProfileCover', targetEntity: VendorProfileCover::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorProfileCover;
+    private Collection $vendorMedia;
 
     #[ORM\OneToMany(mappedBy: 'orderVendor', targetEntity: OrderStorage::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorOrder;
 
-    #[ORM\OneToMany(mappedBy: 'orderItemVendor', targetEntity: OrderItem::class)]
+    #[ORM\OneToMany(mappedBy: 'orderItemsVendor', targetEntity: OrderItem::class)]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
-    private Collection $vendorOrderItem;
+    private Collection $vendorItem;
 
     #[ORM\ManyToMany(targetEntity: VendorFavourite::class, mappedBy: 'vendorFavourite')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
@@ -108,302 +160,346 @@ class Vendor extends RootEntity implements ObjectInterface, VendorInterface, Jso
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMessage;
 
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'vendorMyFriend')]
+    #[ORM\ManyToMany(targetEntity: Vendor::class, mappedBy: 'vendorMyFriend')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorFriend;
 
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'vendorFriend')]
+    #[ORM\ManyToMany(targetEntity: Vendor::class, inversedBy: 'vendorFriend')]
     #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
     private Collection $vendorMyFriend;
 
-    #[ORM\OneToOne(mappedBy: 'vendorProfile', targetEntity: VendorProfile::class)]
-    private VendorProfile $vendorProfile;
+    #[ORM\OneToMany(
+        mappedBy: 'vendorProduct',
+        targetEntity: Product::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $vendorProduct;
+
+    #[ORM\OneToMany(
+        mappedBy: 'vendorCommission',
+        targetEntity: Commission::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $vendorCommission;
+
+    #[ORM\OneToMany(
+        mappedBy: 'vendorShipment',
+        targetEntity: Shipment::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $vendorShipment;
+
+
 
     /**
      * @throws Exception
      */
     public function __construct()
     {
-        parent::__construct();
+        $t = new \DateTimeImmutable();
+        $this->slug = (string)Uuid::v4();
         $this->vendorMessage = new ArrayCollection();
         $this->vendorItem = new ArrayCollection();
         $this->vendorOrder = new ArrayCollection();
-        $this->vendorDocumentAttachment = new ArrayCollection();
-        $this->vendorMediaAttachment = new ArrayCollection();
-        $this->vendorProfileAvatar = new ArrayCollection();
-        $this->vendorProfileCover = new ArrayCollection();
+        $this->vendorDocument = new ArrayCollection();
+        $this->vendorMedia = new ArrayCollection();
         $this->vendorFriend = new ArrayCollection();
         $this->vendorMyFriend = new ArrayCollection();
         $this->isActive = true;
-    }
+        $this->vendorProduct = new ArrayCollection();
+        $this->vendorCommission = new ArrayCollection();
+        $this->vendorShipment = new ArrayCollection();
 
-    #[ArrayShape(['firstTitle' => 'string', 'lastTitle' => 'string'])]
-    public function jsonSerialize(): array
-    {
-        return [
-            'firstTitle' => $this->getFirstTitle(),
-            'lastTitle' => $this->getLastTitle(),
-        ];
+        $this->lastRequestAt = clone $t;
+        $this->createdAt = clone $t;
+        $this->modifiedAt = clone $t;
+        $this->lockedAt = clone $t;
+        $this->published = true;
     }
-
-    public function getIsActive(): bool
+    #
+    public function isActive(): bool
     {
         return $this->isActive;
     }
-
-    public function setIsActive(bool|int $isActive): void
+    public function setIsActive(bool $isActive = false): void
     {
         $this->isActive = $isActive;
     }
-
-    public function getLocale(): string
+    #
+    public function getLocale(): ?string
     {
         return $this->locale;
     }
-
     public function setLocale(string $locale): void
     {
         $this->locale = $locale;
     }
-
+    #
     public function getResetCount(): ?int
     {
         return $this->resetCount;
     }
-
-    public function setResetCount(?int $resetCount): void
+    public function setResetCount(int $resetCount): self
     {
         $this->resetCount = $resetCount;
+        return $this;
     }
-
+    #
     public function getOtpKey(): ?string
     {
         return $this->otpKey;
     }
-
-    public function setOtpKey(?string $otpKey): void
+    public function setOtpKey(string $otpKey): self
     {
         $this->otpKey = $otpKey;
+        return $this;
     }
-
+    #
     public function getOtep(): ?string
     {
         return $this->otep;
     }
-
-    public function setOtep(?string $otep): void
+    public function setOtep(string $otep): self
     {
         $this->otep = $otep;
+        return $this;
     }
-
-    public function getRequireReset(): bool|int
+    #
+    public function isRequireReset(): bool
     {
         return $this->requireReset;
     }
-
-    public function setRequireReset(bool|int $requireReset): void
+    public function setRequireReset(bool $requireReset): self
     {
         $this->requireReset = $requireReset;
+        return $this;
     }
 
-    public function getVendorSecurity(): VendorSecurity|array
+    # OneToOne
+    public function getVendorSecurity(): ?VendorSecurity
     {
         return $this->vendorSecurity;
     }
-
-    public function setVendorSecurity(VendorSecurity|array $vendorSecurity): void
+    public function setVendorSecurity(VendorSecurity $vendorSecurity): void
     {
         $this->vendorSecurity = $vendorSecurity;
     }
+    # OneToOne
+    public function getVendorEnGb(): VendorEnUS
+    {
+        return $this->vendorEnGb;
+    }
+    public function setVendorEnGb(VendorEnUS $vendorEnGb): void
+    {
+        $this->vendorEnGb = $vendorEnGb;
+    }
+    # OneToMany
+    /** @return Collection<int, Commission> */
+    public function getVendorCommission(): Collection
+    {
+        return $this->vendorCommission;
+    }
+    public function addVendorCommission(Commission $commission): void
+    {
+        if (!$this->vendorCommission->contains($commission)) {
+            $this->vendorCommission->add($commission);
+            $commission->setVendor($this);
+        }
+    }
+    public function removeVendorCommission(Commission $commission): void
+    {
+        if ($this->vendorCommission->removeElement($commission)) {
+            if ($commission->getVendor() === $this) {
+                $commission->setVendor(null);
+            }
+        }
+    }
+    # OneToMany
+    /** @return Collection<int, Product> */
+    public function getVendorProduct(): Collection
+    {
+        return $this->vendorProduct;
+    }
+    public function addVendorProduct(Product $product): void
+    {
+        if (!$this->vendorProduct->contains($product)) {
+            $this->vendorProduct->add($product);
+            $product->setVendor($this);
+        }
+    }
+    public function removeVendorProduct(Product $product): void
+    {
+        if ($this->vendorProduct->removeElement($product)) {
+            if ($product->getVendor() === $this) {
+                $product->setVendor(null);
+            }
+        }
+    }
+    # OneToMany
+    /** @return Collection<int, Shipment> */
+    public function getShipment(): Collection
+    {
+        return $this->vendorShipment;
+    }
+    public function addVendorShipment(Shipment $shipment): void
+    {
+        if (!$this->vendorShipment->contains($shipment)) {
+            $this->vendorShipment->add($shipment);
+            $shipment->setVendor($this);
+        }
+    }
+    public function removeVendorShipment(Shipment $shipment): void
+    {
+        if ($this->vendorShipment->removeElement($shipment)) {
+            if ($shipment->getVendor() === $this) {
+                $shipment->setVendor(null);
+            }
+        }
+    }
+    # OneToMany
+    /** @return Collection<int, VendorDocument> */
+    public function getVendorDocument(): Collection
+    {
+        return $this->vendorDocument;
+    }
+    public function addVendorDocument(VendorDocument $vendorDocument): self
+    {
+        $this->vendorDocument[] = $vendorDocument;
 
+        return $this;
+    }
+    public function removeVendorDocument(VendorDocument $vendorDocument): self
+    {
+        if ($this->vendorDocument->contains($vendorDocument)){
+            $this->vendorDocument->removeElement($vendorDocument);
+        }
+        return $this;
+    }
+    # OneToMany
+    public function getVendorMedia(): Collection
+    {
+        return $this->vendorMedia;
+    }
+    public function addVendorMedia(VendorMedia $vendorMedia): self
+    {
+        if (!$this->vendorMedia->contains($vendorMedia)){
+            $this->vendorMedia[] = $vendorMedia;
+
+        }
+        return $this;
+    }
+    public function removeVendorMedia(VendorMedia $vendorMedia): self
+    {
+        if ($this->vendorMedia->contains($vendorMedia)){
+            $this->vendorMedia->removeElement($vendorMedia);
+        }
+        return $this;
+    }
+    # OneToOne
     public function getVendorIban(): VendorIban
     {
         return $this->vendorIban;
     }
-
     public function setVendorIban(VendorIban $vendorIban): void
     {
         $this->vendorIban = $vendorIban;
     }
-
-    public function getVendorEnUs(): VendorEnUS
-    {
-        return $this->vendorEnUs;
-    }
-
-    public function setVendorEnUs(VendorEnUS $vendorEnUs): void
-    {
-        $this->vendorEnUs = $vendorEnUs;
-    }
-
-    public function getVendorFeatured(): Featured
-    {
-        return $this->vendorFeatured;
-    }
-
-    public function setVendorFeatured(Featured $vendorFeatured): void
-    {
-        $this->vendorFeatured = $vendorFeatured;
-    }
-
-    public function getVendorDocumentAttachment(): Collection
-    {
-        return $this->vendorDocumentAttachment;
-    }
-
-    public function setVendorDocument($vendorDocumentAttachment): void
-    {
-        $this->addVendorDocumentAttachment($vendorDocumentAttachment);
-    }
-
-    public function addVendorDocumentAttachment($vendorDocumentAttachment): void
-    {
-        if ($vendorDocumentAttachment instanceof VendorMediaAttachment) {
-            if (!$this->vendorDocumentAttachment->contains($vendorDocumentAttachment)) {
-                $this->vendorDocumentAttachment->add($vendorDocumentAttachment);
-            }
-        } elseif ($vendorDocumentAttachment instanceof Collection) {
-            foreach ($vendorDocumentAttachment as $attachment) {
-                $this->addVendorMediaAttachment($attachment);
-            }
-        }
-    }
-
-    public function getVendorMediaAttachment(): Collection
-    {
-        return $this->vendorMediaAttachment;
-    }
-
-    public function setVendorMediaAttachment($vendorMediaAttachment): void
-    {
-        $this->addVendorMediaAttachment($vendorMediaAttachment);
-    }
-
-    public function addVendorMediaAttachment($vendorMediaAttachment): void
-    {
-        if ($vendorMediaAttachment instanceof VendorMediaAttachment) {
-            if (!$this->vendorMediaAttachment->contains($vendorMediaAttachment)) {
-                $this->vendorMediaAttachment->add($vendorMediaAttachment);
-            }
-        } elseif ($vendorMediaAttachment instanceof Collection) {
-            foreach ($vendorMediaAttachment as $attachment) {
-                $this->addVendorMediaAttachment($attachment);
-            }
-        }
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getVendorProfileAvatar(): Collection
-    {
-        return $this->vendorProfileAvatar;
-    }
-
-    /**
-     * @param $vendorProfileAvatar
-     */
-    public function setVendorProfileAvatar($vendorProfileAvatar): void
-    {
-        $this->vendorProfileAvatar = $vendorProfileAvatar;
-    }
-
-    public function addVendorProfileAvatar($vendorProfileAvatar): void
-    {
-        if ($vendorProfileAvatar instanceof VendorProfileAvatar) {
-            if (!$this->vendorProfileAvatar->contains($vendorProfileAvatar)) {
-                $this->vendorProfileAvatar->add($vendorProfileAvatar);
-            }
-        } elseif ($vendorProfileAvatar instanceof Collection) {
-            foreach ($vendorProfileAvatar as $avatar) {
-                $this->addVendorProfileAvatar($avatar);
-            }
-        }
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getVendorProfileCover(): Collection
-    {
-        return $this->vendorProfileCover;
-    }
-
-    /**
-     * @param Collection $vendorProfileCover
-     */
-    public function setVendorProfileCover(Collection $vendorProfileCover): void
-    {
-        $this->vendorProfileCover = $vendorProfileCover;
-    }
-
-    public function getVendorOrder(): Collection
+    # OneToMany
+    public function getVendorOrder(): ArrayCollection
     {
         return $this->vendorOrder;
     }
-
-    public function setVendorOrder(Collection $vendorOrder): void
+    public function addVendorOrder(OrderStorage $vendorOrder): self
     {
-        $this->vendorOrder = $vendorOrder;
+        if (!$this->vendorOrder->contains($vendorOrder)){
+            $this->vendorOrder[] = $vendorOrder;
+        }
+        return $this;
     }
-
-    public function getVendorOrderItem(): Collection
+    public function removeVendorOrder(OrderStorage $vendorOrder): self
     {
-        return $this->vendorOrderItem;
+        if ($this->vendorOrder->contains($vendorOrder)){
+            $this->vendorOrder->removeElement($vendorOrder);
+        }
+        return $this;
     }
-
-    public function setVendorOrderItem(Collection $vendorOrderItem): void
-    {
-        $this->vendorOrderItem = $vendorOrderItem;
-    }
-
+    # ManyToMany
     public function getVendorFavourite(): Collection
     {
         return $this->vendorFavourite;
     }
-
-    public function setVendorFavourite(Collection $vendorFavourite): void
+    public function addVendorFavourite(VendorFavourite $vendorFavourite): self
     {
-        $this->vendorFavourite = $vendorFavourite;
+        if (!$this->vendorFavourite->contains($vendorFavourite)){
+            $this->vendorFavourite[] = $vendorFavourite;
+        }
+        return $this;
     }
-
-    public function getVendorConversation(): Collection
+    public function removeVendorFavourite(VendorFavourite $vendorFavourite): self
     {
-        return $this->vendorConversation;
+        if ($this->vendorFavourite->contains($vendorFavourite)){
+            $this->vendorFavourite->removeElement($vendorFavourite);
+        }
+        return $this;
     }
-
-    public function setVendorConversation(Collection $vendorConversation): void
+    # OneToOne
+    public function getVendorFeatured(): Featured
     {
-        $this->vendorConversation = $vendorConversation;
+        return $this->vendorFeatured;
     }
-
+    public function setVendorFeatured(Featured $vendorFeatured): void
+    {
+        $this->vendorFeatured = $vendorFeatured;
+    }
+    # OneToMany
+    public function getVendorItem(): Collection
+    {
+        return $this->vendorItem;
+    }
+    public function addVendorItem(OrderItem $vendorItem): self
+    {
+        if (!$this->vendorItem->contains($vendorItem)){
+            $this->vendorItem[] = $vendorItem;
+        }
+        return $this;
+    }
+    public function removeVendorItem(OrderItem $vendorItem): self
+    {
+        if ($this->vendorItem->contains($vendorItem)){
+            $this->vendorItem->removeElement($vendorItem);
+        }
+        return $this;
+    }
+    # OneToMany
     public function getVendorMessage(): Collection
     {
-        return $this->vendorMessage;
+     return $this->vendorMessage;
+    }
+    public function addVendorMessage(VendorMessage $vendorMessage): self
+    {
+        if (!$this->vendorMessage->contains($vendorMessage)){
+            $this->vendorMessage[] = $vendorMessage;
+        }
+        return $this;
+    }
+    public function removeVendorMessage(VendorMessage $vendorMessage): self
+    {
+        if ($this->vendorMessage->contains($vendorMessage)){
+            $this->vendorMessage->removeElement($vendorMessage);
+        }
+        return $this;
     }
 
-    public function setVendorMessage(Collection $vendorMessage): void
+    #[ArrayShape(["firstTitle" => "string", "lastTitle" => "string"])]
+    public function jsonSerialize(): array
     {
-        $this->vendorMessage = $vendorMessage;
-    }
-
-    public function getVendorFriend(): Collection
-    {
-        return $this->vendorFriend;
-    }
-
-    public function setVendorFriend(Collection $vendorFriend): void
-    {
-        $this->vendorFriend = $vendorFriend;
-    }
-
-    public function getVendorMyFriend(): Collection
-    {
-        return $this->vendorMyFriend;
-    }
-
-    public function setVendorMyFriend(Collection $vendorMyFriend): void
-    {
-        $this->vendorMyFriend = $vendorMyFriend;
+        return [
+            "firstTitle" => $this->getFirstTitle(),
+            "lastTitle" => $this->getLastTitle()
+        ];
     }
 }
+

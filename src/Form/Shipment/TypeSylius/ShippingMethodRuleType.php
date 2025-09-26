@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Form\Shipment\TypeSylius;
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +17,8 @@ final class ShippingMethodRuleType extends AbstractConfigurableShippingMethodEle
                 'attr' => [
                     'data-form-collection' => 'update',
                 ],
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

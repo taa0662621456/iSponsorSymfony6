@@ -4,6 +4,7 @@ namespace App\Service\System;
 
 class ExceptionMapping
 {
+
     private int $code;
 
     private bool $hidden;
@@ -17,18 +18,29 @@ class ExceptionMapping
         $this->loggable = $loggable;
     }
 
+    /**
+     * @return int
+     */
     public function getCode(): int
     {
         return $this->code;
     }
 
+    /**
+     * @return bool
+     */
     public function isHidden(): bool
     {
         return $this->hidden;
     }
 
+    /**
+     * @return bool
+     */
     public function isLoggable(): bool
     {
         return $this->loggable;
     }
+
+
 }

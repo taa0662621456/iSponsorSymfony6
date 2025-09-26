@@ -3,47 +3,32 @@
 
 namespace App\Doctrine\DQL;
 
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\Query\AST\Functions\FunctionNode;
 use Doctrine\ORM\Query\AST\Node;
 use Doctrine\ORM\Query\Lexer;
 use Doctrine\ORM\Query\Parser;
-use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\Query\SqlWalker;
-use RuntimeException;
 
 final class Day extends FunctionNode
 {
     /** @var Node|string|null */
-    public Node|string|null $date;
+    public $date;
 
     public function parse(Parser $parser): void
     {
-        try {
-            $parser->match(Lexer::T_IDENTIFIER);
-        } catch (QueryException $e) {
-        }
-        try {
-            $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        } catch (QueryException $e) {
-        }
+        $parser->match(Lexer::T_IDENTIFIER);
+        $parser->match(Lexer::T_OPEN_PARENTHESIS);
 
         $this->date = $parser->ArithmeticPrimary();
 
-        try {
-            $parser->match(Lexer::T_CLOSE_PARENTHESIS);
-        } catch (QueryException $e) {
-        }
+        $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 
     public function getSql(SqlWalker $sqlWalker): string
     {
-        try {
-            $platform = $sqlWalker->getConnection()->getDatabasePlatform();
-        } catch (Exception $e) {
-        }
+        $platform = $sqlWalker->getConnection()->getDatabasePlatform();
 
         if (is_a($platform, MySQLPlatform::class, true)) {
             return sprintf('DAY(%s)', $sqlWalker->walkArithmeticPrimary($this->date));
@@ -53,6 +38,6 @@ final class Day extends FunctionNode
             return sprintf('EXTRACT(DAY FROM %s)', $sqlWalker->walkArithmeticPrimary($this->date));
         }
 
-        throw new RuntimeException(sprintf('Platform "%s" is not supported!', get_class($platform)));
+        throw new \RuntimeException(sprintf('Platform "%s" is not supported!', get_class($platform)));
     }
 }

@@ -2,19 +2,14 @@
 
 namespace App\Service\Locale;
 
-use App\EntityInterface\Locale\LocaleInterface;
-use App\RepositoryInterface\Locale\LocaleRepositoryInterface;
-use App\ServiceInterface\Locale\LocaleProviderServiceInterface;
+use App\Interface\Locale\LocaleInterface;
+use App\Interface\RepositoryInterface;
 
-final class Locale implements LocaleProviderServiceInterface, LocaleInterface
+final class Locale implements LocaleProviderInterface
 {
-        private string $defaultLocaleCode;
-
-        public function __construct(private readonly LocaleRepositoryInterface $localeRepository,
-                                    ?string $defaultLocaleCode = 'EnUs')
-        {
-            $this->defaultLocaleCode = $defaultLocaleCode ?? 'EnUs';
-        }
+    public function __construct(private readonly RepositoryInterface $localeRepository, private readonly string $defaultLocaleCode)
+    {
+    }
 
     public function getAvailableLocalesCodes(): array
     {
@@ -24,20 +19,12 @@ final class Locale implements LocaleProviderServiceInterface, LocaleInterface
             function (LocaleInterface $locale) {
                 return (string) $locale->getCode();
             },
-            $locales
+            $locales,
         );
     }
-
 
     public function getDefaultLocaleCode(): string
     {
         return $this->defaultLocaleCode;
-    }
-
-
-    public function getCode(): string
-    {
-        // TODO: Implement getCode() method.
-        return 'EnUs';
     }
 }

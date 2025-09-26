@@ -2,15 +2,16 @@
 
 namespace App\Repository\Review;
 
+use App\Entity\Review\ProductReview;
 use DateTime;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\NoResultException;
-use App\Repository\EntityRepository;
-use App\Entity\Product\ProductReview;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Exception;
+
 
 /**
  * @method ProductReview|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,11 +19,15 @@ use Exception;
  * @method ProductReview[]    findAll()
  * @method ProductReview[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductReviewRepository extends EntityRepository implements ProductReviewRepositoryInterface
+class ProductReviewRepository extends ServiceEntityRepository
 {
     public const REVIEWS_PER_PAGE = 10;
-
     public const DAYS_BEFORE_REJECTED_REMOVAL = '';
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ProductReview::class);
+    }
 
     public function getReviewsPerPage(ProductReview $productReviews, int $offset): Paginator
     {
@@ -37,6 +42,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->getQuery();
 
         return new Paginator($qb);
+
     }
 
     /**

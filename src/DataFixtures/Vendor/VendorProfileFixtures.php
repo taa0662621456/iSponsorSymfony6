@@ -2,20 +2,23 @@
 
 namespace App\DataFixtures\Vendor;
 
+use App\Entity\Vendor\VendorProfile;
+use App\Service\BaseGroupedFixture;
 
-use App\DataFixtures\DataFixtures;
-use Doctrine\Persistence\ObjectManager;
-
-final class VendorProfileFixtures extends DataFixtures
+final class VendorProfileFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        for ($i = 1; $i <= 10; $i++) {
+            $profile = new VendorProfile();
+            $profile->setDescription("Vendor profile $i");
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->name(),
-            'lastTitle' => fn($faker, $i) => $faker->lastName(),
-        ];
-
-        parent::load($manager, $property);
+            $manager->persist($profile);
+            $this->addReference('vendorProfile_' . $i, $profile);
+        }
+        $manager->flush();
     }
+
+    public static function getGroup(): string { return 'vendor'; }
+    public static function getPriority(): int { return 20; }
 }

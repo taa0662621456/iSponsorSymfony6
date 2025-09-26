@@ -1,12 +1,14 @@
 <?php
 
+
 namespace Controller;
 
 use ApiTestCase\JsonApiTestCase;
 
 final class XFrameOptionsTest extends JsonApiTestCase
 {
-    public function testItSetsFrameOptionsHeader(): void
+    /** @test */
+    public function it_sets_frame_options_header(): void
     {
         $this->client->request('GET', '/');
 

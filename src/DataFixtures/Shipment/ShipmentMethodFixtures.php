@@ -2,10 +2,23 @@
 
 namespace App\DataFixtures\Shipment;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Shipment\ShipmentMethod;
+use App\Service\BaseGroupedFixture;
+use Doctrine\Persistence\ObjectManager;
 
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
-
-final class ShipmentMethodFixtures extends DataFixtures
+final class ShipmentMethodFixtures extends BaseGroupedFixture
 {
+    public function load(ObjectManager $manager): void
+    {
+        $method = new ShipmentMethod();
+        $method->setName('Standard Delivery');
+        $manager->persist($method);
+        $this->addReference('shipmentMethod_standard', $method);
+
+        $manager->flush();
+    }
+
+    public static function getGroup(): string { return 'shipment'; }
+    public static function getPriority(): int { return 10; }
 }
+

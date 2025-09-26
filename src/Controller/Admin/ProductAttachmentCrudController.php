@@ -1,42 +1,31 @@
 <?php
-
 namespace App\Controller\Admin;
 
-use App\Form\Attachment\AttachmentType;
-use App\Entity\Product\ProductAttachment;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-class ProductAttachmentCrudController extends AbstractCrudController
+use App\Entity\ProductAttachment;
+
+class ProductAttachmentCrudController extends BaseCrudController
 {
-    use ConfigureFiltersTrait;
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return ProductAttachment::class; }
 
-    public static function getEntityFqcn(): string
+    public function configureActions(Actions $actions): Actions
     {
-        return ProductAttachment::class;
+        $validate = Action::new('validate', 'Validate')->linkToCrudAction('validateAttachment')->setCssClass('btn btn-primary');
+        return $actions->add(Crud::PAGE_INDEX, $validate);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function validateAttachment(AdminContext $ctx)
     {
-        return [
-            TextField::new('firstTitle'),
-            TextEditorField::new('middle_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            CollectionField::new('productAttachment')
-                ->setEntryType(AttachmentType::class)
-                ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms(),
-            CollectionField::new('productAttachment')
-                ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail(),
-//            ImageField::new('firstTitle')
-//                ->setBasePath('/upload/product/thumbnail')
-//                ->setUploadDir('/upload/product/thumbnail')
-//                ->onlyOnIndex()
-//            ,
-        ];
+        /** @var ProductAttachment $a */
+        $a = $ctx->getEntity()->getInstance();
+        $ok = method_exists($a, 'isValid') ? $a->isValid() : true;
+        $this->addFlash($ok ? 'success' : 'danger', $ok ? 'Attachment valid' : 'Attachment invalid');
+        return $this->redirect($ctx->getReferrer());
     }
 }

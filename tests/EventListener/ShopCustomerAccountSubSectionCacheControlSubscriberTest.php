@@ -1,12 +1,16 @@
 <?php
 
+
 namespace EventListener;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ShopCustomerAccountSubSectionCacheControlSubscriberTest extends WebTestCase
 {
-    public function testItReturnsProperCacheHeadersForCustomerAccountEndpoints(): void
+    /**
+     * @test
+     */
+    public function it_returns_proper_cache_headers_for_customer_account_endpoints(): void
     {
         $client = static::createClient();
 

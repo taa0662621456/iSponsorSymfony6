@@ -1,14 +1,16 @@
 <?php
 
+
 namespace App\Tests\Api\Admin;
 
-use App\Tests\Api\JsonApiTestCase;
+use Sylius\Tests\Api\JsonApiTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 final class AdminUsersTest extends JsonApiTestCase
 {
-    public function testItAllowsAdminUsersToLogIn(): void
+    /** @test */
+    public function it_allows_admin_users_to_log_in(): void
     {
         $this->loadFixturesFromFile('authentication/api_administrator.yaml');
 
@@ -20,7 +22,7 @@ final class AdminUsersTest extends JsonApiTestCase
             self::CONTENT_TYPE_HEADER,
             json_encode([
                 'email' => 'api@example.com',
-                'password' => 'isponsor',
+                'password' => 'isponsor'
             ])
         );
 
@@ -29,7 +31,8 @@ final class AdminUsersTest extends JsonApiTestCase
         $this->assertResponse($response, 'admin/log_in_admin_response', Response::HTTP_OK);
     }
 
-    public function testItSendsAdministratorPasswordResetEmail(): void
+    /** @test */
+    public function it_sends_administrator_password_reset_email(): void
     {
         $this->loadFixturesFromFile('authentication/api_administrator.yaml');
 

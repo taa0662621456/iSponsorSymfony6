@@ -1,9 +1,9 @@
 <?php
 
+
 namespace App\Extension;
 
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\FormBuilderInterface;
+
 
 final class TaxRateTypeExtension extends AbstractTypeExtension
 {
@@ -14,7 +14,7 @@ final class TaxRateTypeExtension extends AbstractTypeExtension
 
     public function getExtendedType(): string
     {
-        return TaxationRateType::class;
+        return TaxRateType::class;
     }
 
     public static function getExtendedTypes(): iterable

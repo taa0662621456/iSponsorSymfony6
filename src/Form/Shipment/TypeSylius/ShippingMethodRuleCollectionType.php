@@ -1,9 +1,11 @@
 <?php
 
+
 namespace App\Form\Shipment\TypeSylius;
 
+
+use App\Form\Type\Core\AbstractConfigurationCollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\Form\Shipment\Core\AbstractConfigurationCollectionType;
 
 final class ShippingMethodRuleCollectionType extends AbstractConfigurationCollectionType
 {

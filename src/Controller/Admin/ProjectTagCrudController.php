@@ -1,29 +1,34 @@
 <?php
-
 namespace App\Controller\Admin;
 
-use App\Entity\Project\ProjectTag;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-class ProjectTagCrudController extends AbstractCrudController
+use App\Entity\ProjectTag;
+
+class ProjectTagCrudController extends BaseCrudController
 {
-    use ConfigureFiltersTrait;
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return ProjectTag::class; }
 
-    public static function getEntityFqcn(): string
+    public function configureActions(Actions $actions): Actions
     {
-        return ProjectTag::class;
+        $bulkAdd = Action::new('bulkAdd', 'Bulk Add')->linkToCrudAction('bulkAddTags')->setCssClass('btn btn-primary');
+        $bulkRemove = Action::new('bulkRemove', 'Bulk Remove')->linkToCrudAction('bulkRemoveTags')->setCssClass('btn btn-danger');
+        return $actions->add(Crud::PAGE_INDEX, $bulkAdd)->add(Crud::PAGE_INDEX, $bulkRemove);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function bulkAddTags(AdminContext $ctx)
     {
-        return [
-            TextField::new('first_title'),
-            TextEditorField::new('middle_title'),
-            AssociationField::new('projectTagProject')->autocomplete()->hideOnIndex(),
-            TextField::new('create_By')->hideOnForm(),
-        ];
+        $this->addFlash('success', 'Tags added');
+        return $this->redirect($ctx->getReferrer());
+    }
+    public function bulkRemoveTags(AdminContext $ctx)
+    {
+        $this->addFlash('warning', 'Tags removed');
+        return $this->redirect($ctx->getReferrer());
     }
 }

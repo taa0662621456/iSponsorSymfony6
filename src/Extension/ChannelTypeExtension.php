@@ -5,14 +5,6 @@ namespace App\Extension;
 
 
 
-use App\EventSubscriber\AddBaseCurrencySubscriber;
-use App\EventSubscriber\ChannelFormSubscriber;
-use App\Form\Local\LocaleChoiceType;
-use Symfony\Component\Form\AbstractTypeExtension;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\FormBuilderInterface;
-
 final class ChannelTypeExtension extends AbstractTypeExtension
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -2,40 +2,58 @@
 
 namespace App\Entity\Payment;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Entity\BaseTrait;
+use App\Repository\Payment\PaymentTokenRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Payum\Core\Security\Util\Random;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Payment\PaymentTokenInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class PaymentToken extends RootEntity implements ObjectInterface, PaymentTokenInterface
+#[ORM\Table(name: 'payment_token')]
+#[ORM\Entity(repositoryClass: PaymentTokenRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    operations: [
+        new GetCollection(order: ['createdAt' => 'DESC']),
+        new Get(),
+        new Post(),
+        new Put(),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            name: 'get_by_slug'
+        )
+    ]
+)]
+class PaymentToken
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait;
 
-    #[ORM\OneToOne(inversedBy: "paymentToken", targetEntity: Payment::class)]
-    private Payment $paymentToken;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $expiresAt;
 
-    protected string $hash;
-
-    protected ?RootEntity $details;
-
-    protected ?string $afterUrl;
-
-    protected ?string $targetUrl;
-
-    protected ?string $gatewayName;
+    #[ORM\ManyToOne(targetEntity: PaymentMethod::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?PaymentMethod $method = null;
 
     public function __construct()
     {
-        parent::__construct();
-        $this->hash = Random::generateToken();
+        $this->expiresAt = (new \DateTimeImmutable())->modify('+1 hour');
     }
 
-    public function getId(): int
+    public function getMethod(): ?PaymentMethod
     {
-        return $this->hash;
+        return $this->method;
+    }
+
+    public function setMethod(?PaymentMethod $method): void
+    {
+        $this->method = $method;
     }
 }

@@ -2,9 +2,7 @@
 
 namespace App\Exception;
 
-use Exception;
-
-final class VariantWithNoOptionsValuesException extends Exception
+final class VariantWithNoOptionsValuesException extends \Exception
 {
     public function __construct()
     {

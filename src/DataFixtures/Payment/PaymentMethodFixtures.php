@@ -2,17 +2,24 @@
 
 namespace App\DataFixtures\Payment;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Payment\PaymentMethod;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class PaymentMethodFixtures extends DataFixtures
+final class PaymentMethodFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $property = [
-            'firstTitle' => 'PayPal',
-        ];
+        $method = new PaymentMethod();
+        $method->setName('Credit Card');
 
-        parent::load($manager, $property);
+        $manager->persist($method);
+        $this->addReference('paymentMethod_card', $method);
+
+        $manager->flush();
     }
+
+    public static function getGroup(): string { return 'payment'; }
+    public static function getPriority(): int { return 10; }
 }
+

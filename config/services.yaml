@@ -1,70 +1,113 @@
-imports:
-    - { resource: 'parameters.yaml' }
-    - { resource: 'parameters_exceptions.yaml' }
-    - { resource: 'services_defaults_bind.yaml' }
-
-doctrine:
-    orm:
-        resolve_target_entities:
-            App\EntityInterface\Order\OrderDiscountInterface: App\Entity\Order\OrderDiscount
-
-
-
 parameters:
+    # Meta Data
+    app_name: '...iSponsor!'
+    app_version: '0.0.0'
+    app_domain: 'smartresponsor.com'
+    #
+    # Redirect routs
+    app_schema: 'https'
+    app_homepage_route: homepage
+    app_login_route: login
+    app_logout_route: logout
+    app_default_target_path: profile
+    app_logged_out_target_route: homepage
+    # Localisation
+    app_locales: en|ru|uk
+#    app_locales: en|fr|de|es|cs|nl|ru|uk|ro|pt_BR|pl|it|ja|id|ca|sl|hr|zh_CN|bg|tr|lt
+    app_locale: 'en'
+    # Cache
+    app_cache: 0
+    app_cache_time: 360
+    #
+    # Mailing
+    app_email_sender: 'taa0662621456@gmail.com'
+    app_email_sender_name: '...iSponsor! Marketing America Corporation'
+    app_notification_email_sender: 'taa0662621456@gmail.com'
+    app_property: 'email'
+    # Akismet
+    app_akismet_key: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    # CSRF
+    app_csrf_token: 'weqweqweDFDFDFFDwqeqwewqewqe'
+    # Other parameters
+    app_homepage_number_of_items: 10
+    app_logo_url: '/favicon.ico'
+    # Media folders parameters
+    app_category_images_directory: '%env(APP_CATEGORY_IMAGE_DIRECTORY)%'
+    app_menu_images_directory: '%env(APP_MENU_IMAGE_DIRECTORY)%'
+    app_project_images_directory: '%env(APP_PROJECT_IMAGE_DIRECTORY)%'
+    app_product_images_directory: '%env(APP_PRODUCT_IMAGE_DIRECTORY)%'
+    app_event_images_directory: '%env(APP_EVENT_IMAGE_DIRECTORY)%'
+    app_google_recaptcha: '%env(RECAPTCHA3_ENABLED)%'
+    app_google_scope: '%env(RECAPTCHA_SCOPE)%'
+    app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
+    app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
+    app_vendor_images_directory: '%env(APP_VENDOR_IMAGES_DIRECTORY)%'
+    # Mercure
+    app_mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
+    app_secret: '%env(APP_SECRET)%'
+    # router.request_context.host: '%env(default:default_domain:SYMFONY_DEFAULT_ROUTE_HOST)%'
+    # router.request_context.scheme: '%env(default:default_scheme:SYMFONY_DEFAULT_ROUTE_SCHEME)%'
+    # Sitemap
     router.request_context.host: smartresponsor.com
     router.request_context.scheme: https
     container.dumper.inline_factories: true
+    exceptions:
+        App\Exception\Vendor\VendorNotFoundException: { code: 404, hidden: false }
+        App\Exception\Vendor\VendorPaymentNotFoundException: { code: 404, hidden: false }
+        App\Exception\Vendor\VendorShipmentNotFoundException: { code: 404, hidden: false }
+        App\Exception\CategoryNotFoundException: { code: 404, hidden: false }
+        App\Exception\Project\ProjectNotFoundException: { code: 404, hidden: false }
+        App\Exception\Product\NotFoundException: { code: 404, hidden: false }
+        App\Exception\Product\ProductPaymentNotFoundException: { code: 404, hidden: false }
+        App\Exception\Product\ProductShipmentNotFoundException: { code: 404, hidden: false }
+        App\Exception\AttachmentNotFoundException: { code: 404, hidden: false }
+        App\Exception\EventNotFoundException: { code: 404, hidden: false }
+        App\Exception\TypeNotFoundException: { code: 404, hidden: false }
 
 services:
+    App\Factory\Vendor\VendorFactory:
+        class: App\Factory\Vendor\VendorFactory
+        factory: 'VendorSecurityFactory'
+
+    App\Service\SmsTwoFactorService:
+        arguments:
+            $texter: '@texter'
+
+    App\Service\TotpTwoFactorService:
+        arguments:
+            $totpAuthenticator: '@scheb_two_factor.security.totp_authenticator'
+
+        # общий alias для iterable
+        App\Service\TwoFactor\TwoFactorServiceInterface:
+            resource: '../src/Service/TwoFactor/*TwoFactorService.php'
+            tags: [ 'app.two_factor' ]   # собственный тег, чтобы не мешать другим
+#    App\Factory\Vendor\VendorFactory:
+#        factory: ['App\Factory\Vendor\VendorFactory', 'create']
+    Symfony\Component\RateLimiter\RateLimiterFactory $anonymousApiLimiter: '@limiter.anonymous_api'
+    Symfony\Component\RateLimiter\RateLimiterFactory $twoFactorLimiter: '@limiter.two_factor'
+    Symfony\Component\RateLimiter\RateLimiterFactory $smsLimiter: '@limiter.sms'
+
     _defaults:
-        autowire: true
-        autoconfigure: true
-        bind:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:               # defines the scalar arguments once and apply them to any service defined/created in this file
+#            string $app: '%kernel.project_dir%'
             string $locales: '%app_locales%'
             string $locale: '%app_locale%'
-            string $entityNamespace: 'App\Entity\'
-            string $repositoryNamespace: 'App\Repository\'
-            string $typeNamespace: 'App\Form\'
-            string $loginPath: '%app_login_route%'
-            string $loginSuccessPath: '%app_login_route%'
+            string $pathToEntity: 'App\Entity\'
+            string $pathToRepository: 'App\Repository\'
+            string $pathToType: 'App\Form\'
+            string $pathToLogin: '%app_login_route%'
+            string $pathToLoginSuccess: '%app_login_route%'
             string $token: '%app_csrf_token%'
-            # $emailSender: '%app_email_sender%'
+#            $emailSender: '%app_email_sender%'
             string $akismetKey: "%env(AKISMET_KEY)%"
-
-    Doctrine\Persistence\ObjectManager: '@doctrine.orm.postgres_entity_manager'
-#    App\Interface\DataFixturesInterface\DataFixturesFactoryInterface: '@App\Service\DataFixtures\DataFixturesFactory'
-    Symfony\Component\OptionsResolver\OptionsResolver: ~
-#    Symfony\Component\Validator\Mapping\Factory\MetadataFactoryInterface: '@validator.mapping.factory.default'
-
-    App\EventListener\ExceptionListener:
-        tags:
-            - { name: 'kernel.event_listener', event: 'kernel.exception', priority: 10 }
-    App\EventSubscriber\ObjectPropertySubscriber:
-        tags:
-            - { name: doctrine.event_subscriber }
-    App\EventListener\LastRequestListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: -10 }
-    App\EventListener\LastRequestControllerListener:
-        arguments:
-            $logger: '@monolog.logger.object_property'
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, priority: -10 }
-
-    App\Service\Setup\DatabaseSetupCommandsProvider:
-        arguments:
-            $logger: '@monolog.logger.database_setup'
-
-    App\Service\ObjectInitializer:
-        bind:
-            $entityNamespace: '%entity_namespace%'
-            $repositoryNamespace: '%repository_namespace%'
-            $typeNamespace: '%type_namespace%'
-            $locale: '%locale%'
-
-    Faker\Generator:
-        factory: ['Faker\Factory', 'create']
-
+#            $adminEmail: "%env(string:default:app_email_sender:ADMIN_EMAIL)%"
+#            string $projectImageAttachmentsPath: "%app_project_images_directory%"
+#            string $productImageAttachmentsPath: "%app_product_images_directory%"
+#            string $categoryImageAttachmentsPath: "%app_category_images_directory%"
+#            string $vendorImageAttachmentsPath: "%app_vendor_images_directory%"
+#            string $daysBeforeRemoveRejectedReview: ""
     Redis:
         class: Redis
         calls:
@@ -82,16 +125,30 @@ services:
 #        # Add an alias for the twilio.client service
 #        Twilio\Rest\Client: '@twilio.client'
 
+# Must working
+#    app.sitemap.blog_post_subscriber:
+#        class: App\Listener\SitemapListener
+#        arguments:
+#            - '@doctrine'
+#        tags:
+#            - { name: "kernel.event_subscriber", priority: 100 }
+    api_zone_matcher:
+        class: Symfony\Component\HttpFoundation\RequestMatcher
+        arguments: [ '^/api/' ]
+
     hwi_oauth.user.provider.entity:
         class: App\Security\HWIOAuthAuthenticator
         arguments:
             - '@doctrine'
-            - 'App\Entity\Vendor\VendorSecurity'
+            - 'App\\Entity\\Vendor\\VendorSecurity'
             - [facebook: facebookId, google: googleId, github: githubId]
-
+#            - postgres
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
         arguments:
             - '@Redis'
+            # you can optionally pass an array of options. The only options are 'prefix' and 'ttl',
+            # which define the prefix to use for the keys to avoid collision on the Redis server
+            # and the expiration time for any given entry (in seconds), defaults are 'sf_s' and null:
             # - { 'prefix': 'my_prefix', 'ttl': 600 }
 
     App\Service\CloudflareIpResolver:
@@ -100,13 +157,13 @@ services:
             $decorated: '@App\Service\CloudflareIpResolver.inner'
             $requestStack: '@request_stack'
 
-    App\EventListener\RepositoryMetadataManagerListener:
-        class: App\EventListener\RepositoryMetadataManagerListener
-        tags:
-            - { name: doctrine.event_subscriber }
-
     App\EventSubscriber\LocaleSubscriber:
+        #        arguments: [ '%kernel.default_locale%' ]
         arguments: [ '%app_locale%' ]
+    #         tags: [kernel.event_subscriber] # uncomment the next line if you are not using autoconfigure
+    App\EventListener\GroupedFixtureExecutorListener:
+        tags:
+            - { name: doctrine.fixture.event_subscriber }
 
     App\Service\ObjectFileUploader:
         arguments:
@@ -122,16 +179,13 @@ services:
     App\EventListener\ApiExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 10 }
-#            -
-#    App\EventListener\ExceptionListener:
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.exception, priority: 11 }
-#
-#    App\EventListener\ZoneMatcherListener:
-#        tags:
-#            - { name: kernel.event_listener, event: kernel.request, priority: 300 }
-#        arguments:
-#            - '@api_zone_matcher'
+
+
+    App\EventListener\ZoneMatcherListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 300 }
+        arguments:
+            - '@api_zone_matcher'
 
     App\:
         resource: '../src/'
@@ -141,6 +195,4 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
             - '../src/Trash/'
-            - '../src/Dto/'
             - '../migrations/'
-

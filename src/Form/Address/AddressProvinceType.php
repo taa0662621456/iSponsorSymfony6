@@ -3,10 +3,8 @@
 namespace App\Form\Address;
 
 use Symfony\Component\Form\AbstractType;
-use App\EventSubscriber\AddCodeFormSubscriber;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class AddressProvinceType extends AbstractType
 {
@@ -16,15 +14,14 @@ final class AddressProvinceType extends AbstractType
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
-    public function __construct(string $dataClass = 'data_class', array $validationGroups = [])
+    public function __construct(string $dataClass, array $validationGroups = [])
     {
         $this->dataClass = $dataClass;
         $this->validationGroups = $validationGroups;
     }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -35,7 +32,8 @@ final class AddressProvinceType extends AbstractType
             ->add('abbreviation', TextType::class, [
                 'label' => 'form.province.abbreviation',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

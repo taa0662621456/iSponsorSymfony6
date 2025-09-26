@@ -2,7 +2,6 @@
 
 namespace App\Form\Shipment\TypeSylius;
 
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 final class ShippingMethodTranslationType extends AbstractResourceType
@@ -16,7 +15,8 @@ final class ShippingMethodTranslationType extends AbstractResourceType
             ->add('description', TextareaType::class, [
                 'label' => 'form.shipping_method.description',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

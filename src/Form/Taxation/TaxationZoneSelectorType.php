@@ -1,49 +1,49 @@
 <?php
 
+
 namespace App\Form\Taxation;
 
-use App\Dto\Taxation\TaxationZoneDTO;
-use App\Entity\Taxation\TaxationZone;
+
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
-use App\Repository\Taxation\TaxationZoneRepository;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class TaxationZoneSelectorType extends AbstractType
 {
-    private TaxationZoneRepository $taxationZoneRepository;
-
-    public function __construct(TaxationZoneRepository $taxationZoneRepository)
+    public function __construct(private readonly RepositoryInterface $zoneRepository, private readonly array $scopeTypes = [])
     {
-        $this->taxationZoneRepository = $taxationZoneRepository;
-    }
-
-    public function getParent(): string
-    {
-        return ChoiceType::class;
+        if (count($scopeTypes) === 0) {
+            @trigger_error('Not passing scopeTypes thru constructor is deprecated in Sylius 1.5 and it will be removed in Sylius 2.0');
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'choices' => function (): array {
-                $zones = $this->taxationZoneRepository->findZoneByScope();
+            'choices' => function (Options $options): iterable {
+                $zoneCriteria = [];
+                if ($options['zone_scope'] !== AddressingScope::ALL) {
+                    $zoneCriteria['scope'] = [$options['zone_scope'], AddressingScope::ALL];
+                }
 
-                return $this->mapZoneToDTO($zones);
+                return $this->zoneRepository->findBy($zoneCriteria);
             },
             'choice_value' => 'code',
             'choice_label' => 'name',
             'choice_translation_domain' => false,
             'label' => 'form.address.zone',
             'placeholder' => 'form.zone.select',
+            'zone_scope' => AddressingScope::ALL,
         ]);
+
+        $resolver->setAllowedValues('zone_scope', array_keys($this->scopeTypes));
     }
 
-    private function mapZoneToDTO(array $zones): array
+    public function getParent(): string
     {
-        return array_map(function (TaxationZone $zone) {
-            return new TaxationZoneDTO($zone->getCode(), $zone->getName());
-        }, $zones);
+        return ChoiceType::class;
     }
 
     public function getBlockPrefix(): string

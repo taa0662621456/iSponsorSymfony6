@@ -3,17 +3,17 @@
 namespace App\Command;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class GenerateAllCommand extends Command
 {
     protected static $defaultName = 'app:generate-all';
 
-    protected function configure(): void
+    protected function configure()
     {
         $this
             ->setDescription('Generate and Update Schema DB and Fixtures')
@@ -21,13 +21,14 @@ class GenerateAllCommand extends Command
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): void
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
         $update = $input->getArgument('update');
 
         if ($update) {
             $io->note(sprintf('You passed an argument: %s', $update));
+
         }
 
         // TODO: код по генерации таблицы в базе данных и в случае успеха return Command::SUCCESS;

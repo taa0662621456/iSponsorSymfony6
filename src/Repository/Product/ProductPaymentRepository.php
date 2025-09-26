@@ -2,16 +2,16 @@
 
 namespace App\Repository\Product;
 
-use App\Repository\EntityRepository;
-use App\Entity\Product\ProductStorage;
-use App\RepositoryInterface\Product\ProductPaymentRepositoryInterface;
+use App\Entity\Product\ProductPayment;
+use Doctrine\ORM\EntityRepository;
 
 /**
- * @method ProductStorage|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductStorage|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductStorage[]    findAll()
- * @method ProductStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductPayment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductPayment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductPayment[]    findAll()
+ * @method ProductPayment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductPaymentRepository extends EntityRepository implements ProductPaymentRepositoryInterface
+class ProductPaymentRepository extends EntityRepository
 {
+
 }

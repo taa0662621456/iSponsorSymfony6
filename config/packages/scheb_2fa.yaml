@@ -1,3 +1,5 @@
+# See the configuration reference at https://symfony.com/bundles/SchebTwoFactorBundle/6.x/configuration.html
+# https://symfonycasts.com/screencast/symfony-security/scheb-2fa
 scheb_two_factor:
     security_tokens:
         - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
@@ -22,13 +24,13 @@ scheb_two_factor:
 
     totp:
         enabled: false
-        server_name: smartresponsor
-        issuer: Smartresponsor         # Issuer name used in QR code
-        window: 1                      # How many codes before/after the current one would be accepted as valid
-        parameters: # Additional parameters added in the QR code
-            image: 'cover.jpg'
-            template: security/2fa_form.html.twig   # Template used to render the authentication form
-            form_renderer: acme.custom_form_renderer_service
+        server_name: Smartresponsor        # Server name used in QR code
+            issuer: Smartresponsor         # Issuer name used in QR code
+            window: 1                      # How many codes before/after the current one would be accepted as valid
+            parameters: # Additional parameters added in the QR code
+                image: 'cover.jpg'
+                template: security/2fa_form.html.twig   # Template used to render the authentication form
+                form_renderer: acme.custom_form_renderer_service
         # $secret = $container->get("scheb_two_factor.security.totp_authenticator")->generateSecret();
         # $qrCodeContent = $container->get("scheb_two_factor.security.totp_authenticator")->getQRContent($user);
     google:

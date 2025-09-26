@@ -2,32 +2,26 @@
 
 namespace App\DataFixtures\Project;
 
-
-use App\DataFixtures\DataFixtures;
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Project\Project;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProjectFixtures extends DataFixtures
+final class ProjectFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(50),
-            'lastTitle' => fn($faker, $i) => $faker->realText(2500),
-            'projectType' => fn($faker, $i) => $this->getReference('ProjectTypeFixtures_' . $i),
-            'projectEnGb' => fn($faker, $i) => $this->getReference('ProjectEnGbFixtures_' . $i),
-            'projectAttachment' => fn($faker, $i) => $this->getReference('ProjectAttachmentFixtures_' . $i),
-            'projectCategory' => fn($faker, $i) => $this->getReference('CategoryFixtures_' . $i),
-            'projectTag' => fn($faker, $i) => $this->getReference('ProjectTagFixtures_' . $i),
-            'projectReview' => fn($faker, $i) => $this->getReference('ProjectReviewFixtures_' . $i),
-        ];
+        $type = $this->getReference('projectType_Grant');
 
-        parent::load($manager, $property);
+        $project = new Project();
+        $project->setBudget(500000);
+        $project->setType($type);
+
+        $manager->persist($project);
+        $this->addReference('project_1', $project);
+
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 16;
-    }
-
+    public static function getGroup(): string { return 'project'; }
+    public static function getPriority(): int { return 30; }
 }

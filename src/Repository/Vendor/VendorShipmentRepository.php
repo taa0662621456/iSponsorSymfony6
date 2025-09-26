@@ -2,10 +2,8 @@
 
 namespace App\Repository\Vendor;
 
-use App\Repository\EntityRepository;
 use App\Entity\Vendor\VendorShipment;
-use App\RepositoryInterface\Vendor\VendorShipmentRepositoryInterface;
-use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * @method VendorShipment|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,27 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method VendorShipment[]    findAll()
  * @method VendorShipment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VendorShipmentRepository extends EntityRepository implements VendorShipmentRepositoryInterface
+class VendorShipmentRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, VendorShipment::class);
-    }
 
-    // /**
-    //  * @return VendorShipment[] Returns an array of VendorShipment objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 }

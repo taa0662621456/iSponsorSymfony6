@@ -2,22 +2,16 @@
 
 namespace App\Form\Product;
 
-use App\EntityInterface\Product\ProductPropertyInterface;
-use App\Service\RecursiveTransformer;
+use App\Interface\Factory\FactoryInterface;
+use App\Interface\Product\ProductInterface;
 use Symfony\Component\Form\AbstractType;
-use App\Form\ResourceAutocompleteChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\RepositoryInterface\Taxation\TaxationRepositoryInterface;
 
-/**
- * @property $productTaxonFactory
- */
 final class ProductTaxationAutocompleteSelectorType extends AbstractType
 {
-    public function __construct(
-        private readonly TaxationRepositoryInterface $taxationRepository
-    ) {
+    public function __construct(private readonly FactoryInterface $productTaxonFactory, private readonly RepositoryInterface $productTaxonRepository)
+    {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -25,9 +19,9 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
         if ($options['multiple']) {
             $builder->addModelTransformer(
                 new RecursiveTransformer(
-                    new ProductTaxToTaxTransformer(
+                    new ProductTaxonToTaxonTransformer(
                         $this->productTaxonFactory,
-                        $this->taxationRepository,
+                        $this->productTaxonRepository,
                         $options['product'],
                     ),
                 ),
@@ -36,9 +30,9 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
 
         if (!$options['multiple']) {
             $builder->addModelTransformer(
-                new ProductTaxToTaxTransformer(
+                new ProductTaxonToTaxonTransformer(
                     $this->productTaxonFactory,
-                    $this->taxationRepository,
+                    $this->productTaxonRepository,
                     $options['product'],
                 ),
             );
@@ -55,7 +49,8 @@ final class ProductTaxationAutocompleteSelectorType extends AbstractType
 
         $resolver
             ->setRequired('product')
-            ->setAllowedTypes('product', ProductPropertyInterface::class);
+            ->setAllowedTypes('product', ProductInterface::class)
+        ;
     }
 
     public function getParent(): string

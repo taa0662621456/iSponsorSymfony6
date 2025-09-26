@@ -2,11 +2,10 @@
 
 namespace App\Service\Shipment;
 
-use App\ServiceInterface\Order\OrderDiscount\OrderDiscountRule\RuleCheckerInterface;
 
 final class ShippingMethodRulesEligibilityChecker
 {
-    public function __construct(private readonly ServiceRegistryInterface $ruleRegistry)
+    public function __construct(private ServiceRegistryInterface $ruleRegistry)
     {
     }
 

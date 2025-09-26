@@ -2,71 +2,70 @@
 
 namespace App\EventListener;
 
-use App\EntityInterface\Order\OrderStorageInterface;
-use App\EntityInterface\Vendor\VendorInterface;
-use App\Event\Vendor\VendorEvent;
-use App\Interface\Cart\CartInterface;
-use App\Exception\CartNotFoundException;
-use App\Exception\UnexpectedTypeException;
-use App\Interface\SectionProviderInterface;
+use App\SectionResolver\ShopSection;
 
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
-class ShopCartBlamerListener
+final class ShopCartBlamerListener
 {
-    public function __construct(
-        private readonly CartInterface $cartContext,
-        private readonly SectionProviderInterface $uriBasedSectionContext
-    ) {
+    public function __construct(private CartContextInterface $cartContext, private SectionProviderInterface $uriBasedSectionContext)
+    {
     }
 
-    public function onImplicitLogin(VendorEvent $vendorEvent): void
+    public function onImplicitLogin(UserEvent $userEvent): void
     {
-        $vendor = $vendorEvent->getUser();
-        if (!$vendor instanceof VendorInterface) {
+        if (!$this->uriBasedSectionContext->getSection() instanceof ShopSection) {
             return;
         }
 
-        $this->blame($vendor);
+        $user = $userEvent->getUser();
+        if (!$user instanceof ShopUserInterface) {
+            return;
+        }
+
+        $this->blame($user);
     }
 
     public function onInteractiveLogin(InteractiveLoginEvent $interactiveLoginEvent): void
     {
         $section = $this->uriBasedSectionContext->getSection();
-
-        $vendor = $interactiveLoginEvent->getAuthenticationToken()->getUser();
-        if (!$vendor instanceof VendorInterface) {
+        if (!$section instanceof ShopSection) {
             return;
         }
 
-        $this->blame($vendor);
+        $user = $interactiveLoginEvent->getAuthenticationToken()->getUser();
+        if (!$user instanceof ShopUserInterface) {
+            return;
+        }
+
+        $this->blame($user);
     }
 
-    private function blame(VendorInterface $vendor): void
+    private function blame(ShopUserInterface $user): void
     {
-        $order = $this->getCart();
-        if (null === $order || null !== $order->getCreatedBy()) {
+        $cart = $this->getCart();
+        if (null === $cart || null !== $cart->getCustomer()) {
             return;
         }
 
-        $order->setCreatedBy($vendor->getCreatedBy());
+        $cart->setCustomerWithAuthorization($user->getCustomer());
     }
 
     /**
      * @throws UnexpectedTypeException
      */
-    private function getCart(): ?OrderStorageInterface
+    private function getCart(): ?OrderInterface
     {
         try {
-            $order = $this->cartContext->getCart();
+            $cart = $this->cartContext->getCart();
         } catch (CartNotFoundException) {
             return null;
         }
 
-        if (!$order instanceof OrderStorageInterface) {
-            throw new UnexpectedTypeException($order, OrderStorageInterface::class);
+        if (!$cart instanceof OrderInterface) {
+            throw new UnexpectedTypeException($cart, OrderInterface::class);
         }
 
-        return $order;
+        return $cart;
     }
 }

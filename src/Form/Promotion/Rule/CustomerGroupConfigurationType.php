@@ -1,9 +1,11 @@
 <?php
 
+
 namespace App\Form\Promotion\Rule;
 
-use Symfony\Component\Validator\Constraints\Type;
+
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Type;
 
 final class CustomerGroupConfigurationType extends AbstractType
 {
@@ -16,7 +18,8 @@ final class CustomerGroupConfigurationType extends AbstractType
                     new NotBlank(['groups' => ['isponsor']]),
                     new Type(['type' => 'string', 'groups' => ['isponsor']]),
                 ],
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

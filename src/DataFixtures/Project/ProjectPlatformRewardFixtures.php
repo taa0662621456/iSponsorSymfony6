@@ -2,26 +2,27 @@
 
 namespace App\DataFixtures\Project;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Project\ProjectPlatformReward;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProjectPlatformRewardFixtures extends DataFixtures
+final class ProjectPlatformRewardFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        $project = $this->getReference('project_1');
 
+        $reward = new ProjectPlatformReward();
+        $reward->setTitle('Supporter Badge');
+        $reward->setDescription('Special badge for early supporters');
+        $reward->setProject($project);
 
-        $property = [
-            'firstTitle' => 'NA',
-            'lastTitle' => 'NA',
-        ];
+        $manager->persist($reward);
+        $this->addReference('projectReward_1', $reward);
 
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 17;
-    }
+    public static function getGroup(): string { return 'project'; }
+    public static function getPriority(): int { return 70; }
 }

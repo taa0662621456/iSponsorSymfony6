@@ -3,15 +3,13 @@
 namespace App\Form\Address;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 final class AddressBillingType extends AbstractType
 {
-    protected string $dataClass;
-
-    public function __construct(string $dataClass = 'data_class')
+    public function __construct(private readonly string $dataClass)
     {
     }
 
@@ -34,10 +32,11 @@ final class AddressBillingType extends AbstractType
             ->add('postcode', TextType::class, [
                 'label' => 'form.channel.billing_data.postcode',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefault('data_class', $this->dataClass);
     }

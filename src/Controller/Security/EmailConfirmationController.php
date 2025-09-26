@@ -6,6 +6,7 @@ use App\Entity\Vendor\VendorSecurity;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\Vendor\VendorSecurityRepository;
 use Symfony\Component\HttpKernel\Attribute\AsController;

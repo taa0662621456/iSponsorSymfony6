@@ -4,26 +4,27 @@ namespace App\Form\Forgot;
 
 use App\Entity\Vendor\VendorSecurity;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class ForgotPhoneType extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', EmailType::class, [
                 'invalid_message' => 'forgot.email.invalid',
-                'label' => 'forgot.email.label',
-                'label_attr' => [
+                'label'           => 'forgot.email.label',
+                'label_attr'      => [
                     'class' => 'sr-only',
-                    'value' => 'last_username',
+                    'value' => 'last_username'
                 ],
-                'required' => false,
-                'constraints' => [
+                'required'        => false,
+                'constraints'     => [
                     new NotBlank([
                         'message' => 'Пожалуйста введите email Вашей учетной записи',
                     ]),
@@ -33,16 +34,17 @@ class ForgotPhoneType extends AbstractType
                         'max' => 64,
                     ]),
                 ],
-                'attr' => [
-                    'id' => 'email',
-                    'name' => '_email',
-                    'class' => '',
+                'attr'            => [
+                    'id'          => 'email',
+                    'name'        => '_email',
+                    'class'       => '',
                     'placeholder' => 'forgot.email.placeholder',
-                    'tabindex' => '101',
-                    'required' => null,
-                ],
+                    'tabindex'    => '101',
+                    'required'    => null
+                ]
 
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -54,7 +56,7 @@ class ForgotPhoneType extends AbstractType
             'attr' => [
                 'class' => 'needs-validation',
                 'novalidate' => null,
-            ],
+            ]
         ]);
     }
 }

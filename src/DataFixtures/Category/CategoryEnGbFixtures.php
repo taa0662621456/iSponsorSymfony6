@@ -2,33 +2,27 @@
 
 namespace App\DataFixtures\Category;
 
-use App\DataFixtures\DataFixtures;
+use App\Entity\Category\CategoryEnGb;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
-final class CategoryEnGbFixtures extends DataFixtures
+final class CategoryEnGbFixtures extends BaseGroupedFixture
 {
-    /**
-     * @throws TransportExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ClientExceptionInterface
-     * @throws Exception
-     */
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
-        $this->titleFixtureEngine('data/CategoryDataFixtures/CategoryDataFixtures.json');
+        $category = $this->getReference('category_0');
 
+        $en = new CategoryEnGb();
+        $en->setName('Electronics');
+        $en->setDescription('Category for electronic products');
+        $en->setCategory($category);
 
-        parent::load($manager, $property);
+        $manager->persist($en);
+        $this->addReference('categoryEnGb_1', $en);
+
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 9;
-    }
+    public static function getGroup(): string { return 'category'; }
+    public static function getPriority(): int { return 30; }
 }

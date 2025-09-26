@@ -1,43 +1,43 @@
 <?php
-
 namespace App\Controller\Admin;
 
-use App\Entity\Vendor\VendorDocumentAttachment;
-use App\Form\Vendor\VendorDocumentType;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use App\Controller\Admin\Traits\ConfigureCrudDefaultsTrait;
 
-class VendorDocumentCrudController extends AbstractCrudController
+use App\Entity\VendorDocument;
+
+class VendorDocumentCrudController extends BaseCrudController
 {
-    use ConfigureFiltersTrait;
+    use ConfigureCrudDefaultsTrait;
+    public static function getEntityFqcn(): string { return VendorDocument::class; }
 
-    public static function getEntityFqcn(): string
+    public function configureActions(Actions $actions): Actions
     {
-        return VendorDocumentAttachment::class;
+        $approve = Action::new('approve', 'Approve')->linkToCrudAction('approveDoc')->setCssClass('btn btn-success');
+        $reject = Action::new('reject', 'Reject')->linkToCrudAction('rejectDoc')->setCssClass('btn btn-danger');
+        return $actions->add(Crud::PAGE_INDEX, $approve)->add(Crud::PAGE_INDEX, $reject);
     }
 
-    public function configureFields(string $pageName): iterable
+    public function approveDoc(AdminContext $ctx)
     {
-        return [
-            TextField::new('firstTitle'),
-            TextEditorField::new('middle_title'),
-            TextField::new('last_title')->setMaxLength(48)->onlyOnIndex(),
-            TextEditorField::new('last_title')->setNumOfRows(10)->hideOnIndex(),
-            CollectionField::new('vendorDocumentVendor')
-                ->setEntryType(VendorDocumentType::class)
-                ->setFormTypeOption('by_reference', false)
-                ->onlyOnForms(),
-            CollectionField::new('vendorDocumentVendor')
-                ->setTemplatePath('images.html.twig')
-                ->onlyOnDetail(),
-//            ImageField::new('fileVich')
-//                ->setBasePath('/upload/vendor/thumbnail')
-//                ->setUploadDir('/upload/vendor/thumbnail')
-//                ->onlyOnIndex()
-//            ,
-        ];
+        /** @var VendorDocument $d */
+        $d = $ctx->getEntity()->getInstance();
+        if (method_exists($d, 'approve')) { $d->approve(); }
+        $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('success', 'Document approved');
+        return $this->redirect($ctx->getReferrer());
+    }
+
+    public function rejectDoc(AdminContext $ctx)
+    {
+        /** @var VendorDocument $d */
+        $d = $ctx->getEntity()->getInstance();
+        if (method_exists($d, 'reject')) { $d->reject(); }
+        $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('danger', 'Document rejected');
+        return $this->redirect($ctx->getReferrer());
     }
 }

@@ -1,35 +1,37 @@
 <?php
 
+
 namespace App\Repository\Product;
 
-use App\EntityInterface\Product\ProductPropertyInterface;
-use App\EntityInterface\Taxation\TaxationInterface;
-use App\EntityInterface\Vendor\VendorInterface;
-use Doctrine\ORM\QueryBuilder;
 use App\Entity\Product\Product;
-use App\Repository\EntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Vendor\Vendor;
+use App\Interface\Product\ProductInterface;
+use App\Interface\Taxation\TaxationInterface;
+use App\Interface\Vendor\VendorInterface;
+use App\Service\AssociationHydrate;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\NonUniqueResultException;
-use App\RepositoryInterface\Product\ProductRepositoryInterface;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @method Product|null find($id, $lockMode = null, $lockVersion = null)
  * @method Product|null findOneBy(array $criteria, array $orderBy = null)
  * @method Product[]    findAll()
  * @method Product[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @property mixed $associationHydrate
  */
-class ProductRepository extends EntityRepository implements ProductRepositoryInterface
+class ProductRepository extends ServiceEntityRepository
 {
-    // private AssociationHydrate $associationHydrate;
+    private AssociationHydrate $associationHydrate;
 
-    public function __construct(
-        ManagerRegistry $registry,
-        // EntityManager $entityManager,
-        // ClassMetadata $class
-    ) {
+	public function __construct(ManagerRegistry $registry, EntityManager $entityManager, ClassMetadata $class)
+    {
         parent::__construct($registry, Product::class);
-        // $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+
     }
 
     /**
@@ -48,6 +50,16 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
             ->getOneOrNullResult();
     }
 
+
+    public function countForVendor(Vendor $vendor): int
+    {
+        return (int)$this->createQueryBuilder('p')
+            ->select('COUNT(p.id)')
+            ->andWhere('p.vendor = :vendor')
+            ->setParameter('vendor', $vendor)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     // /**
     //  * @return Products[] Returns an array of Products objects
     //  */
@@ -76,40 +88,43 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
         ;
     }
     */
-    public function findBySearchQuery($query, $limit)
-    {
-        // TODO
-    }
+	public function findBySearchQuery($query, $limit)
+	{
+		//TODO
+	}
 
     public function createListQueryBuilder(string $locale, $taxonId = null): QueryBuilder
     {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('translation')
             ->leftJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
-            ->setParameter('locale', $locale);
+            ->setParameter('locale', $locale)
+        ;
 
         if (null !== $taxonId) {
             $queryBuilder
                 ->innerJoin('o.productTaxations', 'productTaxation')
                 ->andWhere('productTaxation.taxon = :taxonId')
-                ->setParameter('taxonId', $taxonId);
+                ->setParameter('taxonId', $taxonId)
+            ;
         }
 
         return $queryBuilder;
     }
 
     public function createShopListQueryBuilder(
-        VendorInterface $vendor,
+        VendorInterface   $vendor,
         TaxationInterface $tax,
-        string $locale,
-        array $sorting = [],
-        bool $includeAllDescendants = false,
+        string            $locale,
+        array             $sorting = [],
+        bool              $includeAllDescendants = false,
     ): QueryBuilder {
         $queryBuilder = $this->createQueryBuilder('o')
             ->addSelect('translation')
             ->addSelect('productTaxation')
             ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
-            ->innerJoin('o.productTaxations', 'productTaxation');
+            ->innerJoin('o.productTaxations', 'productTaxation')
+        ;
 
         if ($includeAllDescendants) {
             $queryBuilder
@@ -119,18 +134,21 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
                 ->andWhere('taxon.root = :taxonRoot')
                 ->setParameter('taxonLeft', $tax->getLeft())
                 ->setParameter('taxonRight', $tax->getRight())
-                ->setParameter('taxonRoot', $tax->getRoot());
+                ->setParameter('taxonRoot', $tax->getRoot())
+            ;
         } else {
             $queryBuilder
                 ->andWhere('productTaxation.taxon = :taxon')
-                ->setParameter('taxon', $tax);
+                ->setParameter('taxon', $tax)
+            ;
         }
 
         if (empty($sorting)) {
             $queryBuilder
                 ->leftJoin('o.productTaxations', 'productTaxations', 'WITH', 'productTaxations.taxon = :taxonId')
                 ->orderBy('productTaxations.position', 'ASC')
-                ->setParameter('taxonId', $tax->getId());
+                ->setParameter('taxonId', $tax->getId())
+            ;
         }
 
         $queryBuilder
@@ -138,7 +156,8 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
             ->andWhere('o.enabled = :enabled')
             ->setParameter('locale', $locale)
             ->setParameter('vendor', $vendor)
-            ->setParameter('enabled', true);
+            ->setParameter('enabled', true)
+        ;
 
         // Grid hack, we do not need to join these if we don't sort by price
         if (isset($sorting['price'])) {
@@ -147,7 +166,8 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
                 ->select('min(v.position)')
                 ->innerJoin('m.variants', 'v')
                 ->andWhere('m.id = :product_id')
-                ->andWhere('v.enabled = :enabled');
+                ->andWhere('v.enabled = :enabled')
+            ;
 
             $queryBuilder
                 ->addSelect('variant')
@@ -162,7 +182,8 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
                     ),
                 )
                 ->setParameter('vendorCode', $vendor->getCode())
-                ->setParameter('enabled', true);
+                ->setParameter('enabled', true)
+            ;
         }
 
         return $queryBuilder;
@@ -181,27 +202,25 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
             ->setParameter('enabled', true)
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+            ;
     }
 
-    public function findOneByVendorAndSlug(VendorInterface $vendor, string $locale, string $slug): ?ProductPropertyInterface
+    public function findOneByVendorAndSlug(VendorInterface $vendor, string $locale, string $slug): ?ProductInterface
     {
-        try {
-            $product = $this->createQueryBuilder('o')
-                ->addSelect('translation')
-                ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
-                ->andWhere('translation.slug = :slug')
-                ->andWhere(':vendor MEMBER OF o.vendors')
-                ->andWhere('o.enabled = :enabled')
-                ->setParameter('vendor', $vendor)
-                ->setParameter('locale', $locale)
-                ->setParameter('slug', $slug)
-                ->setParameter('enabled', true)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            throw $e;
-        }
+        $product = $this->createQueryBuilder('o')
+            ->addSelect('translation')
+            ->innerJoin('o.translations', 'translation', 'WITH', 'translation.locale = :locale')
+            ->andWhere('translation.slug = :slug')
+            ->andWhere(':vendor MEMBER OF o.vendors')
+            ->andWhere('o.enabled = :enabled')
+            ->setParameter('vendor', $vendor)
+            ->setParameter('locale', $locale)
+            ->setParameter('slug', $slug)
+            ->setParameter('enabled', true)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
 
         $this->associationHydrate->hydrateAssociations($product, [
             'images',
@@ -216,21 +235,18 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
         return $product;
     }
 
-    public function findOneByVendorAndCode(VendorInterface $vendor, string $code): ?ProductPropertyInterface
+    public function findOneByVendorAndCode(VendorInterface $vendor, string $code): ?ProductInterface
     {
-        try {
-            $product = $this->createQueryBuilder('o')
-                ->where('o.code = :code')
-                ->andWhere(':vendor MEMBER OF o.vendors')
-                ->andWhere('o.enabled = :enabled')
-                ->setParameter('vendor', $vendor)
-                ->setParameter('code', $code)
-                ->setParameter('enabled', true)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-        throw $e;
-        }
+        $product = $this->createQueryBuilder('o')
+            ->where('o.code = :code')
+            ->andWhere(':vendor MEMBER OF o.vendors')
+            ->andWhere('o.enabled = :enabled')
+            ->setParameter('vendor', $vendor)
+            ->setParameter('code', $code)
+            ->setParameter('enabled', true)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
 
         $this->associationHydrate->hydrateAssociations($product, [
             'images',
@@ -245,17 +261,14 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
         return $product;
     }
 
-    public function findOneByCode(string $code): ?ProductPropertyInterface
+    public function findOneByCode(string $code): ?ProductInterface
     {
-        try {
-            return $this->createQueryBuilder('o')
-                ->where('o.code = :code')
-                ->setParameter('code', $code)
-                ->getQuery()
-                ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            throw $e;
-        }
+        return $this->createQueryBuilder('o')
+            ->where('o.code = :code')
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
     public function findByTaxation(TaxationInterface $taxon): array
@@ -268,11 +281,7 @@ class ProductRepository extends EntityRepository implements ProductRepositoryInt
             ->andWhere('productTaxation.taxon = :taxon')
             ->setParameter('taxon', $taxon)
             ->getQuery()
-            ->getResult();
-    }
-
-    public function getClassName()
-    {
-        // TODO: Implement getClassName() method.
+            ->getResult()
+            ;
     }
 }

@@ -2,15 +2,9 @@
 
 namespace App\Service\Product;
 
-use App\EntityInterface\Product\ProductInterface;
-use ArrayAccess;
 use Symfony\Component\Form\DataTransformerInterface;
-use App\EntityInterface\Product\ProductVariantInterface;
-use App\EntityInterface\Product\ProductOptionValueInterface;
-use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Form\Exception\TransformationFailedException;
-use Traversable;
-use function is_array;
+use Symfony\Component\Form\Exception\UnexpectedTypeException;
 
 final class ProductVariantToProductOptionsTransformer implements DataTransformerInterface
 {
@@ -46,13 +40,17 @@ final class ProductVariantToProductOptionsTransformer implements DataTransformer
             return null;
         }
 
-        if (!is_array($value) && !$value instanceof Traversable && !$value instanceof ArrayAccess) {
+        if (!is_array($value) && !$value instanceof \Traversable && !$value instanceof \ArrayAccess) {
             throw new UnexpectedTypeException($value, '\Traversable or \ArrayAccess');
         }
 
         return $this->matches(is_array($value) ? $value : iterator_to_array($value));
     }
 
+    /**
+     * @param array $optionValues
+     * @return ProductVariantInterface
+     */
     private function matches(array $optionValues): ProductVariantInterface
     {
         foreach ($this->product->getVariants() as $variant) {
@@ -65,6 +63,10 @@ final class ProductVariantToProductOptionsTransformer implements DataTransformer
             return $variant;
         }
 
-        throw new TransformationFailedException(sprintf('Variant "%s" not found for product %s', !empty($optionValues[0]) ? $optionValues[0]->getCode() : '', $this->product->getCode()));
+        throw new TransformationFailedException(sprintf(
+            'Variant "%s" not found for product %s',
+            !empty($optionValues[0]) ? $optionValues[0]->getCode() : '',
+            $this->product->getCode(),
+        ));
     }
 }

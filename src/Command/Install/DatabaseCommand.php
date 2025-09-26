@@ -2,33 +2,31 @@
 
 namespace App\Command\Install;
 
-use Exception;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @property $commandExecutor
- */
-final class DatabaseCommand
+final class DatabaseCommand extends AbstractCommand
 {
-    protected static string $defaultName = 'install:database';
+    protected static $defaultName = 'install:database';
 
     protected function configure(): void
     {
         $this
             ->setDescription('Install database.')
             ->setHelp(
-                <<<'EOT'
+                <<<EOT
 The <info>%command.name%</info> command creates database.
 EOT
             )
-            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null);
+            ->addOption('fixture-suite', 's', InputOption::VALUE_OPTIONAL, 'Load specified fixture suite during install', null)
+        ;
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -43,7 +41,8 @@ EOT
         $commands = $this
             ->getApplication()
             ->get('commands_provider.database_setup')
-            ->getCommands($input, $output, $this->getHelper('question'));
+            ->getCommands($input, $output, $this->getHelper('question'))
+        ;
 
         $this->runCommands($commands, $output);
         $outputStyle->newLine();

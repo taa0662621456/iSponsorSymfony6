@@ -2,19 +2,32 @@
 
 namespace App\Entity\Payment;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use App\EntityInterface\Object\ObjectTitleInterface;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Repository\Payment\PaymentEnUSRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
+use App\Controller\ObjectCRUDsController;
 
-#[ORM\Entity]
-class PaymentEnUs extends RootEntity implements ObjectInterface, ObjectTitleInterface
+#[ORM\Table(
+    name: 'payment_en_us',
+)]
+#[ORM\Index(columns: ['slug'], name: 'payment_en_idx')]
+#[ORM\Entity(repositoryClass: PaymentEnUSRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+
+
+class PaymentEnUs
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait;
+    use ObjectTrait;
 
-    #[ORM\OneToOne(inversedBy: "paymentEnUs", targetEntity: Payment::class)]
-    private Payment $paymentEnUs;
-
+    #[ORM\ManyToOne(targetEntity: Payment::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Payment $payment = null;
 }

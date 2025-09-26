@@ -1,9 +1,11 @@
 <?php
 
+
 namespace App\Form\Customer;
 
-use Symfony\Component\Form\AbstractType;
+
 use App\Form\Address\AddressSelectorType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +16,8 @@ final class CustomerDefaultAddressType extends AbstractType
         $builder
             ->add('defaultAddress', AddressSelectorType::class, [
                 'customer' => $options['customer'],
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

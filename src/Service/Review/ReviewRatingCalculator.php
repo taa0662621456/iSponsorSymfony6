@@ -18,7 +18,7 @@ class ReviewRatingCalculator
 
         foreach ($reviews as $review) {
             if (self::STATUS_ACCEPTED === $review->getStatus()) {
-                $reviewsNumber++;
+                ++$reviewsNumber;
 
                 $sum += $review->getRating();
             }

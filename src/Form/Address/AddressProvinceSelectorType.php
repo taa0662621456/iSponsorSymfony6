@@ -2,17 +2,15 @@
 
 namespace App\Form\Address;
 
-use App\Dto\Address\AddressProvinceDTO;
+use Composer\Repository\RepositoryInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\EntityInterface\Address\AddressCountryInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use App\RepositoryInterface\Address\AddressProvinceRepositoryInterface;
 
 final class AddressProvinceSelectorType extends AbstractType
 {
-    public function __construct(private readonly AddressProvinceRepositoryInterface $provinceRepository)
+    public function __construct(private readonly RepositoryInterface $provinceRepository)
     {
     }
 
@@ -32,10 +30,8 @@ final class AddressProvinceSelectorType extends AbstractType
             'country' => null,
             'label' => 'form.address.province',
             'placeholder' => 'form.province.select',
-            'data_class' => AddressProvinceDTO::class,
-
         ]);
-        $resolver->addAllowedTypes('country', ['null', AddressCountryInterface::class]);
+        $resolver->addAllowedTypes('country', ['null', CountryInterface::class]);
     }
 
     public function getParent(): string

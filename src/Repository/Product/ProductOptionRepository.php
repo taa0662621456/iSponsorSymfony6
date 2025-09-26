@@ -2,21 +2,30 @@
 
 namespace App\Repository\Product;
 
+use App\Entity\Product\ProductPayment;
+use App\Service\AssociationHydrate;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use App\Repository\EntityRepository;
-use App\Entity\Product\ProductStorage;
-use App\Service\EntityAssociationHydrator;
-use App\RepositoryInterface\Product\ProductOptionRepositoryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ProductStorage|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductStorage|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductStorage[]    findAll()
- * @method ProductStorage[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ProductPayment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ProductPayment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ProductPayment[]    findAll()
+ * @method ProductPayment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ProductOptionRepository extends EntityRepository implements ProductOptionRepositoryInterface
+class ProductOptionRepository extends ServiceEntityRepository
 {
-    protected EntityAssociationHydrator $associationHydrate;
+    /** @var AssociationHydrate */
+    protected $associationHydrate;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+		parent::__construct($registry, ProductPayment::class);
+
+//        parent::__construct($entityManager, $class);
+//        $this->associationHydrate = new AssociationHydrate($entityManager, $class);
+    }
 
     // /**
     //  * @return ProductOption[] Returns an array of ProductOption objects
@@ -52,7 +61,8 @@ class ProductOptionRepository extends EntityRepository implements ProductOptionR
         return $this->createQueryBuilder('o')
             ->innerJoin('o.translations', 'translation')
             ->andWhere('translation.locale = :locale')
-            ->setParameter('locale', $locale);
+            ->setParameter('locale', $locale)
+            ;
     }
 
     public function findByName(string $name, string $locale): array
@@ -64,7 +74,8 @@ class ProductOptionRepository extends EntityRepository implements ProductOptionR
             ->setParameter('name', $name)
             ->setParameter('locale', $locale)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+            ;
     }
 
 //    public function findAll(): array

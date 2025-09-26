@@ -1,14 +1,15 @@
 <?php
 
 use Api\JsonApiTestCase;
-use Utils\AdminUserLoginTrait;
 use Symfony\Component\HttpFoundation\Response;
+use Utils\AdminUserLoginTrait;
 
 final class CatalogPromotionsTest extends JsonApiTestCase
 {
     use AdminUserLoginTrait;
 
-    public function testItGetsCatalogPromotions(): void
+    /** @test */
+    public function it_gets_catalog_promotions(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml', 'catalog_promotion.yaml']);
         $header = $this->getLoggedHeader();
@@ -28,7 +29,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItGetsCatalogPromotion(): void
+    /** @test */
+    public function it_gets_catalog_promotion(): void
     {
         $catalogPromotion = $this->loadFixturesAndGetCatalogPromotion();
         $header = $this->getLoggedHeader();
@@ -48,7 +50,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItCreatesACatalogPromotion(): void
+    /** @test */
+    public function it_creates_a_catalog_promotion(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml', 'product/product_variant.yaml']);
         $header = $this->getLoggedHeader();
@@ -71,19 +74,19 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     [
                         'type' => PercentageDiscountPriceCalculator::TYPE,
                         'configuration' => [
-                            'amount' => 0.5,
-                        ],
-                    ],
+                            'amount' => 0.5
+                        ]
+                    ]
                 ],
                 'scopes' => [
                     [
                         'type' => InForVariantsScopeVariantChecker::TYPE,
                         'configuration' => [
                             'variants' => [
-                                'MUG',
-                            ],
+                                'MUG'
+                            ]
                         ],
-                    ],
+                    ]
                 ],
                 'translations' => ['en_US' => [
                     'locale' => 'en_US',
@@ -93,7 +96,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                 'enabled' => true,
                 'exclusive' => false,
                 'priority' => 100,
-            ], \JSON_THROW_ON_ERROR)
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -103,7 +106,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItDoesNotCreateACatalogPromotionWithoutRequiredData(): void
+    /** @test */
+    public function it_does_not_create_a_catalog_promotion_without_required_data(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml']);
         $header = $this->getLoggedHeader();
@@ -114,7 +118,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
             [],
             [],
             $header,
-            json_encode([], \JSON_THROW_ON_ERROR)
+            json_encode([], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -124,7 +128,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItDoesNotCreateACatalogPromotionWithTakenCode(): void
+    /** @test */
+    public function it_does_not_create_a_catalog_promotion_with_taken_code(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml', 'catalog_promotion.yaml']);
         $header = $this->getLoggedHeader();
@@ -138,7 +143,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
             json_encode([
                 'name' => 'Mugs discount',
                 'code' => 'mugs_discount',
-            ], \JSON_THROW_ON_ERROR)
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -148,7 +153,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItDoesNotCreateACatalogPromotionWithEndDateEarlierThanStartDate(): void
+    /** @test */
+    public function it_does_not_create_a_catalog_promotion_with_end_date_earlier_than_start_date(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml', 'catalog_promotion.yaml']);
         $header = $this->getLoggedHeader();
@@ -163,8 +169,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                 'name' => 'calatog Promotion',
                 'code' => 'catalog_promotion',
                 'startDate' => '2021-11-04 10:42:00',
-                'endDate' => '2021-10-04 10:42:00',
-            ], \JSON_THROW_ON_ERROR)
+                'endDate' => '2021-10-04 10:42:00'
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -174,7 +180,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItDoesNotCreateACatalogPromotionWithInvalidScopes(): void
+    /** @test */
+    public function it_does_not_create_a_catalog_promotion_with_invalid_scopes(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml', 'product/product_variant.yaml']);
         $header = $this->getLoggedHeader();
@@ -195,15 +202,15 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     [
                         'type' => PercentageDiscountPriceCalculator::TYPE,
                         'configuration' => [
-                            'amount' => 0.5,
-                        ],
-                    ],
+                            'amount' => 0.5
+                        ]
+                    ]
                 ],
                 'scopes' => [
                     [
                         'type' => 'invalid_type',
                         'configuration' => [
-                            'variants' => ['MUG'],
+                            'variants' => ['MUG']
                         ],
                     ], [
                         'type' => InForVariantsScopeVariantChecker::TYPE,
@@ -211,12 +218,12 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     ], [
                         'type' => InForVariantsScopeVariantChecker::TYPE,
                         'configuration' => [
-                            'variants' => [],
+                            'variants' => []
                         ],
                     ], [
                         'type' => InForVariantsScopeVariantChecker::TYPE,
                         'configuration' => [
-                            'variants' => ['invalid_variant'],
+                            'variants' => ['invalid_variant']
                         ],
                     ], [
                         'type' => InForProductScopeVariantChecker::TYPE,
@@ -224,12 +231,12 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     ], [
                         'type' => InForProductScopeVariantChecker::TYPE,
                         'configuration' => [
-                            'products' => [],
+                            'products' => []
                         ],
                     ], [
                         'type' => InForProductScopeVariantChecker::TYPE,
                         'configuration' => [
-                            'products' => ['invalid_product'],
+                            'products' => ['invalid_product']
                         ],
                     ], [
                         'type' => InForTaxonsScopeVariantChecker::TYPE,
@@ -237,14 +244,14 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     ], [
                         'type' => InForTaxonsScopeVariantChecker::TYPE,
                         'configuration' => [
-                            'taxons' => [],
+                            'taxons' => []
                         ],
                     ], [
                         'type' => InForTaxonsScopeVariantChecker::TYPE,
                         'configuration' => [
-                            'taxons' => ['invalid_taxon'],
+                            'taxons' => ['invalid_taxon']
                         ],
-                    ],
+                    ]
                 ],
                 'translations' => ['en_US' => [
                     'locale' => 'en_US',
@@ -253,7 +260,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                 ]],
                 'enabled' => true,
                 'exclusive' => false,
-            ], \JSON_THROW_ON_ERROR)
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -263,7 +270,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItDoesNotCreateACatalogPromotionWithInvalidActions(): void
+    /** @test */
+    public function it_does_not_create_a_catalog_promotion_with_invalid_actions(): void
     {
         $this->loadFixturesFromFiles(['authentication/api_administrator.yaml', 'channel.yaml', 'product/product_variant.yaml']);
         $header = $this->getLoggedHeader();
@@ -284,34 +292,34 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     [
                         'type' => 'invalid_type',
                         'configuration' => [
-                            'amount' => 0.5,
-                        ],
+                            'amount' => 0.5
+                        ]
                     ],
                     [
                         'type' => PercentageDiscountPriceCalculator::TYPE,
-                        'configuration' => [],
-                    ],
-                    [
-                        'type' => PercentageDiscountPriceCalculator::TYPE,
-                        'configuration' => [
-                            'amount' => 1.5,
-                        ],
+                        'configuration' => []
                     ],
                     [
                         'type' => PercentageDiscountPriceCalculator::TYPE,
                         'configuration' => [
-                            'amount' => 'text',
-                        ],
+                            'amount' => 1.5
+                        ]
+                    ],
+                    [
+                        'type' => PercentageDiscountPriceCalculator::TYPE,
+                        'configuration' => [
+                            'amount' => 'text'
+                        ]
                     ],
                     [
                         'type' => FixedDiscountPriceCalculator::TYPE,
-                        'configuration' => [],
+                        'configuration' => []
                     ],
                     [
                         'type' => FixedDiscountPriceCalculator::TYPE,
                         'configuration' => [
                             'WEB' => [],
-                        ],
+                        ]
                     ],
                     [
                         'type' => FixedDiscountPriceCalculator::TYPE,
@@ -319,26 +327,26 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                             'invalid_channel' => [
                                 'amount' => 1000,
                             ],
-                        ],
+                        ]
                     ],
                     [
                         'type' => FixedDiscountPriceCalculator::TYPE,
                         'configuration' => [
                             'WEB' => [
                                 'amount' => 'text',
-                            ],
-                        ],
-                    ],
+                            ]
+                        ]
+                    ]
                 ],
                 'scopes' => [
                     [
                         'type' => InForVariantsScopeVariantChecker::TYPE,
                         'configuration' => [
                             'variants' => [
-                                'MUG',
-                            ],
+                                'MUG'
+                            ]
                         ],
-                    ],
+                    ]
                 ],
                 'translations' => ['en_US' => [
                     'locale' => 'en_US',
@@ -347,7 +355,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                 ]],
                 'enabled' => true,
                 'exclusive' => false,
-            ], \JSON_THROW_ON_ERROR)
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -357,7 +365,8 @@ final class CatalogPromotionsTest extends JsonApiTestCase
         );
     }
 
-    public function testItUpdatesCatalogPromotion(): void
+    /** @test */
+    public function it_updates_catalog_promotion(): void
     {
         $catalogPromotion = $this->loadFixturesAndGetCatalogPromotion();
         $header = $this->getLoggedHeader();
@@ -375,19 +384,19 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                     [
                         'type' => PercentageDiscountPriceCalculator::TYPE,
                         'configuration' => [
-                            'amount' => 0.4,
-                        ],
-                    ],
+                            'amount' => 0.4
+                        ]
+                    ]
                 ],
                 'scopes' => [
                     [
                         'type' => InForVariantsScopeVariantChecker::TYPE,
                         'configuration' => [
                             'variants' => [
-                                'MUG',
-                            ],
+                                'MUG'
+                            ]
                         ],
-                    ],
+                    ]
                 ],
                 'channels' => [
                     '/api/v2/admin/channels/MOBILE',
@@ -399,7 +408,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
                 'enabled' => true,
                 'exclusive' => false,
                 'priority' => 1000,
-            ], \JSON_THROW_ON_ERROR)
+            ], JSON_THROW_ON_ERROR)
         );
 
         $this->assertResponse(
@@ -423,7 +432,7 @@ final class CatalogPromotionsTest extends JsonApiTestCase
     {
         $token = $this->logInAdminUser('api@example.com');
         $authorizationHeader = self::$kernel->getContainer()->getParameter('sylius.api.authorization_header');
-        $header['HTTP_'.$authorizationHeader] = 'Bearer '.$token;
+        $header['HTTP_' . $authorizationHeader] = 'Bearer ' . $token;
 
         return array_merge($header, self::CONTENT_TYPE_HEADER);
     }

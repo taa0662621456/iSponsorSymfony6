@@ -2,23 +2,21 @@
 
 namespace App\EventSubscriber;
 
-use App\EntityInterface\Customer\CustomerInterface;
-use InvalidArgumentException;
-use Webmozart\Assert\Assert;
-
+use App\Interface\CustomerInterface;
+use Composer\Repository\RepositoryInterface;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use App\RepositoryInterface\Vendor\VendorRepositoryInterface;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Webmozart\Assert\Assert;
 
 final class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly VendorRepositoryInterface $vendorRepository)
+    public function __construct(private readonly RepositoryInterface $customerRepository)
     {
     }
 
-    #[ArrayShape([FormEvents::PRE_SUBMIT => 'string'])]
+    #[ArrayShape([FormEvents::PRE_SUBMIT => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -27,7 +25,7 @@ final class CustomerRegistrationFormSubscriber implements EventSubscriberInterfa
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function preSubmit(FormEvent $event): void
     {
@@ -38,12 +36,12 @@ final class CustomerRegistrationFormSubscriber implements EventSubscriberInterfa
         Assert::isInstanceOf($data, CustomerInterface::class);
 
         // if email is not filled in, go on
-        if (empty($rawData['email'])) {
+        if (!isset($rawData['email']) || empty($rawData['email'])) {
             return;
         }
 
         /** @var CustomerInterface|null $existingCustomer */
-        $existingCustomer = $this->vendorRepository->findOneBy(['email' => $rawData['email']]);
+        $existingCustomer = $this->customerRepository->findOneBy(['email' => $rawData['email']]);
         if (null === $existingCustomer || null !== $existingCustomer->getUser()) {
             return;
         }

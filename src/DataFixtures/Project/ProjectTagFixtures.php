@@ -1,30 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\DataFixtures\Project;
 
-
-use JetBrains\PhpStorm\NoReturn;
-use App\DataFixtures\DataFixtures;
+use App\Entity\Project\ProjectTag;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
 
-final class ProjectTagFixtures extends DataFixtures
+final class ProjectTagFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        foreach (['sustainability', 'education', 'healthcare'] as $tag) {
+            $tagEntity = new ProjectTag();
+            $tagEntity->setName($tag);
 
+            $manager->persist($tagEntity);
+            $this->addReference('projectTag_' . $tag, $tagEntity);
+        }
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(),
-            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
-        ];
-
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 14;
-    }
+    public static function getGroup(): string { return 'project'; }
+    public static function getPriority(): int { return 20; } // after type, before project
 }

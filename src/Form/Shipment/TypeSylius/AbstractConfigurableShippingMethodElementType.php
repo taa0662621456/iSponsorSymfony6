@@ -1,16 +1,19 @@
 <?php
 
+
 namespace App\Form\Shipment\TypeSylius;
 
+
+
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractConfigurableShippingMethodElementType extends AbstractResourceType
 {
-    public function __construct(string $dataClass, array $validationGroups, private readonly FormTypeRegistryInterface $formTypeRegistry)
+    public function __construct(string $dataClass, array $validationGroups, private FormTypeRegistryInterface $formTypeRegistry)
     {
         parent::__construct($dataClass, $validationGroups);
     }
@@ -44,7 +47,8 @@ abstract class AbstractConfigurableShippingMethodElementType extends AbstractRes
                 }
 
                 $this->addConfigurationFields($event->getForm(), $this->formTypeRegistry->get($data['type'], 'default'));
-            });
+            })
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -53,7 +57,8 @@ abstract class AbstractConfigurableShippingMethodElementType extends AbstractRes
 
         $resolver
             ->setDefault('configuration_type', null)
-            ->setAllowedTypes('configuration_type', ['string', 'null']);
+            ->setAllowedTypes('configuration_type', ['string', 'null'])
+        ;
     }
 
     protected function addConfigurationFields(FormInterface $form, string $configurationType): void

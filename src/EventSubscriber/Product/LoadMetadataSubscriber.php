@@ -3,10 +3,9 @@
 namespace App\EventSubscriber\Product;
 
 use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Doctrine\ORM\Mapping\ClassMetadataFactory;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
-use Doctrine\Persistence\Mapping\MappingException;
+use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 
 final class LoadMetadataSubscriber implements EventSubscriber
 {
@@ -41,16 +40,13 @@ final class LoadMetadataSubscriber implements EventSubscriber
         ClassMetadataFactory $metadataFactory,
     ): void {
         /** @var ClassMetadataInfo $targetEntityMetadata */
-        try {
-            $targetEntityMetadata = $metadataFactory->getMetadataFor($subjectClass);
-        } catch (MappingException|\ReflectionException $e) {
-        }
+        $targetEntityMetadata = $metadataFactory->getMetadataFor($subjectClass);
         $subjectMapping = [
             'fieldName' => 'subject',
             'targetEntity' => $subjectClass,
             'inversedBy' => 'attributes',
             'joinColumns' => [[
-                'name' => $subject.'_id',
+                'name' => $subject . '_id',
                 'referencedColumnName' => $targetEntityMetadata->fieldMappings['id']['columnName'] ?? $targetEntityMetadata->fieldMappings['id']['fieldName'],
                 'nullable' => false,
                 'onDelete' => 'CASCADE',
@@ -66,10 +62,7 @@ final class LoadMetadataSubscriber implements EventSubscriber
         ClassMetadataFactory $metadataFactory,
     ): void {
         /** @var ClassMetadataInfo $attributeMetadata */
-        try {
-            $attributeMetadata = $metadataFactory->getMetadataFor($attributeClass);
-        } catch (MappingException|\ReflectionException $e) {
-        }
+        $attributeMetadata = $metadataFactory->getMetadataFor($attributeClass);
         $attributeMapping = [
             'fieldName' => 'attribute',
             'targetEntity' => $attributeClass,

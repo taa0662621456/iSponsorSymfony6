@@ -2,8 +2,6 @@
 
 namespace App\Service\Promotion;
 
-use App\EntityInterface\Promotion\PromotionCouponInterface;
-use App\ServiceInterface\Order\OrderDiscount\OrderDiscountRule\PromotionSubjectInterface;
 
 final class PromotionCouponUsageLimitEligibilityChecker implements PromotionCouponEligibilityCheckerInterface
 {
@@ -11,6 +9,6 @@ final class PromotionCouponUsageLimitEligibilityChecker implements PromotionCoup
     {
         $usageLimit = $promotionCoupon->getUsageLimit();
 
-        return null === $usageLimit || $promotionCoupon->getUsed() < $usageLimit;
+        return $usageLimit === null || $promotionCoupon->getUsed() < $usageLimit;
     }
 }

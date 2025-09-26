@@ -3,19 +3,20 @@
 namespace App\EventSubscriber;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\Valid;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Webmozart\Assert\Assert;
 
 final class AddUserFormSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly string $entryType = 'Type')
+    public function __construct(private readonly string $entryType)
     {
     }
 
-    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string', FormEvents::SUBMIT => 'string'])]
+    #[ArrayShape([FormEvents::PRE_SET_DATA => "string", FormEvents::SUBMIT => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -39,6 +40,9 @@ final class AddUserFormSubscriber implements EventSubscriberInterface
     {
         $data = $event->getData();
         $form = $event->getForm();
+
+        /** @var UserAwareInterface $data */
+        Assert::isInstanceOf($data, UserAwareInterface::class);
 
         if (null === $data->getUser()->getId() && null === $form->get('createUser')->getViewData()) {
             $data->setUser(null);

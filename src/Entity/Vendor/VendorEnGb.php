@@ -1,43 +1,66 @@
 <?php
 
+
 namespace App\Entity\Vendor;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\Embeddable\Object\ObjectTitle;
-use App\Entity\RootEntity;
-use App\EntityInterface\Object\ObjectTitleInterface;
-use Doctrine\ORM\Mapping as ORM;
-use App\Entity\VendorParameterTrait;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
-use App\EntityInterface\Object\ObjectInterface;
-use Symfony\Component\Serializer\Annotation\Ignore;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Controller\ObjectCRUDsController;
+use App\Entity\BaseTrait;
+use App\Entity\MetaTrait;
+use App\Entity\ObjectTrait;
+use App\Entity\VendorLanguageTrait;
+use App\Repository\Vendor\VendorRepository;
+use Doctrine\ORM\Mapping as ORM;
+use App\Controller\ObjectCRUDsController;
 
+
+#[ORM\Table(name: 'vendor_en_gb')]
+#[ORM\Index(columns: ['slug'], name: 'vendor_en_gb_idx')]
+#[ORM\Entity(repositoryClass: VendorRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
 #[ApiResource(
-    /*    collectionOperations: [],
-        itemOperations: [
-            'get',
-            'put',
-            'delete',
-            'get_by_slug' => [
-                'method' => 'GET',
-                'path' => 'vendor/show/{slug}',
-                'controller' => 'ObjectCRUDsController::class'
-            ]
-        ],*/
-    normalizationContext: ['group' => 'read'],
-    denormalizationContext: ['group' => 'write'],
-    order: ['is_active' => 'DESC', 'locale' => 'ASC'],
-    paginationEnabled: false
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            order: ['createdAt' => 'DESC'],
+            normalizationContext: ['groups' => ['read','list']],
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['read','item']]
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['write']]
+        ),
+        new Delete(),
+        new Get(
+            uriTemplate: '/{_entity}/show/{slug}',
+            controller: ObjectCRUDsController::class,
+            normalizationContext: ['groups' => ['read','item']],
+            name: 'get_by_slug'
+        )
+    ]
 )]
-#[ORM\Entity]
-class VendorEnGb extends RootEntity implements ObjectInterface, ObjectTitleInterface
+class VendorEnGb
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait;
+    use ObjectTrait;
+    use MetaTrait;
+    use VendorLanguageTrait;
 
-    use VendorParameterTrait;
-
-    #[ORM\OneToOne(inversedBy: 'vendorEnGb', targetEntity: Vendor::class)]
-    #[Ignore]
-    private Vendor $vendorEnGb;
+    #[ORM\ManyToOne(targetEntity: Vendor::class, inversedBy: 'translations')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Vendor $vendor = null;
 }

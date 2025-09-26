@@ -1,15 +1,19 @@
 <?php
 
+
 namespace App\Form\Forgot;
 
+
 use App\Entity\Vendor\Vendor;
-use Symfony\Component\Form\AbstractType;
+use App\Entity\Vendor\VendorSecurity;
 use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForgotType extends AbstractType
 {
@@ -25,14 +29,14 @@ class ForgotType extends AbstractType
         $builder
             ->add('vendorSecurity', $options['forgot_сredential_type'], [
                 'translation_domain' => 'forgot',
-                'label' => false,
+                'label' => false
             ])
             ->add('submit', SubmitType::class, [
                 'translation_domain' => 'button',
                 'label' => 'button.label.submit.forgot',
-                'attr' => [
-                    'class' => 'btn btn-primary btn-block',
-                ],
+                'attr'  => [
+                    'class' => 'btn btn-primary btn-block'
+                ]
             ])
             ->add('captcha', Recaptcha3Type::class, [
                 'constraints' => new Recaptcha3([
@@ -40,14 +44,15 @@ class ForgotType extends AbstractType
                     'messageMissingValue' => 'captcha.missing.value',
                 ]),
                 'action_name' => 'registration',
-                // 'script_nonce_csp' => $nonceCSP,
+                # 'script_nonce_csp' => $nonceCSP,
             ])
             ->add('token', HiddenType::class, [
                 'mapped' => false,
                 'attr' => [
                     'name' => '_csrf_token',
-                ],
-            ]);
+                ]
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -59,11 +64,11 @@ class ForgotType extends AbstractType
             'csrf_token_id' => $this->token,
             'translation_domain' => 'forgot',
             'validation_groups' => false,
-            'forgot_сredential_type' => ForgotEmailType::class, // TODO: добавить парамер в app и дефолтное значение
+            'forgot_сredential_type' => ForgotEmailType::class, //TODO: добавить парамер в app и дефолтное значение
             'attr' => [
                 'class' => 'needs-validation',
                 'novalidate' => null,
-            ],
+            ]
         ]);
     }
 }

@@ -2,13 +2,15 @@
 
 namespace Helpers;
 
-use Faker\Factory;
 use App\Entity\Vendor\Vendor;
+use Faker\Factory;
+
 
 trait VendorEntityCreator
 {
     public function makeVendorEntity(): Vendor
     {
+
         $faker = Factory::create();
 
         $vendor = new Vendor();

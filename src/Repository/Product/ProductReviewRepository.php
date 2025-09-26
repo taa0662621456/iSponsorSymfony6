@@ -1,25 +1,17 @@
 <?php
 
+
 namespace App\Repository\Product;
 
-use App\EntityInterface\Product\ProductReviewInterface;
-use App\EntityInterface\Vendor\VendorInterface;
-use Doctrine\ORM\QueryBuilder;
-use App\Repository\EntityRepository;
-use App\Entity\Product\ProductReview;
+use App\Interface\ProductReviewInterface;
+use App\Interface\Vendor\VendorInterface;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use App\RepositoryInterface\Product\ProductReviewRepositoryInterface;
+use Doctrine\ORM\QueryBuilder;
 
-/**
- * @method ProductReview|null find($id, $lockMode = null, $lockVersion = null)
- * @method ProductReview|null findOneBy(array $criteria, array $orderBy = null)
- * @method ProductReview[]    findAll()
- * @method ProductReview[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class ProductReviewRepository extends EntityRepository implements ProductReviewRepositoryInterface
+class ProductReviewRepository extends EntityRepository
 {
-    public const STATUS_ACCEPTED = '';
-
+    const STATUS_ACCEPTED = '';
     public function findLatestByProductId($productId, int $count): array
     {
         return $this->createQueryBuilder('o')
@@ -31,7 +23,8 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->addOrderBy('o.createdAt', 'DESC')
             ->setMaxResults($count)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function findAcceptedByProductSlugAndVendor(string $slug, string $locale, VendorInterface $vendor): array
@@ -48,7 +41,8 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->setParameter('vendor', $vendor)
             ->setParameter('status', self::STATUS_ACCEPTED)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
     }
 
     public function createQueryBuilderByProductCode(string $locale, string $productCode): QueryBuilder
@@ -59,7 +53,8 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->andWhere('translation.locale = :locale')
             ->andWhere('product.code = :productCode')
             ->setParameter('locale', $locale)
-            ->setParameter('productCode', $productCode);
+            ->setParameter('productCode', $productCode)
+        ;
     }
 
     /**
@@ -74,6 +69,7 @@ class ProductReviewRepository extends EntityRepository implements ProductReviewR
             ->setParameter('productCode', $productCode)
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
     }
 }

@@ -5,7 +5,7 @@ namespace App\Requirement;
 
 final class Requirement
 {
-    public function __construct(private readonly string $label, private readonly bool $fulfilled, private readonly bool $required = true, private readonly ?string $help = null)
+    public function __construct(private string $label, private bool $fulfilled, private bool $required = true, private ?string $help = null)
     {
     }
 

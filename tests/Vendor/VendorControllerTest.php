@@ -18,4 +18,5 @@ class VendorControllerTest extends WebTestCase
 
         $this->assertStringContainsString('Vendor', $data);
     }
+
 }

@@ -2,16 +2,40 @@
 
 namespace App\Entity\Event;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
+use App\Repository\Category\CategoryRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Event\EventCategoryInterface;
+use App\Controller\ObjectCRUDsController;
+use Symfony\Component\Uid\Uuid;
 
-#[ORM\Entity]
-class EventCategory extends RootEntity implements ObjectInterface, EventCategoryInterface
+#[ORM\Table(name: 'event_category')]
+#[ORM\Index(columns: ['slug'], name: 'event_category_idx')]
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+#
+#[ApiResource]
+
+
+class EventCategory
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
+    use BaseTrait;
+    use ObjectTrait;
 
+    public function __construct()
+    {
+        $t = new \DateTimeImmutable();
+        $this->slug = (string)Uuid::v4();
+
+        $this->lastRequestAt = $t;
+        $this->createdAt = $t;
+        $this->modifiedAt = $t;
+        $this->lockedAt = $t;
+        $this->published = true;
+    }
 }

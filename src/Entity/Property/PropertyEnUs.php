@@ -2,18 +2,21 @@
 
 namespace App\Entity\Property;
 
-use App\Entity\Embeddable\ObjectProperty;
-use App\Entity\RootEntity;
-use App\EntityInterface\Object\ObjectTitleInterface;
-use Doctrine\ORM\Mapping as ORM;
-use App\EntityInterface\Object\ObjectInterface;
-use App\EntityInterface\Property\PropertyTitleInterface;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Entity\BaseTrait;
+use App\Entity\ObjectTrait;
 
-#[ORM\Entity]
-class PropertyEnUs extends RootEntity implements ObjectInterface, ObjectTitleInterface
+
+#
+#[ApiResource]
+
+
+class PropertyEnUs
 {
-    #[ORM\Embedded(class: ObjectProperty::class)]
-    private ObjectProperty $objectProperty;
-
+    use BaseTrait;
+    use ObjectTrait;
 
 }

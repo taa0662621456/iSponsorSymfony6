@@ -1,9 +1,12 @@
 <?php
 
+
 namespace App\Tests\Api\Utils;
 
-use Webmozart\Assert\Assert;
+
+
 use Symfony\Component\Messenger\MessageBusInterface;
+use Webmozart\Assert\Assert;
 
 trait OrderPlacerTrait
 {

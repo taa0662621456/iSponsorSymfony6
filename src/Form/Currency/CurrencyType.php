@@ -2,29 +2,31 @@
 
 namespace App\Form\Currency;
 
-use App\Dto\Currency\CurrencyTypeDTO;
-use Symfony\Component\Form\AbstractType;
-use App\EventSubscriber\AddCodeFormSubscriber;
-use Symfony\Component\Form\FormBuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use App\RepositoryInterface\Currency\CurrencyTypeRepositoryInterface;
-use Symfony\Component\Form\Extension\Core\Type\CurrencyType as SymfonyCurrencyType;
 
 final class CurrencyType extends AbstractType
 {
-    /** @var string[] */
-    protected array $validationGroup = [];
+    protected string $dataClass;
 
-    public function __construct(private readonly CurrencyTypeRepositoryInterface $currencyTypeRepository, array $validationGroup = [])
+    /** @var string[] */
+    protected array $validationGroups = [];
+
+    /**
+     * @param string $dataClass FQCN
+     * @param string[] $validationGroups
+     */
+    public function __construct(string $dataClass, array $validationGroups = [])
     {
-        $this->validationGroup = $validationGroup;
+        $this->dataClass = $dataClass;
+        $this->validationGroups = $validationGroups;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'validation_groups' => $this->validationGroup,
-            'data_class' => CurrencyTypeDTO::class,
+            'data_class' => $this->dataClass,
+            'validation_groups' => $this->validationGroups,
         ]);
     }
 
@@ -33,7 +35,8 @@ final class CurrencyType extends AbstractType
         $builder
             ->addEventSubscriber(new AddCodeFormSubscriber(SymfonyCurrencyType::class, [
                 'label' => 'form.currency.code',
-            ]));
+            ]))
+        ;
     }
 
     public function getBlockPrefix(): string

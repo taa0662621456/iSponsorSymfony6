@@ -3,9 +3,9 @@
 namespace App\Form\Cart;
 
 use Symfony\Component\Form\DataMapperInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class CartItemType
 {
@@ -15,13 +15,13 @@ class CartItemType
     protected array $validationGroups = [];
 
     /**
-     * @param string   $dataClass        FQCN
+     * @param string $dataClass FQCN
      * @param string[] $validationGroups
      */
     public function __construct(
-        array $validationGroups,
+        string                               $dataClass,
+        array                                $validationGroups,
         private readonly DataMapperInterface $dataMapper,
-        string $dataClass = 'data_class',
     ) {
     }
 
@@ -32,7 +32,8 @@ class CartItemType
                 'attr' => ['min' => 1],
                 'label' => 'ui.quantity',
             ])
-            ->setDataMapper($this->dataMapper);
+            ->setDataMapper($this->dataMapper)
+        ;
     }
 
     public function getBlockPrefix(): string

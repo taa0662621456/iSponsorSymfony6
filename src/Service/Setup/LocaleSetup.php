@@ -2,25 +2,21 @@
 
 namespace App\Service\Setup;
 
-use App\EntityInterface\Locale\LocaleInterface;
-use Composer\Repository\RepositoryInterface;
-use Symfony\Component\Intl\Languages;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Intl\Exception\MissingResourceException;
-use function count;
+use Symfony\Component\Intl\Languages;
 
 final class LocaleSetup implements LocaleSetupInterface
 {
     private string $locale;
 
-    public function __construct(
-        private readonly RepositoryInterface $localeRepository,
-        private readonly FactoryInterface $localeFactory,
-        string $locale
-    ) {
+    public function __construct(private readonly RepositoryInterface $localeRepository,
+                                private readonly FactoryInterface $localeFactory,
+                                string $locale)
+    {
         $this->locale = trim($locale);
     }
 
@@ -70,7 +66,7 @@ final class LocaleSetup implements LocaleSetupInterface
 
     private function getNewLanguageCode(InputInterface $input, OutputInterface $output, QuestionHelper $questionHelper): string
     {
-        $question = new Question('Language (press enter to use '.$this->locale.'): ', $this->locale);
+        $question = new Question('Language (press enter to use ' . $this->locale . '): ', $this->locale);
 
         return trim($questionHelper->ask($input, $output, $question));
     }
@@ -80,7 +76,7 @@ final class LocaleSetup implements LocaleSetupInterface
         $language = $code;
         $region = null;
 
-        if (2 === count(explode('_', $code, 2))) {
+        if (count(explode('_', $code, 2)) === 2) {
             [$language, $region] = explode('_', $code, 2);
         }
 

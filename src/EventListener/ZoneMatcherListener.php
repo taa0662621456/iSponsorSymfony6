@@ -2,11 +2,11 @@
 
 namespace App\EventListener;
 
-use App\Request\RequestAttribute;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
+use App\Request\AttributeRequest;
 use Symfony\Component\HttpFoundation\RequestMatcherInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 
-final class ZoneMatcherListener
+class ZoneMatcherListener
 {
     private RequestMatcherInterface $requestMatcher;
 
@@ -15,6 +15,6 @@ final class ZoneMatcherListener
         $request = $event->getRequest();
         $matched = $this->requestMatcher->matches($request);
 
-        $request->attributes->set(RequestAttribute::API_ZONE, $matched);
+        $request->attributes->set(AttributeRequest::API_ZONE, $matched);
     }
 }

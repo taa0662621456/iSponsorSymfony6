@@ -1,23 +1,23 @@
 <?php
 
+
 namespace App\EventSubscriber\Product;
 
-use Webmozart\Assert\Assert;
+use App\Interface\ProductVariantResolverInterface;
+use App\ProductBundle\Form\Type\ProductOptionChoiceType;
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use App\EntityInterface\Product\ProductInterface;
-use App\Form\Product\ProductBundle\ProductOptionChoiceType;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use App\ServiceInterface\Product\ProductVariantResolverServiceInterface;
+use Webmozart\Assert\Assert;
 
 final class ProductOptionFieldSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly ProductVariantResolverServiceInterface $productVariantResolver)
+    public function __construct(private readonly ProductVariantResolverInterface $variantResolver)
     {
     }
 
-    #[ArrayShape([FormEvents::PRE_SET_DATA => 'string'])]
+    #[ArrayShape([FormEvents::PRE_SET_DATA => "string"])]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -29,13 +29,13 @@ final class ProductOptionFieldSubscriber implements EventSubscriberInterface
     {
         $product = $event->getData();
 
-        /* @var ProductInterface $product */
+        /** @var ProductInterface $product */
         Assert::isInstanceOf($product, ProductInterface::class);
 
         $form = $event->getForm();
 
         /** Options should be disabled for configurable product if it has at least one defined variant */
-        $disableOptions = (null !== $this->productVariantResolver->getVariant($product)) && $product->hasVariants();
+        $disableOptions = (null !== $this->variantResolver->getVariant($product)) && $product->hasVariants();
 
         $form->add('options', ProductOptionChoiceType::class, [
             'required' => false,

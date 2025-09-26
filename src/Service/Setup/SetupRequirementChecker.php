@@ -6,9 +6,6 @@ use App\Service\TableRenderer;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-/**
- * @property $syliusRequirements
- */
 final class SetupRequirementChecker implements RequirementsCheckerInterface
 {
     private bool $fulfilled = true;

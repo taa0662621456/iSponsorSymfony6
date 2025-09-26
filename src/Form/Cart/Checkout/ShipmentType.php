@@ -2,16 +2,16 @@
 
 namespace App\Form\Cart\Checkout;
 
-use App\Form\Shipment\TypeSylius\ShippingMethodChoiceType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
+use App\Form\ShippingMethodChoiceType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ShipmentType extends AbstractType
 {
-    public function __construct(private readonly string $dataClass = 'data_class')
+    public function __construct(private readonly string $dataClass)
     {
     }
 
@@ -28,7 +28,8 @@ final class ShipmentType extends AbstractType
                     'subject' => $shipment,
                     'expanded' => true,
                 ]);
-            });
+            })
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -36,7 +37,8 @@ final class ShipmentType extends AbstractType
         $resolver
             ->setDefaults([
                 'data_class' => $this->dataClass,
-            ]);
+            ])
+        ;
     }
 
     public function getBlockPrefix(): string

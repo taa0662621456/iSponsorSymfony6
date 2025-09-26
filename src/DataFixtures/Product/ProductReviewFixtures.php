@@ -2,28 +2,27 @@
 
 namespace App\DataFixtures\Product;
 
-
-use App\DataFixtures\DataFixtures;
+use App\Entity\Product\ProductReview;
+use App\Service\BaseGroupedFixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-final class ProductReviewFixtures extends DataFixtures
+final class ProductReviewFixtures extends BaseGroupedFixture
 {
-    public function load(ObjectManager $manager, ?array $property = []): void
+    public function load(ObjectManager $manager): void
     {
+        $product = $this->getReference('product_1');
 
+        $review = new ProductReview();
+        $review->setRating(4);
+        $review->setComment('Great TV, excellent picture quality!');
+        $review->setProduct($product);
 
-        $property = [
-            'firstTitle' => fn($faker, $i) => $faker->realText(),
-            'lastTitle' => fn($faker, $i) => $faker->realText(7000),
-        ];
+        $manager->persist($review);
+        $this->addReference('productReview_1', $review);
 
-        parent::load($manager, $property);
+        $manager->flush();
     }
 
-    public function getOrder(): int
-    {
-        return 19;
-    }
-
+    public static function getGroup(): string { return 'product'; }
+    public static function getPriority(): int { return 60; }
 }
