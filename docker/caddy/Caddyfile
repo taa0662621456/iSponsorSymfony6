@@ -1,0 +1,15 @@
+:80 {
+    root * /var/www/symfony/public
+    encode gzip
+    php_fastcgi php:9000
+    file_server
+    log {
+        output stdout
+    }
+    header {
+        X-Frame-Options "SAMEORIGIN"
+        X-Content-Type-Options "nosniff"
+        Referrer-Policy "no-referrer-when-downgrade"
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    }
+}

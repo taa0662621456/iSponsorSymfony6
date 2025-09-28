@@ -1,0 +1,7 @@
+parameters:
+  app_MetaDesc: 'альтернатива Kickstarter, Indiegogo, Planeta, Bigidea. Площадка краудфандинга и фандрайзинга.'
+  app_MetaKeys: 'krowdfunding, fundraising, спільнокошт, велика ідея, спонсор, инвестор, стартап, ico'
+  app_MetaTitle: '1'
+  app_MetaAuthor: '0'
+  app_MetaVersion: '0'
+  app_robots: 'index, nofollow'

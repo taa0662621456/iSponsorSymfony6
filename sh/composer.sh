@@ -1,42 +1,33 @@
-while true; do
-  clear
-  echo -e "\e[1m"
-  echo -e " Composer :"
-  echo -e " -------------------"
-  echo -e "\e[0m \e[32m"
-  echo -e " 1 Composer Install"
-  echo -e " 2 Composer Update"
-  echo -e '\e[0m \e[1m'
-  echo -e " ------------------------"
-  echo -e " 0 Exit to main menu... "
-  echo -e '\e[0m \e[32m'
+#!/usr/bin/env bash
+set -euo pipefail
 
-  read -r -n 1 -s -p " Enter action number or press Space for Exit:" action
+LOG_FILE="logs/actions.log"
+ERR_FILE="logs/errors.log"
+mkdir -p logs
+timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+EXIT_CODE=0
 
-  trimmed_action=$(echo $action | xargs)
+clear
+echo "Composer Menu"
+echo "-------------"
+echo "1) Install"
+echo "2) Update"
+echo "3) Dump autoload"
+echo "Space) Exit"
 
-  if [ -z "$trimmed_action" ]; then
-    bash
-  fi
+read -r -n 1 -s -p "Choice: " action
+echo
 
-  case $action in
-  1)
-    echo -e "Composer Install..."
-    symfony composer install
-    ;;
-  2)
-    echo -e "Composer Update..."
-    symfony composer update
-    ;;
+case $action in
+  1) echo "[$timestamp] Composer install" >> "$LOG_FILE"
+     composer install 2>>"$ERR_FILE" || EXIT_CODE=$? ;;
+  2) echo "[$timestamp] Composer update" >> "$LOG_FILE"
+     composer update 2>>"$ERR_FILE" || EXIT_CODE=$? ;;
+  3) echo "[$timestamp] Composer dump-autoload" >> "$LOG_FILE"
+     composer dump-autoload 2>>"$ERR_FILE" || EXIT_CODE=$? ;;
+  *) echo "[$timestamp] Exit from Composer menu" >> "$LOG_FILE"
+     echo "Bye"; exit 0 ;;
+esac
 
-  0)
-    echo -e "Go back to main menu"
-    source ./sh/menu.sh
-    ;;
-
-  *) echo -e "\e[31m Incorrect\e[0m" ;;
-  esac
-    if [ $? -ne 0 ]; then
-      read -p "Произошла ошибка. Нажмите Enter для продолжения."
-    fi
-done
+echo "[$timestamp] Exit code: $EXIT_CODE" >> "$LOG_FILE"
+exit $EXIT_CODE

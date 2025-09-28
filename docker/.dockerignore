@@ -1,0 +1,9 @@
+.git
+node_modules
+vendor
+tests
+logs
+zips
+.idea
+.vscode
+.DS_Store

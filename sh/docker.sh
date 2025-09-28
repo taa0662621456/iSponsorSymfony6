@@ -1,61 +1,33 @@
-while true; do
-  clear
-  echo -e "\e[1m"
-  echo -e " iSponsor Docker:"
-  echo -e " -------------------"
-  echo -e "\e[0m \e[32m"
-  echo -e " 1 Docker Up"
-  echo -e " 2 Docker Down --remove-orphans"
-  echo -e " 3 Docker Down and clear -v --remove-orphans"
-  echo -e " 4 Docker Pull"
-  echo -e " 5 Docker Build"
-  echo -e " 6 "
-  echo -e '\e[0m \e[1m'
-  echo -e " ------------------------"
-  echo -e " 0 Exit to main menu... "
-  echo -e "   Press Space for exit"
+#!/usr/bin/env bash
+set -euo pipefail
 
-  echo -e '\e[0m \e[32m'
+LOG_FILE="logs/actions.log"
+ERR_FILE="logs/errors.log"
+mkdir -p logs
+timestamp=$(date '+%Y-%m-%d %H:%M:%S')
+EXIT_CODE=0
 
-  read -r -n 1 -s -p " Enter action number or press Space for Exit:" action
+clear
+echo "Docker Menu"
+echo "-----------"
+echo "1) Up"
+echo "2) Down"
+echo "3) Logs"
+echo "Space) Exit"
 
-  trimmed_action=$(echo $action | xargs)
+read -r -n 1 -s -p "Choice: " action
+echo
 
-  if [ -z "$trimmed_action" ]; then
-    bash
-  fi
+case $action in
+  1) echo "[$timestamp] Docker up" >> "$LOG_FILE"
+     docker-compose up -d 2>>"$ERR_FILE" || EXIT_CODE=$? ;;
+  2) echo "[$timestamp] Docker down" >> "$LOG_FILE"
+     docker-compose down 2>>"$ERR_FILE" || EXIT_CODE=$? ;;
+  3) echo "[$timestamp] Docker logs" >> "$LOG_FILE"
+     docker-compose logs -f 2>>"$ERR_FILE" || EXIT_CODE=$? ;;
+  *) echo "[$timestamp] Exit from Docker menu" >> "$LOG_FILE"
+     echo "Bye"; exit 0 ;;
+esac
 
-  case $action in
-  1)
-    echo -e "Docker Up processing..."
-    docker-compose --profile web up -d
-    ;;
-  2)
-    echo -e "Docker Down processing..."
-    docker-compose down --remove-orphans
-    ;;
-  3)
-    echo -e "Docker Down and clear processing..."
-    docker-compose down -v --remove-orphans
-    ;;
-  4)
-    echo -e "Docker Pull processing..."
-    docker-compose pull
-    ;;
-  5)
-    echo -e "Docker Build processing..."
-    docker-compose build
-    ;;
-  6)
-    echo -e "..."
-    ;;
-  0)
-    echo -e "Go back to main menu"
-    source ./sh/menu.sh
-    ;;
-  *) echo -e "\e[31m Incorrect\e[0m" ;;
-  esac
-  if [ $? -ne 0 ]; then
-    read -p "Произошла ошибка. Нажмите Enter для продолжения."
-  fi
-done
+echo "[$timestamp] Exit code: $EXIT_CODE" >> "$LOG_FILE"
+exit $EXIT_CODE

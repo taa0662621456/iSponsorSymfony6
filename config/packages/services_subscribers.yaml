@@ -1,0 +1,23 @@
+services:
+  # Doctrine subscribers
+  App\EventListener\GroupedFixtureExecutorListener:
+    tags: [ 'doctrine.event_subscriber' ]
+
+  App\EventListener\RepositoryMetadataManagerListener:
+    tags: [ 'doctrine.event_subscriber' ]
+
+  # Kernel subscribers
+  App\EventListener\CartSessionSubscriber:
+    tags: [ 'kernel.event_subscriber' ]
+
+  App\EventListener\ReviewListener:
+    tags: [ 'kernel.event_subscriber' ]
+
+  App\EventListener\SitemapListener:
+    tags: [ 'kernel.event_subscriber' ]
+
+  App\EventListener\UpdateUserEncoderListener:
+    tags: [ 'kernel.event_subscriber' ]
+
+  App\EventListener\ShopUserLogoutHandler:
+    tags: [ 'kernel.event_subscriber' ]

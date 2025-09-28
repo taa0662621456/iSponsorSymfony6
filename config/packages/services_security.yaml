@@ -1,0 +1,23 @@
+services:
+  App\Service\SmsTwoFactorService:
+    arguments:
+      $texter: '@texter'
+
+  App\Service\TotpTwoFactorService:
+    arguments:
+      $totpAuthenticator: '@scheb_two_factor.security.totp_authenticator'
+
+  App\Service\TwoFactor\TwoFactorServiceInterface:
+    resource: '../../src/Service/TwoFactor/*TwoFactorService.php'
+    tags: [ 'app.two_factor' ]
+
+  Symfony\Component\RateLimiter\RateLimiterFactory $anonymousApiLimiter: '@limiter.anonymous_api'
+  Symfony\Component\RateLimiter\RateLimiterFactory $twoFactorLimiter: '@limiter.two_factor'
+  Symfony\Component\RateLimiter\RateLimiterFactory $smsLimiter: '@limiter.sms'
+
+  hwi_oauth.user.provider.entity:
+    class: App\Security\HWIOAuthAuthenticator
+    arguments:
+      - '@doctrine'
+      - 'App\\Entity\\Vendor\\VendorSecurity'
+      - [facebook: facebookId, google: googleId, github: githubId]

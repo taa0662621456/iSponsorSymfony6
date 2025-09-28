@@ -2,7 +2,6 @@
 
 namespace App\Service\User;
 
-use App\Entity\Vendor;
 use App\Entity\Vendor\Vendor;
 use Doctrine\ORM\EntityManagerInterface;
 

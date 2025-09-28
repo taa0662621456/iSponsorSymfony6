@@ -1,0 +1,12 @@
+parameters:
+  app_secret: '%env(APP_SECRET)%'
+  app_csrf_token: '%env(APP_CSRF_TOKEN)%'
+  app_mercure_secret_key: '%env(MERCURE_SECRET_KEY)%'
+  app_google_recaptcha: '%env(RECAPTCHA3_ENABLED)%'
+  app_google_scope: '%env(RECAPTCHA_SCOPE)%'
+  app_google_recaptcha_key: '%env(GOOGLE_RECAPTCHA_KEY)%'
+  app_google_recaptcha_secret: '%env(GOOGLE_RECAPTCHA_SECRET)%'
+  google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
+  app_gpt_consulter: '%env(GPT_API_SECRET)%'
+  app_gpt_url: '%env(GPT_API_URL)%'
+  app_akismet_key: '%env(AKISMET_KEY)%'

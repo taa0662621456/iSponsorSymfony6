@@ -1,0 +1,29 @@
+services:
+  App\Service\Order\OrderProcessorPipeline:
+    arguments:
+      $processors: !tagged_iterator order.processor
+
+  App\Service\Order\Processor\:
+    resource: '../../src/Service/Order/Processor/*'
+    tags: ['order.processor']
+
+  App\Service\Order\OrderProcessor\OrderQuantityModifyProcessor:
+    tags: [{ name: 'order.processor', priority: 300 }]
+
+  App\Service\Order\OrderProcessor\OrderDiscountProcessor:
+    tags: [{ name: 'order.processor', priority: 250 }]
+
+  App\Service\Order\OrderProcessor\OrderTaxCalculateProcessor:
+    tags: [{ name: 'order.processor', priority: 200 }]
+
+  App\Service\Order\OrderProcessor\OrderSubtotalCalculateProcessor:
+    tags: [{ name: 'order.processor', priority: 150 }]
+
+  App\Service\Order\OrderProcessor\OrderTotalCalculateProcessor:
+    tags: [{ name: 'order.processor', priority: 100 }]
+
+  App\Service\Order\OrderProcessor\OrderPaymentProcessor:
+    tags: [{ name: 'order.processor', priority: 50 }]
+
+  App\Service\Order\OrderProcessor\OrderStatusProcessor:
+    tags: [{ name: 'order.processor', priority: 10 }]
