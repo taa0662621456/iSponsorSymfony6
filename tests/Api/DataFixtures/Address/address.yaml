@@ -8,10 +8,12 @@ App\Entity\Vendor\VendorSecurity:
     plainPassword: 'plainPassword'
     sendEmail: false
 
-App\Entity\Address:
+App\Entity\Address\Address:
   address:
+    firstName: 'Tony'
+    lastName: 'Tester'
     customer: '@customer_tony'
     street: '123 Main St'
     city: 'Houston'
     postcode: '77001'
-    country: 'US'
+    countryCode: 'US'
