@@ -9,6 +9,22 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: isponsor_test
+          POSTGRES_USER: isponsor
+          POSTGRES_PASSWORD: isponsor
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U isponsor -d isponsor_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: "pgsql://isponsor:isponsor@127.0.0.1:5432/isponsor_test?serverVersion=15&charset=utf8"
 
     steps:
       - name: Checkout repository
@@ -20,6 +36,7 @@ jobs:
           php-version: '8.2'
           coverage: none
           tools: composer:v2
+          extensions: pdo_pgsql
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
