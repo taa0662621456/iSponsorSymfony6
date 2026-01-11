@@ -11,10 +11,17 @@ use ApiPlatform\Metadata\Put;
 use App\Api\Filter\GeoAddressFilterTrait;
 use App\Api\Filter\RelationFilterTrait;
 use App\Api\Filter\TimestampFilterTrait;
+use App\Controller\ObjectCRUDsController;
 use App\Entity\BaseTrait;
 use App\Entity\ObjectTrait;
+use App\Repository\Address\AddressStreetSecondLineRepository;
+use Doctrine\ORM\Mapping as ORM;
 
 #
+#[ORM\Table(name: 'address_street_second_line')]
+#[ORM\Index(columns: ['slug'], name: 'address_street_second_line_idx')]
+#[ORM\Entity(repositoryClass: AddressStreetSecondLineRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     operations: [
         new GetCollection(

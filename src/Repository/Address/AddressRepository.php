@@ -1,17 +1,19 @@
 <?php
 
 
-namespace App\Repository;
+namespace App\Repository\Address;
 
 
 
 
 
+use App\EntityInterface\Address\AddressInterface;
+use App\EntityInterface\Address\AddressRepositoryInterface;
 use App\Interface\CustomerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
-class AddressRepository extends EntityRepository
+class AddressRepository extends EntityRepository implements AddressRepositoryInterface
 {
     public function findByCustomer(CustomerInterface $customer): array
     {

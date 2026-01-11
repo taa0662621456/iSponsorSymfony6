@@ -10,12 +10,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 trait GeoAddressFilterTrait
 {
     #[ApiFilter(SearchFilter::class, properties: [
-        'country.code' => 'exact',
-        'province.code' => 'exact',
-        'city.name' => 'partial',
-        'zipcode.code' => 'exact',
-        'streetLine' => 'partial',
-        'streetSecondLine' => 'partial',
+        'countryCode' => 'exact',
+        'provinceCode' => 'exact',
+        'provinceName' => 'partial',
+        'city' => 'partial',
+        'postcode' => 'exact',
+        'street' => 'partial',
     ])]
     #[ApiFilter(DateFilter::class, properties: ['createdAt','modifiedAt'])]
     #[ApiFilter(OrderFilter::class, properties: ['createdAt','modifiedAt'], arguments: ['orderParameterName' => 'order'])]
