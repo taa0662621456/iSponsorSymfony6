@@ -39,7 +39,7 @@
         "bootstrap-autohide-navbar": "^0.0.4",
         "bootstrap-icons": "^1.7.0",
         "css-loader": "^6.2.0",
-        "firebase": "^9.5.0",
+        "firebase": "^12.12.0",
         "font-awesome": "^4.7.0",
         "fs": "0.0.1-security",
         "glyphicons": "^0.2.0",
